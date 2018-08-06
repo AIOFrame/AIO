@@ -1,0 +1,6 @@
+.content {
+    display: inline-block;
+    width:calc(100% - 180px);
+    padding:15px;
+    box-sizing:border-box;
+}

@@ -1,0 +1,289 @@
+/* Blues */
+
+.bluereefs {
+    background: #00d2ff;  
+    background: -webkit-linear-gradient(to right, #3a7bd5, #00d2ff); 
+    background: linear-gradient(to right, #3a7bd5, #00d2ff); 
+}
+.darkskies {
+    background: #4B79A1;  
+    background: -webkit-linear-gradient(to right, #283E51, #4B79A1); 
+    background: linear-gradient(to right, #283E51, #4B79A1); 
+}
+.grandeurvision {
+    background: #000046;  
+    background: -webkit-linear-gradient(to right, #1CB5E0, #000046); 
+    background: linear-gradient(to right, #1CB5E0, #000046); 
+}
+.venice {
+    background: #6190E8;  
+    background: -webkit-linear-gradient(to right, #A7BFE8, #6190E8); 
+    background: linear-gradient(to right, #A7BFE8, #6190E8); 
+}
+.lovenight {
+    background: #4568DC;  
+    background: -webkit-linear-gradient(to right, #B06AB3, #4568DC); 
+    background: linear-gradient(to right, #B06AB3, #4568DC); 
+}
+.bluelagoon {
+    background: #43C6AC;  
+    background: -webkit-linear-gradient(to right, #191654, #43C6AC); 
+    background: linear-gradient(to right, #191654, #43C6AC); 
+}
+.bluefrost {
+    background: #000428;  
+    background: -webkit-linear-gradient(to right, #004e92, #000428); 
+    background: linear-gradient(to right, #004e92, #000428); 
+}
+.mauve {
+    background: #42275a;  
+    background: -webkit-linear-gradient(to right, #734b6d, #42275a); 
+    background: linear-gradient(to right, #734b6d, #42275a); 
+}
+.shadownight {
+    background: #000000;  
+    background: -webkit-linear-gradient(to right, #53346D, #000000); 
+    background: linear-gradient(to right, #53346D, #000000); 
+}
+.nighthawk {
+    background: #2980b9;  
+    background: -webkit-linear-gradient(to right, #2c3e50, #2980b9); 
+    background: linear-gradient(to right, #2c3e50, #2980b9); 
+}
+.liveash {
+    background: #606c88;  
+    background: -webkit-linear-gradient(to right, #3f4c6b, #606c88); 
+    background: linear-gradient(to right, #3f4c6b, #606c88); 
+}
+.nightandday {
+    background: #2c3e50;  
+    background: -webkit-linear-gradient(to right, #3498db, #2c3e50); 
+    background: linear-gradient(to right, #3498db, #2c3e50); 
+}
+.endlessriver {
+    background: #43cea2;  
+    background: -webkit-linear-gradient(to right, #185a9d, #43cea2); 
+    background: linear-gradient(to right, #185a9d, #43cea2); 
+}
+.dirtyfog {
+    background: #B993D6;  
+    background: -webkit-linear-gradient(to right, #8CA6DB, #B993D6); 
+    background: linear-gradient(to right, #8CA6DB, #B993D6); 
+}
+.pinotnoir {
+    background: #4b6cb7;  
+    background: -webkit-linear-gradient(to right, #182848, #4b6cb7); 
+    background: linear-gradient(to right, #182848, #4b6cb7); 
+}
+.calmdarya {
+    background: #5f2c82;  
+    background: -webkit-linear-gradient(to right, #49a09d, #5f2c82); 
+    background: linear-gradient(to right, #49a09d, #5f2c82); 
+}
+.stellar {
+    background: #7474BF;  
+    background: -webkit-linear-gradient(to right, #348AC7, #7474BF); 
+    background: linear-gradient(to right, #348AC7, #7474BF); 
+}
+.mantle {
+    background: #24C6DC;
+    background: -webkit-linear-gradient(to right, #514A9D, #24C6DC);
+    background: linear-gradient(to right, #514A9D, #24C6DC);
+}
+
+/* Reds */
+
+.liberty {
+    background: #200122;  
+    background: -webkit-linear-gradient(to right, #6f0000, #200122); 
+    background: linear-gradient(to right, #6f0000, #200122); 
+}
+.coal {
+    background: #EB5757;  
+    background: -webkit-linear-gradient(to right, #000000, #EB5757); 
+    background: linear-gradient(to right, #000000, #EB5757); 
+}
+.purplepine {
+    background: #20002c;  
+    background: -webkit-linear-gradient(to right, #cbb4d4, #20002c); 
+    background: linear-gradient(to right, #cbb4d4, #20002c); 
+}
+.celestial {
+    background: #C33764;  
+    background: -webkit-linear-gradient(to right, #1D2671, #C33764); 
+    background: linear-gradient(to right, #1D2671, #C33764); 
+}
+.roseanna {
+    background: #FFAFBD;  
+    background: -webkit-linear-gradient(to right, #ffc3a0, #FFAFBD); 
+    background: linear-gradient(to right, #ffc3a0, #FFAFBD); 
+}
+.roselens {
+    background: #E8CBC0;  
+    background: -webkit-linear-gradient(to right, #636FA4, #E8CBC0); 
+    background: linear-gradient(to right, #636FA4, #E8CBC0); 
+}
+.grapesunset {
+    background: #e96443;  
+    background: -webkit-linear-gradient(to right, #904e95, #e96443); 
+    background: linear-gradient(to right, #904e95, #e96443); 
+}
+.sylvia {
+    background: #ff4b1f;  
+    background: -webkit-linear-gradient(to right, #ff9068, #ff4b1f); 
+    background: linear-gradient(to right, #ff9068, #ff4b1f); 
+}
+.tranquil {
+    background: #EECDA3;  
+    background: -webkit-linear-gradient(to right, #EF629F, #EECDA3); 
+    background: linear-gradient(to right, #EF629F, #EECDA3); 
+}
+.palewood {
+    background: #eacda3;  
+    background: -webkit-linear-gradient(to right, #d6ae7b, #eacda3); 
+    background: linear-gradient(to right, #d6ae7b, #eacda3); 
+}
+.back2future {
+    background: #C02425;  
+    background: -webkit-linear-gradient(to right, #F0CB35, #C02425); 
+    background: linear-gradient(to right, #F0CB35, #C02425); 
+}
+.netflix {
+    background: #8E0E00;  
+    background: -webkit-linear-gradient(to right, #1F1C18, #8E0E00); 
+    background: linear-gradient(to right, #1F1C18, #8E0E00); 
+}
+.passion {
+    background: #e53935;  
+    background: -webkit-linear-gradient(to right, #e35d5b, #e53935); 
+    background: linear-gradient(to right, #e35d5b, #e53935); 
+}
+.alostmemory {
+    background: #DE6262;  
+    background: -webkit-linear-gradient(to right, #FFB88C, #DE6262); 
+    background: linear-gradient(to right, #FFB88C, #DE6262); 
+}
+.naame {
+    background: #a73737;  
+    background: -webkit-linear-gradient(to right, #7a2828, #a73737); 
+    background: linear-gradient(to right, #7a2828, #a73737); 
+}
+.daytripper {
+    background: #f857a6;  
+    background: -webkit-linear-gradient(to right, #ff5858, #f857a6); 
+    background: linear-gradient(to right, #ff5858, #f857a6); 
+}
+.influenza {
+    background: #C04848;  
+    background: -webkit-linear-gradient(to right, #480048, #C04848); 
+    background: linear-gradient(to right, #480048, #C04848); 
+}
+.juicyorange {
+    background: #FF8008;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #FFC837, #FF8008);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #FFC837, #FF8008); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+/* Greens */
+
+.deepseaspace {
+    background: #2C3E50;  
+    background: -webkit-linear-gradient(to right, #4CA1AF, #2C3E50); 
+    background: linear-gradient(to right, #4CA1AF, #2C3E50); 
+}
+.pacificdream {
+    background: #34e89e;  
+    background: -webkit-linear-gradient(to right, #0f3443, #34e89e); 
+    background: linear-gradient(to right, #0f3443, #34e89e); 
+}
+.orca {
+    background: #44A08D;  
+    background: -webkit-linear-gradient(to right, #093637, #44A08D); 
+    background: linear-gradient(to right, #093637, #44A08D); 
+}
+.littleleaf {
+    background: #76b852;  
+    background: -webkit-linear-gradient(to right, #8DC26F, #76b852); 
+    background: linear-gradient(to right, #8DC26F, #76b852); 
+}
+.sagepersuasion {
+    background: #CCCCB2;  
+    background: -webkit-linear-gradient(to right, #757519, #CCCCB2); 
+    background: linear-gradient(to right, #757519, #CCCCB2); 
+}
+.parklife {
+    background: #ADD100;  
+    background: -webkit-linear-gradient(to right, #7B920A, #ADD100); 
+    background: linear-gradient(to right, #7B920A, #ADD100); 
+}
+.earthly {
+    background: #649173;  
+    background: -webkit-linear-gradient(to right, #DBD5A4, #649173); 
+    background: linear-gradient(to right, #DBD5A4, #649173); 
+}
+.petrichor {
+    background: #666600;  
+    background: -webkit-linear-gradient(to right, #999966, #666600); 
+    background: linear-gradient(to right, #999966, #666600); 
+}
+.greemoss {
+    background: #134E5E;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #71B280, #134E5E);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #71B280, #134E5E); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+/* Blacks */
+
+.titanium {
+    background: #283048;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #859398, #283048);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #859398, #283048); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.midnightcity {
+    background: #232526;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #414345, #232526);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #414345, #232526); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.steelgrey {
+    background: #1F1C2C;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #928DAB, #1F1C2C);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #928DAB, #1F1C2C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.mirage {
+    background: #16222A;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #3A6073, #16222A);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #3A6073, #16222A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+/* Variations */
+
+.politics {
+    background: #2196f3;  
+    background: -webkit-linear-gradient(to right, #f44336, #2196f3); 
+    background: linear-gradient(to right, #f44336, #2196f3); 
+}
+.sweetmorning {
+    background: #FF5F6D;  
+    background: -webkit-linear-gradient(to right, #FFC371, #FF5F6D); 
+    background: linear-gradient(to right, #FFC371, #FF5F6D); 
+}
+.predawn {
+    background: #FFA17F;  
+    background: -webkit-linear-gradient(to right, #00223E, #FFA17F); 
+    background: linear-gradient(to right, #00223E, #FFA17F); 
+}
+.purplebliss {
+    background: #360033;  
+    background: -webkit-linear-gradient(to right, #0b8793, #360033); 
+    background: linear-gradient(to right, #0b8793, #360033); 
+}
+.starfall {
+    background: #F0C27B;  
+    background: -webkit-linear-gradient(to right, #4B1248, #F0C27B); 
+    background: linear-gradient(to right, #4B1248, #F0C27B); 
+}
+.shroomhaze {
+    background: #5C258D;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #4389A2, #5C258D);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #4389A2, #5C258D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}

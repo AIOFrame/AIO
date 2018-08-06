@@ -1,0 +1,69 @@
+<?php
+
+class Crypto {
+
+    private static $instance;
+    private $method;
+    private $key;
+    private $separator;
+
+    private function __construct() {
+        $this->method = 'AES-128-CBC';
+        $this->key = EKEY;
+        $this->separator = ':';
+    }
+
+    public static function initiate() {
+        if (self::$instance === null) {
+            self::$instance = new Crypto();
+        }
+        return self::$instance;
+    }
+
+    public function encrypt($data) {
+        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($this->method));
+        return base64_encode(openssl_encrypt($data, $this->method, $this->key, 0, $iv) . $this->separator . base64_encode($iv));
+    }
+
+    public function decrypt($dataAndVector) {
+        $parts = explode($this->separator, base64_decode($dataAndVector));
+        return is_array($parts) && count($parts) > 1 ? openssl_decrypt($parts[0], $this->method, $this->key, 0, base64_decode($parts[1])) : false;
+    }
+
+    public function true(){
+        echo $this->enc('true');
+    }
+
+    public function false() {
+        echo $this->enc('false');
+    }
+
+    public function check( $data ) {
+        if( $this->decrypt( $data ) == 'true' ){
+            return true;
+        } else if ( $this->decrypt( $data ) == 'false' ) {
+            return false;
+        }
+    }
+
+    public function enc( $data ){
+        echo $this->encrypt( $data );
+    }
+
+    public function dec( $data ){
+        echo $this->decrypt( $data );
+    }
+}
+
+// HOW TO USE YA HALA :)
+
+// Fetch the class
+// $cry = Crypto::initiate();
+
+// TO ENCRYPT
+// $my_secret = $cry->encrypt("Hala is my Hero");
+
+// TO DECRYPT
+//$cry->decrypt( $my_secret );
+
+//Thanks Yaa Shaikh :))
