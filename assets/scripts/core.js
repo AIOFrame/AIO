@@ -38,6 +38,12 @@ $(document).ready(function () {
         $($(this).data('t')).parent().children().hide();
         $($(this).data('t')).show();
     });
+    $('body').on('click', '[data-step]', function () {
+        $(this).parent().children().removeClass('on');
+        $(this).addClass('on');
+        $($(this).data('step')).parent().children().hide();
+        $($(this).data('step')).show();
+    });
     // Next Step
     $('.steps_content .next').on('click', function () {
         $($(this).parents('.steps_content')).prev('.step_heads').find('.step_head.on').next().click();
