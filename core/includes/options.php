@@ -164,7 +164,7 @@ function select( $table, $cols = '*', $where = '', $limit = 0, $offset = 0 , $gr
     $o .= $limit >= 1 ? ' LIMIT '.$limit : '';
     $o .= $offset > 1 ? ' OFFSET '.$offset : '';
 
-//    error_log($o);
+    error_log($o);
 //    error_log(str_replace(ROOTPATH.'apps/','',debug_backtrace()[0]['file']).' In line ' . debug_backtrace()[0]['line']);
 //    error_log(' ');
 

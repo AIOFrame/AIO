@@ -881,21 +881,21 @@ function page_title_by_menu() {
 
 // File Uploader
 function media_upload() {
-    include( COREPATH . 'core/components/media.php' );
+    include_once( COREPATH . 'core/components/media.php' );
 }
 
 function file_upload() {
-    include( COREPATH . 'core/components/file_uploader.php' );
+    include_once( COREPATH . 'core/components/file_uploader.php' );
     $file = new FUP();
     return $file->file_uploader();
 }
 
 function icon_picker() {
-    include( COREPATH.'core/components/icons.php' );
+    include_once( COREPATH.'core/components/icons.php' );
 }
 
 function access_permitter() {
-    include( COREPATH . 'core/components/file_access.php' );
+    include_once( COREPATH . 'core/components/file_access.php' );
 }
 
 function get_currencies(){
@@ -903,22 +903,28 @@ function get_currencies(){
 }
 
 function render_maps() {
-    include( COREPATH . 'core/components/google_maps.php' );
+    include_once( COREPATH . 'core/components/google_maps.php' );
     $gmaps = new GMaps();
     $gmaps->google_maps();
 }
 
 function send_sms( $number, $message, $gateway, $key = '', $secret = '' ) {
-    include( COREPATH . 'core/components/sms.php' );
+    include_once( COREPATH . 'core/components/sms.php' );
     $sms = new SMS;
     return $sms->send_sms( $number, $message, $gateway, $key, $secret );
 }
 
 function email( $to, $to_name ,$subject, $content, $from , $from_name, $cc = '' ){
-    include( COREPATH . 'core/components/mailer.php' );
+    include_once( COREPATH . 'core/components/mailer.php' );
     $mailer = new Mailer;
 //    return $mailer->send_email( $to, $subject, $content, $from, $cc );
     return $mailer->mandrill_send( $to,$to_name, $subject, $content, $from,$from_name, $cc );
+}
+
+function barcode( $text, $width = '100', $height = '36', $format = 'CODE128', $bgColor = '#ffffff', $lineColor = '#000000', $textShow = 'false', $textAlign = 'center', $textPosition = 'bottom' ) {
+    include_once( COREPATH . 'core/components/barcode.php' );
+    $brcd = new BRCD;
+    return $brcd->generate( $text, $width, $height, $format, $bgColor, $lineColor, $textShow, $textAlign, $textPosition );
 }
 
 function get_vue( $type = '' ) {
