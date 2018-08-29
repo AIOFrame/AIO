@@ -921,10 +921,10 @@ function email( $to, $to_name ,$subject, $content, $from , $from_name, $cc = '' 
     return $mailer->mandrill_send( $to,$to_name, $subject, $content, $from,$from_name, $cc );
 }
 
-function barcode( $text, $width = '100', $height = '36', $format = 'CODE128', $bgColor = '#ffffff', $lineColor = '#000000', $textShow = 'false', $textAlign = 'center', $textPosition = 'bottom' ) {
+function barcode( $text, $width = '100', $height = '36', $textShow = 'false', $bgColor = '#ffffff', $lineColor = '#000000', $textAlign = 'center', $textPosition = 'bottom', $textMargin = '0', $format = 'CODE128' ) {
     include_once( COREPATH . 'core/components/barcode.php' );
     $brcd = new BRCD;
-    return $brcd->generate( $text, $width, $height, $format, $bgColor, $lineColor, $textShow, $textAlign, $textPosition );
+    return $brcd->generate( $text, $width, $height, $bgColor, $lineColor, $textShow, $textAlign, $textPosition, $textMargin, $format );
 }
 
 function get_vue( $type = '' ) {

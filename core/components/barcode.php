@@ -2,7 +2,7 @@
 
 class BRCD {
 
-    function generate( $text, $width, $height, $format, $bgColor, $lineColor, $textShow, $textAlign, $textPosition ) {
+    function generate( $text, $width, $height, $bgColor, $lineColor, $textShow, $textAlign, $textPosition, $textMargin, $format ) {
         if( !defined( 'BARCODE_INCLUDED' ) ) {
             if (file_exists(COREPATH . 'core/components/barcode/' . strtolower($format) . '.min.js')) {
                 echo '<script src="' . APPURL . '/core/components/barcode/' . strtolower($format) . '.min.js" type="text/javascript"></script>';
@@ -21,6 +21,8 @@ class BRCD {
                 echo 'displayValue: '.$textShow.',';
                 echo 'textAlign: "'.$textAlign.'",';
                 echo 'textPosition: "'.$textPosition.'",';
+                echo 'textMargin:"'.$textMargin.'",';
+                echo 'fontSize:12';
             echo '});';
         echo '</script>';
     }
