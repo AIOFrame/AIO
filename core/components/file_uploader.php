@@ -7,7 +7,10 @@ class FUP {
         <link rel="stylesheet" href="<?php echo APPURL; ?>assets/styles/upload.css">
         <script src="<?php echo APPURL; ?>assets/scripts/upload.js"></script>
         <div id="file_uploader" class="file_modal" data-dir="<?php echo APPURL.'apps/'.APPDIR; ?>">
-            <div class="files_head"><input type="file" id="file_input" accept="image/*"><label for="file_input" class="fup_icon browse_file"><span>Browse file...</span></label>
+            <div class="files_head">
+                <div class="close"></div>
+                <input type="file" id="file_input">
+                <label for="file_input" class="fup_icon browse_file"><span>Browse file...</span></label>
             </div>
             <div class="files_body">
                 <div class="uploaded_files">
@@ -37,8 +40,14 @@ class FUP {
 
 HOW TO USE
 
-HTML Structure (Encrypting Path so advanced users wont manipulate location or permissions, other fields wont matter as url and file id are public)
+HTML Attribute Structure
+onclick - Triggers upload
+data-path - Location where to upload file (Better encrypt to protect from inspect view and manipulation)
+data-url - input where value should be updated with url of uploaded file
+data-exts - allowed file upload formats
+data-nodelete - do not let the user delete files
+
 <?php $cry = Crypto::initiate(); ?>
-<button onclick="file_upload(this)" data-path="<?php $cry->enc('variations'); ?>" data-url="#image_url" data-id="#image_id" data-size="10240" data-exts="jpg,svg">Upload</button>
+<button onclick="file_upload(this)" data-path="<?php $cry->enc('variations'); ?>" data-url="#image_url" data-id="#image_id" data-size="10240" data-exts="jpg,svg" data-nodelete>Upload</button>
 
 */

@@ -12,14 +12,14 @@ $(document).ready(function(){
 
     }).on('click','.files_delete',function(){
 
+    }).on('click','#file_uploader .close',function(){
+        $(this).parents('#file_uploader').hide();
     })
 
     // Standard File Chosen to Upload
 
     .on('change','#file_input',function(){
-        console.log('file chosen');
         var fs = this.files;
-        console.log(fs);
         process_upload(fs);
     })
 
@@ -48,7 +48,7 @@ $(document).ready(function(){
         if( f.data('s_img') !== undefined && f.data('s_img') !== "" ) {
             if( s ){ $( f.data('s_img') ).html('').append( '<img width="150" height="150" src="'+f.data('dir')+ s.data('url') +'">' ) }
         }
-        console.log( f.data('bg') );
+        //console.log( f.data('bg') );
         if( f.data('bg') !== undefined && f.data('bg') !== "" ) {
             if( s ){ $( f.data('bg') ).css({'background-image':'url("'+f.data('dir')+ s.data('url') +'")'}) }
         }
@@ -61,12 +61,15 @@ $(document).ready(function(){
 
 function file_upload(e){
     $('#file_uploader').show().data('exts',$(e).data('exts')).data('url',$(e).data('url')).data('bg',$(e).data('bg')).data('id',$(e).data('id')).data('s_img',$(e).data('s_img')).data('path',$(e).data('path')).data('scope',$(e).data('scope'));
+    if($(e).data('nodelete') !== undefined){
+        $('#file_uploader').find('.files_delete').hide();
+    }
 }
 
 function process_upload(fs) {
     for (var i = 0, f; f = fs[i]; i++) {
-        console.log(i);
-        console.log(f);
+        //console.log(i);
+        //console.log(f);
         var exts = $('#file_uploader').data('exts');
         if( exts ){
             exts = exts.split(',');
@@ -84,7 +87,7 @@ function process_upload(fs) {
         if( $('#file_uploader').data('scope') !== '' && $('#file_uploader').data('scope') !== undefined ){
             d.append('scope',$('#file_uploader').data('scope'));
         }
-        console.log(d);
+        //console.log(d);
         $.ajax({
             url: location.origin, type: 'POST', data: d, contentType: false, cache: false, processData: false, success: function (data) {
                 var d = $.parseJSON(data);

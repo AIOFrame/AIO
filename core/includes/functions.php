@@ -508,11 +508,11 @@ function file_process() {
         if ( !is_dir( APPPATH.'/storage/'.$path )) {
             mkdir( APPPATH.'/storage/'.$path, 0777, true);
         }
+        $fe = pathinfo($fn, PATHINFO_EXTENSION);
         $fn = explode('.',$fn)[0].'_'.date('d_h_s').'.'.explode('.',$fn)[1];
         if( move_uploaded_file( $file['tmp_name'], APPPATH.'/storage/'.$path.'/'.$fn ) ) {
             $loc = '/storage/'.$path.'/'.$fn;
             $fz = round( $file['size'] / 1024 );
-            $fe = pathinfo($fn, PATHINFO_EXTENSION);
             $vfn = ucwords( str_replace('.'.$fe, '', str_replace('-', ' ', str_replace('_', ' ', $file['name']))));
             $uq = insert( 'storage', array( 'file_name', 'file_url', 'file_scope', 'file_type', 'file_size' ), array( $vfn, $loc, $scope, $fe, $fz ) );
             if( $uq ){

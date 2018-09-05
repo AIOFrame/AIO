@@ -39,17 +39,29 @@
 .file_modal .files_head {
     background:#333;
     display: flex;
+    position: relative;
 }
 .files_head input {
     display: none;
 }
-.files_head>* {
+.files_head>label, .files_head>div {
     color:#fff;
     padding:25px 15px 40px;
     margin: 0;
     flex-grow: 1;
     height:90px;
     position: relative;
+}
+.files_head>.close {
+    background:url('../images/icons/close.svg') no-repeat center / 40%;
+    position: absolute;
+    right:4px;
+    top:4px;
+    width:40px;
+    height:40px;
+    cursor: pointer;
+    padding: 0;
+    z-index:10;
 }
 .files_head span {
     position: absolute;
