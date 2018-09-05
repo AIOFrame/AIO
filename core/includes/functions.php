@@ -746,7 +746,9 @@ function is_assoc( $a ) {
     return array_keys( $a ) !== range(0, count( $a ) - 1);
 }
 
-function select_options( $d = '', $s = '' ) {
+function select_options( $options = '', $selected = '' ) {
+    $d = $options;
+    $s = $selected;
     if( is_array($d) ){
         if (is_assoc($d)) {
             foreach ($d as $k => $t) {

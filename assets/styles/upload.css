@@ -10,6 +10,7 @@
     width:32vw;
     background:rgba(255,255,255,.95);
     display: none;
+    min-width:360px;
 }
 .file_modal.hover {
     opacity:.7;
@@ -56,7 +57,7 @@
     left:50%;
     transform:translateX(-50%);
     text-align: center;
-    font-size:1vw;
+    font-size:14px;
     font-weight:100;
     text-transform:capitalize;
     letter-spacing:normal;
@@ -76,16 +77,27 @@
     overflow-y:auto;
 }
 .fup_file {
-    font-size:1.2vw;
+    font-size:12px;
     padding:15px 10px 15px 50px;
     border-bottom:1px solid rgba(0,0,0,.1);
     background:url('../images/icons/file.svg') no-repeat 10px 50% / 25px;
     cursor: pointer;
     white-space: nowrap;
-    overflow:hidden
+    overflow:hidden;
+    position: relative;
 }
 .fup_file.on {
-    background:rgba(0,0,0,.1) url('../images/icons/check.svg') no-repeat 10px 50% / 25px;
+    background-color:rgba(0,0,0,.1) !important;
+}
+.fup_file.on:after {
+    content: '';
+    position: absolute;
+    background: url(../images/icons/check.svg) no-repeat center;
+    width: 25px;
+    height: 25px;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 .files_actions {
     display: flex;

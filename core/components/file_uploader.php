@@ -14,7 +14,8 @@ class FUP {
                     <?php
                     $fs = select( 'storage', '*', 'file_scope = "'.$_SESSION['user_id'].'" OR file_scope = "0"' );
                     if( !empty($fs) ){ foreach( $fs as $f ){
-                        echo '<div class="fup_file" data-id="'.$f['file_id'].'" data-url="'.$f['file_url'].'">'.$f['file_name'].'</div>';
+                        $bg = in_array($f['file_type'],['svg','jpg','png','jpeg']) ? 'style="background:url(\''.storage_url($f['file_url']).'\') no-repeat 10px 50% / 25px"' : '';
+                        echo '<div '.$bg.' class="fup_file" data-id="'.$f['file_id'].'" data-url="'.$f['file_url'].'">'.$f['file_name'].'</div>';
                     } } ?>
                 </div>
                 <div class="camera_view"></div>
