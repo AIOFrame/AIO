@@ -54,6 +54,17 @@ $(document).ready(function () {
     });
 });
 
+// TABS
+$(document).ready(function () {
+    // Tabs
+    $('body').on('click', '.tab[data-t]', function () {
+        $(this).parent().children().removeClass('on');
+        $(this).addClass('on');
+        $( $(this).data('t') ).parent().children().hide();
+        $( $(this).data('t') ).show();
+    })
+});
+
 function goto_step( e, s ){
     $(e).find('.step_head:nth-child('+s+')').click();
 }

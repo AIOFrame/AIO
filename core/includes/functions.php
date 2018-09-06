@@ -881,6 +881,26 @@ function page_title_by_menu() {
     echo defined('PAGET') && !empty( PAGET ) ? PAGET : '';
 }
 
+function prepare_keys( $pre = '' ) {
+    $keys = [];
+    foreach( $_POST as $k => $v ){
+        if( !empty( $v ) ){
+            $keys[] = $pre.$k;
+        }
+    }
+    return $keys;
+}
+
+function prepare_values() {
+    $values = [];
+    foreach( $_POST as $k => $v ){
+        if( !empty( $v ) ){
+            $values[] = $v;
+        }
+    }
+    return $values;
+}
+
 // File Uploader
 function media_upload() {
     include_once( COREPATH . 'core/components/media.php' );
