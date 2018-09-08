@@ -22,14 +22,14 @@ function update_options() {
     };
 }
 
-function update_option( $name, $value, $user_id = 0 ) {
+function update_option( $name, $value, $user_id = 0, $autoload = false ) {
     if( !empty( $name ) && !empty( $value )){
         $c = select( 'options', '*', 'option_name = "'.$name.'" AND option_scope = "'.$user_id.'"', 1 );
         if( $c ) {
-            $u = update( 'options', ['option_value', 'option_scope' ], [ $value, $user_id ], 'option_name = "'.$name.'"' );
+            $u = update( 'options', ['option_value', 'option_scope', 'option_autoload' ], [ $value, $user_id, $autoload ], 'option_name = "'.$name.'"' );
             return $u ? $u : false;
         } else {
-            $u = insert( 'options', [ 'option_name', 'option_value', 'option_scope'], [ $name, $value, $user_id ] );
+            $u = insert( 'options', [ 'option_name', 'option_value', 'option_scope', 'option_autoload' ], [ $name, $value, $user_id, $autoload ] );
             return $u ? $u : false;
         }
     }
