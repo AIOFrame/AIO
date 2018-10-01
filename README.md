@@ -16,8 +16,13 @@ Ex: "The Amazing App"
 
 APPDIR
 Current Application Directory Name
-(Generated based on current visiting URL subdomain + directory exists with same subdomain name)
+(Generated based on current visiting URL subdomain and if directory exists with same subdomain name)
 Ex: ecommerce
+
+APPURI
+Current Application Directory URI
+(Generated based on current visiting URL subdomain + directory exists with same subdomain name)
+Ex: https://ecommerce.mainapp.com/apps/ecommerce
 
 APPPATH
 Current Application Server Directory Path

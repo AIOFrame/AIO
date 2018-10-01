@@ -78,6 +78,9 @@ function app_loader() {
             // Defines the Application Path
             !defined( 'APPPATH' ) ? define( 'APPPATH', COREPATH . 'apps/' . $app ) : '';
 
+            // Defines the Application URI
+            !defined( 'APPURI' ) ? define( 'APPURI', APPURL . 'apps/' . $app . '/' ) : '';
+
             // Defines the Application Encryption Key
             !defined( 'EKEY' ) ? define( 'EKEY', $config['key'] ) : str_replace(' ','_',defined('APPNAME') ? APPNAME : 'SU');
             global $conn;
