@@ -746,9 +746,12 @@ function is_assoc( $a ) {
     return array_keys( $a ) !== range(0, count( $a ) - 1);
 }
 
-function select_options( $options = '', $selected = '' ) {
+function select_options( $options = '', $selected = '', $placeholder = '' ) {
     $d = $options;
     $s = $selected;
+    if( $placeholder !== '' ){
+        echo empty($s) ? '<option disabled selected>'.$placeholder.'</option>' : '<option disabled>'.$placeholder.'</option>';
+    }
     if( is_array($d) ){
         if (is_assoc($d)) {
             foreach ($d as $k => $t) {
@@ -924,10 +927,16 @@ function get_currencies(){
     return include( COREPATH . 'core/components/data/currencies.php' );
 }
 
+function get_timezones(){
+    return timezone_identifiers_list();
+}
+
 function render_maps() {
     include_once( COREPATH . 'core/components/google_maps.php' );
-    $gmaps = new GMaps();
-    $gmaps->google_maps();
+    if(!$gmaps){
+        $gmaps = new GMaps();
+        $gmaps->google_maps();
+    }
 }
 
 function send_sms( $number, $message, $gateway, $key = '', $secret = '' ) {
@@ -967,7 +976,10 @@ function years_from_date( $date ){
     return substr($diff, 0, -4);
 }
 
-function easy_date( $date, $format = 'd M, Y' ) {
+function easy_date( $date = '', $format = 'd M, Y' ) {
+    if( $date == '' ){
+        $date = date('Y-m-d H:i:s');
+    }
     $date = date_create( $date );
     return date_format( $date, $format );
 }

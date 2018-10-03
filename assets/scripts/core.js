@@ -79,20 +79,44 @@ function prev_step( e ) {
 
 // FIELD FUNCTIONS
 function empty( e ) {
-    if( $(e).val().length > 0 ){
-        return false;
+    if( $(e)[0].localName === 'div' ) {
+        $.each($(e).find('input,select'),function(a,b){
+            if( b !== undefined && $(b).val() !== null && $(b).val() !== "" ){
+                $r = false;
+            } else {
+                $r = true;
+            }
+        });
+        return $r;
     } else {
-        return true;
+        if( $(e).val().length > 0 ){
+            return false;
+        } else {
+            return true;
+        }
     }
 }
 
 function sempty( e ) {
-    if( $(e).val() !== null && $(e).val() !== "" ){
-        $(e).removeClass('empty');
-        return false;
+    if( $(e)[0].localName === 'div' ){
+        $.each($(e).find('input,select'),function(a,b){
+            if( b !== undefined && $(b).val() !== null && $(b).val() !== "" ){
+                $(b).removeClass('empty');
+                $r = false;
+            } else {
+                $(b).addClass('empty');
+                $r = true;
+            }
+        });
+        return $r;
     } else {
-        $(e).addClass('empty');
-        return true;
+        if( $(e).val() !== null && $(e).val() !== "" ){
+            $(e).removeClass('empty');
+            return false;
+        } else {
+            $(e).addClass('empty');
+            return true;
+        }
     }
 }
 
