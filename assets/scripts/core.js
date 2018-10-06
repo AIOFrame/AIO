@@ -79,7 +79,7 @@ function prev_step( e ) {
 
 // FIELD FUNCTIONS
 function empty( e ) {
-    if( $(e)[0].localName === 'div' ) {
+    if( $(e)[0] && $(e)[0].localName === 'div' ) {
         $.each($(e).find('input,select'),function(a,b){
             if( b !== undefined && $(b).val() !== null && $(b).val() !== "" ){
                 $r = false;
@@ -98,7 +98,7 @@ function empty( e ) {
 }
 
 function sempty( e ) {
-    if( $(e)[0].localName === 'div' ){
+    if( $(e)[0] && $(e)[0].localName === 'div' ){
         $.each($(e).find('input,select'),function(a,b){
             if( b !== undefined && $(b).val() !== null && $(b).val() !== "" ){
                 $(b).removeClass('empty');
