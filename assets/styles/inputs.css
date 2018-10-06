@@ -1,0 +1,274 @@
+/* BUTTONS */
+
+button, .btn {
+    background:#000;
+    color:#fff;
+    letter-spacing: 1px;
+    transition:.6s;
+    border-radius:2px;
+    font-weight: 300;
+    text-transform: uppercase;
+    box-shadow:0 10px 30px rgba(0,0,0,.2);
+    margin: 15px 0;
+    padding: 8px 15px;
+}
+.btn {
+    display: inline-block;
+}
+button.r5, .btn.r5 {
+    border-radius:5px;
+}
+button.r, .btn.r {
+    border-radius:30px;
+}
+button.xxl, .btn.xxl {
+    font-size:22px;
+    padding:18px 30px;
+}
+button.b.xxl, .btn.b.xxl {
+    padding:17px 30px;
+}
+button.xl, .btn.xl {
+    font-size:18px;
+    padding:14px 24px;
+}
+button.b.xl, .btn.b.xl {
+    padding:13px 24px;
+}
+button.l, .btn.l {
+    font-size:14px;
+    padding:10px 20px;
+}
+button.b.l, .btn.b.l {
+    padding:9px 20px;
+}
+button.m, .btn.m {
+    font-size:13px;
+    padding: 8px 15px;
+}
+button.b.m, .btn.b.m {
+    padding: 7px 15px;
+}
+button.s, .btn.s {
+    font-size:12px;
+    padding: 6px 12px;
+}
+button.b.s, .btn.b.s {
+    padding: 5px 12px;
+}
+button.xs, .btn.xs {
+    font-size:10px;
+    padding: 5px 8px;
+}
+button.b.xs, .btn.b.xs {
+    padding: 4px 8px;
+}
+button.red, .btn.red {
+    background: rgb(153,1,1);
+    background: -moz-linear-gradient(45deg, rgba(153,1,1,1) 0%, rgba(169,3,41,1) 100%);
+    background: -webkit-linear-gradient(45deg, rgba(153,1,1,1) 0%,rgba(169,3,41,1) 100%);
+    background: linear-gradient(45deg, rgba(153,1,1,1) 0%,rgba(169,3,41,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#990101', endColorstr='#a90329',GradientType=1 );
+    box-shadow:0 0 20px rgba(153,1,1,.2), 0 10px 30px rgba(0,0,0,.2);
+}
+button.red:hover, .btn.red:hover {
+    box-shadow:0 0 30px rgba(153,1,1,.3),0 10px 30px rgba(153,1,1,.3);
+}
+button.red:active, .btn.red:active {
+    box-shadow:0 0 20px rgba(153,1,1,.3),0 0 10px rgba(0,0,0,.2);
+}
+button.b.red, .btn.b.red {
+    color:rgb(153,1,1);
+    border:1px solid rgb(153,1,1);
+}
+button.blue, .btn.blue {
+    background: rgb(0,125,204);
+    background: -moz-linear-gradient(45deg, rgb(0,125,204) 0%, rgb(0,173,237) 100%);
+    background: -webkit-linear-gradient(45deg, rgb(0,125,204) 0%,rgb(0,173,237) 100%);
+    background: linear-gradient(45deg, rgb(0,125,204) 0%,rgb(0,173,237) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007dcc', endColorstr='#00aded',GradientType=1 );
+    box-shadow:0 0 20px rgba(0,125,204,.2), 0 10px 30px rgba(0,0,0,.2);
+}
+button.blue:hover, .btn.blue:hover {
+    box-shadow:0 0 30px rgba(0,125,204,.3), 0 10px 30px rgba(0,125,204,.3);
+}
+button.blue:active, .btn.blue:active {
+    box-shadow:0 0 20px rgba(0,125,204,.3), 0 0 10px rgba(0,0,0,.2);
+}
+button.b.blue, .btn.b.blue {
+    color:rgb(0,125,204);
+    border:1px solid rgb(0,125,204);
+}
+button.coral, .btn.coral{
+    background: #9f635b;
+    background: -moz-linear-gradient(45deg,#007dcc 0,#9c3737 100%);
+    background: -webkit-linear-gradient(45deg,#9f635b,#9c3737 100%);
+    background: linear-gradient(45deg,#9f635b 0,#9c3737 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#007dcc',endColorstr='#9c3737',GradientType=1);
+    box-shadow: 0 0 20px rgba(160, 97, 96, 0.2), 0 10px 30px rgba(0,0,0,.2);
+}
+button.coral:hover, .btn.coral:hover {
+    box-shadow:0 0 30px rgba(160, 97, 96, 0.3), 0 10px 30px rgba(160, 97, 96, 0.3);
+}
+button.coral:active, .btn.coral:active {
+    box-shadow:0 0 20px rgba(160, 97, 96, 0.3), 0 0 10px rgba(0,0,0,.2);
+}
+button.ocean,  .btn.ocean{
+    background: #8ea096;
+    background: -moz-linear-gradient(45deg,#007dcc 0,#9c3737 100%);
+    background: -webkit-linear-gradient(45deg,#8ea096,#8ea096 100%);
+    background: linear-gradient(45deg,#8ea096 0,#8eb59f 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#007dcc',endColorstr='#9c3737',GradientType=1);
+    box-shadow: 0 0 20px rgba(142, 160, 150, 0.3), 0 10px 30px rgba(0,0,0,.2);
+}
+button.sky, .btn.sky{
+    background: #015e99;
+    background: -moz-linear-gradient(45deg,rgba(153,1,1,1) 0,rgba(169,3,41,1) 100%);
+    background: -webkit-linear-gradient(45deg, #4a7b9a 0,#7099b3 100%);
+    background: linear-gradient(45deg,#4a7b9a 0,#7099b3 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#990101',endColorstr='#a90329',GradientType=1);
+    box-shadow: 0 0 20px rgba(74, 123, 154, 0.2), 0 10px 30px rgba(0,0,0,.2);
+}
+button.teal, .btn.teal {
+    background: rgb(0,177,193);
+    background: -moz-linear-gradient(45deg, rgb(0,177,193) 0%, rgb(0,213,224) 100%);
+    background: -webkit-linear-gradient(45deg, rgb(0,177,193) 0%,rgb(0,213,224) 100%);
+    background: linear-gradient(45deg, rgb(0,177,193) 0%,rgb(0,213,224) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00b1c1', endColorstr='#00d5e0',GradientType=1 );
+    box-shadow:0 0 20px rgba(0,213,224,.2), 0 10px 30px rgba(0,0,0,.2);
+}
+button.teal:hover, .btn.teal:hover {
+    box-shadow:0 0 30px rgba(0,177,193,.3),0 10px 30px rgba(0,177,193,.3);
+}
+button.teal:active, .btn.teal:active {
+    box-shadow:0 0 20px rgba(0,213,224,.3),0 0 10px rgba(0,0,0,.2);
+}
+button.b.teal, .btn.b.teal {
+    color:rgb(0,177,193);
+    border:1px solid rgb(0,177,193);
+}
+button.green, .btn.green {
+    background: rgb(0,127,0);
+    background: -moz-linear-gradient(45deg, rgb(0,127,0) 0%, rgb(38,163,0) 100%);
+    background: -webkit-linear-gradient(45deg, rgb(0,127,0) 0%,rgb(38,163,0) 100%);
+    background: linear-gradient(45deg, rgb(0,127,0) 0%,rgb(38,163,0) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007f00', endColorstr='#26a300',GradientType=1 );
+    box-shadow:0 0 20px rgba(38,163,0,.2), 0 10px 30px rgba(0,0,0,.2);
+}
+button.green:hover, .btn.green:hover {
+    box-shadow:0 0 30px rgba(38,163,0,.3), 0 10px 30px rgba(38,163,0,.3);
+}
+button.green:active, .btn.green:active {
+    box-shadow:0 0 20px rgba(38,163,0,.3), 0 0 30px rgba(0,0,0,.2);
+}
+button.b.green, .btn.b.green {
+    color:rgb(0,127,0);
+    border:1px solid rgb(0,127,0);
+}
+button.gold, .btn.gold {
+    background: rgb(173,149,114);
+    background: -moz-linear-gradient(45deg, rgb(173,149,114) 0%, rgb(211,187,139) 100%);
+    background: -webkit-linear-gradient(45deg, rgb(173,149,114) 0%,rgb(211,187,139) 100%);
+    background: linear-gradient(45deg, rgb(173,149,114) 0%,rgb(211,187,139) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ad9572', endColorstr='#d3bb8b',GradientType=1 );
+    box-shadow:0 0 20px rgba(211,187,139,.2), 0 10px 30px rgba(0,0,0,.2);
+}
+button.gold:hover, .btn.gold:hover {
+    box-shadow:0 0 30px rgba(211,187,139,.3), 0 10px 30px rgba(211,187,139,.5);
+}
+button.gold:active, .btn.gold:active {
+    box-shadow:0 0 20px rgba(211,187,139,.3), 0 0 30px rgba(0,0,0,.2);
+}
+button.b.gold, .btn.b.gold {
+    color:rgb(173,149,114);
+    border:1px solid rgb(173,149,114);
+}
+button.grey, .btn.grey {
+    background: rgb(173,173,173);
+    background: -moz-linear-gradient(45deg, rgb(173,173,173) 0%, rgb(196,196,196) 100%);
+    background: -webkit-linear-gradient(45deg, rgb(173,173,173) 0%,rgb(196,196,196) 100%);
+    background: linear-gradient(45deg, rgb(173,173,173) 0%,rgb(196,196,196) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#adadad', endColorstr='#c4c4c4',GradientType=1 );
+    box-shadow:0 0 20px rgba(196,196,196,.2), 0 10px 30px rgba(0,0,0,.2);
+}
+button.grey:hover, .btn.grey:hover {
+    box-shadow:0 0 30px rgba(196,196,196,.3), 0 10px 30px rgba(0,0,0,.1);
+}
+button.black, .btn.black {
+    background: rgb(0,0,0);
+    background: -moz-linear-gradient(45deg, rgb(0,0,0) 0%, rgb(91,91,91) 100%);
+    background: -webkit-linear-gradient(45deg, rgb(0,0,0) 0%,rgb(91,91,91) 100%);
+    background: linear-gradient(45deg, rgb(0,0,0) 0%,rgb(91,91,91) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#5b5b5b',GradientType=1 );
+    box-shadow:0 0 20px rgba(91,91,91,.2), 0 10px 30px rgba(0,0,0,.2);
+}
+button.black:hover, .btn.black:hover {
+    box-shadow:0 0 30px rgba(91,91,91,.3), 0 10px 30px rgba(0,0,0,.3);
+}
+button.black:active, .btn.black:active {
+    box-shadow:0 0 20px rgba(91,91,91,.3), 0 0 30px rgba(0,0,0,.2);
+}
+button.b.black, .btn.b.black {
+    color:rgb(0,0,0);
+    border:1px solid rgb(0,0,0);
+}
+button.violet, .btn.violet {
+    background: rgb(98,0,219);
+    background: -moz-linear-gradient(45deg, rgb(98,0,219) 0%, rgb(154,42,252) 100%);
+    background: -webkit-linear-gradient(45deg, rgb(98,0,219) 0%,rgb(154,42,252) 100%);
+    background: linear-gradient(45deg, rgb(98,0,219) 0%,rgb(154,42,252) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6200db', endColorstr='#9a2afc',GradientType=1 );
+    box-shadow:0 0 20px rgba(154,42,252,.2), 0 10px 30px rgba(0,0,0,.2);
+}
+button.violet:hover, .btn.violet:hover {
+    box-shadow:0 0 30px rgba(154,42,252,.3), 0 10px 30px rgba(154,42,252,.2);
+}
+button.violet:active, .btn.violet:active {
+    box-shadow:0 0 20px rgba(154,42,252,.3), 0 0 30px rgba(0,0,0,.2);
+}
+button.b.violet, .btn.b.violet {
+    color:rgb(98,0,219);
+    border:1px solid rgb(98,0,219);
+}
+button.orange, .btn.orange {
+    background: rgb(206,134,0);
+    background: -moz-linear-gradient(45deg, rgb(206,134,0) 0%, rgb(255,157,0) 100%);
+    background: -webkit-linear-gradient(45deg, rgb(206,134,0) 0%,rgb(255,157,0) 100%);
+    background: linear-gradient(45deg, rgb(206,134,0) 0%,rgb(255,157,0) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ce8600', endColorstr='#ff9d00',GradientType=1 );
+    box-shadow:0 0 20px rgba(255,157,0,.2), 0 10px 30px rgba(0,0,0,.2);
+}
+button.orange:hover, .btn.orange:hover {
+    box-shadow:0 0 30px rgba(156, 98, 0,.3), 0 10px 30px rgba(156, 98, 0, 0.49);
+}
+button.orange:active, .btn.orange:active {
+    box-shadow:0 0 20px rgba(156, 98, 0,.3), 0 0 30px rgba(0,0,0,.2);
+}
+button.b.orange, .btn.b.orange {
+    color:rgb(206,134,0);
+    border:1px solid rgb(206,134,0);
+}
+button.b, .btn.b {
+    background:transparent;
+    border: 1px solid grey;
+}
+button.bsn, .btn.bsn, button.bsn:hover, .btn.bsn:hover {
+    box-shadow:none;
+}
+.sl.wide>* {
+    flex-grow:1
+}
+.sl button, .sl .btn {
+    border-radius:0;
+}
+.sl input, .sl>select, .sl>.chosen-container {
+    width:auto;
+}
+.sl button:nth-child(1), .sl .btn:nth-child(1) {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.sl button:last-child, .sl .btn:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}

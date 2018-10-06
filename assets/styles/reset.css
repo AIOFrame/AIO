@@ -33,6 +33,7 @@ input, button, select, textarea {
     cursor: pointer;
     -webkit-appearance: none;
     background: transparent;
+    border-radius: 0;
 }
 button {
     width: auto;
@@ -64,7 +65,7 @@ button{
     -webkit-appearance: none;
 }
 a {
-    color:#000;
+    color:inherit;
     text-decoration: none;
 }
 small { font-size: 75%; }
