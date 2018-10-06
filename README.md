@@ -35,7 +35,7 @@ Current Page Name
 Ex: 'product' if you are visiting 'https://ecommerce.mainapp.com/inventory/product/45'
 Ex2: 'inventory' if you are visiting 'https://ecommerce.mainapp.com/inventory'
 
-PAGE PATH
+PAGEPATH
 Current Page Entire Path inside Apps
 (Generated based on page currently viewing)
 Ex: 'inventory/product' if you are visiting 'https://ecommerce.mainapp.com/inventory/product/45'

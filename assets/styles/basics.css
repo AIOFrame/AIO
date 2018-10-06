@@ -11,6 +11,7 @@
 
 .fr { float: right }
 .fl { float: left }
+.fn { float: none }
 
 .dib { display: inline-block }
 .db { display: block }
