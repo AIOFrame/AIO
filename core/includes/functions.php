@@ -933,7 +933,7 @@ function get_timezones(){
 
 function render_maps() {
     include_once( COREPATH . 'core/components/google_maps.php' );
-    if(!$gmaps){
+    if( !isset( $gmaps ) ){
         $gmaps = new GMaps();
         $gmaps->google_maps();
     }

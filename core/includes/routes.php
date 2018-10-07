@@ -71,10 +71,11 @@ if( !isset( $_POST['action'] ) ) { // Checks if AJAX Action Request is sent so c
     } else if( file_exists( $ifl ) ) {
         include( $ifl );
     } else {
-        if( file_exists( COREPATH . 'apps/' . $t . '/pages/404.php' ) ) // Doesn't exist on sub domain or defaults, so check if 404 page exists
-            include( COREPATH . 'apps/' . $t . '/pages/404.php' ); // Exists so load 404
-        else if( file_exists( COREPATH . 'pages/404.php' ) )
-            include( COREPATH . 'pages/404.php' ); // Seems like sub folder doesn't exist, so loads super 404
+        if( file_exists( COREPATH . 'apps/' . $t . '/pages/404.php' ) ) { // Doesn't exist on sub domain or defaults, so check if 404 page exists
+            include(COREPATH . 'apps/' . $t . '/pages/404.php'); // Exists so load 404
+        } else if( file_exists( COREPATH . 'core/pages/404.php' ) ) {
+            include(COREPATH . 'core/pages/404.php'); // Seems like sub folder doesn't exist, so loads super 404
+        }
     }
 
 }
