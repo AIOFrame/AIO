@@ -854,26 +854,24 @@ function page_of( $p ) {
 }
 
 function render_menu( $array, $prefix = '' ) {
-    $pre = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on" ? "https://" : "http://";
-    $curl = rtrim( $pre.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], '/' );
     if( is_array( $array ) ){
         echo '<ul>';
         foreach( $array as $l => $t ){
             $sls = '';
-            $link = rtrim( APPURL.$prefix.$t[0], '/' );
-            if( $curl == $link ) { $c = 'on'; $title = $t[1]; } else { $c = ''; }
-            if( !empty( $t[2] ) && is_array( $t[2] ) ){
+            $title = $t;
+            if( PAGEPATH == $l ) { $c = 'on'; $title = $t; } else { $c = ''; }
+            if( !empty( $t ) && is_array( $t ) ){
+                $title = ucfirst( $l );
                 $sls .= '<ul>';
-                foreach( $t[2] as $sl => $st ){
-                    $link = APPURL.$prefix.$st[0];
-                    if( $curl == $link ) { $sc = 'class="on"'; $c = 'on'; $title = $st[1].' - '.$t[1]; } else { $sc = ''; }
-                    $sls .= '<li><a href="'.$link.'" '.$sc.'>'.$st[1].'</a></li>';
+                foreach( $t as $sl => $st ){
+                    $link = APPURL.$prefix.$sl;
+                    if( PAGEPATH == $l ) { $sc = 'class="on"'; $c = 'on'; $title = $st.' - '.$t; } else { $sc = ''; }
+                    $sls .= '<li><a href="'.$link.'" '.$st.'>'.$st.'</a></li>';
                 }
                 $sls .= '</ul>';
             }
-
-            $s = !empty($sls) ? 'sub' : '';
-            echo '<li class="'.$s.' '.$c.'"><a href="'.APPURL.$prefix.$t[0].'" class="'.$c.'">'.$t[1].'</a>'.$sls.'</li>';
+            $s = !empty($sls) ? $c.' sub' : $c.'';
+            echo '<li class="'.$c.'"><a href="'.APPURL.$prefix.$l.'" class="'.$c.'">'.$title.'</a>'.$sls.'</li>';
         }
         echo '</ul>';
         !empty( $title ) ? define( 'PAGET', $title ) : '';
