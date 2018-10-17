@@ -2,8 +2,9 @@
 
 var domain;
 
-// MANIPULATOR
 $(document).ready(function(){
+
+    // MANIPULATOR
     $(document).on('click', '[data-action], [data-show], [data-hide], [data-slide], [data-remove],[data-toggle],[data-resetsrc],[data-resetinput]', function () {
         if ($(this).data('togglescroll') === true) {
             scroll_lock();
@@ -27,12 +28,9 @@ $(document).ready(function(){
             $('article').addClass('fade');
         }
     });
-});
 
-// STEPS
-$(document).ready(function () {
-    // Tabs
-    $('body').on('click', '.steps [data-t]', function () {
+    // TABS & STEPS
+    $('body').on('click', '.steps [data-t], .tab[data-t]', function () {
         $(this).parent().children().removeClass('on');
         $(this).addClass('on');
         $($(this).data('t')).parent().children().hide();
@@ -52,16 +50,10 @@ $(document).ready(function () {
     $('.steps_content .prev').on('click', function () {
         $($(this).parents('.steps_content')).prev('.step_heads').find('.step_head.on').prev().click();
     });
-});
 
-// TABS
-$(document).ready(function () {
-    // Tabs
-    $('body').on('click', '.tab[data-t]', function () {
-        $(this).parent().children().removeClass('on');
-        $(this).addClass('on');
-        $( $(this).data('t') ).parent().children().hide();
-        $( $(this).data('t') ).show();
+    // MODAL
+    $('.modal .close').on('click',function(){
+        $(this).parent('.modal').hide();
     })
 });
 

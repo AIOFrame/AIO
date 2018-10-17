@@ -865,13 +865,13 @@ function render_menu( $array, $prefix = '' ) {
                 $sls .= '<ul>';
                 foreach( $t as $sl => $st ){
                     $link = APPURL.$prefix.$sl;
-                    if( PAGEPATH == $l ) { $sc = 'class="on"'; $c = 'on'; $title = $st.' - '.$t; } else { $sc = ''; }
-                    $sls .= '<li><a href="'.$link.'" '.$st.'>'.$st.'</a></li>';
+                    if( PAGEPATH == $sl ) { $sc = 'class="on"'; $c = 'on'; } else { $sc = ''; }
+                    $sls .= '<li><a href="'.$link.'" '.$sc.'>'.$st.'</a></li>';
                 }
                 $sls .= '</ul>';
             }
             $s = !empty($sls) ? $c.' sub' : $c.'';
-            echo '<li class="'.$c.'"><a href="'.APPURL.$prefix.$l.'" class="'.$c.'">'.$title.'</a>'.$sls.'</li>';
+            echo '<li><a href="'.APPURL.$prefix.$l.'" class="'.$c.'">'.$title.'</a>'.$sls.'</li>';
         }
         echo '</ul>';
         !empty( $title ) ? define( 'PAGET', $title ) : '';

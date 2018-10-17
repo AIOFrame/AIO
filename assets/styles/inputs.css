@@ -11,6 +11,7 @@ button, .btn {
     box-shadow:0 10px 30px rgba(0,0,0,.2);
     margin: 15px 0;
     padding: 8px 15px;
+    cursor: pointer;
 }
 .btn {
     display: inline-block;

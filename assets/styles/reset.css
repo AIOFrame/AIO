@@ -34,6 +34,9 @@ input, button, select, textarea {
     background: transparent;
     border-radius: 0;
 }
+select {
+    background:url('../images/select.svg') no-repeat calc(100% - 6px) / 20px;
+}
 button {
     width: auto;
     box-shadow:none;
@@ -41,7 +44,6 @@ button {
     margin: 20px 0;
 }
 label {
-    text-transform: uppercase;
     margin-bottom: 5px;
     display: inline-block;
     font-weight: bold;

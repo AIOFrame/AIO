@@ -1,0 +1,40 @@
+/* Modal */
+
+.modal {
+    position: fixed;
+    left:50%;
+    top: calc(50% + 10vh);
+    transform: translate(-50%,calc(-50% - 5vh));
+    background: rgba(255,255,255,.98);
+    box-shadow: 0 0 50px rgba(0,0,0,0.2);
+    padding: 20px;
+    display: none;
+    z-index: 8;
+    width:auto;
+    height:auto;
+    border-radius:10px;
+}
+.modal .modal {
+    z-index:15;
+}
+.modal.m {
+    min-width:60vw;
+}
+.modal.sm {
+    min-width:40vw;
+}
+.modal.l {
+    min-width:80vw;
+}
+.modal.f {
+    width: calc(100vw - 60px);
+}
+.modal .close {
+    background:url('../images/close.svg') no-repeat center / 70%;
+    position: absolute;
+    right:10px;
+    top:10px;
+    width:40px;
+    height:40px;
+    cursor: pointer;
+}
