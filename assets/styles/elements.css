@@ -1,3 +1,30 @@
+/* Notify */
+
+#notification {
+    position: fixed;
+    left:50%;
+    top:-30vh;
+    min-width:60vw;
+    max-width:calc(100vw - 120px);
+    box-shadow:0 0 30px rgba(0,0,0,.1);
+    transform:translateX(-50%);
+    z-index:100;
+    border-radius:6px;
+    box-shadow:0 0 0 rgba(0,0,0,.1);
+    padding: 40px;
+    background:rgba(255,255,255,.97);
+    transition:.6s;
+    opacity:0;
+}
+#notification div {
+    font-size:20px;
+}
+#notification.on {
+    box-shadow:0 0 50px rgba(0,0,0,.2);
+    top:20px;
+    opacity:1;
+}
+
 /* Modal */
 
 .modal {
@@ -29,7 +56,7 @@
 .modal.f {
     width: calc(100vw - 60px);
 }
-.modal .close {
+.modal .close, #notification .close, #alert .close {
     background:url('../images/close.svg') no-repeat center / 70%;
     position: absolute;
     right:10px;
@@ -37,4 +64,203 @@
     width:40px;
     height:40px;
     cursor: pointer;
+}
+
+/* Table */
+
+table {
+    width:100%;
+    border-collapse: collapse;
+}
+table thead tr {
+    background:#fff;
+    z-index:10;
+    box-shadow:0 0 25px rgba(0,0,0,.05);
+}
+table thead th {
+    padding:12px 8px;
+}
+table tbody {
+    background:#fff;
+}
+table tbody tr {
+    //margin-top: -1px;
+    border-top:1px solid #eee;
+    border-bottom:1px solid #eee;
+}
+table tbody td {
+    padding:8px;
+}
+table td.l {
+    text-align: left;
+}
+table td.c {
+    text-align: center;
+}
+table td.r {
+    text-align: right;
+}
+
+/* ICONS */
+
+.ico {
+    display: inline-block;
+    vertical-align: top;
+    width:22px;
+    height:22px;
+    background-repeat:no-repeat !important;
+    background-position:center !important;
+    background-size:cover !important;
+    cursor: pointer;
+}
+.ico.md {
+    width:32px;
+    height:32px;
+}
+.ico.lg {
+    width:45px;
+    height:45px;
+}
+.ico.xl {
+    width:100px;
+    height:100px;
+}
+
+/* STEPS */
+
+.step_heads {
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 20px;
+}
+.step {
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    text-align: center;
+    cursor: pointer;
+    padding: 12px 0;
+    text-transform: uppercase;
+    font-size: 14px;
+    background: #eee;
+    position: relative;
+}
+.step:first-child {
+    border-top-left-radius: 5px;
+}
+.step:last-child {
+    border-top-right-radius: 5px;
+}
+.step.on {
+    color:#fff;
+    background: rgb(0,153,255);
+    background: -moz-linear-gradient(-45deg, rgba(0,153,255,1) 0%, rgba(51,102,204,1) 100%);
+    background: -webkit-linear-gradient(-45deg, rgba(0,153,255,1) 0%,rgba(51,102,204,1) 100%);
+    background: linear-gradient(135deg, rgba(0,153,255,1) 0%,rgba(51,102,204,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0099ff', endColorstr='#3366cc',GradientType=1 );
+    box-shadow:0 0 20px rgba(0,0,0,.2)
+}
+.step.on:after {
+    position: absolute;
+    right: -10px;
+    top: 0;
+    content: '';
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 10px solid rgba(51,102,204,.95);
+    z-index:1;
+}
+.step.on:last-child:after {
+    display: none;
+}
+.step_head:nth-child(1) {
+    z-index: 10
+}
+.step_head:nth-child(2) {
+    z-index: 9
+}
+.step_head:nth-child(3) {
+    z-index: 8
+}
+.step_head:nth-child(4) {
+    z-index: 7
+}
+.step_head:nth-child(5) {
+    z-index: 6
+}
+.step_head:nth-child(6) {
+    z-index: 5
+}
+.step_head:nth-child(7) {
+    z-index: 4
+}
+.step_head:nth-child(8) {
+    z-index: 3
+}
+.step_head:nth-child(9) {
+    z-index: 2
+}
+.step_head:nth-child(10) {
+    z-index: 1
+}
+
+/* Blocks */
+
+.blocks>div {
+    -ms-flex: 0 0 25%;
+    flex: 0 0 25%;
+    max-width: 25%;
+}
+.block {
+    background:#fff;
+    border-radius:10px;
+    padding: 15px;
+    position: relative;
+    cursor:pointer;
+    box-shadow:0 0 30px rgba(0,0,0,.04);
+    transition:1s;
+    display: block;
+}
+.block:hover {
+    box-shadow:0 0 30px rgba(0,0,0,.2), 0 10px 30px rgba(0,0,0,.05);
+}
+.block .image {
+    width:100%;
+    height:80px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.block .title {
+    font-size: 16px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.block .desc {
+    padding-top: 10px;
+}
+.block .desc>div, .block .desc>p {
+    font-size: 14px;
+    margin:10px 0;
+}
+.block .desc>div:last-child {
+    margin-bottom: 0;
+}
+.block .desc .ico {
+    margin-right: 5px;
+}
+.block .actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    opacity:.2;
+    transition:1s;
+}
+.block:hover .actions {
+    opacity:1;
+}
+.block .actions>i, .block .actions>div {
+    margin:0 5px;
 }

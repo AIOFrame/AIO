@@ -1,3 +1,13 @@
+/* INPUTS */
+
+input[type=radio], input[type=checkbox] {
+    cursor: pointer;
+    margin: 8px 8px 8px 0;
+}
+input[type=radio]:checked, input[type=checkbox]:checked {
+    background:#000;
+}
+
 /* BUTTONS */
 
 button, .btn {
@@ -18,6 +28,9 @@ button, .btn {
 }
 button.r5, .btn.r5 {
     border-radius:5px;
+}
+button.r1, .btn.r1 {
+    border-radius:10px;
 }
 button.r, .btn.r {
     border-radius:30px;
@@ -256,7 +269,7 @@ button.b, .btn.b {
 button.bsn, .btn.bsn, button.bsn:hover, .btn.bsn:hover {
     box-shadow:none;
 }
-.sl.wide>* {
+.sl.wide>div {
     flex-grow:1
 }
 .sl button, .sl .btn {

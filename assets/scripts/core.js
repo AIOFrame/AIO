@@ -43,22 +43,27 @@ $(document).ready(function(){
         $($(this).data('step')).show();
     });
     // Next Step
-    $('.steps_content .next').on('click', function () {
-        $($(this).parents('.steps_content')).prev('.step_heads').find('.step_head.on').next().click();
+    $('.steps .next').on('click', function () {
+        $($(this).parents('.steps')).find('[data-t].on').next().click();
     });
     // Previous Step
-    $('.steps_content .prev').on('click', function () {
-        $($(this).parents('.steps_content')).prev('.step_heads').find('.step_head.on').prev().click();
+    $('.steps .prev').on('click', function () {
+        $($(this).parents('.steps')).find('[data-t].on').prev().click();
     });
 
     // MODAL
     $('.modal .close').on('click',function(){
-        $(this).parent('.modal').hide();
-    })
+        $(this).parents('.modal').hide();
+    });
+
+    // ALERT & NOTIFICATION
+    $('#notification .close, #alert .close').on('click',function(){
+        $(this).parents('#notification,#alert').removeClass('on');
+    });
 });
 
 function goto_step( e, s ){
-    $(e).find('.step_head:nth-child('+s+')').click();
+    $(e).find('.step:nth-child('+s+')').click();
 }
 
 function next_step( e ) {
@@ -116,18 +121,24 @@ function clear(e){
     $(e).val("");
 }
 
-function get_values( e, s ) {
+function get_values( e, s, pre ) {
+    pre = pre !== undefined && pre !== '' ? pre + '_' : '';
     var data = {};
     $(e).find(":input[data-"+s+"]:not(:button)","select[data-"+s+"]","textarea[data-"+s+"]").each(function () {
         var v;
         if($(this).hasClass('nf')){ v = unformat_number( $(this).val() ) } else { v = $(this).val() }
         if($(this).attr('type') === 'checkbox' || $(this).attr('type') === 'radio'){ v = $(this).is(':checked'); }
+
+        if( v === true ){
+            v = 1;
+        }
+
         if( $(this).data('key') !== undefined ){
-            data[$(this).data('key')] = v;
+            data[pre + $(this).data('key')] = v;
         } else if( $(this).attr('id') !== undefined ){
-            data[$(this).attr('id')] = v;
+            data[pre + $(this).attr('id')] = v;
         } else {
-            data[$(this).attr('class')] = v;
+            data[pre + $(this).attr('class')] = v;
         }
     });
     return data;
@@ -137,4 +148,49 @@ function clear_values( e, s ){
     $(e).find(":input[data-"+s+"]:not(:button)","select[data-"+s+"]","textarea[data-"+s+"]").each(function () {
         $(this).val("").trigger('chosen:updated');
     });
+}
+
+function process_data( e ){
+    var p = $(e).parents('[data-t]');
+    var title = $(p).data('title');
+    var pre = $(p).data('pre');
+    var d = get_values( p, pre, pre );
+    d.action = 'process_data';
+    d.target = $(p).data('t');
+    d.pre = pre;
+    if( $(p).data('id') !== undefined && $(p).data('id') !== '' ){
+        d.id = $(p).data('id')
+    }
+    $.post( domain, d, function(r){
+        console.log(r);
+        var r;
+        if( r = JSON.parse(r) ){
+            if(p.data('notify') !== undefined && p.data('notify') > 0){
+                notify(title+' '+r[1]);
+            }
+            if(r[0] === 1){
+                if(p.data('reload') !== undefined && p.data('reload') > 0){
+                    setTimeout(function(){ location.reload() },p.data('reload') * 1000)
+                }
+            } else if( r[0] === 0 ){
+
+            } else {
+
+            }
+        }
+    });
+}
+
+// ALERTS
+
+function alert(  ) {
+
+}
+
+function notify( text, duration ) {
+    duration = duration !== undefined && duration !== '' && duration > 0 ? duration * 1000 : 6000;
+    $('#notification').addClass('on').children('div').not('.close').html( text );
+    setTimeout(function(){
+        $('#notification').removeClass('on');
+    },duration);
 }

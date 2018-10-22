@@ -856,24 +856,50 @@ function page_of( $p ) {
 function render_menu( $array, $prefix = '' ) {
     if( is_array( $array ) ){
         echo '<ul>';
-        foreach( $array as $l => $t ){
-            $sls = '';
-            $title = $t;
-            if( PAGEPATH == $l ) { $c = 'on'; $title = $t; } else { $c = ''; }
-            if( !empty( $t ) && is_array( $t ) ){
-                $title = ucfirst( $l );
+        foreach( $array as $first_row ){
+
+            $title = !empty( $first_row[1] ) && !is_array( $first_row[1] ) ? $first_row[1] : ucwords( $first_row[0] );
+
+            $url = explode( '/', PAGEPATH );
+
+            $first_row_class = $url[0] == $first_row[0] ? 'class="on"' : '';
+            $first_li_class = $url[0] == $first_row[0] ? 'class="open"' : '';
+
+            $sec_rows = '';
+            if( !empty( $first_row[2] ) && is_array( $first_row[2] ) ){
+                $sec_rows = $first_row[2];
+            } else if( !empty( $first_row[1] ) && is_array( $first_row[1] ) ) {
+                $sec_rows = $first_row[1];
+            }
+
+            $sec = '';
+            if( !empty( $sec_rows ) && is_array( $sec_rows ) ){
+                $sec .= '<i></i><ul>';
+                foreach( $sec_rows as $sec_row ){
+                    $sec_row_class = $url[count($url)-1] == $sec_row[0] ? 'class="on"' : '';
+                    if( $sec_row[0] == '' && $url[count($url)-1] == $url[0] ){
+                        $sec_row_class = 'class="on"';
+                    }
+                    $sec_title = !empty( $sec_row[1] ) && !is_array( $sec_row[1] ) ? $sec_row[1] : ucwords( $sec_row[0] );
+                    $sec .= '<li><a href="'.APPURL.$prefix.$first_row[0].'/'.$prefix.$sec_row[0].'" '.$sec_row_class.'>'.$sec_title.'</a></li>';
+                }
+                $sec .= '</ul>';
+            }
+            echo '<li '.$first_li_class.'><a href="'.APPURL.$prefix.$first_row[0].'" '.$first_row_class.'>'.$title.'</a>'.$sec.'</li>';
+            /*    $title = ucfirst( $l );
                 $sls .= '<ul>';
                 foreach( $t as $sl => $st ){
-                    $link = APPURL.$prefix.$sl;
+                    $link = APPURL.$l.'/'.$prefix.$sl;
                     if( PAGEPATH == $sl ) { $sc = 'class="on"'; $c = 'on'; } else { $sc = ''; }
                     $sls .= '<li><a href="'.$link.'" '.$sc.'>'.$st.'</a></li>';
                 }
                 $sls .= '</ul>';
             }
             $s = !empty($sls) ? $c.' sub' : $c.'';
-            echo '<li><a href="'.APPURL.$prefix.$l.'" class="'.$c.'">'.$title.'</a>'.$sls.'</li>';
+            echo '<li><a href="'.APPURL.$prefix.$l.'" class="'.$c.'">'.$title.'</a>'.$sls.'</li>'; */
         }
         echo '</ul>';
+
         !empty( $title ) ? define( 'PAGET', $title ) : '';
     }
 }
@@ -882,9 +908,11 @@ function page_title_by_menu() {
     echo defined('PAGET') && !empty( PAGET ) ? PAGET : '';
 }
 
-function prepare_keys( $pre = '' ) {
+function prepare_keys( $assoc_array = '', $pre = '' ) {
     $keys = [];
-    foreach( $_POST as $k => $v ){
+    $array = is_array( $assoc_array ) ? $assoc_array : $_POST;
+    unset($array['action']);
+    foreach( $array as $k => $v ){
         if( !empty( $v ) ){
             $keys[] = $pre.$k;
         }
@@ -892,9 +920,11 @@ function prepare_keys( $pre = '' ) {
     return $keys;
 }
 
-function prepare_values() {
+function prepare_values( $assoc_array = '' ) {
     $values = [];
-    foreach( $_POST as $k => $v ){
+    $array = is_array( $assoc_array ) ? $assoc_array : $_POST;
+    unset($array['action']);
+    foreach( $array as $k => $v ){
         if( !empty( $v ) ){
             $values[] = $v;
         }

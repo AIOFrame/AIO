@@ -254,30 +254,70 @@ function delete( $table, $logic ){
     }
 }
 
-function get_events(){
-    $user_id = $_POST['user_id'];
-    $room_id = $_POST['room_id'];
+function process_data() {
+    $a = $_POST;
+    if( !empty( $a['target'] ) ){
+        $table = $a['target'];
+        unset($a['target']);
 
-    $yesterday =   Date("D d-M-Y", Time() -  86400);
-    $where = 'event_room ='. $room_id. " AND event_start_date > ".$yesterday;
-    $meeting_events = select('events','',$where,'','','');
-    if($meeting_events)
-        echo json_encode($meeting_events);
-    else
-        echo "failed";
+        if( !empty( $a['id'] ) ){
+            $id = $a['id'];
+            unset($a['id']);
+        }
+
+        if( !empty( $a['pre'] ) ){
+            $pre = $a['pre'];
+            unset($a['pre']);
+        }
+
+        $keys = prepare_keys( $a );
+        $values = prepare_values( $a );
+
+        if( !empty( $id ) ){
+            $query = update( $table, $keys, $values, $pre.'_id = "'.$id.'"' );
+        } else {
+            $query = insert( $table, $keys, $values );
+        }
+
+        if( $query ){
+            echo json_encode([1,'Added Successfully']);
+        } else {
+            echo json_encode([0,'Could not insert data, please try again or contact developers']);
+        }
+    } else {
+        echo json_encode([0,'Database not targeted properly, please consult admin']);
+    }
 }
 
-function create_table($table, $query){
-    if (empty($result)) {
-        global $conn;
-        $app = !empty(sub_domain()) ? sub_domain() : get_domain();
-
-        include(COREPATH . 'apps/' . $app . '/config.php');// load config and make connection
-        $db = $config['database'];
-
-        if ($conn->query($query) === TRUE) {
-
+function create_table( $table ){
+    if( is_array( $table ) ){
+        $query = 'CREATE TABLE IF NOT EXISTS '.$table[0].' ('.$table[1].'_id INT(13) AUTO_INCREMENT PRIMARY KEY';
+        if( is_array( $table[2] ) ){
+            foreach( $table[2] as $col ){
+                if( in_array( $col[1], [ 'BOOLEAN', 'DATETIME', 'DATE', 'TIME', 'TINYTEXT' ] ) ){
+                    $query .= ','.$table[1].'_'.$col[0].' '.$col[1].' '.$col[3];
+                } else {
+                    $query .= ','.$table[1].'_'.$col[0].' '.$col[1].'('.$col[2].') '.$col[3];
+                }
+            }
+        }
+        $query .= ")";
+        //skel( $query );
+        if( !empty( $query ) ){
+            global $conn;
+            if( mysqli_query( $conn, $query ) ){
+                return true;
+            } else {
+                return false;
+            }
         }
     }
+}
 
+function create_tables( $tables ) {
+    if( is_array( $tables ) ){
+        foreach( $tables as $table ){
+            create_table( $table );
+        }
+    }
 }
