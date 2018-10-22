@@ -89,22 +89,22 @@ class GMaps {
                             if (r[0]['address_components']) {
                                 var a = r[0]['address_components'];
 
-                                var a1 = a[0] !== undefined && a[0].long_name !== 'undefined' ? a[0].long_name : '';
-                                var a2 = a[1] !== undefined && a[1].long_name !== 'undefined' ? a[1].long_name : '';
-                                var a3 = a[2] !== undefined && a[2].long_name !== 'undefined' ? a[2].long_name : '';
+                                var a1 = a[0] !== undefined && a[0].long_name !== 'undefined' ? a[0].long_name.replace('"','').replace("'","") : '';
+                                var a2 = a[1] !== undefined && a[1].long_name !== 'undefined' ? a[1].long_name.replace('"','').replace("'","") : '';
+                                var a3 = a[2] !== undefined && a[2].long_name !== 'undefined' ? a[2].long_name.replace('"','').replace("'","") : '';
                                 var area = a1 + ' ' + a2 + ' ' + a3;
                                 $($(e).data('area')).val(area);
 
-                                var city = a[3] !== undefined && a[3].long_name !== 'undefined' ? a[3].long_name : '';
+                                var city = a[3] !== undefined && a[3].long_name !== 'undefined' ? a[3].long_name.replace('"','').replace("'","") : '';
                                 $($(e).data('city')).val(city);
 
-                                var state = a[4] !== undefined && a[4].long_name !== 'undefined' && a[4].long_name !== city ? a[4].long_name : '';
+                                var state = a[4] !== undefined && a[4].long_name !== 'undefined' && a[4].long_name !== city ? a[4].long_name.replace('"','').replace("'","") : '';
                                 $($(e).data('state')).val(state);
 
-                                var country = a[5] !== undefined && a[5].long_name !== undefined ? a[5].long_name : '';
+                                var country = a[5] !== undefined && a[5].long_name !== undefined ? a[5].long_name.replace('"','').replace("'","") : '';
                                 $($(e).data('country')).val(country);
 
-                                var code = a[5] !== undefined && a[5].short_name !== 'undefined' ? a[5].short_name : '';
+                                var code = a[5] !== undefined && a[5].short_name !== 'undefined' ? a[5].short_name.replace('"','').replace("'","") : '';
                                 $($(e).data('country_code')).val(code);
 
                                 $($(e).data('location')).val(area+', '+city+' '+state+', '+country);
