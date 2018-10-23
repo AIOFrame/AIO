@@ -247,6 +247,8 @@ function delete( $table, $logic ){
         $q = "DELETE FROM $table WHERE $logic";
     }
 
+    error_log( $q );
+
     if (mysqli_query( $conn, $q )) {
         return true;
     } else {
