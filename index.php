@@ -9,4 +9,42 @@ $pre = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on" ? "https://" : "htt
 // Defines the URL of the Main Application
 !defined( 'APPURL' ) ? define( 'APPURL', $pre.$_SERVER['HTTP_HOST']."/" ) : '';
 
+// Check if HTACCESS exists
+if( !file_exists( COREPATH . '.htaccess' ) ){
+    $htdata = 'Options +FollowSymLinks -MultiViews
+RewriteEngine On
+RewriteBase /
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)/$ /$1 [L,R]
+
+RewriteRule ^(.*)/$ index.php [QSA,L]
+';
+    $x = 0; $y = 1;
+    $abcs = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' ];
+    $pre = $post = '';
+    for( $page = 0; $page < 14; $page++ ){
+        if( empty( $pre ) ){
+            $pre = '([a-zA-Z0-9-z\-\_]+)';
+            $post = 'a=$1';
+        } else {
+            if ($x % 2 == 0) {
+                $pre = $pre . '([a-zA-Z0-9-z\-\_]+)';
+                $post = $post . '&'.$abcs[$y].'=$'.($y+1);
+                $y++;
+            } else {
+                $pre = $pre . '/';
+            }
+        }
+        $htdata .= 'RewriteRule ^'.$pre. '$ index.php?'. $post . ' [L,QSA]
+';
+        $x++;
+    }
+    if( $htfile = fopen( COREPATH . '.htaccess', 'w' ) ){
+        fwrite( $htfile, $htdata );
+        fclose( $htfile );
+    }
+
+}
 require( dirname( __FILE__ ) . '/core/core.php' );
