@@ -1,4 +1,13 @@
-**Version 2.0.1 - 03rd Oct 2018**
+
+**Version 3 - 27 Oct 18**
+
+Deleted unnecessary code from Core Functions
+Added Clipboard JS
+Restructured many functions
+Domain / Sub domain to App Mapping
+Load previous page if page not found
+
+**Version 2.0.1 - 03 Oct 18**
 
 1. select_options() parameter to show placeholder
 2. get_timezones() function added

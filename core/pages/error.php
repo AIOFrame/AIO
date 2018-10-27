@@ -1,3 +1,15 @@
+<?php
+$errors = [
+    '401' => 'Unauthorized',
+    '403' => 'Page / Content Forbidden',
+    '404' => 'Page Not Found',
+    '408' => 'Request Timeout',
+    '000' => 'Database Connectivity Failure',
+    '00' => 'App Not Found',
+];
+$title = !empty( $error ) && !empty( $errors[$error] ) ? $errors[ $error ] : 'What ? Error ??';
+$id = !empty( $error ) ? $error : '0';
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -5,7 +17,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>404 - Page Not Found</title>
+    <title><?php echo $id . ' - ' . $title; ?></title>
     <style>
         body {
             text-align: center;
@@ -21,6 +33,7 @@
         }
         h2 {
             font-size: 40px;
+            text-transform: uppercase;
         }
         button {
             border:0;
@@ -32,8 +45,8 @@
     </style>
 </head>
 <body>
-    <h1>404</h1>
-    <h2>PAGE NOT FOUND</h2>
+    <h1><?php echo $id; ?></h1>
+    <h2><?php echo $title; ?></h2>
     <button onclick="window.history.back()">GO BACK</button>
 </body>
 </html>

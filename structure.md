@@ -1,0 +1,7 @@
+// CORE APP STRATEGY
+
+// ROUTING SYSTEM
+
+// MODULES
+
+1. 

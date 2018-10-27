@@ -50,25 +50,25 @@ function get_option( $name, $user_id = '' ) {
 
 
 function get_options( $opn, $id = false ) {
-    global $conn;
+    global $db;
     if( $id ){
         $o = "SELECT * FROM options WHERE ID = '$opn'";
     } else {
         $o = "SELECT * FROM options WHERE option_name = '$opn'";
     }
-    $q = mysqli_query( $conn, $o );
+    $q = mysqli_query( $db, $o );
     $data = mysqli_fetch_all( $q, MYSQLI_ASSOC );
     return $data;
 }
 
 function remove_option( $opn, $id = false ) {
-    global $conn;
+    global $db;
     if( $id ){
         $ro = "DELETE FROM options WHERE ID = '$opn'";
     } else {
         $ro = "DELETE FROM options WHERE option_name = '$opn'";
     }
-    if ( mysqli_query( $conn, $ro )) {
+    if ( mysqli_query( $db, $ro )) {
         return true;
     } else {
         return false;
@@ -79,7 +79,7 @@ function remove_option( $opn, $id = false ) {
 function insert( $table, $names, $values ){
     if( is_array( $names ) && is_array( $values ) ) {
         if( count( $names ) == count( $values ) ){
-            global $conn;
+            global $db;
             $names = implode( ',', $names );
             $fv = "'";
             foreach( $values as $value ){
@@ -93,8 +93,8 @@ function insert( $table, $names, $values ){
             $q = "INSERT INTO $table ($names) VALUES ($fv)";
             error_log($q);
             //return $q;
-            if( mysqli_query( $conn, $q ) ) {
-                return mysqli_insert_id( $conn );
+            if( mysqli_query( $db, $q ) ) {
+                return mysqli_insert_id( $db );
             } else {
                 return false;
             }
@@ -129,10 +129,10 @@ function update( $table, $cols, $values, $where = '' ){
     }
     $logic = substr( $logic, 0, -2 );
 
-    global $conn;
+    global $db;
     $q = "UPDATE $table SET ". $logic . " where ". $where;
     error_log($q);
-    if ( $conn->query($q) === TRUE){
+    if ( $db->query($q) === TRUE){
     return true;
     } else {
     return false;
@@ -140,9 +140,9 @@ function update( $table, $cols, $values, $where = '' ){
 }
 
 function update_val( $table, $col,$val, $where = '' ){
-    global $conn;
+    global $db;
     $q = "UPDATE $table SET $col ='".$val."' WHERE ".$where;
-    if( mysqli_query( $conn, $q ) ) {
+    if( mysqli_query( $db, $q ) ) {
         return true;
     } else {
         return false;
@@ -154,7 +154,7 @@ function total( $table, $cols = '*', $where = '', $limit = 0, $offset = 0 , $gro
 }
 
 function select( $table, $cols = '*', $where = '', $limit = 0, $offset = 0 , $group = '', $count = false , $order_by = '', $sort = '') {
-    global $conn;
+    global $db;
     $cols = $cols == "" ? "*" : $cols;
     $o = $count ? "SELECT COUNT('". $cols ."') FROM $table " : "SELECT ". $cols ." FROM $table ";
     $o .= !empty( $where ) && $where !== '' ? ' WHERE '.$where : '';
@@ -168,7 +168,7 @@ function select( $table, $cols = '*', $where = '', $limit = 0, $offset = 0 , $gr
 //    error_log(str_replace(ROOTPATH.'apps/','',debug_backtrace()[0]['file']).' In line ' . debug_backtrace()[0]['line']);
 //    error_log(' ');
 
-    $q = mysqli_query( $conn, $o );
+    $q = mysqli_query( $db, $o );
 
     if( $q ){
         $data = [];
@@ -188,12 +188,12 @@ function select( $table, $cols = '*', $where = '', $limit = 0, $offset = 0 , $gr
 }
 
 function left_join($table1, $table2, $conditions, $limit){
-    global $conn;
+    global $db;
     $o = "SELECT * FROM $table1 LEFT JOIN $table2 ON $conditions ";
     $o .= $limit > 1 ? ' LIMIT ' . $limit : '';
     error_log($o);
 
-    $q = mysqli_query($conn, $o);
+    $q = mysqli_query($db, $o);
 
     if ($q) {
         $data = [];
@@ -212,7 +212,7 @@ function left_join($table1, $table2, $conditions, $limit){
 }
 
 function select_val( $table,$cols, $array = false, $where = '' ) {
-    global $conn;
+    global $db;
     if( $where ){
         $o = "SELECT $cols FROM $table WHERE ".$where;
     } else {
@@ -222,7 +222,7 @@ function select_val( $table,$cols, $array = false, $where = '' ) {
         $o .= " LIMIT 1";
     }
 
-    $q = mysqli_query( $conn, $o );
+    $q = mysqli_query( $db, $o );
 
     if( $q ){
         $data = [];
@@ -240,7 +240,7 @@ function select_val( $table,$cols, $array = false, $where = '' ) {
 }
 
 function delete( $table, $logic ){
-    global $conn;
+    global $db;
     if(is_array($logic)){
         $q = "DELETE FROM $table WHERE $logic[0] = $logic[1]";
     } else {
@@ -249,7 +249,7 @@ function delete( $table, $logic ){
 
     error_log( $q );
 
-    if (mysqli_query( $conn, $q )) {
+    if (mysqli_query( $db, $q )) {
         return true;
     } else {
         return false;
@@ -306,8 +306,8 @@ function create_table( $table ){
         $query .= ")";
         //skel( $query );
         if( !empty( $query ) ){
-            global $conn;
-            if( mysqli_query( $conn, $query ) ){
+            global $db;
+            if( mysqli_query( $db, $query ) ){
                 return true;
             } else {
                 return false;

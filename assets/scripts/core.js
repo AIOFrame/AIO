@@ -60,6 +60,10 @@ $(document).ready(function(){
     $('#notification .close, #alert .close').on('click',function(){
         $(this).parents('#notification,#alert').removeClass('on');
     });
+
+    if( typeof ClipboardJS === 'function' ){
+        new ClipboardJS('.btn, button');
+    }
 });
 
 function goto_step( e, s ){
