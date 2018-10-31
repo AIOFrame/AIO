@@ -1,5 +1,5 @@
 
-**Version 3 - 27 Oct 18**
+**Version 3 - 31 Oct 18**
 
 Deleted unnecessary code from Core Functions
 Added Clipboard JS
