@@ -116,45 +116,49 @@ class ACCESS {
                 if ($gp) {
                     if (password_verify($ps, $gp['access_pass'])) {
                         $_SESSION['user_id'] = preg_replace("/[^0-9]+/", "", $uid);
-                        $_SESSION['user_level'] = !empty( $gp['user_level'] ) ? $gp['user_level'] : '';
-                        $_SESSION['user_login'] = preg_replace("/[^a-zA-Z0-9_\-]+/", "", $un);
+                        /*$_SESSION['user_level'] = !empty( $gu['user_level'] ) ? $gu['user_level'] : '';
+                        $_SESSION['user_name'] = !empty( $gu['user_name'] ) ? $gu['user_name'] : '';
+                        $_SESSION['user_pic'] = !empty( $gu['user_pic'] ) ? $gu['user_pic'] : '';
+                        $_SESSION['user_login'] = preg_replace("/[^a-zA-Z0-9_\-]+/", "", $un);*/
+                        $_SESSION = $gu;
                         !empty($gu['user_data']) ? $_SESSION['user_data'] = unserialize($gu['user_data']) : '';
                         $_SESSION['login_string'] = hash('sha512', $gp['access_pass'] . $this->get_user_browser());
                         if (!isset($_SESSION)) {
                             session_set_cookie_params(0, '/', str_replace(' ', '_', APPNAME), false, false);
                             @session_regenerate_id(true);
                         }
-                        return array(true, $gu);
+                        insert( 'sessions', ['ss_uid','ss_time','ss_ip','ss_os','ss_client','ss_status'],[$uid,date("Y-m-d H:i:s"),$this->get_user_ip(),$this->get_user_os(),self::get_user_browser(),1] );
+                        return [true, $gu];
                     } else {
-                        return array(false, 'Password incorrect');
+                        return [0, 'Password incorrect'];
                     }
                 } else {
-                    return array(false, 'No Password was set for this user');
+                    return [0, 'No Password was set for this user'];
                 }
             }
             else{
-                return array(false, 'User status is not active ');
+                return [0, 'User status is not active'];
             }
         } else {
-            return array(false, 'User not found');
+            return [0, 'User not found'];
         }
     }
 
     function get_users() {
-        global $conn;
-        $us = "SELECT * FROM users ORDER by ID";
-        if ($uq = $conn->query($us)) {
-            while ($row = $uq->fetch_assoc()) {
-                $users[] = ['ID' => $row['ID'], 'user_login' => $row['user_login'], 'user_email' => $row['user_email'], 'user_fullname' => $row['user_fullname'], 'register_date' => $row['register_date'], 'user_pic' => $row['user_pic'], 'user_status' => $row['user_status']];
+        $us = select( 'users', '', '', '', '', '', '', 'ID' );
+        $users = [];
+        if( is_array( $us ) ) {
+            foreach($us as $u) {
+                $users[] = ['ID' => $u['ID'], 'user_login' => $u['user_login'], 'user_email' => $u['user_email'], 'user_fullname' => $u['user_fullname'], 'register_date' => $u['register_date'], 'user_pic' => $u['user_pic'], 'user_status' => $u['user_status']];
             }
-            return $users;
         }
+        return $users;
     }
 
     function get_user_os() {
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
         $os_platform = "Unknown OS Platform";
-        $os_array = array(
+        $os_array = [
             '/windows nt 10/i' => 'Windows 10',
             '/windows nt 6.3/i' => 'Windows 8.1',
             '/windows nt 6.2/i' => 'Windows 8',
@@ -178,7 +182,7 @@ class ACCESS {
             '/android/i' => 'Android',
             '/blackberry/i' => 'BlackBerry',
             '/webos/i' => 'Mobile'
-        );
+        ];
         foreach ($os_array as $regex => $value) {
             if (preg_match($regex, $user_agent)) {
                 $os_platform = $value;
@@ -190,7 +194,7 @@ class ACCESS {
     public static function get_user_browser() {
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
         $browser = "Unknown Browser";
-        $browser_array = array(
+        $browser_array = [
             '/msie/i' => 'Internet Explorer',
             '/firefox/i' => 'Firefox',
             '/safari/i' => 'Safari',
@@ -201,7 +205,7 @@ class ACCESS {
             '/maxthon/i' => 'Maxthon',
             '/konqueror/i' => 'Konqueror',
             '/mobile/i' => 'Handheld Browser'
-        );
+        ];
         foreach ($browser_array as $regex => $value) {
             if (preg_match($regex, $user_agent)) {
                 $browser = $value;
@@ -221,15 +225,41 @@ class ACCESS {
         return $ip;
     }
 
-    function generate_password() {
+    function generate_password( $chars = 11 ) {
         $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
         $pass = array(); //remember to declare $pass as an array
         $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
-        for ($i = 0; $i < 11; $i++) {
+        for ($i = 0; $i < $chars; $i++) {
             $n = rand(0, $alphaLength);
             $pass[] = $alphabet[$n];
         }
         return implode($pass); //turn the array into a string
+    }
+}
+
+function set_login() {
+    $uns = ['username','user','uid','first','id','name','un'];
+    $pss = ['password','pass','secure','key','gateway','passy','ps','as'];
+    $uname = $pass = '';
+    foreach( $uns as $un ){
+        if( !empty( $_POST[$un] ) && $uname == '' ){
+            $uname = $_POST[$un];
+        }
+    }
+    foreach( $pss as $ps ){
+        if( !empty( $_POST[$ps] ) && $pass == '' ){
+            $pass = $_POST[$ps];
+        }
+    }
+    unset($_POST['action']);
+    $uname = $uname == '' && !empty( $POST[0] ) ? $_POST[0] : $uname;
+    $pass = $pass == '' && !empty( $POST[1] ) ? $_POST[1] : $pass;
+    if( $uname !== '' && $pass !== '' ){
+        global $access;
+        $r = $access->user_login( $uname, $pass );
+        echo $r[0] ? json_encode([1,$r[1]]) : json_encode([0,$r[1]]);
+    } else {
+        echo json_encode([0,'Fields seem to empty']);
     }
 }
 
@@ -259,15 +289,26 @@ function login_check() {
 }
 
 function user_logged_in() {
-    if (isset($_SESSION['user_login']) && isset($_SESSION['user_id']) && isset($_SESSION['login_string'])) {
+    if ( isset($_SESSION['user_login']) && isset($_SESSION['user_id']) && isset($_SESSION['login_string']) ) {
+
+        // Check if encryption matches access
         $pw = select('access', '*', 'access_uid = "' . $_SESSION['user_id'] . '"',1)['access_pass'];
-        if (hash_equals(hash('sha512', $pw . access::get_user_browser()), $_SESSION['login_string'])) {
-            return true;
-        } else {
-            return false;
+        $hash_check = hash_equals(hash('sha512', $pw . access::get_user_browser()), $_SESSION['login_string']);
+
+        // Check if session is stored online
+        $session_check = 0; global $access;
+        $ss = select('sessions', '', 'ss_uid = "'.$_SESSION['user_id'].'"');
+        if( is_array( $ss ) ){
+            foreach( $ss as $s ){
+                if( $s['ss_ip'] == $access->get_user_ip() && $s['ss_os'] == $access->get_user_os() && $s['ss_client'] == $access::get_user_browser() && $s['ss_status'] == 1 ){
+                    $session_check = true;
+                }
+            }
         }
+
+        return $hash_check && $session_check ? 1 : 0;
     } else {
-        return false;
+        return 0;
     }
 }
 

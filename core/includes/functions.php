@@ -389,14 +389,15 @@ function render_checkboxs( $name, $values = [], $pre = '', $post = '' ){
 
 // Render Input Elements
 
-function render_input( $type = 'text', $id, $label, $placeholder = '', $attrs = '', $pre = '', $post = '' ){
+function render_input( $type = 'text', $id, $label, $placeholder = '', $value = '', $attrs = '', $pre = '', $post = '' ){
     if( is_numeric( $pre ) ){
         $pre = '<div class="col-12 col-lg-'.$pre.'">';
         $post = '</div>';
     }
     $ph = !empty( $placeholder ) ? ' placeholder="'.$placeholder.'"' : '';
     $at = !empty( $attrs ) ? ' '.$attrs : '';
-    echo $pre .'<label for="'.$id.'">'.$label.'</label><input type="'.$type.'" id="'.$id.'" '.$at.$ph.'>'. $post;
+    $va = !empty( $value ) ? ' value="'.$value.'"' : '';
+    echo $pre .'<label for="'.$id.'">'.$label.'</label><input type="'.$type.'" id="'.$id.'" name="'.$id.'" '.$at.$ph.$va.'>'. $post;
 }
 
 function render_inputs( $type = 'text', $ids, $attrs = '', $pre = '', $post = '' ){
@@ -405,15 +406,16 @@ function render_inputs( $type = 'text', $ids, $attrs = '', $pre = '', $post = ''
             $slug = isset($id[0]) && !empty($id[0]) ? $id[0] : '';
             $label = isset($id[1]) && !empty($id[1]) ? $id[1] : '';
             $ph = isset($id[2]) && !empty($id[2]) ? $id[2] : '';
-            render_input( $type, $slug, $label, $ph, $attrs, $pre, $post );
+            $value = isset($id[3]) && !empty($id[3]) ? $id[3] : '';
+            render_input( $type, $slug, $label, $ph, $value, $attrs, $pre, $post );
         }
     }
 }
 
 // Render Input type text Element
 
-function in_text( $id, $label, $placeholder = '', $attrs = '', $pre = '', $post = '' ) {
-    render_input( 'text', $id, $label, $placeholder, $attrs, $pre, $post );
+function in_text( $id, $label, $placeholder = '', $value = '', $attrs = '', $pre = '', $post = '' ) {
+    render_input( 'text', $id, $label, $placeholder, $value, $attrs, $pre, $post );
 }
 
 function in_texts( $array, $attrs, $pre = '', $post = '' ){
@@ -423,12 +425,7 @@ function in_texts( $array, $attrs, $pre = '', $post = '' ){
                 render_input( 'text', $k, $v, $attrs, $pre, $post );
             }
         } else {
-            foreach( $array as $id ){
-                $slug = isset($id[0]) && !empty($id[0]) ? $id[0] : '';
-                $label = isset($id[1]) && !empty($id[1]) ? $id[1] : '';
-                $ph = isset($id[2]) && !empty($id[2]) ? $id[2] : '';
-                render_input( 'text', $slug, $label, $ph, $attrs, $pre, $post );
-            }
+            render_inputs( 'texts', $array, $attrs, $pre, $post );
         }
     }
 }

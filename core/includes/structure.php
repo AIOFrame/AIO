@@ -10,6 +10,7 @@ $tables[] = [ 'users', 'user', [
     [ 'phone', 'VARCHAR', '20', 'NULL' ],
     [ 'pic', 'VARCHAR', '255', 'NULL' ],
     [ 'data', 'VARCHAR', '9999', 'NULL' ],
+    [ 'level', 'INT', '13', 'NULL' ],
 ] ];
 
 $tables[] = [ 'access', 'access', [
@@ -33,6 +34,11 @@ $tables[] = [ 'storage', 'file', [
     [ 'scope', 'INT', '13', 'NOT NULL' ],
     [ 'type', 'TINYTEXT', '', 'NOT NULL' ],
     [ 'size', 'MEDIUMINT', '30', 'NOT NULL' ],
+] ];
+
+$tables[] = [ 'levels', 'lv', [
+    [ 'name', 'VARCHAR', '55', 'NOT NULL' ],
+    [ 'status', 'BOOLEAN', '', 'NULL' ],
 ] ];
 
 $tables[] = [ 'options', 'option', [
