@@ -54,7 +54,6 @@ function get_domain( $t = 'main' ){
     }
 }
 
-// if ( !defined( 'MAINAPPURL') ){ define( 'MAINAPPURL', get_domain() ); }
 function sub_domain() {
     return get_domain('sub');
 }
@@ -83,12 +82,15 @@ function app_loader() {
         $c = !empty( $config ) ? $config : '';
         if( !is_null( $c['host'] ) && !is_null( $c['user'] ) && !is_null( $c['pass'] ) && !is_null( $c['database'] ) ){
 
-            $appname = !is_null( $c['name'] ) ? $c['name'] : ucwords( $app );
-            $ekey = !is_null( $c['key'] ) ? $c['key'] : str_replace(' ','_',defined('APPNAME'));
+            $appname = !empty( $c['name'] ) ? $c['name'] : ucwords( $app );
+            $ekey = !empty( $c['key'] ) ? $c['key'] : str_replace(' ','_',defined('APPNAME'));
+            $debug = !empty( $c['debug'] ) ? $c['debug'] ? true : false : false;
 
             !defined( 'APPNAME' ) ? define( 'APPNAME', $appname ) : ''; // Defines the Application Name Ex: Amazing App
 
             !defined( 'EKEY' ) ? define( 'EKEY', $ekey ) : ''; // Defines the Application Encryption Key
+
+            !defined( 'APPDEBUG' ) ? define( 'APPDEBUG', $debug ) : ''; // Defines if the Application is under development mode
 
             global $db;
             $db = @mysqli_connect( $c['host'], $c['user'], $c['pass'], $c['database'] );
@@ -98,6 +100,13 @@ function app_loader() {
             } else {
                 die( mysqli_connect_error() );
             }
+
+            if( !APPDEBUG ){
+                error_reporting(0);
+            } else {
+                error_reporting(E_ALL);
+            }
+
         }
 
         !defined( 'APPNAME' ) ? define( 'APPNAME', $appname ) : ''; // Defines the Application Name Ex: Amazing App
@@ -112,40 +121,3 @@ function app_loader() {
 }
 
 app_loader();
-
-    // If Sub Domain
-    //$sd = get_domain('sub');
-    
-
-/*} else { // if not sub domain
-
-    // if default exists and config exists
-
-        // load config and make connection
-
-    // if default not exists
-}
-
-
-
-
-
-
-
-
-// Function to make connection
-
-/*
-if( isset( $_GET['a'] ) ) {
-    if ( $_GET['a'] == 'install' ) {
-        if ( file_exists( COREPATH.'install/index.php' ) ) {
-            include( COREPATH.'install/index.php' );
-        }
-    } else {
-        require('connect.php');
-    }
-} else {
-    require('connect.php');
-}
-*/
-

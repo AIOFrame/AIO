@@ -91,7 +91,7 @@ function insert( $table, $names, $values ){
             }
             $fv = substr($fv,0, -2);
             $q = "INSERT INTO $table ($names) VALUES ($fv)";
-            error_log($q);
+            elog($q);
             //return $q;
             if( mysqli_query( $db, $q ) ) {
                 return mysqli_insert_id( $db );
@@ -99,7 +99,7 @@ function insert( $table, $names, $values ){
                 return false;
             }
         } else {
-            error_log("Mismatch! Number of columns is  ". count($names) . " while number of values is ". count($values));
+            elog("Mismatch! Number of columns is  ". count($names) . " while number of values is ". count($values));
             return false;
         }
     }
@@ -131,7 +131,7 @@ function update( $table, $cols, $values, $where = '' ){
 
     global $db;
     $q = "UPDATE $table SET ". $logic . " where ". $where;
-    error_log($q);
+    elog($q);
     if ( $db->query($q) === TRUE){
     return true;
     } else {
@@ -164,9 +164,7 @@ function select( $table, $cols = '*', $where = '', $limit = 0, $offset = 0 , $gr
     $o .= $limit >= 1 ? ' LIMIT '.$limit : '';
     $o .= $offset > 1 ? ' OFFSET '.$offset : '';
 
-    error_log($o);
-//    error_log(str_replace(ROOTPATH.'apps/','',debug_backtrace()[0]['file']).' In line ' . debug_backtrace()[0]['line']);
-//    error_log(' ');
+    elog($o);
 
     $q = mysqli_query( $db, $o );
 
@@ -191,7 +189,7 @@ function left_join($table1, $table2, $conditions, $limit){
     global $db;
     $o = "SELECT * FROM $table1 LEFT JOIN $table2 ON $conditions ";
     $o .= $limit > 1 ? ' LIMIT ' . $limit : '';
-    error_log($o);
+    elog($o);
 
     $q = mysqli_query($db, $o);
 
@@ -247,7 +245,7 @@ function delete( $table, $logic ){
         $q = "DELETE FROM $table WHERE $logic";
     }
 
-    error_log( $q );
+    elog( $q );
 
     if (mysqli_query( $db, $q )) {
         return true;

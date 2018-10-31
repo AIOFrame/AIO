@@ -267,6 +267,12 @@ function skel( $s ){
     }
 }
 
+// Error Logs if APP is under DEBUG Mode
+
+function elog( $line ){
+    APPDEBUG ? error_log( $line ) : '';
+}
+
 // Skeleton for Arrays and Objects In Error Log
 
 function skell( $s ){
@@ -343,22 +349,86 @@ function select_options( $options = '', $selected = '', $placeholder = '' ) {
     }
 }
 
-/**
- * @param array $d : Array of Options to print Can be assosiative array or one dimensional array
- * @param array $s : Options to check
- * @param string $tp : Type Checkbox or radio box
- * @param string $attrs : any attributes to be added to options Ex: name, on_click function , ..
- * @param string $before : opening tag for a container to wrap element in Ex:<div class"col-3">
- * @param string $after : closing tag of input container Ex: </div>
- */
-function check_options( $d, $s = array(), $tp = 'checkbox', $attrs="", $before="", $after="" ) {
-    if( is_assoc( $d )) {
-        foreach( $d as $k => $t ){
-            echo $before. '<label for="cb_'.$k.'" ><input '. $attrs.'  id="cb_'.$k.'" type="'.$tp.'" value="'.$k.'" '. (in_array($k, $s)? "checked" : "") .'>'.$t.'</label>'.$after;
+function render_options( $type = 'radio', $name, $values = [], $attr = '', $label_first = 0, $pre = '', $post = '' ) {
+    if( is_array( $values ) ) {
+        $type = $type == 'radio' ? 'type="radio"' : 'type="checkbox"';
+        $valued = is_assoc( $values ) ? true : false; $x = 0;
+        if( is_numeric( $pre ) ){
+            $pre = '<div class="col-12 col-lg-'.$pre.'">';
+            $post = '</div>';
         }
-    } else {
-        foreach( $d as $t ){
-            echo $before. '<label for="cb_'.str_replace(' ','_',$t).'" ><input' . $attrs . 'id="cb_'.str_replace(' ','_',$t).'" type="'.$tp.'" value="'.$t.'" '. (in_array($t, $t)? "checked" : "") .'>'.$t.'</label>'.$after;
+        foreach( $values as $val => $title ){
+            $k = $valued ? $val.$x : str_replace(' ','',$name).$x;
+            $value = $valued ? $val : $title;
+            if( $label_first ){
+                echo $pre . '<label for="'.$k.'">'.$title.'</label><input '.$attr.' '.$type.' name="'.$name.'" id="'.$k.'" value="'.$value.'" >' . $post;
+            } else {
+                echo $pre . '<input '.$attr.' '.$type.' name="'.$name.'" id="'.$k.'" value="'.$value.'" ><label for="'.$k.'">'.$title.'</label>' . $post;
+            }
+            $x++;
+        }
+        /* if (is_assoc( $d )) {
+            foreach ($d as $k => $t) {
+                echo $before . '<label for="cb_' . $k . '" ><input ' . $attrs . '  id="cb_' . $k . '" type="' . $tp . '" value="' . $k . '" ' . (in_array($k, $s) ? "checked" : "") . '>' . $t . '</label>' . $after;
+            }
+        } else {
+            foreach ($d as $t) {
+                echo $before . '<label for="cb_' . str_replace(' ', '_', $t) . '" ><input' . $attrs . 'id="cb_' . str_replace(' ', '_', $t) . '" type="' . $tp . '" value="' . $t . '" ' . (in_array($t, $t) ? "checked" : "") . '>' . $t . '</label>' . $after;
+            }
+        } */
+    }
+}
+
+function render_radios( $name, $values = [], $attr = '', $label_first = 0, $pre = '', $post = '' ){
+    render_options( 'radio', $name, $values, $attr, $label_first, $pre, $post );
+}
+
+function render_checkboxs( $name, $values = [], $pre = '', $post = '' ){
+    render_options( 'checkbox', $name, $values, $pre, $post );
+}
+
+// Render Input Elements
+
+function render_input( $type = 'text', $id, $label, $placeholder = '', $attrs = '', $pre = '', $post = '' ){
+    if( is_numeric( $pre ) ){
+        $pre = '<div class="col-12 col-lg-'.$pre.'">';
+        $post = '</div>';
+    }
+    $ph = !empty( $placeholder ) ? ' placeholder="'.$placeholder.'"' : '';
+    $at = !empty( $attrs ) ? ' '.$attrs : '';
+    echo $pre .'<label for="'.$id.'">'.$label.'</label><input type="'.$type.'" id="'.$id.'" '.$at.$ph.'>'. $post;
+}
+
+function render_inputs( $type = 'text', $ids, $attrs = '', $pre = '', $post = '' ){
+    if( is_array( $ids ) ){
+        foreach( $ids as $id ){
+            $slug = isset($id[0]) && !empty($id[0]) ? $id[0] : '';
+            $label = isset($id[1]) && !empty($id[1]) ? $id[1] : '';
+            $ph = isset($id[2]) && !empty($id[2]) ? $id[2] : '';
+            render_input( $type, $slug, $label, $ph, $attrs, $pre, $post );
+        }
+    }
+}
+
+// Render Input type text Element
+
+function in_text( $id, $label, $placeholder = '', $attrs = '', $pre = '', $post = '' ) {
+    render_input( 'text', $id, $label, $placeholder, $attrs, $pre, $post );
+}
+
+function in_texts( $array, $attrs, $pre = '', $post = '' ){
+    if( is_array( $array ) ){
+        if( is_assoc( $array ) ){
+            foreach( $array as $k => $v ){
+                render_input( 'text', $k, $v, $attrs, $pre, $post );
+            }
+        } else {
+            foreach( $array as $id ){
+                $slug = isset($id[0]) && !empty($id[0]) ? $id[0] : '';
+                $label = isset($id[1]) && !empty($id[1]) ? $id[1] : '';
+                $ph = isset($id[2]) && !empty($id[2]) ? $id[2] : '';
+                render_input( 'text', $slug, $label, $ph, $attrs, $pre, $post );
+            }
         }
     }
 }

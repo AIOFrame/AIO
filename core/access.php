@@ -56,7 +56,7 @@ class ACCESS {
         $nu = insert( 'users', $user_keys, $user_vals );
         if ( $nu ) {
             // Sets the user's access data
-            $um = insert( 'access', ['access_uid', 'access_pass', 'access_status', 'access_date' ], [$nu, password_hash( $password, PASSWORD_BCRYPT, ['cost' => 12] ), 1, $dt ] );
+            $um = insert( 'access', ['access_uid', 'access_pass', 'access_status' ], [$nu, password_hash( $password, PASSWORD_BCRYPT, ['cost' => 12] ), 1 ] );
             if( $um ) {
                 return [true, $nu];
             } else {
@@ -111,7 +111,7 @@ class ACCESS {
         if ($gu) {
             $uid = $gu['user_id'];
             $gp = select('access', '*', "access_uid = $uid" , 1);
-            error_log(print_r($gp, true));
+            //error_log(print_r($gp, true));
             if($gp['access_status'] === '1') {
                 if ($gp) {
                     if (password_verify($ps, $gp['access_pass'])) {

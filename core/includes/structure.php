@@ -2,10 +2,10 @@
 
 $tables[] = [ 'users', 'user', [
     [ 'login', 'VARCHAR', '15', 'NOT NULL' ],
-    [ 'email', 'VARCHAR', '45', 'NOT NULL' ],
+    [ 'email', 'VARCHAR', '45', 'NULL' ],
     [ 'name', 'VARCHAR', '45', 'NOT NULL' ],
     [ 'since', 'DATETIME', '', 'NOT NULL' ],
-    [ 'role', 'VARCHAR', '45', 'NOT NULL' ],
+    [ 'role', 'VARCHAR', '45', 'NULL' ],
     [ 'eid', 'VARCHAR', '10', 'NULL' ],
     [ 'phone', 'VARCHAR', '20', 'NULL' ],
     [ 'pic', 'VARCHAR', '255', 'NULL' ],
@@ -15,16 +15,12 @@ $tables[] = [ 'users', 'user', [
 $tables[] = [ 'access', 'access', [
     [ 'uid', 'INT', '13', 'NOT NULL' ],
     [ 'pass', 'VARCHAR', '155', 'NOT NULL' ],
-    [ 'ip', 'TINYTEXT', '', 'NOT NULL' ],
-    [ 'os', 'TINYTEXT', '', 'NOT NULL' ],
-    [ 'client', 'TINYTEXT', '', 'NOT NULL' ],
     [ 'status', 'BOOLEAN', '', 'NOT NULL' ],
-    [ 'date', 'DATETIME', '', 'NOT NULL' ],
 ] ];
 
-$tables[] = [ 'sessions', 'se', [
+$tables[] = [ 'sessions', 'ss', [
     [ 'uid', 'INT', '13', 'NOT NULL' ],
-    [ 'start', 'DATETIME', '', 'NOT NULL' ],
+    [ 'time', 'DATETIME', '', 'NOT NULL' ],
     [ 'ip', 'TINYTEXT', '', 'NOT NULL' ],
     [ 'os', 'TINYTEXT', '', 'NOT NULL' ],
     [ 'client', 'TINYTEXT', '', 'NOT NULL' ],

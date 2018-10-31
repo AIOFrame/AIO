@@ -3,10 +3,23 @@
 input[type=radio], input[type=checkbox] {
     cursor: pointer;
     margin: 8px 8px 8px 0;
+    display: inline-block;
+    vertical-align: middle;
 }
 input[type=radio]:checked, input[type=checkbox]:checked {
     background:#000;
 }
+input[type=radio]+label, input[type=checkbox]+label {
+    text-transform: none;
+    font-size: 14px;
+    letter-spacing: unset;
+    font-weight: lighter;
+    cursor:pointer;
+}
+
+/* Chosen Fix */
+
+
 
 /* BUTTONS */
 
@@ -50,8 +63,8 @@ button.b.xl, .btn.b.xl {
     padding:13px 24px;
 }
 button.l, .btn.l {
-    font-size:14px;
-    padding:10px 20px;
+    font-size:15px;
+    padding:12px 20px;
 }
 button.b.l, .btn.b.l {
     padding:9px 20px;
@@ -76,6 +89,9 @@ button.xs, .btn.xs {
 }
 button.b.xs, .btn.b.xs {
     padding: 4px 8px;
+}
+button.w, .btn.w {
+    width:100%;
 }
 button.red, .btn.red {
     background: rgb(153,1,1);
@@ -266,7 +282,7 @@ button.b, .btn.b {
     background:transparent;
     border: 1px solid grey;
 }
-button.bsn, .btn.bsn, button.bsn:hover, .btn.bsn:hover {
+button.bsn, .btn.bsn, button.bsn:hover, .btn.bsn:hover, button.ns, .btn.ns {
     box-shadow:none;
 }
 .sl.wide>div {

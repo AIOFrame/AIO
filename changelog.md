@@ -6,6 +6,7 @@ Added Clipboard JS
 Restructured many functions
 Domain / Sub domain to App Mapping
 Load previous page if page not found
+Dev mode for Apps
 
 **Version 2.0.1 - 03 Oct 18**
 
