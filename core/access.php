@@ -123,11 +123,12 @@ class ACCESS {
                         $_SESSION = $gu;
                         !empty($gu['user_data']) ? $_SESSION['user_data'] = unserialize($gu['user_data']) : '';
                         $_SESSION['login_string'] = hash('sha512', $gp['access_pass'] . $this->get_user_browser());
+                        $ssid = insert( 'sessions', ['ss_uid','ss_time','ss_ip','ss_os','ss_client','ss_status'],[$uid,date("Y-m-d H:i:s"),$this->get_user_ip(),$this->get_user_os(),self::get_user_browser(),1] );
+                        $_SESSION['id'] = $ssid;
                         if (!isset($_SESSION)) {
                             session_set_cookie_params(0, '/', str_replace(' ', '_', APPNAME), false, false);
                             @session_regenerate_id(true);
                         }
-                        insert( 'sessions', ['ss_uid','ss_time','ss_ip','ss_os','ss_client','ss_status'],[$uid,date("Y-m-d H:i:s"),$this->get_user_ip(),$this->get_user_os(),self::get_user_browser(),1] );
                         return [true, $gu];
                     } else {
                         return [0, 'Password incorrect'];
@@ -397,15 +398,18 @@ if (isset($_POST['ru_name']) && isset($_POST['ru_pass']) && isset($_POST['ru_ema
 }
 
 function logout() {
-    $_SESSION = array();
-    session_destroy();
-    echo 'goodbye';
-}
-
-if (isset($_GET['logout'])) {
-    if ($_GET['logout'] == 'true') {
+    $id = !empty($_POST['session_id']) ? $_POST['session_id'] : $_SESSION['id'];
+    $ss = delete( 'sessions', 'ss_id = "'.$id.'"' );
+    if( empty($_POST['session_id']) ){
         $_SESSION = array();
         session_destroy();
+    }
+    echo 1;
+}
+
+if( isset( $_GET['logout'] ) ) {
+    if( $_GET['logout'] == 'true' ) {
+        logout();
         /* $_SESSION = array();
         $params = session_get_cookie_params();
         setcookie(session_name(),
@@ -416,4 +420,11 @@ if (isset($_GET['logout'])) {
             $params["httponly"]);
         session_destroy(); */
     }
+}
+
+function logout_all() {
+    $ss = delete( 'sessions', 'ss_uid = "'.$_SESSION['user_id'].'"' );
+    $_SESSION = array();
+    session_destroy();
+    echo 1;
 }

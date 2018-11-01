@@ -54,6 +54,7 @@ $(document).ready(function(){
     // MODAL
     $('.modal .close').on('click',function(){
         $(this).parents('.modal').hide();
+        $('article').removeClass('fade');
     });
 
     // ALERT & NOTIFICATION

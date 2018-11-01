@@ -41,6 +41,12 @@
 .bl1 { border-left:1px solid }
 .bb1 { border-bottom:1px solid }
 
+.br2 { border-radius:2px }
+.br5 { border-radius:5px }
+.br10 { border-radius:10px }
+.br15 { border-radius:15px }
+.br20 { border-radius:20px }
+
 /* Text Positions */
 
 .tal { text-align:left; }
@@ -70,7 +76,8 @@ select.tar { text-align-last: right; }
 .ls3{ letter-spacing: 3px }
 
 .bxs { box-shadow: 5px 5px 5px rgba(0,0,0,.06); }
-.ttu { text-transform: uppercase; }
+.ttu { text-transform: uppercase }
+.ttn { text-transform: none }
 
 /* Margins */
 
