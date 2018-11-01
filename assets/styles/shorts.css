@@ -4,10 +4,10 @@
 .abs { position: absolute; }
 .fxd { position: fixed; }
 
-.lt { left:0 }
-.rt { right:0 }
-.tp { top:0 }
-.bt { bottom:0 }
+.abs.l { left:0 }
+.abs.r { right:0 }
+.abs.t { top:0 }
+.abs.b { bottom:0 }
 
 .fr { float: right }
 .fl { float: left }

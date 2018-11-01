@@ -223,7 +223,7 @@ class ACCESS {
         } else {
             $ip = $_SERVER['REMOTE_ADDR'];
         }
-        return $ip;
+        return $ip == '::1' ? '127.0.0.1' : $ip;
     }
 
     function generate_password( $chars = 11 ) {
@@ -398,13 +398,15 @@ if (isset($_POST['ru_name']) && isset($_POST['ru_pass']) && isset($_POST['ru_ema
 }
 
 function logout() {
-    $id = !empty($_POST['session_id']) ? $_POST['session_id'] : $_SESSION['id'];
+    $cry = Crypto::initiate();
+    $id = !empty($_POST['session_id']) ? $cry->decrypt($_POST['session_id']) : $_SESSION['id'];
+    echo $id;
     $ss = delete( 'sessions', 'ss_id = "'.$id.'"' );
     if( empty($_POST['session_id']) ){
         $_SESSION = array();
         session_destroy();
     }
-    echo 1;
+    //echo 1;
 }
 
 if( isset( $_GET['logout'] ) ) {

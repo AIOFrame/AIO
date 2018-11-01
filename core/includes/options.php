@@ -302,7 +302,7 @@ function create_table( $table ){
             }
         }
         $query .= ")";
-        //skel( $query );
+        elog($query);
         if( !empty( $query ) ){
             global $db;
             if( mysqli_query( $db, $query ) ){

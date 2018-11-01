@@ -224,6 +224,10 @@ button.grey, .btn.grey {
 button.grey:hover, .btn.grey:hover {
     box-shadow:0 0 30px rgba(196,196,196,.3), 0 10px 30px rgba(0,0,0,.1);
 }
+button.b.grey, .btn.b.grey {
+    color:rgb(150, 150, 150);
+    border:1px solid rgb(150, 150, 150);
+}
 button.black, .btn.black {
     background: rgb(0,0,0);
     background: -moz-linear-gradient(45deg, rgb(0,0,0) 0%, rgb(91,91,91) 100%);
