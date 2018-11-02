@@ -270,6 +270,27 @@ function process_data() {
             unset($a['pre']);
         }
 
+        if( !empty( $a['by'] ) ){
+            $auths = explode(',',str_replace(' ','',$a['by']));
+            if( is_array( $auths ) ){
+                foreach( $auths as $auth ){
+                    $a[$pre.'_'.$auth] = get_current_user_id();
+                }
+            }
+            unset($a['by']);
+        }
+
+        if( !empty( $a['h'] ) ){
+            $cry = Crypto::initiate();
+            $hs = unserialize($cry->decrypt($a['h']));
+            if( is_array( $hs ) ){
+                foreach( $hs as $k => $v ){
+                    $a[$pre.'_'.$k] = $v;
+                }
+            }
+            unset($a['h']);
+        }
+
         $keys = prepare_keys( $a );
         $values = prepare_values( $a );
 
@@ -282,10 +303,10 @@ function process_data() {
         if( $query ){
             echo json_encode([1,'Added Successfully']);
         } else {
-            echo json_encode([0,'Could not insert data, please try again or contact developers']);
+            echo json_encode([0,'Could not insert data, please try again or contact admin']);
         }
     } else {
-        echo json_encode([0,'Database not targeted properly, please consult admin']);
+        echo json_encode([0,'Database not targeted properly, please contact admin']);
     }
 }
 

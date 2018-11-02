@@ -163,11 +163,13 @@ function process_data( e ){
     d.action = 'process_data';
     d.target = $(p).data('t');
     d.pre = pre;
-    if( $(p).data('id') !== undefined && $(p).data('id') !== '' ){
-        d.id = $(p).data('id')
-    }
+    var types = Array('id','by','action','h');
+    $.each(types,function(x,a){
+        if( $(p).data(a) !== undefined && $(p).data(a) !== '' ){
+            d[a] = $(p).data(a);
+        }
+    });
     $.post( domain, d, function(r){
-        console.log(r);
         var r;
         if( r = JSON.parse(r) ){
             if(p.data('notify') !== undefined && p.data('notify') > 0){
@@ -177,10 +179,6 @@ function process_data( e ){
                 if(p.data('reload') !== undefined && p.data('reload') > 0){
                     setTimeout(function(){ location.reload() },p.data('reload') * 1000)
                 }
-            } else if( r[0] === 0 ){
-
-            } else {
-
             }
         }
     });

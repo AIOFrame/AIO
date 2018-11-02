@@ -320,14 +320,13 @@ table.xls td input {
     height:80px;
     background-position: center;
     background-repeat: no-repeat;
+    background-size:contain;
+    margin:10px 0;
 }
 .block .title {
     font-size: 16px;
     text-align: center;
     text-transform: uppercase;
-}
-.block .desc {
-    padding-top: 10px;
 }
 .block .desc>div, .block .desc>p {
     font-size: 14px;
@@ -351,4 +350,28 @@ table.xls td input {
 }
 .block .actions>i, .block .actions>div {
     margin:0 5px;
+}
+.block .status {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    font-size: 11px;
+    border: 1px solid lightgrey;
+    padding: 2px 5px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: grey;
+}
+.block .status.r {
+    left:auto;
+    right:10px;
+}
+.block .status.green {
+    color:darkolivegreen;
+    border:1px solid darkolivegreen;
+}
+.block .status.red {
+    color:firebrick;
+    border:1px solid firebrick
 }

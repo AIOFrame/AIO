@@ -270,6 +270,7 @@ function skel( $s ){
 // Error Logs if APP is under DEBUG Mode
 
 function elog( $line ){
+    $line = is_array( $line ) ? implode( '  :  ', $line ) : $line;
     APPDEBUG ? error_log( $line ) : '';
 }
 

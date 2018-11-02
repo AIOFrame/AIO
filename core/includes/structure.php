@@ -62,4 +62,4 @@ function basic_tables() {
     create_tables( $tables );
 }
 
-basic_tables();
+//basic_tables();
