@@ -257,7 +257,8 @@ function delete( $table, $logic ){
 function process_data() {
     $a = $_POST;
     if( !empty( $a['target'] ) ){
-        $table = $a['target'];
+        $cry = Crypto::initiate();
+        $table = $cry->decrypt($a['target']);
         unset($a['target']);
 
         if( !empty( $a['id'] ) ){

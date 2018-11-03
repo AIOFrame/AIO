@@ -169,8 +169,13 @@ function process_data( e ){
             d[a] = $(p).data(a);
         }
     });
+    if( $('body').hasClass('debug') ){
+        console.log(d);
+    }
     $.post( domain, d, function(r){
-        var r;
+        if( $('body').hasClass('debug') ){
+            console.log(r);
+        }
         if( r = JSON.parse(r) ){
             if(p.data('notify') !== undefined && p.data('notify') > 0){
                 notify(title+' '+r[1]);

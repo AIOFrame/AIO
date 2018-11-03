@@ -270,7 +270,7 @@ function skel( $s ){
 // Error Logs if APP is under DEBUG Mode
 
 function elog( $line ){
-    $line = is_array( $line ) ? implode( '  :  ', $line ) : $line;
+    $line = is_array( $line ) ? implode( ', ', array_keys( $line ) ) . '<>' . implode( ', ', $line ) : $line;
     APPDEBUG ? error_log( $line ) : '';
 }
 
@@ -555,7 +555,7 @@ function prepare_keys( $array = '', $pre = '' ) {
     $array = is_array( $array ) ? $array : $_POST;
     unset( $array['action'] );
     foreach( $array as $k => $v ){
-        if( !empty( $v ) ){
+        if( $v !== '' ){
             $keys[] = $pre.$k;
         }
     }
@@ -569,7 +569,7 @@ function prepare_values( $array = '' ) {
     $array = is_array( $array ) ? $array : $_POST;
     unset( $array['action'] );
     foreach( $array as $k => $v ){
-        if( !empty( $v ) ){
+        if( $v !== '' ){
             $values[] = $v;
         }
     }
