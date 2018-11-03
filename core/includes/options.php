@@ -93,7 +93,8 @@ function insert( $table, $names, $values ){
             $q = "INSERT INTO $table ($names) VALUES ($fv)";
             elog($q);
             //return $q;
-            if( mysqli_query( $db, $q ) ) {
+            $query = $db ? mysqli_query( $db, $q ) : '';
+            if( $query ) {
                 return mysqli_insert_id( $db );
             } else {
                 return false;
@@ -166,7 +167,7 @@ function select( $table, $cols = '*', $where = '', $limit = 0, $offset = 0 , $gr
 
     elog($o);
 
-    $q = mysqli_query( $db, $o );
+    $q = $db ? mysqli_query($db, $o) : '';
 
     if( $q ){
         $data = [];
