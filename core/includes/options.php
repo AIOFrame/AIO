@@ -269,6 +269,18 @@ function process_data() {
         if( !empty( $a['pre'] ) ){
             $pre = $a['pre'];
             unset($a['pre']);
+        } else {
+            $pre = '';
+        }
+
+        if( !empty( $a['d'] ) ){
+            $a[$pre.'_'.$a['d']] = date('Y-m-d');
+            unset($a['d']);
+        }
+
+        if( !empty( $a['dt'] ) ){
+            $a[$pre.'_'.$a['dt']] = date('Y-m-d H:i:s');
+            unset($a['dt']);
         }
 
         if( !empty( $a['by'] ) ){

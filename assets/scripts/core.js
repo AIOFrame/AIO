@@ -163,7 +163,7 @@ function process_data( e ){
     d.action = 'process_data';
     d.target = $(p).data('t');
     d.pre = pre;
-    var types = Array('id','by','action','h');
+    var types = Array('id','by','action','h','d','dt');
     $.each(types,function(x,a){
         if( $(p).data(a) !== undefined && $(p).data(a) !== '' ){
             d[a] = $(p).data(a);
