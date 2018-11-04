@@ -62,4 +62,8 @@ function basic_tables() {
     create_tables( $tables );
 }
 
+if( APPDEBUG ){
+    basic_tables();
+}
+
 //basic_tables();
