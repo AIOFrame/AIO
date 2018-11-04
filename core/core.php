@@ -80,7 +80,8 @@ function app_loader() {
         !defined( 'APPURI' ) ? define( 'APPURI', APPURL . 'apps/' . $app . '/' ) : ''; // Defined Application URI Ex: https://ecommerce.mainapp.com/apps/ecommerce
 
         $c = !empty( $config ) ? $config : '';
-        if( !is_null( $c['host'] ) && !is_null( $c['user'] ) && !is_null( $c['pass'] ) && !is_null( $c['database'] ) ){
+
+        if( !empty( $c['host'] ) && !is_null( $c['user'] ) && !is_null( $c['pass'] ) && !is_null( $c['database'] ) ){
 
             $appname = !empty( $c['name'] ) ? $c['name'] : ucwords( $app );
             $ekey = !empty( $c['key'] ) ? $c['key'] : str_replace(' ','_',defined('APPNAME'));
@@ -109,9 +110,13 @@ function app_loader() {
 
         }
 
+        $appname = !empty( $appname ) ? $appname : ucwords( $app );
         !defined( 'APPNAME' ) ? define( 'APPNAME', $appname ) : ''; // Defines the Application Name Ex: Amazing App
 
+        $ekey = !empty( $ekey ) ? $ekey : str_replace(' ','_',defined('APPNAME'));
         !defined( 'EKEY' ) ? define( 'EKEY', $ekey ) : ''; // Defines the Application Encryption Key
+
+        !defined( 'APPDEBUG' ) ? define( 'APPDEBUG', false ) : '';
 
         require( COREPATH . 'core/includes.php' );
     } else {
