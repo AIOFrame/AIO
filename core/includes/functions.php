@@ -21,42 +21,53 @@ function set_title( $title ){
 
 // Returns a complete <link> for stylesheet if file exists either in app or in core, prioritizes minified file
 
+global $universal;
+$universal = [ 'styles' => [], 'scripts' => [] ];
+
 function get_style( $f ) {
-    $af = APPPATH . '/assets/styles/' . $f;
-    $cf = COREPATH . '/assets/styles/' . $f;
-    $afl = APPURL .'apps/'. APPDIR .'/assets/styles/'. $f;
-    $cfl = APPURL .'assets/styles/'. $f;
-    $url = '';
-    if( file_exists( $af . '.min.css' ) ){
-        $url = $afl . '.min.css';
-    } else if( file_exists( $af . '.css' ) ){
-        $url = $afl . '.css';
-    } else if( file_exists( $cf . '.min.css' ) ) {
-        $url = $cfl . '.min.css';
-    } else if( file_exists( $cf . '.css' ) ){
-        $url = $cfl . '.css';
+    global $universal;
+    if( !in_array( $f, $universal['styles'] )) {
+        $universal['styles'][] = $f;
+        $af = APPPATH . '/assets/styles/' . $f;
+        $cf = COREPATH . '/assets/styles/' . $f;
+        $afl = APPURL . 'apps/' . APPDIR . '/assets/styles/' . $f;
+        $cfl = APPURL . 'assets/styles/' . $f;
+        $url = '';
+        if (file_exists($af . '.min.css')) {
+            $url = $afl . '.min.css';
+        } else if (file_exists($af . '.css')) {
+            $url = $afl . '.css';
+        } else if (file_exists($cf . '.min.css')) {
+            $url = $cfl . '.min.css';
+        } else if (file_exists($cf . '.css')) {
+            $url = $cfl . '.css';
+        }
+        echo $url !== '' ? '<link rel="stylesheet" href="' . $url . '">' : '';
     }
-    echo $url !== '' ? '<link rel="stylesheet" href="'. $url . '">' : '';
 }
 
 // Returns a complete <script> if file exists either in app or in core, prioritizes minified file
 
 function get_script( $f ) {
-    $af = APPPATH . '/assets/scripts/' . $f;
-    $cf = COREPATH . '/assets/scripts/' . $f;
-    $afl = APPURL .'apps/'. APPDIR .'/assets/scripts/'. $f;
-    $cfl = APPURL .'assets/scripts/'. $f;
-    $url = '';
-    if( file_exists( $af . '.min.js' ) ){
-        $url = $afl . '.min.js';
-    } else if( file_exists( $af . '.js' ) ){
-        $url = $afl . '.js';
-    } else if( file_exists( $cf . '.min.js' ) ) {
-        $url = $cfl . '.min.js';
-    } else if( file_exists( $cf . '.js' ) ){
-        $url = $cfl . '.js';
+    global $universal;
+    if( !in_array( $f, $universal['scripts'] )) {
+        $universal['scripts'][] = $f;
+        $af = APPPATH . '/assets/scripts/' . $f;
+        $cf = COREPATH . '/assets/scripts/' . $f;
+        $afl = APPURL . 'apps/' . APPDIR . '/assets/scripts/' . $f;
+        $cfl = APPURL . 'assets/scripts/' . $f;
+        $url = '';
+        if (file_exists($af . '.min.js')) {
+            $url = $afl . '.min.js';
+        } else if (file_exists($af . '.js')) {
+            $url = $afl . '.js';
+        } else if (file_exists($cf . '.min.js')) {
+            $url = $cfl . '.min.js';
+        } else if (file_exists($cf . '.js')) {
+            $url = $cfl . '.js';
+        }
+        echo $url !== '' ? '<script src="' . $url . '"></script>' : '';
     }
-    echo $url !== '' ? '<script src="'. $url .'"></script>' : '';
 }
 
 /*

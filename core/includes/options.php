@@ -349,6 +349,24 @@ function create_table( $table ){
     }
 }
 
+function create_column( $table, $column, $type = 'TEXT', $length = '25', $null = 'NULL', $default = '' ){
+    $type == 'BOOLEAN' ? $type = 'TINYINT' : '';
+    $exist = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$column'";
+    $query = "ALTER TABLE $table ADD $column $type($length) $null";
+    $query .= !empty($default) ? ' default "'.$default.'"' : '';
+    elog($exist);
+    elog($query);
+    global $db;
+    $e = mysqli_query( $db, $exist );
+    if( $e && $e->fetch_assoc()['COUNT(*)'] == 0 ){
+        if( mysqli_query( $db, $query ) ){
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
 function create_tables( $tables ) {
     if( is_array( $tables ) ){
         foreach( $tables as $table ){
