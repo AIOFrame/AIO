@@ -6,6 +6,7 @@ CoreApp Improvements:
 * PHP Ratchet for Sockets
 * CACHE System based on App Mode // PHPFastCache
 * Export to Excel, Import from Excel
+* Add a very good and customizable date, time picker
 
 File Uploader Improvements:
 * Breakdown of loaded file list
