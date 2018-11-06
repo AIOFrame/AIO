@@ -93,11 +93,11 @@ table tbody tr {
 table tbody td {
     padding:10px;
 }
-table.profile tbody tr {
+table.l tr {
     position: relative;
     border:0;
 }
-table.profile tbody tr:after {
+table.l tr:after {
     content: '';
     width: calc(100% - 80px);
     left: 20px;
@@ -106,7 +106,7 @@ table.profile tbody tr:after {
     display: block;
     position: absolute;
 }
-table.profile tbody td {
+table.l td {
     padding:20px 40px;
     font-size: 16px;
 }
@@ -137,6 +137,9 @@ table.xls td input {
     border-radius:0;
     box-shadow:none;
     border:0;
+}
+table td input {
+    margin: 0;
 }
 
 /* ICONS */
