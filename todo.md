@@ -1,7 +1,6 @@
 TODO:
 
 CoreApp Improvements:
-* When fetching style or script, set them into global array so same url wont be repeated again
 * Include PHP Library Faker for Development
 * PHP Ratchet for Sockets
 * CACHE System based on App Mode // PHPFastCache

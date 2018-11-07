@@ -409,7 +409,15 @@ function render_input( $type = 'text', $id, $label, $placeholder = '', $value = 
     $ph = !empty( $placeholder ) ? ' placeholder="'.$placeholder.'"' : '';
     $at = !empty( $attrs ) ? ' '.$attrs : '';
     $va = !empty( $value ) ? ' value="'.$value.'"' : '';
-    echo $pre .'<label for="'.$id.'">'.$label.'</label><input type="'.$type.'" id="'.$id.'" name="'.$id.'" '.$at.$ph.$va.'>'. $post;
+    switch( $type ){
+        case 'textarea':
+            $input = '<textarea id="'.$id.'" name="'.$id.'" "'.$ph.$at.'">'.$va.'</textarea>';
+            break;
+        default:
+            $input = '<input type="'.$type.'" id="'.$id.'" name="'.$id.'" '.$at.$ph.$va.'>';
+            break;
+    }
+    echo $pre .'<label for="'.$id.'">'.$label.'</label>'.$input.$post;
 }
 
 function render_inputs( $type = 'text', $ids, $attrs = '', $pre = '', $post = '' ){
