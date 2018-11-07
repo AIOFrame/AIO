@@ -418,3 +418,10 @@ table td input {
     color:firebrick;
     border:1px solid firebrick
 }
+.no_data {
+    padding:100px 0 100px;
+    text-align: center;
+    font-size: 26px;
+    border:1px solid lightgrey;
+    border-radius:10px;
+}

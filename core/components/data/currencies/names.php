@@ -1,5 +1,5 @@
 <?php
-return array (
+return [
     'AED' => 'United Arab Emirates dirham',
     'AFN' => 'Afghan afghani',
     'ALL' => 'Albanian lek',
@@ -162,4 +162,4 @@ return array (
     'ZAR' => 'South African rand',
     'ZMW' => 'Zambian kwacha',
     'ZWL' => 'Zimbabwean dollar',
-);
+];
