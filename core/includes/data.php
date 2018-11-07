@@ -81,6 +81,8 @@ function get_countries( $country = "" ){
 
 // Returns Currencies
 
-function get_currencies(){
-    return include( COREPATH . 'core/components/data/currencies.php' );
+function get_currencies( $type = 'codes' ){
+    if( file_exists( COREPATH . 'core/components/data/currencies/' . $type . '.php' ) ){
+        return include( COREPATH . 'core/components/data/currencies/' . $type . '.php' );
+    }
 }
