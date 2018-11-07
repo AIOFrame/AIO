@@ -406,6 +406,10 @@ table td input {
     letter-spacing: 1px;
     color: grey;
 }
+.block .title.s {
+    white-space: nowrap;
+    overflow: hidden;
+}
 .block .status.r {
     left:auto;
     right:10px;
