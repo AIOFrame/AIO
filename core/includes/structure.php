@@ -35,6 +35,8 @@ function basic_tables() {
         [ 'scope', 'INT', '13', 'NOT NULL' ],
         [ 'type', 'TINYTEXT', '', 'NOT NULL' ],
         [ 'size', 'MEDIUMINT', '30', 'NOT NULL' ],
+        [ 'small', 'VARCHAR', '255', 'NULL' ],
+        [ 'medium', 'VARCHAR', '255', 'NULL' ],
     ] ];
 
     $tables[] = [ 'levels', 'lv', [
