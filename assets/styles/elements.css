@@ -163,10 +163,14 @@ table td input {
     height:45px;
 }
 .ico.xl {
+    width:65px;
+    height:65px;
+}
+.ico.xxl {
     width:100px;
     height:100px;
 }
-.ico.xxl {
+.ico.xxxl {
     width:150px;
     height:150px;
 }
