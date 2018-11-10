@@ -65,6 +65,20 @@ $(document).ready(function(){
     if( typeof ClipboardJS === 'function' ){
         new ClipboardJS('.btn, button');
     }
+
+    var cm = $('.context-menu');
+    if( cm.length > 0 ){
+        $(cm).on('click',function(){
+            $(this).hide();
+        });
+        document.addEventListener( "contextmenu", function(e) {
+            var x = e.clientX; var y = e.clientY;
+            //console.log(e);
+            e.preventDefault();
+            $(cm).css({'left':x,'top':y,'display':'block'});
+        });
+    }
+
 });
 
 function goto_step( e, s ){
@@ -183,6 +197,9 @@ function process_data( e ){
             if(r[0] === 1){
                 if(p.data('reload') !== undefined && p.data('reload') > 0){
                     setTimeout(function(){ location.reload() },p.data('reload') * 1000)
+                }
+                if(p.data('reset') !== undefined && p.data('reset') !== ''){
+                    $('[data-'+p.data('reset')+']').val('');
                 }
             }
         }
