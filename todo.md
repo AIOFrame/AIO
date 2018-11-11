@@ -9,6 +9,7 @@ CoreApp Improvements:
 * Public serving links to serve document downloads or excel sheets
 * FireBase for PHP
 * Payment Gateways - PayPal, Authorize, Stripe, PayFort
+* Multi Lingual Support
 
 File Uploader Improvements:
 * Breakdown of loaded file list
