@@ -1,5 +1,5 @@
 <?php
 
 $map = [
-    'test' => 'filetax'
+    'swift' => 'swiftcom'
 ];
