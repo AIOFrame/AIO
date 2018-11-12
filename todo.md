@@ -10,6 +10,7 @@ CoreApp Improvements:
 * FireBase for PHP
 * Payment Gateways - PayPal, Authorize, Stripe, PayFort
 * Multi Lingual Support
+* Context menu to support specific elements
 
 File Uploader Improvements:
 * Breakdown of loaded file list

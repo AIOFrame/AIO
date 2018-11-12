@@ -28,7 +28,9 @@ function set_basic_translations() {
     $.post(location.origin,d,function(r){
         if( r = JSON.parse(r) ){
             $.each(r[0],function(i){
-                $('tbody').append('<tr><td>'+r[0][i]+'</td><td>'+r[1][i]+'</td></tr>');
+                if( r[0][i] !== '' && r[1][i] !== ''){
+                    $('tbody').append('<tr><td>'+r[0][i]+'</td><td>'+r[1][i]+'</td></tr>');
+                }
             });
         }
     });

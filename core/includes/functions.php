@@ -493,37 +493,6 @@ function prepare_values( $array = '' ) {
     return $values;
 }
 
-// Language Translations
-
-function get_translations() {
-    if( !empty( $_POST['languages'] ) && is_array( $_POST['languages'] ) ){
-        foreach( $_POST['languages'] as $ln ){
-            if( file_exists( APPPATH . 'languages/' . $ln . '.php' ) ){
-                $langs[] = include( APPPATH . 'languages/' . $ln . '.php' );
-            }
-        }
-        if( !empty( $langs ) ){
-            if( !empty( $_POST['method'] ) && $_POST['method'] == 'json' ){
-                echo json_encode( $langs );
-            } else {
-                return include( $langs );
-            }
-        }
-    }
-    if( !empty( $_POST['lang'] ) ){
-        $ln = isset( $_POST['lang'] ) && !empty( $_POST['lang'] ) ? $_POST['lang'] : 'en';
-        if( file_exists( APPPATH . 'languages/' . $ln . '.php' ) ){
-            if( !empty( $_POST['method'] ) && $_POST['method'] == 'json' ){
-                echo json_encode( include( APPPATH . 'languages/' . $ln . '.php' ) );
-            } else {
-                return include( APPPATH . 'languages/' . $ln . '.php' );
-            }
-        } else {
-            echo 0;
-        }
-    }
-}
-
 /* File Uploader
 function media_upload() {
     include_once( COREPATH . 'core/components/media.php' );
