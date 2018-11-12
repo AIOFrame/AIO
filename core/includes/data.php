@@ -86,3 +86,11 @@ function get_currencies( $type = 'codes' ){
         return include( COREPATH . 'core/components/data/currencies/' . $type . '.php' );
     }
 }
+
+// Returns Languages
+
+function get_languages() {
+    if( file_exists( COREPATH . 'core/components/data/' . 'languages' . '.php' ) ){
+        return include( COREPATH . 'core/components/data/' . 'languages' . '.php' );
+    }
+}

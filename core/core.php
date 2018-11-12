@@ -75,7 +75,7 @@ function app_loader() {
 
         !defined( 'APPDIR' ) ? define( 'APPDIR', $app ) : ''; // Defines the Application Directory Ex: ecommerce
 
-        !defined( 'APPPATH' ) ? define( 'APPPATH', COREPATH . 'apps/' . $app ) : ''; // Defines Application Path Ex: /users/root/www/application/apps/ecommerce/
+        !defined( 'APPPATH' ) ? define( 'APPPATH', COREPATH . 'apps/' . $app . '/' ) : ''; // Defines Application Path Ex: /users/root/www/application/apps/ecommerce/
 
         !defined( 'APPURI' ) ? define( 'APPURI', APPURL . 'apps/' . $app . '/' ) : ''; // Defined Application URI Ex: https://ecommerce.mainapp.com/apps/ecommerce
 

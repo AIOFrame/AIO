@@ -8,12 +8,10 @@ $(document).ready(function(){
     $('body').on('click','.fup_file',function(){
         $('.fup_file').removeClass('on');
         $(this).toggleClass('on')
-    }).on('click','.files_insert',function(){
-
     }).on('click','.files_delete',function(){
 
     }).on('click','#file_uploader .close',function(){
-        $(this).parents('#file_uploader').hide();
+        $(this).parents('#file_uploader').slideUp();
     })
 
     // Standard File Chosen to Upload
@@ -55,14 +53,18 @@ $(document).ready(function(){
         if( f.data('id') !== undefined && f.data('id') !== '' ){
             if( s ){ $( f.data('id') ).val( s.data('id') ) }
         }
-        $('#file_uploader').hide();
+        $('#file_uploader').slideUp();
+        setTimeout(function(){ $('.file_notify').html('File Selected Successfully!').addClass('on')}, 500);
+        setTimeout(function(){ $('.file_notify').removeClass('on') },1600);
     })
-})
+});
 
 function file_upload(e){
-    $('#file_uploader').show().data('exts',$(e).data('exts')).data('url',$(e).data('url')).data('bg',$(e).data('bg')).data('id',$(e).data('id')).data('s_img',$(e).data('s_img')).data('path',$(e).data('path')).data('scope',$(e).data('scope'));
-    if($(e).data('nodelete') !== undefined){
-        $('#file_uploader').find('.files_delete').hide();
+    $('#file_uploader').slideDown().data('exts',$(e).data('exts')).data('url',$(e).data('url')).data('bg',$(e).data('bg')).data('id',$(e).data('id')).data('s_img',$(e).data('s_img')).data('path',$(e).data('path')).data('scope',$(e).data('scope'));
+    if($(e).data('delete') !== undefined){
+        if( $('#file_uploader .files_delete').length === 0 ){
+            $('#file_uploader').find('.files_insert').parent().append('<div class="files_delete"></div>');
+        }
     }
 }
 
@@ -92,7 +94,12 @@ function process_upload(fs) {
             url: location.origin, type: 'POST', data: d, contentType: false, cache: false, processData: false, success: function (data) {
                 var d = $.parseJSON(data);
                 if (d[0] === 'success') {
-                    $('#file_uploader .uploaded_files').append( '<div class="fup_file" data-url="'+d[3]+'">'+d[2]+'</div>' )
+                    $('#file_uploader .no_uploaded_files').remove();
+                    $('#file_uploader .uploaded_files').prepend( '<div class="fup_file new" data-id="'+d[4]+'" style="background-image:url('+d[3]+')" data-url="'+d[3]+'">'+d[2]+'</div>' );
+                    $('#file_uploader .fup_file').removeClass('on');
+                    $('.file_notify').html('File Uploaded Successfully!').addClass('on');
+                    setTimeout(function(){ $('.file_notify').removeClass('on'); },1000);
+                    setTimeout(function(){ $('.fup_file').removeClass('new') },3000);
                     return [ true, 'File Uploaded Successfully', d ];
                 } else {
                     return [ true, 'File Uploaded Failed', 'There was an issue while sending file to server, please try again' ];

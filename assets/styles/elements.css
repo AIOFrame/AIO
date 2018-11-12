@@ -433,3 +433,28 @@ table td input {
     border:1px solid lightgrey;
     border-radius:10px;
 }
+
+/* Context Menu */
+
+.context-menu {
+    position: absolute;
+    background:rgba(255,255,255,.98);
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 0 20px rgba(0,0,0,.05);
+    display: none;
+    z-index:99999;
+}
+.context-menu>div {
+    padding:12px 20px;
+    border-bottom: 1px solid rgba(0,0,0,.04);
+    min-width:220px;
+    cursor: pointer;
+    transition:.3s;
+}
+.context-menu>div:hover {
+    background:rgba(0,0,0,.04);
+}
+.context-menu>div:last-child {
+    border:0;
+}

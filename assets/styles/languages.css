@@ -1,0 +1,94 @@
+body, input {
+    font-family:'Segoe UI','Helvetica',sans-serif;
+    font-weight:300;
+}
+table {
+    width:100vw;
+    overflow:hidden;
+    border-collapse: collapse;
+}
+table thead {
+    background:#000;
+}
+table tbody {
+    height:calc(100vh - 450px);
+    overflow-y:auto;
+    overflow-x:hidden;
+    display: block;
+    width:100vw;
+}
+table tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+table td {
+    border:1px solid rgba(0,0,0,.1);
+    cursor: pointer;
+    width:50%;
+}
+table thead td {
+    font-weight: normal;
+    letter-spacing: 2px;
+    padding:15px 10px;
+    color:#fff;
+}
+table thead select {
+    margin: 0;
+    border:0;
+    color:#fff;
+    padding: 0;
+}
+table tbody td {
+    padding: 10px;
+}
+table tr {
+    transition:.6s;
+}
+table tbody tr:hover, table tbody tr.on {
+    background:rgba(0,0,150,.1);
+}
+table tfoot td {
+    padding:10px;
+    text-align: center;
+    color:royalblue;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+#editor {
+    position: fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    box-sizing: border-box;
+    padding: 20px;
+    box-shadow:0 0 60px rgba(0,0,0,.2);
+    height:360px;
+    z-index:1;
+    background:rgba(255,255,255,.95);
+}
+#en_translation {
+    margin-bottom: 20px;
+}
+label {
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color:royalblue;
+}
+textarea {
+    box-shadow:0 0 20px rgba(0,0,0,.1) inset;
+    resize:none;
+}
+#editor .actions button {
+    margin: 0;
+    background: lightgrey;
+    text-transform: uppercase;
+    border-radius:5px;
+    padding:10px 25px;
+    cursor:pointer;
+    transition:.6s
+}
+#editor .actions button:hover {
+    color: royalblue;
+}

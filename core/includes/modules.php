@@ -74,3 +74,9 @@ function email( $to, $to_name ,$subject, $content, $from , $from_name, $cc = '' 
         $mailer_loaded = 1;
     }
 }
+
+// Language Editor
+
+function language_editor(){
+    include_once( COREPATH . 'core/components/language.php' );
+}
