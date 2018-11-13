@@ -11,7 +11,7 @@ class FUP {
             <div class="files_head">
                 <div class="close"></div>
                 <input type="file" id="file_input">
-                <label for="file_input" class="fup_icon browse_file"><span>Browse file...</span></label>
+                <label for="file_input" class="fup_icon browse_file"><span><?php __('Browse File'); ?></span></label>
             </div>
             <div class="files_body">
                 <div class="uploaded_files">
@@ -21,7 +21,7 @@ class FUP {
                         $bg = in_array($f['file_type'],['svg','jpg','png','jpeg']) ? 'style="background-image:url(\''.storage_url($f['file_url']).'\')"' : '';
                         echo '<div '.$bg.' class="fup_file" data-id="'.$cry->encrypt($f['file_id']).'" data-url="'.$f['file_url'].'">'.$f['file_name'].'</div>';
                     } } else {
-                        echo '<div class="no_uploaded_files">NO FILES FOUND!</div>';
+                        echo '<div class="no_uploaded_files">'. _t('NO FILES FOUND!').'</div>';
                     } ?>
                 </div>
                 <div class="camera_view"></div>

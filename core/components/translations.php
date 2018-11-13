@@ -1,37 +1,40 @@
-<?php get_style( 'translations' ); get_scripts(['jquery','translations']); ?>
+<?php get_style( 'translations' ); get_scripts(['clipboard','translations']); ?>
 <div id="data">
     <table>
         <thead>
         <tr>
             <td>ENGLISH - DEFAULT</td>
             <td><select name="language_selector" id="language_selector">
-                    <?php select_options( get_languages() ); ?>
+                    <?php $lfs = get_language_files(); unset($lfs['en']); select_options( $lfs ); ?>
                 </select></td>
         </tr>
         </thead>
         <tbody></tbody>
         <tfoot>
         <tr>
-            <td colspan="100%" onclick="add_row()">ADD TRANSLATION</td>
+            <td colspan="100%">
+                <button id="new_tran" onclick="add_row()"><?php __('New Sentence'); ?></button>
+                <button id="get_untran" onclick="get_untranslations()"><?php __('Get Untranslated'); ?></button>
+                <button id="new_lang"><?php __('Add Language'); ?></button>
+            </td>
         </tr>
         </tfoot>
     </table>
 </div>
 <div id="editor">
-    <label for="en_translation">English Sentence</label>
-    <textarea id="en_translation" rows="4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur, quaerat?</textarea>
-    <label for="translation">Translation</label>
-    <textarea id="translation" rows="4"></textarea>
+    <div class="row">
+        <div class="col">
+            <label for="en_translation"><?php __('English Sentence'); ?></label><button data-clipboard-target="#en_translation" class="small">COPY</button>
+            <textarea id="en_translation" rows="2"></textarea>
+        </div>
+        <div class="col">
+            <label for="translation"><?php __('Translation'); ?></label><button data-clipboard-target="#translation" class="small">COPY</button>
+            <textarea id="translation" rows="2"></textarea>
+        </div>
+    </div>
     <div class="actions">
-        <div class="left">
-            <button id="save" onclick="save_row()">Save</button>
-            <button id="build">Build</button>
-        </div>
-        <div class="right">
-            <button id="new_tran" onclick="add_row()">Add Translation</button>
-            <button id="get_untran" onclick="get_untranslations()">Get Non Translated</button>
-            <button id="new_lang">Add Language</button>
-        </div>
+        <button id="save" onclick="save_row()"><?php __('Save'); ?></button>
+        <button id="build" onclick="build_translations()"><?php __('Build'); ?></button>
     </div>
 </div>
 <div class="modal s" id="modal_lang">
@@ -41,6 +44,6 @@
         <select name="language_selector" id="language_selector">
             <?php select_options( get_languages() ); ?>
         </select>
-        <button id="add_lang" onclick="add_lang()">ADD LANGUAGE</button>
+        <button id="add_lang" onclick="add_lang()"><?php __('ADD LANGUAGE'); ?></button>
     </div>
 </div>

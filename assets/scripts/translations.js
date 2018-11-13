@@ -1,6 +1,19 @@
 $(document).ready(function(){
+
+    if( typeof ClipboardJS === 'function' ){
+        new ClipboardJS('.btn, button');
+    }
+
     // Load Default
     set_basic_translations();
+
+    $('#language_selector').on('change',function(){
+        set_basic_translations();
+    });
+
+    $('[data-clipboard-copy]').on('click',function () {
+        clipboard = $($(this).data('clipboard-copy')).val();
+    });
 
     // Load Existing Translations
     /* $.post(location.origin,{'action':'get_translations','lang':'en'},function(r){
@@ -9,7 +22,7 @@ $(document).ready(function(){
 
     $('#new_lang').on('click',function(){
         $('#modal_lang').show();
-    })
+    });
 
     // Edit Sentence
     $('body').on('click','tbody tr',function(e){
@@ -18,25 +31,30 @@ $(document).ready(function(){
         $('#save').data('row',$(this).index());
         $('#en_translation').val($(this).find('td:first-child').html());
         $('#translation').val($(this).find('td:last-child').html());
-    })
+    });
 
     $('.modal .close').on('click',function(){
         $(this).parents('.modal').hide();
-    })
+    });
 
     // Save Sentence
+    $('#translation').on('keyup',function(){
+        save_row();
+    })
 
     // Languages Build
 });
 
 function set_basic_translations() {
-    var d = {'action':'get_translations','languages':['en','ru'],'method':'json'};
+    var d = {'action':'get_translations','languages':['en',$('#language_selector').val()],'method':'json'};
     //console.log(d);
     $.post(location.origin,d,function(r){
         if( r = JSON.parse(r) ){
+            $('tbody').html('');
             $.each(r[0],function(i){
-                if( r[0][i] !== '' && r[1][i] !== ''){
-                    $('tbody').append('<tr><td>'+r[0][i]+'</td><td>'+r[1][i]+'</td></tr>');
+                if( r[0][i] !== '' ){
+                    var t = r[1][i] !== undefined ? r[1][i] : '';
+                    $('tbody').append('<tr><td>'+r[0][i]+'</td><td>'+t+'</td></tr>');
                 }
             });
         }
@@ -67,9 +85,8 @@ function get_untranslations() {
 }
 
 function add_row() {
-    $('tbody').append('<tr><td></td><td></td></tr>');
+    $('tbody').append('<tr><td></td><td></td></tr>').animate({ scrollTop: $('tbody')[0].scrollHeight }, 1000);
     $('tbody tr:last-child').click();
-    $("tbody").animate({ scrollTop: $('tbody')[0].scrollHeight }, 1000);
 }
 
 function save_row() {
@@ -84,9 +101,17 @@ function add_lang() {
 
 }
 
-function build_languages() {
-    var d = [];
-    $.each('tbody tr',function(i,e){
-        d.push({ 'en': $(e).find('td:first-child').html(), '':$(e).find('td:last-child').html() })
+function build_translations() {
+    //var d = [];
+    var sln = $('#language_selector').val();
+    var fl = []; var sl = [];
+    $('tbody tr').each(function(i,e){
+        fl.push( $(e).find('td:first-child').html() ); // = $(e).find('td:first-child').html();
+        sl.push( $(e).find('td:last-child').html() );
+        //d.push({ 'en': $(e).find('td:first-child').html(), sl:$(e).find('td:last-child').html() })
     });
+    var d = { 'action': 'build_translations', 'languages': ['en',sln], 'translations': [fl, sl] };
+    $.post( location.origin, d, function(r){
+        console.log(r);
+    })
 }

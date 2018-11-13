@@ -42,15 +42,24 @@ table tr {
 table tbody tr:hover, table tbody tr.on {
     background:rgba(0,0,150,.1);
 }
-table tfoot td {
-    padding:10px;
+table tfoot {
     text-align: center;
-    color:royalblue;
-    font-weight: bold;
-    letter-spacing: 2px;
+}
+table tfoot button {
+    margin:10px 8px 10px;
+}
+.row {
+    display: flex;
+}
+.col {
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    max-width: 100%;
 }
 #data {
-    margin-bottom: 360px;
+    margin-bottom: 200px;
 }
 #editor {
     position: fixed;
@@ -60,7 +69,6 @@ table tfoot td {
     box-sizing: border-box;
     padding: 20px;
     box-shadow:0 0 60px rgba(0,0,0,.2);
-    height:360px;
     z-index:1;
     background:rgba(255,255,255,.95);
 }
@@ -78,17 +86,10 @@ textarea {
     resize:none;
 }
 #editor .actions {
-    display: flex;
-}
-#editor .actions>div {
-    flex-grow:1;
-    margin:0;
-}
-#editor .right {
     text-align: right;
 }
 #editor .actions button, #add_lang {
-    margin: 0 15px 0 0;
+    margin: 0 0 0 15px;
     background: darkslategrey;
     text-transform: uppercase;
     border-radius:5px;
@@ -96,11 +97,12 @@ textarea {
     cursor:pointer;
     transition:.6s;
     color:#fff;
+    display: inline-block;
 }
 #editor .actions .right button {
     margin:0 0 0 15px;
 }
-#editor .actions button:hover {
+#editor  button:hover {
     opacity:.8
 }
 #editor #save {
@@ -108,4 +110,15 @@ textarea {
 }
 #editor #build {
     background:#000;
+}
+#editor button.small {
+    font-size: 10px;
+    letter-spacing: 1px;
+    background:#fff;
+    border:1px solid grey;
+    padding: 4px 8px;
+    color:#000;
+    margin:0 0 0 15px;
+    border-radius:0;
+    border-bottom:0;
 }
