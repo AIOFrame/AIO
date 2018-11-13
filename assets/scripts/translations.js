@@ -7,6 +7,9 @@ $(document).ready(function(){
         console.log(r);
     });*/
 
+    $('#new_lang').on('click',function(){
+        $('#modal_lang').show();
+    })
 
     // Edit Sentence
     $('body').on('click','tbody tr',function(e){
@@ -15,6 +18,10 @@ $(document).ready(function(){
         $('#save').data('row',$(this).index());
         $('#en_translation').val($(this).find('td:first-child').html());
         $('#translation').val($(this).find('td:last-child').html());
+    })
+
+    $('.modal .close').on('click',function(){
+        $(this).parents('.modal').hide();
     })
 
     // Save Sentence
@@ -50,6 +57,15 @@ function get_translations() {
     });
 }
 
+function get_untranslations() {
+    var d = {'action':'get_untranslations'};
+    $.post(location.origin,d,function(r){
+        if( r = JSON.parse(r) ){
+            console.log(r);
+        }
+    })
+}
+
 function add_row() {
     $('tbody').append('<tr><td></td><td></td></tr>');
     $('tbody tr:last-child').click();
@@ -62,6 +78,10 @@ function save_row() {
         $(r).find('td:first-child').html($('#en_translation').val());
         $(r).find('td:last-child').html($('#translation').val());
     }
+}
+
+function add_lang() {
+
 }
 
 function build_languages() {

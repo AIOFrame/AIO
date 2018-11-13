@@ -1,9 +1,5 @@
-body, input {
-    font-family:'Segoe UI','Helvetica',sans-serif;
-    font-weight:300;
-}
 table {
-    width:100vw;
+    width:100%;
     overflow:hidden;
     border-collapse: collapse;
 }
@@ -11,11 +7,9 @@ table thead {
     background:#000;
 }
 table tbody {
-    height:calc(100vh - 450px);
+    max-height:calc(100% - 40px);
     overflow-y:auto;
-    overflow-x:hidden;
     display: block;
-    width:100vw;
 }
 table tr {
     display: table;
@@ -55,6 +49,9 @@ table tfoot td {
     font-weight: bold;
     letter-spacing: 2px;
 }
+#data {
+    margin-bottom: 360px;
+}
 #editor {
     position: fixed;
     bottom:0;
@@ -80,15 +77,35 @@ textarea {
     box-shadow:0 0 20px rgba(0,0,0,.1) inset;
     resize:none;
 }
-#editor .actions button {
-    margin: 0;
-    background: lightgrey;
+#editor .actions {
+    display: flex;
+}
+#editor .actions>div {
+    flex-grow:1;
+    margin:0;
+}
+#editor .right {
+    text-align: right;
+}
+#editor .actions button, #add_lang {
+    margin: 0 15px 0 0;
+    background: darkslategrey;
     text-transform: uppercase;
     border-radius:5px;
     padding:10px 25px;
     cursor:pointer;
-    transition:.6s
+    transition:.6s;
+    color:#fff;
+}
+#editor .actions .right button {
+    margin:0 0 0 15px;
 }
 #editor .actions button:hover {
-    color: royalblue;
+    opacity:.8
+}
+#editor #save {
+    background:#0b8793;
+}
+#editor #build {
+    background:#000;
 }
