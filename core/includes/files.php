@@ -28,7 +28,7 @@ function file_process() {
             $vfn = ucwords( str_replace('.'.$fe, '', str_replace('-', ' ', str_replace('_', ' ', $file['name']))));
             $uq = insert( 'storage', array( 'file_name', 'file_url', 'file_scope', 'file_type', 'file_size' ), array( $vfn, $loc, $scope, $fe, $fz ) );
             if( $uq ){
-                $msg = array('success','File Uploaded Successfully',$vfn,storage_url($loc),$cry->encrypt($uq),$fe,$fz);
+                $msg = array('success','File Uploaded Successfully',$fn,storage_url($loc),$cry->encrypt($uq),$fe,$fz);
                 echo json_encode($msg, true);
             } else {
                 unlink( APPPATH.'/storage/'.$path.'/'.$fn );
