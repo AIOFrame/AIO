@@ -493,6 +493,14 @@ function prepare_values( $array = '' ) {
     return $values;
 }
 
+function editable_data( $data = [] ) {
+    $final = [];
+    foreach( $data as $k => $v ){
+        $final[ str_replace('_','',strstr($k,'_')) ] = $v;
+    }
+    echo json_encode($final);
+}
+
 /* File Uploader
 function media_upload() {
     include_once( COREPATH . 'core/components/media.php' );

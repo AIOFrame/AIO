@@ -232,6 +232,24 @@ function process_data( e ){
     });
 }
 
+function edit_data(e) {
+    var t = $($(e).data('t'));
+    var data = $(e).data('data');
+    console.log(data);
+
+    $.each( data, function(i,d){
+        if( i === 'id' ){
+            t.show().data('id',d);
+        } else {
+            $('#'+i).val(d).change();
+        }
+    });
+}
+
+function truncate_data(e) {
+
+}
+
 // ALERTS
 
 function alert(  ) {
