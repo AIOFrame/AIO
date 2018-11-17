@@ -83,3 +83,50 @@ function language_editor(){
 function manage_translations() {
     language_editor();
 }
+
+// Export to excel
+require_once(COREPATH.'core/components/spreadsheet/vendor/autoload.php');
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+function export_xlsx( $title = 'Export', $headers = [], $body = [], $footers = [] ) {
+
+    $spreadsheet = new Spreadsheet();
+    $spreadsheet->setActiveSheetIndex(0);
+    $sheet = $spreadsheet->getActiveSheet();
+
+    // ADDING HEADERS
+    if( !empty( $headers ) ){
+        $alphas = range( 'A', 'Z' );
+        $x = 0;
+        foreach( $headers as $h ){
+            $f = $alphas[$x].'1';
+            $sheet->setCellValue( $f, $h )->getStyle( $f )->getFont()->setBold(true);
+            $x++;
+        }
+    }
+
+    // ADDING BODY
+    if( !empty( $body ) ){
+        $alphas = range( 'A', 'Z' );
+        $r = !empty( $headers ) ? 2 : 0;
+        foreach( $body as $bds ){
+            if( is_array( $bds ) ){
+                $x = 0;
+                foreach( $bds as $b ){
+                    $f = $alphas[$x].$r;
+                    $sheet->setCellValue( $f, $b );
+                    $x++;
+                }
+            }
+            $r++;
+        }
+    }
+
+    header('Content-Type: application/vnd.ms-excel');
+    header('Content-Disposition: attachment; filename="'.$title.'-'.date('d-m-y').'.xlsx"');
+    header('Cache-Control: max-age=0');
+    ob_end_clean();
+    $writer = new Xlsx($spreadsheet);
+    $writer->save('php://output');
+    die();
+}

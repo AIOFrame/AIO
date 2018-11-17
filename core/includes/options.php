@@ -100,7 +100,7 @@ function insert( $table, $names, $values ){
                 return false;
             }
         } else {
-            elog("Mismatch! Number of columns is  ". count($names) . " while number of values is ". count($values));
+            elog( $table. ' has '. count($names) . ' columns but '. count($values) . ' values provided');
             return false;
         }
     }
