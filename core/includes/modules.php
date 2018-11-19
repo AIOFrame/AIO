@@ -85,12 +85,12 @@ function manage_translations() {
 }
 
 // Export to excel
-require_once(COREPATH.'core/components/spreadsheet/vendor/autoload.php');
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-function export_xlsx( $title = 'Export', $headers = [], $body = [], $footers = [] ) {
+function export_xlsx( $title = 'Export', $headers = [], $body = [], $footers = [], $save_file = false ) {
 
-    $spreadsheet = new Spreadsheet();
+    require_once(COREPATH.'core/components/spreadsheet/vendor/autoload.php');
+
+    $spreadsheet = new PhpOffice\PhpSpreadsheet\Spreadsheet();
+    //$format = new PhpOffice\PhpSpreadsheet\Style\NumberFormat();
     $spreadsheet->setActiveSheetIndex(0);
     $sheet = $spreadsheet->getActiveSheet();
 
@@ -114,6 +114,13 @@ function export_xlsx( $title = 'Export', $headers = [], $body = [], $footers = [
                 $x = 0;
                 foreach( $bds as $b ){
                     $f = $alphas[$x].$r;
+                    $b = str_replace(',','',$b);
+                    /*if( is_float( $b ) ){
+                        $sheet->setCellValueExplicit( $f, $b, $format::FORMAT_NUMBER );
+                    } else if( is_numeric( $b ) ) {
+                        $sheet->setCellValueExplicit( $f, $b, $format::FORMAT_NUMBER );
+                    } else {
+                    }*/
                     $sheet->setCellValue( $f, $b );
                     $x++;
                 }
@@ -126,7 +133,11 @@ function export_xlsx( $title = 'Export', $headers = [], $body = [], $footers = [
     header('Content-Disposition: attachment; filename="'.$title.'-'.date('d-m-y').'.xlsx"');
     header('Cache-Control: max-age=0');
     ob_end_clean();
-    $writer = new Xlsx($spreadsheet);
-    $writer->save('php://output');
+    $writer = new PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+    if( $save_file ){
+        $writer->save(APPPATH.'/storage/xlsx/');
+    } else {
+        $writer->save('php://output');
+    }
     die();
 }

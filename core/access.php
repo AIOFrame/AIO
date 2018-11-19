@@ -290,24 +290,30 @@ function login_check() {
 }
 
 function user_logged_in() {
-    if ( isset($_SESSION['user_login']) && isset($_SESSION['user_id']) && isset($_SESSION['login_string']) ) {
+    if( !defined('LOGGED_IN') ){
+        if ( isset($_SESSION['user_login']) && isset($_SESSION['user_id']) && isset($_SESSION['login_string']) ) {
 
-        // Check if encryption matches access
-        $pw = select('access', '*', 'access_uid = "' . $_SESSION['user_id'] . '"',1)['access_pass'];
-        $hash_check = hash_equals(hash('sha512', $pw . access::get_user_browser()), $_SESSION['login_string']);
+            // Check if encryption matches access
+            $pw = select('access', '*', 'access_uid = "' . $_SESSION['user_id'] . '"',1)['access_pass'];
+            $hash_check = hash_equals(hash('sha512', $pw . access::get_user_browser()), $_SESSION['login_string']);
 
-        // Check if session is stored online
-        $session_check = 0; global $access;
-        $ss = select('sessions', '', 'ss_uid = "'.$_SESSION['user_id'].'"');
-        if( is_array( $ss ) ){
-            foreach( $ss as $s ){
-                if( $s['ss_ip'] == $access->get_user_ip() && $s['ss_os'] == $access->get_user_os() && $s['ss_client'] == $access::get_user_browser() && $s['ss_status'] == 1 ){
-                    $session_check = true;
+            // Check if session is stored online
+            $session_check = 0; global $access;
+            $ss = select('sessions', '', 'ss_uid = "'.$_SESSION['user_id'].'"');
+            if( is_array( $ss ) ){
+                foreach( $ss as $s ){
+                    if( $s['ss_ip'] == $access->get_user_ip() && $s['ss_os'] == $access->get_user_os() && $s['ss_client'] == $access::get_user_browser() && $s['ss_status'] == 1 ){
+                        $session_check = true;
+                    }
                 }
             }
+            define('LOGGED_IN',1);
+            return $hash_check && $session_check ? 1 : 0;
+        } else {
+            return 0;
         }
-
-        return $hash_check && $session_check ? 1 : 0;
+    } elseif( defined('LOGGED_IN') && LOGGED_IN == 1 ) {
+        return 1;
     } else {
         return 0;
     }

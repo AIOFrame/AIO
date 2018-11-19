@@ -351,6 +351,37 @@ function create_table( $table ){
     }
 }
 
+function create_tables( $tables ) {
+    if( is_array( $tables ) ){
+        $query = '';
+        foreach( $tables as $table ){
+            //create_table( $table );
+            $query .= 'CREATE TABLE IF NOT EXISTS '.$table[0].' ('.$table[1].'_id INT(13) AUTO_INCREMENT PRIMARY KEY';
+            if( is_array( $table[2] ) ){
+                foreach( $table[2] as $col ){
+                    if( !empty( $col[0] && !empty( $col[1] ) ) ) {
+                        if (in_array($col[1], ['BOOLEAN', 'DATETIME', 'DATE', 'TIME', 'TINYTEXT'])) {
+                            $query .= ',' . $table[1] . '_' . $col[0] . ' ' . $col[1] . ' ' . $col[3];
+                        } else {
+                            $query .= ',' . $table[1] . '_' . $col[0] . ' ' . $col[1] . '(' . $col[2] . ') ' . $col[3];
+                        }
+                    }
+                }
+            }
+            $query .= ');';
+        }
+        elog($query);
+        if( !empty( $query ) ){
+            global $db;
+            if( mysqli_query( $db, $query ) ){
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+}
+
 function create_column( $table, $column, $type = 'TEXT', $length = '25', $null = 'NULL', $default = '' ){
     $type == 'BOOLEAN' ? $type = 'TINYINT' : '';
     $exist = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$column'";
@@ -365,14 +396,6 @@ function create_column( $table, $column, $type = 'TEXT', $length = '25', $null =
             return true;
         } else {
             return false;
-        }
-    }
-}
-
-function create_tables( $tables ) {
-    if( is_array( $tables ) ){
-        foreach( $tables as $table ){
-            create_table( $table );
         }
     }
 }

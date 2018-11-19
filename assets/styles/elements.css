@@ -110,13 +110,13 @@ table.l td {
     padding:20px 40px;
     font-size: 16px;
 }
-table td.l {
+table td.l, table th.l, table td.l input {
     text-align: left;
 }
-table td.c {
+table td.c, table th.c, table td.c input {
     text-align: center;
 }
-table td.r {
+table td.r, table th.r, table td.r input {
     text-align: right;
 }
 table.xls thead tr {
@@ -140,6 +140,20 @@ table.xls td input {
 }
 table td input {
     margin: 0;
+    width:auto;
+}
+table.plain {
+    background:none;
+    border-collapse:collapse;
+    border-radius:0;
+}
+table.plain thead, table.plain tbody, table.plain tfoot, table.plain tr, table.plain td, table.plain th {
+    box-shadow:none;
+    background:#fff;
+    color:#000;
+}
+table.plain tr:after {
+    display: none;
 }
 
 /* ICONS */
