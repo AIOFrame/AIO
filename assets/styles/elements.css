@@ -93,6 +93,13 @@ table tbody tr {
 table tbody td {
     padding:10px;
 }
+table td.p0 {
+    padding: 0 !important;
+}
+table.m td {
+    padding:10px;
+    font-size: 15px;
+}
 table.l tr {
     position: relative;
     border:0;
@@ -138,7 +145,7 @@ table.xls td input {
     box-shadow:none;
     border:0;
 }
-table td input {
+table td input, table td textarea {
     margin: 0;
     width:auto;
 }
@@ -187,6 +194,38 @@ table.plain tr:after {
 .ico.xxxl {
     width:150px;
     height:150px;
+}
+
+/* IMAGE */
+
+.image {
+    background-size:contain;
+    background-repeat:no-repeat;
+    background-position: center;
+}
+.image.xxs {
+    width:25px;
+    height:25px;
+}
+.image.xs {
+    width:50px;
+    height:50px;
+}
+.image.s {
+    width:100px;
+    height:100px;
+}
+.image.m {
+    width:150px;
+    height:150px;
+}
+.image.l {
+    width:200px;
+    height:200px;
+}
+.image.xl {
+    width:250px;
+    height:250px;
 }
 
 /* STEPS */
@@ -446,6 +485,14 @@ table.plain tr:after {
     font-size: 26px;
     border:1px solid lightgrey;
     border-radius:10px;
+}
+
+/* Paper */
+
+.a4 {
+    width:calc(100vw - 80px);
+    /*height:calc( calc(100vw - 40px) * 1.4142 );*/
+    margin:0 auto;
 }
 
 /* Context Menu */

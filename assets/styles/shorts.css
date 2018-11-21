@@ -25,7 +25,8 @@
 .vam { vertical-align: middle }
 .vab { vertical-align: bottom }
 
-.fw { width:100%; }
+.fw,.ww { width:100%; }
+.wa { width:auto; }
 .ol { white-space: nowrap; overflow:hidden }
 
 /* Appearance */
@@ -129,7 +130,7 @@ select.tar { text-align-last: right; }
 
 /* Paddings */
 
-.p0 { padding: 0; }
+.p0 { padding: 0 !important; }
 .p5 { padding: 5px; }
 .p10 { padding: 10px; }
 .p15 { padding: 15px; }

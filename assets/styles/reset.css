@@ -40,6 +40,7 @@ input:disabled, button:disabled, select:disabled, textarea:disabled {
 }
 select {
     background:url('../images/select.svg') no-repeat calc(100% - 6px) / 20px;
+    padding-right: 30px;
 }
 button {
     width: auto;

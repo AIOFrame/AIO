@@ -42,36 +42,71 @@ function add_option( $name, $value, $user_id = 0 ) {
     }
 }
 
-function get_option( $name, $user_id = '' ) {
-    $query = !empty( $option_id ) ? 'option_name = "'.$name.'" AND option_scope = "'.$user_id.'"' : 'option_name = "'.$name.'"';
+function get_option( $name, $user = false, $key = 'name' ) {
+    $q = $key == 'id' ? 'option_id = "'.$name.'"' : 'option_name = "'.$name.'"';
+    $query = $user == 1 ? $q . ' AND option_scope = "'.$_SESSION['user_id'].'"' : $q;
     $o = select( 'options', 'option_value', $query, 1 );
     return $o ? $o['option_value'] : false;
 }
 
 
-function get_options( $opn, $id = false ) {
-    global $db;
-    if( $id ){
-        $o = "SELECT * FROM options WHERE ID = '$opn'";
+function get_options( $opn, $user = false, $key = 'name' ) {
+    global $db; $q = '';
+    if( is_array( $opn ) ){
+        foreach( $opn as $op ){
+            if( $key == 'id' ){
+                $q .= 'option_id = "'.$op.'" OR ';
+            } else {
+                $q .= 'option_name = "'.$op.'" OR ';
+            }
+        }
     } else {
-        $o = "SELECT * FROM options WHERE option_name = '$opn'";
+        if( $key == 'id' ){
+            $q .= 'option_id = "'.$opn.'" OR ';
+        } else {
+            $q .= 'option_name = "'.$opn.'" OR ';
+        }
     }
-    $q = mysqli_query( $db, $o );
-    $data = mysqli_fetch_all( $q, MYSQLI_ASSOC );
-    return $data;
+    $q = !empty( $q ) ? substr($q, 0, -3) : $q;
+    $query = $user ? $q . ' AND option_scope = "'.$_SESSION['user_id'].'"' : $q;
+    $o = select( 'options', 'option_name, option_value', $query );
+    if( is_array( $o ) ){
+        foreach( $o as $k => $v ){
+            $d[$v['option_name']] = $v['option_value'];
+        }
+    }
+    return is_array( $d ) && count( $d ) == 1 ? $o[0] : $d;
 }
 
-function remove_option( $opn, $id = false ) {
-    global $db;
-    if( $id ){
-        $ro = "DELETE FROM options WHERE ID = '$opn'";
+function remove_option( $opn, $user = false, $key = 'name' ) {
+    $q = '';
+    if( $key == 'id' ){
+        $q .= 'option_id = "'.$opn.'" ';
     } else {
-        $ro = "DELETE FROM options WHERE option_name = '$opn'";
+        $q .= 'option_name = "'.$opn.'" ';
     }
-    if ( mysqli_query( $db, $ro )) {
-        return true;
-    } else {
-        return false;
+    $query = $user ? $q . ' AND option_scope = "'.$_SESSION['user_id'].'"' : $q;
+    $o = delete( 'options', $query );
+    return $o ? true : false;
+}
+
+function remove_user_options( $user_id ) {
+    $o = delete( 'options', 'option_scope = "'.$user_id.'"' );
+    return $o ? true : false;
+}
+
+function save_post_option( $option, $user = false ){
+    if( isset( $_POST[$option] ) ){
+        $o = update_option( $option, $_POST[$option], $user ? $_SESSION['user_id'] : 0 );
+    }
+}
+
+function save_post_options( $options ){
+    if( is_array( $options ) ){
+        foreach( $options as $op ){
+            $u = isset( $op[1] ) && $op[1] ? 1 : 0;
+            save_post_option( $op[0], $u );
+        }
     }
 }
 
@@ -355,8 +390,8 @@ function create_tables( $tables ) {
     if( is_array( $tables ) ){
         $query = '';
         foreach( $tables as $table ){
-            //create_table( $table );
-            $query .= 'CREATE TABLE IF NOT EXISTS '.$table[0].' ('.$table[1].'_id INT(13) AUTO_INCREMENT PRIMARY KEY';
+            create_table( $table );
+            /* $query .= 'CREATE TABLE IF NOT EXISTS '.$table[0].' ('.$table[1].'_id INT(13) AUTO_INCREMENT PRIMARY KEY';
             if( is_array( $table[2] ) ){
                 foreach( $table[2] as $col ){
                     if( !empty( $col[0] && !empty( $col[1] ) ) ) {
@@ -368,16 +403,7 @@ function create_tables( $tables ) {
                     }
                 }
             }
-            $query .= ');';
-        }
-        elog($query);
-        if( !empty( $query ) ){
-            global $db;
-            if( mysqli_query( $db, $query ) ){
-                return true;
-            } else {
-                return false;
-            }
+            $query .= ');'; */
         }
     }
 }
