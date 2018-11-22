@@ -126,12 +126,13 @@ function insert( $table, $names, $values ){
             }
             $fv = substr($fv,0, -2);
             $q = "INSERT INTO $table ($names) VALUES ($fv)";
-            elog($q);
+            elog('[QUERY] '.$q);
             //return $q;
             $query = $db ? mysqli_query( $db, $q ) : '';
             if( $query ) {
                 return mysqli_insert_id( $db );
             } else {
+                elog( '[ERROR] '.$table.' '.mysqli_error($db) );
                 return false;
             }
         } else {
@@ -167,11 +168,12 @@ function update( $table, $cols, $values, $where = '' ){
 
     global $db;
     $q = "UPDATE $table SET ". $logic . " where ". $where;
-    elog($q);
+    elog('[QUERY] '.$q);
     if ( $db->query($q) === TRUE){
-    return true;
+        return true;
     } else {
-    return false;
+        elog( '[ERROR] '.$table.' '.mysqli_error($db) );
+        return false;
     }
 }
 
@@ -218,6 +220,8 @@ function select( $table, $cols = '*', $where = '', $limit = 0, $offset = 0 , $gr
                 return $data;
             }
         }
+    } else {
+        elog('[ERROR] '.mysqli_error($db));
     }
 }
 
@@ -281,11 +285,12 @@ function delete( $table, $logic ){
         $q = "DELETE FROM $table WHERE $logic";
     }
 
-    elog( $q );
+    elog('[QUERY] '.$q);
 
     if (mysqli_query( $db, $q )) {
         return true;
     } else {
+        elog('[ERROR] '.mysqli_error($db));
         return false;
     }
 }
@@ -365,6 +370,8 @@ function create_table( $table ){
         if( is_array( $table[2] ) ){
             foreach( $table[2] as $col ){
                 if( !empty( $col[0] && !empty( $col[1] ) ) ) {
+                    $col[2] = !empty( $col[2] ) ? $col[2] : '13';
+                    $col[3] = $col[3] == 0 ? 'NULL' : 'NOT NULL';
                     if (in_array($col[1], ['BOOLEAN', 'DATETIME', 'DATE', 'TIME', 'TINYTEXT'])) {
                         $query .= ',' . $table[1] . '_' . $col[0] . ' ' . $col[1] . ' ' . $col[3];
                     } else {
@@ -374,12 +381,13 @@ function create_table( $table ){
             }
         }
         $query .= ")";
-        elog($query);
+        elog('[QUERY] '.$query);
         if( !empty( $query ) ){
             global $db;
-            if( mysqli_query( $db, $query ) ){
+            if( mysqli_query( $db, $query ) == 1 ){
                 return true;
             } else {
+                elog('[ERROR] '.$table[0].' '. mysqli_error($db));
                 return false;
             }
         }
@@ -408,19 +416,20 @@ function create_tables( $tables ) {
     }
 }
 
-function create_column( $table, $column, $type = 'TEXT', $length = '25', $null = 'NULL', $default = '' ){
+function create_column( $table, $column, $type = 'TEXT', $length = '13', $null = 'NULL', $default = '' ){
     $type == 'BOOLEAN' ? $type = 'TINYINT' : '';
     $exist = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$column'";
     $query = "ALTER TABLE $table ADD $column $type($length) $null";
     $query .= !empty($default) ? ' default "'.$default.'"' : '';
-    elog($exist);
-    elog($query);
+    elog('[QUERY] '.$exist);
+    elog('[QUERY] '.$query);
     global $db;
     $e = mysqli_query( $db, $exist );
     if( $e && $e->fetch_assoc()['COUNT(*)'] == 0 ){
         if( mysqli_query( $db, $query ) ){
             return true;
         } else {
+            elog('[ERROR] '.$column.' '.mysqli_error($db));
             return false;
         }
     }
