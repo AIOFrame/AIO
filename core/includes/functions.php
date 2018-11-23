@@ -394,6 +394,35 @@ function editable_data( $data = [] ) {
     echo json_encode($final);
 }
 
+// False user sessions for development mode
+
+function dev_sessions( $logged_in = true ) {
+    if( APPDEBUG && $logged_in ) {
+        $_SESSION['username'] = 'Developer Name';
+        $_SESSION['user_name'] = 'Developer Name';
+        $_SESSION['user_pic'] = 'Developer Name';
+        $_SESSION['user_id'] = '856';
+        $_SESSION['user_login'] = 'developer';
+        if (!isset($_SESSION)) {
+            session_set_cookie_params(0, '/', str_replace(' ', '_', APPNAME), false, false);
+            @session_regenerate_id(true);
+        }
+    }
+}
+
+// Remove HTML Elements by PHP
+
+function remove_elements( $html, $start, $end ) {
+    $exist = 1;
+    do {
+        $si = strpos( $html, $start );
+        $ei = strpos( $html, $end )+strlen( $end );
+        $html = str_replace( substr( $html, $si, $ei - $si ), '', $html);
+        $exist = strpos( $html, $start ) > 0 ? 1 : 0;
+    } while ( $exist > 0 );
+    return $html;
+}
+
 /* File Uploader
 function media_upload() {
     include_once( COREPATH . 'core/components/media.php' );

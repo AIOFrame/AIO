@@ -70,7 +70,7 @@ function app_loader() {
     if( file_exists( COREPATH . 'apps/' . $app ) ) { // if app exists and config exists
 
         if( file_exists( COREPATH . 'apps/' . $app . '/config.php' ) ) { // If app has config file
-            include( COREPATH . 'apps/' . $app . '/config.php' );// load config
+            $c = include( COREPATH . 'apps/' . $app . '/config.php' );// load config
         }
 
         !defined( 'APPDIR' ) ? define( 'APPDIR', $app ) : ''; // Defines the Application Directory Ex: ecommerce
@@ -79,44 +79,31 @@ function app_loader() {
 
         !defined( 'APPURI' ) ? define( 'APPURI', APPURL . 'apps/' . $app . '/' ) : ''; // Defined Application URI Ex: https://ecommerce.mainapp.com/apps/ecommerce
 
-        $c = !empty( $config ) ? $config : '';
+        //$c = !empty( $config ) ? $config : '';
 
-        if( !empty( $c['host'] ) && !is_null( $c['user'] ) && !is_null( $c['pass'] ) && !is_null( $c['database'] ) ){
+        $appname = isset( $c['name'] ) && !empty( $c['name'] ) ? $c['name'] : ucwords( $app ); // Defines the Application Name Ex: Amazing App
+        !defined( 'APPNAME' ) ? define( 'APPNAME', $appname ) : '';
 
-            $appname = !empty( $c['name'] ) ? $c['name'] : ucwords( $app );
-            $ekey = !empty( $c['key'] ) ? $c['key'] : str_replace(' ','_',defined('APPNAME'));
-            $debug = !empty( $c['debug'] ) ? $c['debug'] ? true : false : false;
+        $debug = isset( $c['debug'] ) && !empty( $c['debug'] ) ? $c['debug'] : false; // Defines if the Application is under development mode
+        !defined( 'APPDEBUG' ) ? define( 'APPDEBUG', $debug ) : '';
+        APPDEBUG ? error_reporting(E_ALL) : error_reporting(0);
 
-            !defined( 'APPNAME' ) ? define( 'APPNAME', $appname ) : ''; // Defines the Application Name Ex: Amazing App
+        $ekey = isset( $c['key'] ) && !empty( $c['key'] ) ? $c['key'] : str_replace(' ','_',defined('APPNAME') ); // Defines the Application Encryption Key
+        !defined( 'EKEY' ) ? define( 'EKEY', $ekey ) : '';
 
-            !defined( 'EKEY' ) ? define( 'EKEY', $ekey ) : ''; // Defines the Application Encryption Key
-
-            !defined( 'APPDEBUG' ) ? define( 'APPDEBUG', $debug ) : ''; // Defines if the Application is under development mode
+        if( isset( $c['host'] ) && !empty( $c['host'] ) && isset( $c['user'] ) && !empty( $c['user'] ) && isset( $c['pass'] ) && !empty( $c['pass'] ) && isset( $c['database'] ) && !empty( $c['database'] ) ){
 
             global $db;
             $db = @mysqli_connect( $c['host'], $c['user'], $c['pass'], $c['database'] );
             if ( $db ) {
                 mysqli_query( $db, 'SET CHARACTER SET utf8' );
                 include( COREPATH . 'core/access.php' );
+                !defined( 'APPCON' ) ? define( 'APPCON', true ) : '';
             } else {
                 die( mysqli_connect_error() );
             }
 
-            if( !APPDEBUG ){
-                error_reporting(0);
-            } else {
-                error_reporting(E_ALL);
-            }
-
         }
-
-        $appname = !empty( $appname ) ? $appname : ucwords( $app );
-        !defined( 'APPNAME' ) ? define( 'APPNAME', $appname ) : ''; // Defines the Application Name Ex: Amazing App
-
-        $ekey = !empty( $ekey ) ? $ekey : str_replace(' ','_',defined('APPNAME'));
-        !defined( 'EKEY' ) ? define( 'EKEY', $ekey ) : ''; // Defines the Application Encryption Key
-
-        !defined( 'APPDEBUG' ) ? define( 'APPDEBUG', false ) : '';
 
         require( COREPATH . 'core/includes.php' );
     } else {

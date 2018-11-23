@@ -365,7 +365,7 @@ function process_data() {
 }
 
 function create_table( $table ){
-    if( is_array( $table ) ){
+    if( is_array( $table ) && defined('APPCON') && APPCON ){
         $query = 'CREATE TABLE IF NOT EXISTS '.$table[0].' ('.$table[1].'_id INT(13) AUTO_INCREMENT PRIMARY KEY';
         if( is_array( $table[2] ) ){
             foreach( $table[2] as $col ){
