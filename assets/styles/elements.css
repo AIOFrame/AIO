@@ -85,7 +85,7 @@ table thead th {
 table tbody {
     background:#fff;
 }
-table tbody tr {
+table tr {
     //margin-top: -1px;
     border-top:1px solid #eee;
     border-bottom:1px solid #eee;
@@ -490,7 +490,8 @@ table.plain tr:after {
 /* Paper */
 
 .a4 {
-    width:calc(100vw - 80px);
+    width:294mm;
+    max-width:calc(100vw - 40px);
     /*height:calc( calc(100vw - 40px) * 1.4142 );*/
     margin:0 auto;
 }
