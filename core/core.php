@@ -97,14 +97,12 @@ function app_loader() {
             $db = @mysqli_connect( $c['host'], $c['user'], $c['pass'], $c['database'] );
             if ( $db ) {
                 mysqli_query( $db, 'SET CHARACTER SET utf8' );
-                //include( COREPATH . 'core/access.php' );
                 !defined( 'APPCON' ) ? define( 'APPCON', true ) : '';
             } else {
                 die( mysqli_connect_error() );
             }
 
         }
-
         require( COREPATH . 'core/access.php' );
         require( COREPATH . 'core/includes.php' );
     } else {

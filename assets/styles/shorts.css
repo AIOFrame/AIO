@@ -26,6 +26,7 @@
 .vab { vertical-align: bottom }
 
 .fw,.ww { width:100%; }
+.fv { width:100vw; height:100vh }
 .wa { width:auto; }
 .ol { white-space: nowrap; overflow:hidden }
 

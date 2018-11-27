@@ -70,12 +70,13 @@ function get_options( $opn, $user = false, $key = 'name' ) {
     $q = !empty( $q ) ? substr($q, 0, -3) : $q;
     $query = $user ? $q . ' AND option_scope = "'.$_SESSION['user_id'].'"' : $q;
     $o = select( 'options', 'option_name, option_value', $query );
+    $d = [];
     if( is_array( $o ) ){
         foreach( $o as $k => $v ){
             $d[$v['option_name']] = $v['option_value'];
         }
     }
-    return is_array( $d ) && count( $d ) == 1 ? $o[0] : $d;
+    return !empty( $d ) && count( $d ) == 1 ? $o[0] : $d;
 }
 
 function remove_option( $opn, $user = false, $key = 'name' ) {
