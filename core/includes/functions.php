@@ -28,8 +28,8 @@ function get_style( $f ) {
     global $universal;
     if( !in_array( $f, $universal['styles'] )) {
         $universal['styles'][] = $f;
-        $af = APPPATH . '/assets/styles/' . $f;
-        $cf = COREPATH . '/assets/styles/' . $f;
+        $af = APPPATH . 'assets/styles/' . $f;
+        $cf = COREPATH . 'assets/styles/' . $f;
         $afl = APPURL . 'apps/' . APPDIR . '/assets/styles/' . $f;
         $cfl = APPURL . 'assets/styles/' . $f;
         $url = '';
@@ -52,8 +52,8 @@ function get_script( $f ) {
     global $universal;
     if( !in_array( $f, $universal['scripts'] )) {
         $universal['scripts'][] = $f;
-        $af = APPPATH . '/assets/scripts/' . $f;
-        $cf = COREPATH . '/assets/scripts/' . $f;
+        $af = APPPATH . 'assets/scripts/' . $f;
+        $cf = COREPATH . 'assets/scripts/' . $f;
         $afl = APPURL . 'apps/' . APPDIR . '/assets/scripts/' . $f;
         $cfl = APPURL . 'assets/scripts/' . $f;
         $url = '';
