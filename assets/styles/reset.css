@@ -58,6 +58,22 @@ input[type=checkbox], input[type=radio] {
     width:auto;
     box-shadow:none;
 }
+input[type=radio], input[type=checkbox] {
+    cursor: pointer;
+    margin: 8px 8px 8px 0;
+    display: inline-block;
+    vertical-align: middle;
+}
+input[type=radio]:checked, input[type=checkbox]:checked {
+    background:#000;
+}
+input[type=radio]+label, input[type=checkbox]+label {
+    text-transform: none;
+    font-size: 14px;
+    letter-spacing: unset;
+    font-weight: lighter;
+    cursor:pointer;
+}
 button{
     background: none;
     -webkit-appearance: none;
