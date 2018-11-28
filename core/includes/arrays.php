@@ -130,3 +130,9 @@ function pre_keys( $array = [], $trim = '', $json = false ){
     }
     return $json ? json_encode( $data ) : $data;
 }
+
+// Returns random of Array
+
+function random_of_array( $array = [] ){
+    return $array[ rand( 0, count( $array ) - 1 ) ];
+}
