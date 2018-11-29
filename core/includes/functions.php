@@ -70,6 +70,33 @@ function get_script( $f ) {
     }
 }
 
+// Includes Font
+
+function fonts( $array = [] ){
+    /* $f = '';
+    if( file_exists( COREPATH . 'assets/fonts/' . $name . '.min.css' ) ){
+        $f = APPURL . 'assets/fonts/' . $name . '.min.css';
+    } else if ( file_exists( COREPATH . 'assets/fonts/' . $name . '.css' ) ){
+        $f = APPURL . 'assets/fonts/' . $name . '.css';
+    } else if ( file_exists( COREPATH . 'apps/' . APPDIR . '/assets/fonts/' . $name . '.min.css' ) ){
+        $f = APPURL . 'apps/' . APPDIR . '/assets/fonts/' . $name . '.min.css';
+    } else if ( file_exists( COREPATH . 'apps/' . APPDIR . '/assets/fonts/' . $name . '.css' ) ) {
+        $f = APPURL . 'apps/' . APPDIR . '/assets/fonts/' . $name . '.css';
+    }
+    echo $f !== '' ? '<link rel="stylesheet" href="' . $f . '">' : '';*/
+    //?family=Titillium+Web:300,400
+    $fonts = [];
+    foreach( $array as $f ){
+        $weights = isset( $f[1] ) && !empty( $f[1] ) ? $f[1] : '400';
+        $fonts[] = $f[0].':'.$weights;
+    }
+    echo !empty( $fonts ) ? '<link rel="stylesheet" href="' . APPURL . 'assets/fonts.php?family='. implode( '|', $fonts ) .'">' : '';
+}
+
+//
+
+// function get_fonts( $ )
+
 /*
 // Wrote this code to render background but later forgot where it helps but code looks usable
 function bg_asset( $f ) {
