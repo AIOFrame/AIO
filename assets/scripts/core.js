@@ -5,7 +5,7 @@ var domain;
 $(document).ready(function(){
 
     // MANIPULATOR
-    $(document).on('click', '[data-action], [data-show], [data-hide], [data-slide], [data-remove],[data-toggle],[data-resetsrc],[data-resetinput]', function () {
+    $(document).on('click', '[data-action], [data-show], [data-on], [data-hide], [data-slide], [data-remove],[data-toggle],[data-resetsrc],[data-resetinput]', function () {
         if ($(this).data('togglescroll') === true) {
             scroll_lock();
         }
@@ -17,6 +17,7 @@ $(document).ready(function(){
             $($(this).data('action')).toggleClass($(this).data('targettoggleclass'));
             $($(this).data('show')).toggleClass($(this).data('targettoggleclass'));
         }
+        $($(this).data('on')).toggleClass('on');
         $($(this).data('remove')).remove();
         $($(this).data('hide')).hide();
         $($(this).data('show')).show();

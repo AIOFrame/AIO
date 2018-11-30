@@ -31,10 +31,10 @@ foreach( glob( dirname( __FILE__ ) . '/fonts/*', GLOB_ONLYDIR ) as $f ){
                 $fp = '/' . $fn . '-' . $weights[ $w ];
                 if( file_exists( $f . $fp.'.eot' ) ) {
                     echo '@font-face{font-family:\'' . $fn . '\';';
-                    echo file_exists($f . $fp. '.eot' ) ? 'src:url(\''.$fn . $fp . '.eot\');src:' : 'src:';
-                    echo file_exists($f . $fp. '.eot') ? 'url(\''.$fn . $fp . '.eot?#iefix\') format(\'embeded-opentype\')' : '';
-                    echo file_exists($f . $fp. '.woff2') ? ',url(\''.$fn . $fp . '.woff2\') format(\'woff2\')' : '';
-                    echo file_exists($f . $fp. '.woff') ? ',url(\''.$fn . $fp . '.woff\') format(\'woff\')' : '';
+                    echo file_exists($f . $fp. '.eot' ) ? 'src:url(\'fonts/'.$fn . $fp . '.eot\');src:' : 'src:';
+                    echo file_exists($f . $fp. '.eot') ? 'url(\'fonts/'.$fn . $fp . '.eot?#iefix\') format(\'embeded-opentype\')' : '';
+                    echo file_exists($f . $fp. '.woff2') ? ',url(\'fonts/'.$fn . $fp . '.woff2\') format(\'woff2\')' : '';
+                    echo file_exists($f . $fp. '.woff') ? ',url(\'fonts/'.$fn . $fp . '.woff\') format(\'woff\')' : '';
                     echo ';font-weight:' . $w . ';';
                     echo 'font-style:normal';
                     echo '}';
