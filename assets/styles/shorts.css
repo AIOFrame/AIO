@@ -7,6 +7,10 @@
 .abs.l { left:0 }
 .abs.r { right:0 }
 .abs.t { top:0 }
+.t5 { top:5px }
+.t10 { top:10px }
+.t15 { top:15px }
+.t20 { top:20px }
 .abs.b { bottom:0 }
 
 .fr { float: right }
