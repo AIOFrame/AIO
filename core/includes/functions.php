@@ -72,6 +72,12 @@ function get_script( $f ) {
 
 // Includes Font
 
+function font( $array = [] ){
+    $weights = isset( $array[1] ) && !empty( $array[1] ) ? $array[1] : '400';
+    $fonts[] = $array[0].':'.$weights;
+    echo !empty( $fonts ) ? '<link rel="stylesheet" href="' . APPURL . 'assets/fonts.php?family='. implode( '|', $fonts ) .'">' : '';
+}
+
 function fonts( $array = [] ){
     /* $f = '';
     if( file_exists( COREPATH . 'assets/fonts/' . $name . '.min.css' ) ){

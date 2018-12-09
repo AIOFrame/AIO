@@ -14,19 +14,23 @@ function icon( $name, $size = 25, $thickness = 15, $color = '#000000', $stroke =
         $icons[] = $name;
         $stroke = $stroke ? 'none' : $color;
         echo '<div class="ico '.str_replace(' ','_',$name).'" style="width:' . $size . 'px;height:' . $size . 'px;stroke-width:' . $thickness . ' !important;stroke:' . $color . ';fill:' . $stroke . ' !important">';
+        $f = file_get_contents( COREPATH . 'core/components/icons/' . $name . '.svg');
+        $f = remove_elements( $f, '<style', '</style>' );
+        $f = remove_elements( $f, '<?xml', '?>' );
+        $f = remove_elements( $f, '<!-- Generator', ')  -->' );
         //echo '<style>.</style>';
         /* $f = preg_replace('@<(style)\b.*?>.*?</\1>@si', '', $f); */
         //$f = remove_elements( $f, '<style', '</style>' );
-        //echo $f;
+        echo $f;
         echo '</div>';
-        if( APPDEBUG && !empty( $icons ) ){
+        /* if( APPDEBUG && !empty( $icons ) ){
             $f = file_get_contents( COREPATH . 'core/components/icons/' . $name . '.svg');
             $f = remove_elements( $f, '<style', '</style>' );
             $f = remove_elements( $f, '<?xml', '?>' );
             $f = remove_elements( $f, '<!-- Generator', ')  -->' );
             $f = '.'.$name.' { background:url(\'data:image/svg+xml;utf8,'.$f.'\'); }';
             $icon_css = file_put_contents(APPPATH.'assets/styles/icons.css',$f.' '.PHP_EOL,FILE_APPEND | LOCK_EX);
-        }
+        } */
     } else if( file_exists( APPPATH . 'assets/images/'.$name.'.jpg') || file_exists( APPPATH . 'assets/images/'.$name.'.png' ) ) {
 
     }
