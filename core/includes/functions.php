@@ -95,7 +95,9 @@ function fonts( $array = [] ){
 
 //
 
-// function get_fonts( $ )
+function icons( ){
+    echo '<link rel="stylesheet" href="' .APPURL . 'apps/' . APPNAME . '/assets/styles/icons.css">';
+}
 
 /*
 // Wrote this code to render background but later forgot where it helps but code looks usable
@@ -444,7 +446,7 @@ function remove_elements( $html, $start, $end ) {
     do {
         $si = strpos( $html, $start );
         $ei = strpos( $html, $end )+strlen( $end );
-        $html = str_replace( substr( $html, $si, $ei - $si ), '', $html);
+        $html = str_replace( PHP_EOL, '', str_replace( substr( $html, $si, $ei - $si ), '', $html) );
         $exist = strpos( $html, $start ) > 0 ? 1 : 0;
     } while ( $exist > 0 );
     return $html;

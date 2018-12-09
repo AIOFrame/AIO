@@ -41,6 +41,9 @@
     height:auto;
     border-radius:10px;
 }
+.modal.on {
+    display: block;
+}
 .modal .modal {
     z-index:15;
 }
@@ -175,6 +178,10 @@ table.plain tr:after {
     background-position:center !important;
     background-size:cover !important;
     cursor: pointer;
+}
+.ico.c, .tac .ico {
+    display: block;
+    margin:auto;
 }
 .ico.md, .ico.m {
     width:32px;
@@ -417,14 +424,14 @@ table.plain tr:after {
     border-bottom: 40px solid rgba(51,102,204,1);
 }
 
-/* Blocks */
+/* Blocks & Plates */
 
 .blocks>div {
     -ms-flex: 0 0 25%;
     flex: 0 0 25%;
     max-width: 25%;
 }
-.block {
+.block, .plate {
     background:#fff;
     border-radius:10px;
     padding: 15px;
@@ -434,6 +441,21 @@ table.plain tr:after {
     transition:1s;
     display: block;
     margin-bottom: 20px;
+    overflow:hidden;
+}
+.plate {
+    padding: 0;
+}
+.plate .head {
+    padding:12px 15px;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    box-shadow:0 5px 15px rgba(0,0,0,.02);
+    font-size: 15px;
+    letter-spacing: 1px;
+}
+.plate .body {
+    padding: 15px;
 }
 .block:hover {
     box-shadow:0 0 30px rgba(0,0,0,.2), 0 10px 30px rgba(0,0,0,.05);
