@@ -290,6 +290,7 @@ function login_check() {
 }
 
 function user_logged_in() {
+    // TODO: Change define to global vars
     if( !defined('LOGGED_IN') ){
         if ( isset($_SESSION['user_login']) && isset($_SESSION['user_id']) && isset($_SESSION['login_string']) ) {
 

@@ -208,7 +208,7 @@ function elog( $line ){
 
 // Gets any file from components folder
 
-function get_comp( $n ){
+function comp_exists( $n ) {
     $ns = explode('/',str_replace('.php','',$n));
     $x = 1;
     $fl = APPPATH . '/components/';
@@ -220,7 +220,11 @@ function get_comp( $n ){
         }
         $x++;
     }
-    file_exists( $fl ) ? include( $fl ) : '';
+    return file_exists( $fl ) ? $fl : false;
+}
+
+function get_comp( $n ){
+    include( comp_exists( $n ) );
 }
 
 // Includes if page exists
@@ -271,7 +275,7 @@ function render_options( $type = 'radio', $name, $values = [], $attr = '', $labe
         $type = $type == 'radio' ? 'type="radio"' : 'type="checkbox"';
         $valued = is_assoc( $values ) ? true : false; $x = 0;
         if( is_numeric( $pre ) ){
-            $pre = '<div class="col-12 col-lg-'.$pre.'">';
+            $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
             $post = '</div>';
         }
         foreach( $values as $val => $title ){
@@ -308,7 +312,7 @@ function render_checkboxs( $name, $values = [], $pre = '', $post = '' ){
 
 function render_input( $type = 'text', $id, $label, $placeholder = '', $value = '', $attrs = '', $pre = '', $post = '' ){
     if( is_numeric( $pre ) ){
-        $pre = '<div class="col-12 col-lg-'.$pre.'">';
+        $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
         $post = '</div>';
     }
     $ph = !empty( $placeholder ) ? ' placeholder="'.$placeholder.'"' : '';
