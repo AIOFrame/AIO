@@ -209,7 +209,7 @@ table.plain tr:after {
 .ico.r {
     right:0;
 }
-.ico.tip span {
+.tip span {
     display: none;
     position: absolute;
     top:60%;
@@ -221,8 +221,11 @@ table.plain tr:after {
     font-size: 16px;
     z-index:10;
     width:200px;
+    text-transform: none;
+    font-weight: lighter;
+    letter-spacing: 0;
 }
-.ico.tip:hover span {
+.tip:hover span {
     display: block;
 }
 
