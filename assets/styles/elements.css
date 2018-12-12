@@ -218,7 +218,7 @@ table.plain tr:after {
     padding:8px;
     border-radius:4px;
     color:#fff;
-    font-size: 16px;
+    font-size: 15px !important;
     z-index:10;
     width:200px;
     text-transform: none;
@@ -347,9 +347,6 @@ table.plain tr:after {
 
 /* Tabs */
 
-.tab_heads, .tabs {
-    font-size:0;
-}
 .tab {
     display: inline-block;
     vertical-align: top;

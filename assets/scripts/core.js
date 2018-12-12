@@ -67,7 +67,7 @@ $(document).ready(function(){
         new ClipboardJS('.btn, button');
     }
 
-    if( $.fn.select2 !== 'undefined' ){
+    if( $.fn.select2 !== undefined ){
         $('select.easy, select.select2').select2({ width:'100%' });
     }
 

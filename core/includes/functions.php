@@ -224,7 +224,7 @@ function comp_exists( $n ) {
 }
 
 function get_comp( $n ){
-    include( comp_exists( $n ) );
+    comp_exists( $n ) ? include( comp_exists( $n ) ) : '';
 }
 
 // Includes if page exists

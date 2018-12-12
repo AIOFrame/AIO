@@ -136,3 +136,15 @@ function pre_keys( $array = [], $trim = '', $json = false ){
 function random_of_array( $array = [] ){
     return $array[ rand( 0, count( $array ) - 1 ) ];
 }
+
+//
+
+function array_sub_values( $arrays = [] ) {
+    $data = [];
+    foreach( $arrays as $array ) {
+        foreach( $array as $k => $v ) {
+            $data[] = $v;
+        }
+    }
+    return $data;
+}

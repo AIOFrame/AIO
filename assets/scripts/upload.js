@@ -95,7 +95,7 @@ function process_upload(fs) {
                 var d = $.parseJSON(data);
                 if (d[0] === 'success') {
                     $('#file_uploader .no_uploaded_files').remove();
-                    $('#file_uploader .uploaded_files').prepend( '<div class="fup_file new" data-id="'+d[4]+'" style="background-image:url('+d[3]+')" data-url="'+d[3]+'">'+d[2]+'</div>' );
+                    $('#file_uploader .uploaded_files').prepend( '<div class="fup_file new" data-id="'+d[4]+'" style="background-image:url('+d[7]+')" data-url="'+d[3]+'">'+d[2]+'</div>' );
                     $('#file_uploader .fup_file').removeClass('on');
                     $('.file_notify').html('File Uploaded Successfully!').addClass('on');
                     setTimeout(function(){ $('.file_notify').removeClass('on'); },1000);
