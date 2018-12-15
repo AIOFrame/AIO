@@ -141,9 +141,11 @@ function random_of_array( $array = [] ){
 
 function array_sub_values( $arrays = [] ) {
     $data = [];
-    foreach( $arrays as $array ) {
-        foreach( $array as $k => $v ) {
-            $data[] = $v;
+    if( is_array( $arrays ) && !empty( $arrays ) ) {
+        foreach ($arrays as $array) {
+            foreach ($array as $k => $v) {
+                $data[] = $v;
+            }
         }
     }
     return $data;
