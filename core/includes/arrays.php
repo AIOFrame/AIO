@@ -148,3 +148,11 @@ function array_sub_values( $arrays = [] ) {
     }
     return $data;
 }
+
+function array_to_query( $array = [], $column = '', $query = 'OR' ) {
+    $q = '';
+    foreach( $array as $c ){
+        $q .= ' '.$column.' = "'.$c.'" '.$query.' ';
+    }
+    return !empty( $q ) ? substr($q, 0, -3) : '';
+}
