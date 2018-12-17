@@ -95,13 +95,13 @@ function prepare_keys( $array = '', $pre = '' ) {
 
 // Prepares an array of only values from a given array or post
 
-function prepare_values( $array = '' ) {
+function prepare_values( $array = '', $pre = '' ) {
     $values = [];
     $array = is_array( $array ) ? $array : $_POST;
     unset( $array['action'] );
     foreach( $array as $k => $v ){
         if( $v !== '' ){
-            $values[] = $v;
+            $values[] = $pre.$v;
         }
     }
     return $values;
@@ -110,18 +110,25 @@ function prepare_values( $array = '' ) {
 // Finds and Replaces in Array Keys
 
 function replace_in_keys( $array = [], $trim = '', $json = false ){
-    $data = [];
+    $data = $vd = [];
     foreach( $array as $k => $v ) {
-        $f = is_array( $trim ) && isset( $trim[0] ) ? $trim[0] : $trim;
-        $r = is_array( $trim ) && isset( $trim[1] ) ? $trim[1] : '';
-        elog($f);
-        elog($r);
-        $data[ str_replace( $f, $r, $k) ] = $v;
+        if( !is_array( $v ) ) {
+            $f = is_array($trim) && isset($trim[0]) ? $trim[0] : $trim;
+            $r = is_array($trim) && isset($trim[1]) ? $trim[1] : '';
+            $data[str_replace($f, $r, $k)] = $v;
+        } else {
+            foreach( $v as $a => $b ){
+                $f = is_array($trim) && isset($trim[0]) ? $trim[0] : $trim;
+                $r = is_array($trim) && isset($trim[1]) ? $trim[1] : '';
+                $vd[str_replace($f, $r, $a)] = $b;
+            }
+            $data[$k] = $vd;
+        }
     }
     return $json ? json_encode( $data ) : $data;
 }
 
-// Attached pre string to Array Keys
+// Attach pre string to Array Keys
 
 function pre_keys( $array = [], $trim = '', $json = false ){
     $data = [];
