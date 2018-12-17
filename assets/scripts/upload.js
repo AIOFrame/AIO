@@ -6,7 +6,7 @@ $(document).ready(function(){
         }
     });
     $('body').on('click','.fup_file',function(){
-        $('.fup_file').removeClass('on');
+        $('.fup_file').not(this).removeClass('on');
         $(this).toggleClass('on')
     }).on('click','.files_delete',function(){
 
@@ -54,7 +54,8 @@ $(document).ready(function(){
             if( s ){ $( f.data('id') ).val( s.data('id') ) }
         }
         $('#file_uploader').slideUp();
-        setTimeout(function(){ $('.file_notify').html('File Selected Successfully!').addClass('on')}, 500);
+        //console.log(s);
+        setTimeout(function(){ var m = s.length > 0 ? 'File Selected Successfully!' : 'NO FILE SELECTED! File Uploader Closed!!' ; $('.file_notify').html(m).addClass('on') }, 500);
         setTimeout(function(){ $('.file_notify').removeClass('on') },1600);
     })
 });
