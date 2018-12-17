@@ -35,14 +35,23 @@
     background: rgba(255,255,255,.98);
     box-shadow: 0 0 50px rgba(0,0,0,0.2);
     padding: 20px;
-    display: none;
-    z-index: 8;
+    /* display: none;
+    z-index: 8; */
     width:auto;
     height:auto;
     border-radius:10px;
+    pointer-events: none;
+    opacity:0;
+    z-index:-1;
+    margin-top: 20px;
+    transition:.6s;
 }
 .modal.on {
-    display: block;
+    /*display: block;*/
+    pointer-events:auto;
+    opacity:1;
+    z-index:8;
+    margin-top: 0;
 }
 .modal .modal {
     z-index:15;
@@ -67,6 +76,10 @@
     width:40px;
     height:40px;
     cursor: pointer;
+}
+.modal .t {
+    margin-top: 0;
+    letter-spacing: 1px;
 }
 
 /* Table */

@@ -25,7 +25,7 @@ $(document).ready(function(){
         $($(this).data('slide')).slideToggle();
         $($(this).data('resetsrc')).attr('src', '');
         $($(this).data('resetinput')).val('');
-        if($($(this).data('show')).hasClass('modal')){
+        if($($(this).data('show')).hasClass('modal') || $($(this).data('on')).hasClass('modal')){
             $('article').addClass('fade');
         }
     });
@@ -54,7 +54,7 @@ $(document).ready(function(){
 
     // MODAL
     $('.modal .close').on('click',function(){
-        $(this).parents('.modal').hide();
+        $(this).parents('.modal').removeClass('on');
         $('article').removeClass('fade');
     });
 

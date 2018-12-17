@@ -417,10 +417,13 @@ function create_tables( $tables ) {
     }
 }
 
-function create_column( $table, $column, $type = 'TEXT', $length = '13', $null = 'NULL', $default = '' ){
+function create_column( $table, $column, $type = 'TEXT', $length = '13', $null = true, $default = '' ){
     $type == 'BOOLEAN' ? $type = 'TINYINT' : '';
+    $length = in_array($type, ['BOOLEAN', 'DATETIME', 'DATE', 'TIME', 'TINYTEXT']) ? '' : $length;
+    $null = $null ? 'NULL' : 'NOT NULL';
+    $length = !empty($length) ? '('.$length.')' : '';
     $exist = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$column'";
-    $query = "ALTER TABLE $table ADD $column $type($length) $null";
+    $query = "ALTER TABLE $table ADD $column $type$length $null";
     $query .= !empty($default) ? ' default "'.$default.'"' : '';
     elog('[QUERY] '.$exist);
     elog('[QUERY] '.$query);
