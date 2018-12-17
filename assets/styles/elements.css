@@ -46,6 +46,10 @@
     margin-top: 20px;
     transition:.6s;
 }
+.modal .t {
+    margin-top: 0;
+    letter-spacing: 1px;
+}
 .modal.on {
     /*display: block;*/
     pointer-events:auto;
@@ -68,7 +72,7 @@
 .modal.f {
     width: calc(100vw - 60px);
 }
-.modal .close, #notification .close, #alert .close {
+.modal .close, #notification .close, .alert .close {
     background:url('../images/close.svg') no-repeat center / 70%;
     position: absolute;
     right:10px;
@@ -77,9 +81,49 @@
     height:40px;
     cursor: pointer;
 }
-.modal .t {
-    margin-top: 0;
+.alert .close {
+    width:20px;
+    height:20px;
+}
+
+/* Alerts */
+
+.alerts {
+    background: #f3f3f3;
+    border: 1px solid #fff;
+    padding: 4px;
+    position: relative;
+    line-height: 100%;
+    height:30vh;
+    overflow-y:auto;
+}
+.alert {
+    display: block;
+    min-width: 23vw;
+    text-align: left;
+    background: rgba(255,255,255,97);
+    border-radius: 10px;
+    margin-bottom: 4px;
+    box-shadow:0 0 5px rgba(0,0,0,.1)
+}
+.alert:last-child {
+    margin: 0;
+}
+.alert .title {
+    font-size: 15px;
+    text-transform: uppercase;
+    padding: 10px 10px 0;
+    font-weight: normal;
+}
+.alert .note {
+    padding: 4px 10px 10px;
+    font-size: 13px;
+}
+.alerts+.more {
+    padding:10px;
+    text-transform: uppercase;
     letter-spacing: 1px;
+    line-height: 100%;
 }
 
 /* Table */

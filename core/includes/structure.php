@@ -52,13 +52,14 @@ function basic_tables() {
     ] ];
 
     $tables[] = [ 'alerts', 'al', [
-        [ 'uid', 'INT', '13', 'NOT NULL' ],
-        [ 'name', 'VARCHAR', '15', 'NULL' ],
-        [ 'message', 'VARCHAR', '155', 'NOT NULL' ],
-        [ 'type', 'TINYTEXT', '15', 'NULL' ],
-        [ 'link', 'VARCHAR', '35', 'NOT NULL' ],
-        [ 'seen', 'BOOLEAN', '', 'NOT NULL' ],
-        [ 'time', 'DATETIME', '', 'NOT NULL' ],
+        [ 'from', 'INT', 13, 0 ],
+        [ 'user', 'INT', 13, 1 ],
+        [ 'name', 'VARCHAR', 15, 1 ],
+        [ 'note', 'VARCHAR', 155, 0 ],
+        [ 'type', 'TINYTEXT', 15, 0 ],
+        [ 'link', 'VARCHAR', 55, 0 ],
+        [ 'seen', 'BOOLEAN', '', 0 ],
+        [ 'time', 'DATETIME', '', 0 ],
     ]];
 
     create_tables( $tables );

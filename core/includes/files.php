@@ -21,7 +21,8 @@ function file_process() {
             mkdir( APPPATH.'/storage/'.$path, 0777, true);
         }
         $fe = pathinfo($fn, PATHINFO_EXTENSION);
-        $fn = explode('.',$fn)[0].'_'.date('d_h_s').'.'.explode('.',$fn)[1];
+        $fnc = explode('.',$fn); //[0].'_'.date('d_h_s').'.'.explode('.',$fn)[1];
+        $fn = str_replace('.'.$fnc[count($fnc) - 1],'_'.date('y_h_s').'.'.$fnc[count($fnc) - 1],$fn);
         if( move_uploaded_file( $file['tmp_name'], APPPATH.'/storage/'.$path.'/'.$fn ) ) {
             $loc = '/storage/'.$path.'/'.$fn;
             $fz = round( $file['size'] / 1024 );
