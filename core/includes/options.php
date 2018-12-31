@@ -195,7 +195,11 @@ function total( $table, $cols = '*', $where = '', $limit = 0, $offset = 0 , $gro
 function select( $table, $cols = '*', $where = '', $limit = 0, $offset = 0 , $group = '', $count = false , $order_by = '', $sort = '') {
     global $db;
     $cols = $cols == "" ? "*" : $cols;
-    $o = $count ? "SELECT COUNT('". $cols ."') FROM $table " : "SELECT ". $cols ." FROM $table ";
+    if( !is_array( $table ) ){
+        $o = $count ? "SELECT COUNT('". $cols ."') FROM $table " : "SELECT ". $cols ." FROM $table ";
+    } else {
+        $o = "SELECT ". $cols ." FROM $table[1] $table[0] $table[2] ON $table[1].$table[3] = $table[2].$table[4] ";
+    }
     $o .= !empty( $where ) && $where !== '' ? ' WHERE '.$where : '';
     $o .= !empty( $group ) ?  "GROUP BY ".$group: ""  ;
     $o .= !empty( $order_by ) && $order_by !== '' ? ' ORDER BY '.$order_by : '';

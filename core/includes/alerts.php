@@ -14,20 +14,24 @@ class ALERTS {
 
     public static function count( $array = [] ){
         $c = 0;
-        foreach( $array as $a ){
-            isset( $a['seen'] ) && !$a['seen'] ? $c++ : '';
-            isset( $a['al_seen'] ) && !$a['al_seen'] ? $c++ : '';
+        if( is_array( $array ) && !empty( $array ) ){
+            foreach( $array as $a ){
+                isset( $a['seen'] ) && !$a['seen'] ? $c++ : '';
+                isset( $a['al_seen'] ) && !$a['al_seen'] ? $c++ : '';
+            }
         }
         return $c;
     }
 
     public static function html( $array = [] ){
         $alerts = replace_in_keys( $array, 'al_' );
-        foreach( $alerts as $a ){
-            if( !empty( $a['link'] ) ){
-                echo '<a href="'.APPURL.$a['link'].'" class="alert '.$a['type'].'" data-type="'.$a['type'].'"><div class="close"></div><div class="title">'.$a['name'].'</div><div class="note">'.$a['note'].'</div></a>';
-            } else {
-                echo '<div class="alert '.$a['type'].'" data-type="'.$a['type'].'"><div class="close"></div><div class="title">'.$a['name'].'</div><div class="note">'.$a['note'].'</div></div>';
+        if( is_array( $array ) && !empty( $array ) ){
+            foreach( $alerts as $a ){
+                if( !empty( $a['link'] ) ){
+                    echo '<a href="'.APPURL.$a['link'].'" class="alert '.$a['type'].'" data-type="'.$a['type'].'"><div class="close"></div><div class="title">'.$a['name'].'</div><div class="note">'.$a['note'].'</div></a>';
+                } else {
+                    echo '<div class="alert '.$a['type'].'" data-type="'.$a['type'].'"><div class="close"></div><div class="title">'.$a['name'].'</div><div class="note">'.$a['note'].'</div></div>';
+                }
             }
         }
     }

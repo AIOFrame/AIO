@@ -39,22 +39,24 @@ function array_group_by( $array, $key ) {
     $_key = $key;
 
     $grouped = [];
-    foreach ($array as $value) {
-        $key = null;
+    if( is_array( $array ) && !empty( $array ) ){
+        foreach ($array as $value) {
+            $key = null;
 
-        if (is_callable($func)) {
-            $key = call_user_func($func, $value);
-        } elseif (is_object($value) && isset($value->{$_key})) {
-            $key = $value->{$_key};
-        } elseif (isset($value[$_key])) {
-            $key = $value[$_key];
+            if (is_callable($func)) {
+                $key = call_user_func($func, $value);
+            } elseif (is_object($value) && isset($value->{$_key})) {
+                $key = $value->{$_key};
+            } elseif (isset($value[$_key])) {
+                $key = $value[$_key];
+            }
+
+            if ($key === null) {
+                continue;
+            }
+
+            $grouped[$key][] = $value;
         }
-
-        if ($key === null) {
-            continue;
-        }
-
-        $grouped[$key][] = $value;
     }
     if (func_num_args() > 2) {
         $args = func_get_args();
@@ -70,13 +72,13 @@ function array_group_by( $array, $key ) {
 // Restructures an array with key value as key
 
 function array_by_key( $array, $key ){
+    $new_array = [];
     if( is_array( $array ) && !empty( $array ) ){
-        $new_array = [];
         foreach( $array as $a ){
             $new_array[ $a[ $key ] ] = $a;
         }
-        return $new_array;
     }
+    return $new_array;
 }
 
 // Prepares an array of only keys from a given array or post
@@ -85,9 +87,11 @@ function prepare_keys( $array = '', $pre = '' ) {
     $keys = [];
     $array = is_array( $array ) ? $array : $_POST;
     unset( $array['action'] );
-    foreach( $array as $k => $v ){
-        if( $v !== '' ){
-            $keys[] = $pre.$k;
+    if( is_array( $array ) && !empty( $array ) ){
+        foreach( $array as $k => $v ){
+            if( $v !== '' ){
+                $keys[] = $pre.$k;
+            }
         }
     }
     return $keys;
@@ -99,9 +103,11 @@ function prepare_values( $array = '', $pre = '' ) {
     $values = [];
     $array = is_array( $array ) ? $array : $_POST;
     unset( $array['action'] );
-    foreach( $array as $k => $v ){
-        if( $v !== '' ){
-            $values[] = $pre.$v;
+    if( is_array( $array ) && !empty( $array ) ){
+        foreach( $array as $k => $v ){
+            if( $v !== '' ){
+                $values[] = $pre.$v;
+            }
         }
     }
     return $values;
@@ -111,18 +117,20 @@ function prepare_values( $array = '', $pre = '' ) {
 
 function replace_in_keys( $array = [], $trim = '', $json = false ){
     $data = $vd = [];
-    foreach( $array as $k => $v ) {
-        if( !is_array( $v ) ) {
-            $f = is_array($trim) && isset($trim[0]) ? $trim[0] : $trim;
-            $r = is_array($trim) && isset($trim[1]) ? $trim[1] : '';
-            $data[str_replace($f, $r, $k)] = $v;
-        } else {
-            foreach( $v as $a => $b ){
+    if( is_array( $array ) && !empty( $array ) ){
+        foreach( $array as $k => $v ) {
+            if( !is_array( $v ) ) {
                 $f = is_array($trim) && isset($trim[0]) ? $trim[0] : $trim;
                 $r = is_array($trim) && isset($trim[1]) ? $trim[1] : '';
-                $vd[str_replace($f, $r, $a)] = $b;
+                $data[str_replace($f, $r, $k)] = $v;
+            } else {
+                foreach( $v as $a => $b ){
+                    $f = is_array($trim) && isset($trim[0]) ? $trim[0] : $trim;
+                    $r = is_array($trim) && isset($trim[1]) ? $trim[1] : '';
+                    $vd[str_replace($f, $r, $a)] = $b;
+                }
+                $data[$k] = $vd;
             }
-            $data[$k] = $vd;
         }
     }
     return $json ? json_encode( $data ) : $data;
@@ -132,8 +140,10 @@ function replace_in_keys( $array = [], $trim = '', $json = false ){
 
 function pre_keys( $array = [], $trim = '', $json = false ){
     $data = [];
-    foreach( $array as $k => $v ) {
-        $data[ $trim . $k ] = $v;
+    if( is_array( $array ) && !empty( $array ) ){
+        foreach( $array as $k => $v ) {
+            $data[ $trim . $k ] = $v;
+        }
     }
     return $json ? json_encode( $data ) : $data;
 }
@@ -160,8 +170,10 @@ function array_sub_values( $arrays = [] ) {
 
 function array_to_query( $array = [], $column = '', $query = 'OR' ) {
     $q = '';
-    foreach( $array as $c ){
-        $q .= ' '.$column.' = "'.$c.'" '.$query.' ';
+    if( is_array( $array ) && !empty( $array ) ){
+        foreach( $array as $c ){
+            $q .= ' '.$column.' = "'.$c.'" '.$query.' ';
+        }
     }
     return !empty( $q ) ? substr($q, 0, -3) : '';
 }
