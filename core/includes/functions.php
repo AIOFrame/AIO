@@ -462,6 +462,11 @@ function remove_elements( $html, $start, $end ) {
     return $html;
 }
 
+function encrypt_array( $array ){
+    $cry = Crypto::initiate();
+    return $cry->encrypt(serialize($array));
+}
+
 /* File Uploader
 function media_upload() {
     include_once( COREPATH . 'core/components/media.php' );
