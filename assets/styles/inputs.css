@@ -343,3 +343,6 @@ button.bsn, .btn.bsn, button.bsn:hover, .btn.bsn:hover, button.ns, .btn.ns {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
+.next, .prev {
+    margin: 0;
+}
