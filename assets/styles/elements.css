@@ -320,7 +320,7 @@ table.plain tr:after {
 
 /* STEPS */
 
-.step_heads {
+.step_heads, .steps_head {
     display: -ms-flexbox;
     display: flex;
     margin-bottom: 20px;
@@ -353,6 +353,13 @@ table.plain tr:after {
     background: linear-gradient(135deg, rgba(0,153,255,1) 0%,rgba(51,102,204,1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0099ff', endColorstr='#3366cc',GradientType=1 );
 }
+.step_heads.purple .step.on, .steps_head.purple .step.on {
+    background: rgb(98,0,219);
+    background: -moz-linear-gradient(45deg, rgb(98,0,219) 0%, rgb(154,42,252) 100%);
+    background: -webkit-linear-gradient(45deg, rgb(98,0,219) 0%,rgb(154,42,252) 100%);
+    background: linear-gradient(45deg, rgb(98,0,219) 0%,rgb(154,42,252) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6200db', endColorstr='#9a2afc',GradientType=1 );
+}
 .step:after {
     position: absolute;
     right: -9px;
@@ -367,6 +374,9 @@ table.plain tr:after {
 }
 .step.on:after {
     border-left: 10px solid rgba(51,102,204,.95);
+}
+.purple .step.on:after {
+    border-left: 10px solid rgb(154,42,252);
 }
 .step:last-child:after {
     display: none;
