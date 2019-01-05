@@ -326,7 +326,9 @@ function render_input( $type = 'text', $id, $label, $placeholder = '', $value = 
             $input = '<input type="'.$type.'" id="'.$id.'" name="'.$id.'" '.$at.$ph.$va.'>';
             break;
     }
-    echo $pre .'<label for="'.$id.'">'.$label.'</label>'.$input.$post;
+    echo $pre;
+    echo !empty( $label ) ? '<label for="'.$id.'">'.$label.'</label>' : '';
+    echo $input.$post;
 }
 
 function render_inputs( $type = 'text', $ids, $attrs = '', $pre = '', $post = '' ){
