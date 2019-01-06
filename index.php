@@ -22,7 +22,7 @@ RewriteRule ^(.*)/$ /$1 [L,R]
 RewriteRule ^(.*)/$ index.php [QSA,L]
 ';
     $x = 0; $y = 1;
-    $abcs = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' ];
+    $abcs = range( 'a', 'i' );
     $pre = $post = '';
     for( $page = 0; $page < 14; $page++ ){
         if( empty( $pre ) ){

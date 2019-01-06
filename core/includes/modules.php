@@ -24,6 +24,12 @@ function send_sms( $number, $message, $gateway, $key = '', $secret = '' ) {
     }
 }
 
+function nsms( $no, $msg ) {
+    $key = get_option( 'sms_key' );
+    $secret = get_option( 'sms_secret' );
+    send_sms( '971'.$no, $msg, 'nexmo', $key, $secret );
+}
+
 // Include Google Maps Module and Render Map
 
 function render_maps() {
