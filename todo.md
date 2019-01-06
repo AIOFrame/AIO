@@ -11,6 +11,7 @@ CoreApp Improvements:
 * Payment Gateways - PayPal, Authorize, Stripe, PayFort
 * Multi Lingual Support
 * Context menu to support specific elements
+* Database Seeding and Database Migration
 
 File Uploader Improvements:
 * Breakdown of loaded file list
