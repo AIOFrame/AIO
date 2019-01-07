@@ -356,7 +356,7 @@ function in_texts( $array, $attrs, $pre = '', $post = '' ){
                 render_input( 'text', $k, $v, $attrs, $pre, $post );
             }
         } else {
-            render_inputs( 'texts', $array, $attrs, $pre, $post );
+            render_inputs( 'text', $array, $attrs, $pre, $post );
         }
     }
 }
