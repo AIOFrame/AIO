@@ -156,7 +156,7 @@ class ACCESS {
         return $users;
     }
 
-    function get_user_os() {
+    public static function get_user_os() {
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
         $os_platform = "Unknown OS Platform";
         $os_array = [
@@ -215,7 +215,7 @@ class ACCESS {
         return $browser;
     }
 
-    function get_user_ip() {
+    public static function get_user_ip() {
         if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
             $ip = $_SERVER['HTTP_CLIENT_IP'];
         } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
@@ -226,7 +226,17 @@ class ACCESS {
         return $ip == '::1' ? '127.0.0.1' : $ip;
     }
 
-    function generate_password( $chars = 11 ) {
+    public static function get_mac() {
+        $os = ACCESS::get_user_os();
+        if( in_array( $os, ['Mac OS X'] ) ){
+            $d = shell_exec( 'ifconfig' );
+            skel($d);
+        }
+        //return shell_exec("ifconfig -a | grep -Po 'HWaddr \K.*$'");
+        //return shell_exec("arp -a ".escapeshellarg($_SERVER['REMOTE_ADDR'])." | grep -o -E '(:xdigit:{1,2}:){5}:xdigit:{1,2}'");
+    }
+
+    public static function generate_password( $chars = 11 ) {
         $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
         $pass = array(); //remember to declare $pass as an array
         $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache

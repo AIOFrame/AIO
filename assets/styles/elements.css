@@ -347,18 +347,11 @@ table.plain tr:after {
 }
 .step.on {
     color:#fff;
-    background: rgb(0,153,255);
-    background: -moz-linear-gradient(-45deg, rgba(0,153,255,1) 0%, rgba(51,102,204,1) 100%);
-    background: -webkit-linear-gradient(-45deg, rgba(0,153,255,1) 0%,rgba(51,102,204,1) 100%);
-    background: linear-gradient(135deg, rgba(0,153,255,1) 0%,rgba(51,102,204,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0099ff', endColorstr='#3366cc',GradientType=1 );
-}
-.step_heads.purple .step.on, .steps_head.purple .step.on {
-    background: rgb(98,0,219);
-    background: -moz-linear-gradient(45deg, rgb(98,0,219) 0%, rgb(154,42,252) 100%);
-    background: -webkit-linear-gradient(45deg, rgb(98,0,219) 0%,rgb(154,42,252) 100%);
-    background: linear-gradient(45deg, rgb(98,0,219) 0%,rgb(154,42,252) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6200db', endColorstr='#9a2afc',GradientType=1 );
+    background: #111;
+    background: -moz-linear-gradient(-45deg, #111 0%, #222 100%);
+    background: -webkit-linear-gradient(-45deg, #111 0%,#222 100%);
+    background: linear-gradient(135deg, #111 0%,#222 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#111', endColorstr='#222',GradientType=1 );
 }
 .step:after {
     position: absolute;
@@ -373,10 +366,7 @@ table.plain tr:after {
     z-index:1;
 }
 .step.on:after {
-    border-left: 10px solid rgba(51,102,204,.95);
-}
-.purple .step.on:after {
-    border-left: 10px solid rgb(154,42,252);
+    border-left: 10px solid #222;
 }
 .step:last-child:after {
     display: none;
@@ -414,6 +404,9 @@ table.plain tr:after {
 
 /* Tabs */
 
+.tabs:first-child {
+    font-size: 0;
+}
 .tab {
     display: inline-block;
     vertical-align: top;
@@ -465,7 +458,7 @@ table.plain tr:after {
     right:-19px;
 }
 .tab:hover {
-    color: rgba(51,102,204,1);
+    color: #111;
 }
 .tab:after {
     content: '';
@@ -479,16 +472,16 @@ table.plain tr:after {
     bottom: 0;
 }
 .tab.on {
-    background: rgb(0,153,255);
-    background: -moz-linear-gradient(left, rgb(0,153,255) 0%, rgb(51,102,204) 100%);
-    background: -webkit-linear-gradient(left, rgb(0,153,255) 0%,rgb(51,102,204) 100%);
-    background: linear-gradient(to right, rgb(0,153,255) 0%,rgb(51,102,204) 100%);
+    background: #111;
+    background: -moz-linear-gradient(left, #111 0%, #222 100%);
+    background: -webkit-linear-gradient(left, #111 0%,#222 100%);
+    background: linear-gradient(to right, #111 0%,#222 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0099ff', endColorstr='#3366cc',GradientType=1 );
     color: #fff;
     box-shadow: 5px 0 55px rgba(0,0,0,.25), 5px 0 20px rgba(0,0,0,0.2);
 }
 .tab.on:after {
-    border-bottom: 40px solid rgba(51,102,204,1);
+    border-bottom: 40px solid #222;
 }
 
 /* Blocks & Plates */

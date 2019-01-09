@@ -1,5 +1,8 @@
 <?php
 
 $map = [
-    'swift' => 'swiftcom'
+    'swift' => 'swiftcom',
+    'localhost' => 'wifispot',
 ];
+
+$default = 'wifispot';

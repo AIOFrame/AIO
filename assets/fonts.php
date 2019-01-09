@@ -1,6 +1,7 @@
 <?php
 
 header("Content-type: text/css; charset: UTF-8");
+header("Cache-Control: max-age=14400");
 
 global $fonts;
 $fonts = [];

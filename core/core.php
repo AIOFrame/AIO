@@ -51,6 +51,8 @@ function get_domain( $t = 'main' ){
                 return $dex[0];
             }
         }
+    } else if( count($dex) == 1 ){
+        return strpos($dex[0], ':') !== false ? substr($dex[0], 0, strpos($dex[0],':')) : $dex[0];
     }
 }
 
@@ -61,17 +63,20 @@ function sub_domain() {
 // Load Application Settings
 function app_loader() {
     $app = !empty( sub_domain() ) ? sub_domain() : get_domain();
-
     if( file_exists( COREPATH . 'map.php' ) ){ // Checking if app mapping in defined // !file_exists( COREPATH . 'apps/' . $app ) &&
         include( COREPATH . 'map.php' );
         if( !empty( $map ) && !empty( $map[ $app ] ) ){ $app = $map[ $app ]; }
+        if( !file_exists( COREPATH . 'apps/' . $app ) ) {
+            if (isset($default) && file_exists(COREPATH . 'apps/' . $default)) {
+                $app = $default;
+            }
+        }
     }
-
     if( file_exists( COREPATH . 'apps/' . $app ) ) { // if app exists and config exists
 
         if( file_exists( COREPATH . 'apps/' . $app . '/config.php' ) ) { // If app has config file
             $c = include( COREPATH . 'apps/' . $app . '/config.php' );// load config
-        }
+        };
 
         !defined( 'APPDIR' ) ? define( 'APPDIR', $app ) : ''; // Defines the Application Directory Ex: ecommerce
 

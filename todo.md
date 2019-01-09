@@ -12,6 +12,8 @@ CoreApp Improvements:
 * Multi Lingual Support
 * Context menu to support specific elements
 * Database Seeding and Database Migration
+* Block access to Functions
+* Elements to be dynamic like icons
 
 File Uploader Improvements:
 * Breakdown of loaded file list
