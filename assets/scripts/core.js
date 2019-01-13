@@ -302,3 +302,15 @@ function notify( text, duration ) {
         $('#notification').removeClass('on');
     },duration);
 }
+
+function toggle_class_on( e ){
+    $('body').on('click',e,function(){
+        $(this).toggleClass('on');
+    })
+}
+
+function slide_toggle( e, t ){
+    $('body').on('click',e,function(){
+        $(this).find(t).slideToggle();
+    })
+}
