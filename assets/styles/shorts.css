@@ -18,10 +18,14 @@
 .fn { float: none }
 
 .dib { display: inline-block }
+.dibi { display: inline-block !important; }
 .db { display: block }
+.dbi { display: block !important; }
 .dn { display: none }
+.dni { display: none !important; }
 .di { display: inline }
 .df { display: flex }
+.dfi { display: flex !important; }
 .df.fg>div { flex-grow: 1 }
 
 .vat { vertical-align: top }
@@ -82,9 +86,9 @@ select.tar { text-align-last: right; }
 .ls2{ letter-spacing: 2px }
 .ls3{ letter-spacing: 3px }
 
-.bxs { box-shadow: 5px 5px 5px rgba(0,0,0,.06); }
-.ttu { text-transform: uppercase }
-.ttn { text-transform: none }
+.bxs, .bsh { box-shadow: 5px 5px 5px rgba(0,0,0,.06); }
+.ttu, .uc { text-transform: uppercase }
+.ttn, .nc { text-transform: none }
 
 /* Margins */
 

@@ -76,61 +76,64 @@ button, .btn {
 .btn {
     display: inline-block;
 }
-button.r5, .btn.r5 {
+button.r5, .btn.r5, .br5 button, .br5 .btn {
     border-radius:5px;
 }
-button.r1, .btn.r1 {
+button.r1, .btn.r1, .br1 button, .br1 .btn {
     border-radius:10px;
 }
-button.r, .btn.r {
+button.r, .btn.r, .br button, .br .btn {
     border-radius:30px;
 }
-button.xxl, .btn.xxl {
+button.xxl, .btn.xxl, .bxxl button, .bxxl .btn {
     font-size:22px;
     padding:18px 30px;
 }
 button.b.xxl, .btn.b.xxl {
     padding:17px 30px;
 }
-button.xl, .btn.xl {
+button.xl, .btn.xl, .bxl button, .bxl .btn {
     font-size:18px;
     padding:14px 24px;
 }
 button.b.xl, .btn.b.xl {
     padding:13px 24px;
 }
-button.l, .btn.l {
+button.l, .btn.l, .bl button, .bl .btn {
     font-size:15px;
     padding:12px 20px;
 }
 button.b.l, .btn.b.l {
     padding:9px 20px;
 }
-button.m, .btn.m {
+button.m, .btn.m, .bm button, .bm .btn {
     font-size:13px;
     padding: 8px 15px;
 }
 button.b.m, .btn.b.m {
     padding: 7px 15px;
 }
-button.s, .btn.s {
+button.s, .btn.s, .bs button, .bs .btn {
     font-size:12px;
     padding: 6px 12px;
 }
 button.b.s, .btn.b.s {
     padding: 5px 12px;
 }
-button.xs, .btn.xs {
+button.xs, .btn.xs, .bxs button, .bxs .btn {
     font-size:10px;
     padding: 5px 8px;
 }
 button.b.xs, .btn.b.xs {
     padding: 4px 8px;
 }
-button.w, .btn.w {
+button.w, .btn.w, .bw button, .bw .btn {
     width:100%;
 }
-button.red, .btn.red {
+.bm0 button, .bm0 .btn {
+    margin: 0;
+}
+button.red, .btn.red, .red button, .red .btn {
     background: rgb(153,1,1);
     background: -moz-linear-gradient(45deg, rgba(153,1,1,1) 0%, rgba(169,3,41,1) 100%);
     background: -webkit-linear-gradient(45deg, rgba(153,1,1,1) 0%,rgba(169,3,41,1) 100%);
@@ -138,17 +141,17 @@ button.red, .btn.red {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#990101', endColorstr='#a90329',GradientType=1 );
     box-shadow:0 0 20px rgba(153,1,1,.2), 0 10px 30px rgba(0,0,0,.2);
 }
-button.red:hover, .btn.red:hover {
+button.red:hover, .btn.red:hover, .red button:hover, .red .btn:hover {
     box-shadow:0 0 30px rgba(153,1,1,.3),0 10px 30px rgba(153,1,1,.3);
 }
-button.red:active, .btn.red:active {
+button.red:active, .btn.red:active, .red button:active, .red .btn:active {
     box-shadow:0 0 20px rgba(153,1,1,.3),0 0 10px rgba(0,0,0,.2);
 }
-button.b.red, .btn.b.red {
+button.b.red, .btn.b.red, .red.b button, .red.b .btn {
     color:rgb(153,1,1);
     border:1px solid rgb(153,1,1);
 }
-button.blue, .btn.blue {
+button.blue, .btn.blue, .blue button, .blue .btn {
     background: rgb(0,125,204);
     background: -moz-linear-gradient(45deg, rgb(0,125,204) 0%, rgb(0,173,237) 100%);
     background: -webkit-linear-gradient(45deg, rgb(0,125,204) 0%,rgb(0,173,237) 100%);
@@ -156,17 +159,17 @@ button.blue, .btn.blue {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007dcc', endColorstr='#00aded',GradientType=1 );
     box-shadow:0 0 20px rgba(0,125,204,.2), 0 10px 30px rgba(0,0,0,.2);
 }
-button.blue:hover, .btn.blue:hover {
+button.blue:hover, .btn.blue:hover, .blue button:hover, .blue .btn:hover {
     box-shadow:0 0 30px rgba(0,125,204,.3), 0 10px 30px rgba(0,125,204,.3);
 }
-button.blue:active, .btn.blue:active {
+button.blue:active, .btn.blue:active, .blue button:active, .blue .btn:active {
     box-shadow:0 0 20px rgba(0,125,204,.3), 0 0 10px rgba(0,0,0,.2);
 }
-button.b.blue, .btn.b.blue {
+button.b.blue, .btn.b.blue, .blue.b button, .blue.b .btn {
     color:rgb(0,125,204);
     border:1px solid rgb(0,125,204);
 }
-button.coral, .btn.coral{
+button.coral, .btn.coral, .coral button, .coral .btn {
     background: #9f635b;
     background: -moz-linear-gradient(45deg,#007dcc 0,#9c3737 100%);
     background: -webkit-linear-gradient(45deg,#9f635b,#9c3737 100%);
@@ -174,13 +177,13 @@ button.coral, .btn.coral{
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#007dcc',endColorstr='#9c3737',GradientType=1);
     box-shadow: 0 0 20px rgba(160, 97, 96, 0.2), 0 10px 30px rgba(0,0,0,.2);
 }
-button.coral:hover, .btn.coral:hover {
+button.coral:hover, .btn.coral:hover, .coral button:hover, .coral .btn:hover {
     box-shadow:0 0 30px rgba(160, 97, 96, 0.3), 0 10px 30px rgba(160, 97, 96, 0.3);
 }
-button.coral:active, .btn.coral:active {
+button.coral:active, .btn.coral:active, .coral button:active, .coral .btn:active {
     box-shadow:0 0 20px rgba(160, 97, 96, 0.3), 0 0 10px rgba(0,0,0,.2);
 }
-button.ocean,  .btn.ocean{
+button.ocean,  .btn.ocean, .ocean button, .ocean .btn {
     background: #8ea096;
     background: -moz-linear-gradient(45deg,#007dcc 0,#9c3737 100%);
     background: -webkit-linear-gradient(45deg,#8ea096,#8ea096 100%);
@@ -188,7 +191,7 @@ button.ocean,  .btn.ocean{
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#007dcc',endColorstr='#9c3737',GradientType=1);
     box-shadow: 0 0 20px rgba(142, 160, 150, 0.3), 0 10px 30px rgba(0,0,0,.2);
 }
-button.sky, .btn.sky{
+button.sky, .btn.sky, .sky button, .sky .btn {
     background: #015e99;
     background: -moz-linear-gradient(45deg,rgba(153,1,1,1) 0,rgba(169,3,41,1) 100%);
     background: -webkit-linear-gradient(45deg, #4a7b9a 0,#7099b3 100%);
@@ -196,7 +199,7 @@ button.sky, .btn.sky{
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#990101',endColorstr='#a90329',GradientType=1);
     box-shadow: 0 0 20px rgba(74, 123, 154, 0.2), 0 10px 30px rgba(0,0,0,.2);
 }
-button.teal, .btn.teal {
+button.teal, .btn.teal, .teal button, .teal .btn {
     background: rgb(0,177,193);
     background: -moz-linear-gradient(45deg, rgb(0,177,193) 0%, rgb(0,213,224) 100%);
     background: -webkit-linear-gradient(45deg, rgb(0,177,193) 0%,rgb(0,213,224) 100%);
@@ -204,17 +207,17 @@ button.teal, .btn.teal {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00b1c1', endColorstr='#00d5e0',GradientType=1 );
     box-shadow:0 0 20px rgba(0,213,224,.2), 0 10px 30px rgba(0,0,0,.2);
 }
-button.teal:hover, .btn.teal:hover {
+button.teal:hover, .btn.teal:hover, .teal button:hover, .teal .btn:hover {
     box-shadow:0 0 30px rgba(0,177,193,.3),0 10px 30px rgba(0,177,193,.3);
 }
-button.teal:active, .btn.teal:active {
+button.teal:active, .btn.teal:active, .teal button:active, .teal .btn:active {
     box-shadow:0 0 20px rgba(0,213,224,.3),0 0 10px rgba(0,0,0,.2);
 }
-button.b.teal, .btn.b.teal {
+button.b.teal, .btn.b.teal, .teal.b button, .teal.b .btn {
     color:rgb(0,177,193);
     border:1px solid rgb(0,177,193);
 }
-button.green, .btn.green {
+button.green, .btn.green, .green button, .green .btn {
     background: rgb(0,127,0);
     background: -moz-linear-gradient(45deg, rgb(0,127,0) 0%, rgb(38,163,0) 100%);
     background: -webkit-linear-gradient(45deg, rgb(0,127,0) 0%,rgb(38,163,0) 100%);
@@ -222,17 +225,17 @@ button.green, .btn.green {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007f00', endColorstr='#26a300',GradientType=1 );
     box-shadow:0 0 20px rgba(38,163,0,.2), 0 10px 30px rgba(0,0,0,.2);
 }
-button.green:hover, .btn.green:hover {
+button.green:hover, .btn.green:hover, .green button:hover, .green .btn:hover {
     box-shadow:0 0 30px rgba(38,163,0,.3), 0 10px 30px rgba(38,163,0,.3);
 }
-button.green:active, .btn.green:active {
+button.green:active, .btn.green:active, .green button:active, .green .btn:active {
     box-shadow:0 0 20px rgba(38,163,0,.3), 0 0 30px rgba(0,0,0,.2);
 }
-button.b.green, .btn.b.green {
+button.b.green, .btn.b.green, .green.b button, .green.b .btn {
     color:rgb(0,127,0);
     border:1px solid rgb(0,127,0);
 }
-button.gold, .btn.gold {
+button.gold, .btn.gold, .gold button, .gold .btn {
     background: rgb(173,149,114);
     background: -moz-linear-gradient(45deg, rgb(173,149,114) 0%, rgb(211,187,139) 100%);
     background: -webkit-linear-gradient(45deg, rgb(173,149,114) 0%,rgb(211,187,139) 100%);
@@ -240,17 +243,17 @@ button.gold, .btn.gold {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ad9572', endColorstr='#d3bb8b',GradientType=1 );
     box-shadow:0 0 20px rgba(211,187,139,.2), 0 10px 30px rgba(0,0,0,.2);
 }
-button.gold:hover, .btn.gold:hover {
+button.gold:hover, .btn.gold:hover, .gold button:hover, .gold .btn:hover {
     box-shadow:0 0 30px rgba(211,187,139,.3), 0 10px 30px rgba(211,187,139,.5);
 }
-button.gold:active, .btn.gold:active {
+button.gold:active, .btn.gold:active, .gold button:active, .gold .btn:active {
     box-shadow:0 0 20px rgba(211,187,139,.3), 0 0 30px rgba(0,0,0,.2);
 }
-button.b.gold, .btn.b.gold {
+button.b.gold, .btn.b.gold, .gold.b button, .gold.b .btn {
     color:rgb(173,149,114);
     border:1px solid rgb(173,149,114);
 }
-button.grey, .btn.grey {
+button.grey, .btn.grey, .grey button, .grey .btn {
     background: rgb(173,173,173);
     background: -moz-linear-gradient(45deg, rgb(173,173,173) 0%, rgb(196,196,196) 100%);
     background: -webkit-linear-gradient(45deg, rgb(173,173,173) 0%,rgb(196,196,196) 100%);
@@ -258,14 +261,14 @@ button.grey, .btn.grey {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#adadad', endColorstr='#c4c4c4',GradientType=1 );
     box-shadow:0 0 20px rgba(196,196,196,.2), 0 10px 30px rgba(0,0,0,.2);
 }
-button.grey:hover, .btn.grey:hover {
+button.grey:hover, .btn.grey:hover, .grey button:hover, .grey .btn:hover {
     box-shadow:0 0 30px rgba(196,196,196,.3), 0 10px 30px rgba(0,0,0,.1);
 }
-button.b.grey, .btn.b.grey {
+button.b.grey, .btn.b.grey, .grey.b button, .grey.b .btn {
     color:rgb(150, 150, 150);
     border:1px solid rgb(150, 150, 150);
 }
-button.black, .btn.black {
+button.black, .btn.black, .black button, .black .btn {
     background: rgb(0,0,0);
     background: -moz-linear-gradient(45deg, rgb(0,0,0) 0%, rgb(91,91,91) 100%);
     background: -webkit-linear-gradient(45deg, rgb(0,0,0) 0%,rgb(91,91,91) 100%);
@@ -273,17 +276,17 @@ button.black, .btn.black {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#5b5b5b',GradientType=1 );
     box-shadow:0 0 20px rgba(91,91,91,.2), 0 10px 30px rgba(0,0,0,.2);
 }
-button.black:hover, .btn.black:hover {
+button.black:hover, .btn.black:hover, .black button:hover, .black .btn:hover {
     box-shadow:0 0 30px rgba(91,91,91,.3), 0 10px 30px rgba(0,0,0,.3);
 }
-button.black:active, .btn.black:active {
+button.black:active, .btn.black:active, .black button:active, .black .btn:active {
     box-shadow:0 0 20px rgba(91,91,91,.3), 0 0 30px rgba(0,0,0,.2);
 }
-button.b.black, .btn.b.black {
+button.b.black, .btn.b.black, .black.b button, .black.b .btn {
     color:rgb(0,0,0);
     border:1px solid rgb(0,0,0);
 }
-button.violet, .btn.violet {
+button.violet, .btn.violet, .violet button, .violet .btn {
     background: rgb(98,0,219);
     background: -moz-linear-gradient(45deg, rgb(98,0,219) 0%, rgb(154,42,252) 100%);
     background: -webkit-linear-gradient(45deg, rgb(98,0,219) 0%,rgb(154,42,252) 100%);
@@ -291,17 +294,17 @@ button.violet, .btn.violet {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6200db', endColorstr='#9a2afc',GradientType=1 );
     box-shadow:0 0 20px rgba(154,42,252,.2), 0 10px 30px rgba(0,0,0,.2);
 }
-button.violet:hover, .btn.violet:hover {
+button.violet:hover, .btn.violet:hover, .violet button:hover, .violet .btn:hover {
     box-shadow:0 0 30px rgba(154,42,252,.3), 0 10px 30px rgba(154,42,252,.2);
 }
-button.violet:active, .btn.violet:active {
+button.violet:active, .btn.violet:active, .violet button:active, .violet .btn:active {
     box-shadow:0 0 20px rgba(154,42,252,.3), 0 0 30px rgba(0,0,0,.2);
 }
-button.b.violet, .btn.b.violet {
+button.b.violet, .btn.b.violet, .violet.b button, .violet.b .btn {
     color:rgb(98,0,219);
     border:1px solid rgb(98,0,219);
 }
-button.orange, .btn.orange {
+button.orange, .btn.orange, .orange button, .orange .btn {
     background: rgb(206,134,0);
     background: -moz-linear-gradient(45deg, rgb(206,134,0) 0%, rgb(255,157,0) 100%);
     background: -webkit-linear-gradient(45deg, rgb(206,134,0) 0%,rgb(255,157,0) 100%);
@@ -309,21 +312,21 @@ button.orange, .btn.orange {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ce8600', endColorstr='#ff9d00',GradientType=1 );
     box-shadow:0 0 20px rgba(255,157,0,.2), 0 10px 30px rgba(0,0,0,.2);
 }
-button.orange:hover, .btn.orange:hover {
+button.orange:hover, .btn.orange:hover, .orange button:hover, .orange .btn:hover {
     box-shadow:0 0 30px rgba(156, 98, 0,.3), 0 10px 30px rgba(156, 98, 0, 0.49);
 }
-button.orange:active, .btn.orange:active {
+button.orange:active, .btn.orange:active, .orange button:active, .orange .btn:active {
     box-shadow:0 0 20px rgba(156, 98, 0,.3), 0 0 30px rgba(0,0,0,.2);
 }
-button.b.orange, .btn.b.orange {
+button.b.orange, .btn.b.orange, .orange.b button, .orange.b .btn {
     color:rgb(206,134,0);
     border:1px solid rgb(206,134,0);
 }
-button.b, .btn.b {
+button.b, .btn.b, .b button, .b .btn {
     background:transparent;
     border: 1px solid grey;
 }
-button.bsn, .btn.bsn, button.bsn:hover, .btn.bsn:hover, button.ns, .btn.ns {
+button.bsn, .btn.bsn, button.bsn:hover, .btn.bsn:hover, button.ns, .btn.ns, .bsn button, .bsn .btn, .ns button, .ns .btn {
     box-shadow:none;
 }
 .sl.wide>div {

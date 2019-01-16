@@ -150,7 +150,7 @@ table tr {
     border-top:1px solid #eee;
     border-bottom:1px solid #eee;
 }
-table tbody td {
+table td {
     padding:10px;
     position: relative;
 }
@@ -404,7 +404,7 @@ table.plain tr:after {
 
 /* Tabs */
 
-.tabs:first-child {
+.tabs>div:first-child {
     font-size: 0;
 }
 .tab {

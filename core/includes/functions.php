@@ -278,15 +278,29 @@ function render_options( $type = 'radio', $name, $values = [], $attr = '', $labe
             $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
             $post = '</div>';
         }
-        foreach( $values as $val => $title ){
-            $k = $valued ? $val.$x : str_replace(' ','',$name).$x;
-            $value = $valued ? $val : $title;
-            if( $label_first ){
-                echo $pre . '<label for="'.$k.'">'.$title.'</label><input '.$attr.' '.$type.' name="'.$name.'" id="'.$k.'" value="'.$value.'" >' . $post;
-            } else {
-                echo $pre . '<input '.$attr.' '.$type.' name="'.$name.'" id="'.$k.'" value="'.$value.'" ><label for="'.$k.'">'.$title.'</label>' . $post;
+        if( is_assoc( $values ) ) {
+            foreach ($values as $val => $title) {
+                $k = $valued ? $val . $x : str_replace(' ', '', $name) . $x;
+                $value = $valued ? $val : $title;
+                if ($label_first) {
+                    echo $pre . '<label for="' . $k . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' name="' . $name . '" id="' . $k . '" value="' . $value . '" >' . $post;
+                } else {
+                    echo $pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" id="' . $k . '" value="' . $value . '" ><label for="' . $k . '">' . $title . '</label>' . $post;
+                }
+                $x++;
             }
-            $x++;
+        } else {
+            foreach ($values as $val) {
+                $k = $valued ? $val . $x : str_replace(' ', '', $name) . $x;
+                $title = is_array($val) && !empty($val[1]) ? $val[1] : $val;
+                $value = is_array($val) ? $val[0] : $val;
+                if ($label_first) {
+                    echo $pre . '<label for="' . $k . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' name="' . $name . '" id="' . $k . '" value="' . $value . '" >' . $post;
+                } else {
+                    echo $pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" id="' . $k . '" value="' . $value . '" ><label for="' . $k . '">' . $title . '</label>' . $post;
+                }
+                $x++;
+            }
         }
         /* if (is_assoc( $d )) {
             foreach ($d as $k => $t) {
@@ -304,8 +318,8 @@ function render_radios( $name, $values = [], $attr = '', $label_first = 0, $pre 
     render_options( 'radio', $name, $values, $attr, $label_first, $pre, $post );
 }
 
-function render_checkboxs( $name, $values = [], $pre = '', $post = '' ){
-    render_options( 'checkbox', $name, $values, $pre, $post );
+function render_checkboxs( $name, $values = [], $attr = '', $label_first = 0, $pre = '', $post = '' ){
+    render_options( 'checkbox', $name, $values, $attr, $label_first, $pre, $post );
 }
 
 // Render Input Elements
