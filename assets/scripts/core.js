@@ -225,6 +225,18 @@ function get_values( e, s, pre ) {
     return data;
 }
 
+function get_checkbox_values( e, string ) {
+    var d = [];
+    $('[name='+e+']').each(function(a,b){
+        $(b).is(':checked') ? d.push($(b).val()) : '';
+    });
+    if( string ) {
+        return d.join(', ');
+    } else {
+        return d;
+    }
+}
+
 function clear_values( e, s ){
     $(e).find(":input[data-"+s+"]:not(:button)","select[data-"+s+"]","textarea[data-"+s+"]").each(function () {
         $(this).val("").trigger('chosen:updated');
