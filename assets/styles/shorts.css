@@ -77,9 +77,9 @@ select.tar { text-align-last: right; }
 .fz20 {  font-size: 20px }
 .fz15 {  font-size: 15px }
 
-.fwl { font-weight: lighter }
-.fwb { font-weight: bold }
-.fwn { font-weight: normal }
+.fl, .fwl { font-weight: lighter }
+.fb, .fwb { font-weight: bold }
+.fn, .fwn { font-weight: normal }
 
 .ls0{ letter-spacing: 0 }
 .ls1{ letter-spacing: 1px }
