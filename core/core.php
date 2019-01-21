@@ -85,7 +85,9 @@ function app_loader() {
         !defined( 'APPURI' ) ? define( 'APPURI', APPURL . 'apps/' . $app . '/' ) : ''; // Defined Application URI Ex: https://ecommerce.mainapp.com/apps/ecommerce
 
         //$c = !empty( $config ) ? $config : '';
-        isset( $c['timezone'] ) && !empty( $c['timezone'] ) ? date_default_timezone_set( $c['timezone'] ) : '';
+        isset( $c['timezone'] ) && !empty( $c['timezone'] ) ? date_default_timezone_set( $c['timezone'] ) : ''; // Defines Timezone
+
+        isset( $c['ssl'] ) && $c['ssl'] && $_SERVER['HTTPS'] !== 'on' ? header('Location: https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ) : ''; // Forces SSL
 
         $appname = isset( $c['name'] ) && !empty( $c['name'] ) ? $c['name'] : ucwords( $app ); // Defines the Application Name Ex: Amazing App
         !defined( 'APPNAME' ) ? define( 'APPNAME', $appname ) : '';

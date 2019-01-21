@@ -19,6 +19,12 @@ function set_title( $title ){
     echo '<script>$(document).ready(function() { document.title = "' . $title . ' - ' . APPNAME . '"; });</script>';
 }
 
+// Fetches stylesheet with options
+
+function art( $color1, $color2 ) {
+    echo '<link rel="stylesheet" href="'.APPURL.'assets/art.php?fc='.$color1.'&sc='.$color2.'">';
+}
+
 // Returns a complete <link> for stylesheet if file exists either in app or in core, prioritizes minified file
 
 global $universal;
@@ -208,10 +214,10 @@ function elog( $line ){
 
 // Gets any file from components folder
 
-function comp_exists( $n ) {
+function comp_exists( $n, $dir ) {
     $ns = explode('/',str_replace('.php','',$n));
     $x = 1;
-    $fl = APPPATH . '/components/';
+    $fl = APPPATH . '/' . $dir . '/';
     foreach($ns as $n){
         if($x == count($ns)){
             $fl .= $n . '.php';
@@ -224,7 +230,13 @@ function comp_exists( $n ) {
 }
 
 function get_comp( $n ){
-    comp_exists( $n ) ? include( comp_exists( $n ) ) : '';
+    comp_exists( $n, 'components' ) ? include( comp_exists( $n, 'components' ) ) : '';
+}
+
+// Gets any file from modal
+
+function modal( $n ){
+    comp_exists( $n, 'modals' ) ? include( comp_exists( $n, 'modals' ) ) : '';
 }
 
 // Includes if page exists

@@ -90,17 +90,21 @@ $(document).ready(function(){
         var cl = $('[data-lang].on').data('lang');
         var nl = $(this).data('lang');
         var d = {'action':'get_translations','languages':[cl,nl],'method':'json'};
-        //console.log(d);
+
+        elog(d);
+
         $.post(location.origin,{'action':'set_language','lang':nl});
         $.post(location.origin,d,function(r){
             if( r = JSON.parse(r) ){
-                //console.log(r);
+
+                elog(r);
+
                 $.each(r[0],function(i){
                     if( r[0][i] !== '' && r[1][i] !== '') {
                         $(":contains('" + r[0][i] + "')").filter(function () {
                             return $(this).children().length === 0;
                         }).html(r[1][i]);
-                        console.log('Replacing '+r[0][i]+'with '+r[1][i]);
+                        elog('Replacing '+r[0][i]+'with '+r[1][i]);
                     }
                     //$('tbody').append('<tr><td>'++'</td><td>'+r[1][i]+'</td></tr>');
                 });
@@ -150,14 +154,16 @@ function prev_step( e ) {
 // FIELD FUNCTIONS
 function empty( e, d ) {
     d = d === undefined || d === '' ? '' : '[data-'+d+']';
-    console.log(d);
+
+    elog(d);
+
     if( $(e)[0] && $(e)[0].localName === 'div' ) {
         var r = [];
         $.each($(e).find('input'+d+',select'+d),function(a,b){
             if( b !== undefined && $(b).val() !== null && $(b).val() !== "" ){
                 r.push(false);
             } else {
-                if( appdebug ) { console.log( b ) }
+                elog( b );
                 r.push(true);
             }
         });
@@ -181,11 +187,11 @@ function sempty( e, d ) {
                 r.push(false);
             } else {
                 $(b).addClass('empty');
-                if( appdebug ) { console.log( b ) }
+                elog(b);
                 r.push(true);
             }
         });
-        if( appdebug ) { console.log( r ) }
+        elog(r);
         return $.inArray(true,r) !== -1 ? true : false;
     } else {
         if( $(e).val() !== null && $(e).val() !== "" ){
@@ -253,19 +259,21 @@ function process_data( e ){
     d.action = 'process_data';
     d.target = $(p).data('t');
     d.pre = pre;
+
     var types = Array('id','by','action','h','d','dt');
+
     $.each(types,function(x,a){
         if( $(p).data(a) !== undefined && $(p).data(a) !== '' ){
             d[a] = $(p).data(a);
         }
     });
-    if( appdebug ){
-        console.log(d);
-    }
+
+    elog(d);
+
     $.post( domain, d, function(r){
-        if( appdebug ){
-            console.log(r);
-        }
+
+        elog(r);
+
         if( r = JSON.parse(r) ){
             if(p.data('notify') !== undefined && p.data('notify') > 0){
                 notify(title+' '+r[1]);
@@ -282,23 +290,33 @@ function process_data( e ){
     });
 }
 
-function edit_data(e) {
-    var t = $($(e).data('t'));
+function edit_data( e, modal ) {
+    var t = $(e).data('t') ? $($(e).data('t')) : $(modal);
     var data = $(e).data('data');
 
-    if( appdebug ) { console.log(data); }
+    elog(data); elog(t);
 
     $.each( data, function(i,d){
         if( i === 'id' ){
-            t.show().data('id',d);
+            t.addClass('on').data('id',d);
         } else {
             $('#'+i).val(d).change();
         }
     });
 }
 
-function truncate_data(e) {
+function trash_data( q ) {
+    var d = { 'action':'trash_data', 'query':q };
+    elog(d);
+    if( confirm('Are you sure to delete ?') ){
+        $.post( location.origin, d, function(r){
+            elog(r);
+        })
+    }
+}
 
+function elog( d ) {
+    appdebug ? console.log( d ) : '';
 }
 
 // ALERTS

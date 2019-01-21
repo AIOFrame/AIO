@@ -369,6 +369,22 @@ function process_data() {
     }
 }
 
+function trash_data() {
+    unset($_POST['action']);
+    $cry = Crypto::initiate();
+    $d = $cry->decrypt( $_POST['query'] );
+    if( $d = explode('|',$d) ){
+        $t = delete( $d[0], $d[1].' = '.$d[2] );
+        if( $t ){
+            echo json_encode([1,'Data deleted successfully']);
+        } else {
+            echo json_encode([0,'Delete data failed due to query misinterpret']);
+        }
+    } else {
+        echo json_encode([0,'Delete data failed due to query misinterpret']);
+    }
+}
+
 function create_table( $table ){
     if( is_array( $table ) && defined('APPCON') && APPCON ){
         $query = 'CREATE TABLE IF NOT EXISTS '.$table[0].' ('.$table[1].'_id INT(13) AUTO_INCREMENT PRIMARY KEY';
