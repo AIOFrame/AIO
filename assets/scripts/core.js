@@ -115,6 +115,9 @@ $(document).ready(function(){
         });
     });
 
+    // Markup '[data-m]','[data-mt]','[data-mr]','[data-mb]','[data-ml]','[data-p]','[data-pt]','[data-pr]','[data-pb]','[data-pl]'
+
+    $.each($('[data-ml]'),function(a,b){ $(b).css({'margin-left':$(b).data('ml')}); });
 });
 
 function get_mac() {

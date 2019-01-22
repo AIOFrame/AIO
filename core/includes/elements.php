@@ -13,3 +13,9 @@ function favicon( $icon ){
         }
     }
 }
+
+function body_class() {
+    $dc = APPDEBUG ? 'debug' : '';
+    $pc = str_replace('/',' ',PAGEPATH);
+    echo 'class="'.$dc.' '.$pc.'"';
+}

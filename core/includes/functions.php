@@ -30,7 +30,7 @@ function art( $color1, $color2 ) {
 global $universal;
 $universal = [ 'styles' => [], 'scripts' => [] ];
 
-function get_style( $f ) {
+function get_style( $f, $page_of = '' ) {
     global $universal;
     if( !in_array( $f, $universal['styles'] )) {
         $universal['styles'][] = $f;
@@ -48,13 +48,17 @@ function get_style( $f ) {
         } else if (file_exists($cf . '.css')) {
             $url = $cfl . '.css';
         }
-        echo $url !== '' ? '<link rel="stylesheet" href="' . $url . '">' : '';
+        if( $page_of !== '' ) {
+            echo page_of( $page_of ) && $url !== '' ? '<link rel="stylesheet" href="' . $url . '">' : '';
+        } else {
+            echo $url !== '' ? '<link rel="stylesheet" href="' . $url . '">' : '';
+        }
     }
 }
 
 // Returns a complete <script> if file exists either in app or in core, prioritizes minified file
 
-function get_script( $f ) {
+function get_script( $f, $page_of = '' ) {
     global $universal;
     if( !in_array( $f, $universal['scripts'] )) {
         $universal['scripts'][] = $f;
@@ -72,7 +76,12 @@ function get_script( $f ) {
         } else if (file_exists($cf . '.js')) {
             $url = $cfl . '.js';
         }
-        echo $url !== '' ? '<script src="' . $url . '"></script>' : '';
+        if( $page_of !== '' ){
+            echo page_of( $page_of ) && $url !== '' ? '<script src="' . $url . '"></script>' : '';
+        } else {
+            echo $url !== '' ? '<script src="' . $url . '"></script>' : '';
+        }
+
     }
 }
 
@@ -133,20 +142,28 @@ function reset_styles() {
 
 // Loops an array of file names for .min.css / .css extension and returns if exists
 
-function get_styles( $ar = "" ) {
+function get_styles( $ar = '', $page_of = '' ) {
     if( !empty( $ar ) ){
         foreach( $ar as $f ){
-            get_style( $f );
+            if( $page_of !== '' ){
+                page_of( $page_of ) ? get_style( $f ) : '';
+            } else {
+                get_style( $f );
+            }
         }
     }
 }
 
 // Loop an array for file names for .min.js / .js extension and returns if exists
 
-function get_scripts( $ar = "" ) {
+function get_scripts( $ar = '', $page_of = '' ) {
     if( !empty( $ar ) ){
         foreach( $ar as $f ){
-            get_script( $f );
+            if( $page_of !== '' ){
+                page_of( $page_of ) ? get_script( $f ) : '';
+            } else {
+                get_script( $f );
+            }
         }
     }
 }

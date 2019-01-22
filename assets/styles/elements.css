@@ -240,6 +240,9 @@ table.plain tr:after {
     display: block;
     margin:auto;
 }
+.tac .ico.dib {
+    display: inline-block;
+}
 .ico.md, .ico.m {
     width:32px;
     height:32px;
