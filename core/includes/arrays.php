@@ -113,6 +113,22 @@ function prepare_values( $array = '', $pre = '' ) {
     return $values;
 }
 
+// Prepares an array of values of particular key from a given array or post
+
+function values_by_key( $array = [], $key = '' ){
+    $values = [];
+    $array = is_array( $array ) ? $array : $_POST;
+    unset( $array['action'] );
+    if( is_array( $array ) && !empty( $array ) ){
+        foreach( $array as $a ){
+            if( $a[$key] !== '' ){
+                $values[] = $a[$key];
+            }
+        }
+    }
+    return $values;
+}
+
 // Finds and Replaces in Array Keys
 // TODO: Add string that should be replaced with
 

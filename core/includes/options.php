@@ -127,7 +127,11 @@ function insert( $table, $names, $values ){
             }
             $fv = substr($fv,0, -2);
             $q = "INSERT INTO $table ($names) VALUES ($fv)";
-            elog('[QUERY] '.$q);
+
+            $df = debug_backtrace();
+            $df = !empty($df) && is_array($df) && isset($df[0]['file']) && isset($df[0]['line']) ? '['.$df[0]['line'].' -> '.str_replace(COREPATH,'',$df[0]['file']).']' : '';
+
+            elog('[INS] '.$q.' '.$df.PHP_EOL.PHP_EOL);
             //return $q;
             $query = $db ? mysqli_query( $db, $q ) : '';
             if( $query ) {
@@ -207,7 +211,10 @@ function select( $table, $cols = '*', $where = '', $limit = 0, $offset = 0 , $gr
     $o .= $limit >= 1 ? ' LIMIT '.$limit : '';
     $o .= $offset > 1 ? ' OFFSET '.$offset : '';
 
-    elog($o);
+    $df = debug_backtrace();
+    $df = !empty($df) && is_array($df) && isset($df[0]['file']) && isset($df[0]['line']) ? '['.$df[0]['line'].' -> '.str_replace(COREPATH,'',$df[0]['file']).']' : '';
+
+    elog('[SELECT] '.$o.' '.$df.PHP_EOL.PHP_EOL);
 
     $q = $db ? mysqli_query($db, $o) : '';
 
@@ -226,7 +233,7 @@ function select( $table, $cols = '*', $where = '', $limit = 0, $offset = 0 , $gr
             }
         }
     } else {
-        elog('[ERROR] '.mysqli_error($db));
+        elog('[ERROR] '.mysqli_error($db).' '.$df);
     }
 }
 
@@ -290,7 +297,10 @@ function delete( $table, $logic ){
         $q = "DELETE FROM $table WHERE $logic";
     }
 
-    elog('[QUERY] '.$q);
+    $df = debug_backtrace();
+    $df = !empty($df) && is_array($df) && isset($df[0]['file']) && isset($df[0]['line']) ? '['.$df[0]['line'].' -> '.str_replace(COREPATH,'',$df[0]['file']).']' : '';
+
+    elog('[DEL] '.$q.' '.$df.PHP_EOL.PHP_EOL);
 
     if (mysqli_query( $db, $q )) {
         return true;
@@ -402,7 +412,12 @@ function create_table( $table ){
             }
         }
         $query .= ")";
-        elog('[QUERY] '.$query);
+
+        $df = debug_backtrace();
+        $df = !empty($df) && is_array($df) && isset($df[0]['file']) && isset($df[0]['line']) ? '['.$df[0]['line'].' -> '.str_replace(COREPATH,'',$df[0]['file']).']' : '';
+
+        elog('[TABLE] '.$query.' '.$df.PHP_EOL.PHP_EOL);
+
         if( !empty( $query ) ){
             global $db;
             if( mysqli_query( $db, $query ) == 1 ){
@@ -445,8 +460,14 @@ function create_column( $table, $column, $type = 'TEXT', $length = '13', $null =
     $exist = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$column'";
     $query = "ALTER TABLE $table ADD $column $type$length $null";
     $query .= !empty($default) ? ' default "'.$default.'"' : '';
-    elog('[QUERY] '.$exist);
-    elog('[QUERY] '.$query);
+
+    elog('[COL] '.$exist);
+
+    $df = debug_backtrace();
+    $df = !empty($df) && is_array($df) && isset($df[0]['file']) && isset($df[0]['line']) ? '['.$df[0]['line'].' -> '.str_replace(COREPATH,'',$df[0]['file']).']' : '';
+
+    elog('[COL] '.$query.' '.$df.PHP_EOL.PHP_EOL);
+
     global $db;
     $e = mysqli_query( $db, $exist );
     if( $e && $e->fetch_assoc()['COUNT(*)'] == 0 ){
@@ -457,4 +478,8 @@ function create_column( $table, $column, $type = 'TEXT', $length = '13', $null =
             return false;
         }
     }
+}
+
+function log_man() {
+
 }
