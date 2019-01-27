@@ -50,6 +50,14 @@ class ALERTS {
     }
 }
 
+function alert_seen( $alert_id = '' ) {
+    $aid = isset( $_POST['id'] ) && !empty( $_POST['id'] ) ? $_POST['id'] : $alert_id;
+    $c = Crypto::initiate();
+    if( $id = $c->decrypt($aid) ){
+        ALERTS::alert_seen( $id );
+    }
+}
+
 /*
 
 GUIDE FOR ACTIONS
