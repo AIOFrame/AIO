@@ -91,20 +91,20 @@
 .alerts {
     background: #f3f3f3;
     border: 1px solid #fff;
-    padding: 4px;
+    padding: 4px 0;
     position: relative;
     line-height: 100%;
     height:30vh;
     overflow-y:auto;
+    min-width: 23vw;
 }
 .alert {
     display: block;
-    min-width: 23vw;
     text-align: left;
     background: rgba(255,255,255,97);
-    border-radius: 10px;
     margin-bottom: 4px;
-    box-shadow:0 0 5px rgba(0,0,0,.1)
+    /*border-radius: 8px;*/
+    /*box-shadow:0 0 5px rgba(0,0,0,.1)*/
 }
 .alert:last-child {
     margin: 0;
@@ -188,7 +188,6 @@ table td.r, table th.r, table td.r input {
     text-align: right;
 }
 table.xls thead tr {
-    background:lightgrey;
     box-shadow:none;
 }
 table.xls td {
