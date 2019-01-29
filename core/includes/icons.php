@@ -7,7 +7,7 @@ if( APPDEBUG ) {
     fclose($icon_css);
 }
 
-function icon( $name, $size = 25, $thickness = 15, $color = '#000000', $stroke = true ) {
+function _icon( $name, $size = 25, $thickness = 15, $color = '#000000', $stroke = true ) {
     global $icons;
     if( is_array( $name ) ){
         if( file_exists( COREPATH . 'core/components/icons/'. $name[0] . '.svg' ) || file_exists( APPPATH . 'assets/images/icons/' .$name[0] . '.svg' ) ) {
@@ -21,7 +21,7 @@ function icon( $name, $size = 25, $thickness = 15, $color = '#000000', $stroke =
     if( file_exists( COREPATH . 'core/components/icons/'. $name . '.svg' ) || file_exists( APPPATH . 'assets/images/icons/' .$name . '.svg' ) ) {
         $icons[] = $name;
         $stroke = $stroke ? 'none' : $color;
-        echo '<div class="ico '.str_replace(' ','_',$name).'" style="width:' . $size . 'px;height:' . $size . 'px;stroke-width:' . $thickness . ' !important;stroke:' . $color . ';fill:' . $stroke . ' !important">';
+        $data = '<div class="ico '.str_replace(' ','_',$name).'" style="width:' . $size . 'px;height:' . $size . 'px;stroke-width:' . $thickness . ' !important;stroke:' . $color . ';fill:' . $stroke . ' !important">';
         $f = file_exists( COREPATH . 'core/components/icons/'. $name . '.svg' ) ? file_get_contents( COREPATH . 'core/components/icons/' . $name . '.svg') : file_get_contents( APPPATH . 'assets/images/icons/' . $name . '.svg');
         $f = remove_elements( $f, '<style', '</style>' );
         $f = remove_elements( $f, '<?xml', '?>' );
@@ -29,8 +29,8 @@ function icon( $name, $size = 25, $thickness = 15, $color = '#000000', $stroke =
         //echo '<style>.</style>';
         /* $f = preg_replace('@<(style)\b.*?>.*?</\1>@si', '', $f); */
         //$f = remove_elements( $f, '<style', '</style>' );
-        echo $f;
-        echo '</div>';
+        $data .= $f;
+        $data .= '</div>';
         /* if( APPDEBUG && !empty( $icons ) ){
             $f = file_get_contents( COREPATH . 'core/components/icons/' . $name . '.svg');
             $f = remove_elements( $f, '<style', '</style>' );
@@ -39,7 +39,12 @@ function icon( $name, $size = 25, $thickness = 15, $color = '#000000', $stroke =
             $f = '.'.$name.' { background:url(\'data:image/svg+xml;utf8,'.$f.'\'); }';
             $icon_css = file_put_contents(APPPATH.'assets/styles/icons.css',$f.' '.PHP_EOL,FILE_APPEND | LOCK_EX);
         } */
+        return $data;
     } else if( file_exists( APPPATH . 'assets/images/'.$name.'.jpg') || file_exists( APPPATH . 'assets/images/'.$name.'.png' ) ) {
 
     }
+}
+
+function icon( $name, $size = 25, $thickness = 15, $color = '#000000', $stroke = true ) {
+    echo _icon( $name, $size, $thickness, $color, $stroke );
 }
