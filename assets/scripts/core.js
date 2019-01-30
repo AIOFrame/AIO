@@ -5,7 +5,7 @@ var domain;
 $(document).ready(function(){
 
     // MANIPULATOR
-    $(document).on('click', '[data-action], [data-show], [data-on], [data-hide], [data-slide], [data-remove],[data-toggle],[data-resetsrc],[data-resetinput]', function () {
+    $(document).on('click', '[data-action], [data-show], [data-on], [data-hide], [data-slide], [data-remove],[data-toggle],[data-resetsrc],[data-resetinput],[data-click]', function () {
         if ($(this).data('togglescroll') === true) {
             scroll_lock();
         }
@@ -25,6 +25,7 @@ $(document).ready(function(){
         $($(this).data('slide')).slideToggle();
         $($(this).data('resetsrc')).attr('src', '');
         $($(this).data('resetinput')).val('');
+        $($(this).data('click')).click();
         if($($(this).data('show')).hasClass('modal') || $($(this).data('on')).hasClass('modal')){
             $('article').addClass('fade');
         }

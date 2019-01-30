@@ -76,17 +76,23 @@ function get_translations() {
 }
 
 function get_untranslations() {
-    var d = {'action':'get_untranslations'};
+    var d = {'action':'get_untranslated'};
     $.post(location.origin,d,function(r){
+        console.log(r);
         if( r = JSON.parse(r) ){
-            console.log(r);
+            if( r[0] === 1 ){
+                $.each( r[1], function( i, word ) {
+                    add_row( word );
+                });
+                build_translations();
+            }
         }
     })
 }
 
-function add_row() {
-    $('tbody').append('<tr><td></td><td></td></tr>').animate({ scrollTop: $('tbody')[0].scrollHeight }, 1000);
-    $('tbody tr:last-child').click();
+function add_row( string ) {
+    string = string === undefined ? '' : string;
+    $('tbody').append('<tr><td>'+string+'</td><td></td></tr>').animate({ scrollTop: $('tbody')[0].scrollHeight }, 1000).find('tr:last-child').click();
 }
 
 function save_row() {

@@ -17,7 +17,7 @@ if( !empty( $_SESSION['lang'] ) ){
         $langs[] = include( APPPATH . 'languages/' . $_SESSION['lang'] . '.php' );
     }
     $clangs = isset( $clangs[0] ) && isset( $clangs[1] ) && !is_integer( $clangs[0] ) && !is_integer( $clangs[1] ) ? array_combine( $clangs[0], $clangs[1] ) : [];
-    $langs = isset( $langs[0] ) && isset( $langs[1] ) && !is_integer( $langs[0] ) && !is_integer( $langs[1] ) ? array_combine( $langs[0], $langs[1] ) : [];
+    $langs = isset( $langs[0] ) && isset( $langs[1] ) && !is_integer( $langs[0] ) && !is_integer( $langs[1] ) && count($langs[0]) == count($langs[1]) ? array_combine( $langs[0], $langs[1] ) : [];
     $langs = array_merge( $clangs, $langs );
     //skel($langs);
 }
@@ -26,18 +26,18 @@ if( !empty( $_SESSION['lang'] ) ){
 
 function __( $string ) {
     global $langs; global $untranslated;
-    !isset( $langs[$string] ) ? save_untranslated( $string ) : '';
+    !isset( $langs[$string] ) || $langs[$string] == '' ? save_untranslated( $string ) : '';
     //!isset( $langs[$string] ) ? $untranslated[] = $string : '';
-    echo isset( $langs[$string] ) ? $langs[$string] : $string;
+    echo isset( $langs[$string] ) && $langs[$string] !== '' ? $langs[$string] : $string;
 }
 
 // Change and return the word as per set language
 
 function _t( $string ) {
     global $langs; global $untranslated;
-    !isset( $langs[$string] ) ? save_untranslated( $string ) : '';
+    !isset( $langs[$string] ) || $langs[$string] == '' ? save_untranslated( $string ) : '';
     //!isset( $langs[$string] ) ? $untranslated[] = $string : '';
-    return isset( $langs[$string] ) ? $langs[$string] : $string;
+    return isset( $langs[$string] ) && $langs[$string] !== '' ? $langs[$string] : $string;
 }
 
 function save_untranslated( $string ){
@@ -132,6 +132,16 @@ function build_translations() {
 }
 
 function get_untranslated() {
-    global $untranslated;
-    return $untranslated;
+
+    if( !empty( $_SESSION['lang'] ) ){
+
+        $words = get_option( 'untranslated_' . $_SESSION['lang'] );
+        echo !empty( $words ) ? json_encode( [1, unserialize($words)] ) : json_encode( [0, _t('Fetching untranslated words failed')] );
+
+    } else {
+
+        echo json_encode( [0, _t('Language is not selected, Please select Language')] );
+
+    }
+
 }
