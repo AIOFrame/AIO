@@ -42,15 +42,18 @@ function _t( $string ) {
 
 function save_untranslated( $string ){
     if( isset( $_SESSION['lang'] ) ) {
-        $eo = get_option('untranslated_' . $_SESSION['lang']);
-        if ($eo) {
-            $eo = unserialize($eo);
-            if( !in_array( $string, $eo ) ){
-                $no = update_option('untranslated_' . $_SESSION['lang'], array_merge( $eo, [ $string ] ) );
+        global $untranslated_words;
+        $untranslated_words[] = $string;
+        /*elog( 'some' );
+        $untranslated_words = !isset( $untranslated_words ) ? get_option('untranslated_' . $_SESSION['lang']) : $untranslated_words;
+        $untranslated_words = !is_array( $untranslated_words ) ? unserialize( $untranslated_words ) : $untranslated_words;
+        if ( $untranslated_words ) {
+            if( !in_array( $string, $untranslated_words ) ){
+                $no = update_option('untranslated_' . $_SESSION['lang'], array_merge( $untranslated_words, [ $string ] ) );
             }
         } else {
             $no = update_option('untranslated_' . $_SESSION['lang'], serialize([$string]) );
-        }
+        }*/
     }
 }
 

@@ -111,8 +111,9 @@ function app_loader() {
             }
 
         }
-        require( COREPATH . 'core/access.php' );
-        require( COREPATH . 'core/includes.php' );
+        require( COREPATH . 'core/access.php' ); // Loads authorization files
+        require( COREPATH . 'core/includes.php' ); // Loads all PHP files from Includes
+        require( COREPATH . 'core/includes/exit.php' ); // Loads closing PHP file
     } else {
         $error = '00';
         include( COREPATH . 'core/pages/error.php');

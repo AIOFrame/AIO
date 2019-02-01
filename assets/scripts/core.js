@@ -213,25 +213,40 @@ function clear(e){
 }
 
 function get_values( e, s, pre ) {
-    pre = pre !== undefined && pre !== '' ? pre + '_' : '';
-    var data = {};
-    $(e).find(":input[data-"+s+"]:not(:button)","select[data-"+s+"]","textarea[data-"+s+"]").each(function () {
-        var v;
-        if($(this).hasClass('nf')){ v = unformat_number( $(this).val() ) } else { v = $(this).val() }
-        if($(this).attr('type') === 'checkbox' || $(this).attr('type') === 'radio'){ v = $(this).is(':checked'); }
 
-        if( v === true ){
-            v = 1;
+    pre = pre !== undefined && pre !== '' ? pre + '_' : '';
+
+    var data = {};
+
+    $(e).find(":input[data-"+s+"]:not(:button)","select[data-"+s+"]","textarea[data-"+s+"]").each(function () {
+
+        var v;
+
+        if($(this).hasClass('nf')){ v = unformat_number( $(this).val() ) } else { v = $(this).val() }
+
+        if( $(this).attr('type') === 'checkbox' || $(this).attr('type') === 'radio' ){
+
+            v = $(this).is(':checked');
+
+            if( v === true ){ v = 1; } else if( v === false ) { v = 0; }
+
         }
 
         if( $(this).data('key') !== undefined ){
+
             data[pre + $(this).data('key')] = v;
+
         } else if( $(this).attr('id') !== undefined ){
+
             data[pre + $(this).attr('id')] = v;
+
         } else {
+
             data[pre + $(this).attr('class')] = v;
         }
+
     });
+
     return data;
 }
 

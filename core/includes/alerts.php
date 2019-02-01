@@ -5,9 +5,10 @@ class ALERTS {
     function __construct() {
     }
 
-    public static function get( $limit = 20, $offset = 0, $all = false, $days = '', $type = '' ) {
+    public static function get( $limit = 20, $offset = 0, $unseen = 0, $days = '', $type = '' ) {
         $days = empty( $days ) ? '30' : $days;
         $q = 'al_time > DATE_SUB(NOW(), INTERVAL '.$days.' DAY)';
+        $q .= $unseen ? ' AND al_seen = 0': '';
         $alerts = select( 'alerts', '*', $q, $limit, $offset );
         return $alerts;
     }
@@ -26,11 +27,12 @@ class ALERTS {
     public static function html( $array = [] ){
         $alerts = replace_in_keys( $array, 'al_' );
         if( is_array( $array ) && !empty( $array ) ){
+            $cry = Crypto::initiate();
             foreach( $alerts as $a ){
                 if( !empty( $a['link'] ) ){
-                    echo '<a href="'.APPURL.$a['link'].'" class="alert '.$a['type'].'" data-type="'.$a['type'].'"><div class="close"></div><div class="title">'.$a['name'].'</div><div class="note">'.$a['note'].'</div></a>';
+                    echo '<a href="'.APPURL.$a['link'].'" class="alert '.$a['type'].'" data-type="'.$a['type'].'"><div  data-id="'.$cry->encrypt($a['id']).'" class="close"></div><div class="title">'.$a['name'].'</div><div class="note">'.$a['note'].'</div></a>';
                 } else {
-                    echo '<div class="alert '.$a['type'].'" data-type="'.$a['type'].'"><div class="close"></div><div class="title">'.$a['name'].'</div><div class="note">'.$a['note'].'</div></div>';
+                    echo '<div class="alert '.$a['type'].'" data-type="'.$a['type'].'"><div data-id="'.$cry->encrypt($a['id']).'" class="close"></div><div class="title">'.$a['name'].'</div><div class="note">'.$a['note'].'</div></div>';
                 }
             }
         }
@@ -46,7 +48,7 @@ class ALERTS {
     }
 
     public static function alert_seen( $alert_id ) {
-        update( 'alerts', 'alert_seen', 1, 'alert_id = "'.$alert_id.'"' );
+        return update( 'alerts', 'al_seen', 1, 'al_id = "'.$alert_id.'"' );
     }
 }
 
@@ -54,7 +56,7 @@ function alert_seen( $alert_id = '' ) {
     $aid = isset( $_POST['id'] ) && !empty( $_POST['id'] ) ? $_POST['id'] : $alert_id;
     $c = Crypto::initiate();
     if( $id = $c->decrypt($aid) ){
-        ALERTS::alert_seen( $id );
+        echo ALERTS::alert_seen( $id ) ? 1 : 0;
     }
 }
 

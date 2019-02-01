@@ -83,13 +83,17 @@ function array_by_key( $array, $key ){
 
 // Prepares an array of only keys from a given array or post
 
-function prepare_keys( $array = '', $pre = '' ) {
+function prepare_keys( $array = '', $pre = '', $remove_empty = 1 ) {
     $keys = [];
     $array = is_array( $array ) ? $array : $_POST;
     unset( $array['action'] );
     if( is_array( $array ) && !empty( $array ) ){
         foreach( $array as $k => $v ){
-            if( $v !== '' ){
+            if( $remove_empty ){
+                if($v !== '' ){
+                    $keys[] = $pre.$k;
+                }
+            } else {
                 $keys[] = $pre.$k;
             }
         }
@@ -99,13 +103,17 @@ function prepare_keys( $array = '', $pre = '' ) {
 
 // Prepares an array of only values from a given array or post
 
-function prepare_values( $array = '', $pre = '' ) {
+function prepare_values( $array = '', $pre = '', $remove_empty = 1 ) {
     $values = [];
     $array = is_array( $array ) ? $array : $_POST;
     unset( $array['action'] );
     if( is_array( $array ) && !empty( $array ) ){
         foreach( $array as $k => $v ){
-            if( $v !== '' ){
+            if( $remove_empty ){
+                if( $v !== '' ){
+                    $values[] = $pre.$v;
+                }
+            } else {
                 $values[] = $pre.$v;
             }
         }
