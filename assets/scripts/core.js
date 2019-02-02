@@ -116,32 +116,53 @@ $(document).ready(function(){
         });
     });
 
+    // Fetch States
+
+    $('body').on('change','select[data-states]',function(){
+
+        var t = $($(this).data('states'));
+
+        if( $(this).data('states') !== '' ){
+
+            $.post( location.origin, { 'action':'states', 'id': $(this).val() }, function(r){
+
+                if( r = JSON.parse( r ) ){
+
+                    if( $.isArray( r ) ){
+
+                        elog(r);
+
+                        var o = '';
+                        $.each( r, function(i,s){
+
+                            o += '<option value="' + s + '">' + s + '</option>';
+
+                        });
+
+                        elog(o);
+                        elog(t);
+
+                        $(t).html(o);
+
+                        if($(t).hasClass('select2')) {
+
+                            $(t).select2('destroy').select2({ width:'100%' });
+
+                        }
+                    }
+
+                }
+
+            });
+
+        }
+
+    });
+
     // Markup '[data-m]','[data-mt]','[data-mr]','[data-mb]','[data-ml]','[data-p]','[data-pt]','[data-pr]','[data-pb]','[data-pl]'
 
     $.each($('[data-ml]'),function(a,b){ $(b).css({'margin-left':$(b).data('ml')}); });
 });
-
-function get_mac() {
-    var obj = new ActiveXObject("WbemScripting.SWbemLocator");
-    var s = obj.ConnectServer(".");
-    var properties = s.ExecQuery("SELECT * FROM Win32_NetworkAdapterConfiguration");
-    var e = new Enumerator(properties);
-    console.log(e);
-    var output;
-    output = '<table border="0" cellPadding="5px" cellSpacing="1px" bgColor="#CCCCCC">';
-    output = output + '<tr bgColor="#EAEAEA"><td>Caption</td><td>MACAddress</td></tr>';
-    while (!e.atEnd()) {
-        e.moveNext();
-        var p = e.item();
-        if (!p) continue;
-        output = output + '<tr bgColor="#FFFFFF">';
-        output = output + '<td>' + p.Caption; +'</td>';
-        output = output + '<td>' + p.MACAddress + '</td>';
-        output = output + '</tr>';
-    }
-    output = output + '</table>';
-    console.log(output);
-}
 
 function goto_step( e, s ){
     $(e).find('.step:nth-child('+s+')').click();

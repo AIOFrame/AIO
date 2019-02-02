@@ -60,31 +60,196 @@ function get_timezones(){
     return timezone_identifiers_list();
 }
 
-// Returns Countries or Country
+// Returns Countries or Country $key = 'code' || 'name' || 'symbol'
 
-function get_countries( $country = "" ){
-    $countries = include( COREPATH . 'core/components/data/countries.php');
-    if ($country == '' || !isset($country)) {
-        return $countries;
-    } else {
-        if( is_numeric( $country ) ){
-            $ckeys = array_keys( $countries );
-            if( isset( $countries[$ckeys[$country]] ) && !empty($countries[$ckeys[$country]]) )
-                echo $countries[$ckeys[$country]];
-        } else {
-            $position =  array_key_exists($country, $countries) ;
-            if ($position)
-                return $countries[$country];
+function countries( $value = 'name', $key = 'iso2', $country_code = '' ){
+
+    $q = $country_code && $country_code !== '' ? 'iso2 = "'.$country_code.'"' : '';
+
+    if( $key == 'phone' || $key == 'phonecode' )
+        $c1 = 'phonecode';
+    else if( $key == 'iso3' )
+        $c1 = 'iso3';
+    else if( $key == 'currency' )
+        $c1 = 'currency';
+    else
+        $c1 = $key;
+
+    if( $value == 'iso2' )
+        $c2 = 'iso2';
+    else if( $value == 'iso3' )
+        $c2 = 'iso3';
+    else if( $value == 'phone' || $value == 'phonecode' )
+        $c2 = 'phonecode';
+    else if( $value == 'capital' )
+        $c2 = 'capital';
+    else if( $value == 'currency' )
+        $c2 = 'currency';
+    else if( $value == 'symbol' )
+        $c2 = 'symbol';
+    else if( $value == 'currency_name' )
+        $c2 = 'currency_name';
+    else
+        $c2 = $value;
+
+    elog($key.' '.$c1);
+    elog($value.' '.$c2);
+    $data = select( 'countries', $c1.','.$c2, $q );
+
+    if( !empty( $data ) && is_array( $data ) ){
+
+        $countries = [];
+
+        foreach( $data as $c ){
+            $countries[ $c[$c1] ] = $c[$c2];
         }
+
+        return $countries;
+
+    } else {
+        return [];
     }
 }
 
-// Returns Currencies
+// Returns States of a Country
 
-function get_currencies( $type = 'codes' ){
-    if( file_exists( COREPATH . 'core/components/data/currencies/' . $type . '.php' ) ){
-        return include( COREPATH . 'core/components/data/currencies/' . $type . '.php' );
+function states( $country_code = 'AE' ) {
+
+    if( isset( $_POST['id'] ) ){
+
+        $country_code = $_POST['id'];
+
     }
+
+    if( is_numeric( $country_code ) ){
+
+        $id['id'] = $country_code;
+
+    } else {
+
+        $id = select( 'countries', 'id', 'iso2 = "'.$country_code.'"', 1 );
+
+    }
+
+    $q = isset( $id['id'] ) ? 'country_id = "'.$id['id'].'"' : '';
+
+    if( $q != '' ) {
+
+        $data = select( 'states', 'name', $q );
+
+        if( is_array( $data ) ){
+
+            $states = [];
+
+            foreach( $data as $d ){
+
+                $states[] = $d['name'];
+
+            }
+
+            if( isset( $_POST['id'] ) ) { echo json_encode($states); } else { return $states; }
+
+        } else {
+
+            return [];
+
+        }
+
+
+    } else {
+
+        return [];
+
+    }
+
+}
+
+// Returns Cities of a State or Country
+
+function cities( $state_name = '', $country_code = 'AE' ) {
+
+    if( $state_name != '' ){
+
+        $id = select( 'states', 'id', 'name = "'.$state_name.'"', 1 );
+
+        $q = isset( $id['id'] ) ? 'state_id = "'.$id['id'].'"' : '';
+
+    } else if( $country_code != '' ){
+
+        $id = select( 'countries', 'id', 'iso2 = "'.$country_code.'"', 1 );
+
+        $q = isset( $id['id'] ) ? 'country_id = "'.$id['id'].'"' : '';
+
+    }
+
+    if( $q != '' ) {
+
+        $data = select( 'cities', 'name', $q );
+
+        if( is_array( $data ) ){
+
+            $cities = [];
+
+            foreach( $data as $d ){
+
+                $cities[] = $d['name'];
+
+            }
+
+            return $cities;
+
+        } else {
+
+            return [];
+
+        }
+
+
+    } else {
+
+        return [];
+
+    }
+
+}
+
+// Returns Currency or Currencies. $key = 'code' || 'name' || 'symbol'
+
+function currencies( $value = 'name', $key = 'code', $country_code = false ){
+
+    $q = $country_code && $country_code !== '' ? 'iso2 = "'.$country_code.'"' : '';
+
+    if( $key == 'symbol' )
+        $c1 = 'currency_symbol';
+    else if( $key == 'name' )
+        $c1 = 'currency_name';
+    else
+        $c1 = $key;
+
+    if( $value == 'symbol' )
+        $c2 = 'currency_symbol';
+    else if( $value == 'code' )
+        $c2 = 'currency';
+    else
+        $c2 = $value;
+
+    $cdata = select( 'countries', $c1.','.$c2, $q );
+
+    if( !empty( $cdata ) && is_array( $cdata ) ){
+
+        $currencies = [];
+
+        foreach( $cdata as $c ){
+            $currencies[ $c[$c1] ] = $c[$c2];
+        }
+
+        return $currencies;
+
+    } else {
+        return [];
+    }
+
+    //return $currencies;
 }
 
 // Returns Languages
