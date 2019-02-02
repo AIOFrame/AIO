@@ -480,6 +480,49 @@ function create_column( $table, $column, $type = 'TEXT', $length = '13', $null =
     }
 }
 
+function export_tables( $tables = [] ) {
+
+}
+
+function import_tables( $file ) {
+
+    if( file_exists( $file ) ){
+
+        $q = '';
+
+        $lines = file( $file );
+
+        global $db;
+
+        $df = debug_backtrace();
+        $df = !empty($df) && is_array($df) && isset($df[0]['file']) && isset($df[0]['line']) ? '['.$df[0]['line'].' -> '.str_replace(COREPATH,'',$df[0]['file']).']' : '';
+
+        elog('[SELECT] '.$o.' '.$df.PHP_EOL.PHP_EOL);
+
+        $q = $db ? mysqli_query($db, $o) : '';
+
+        if( $q ){
+            $data = [];
+            while ($row = $q->fetch_assoc()) {
+                $data[] = $row;
+            }
+            if( $count && !empty( $data ) ){
+                return end( $data[0] );
+            } else if( !empty( $data ) ){
+                if( $limit == 1 ){
+                    return $data[0];
+                } else {
+                    return $data;
+                }
+            }
+        } else {
+            elog('[ERROR] '.mysqli_error($db).' '.$df);
+        }
+
+    }
+
+}
+
 function log_man() {
 
 }

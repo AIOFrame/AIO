@@ -215,7 +215,7 @@ function cities( $state_name = '', $country_code = 'AE' ) {
 
 // Returns Currency or Currencies. $key = 'code' || 'name' || 'symbol'
 
-function currencies( $value = 'name', $key = 'code', $country_code = false ){
+function currencies( $value = 'code', $key = 'currency', $country_code = false ){
 
     $q = $country_code && $country_code !== '' ? 'iso2 = "'.$country_code.'"' : '';
 
@@ -243,7 +243,7 @@ function currencies( $value = 'name', $key = 'code', $country_code = false ){
             $currencies[ $c[$c1] ] = $c[$c2];
         }
 
-        return $currencies;
+        return array_filter( $currencies );
 
     } else {
         return [];
