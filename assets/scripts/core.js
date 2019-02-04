@@ -204,6 +204,7 @@ function empty( e, d ) {
 
 function sempty( e, d ) {
     d = d === undefined || d === '' ? '' : '[data-'+d+']';
+    elog(d);
     if( $(e)[0] && $(e)[0].localName === 'div' ){
         var r = [];
         $.each($(e).find('input'+d+',select'+d),function(a,b){
@@ -212,9 +213,9 @@ function sempty( e, d ) {
                 r.push(false);
             } else {
                 $(b).addClass('empty');
-                elog(b);
                 r.push(true);
             }
+            elog(b);
         });
         elog(r);
         return $.inArray(true,r) !== -1 ? true : false;

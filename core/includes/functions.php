@@ -513,6 +513,18 @@ function encrypt_array( $array ){
     return $cry->encrypt(serialize($array));
 }
 
+function eis( $post = '' ) {
+    echo isset( $post ) && !empty( $post ) ? $post : '';
+}
+
+function P( $string ) {
+    return isset( $_POST[$string] ) ? $_POST[$string] : 0;
+}
+
+function G( $string ) {
+    return isset( $_GET[$string] ) ? $_GET[$string] : 0;
+}
+
 /* File Uploader
 function media_upload() {
     include_once( COREPATH . 'core/components/media.php' );

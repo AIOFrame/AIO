@@ -7,4 +7,5 @@ if( isset( $_POST['action'] ) && !empty( $_POST['action'] ) ){
     } else {
         echo json_encode([0,'Asynchronous function not found']);
     }
+    die();
 }
