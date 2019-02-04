@@ -202,3 +202,23 @@ function array_to_query( $array = [], $column = '', $query = 'OR' ) {
     }
     return !empty( $q ) ? substr($q, 0, -3) : '';
 }
+
+function restructure_arrays( $array = [], $structure = [] ){
+
+    if( !empty( $array ) && !empty( $structure ) ){
+        $new = [];
+        foreach( $array as $as ){
+            if( is_array( $as ) ) {
+                $new_sub = [];
+                $x = 0;
+                foreach ( $structure as $new_key ){
+                    $new_sub[$new_key] = isset( $as[$new_key] ) ? $as[$new_key] : '';
+                    $x++;
+                }
+                $new[] = $new_sub;
+            }
+        }
+        return $new;
+    }
+
+}
