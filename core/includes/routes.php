@@ -1,5 +1,6 @@
 <?php
 
+
 // This page loads the actual page content
 
 if( !defined( 'COREPATH' ) ) { exit(); }
@@ -101,4 +102,3 @@ if( !isset( $_POST['action'] ) ) { // Checks if AJAX Action Request is sent so c
     }
 
 }
-
