@@ -1,6 +1,6 @@
 <?php get_style( 'translations' ); get_scripts(['clipboard','core','translations']); ?>
 <div id="data">
-    <table>
+    <table id="translations">
         <thead>
         <tr>
             <td>ENGLISH - DEFAULT</td>

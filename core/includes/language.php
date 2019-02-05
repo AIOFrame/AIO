@@ -148,3 +148,14 @@ function get_untranslated() {
     }
 
 }
+
+function select_languages() {
+    $langs = get_language_files();
+    if( is_array( $langs ) && !empty( $langs ) ) {
+        $ln = isset( $_SESSION['lang'] ) ? $_SESSION['lang'] : 'en';
+        foreach( $langs as $l => $n ){
+            $c = $l == $ln ? 'selected' : '';
+            echo '<option value="'.$l.'" '.$c.'>'.$n.'</option>';
+        }
+    }
+}
