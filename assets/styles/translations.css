@@ -27,6 +27,10 @@ table thead td {
     padding:15px 10px;
     color:#fff;
 }
+table thead td:nth-child(3), table tbody td:nth-child(3) {
+    width: 50px;
+    text-align: center;
+}
 table thead select {
     margin: 0;
     border:0;
@@ -121,4 +125,14 @@ textarea {
     margin:0 0 0 15px;
     border-radius:0;
     border-bottom:0;
+}
+.ico {
+    width:25px;
+    height:25px;
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 !important;
+}
+.ico.trash {
+    background:url('../../core/components/icons/trash.svg') no-repeat center;
 }

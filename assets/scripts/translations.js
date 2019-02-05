@@ -25,12 +25,13 @@ $(document).ready(function(){
     });
 
     // Edit Sentence
-    $('body').on('click','tbody tr',function(e){
+    $('body').on('click','tbody td:not(:nth-child(3))',function(e){
         $('tbody tr').removeClass('on');
-        $(this).addClass('on');
-        $('#save').data('row',$(this).index());
-        $('#en_translation').val($(this).find('td:first-child').html());
-        $('#translation').val($(this).find('td:last-child').html());
+        var tr = $(this).parents('tr');
+        tr.addClass('on');
+        $('#save').data('row',tr.index());
+        $('#en_translation').val(tr.find('td:first-child').html());
+        $('#translation').val(tr.find('td:nth-child(2)').html());
     });
 
     $('.modal .close').on('click',function(){
@@ -42,7 +43,12 @@ $(document).ready(function(){
         save_row();
     })
 
-    // Languages Build
+    // Delete Sentence
+    $('body').on('click','.trash',function(){
+        if( confirm( 'Delete Row ?' ) ){
+            $(this).parents('tr').remove();
+        }
+    })
 });
 
 function set_basic_translations() {
@@ -54,7 +60,7 @@ function set_basic_translations() {
             $.each(r[0],function(i){
                 if( r[0][i] !== '' ){
                     var t = r[1][i] !== undefined ? r[1][i] : '';
-                    $('tbody').append('<tr><td>'+r[0][i]+'</td><td>'+t+'</td></tr>');
+                    $('tbody').append('<tr><td>'+r[0][i]+'</td><td>'+t+'</td><td><i class="ico trash"></i></td></tr>');
                 }
             });
         }
@@ -92,14 +98,14 @@ function get_untranslations() {
 
 function add_row( string ) {
     string = string === undefined ? '' : string;
-    $('tbody').append('<tr><td>'+string+'</td><td></td></tr>').animate({ scrollTop: $('tbody')[0].scrollHeight }, 1000).find('tr:last-child').click();
+    $('tbody').append('<tr><td>'+string+'</td><td></td><td><i class="ico trash"></i></td></tr>').animate({ scrollTop: $('tbody')[0].scrollHeight }, 1000).find('tr:last-child').click();
 }
 
 function save_row() {
     var r = $('tbody tr:nth-child('+($('#save').data('row')+1)+')');
     if( r.length > 0 ){
         $(r).find('td:first-child').html($('#en_translation').val());
-        $(r).find('td:last-child').html($('#translation').val());
+        $(r).find('td:nth-child(2)').html($('#translation').val());
     }
 }
 

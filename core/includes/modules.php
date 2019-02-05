@@ -84,8 +84,8 @@ function email( $to, $to_name ,$subject, $content, $from , $from_name, $cc = '' 
 // Language Editor
 
 function language_editor(){
-    include_once( COREPATH . 'core/components/translations.php' );
+    language_editor();
 }
 function manage_translations() {
-    language_editor();
+    include_once( COREPATH . 'core/components/translations.php' );
 }

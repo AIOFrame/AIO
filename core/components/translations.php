@@ -1,4 +1,4 @@
-<?php get_style( 'translations' ); get_scripts(['clipboard','translations']); ?>
+<?php get_style( 'translations' ); get_scripts(['clipboard','core','translations']); ?>
 <div id="data">
     <table>
         <thead>
@@ -7,6 +7,7 @@
             <td><select name="language_selector" id="language_selector">
                     <?php $lfs = get_language_files(); unset($lfs['en']); select_options( $lfs ); ?>
                 </select></td>
+            <td></td>
         </tr>
         </thead>
         <tbody></tbody>
@@ -33,7 +34,7 @@
         </div>
     </div>
     <div class="actions">
-        <button id="save" onclick="save_row()"><?php __('Save'); ?></button>
+<!--        <button id="save" onclick="save_row()">--><?php //__('Save'); ?><!--</button>-->
         <button id="build" onclick="build_translations()"><?php __('Build'); ?></button>
     </div>
 </div>
