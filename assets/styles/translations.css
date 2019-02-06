@@ -63,7 +63,7 @@ table tfoot button {
     max-width: 100%;
 }
 #data {
-    margin-bottom: 200px;
+    margin-bottom: 100px;
 }
 #editor {
     position: fixed;
@@ -75,9 +75,6 @@ table tfoot button {
     box-shadow:0 0 60px rgba(0,0,0,.2);
     z-index:1;
     background:rgba(255,255,255,.95);
-}
-#en_translation {
-    margin-bottom: 20px;
 }
 label {
     text-transform: uppercase;
@@ -91,6 +88,18 @@ textarea {
 }
 #editor .actions {
     text-align: right;
+}
+#editor textarea {
+    margin: 0;
+}
+#save {
+    padding: 24px 0;
+    margin: 22px 0 0;
+    width: 100%;
+}
+#editor .col:nth-child(3) {
+    flex:0 0 100px;
+    max-width:100px;
 }
 #editor .actions button, #add_lang {
     margin: 0 0 0 15px;
@@ -109,12 +118,6 @@ textarea {
 #editor  button:hover {
     opacity:.8
 }
-#editor #save {
-    background:#0b8793;
-}
-#editor #build {
-    background:#000;
-}
 #editor button.small {
     font-size: 10px;
     letter-spacing: 1px;
@@ -125,6 +128,30 @@ textarea {
     margin:0 0 0 15px;
     border-radius:0;
     border-bottom:0;
+}
+#notification {
+    position: fixed;
+    left:50%;
+    top:-30vh;
+    min-width:60vw;
+    max-width:calc(100vw - 120px);
+    box-shadow:0 0 30px rgba(0,0,0,.1);
+    transform:translateX(-50%);
+    z-index:100;
+    border-radius:6px;
+    /*box-shadow:0 0 0 rgba(0,0,0,.1);*/
+    padding: 40px;
+    background:rgba(255,255,255,.97);
+    transition:.6s;
+    opacity:0;
+}
+#notification div {
+    font-size:20px;
+}
+#notification.on {
+    box-shadow:0 0 50px rgba(0,0,0,.2);
+    top:20px;
+    opacity:1;
 }
 .ico {
     width:25px;

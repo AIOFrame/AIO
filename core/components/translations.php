@@ -15,7 +15,7 @@
         <tr>
             <td colspan="100%">
                 <button id="new_tran" onclick="add_row()"><?php __('New Sentence'); ?></button>
-                <button id="get_untran" onclick="get_untranslations()"><?php __('Get Untranslated'); ?></button>
+<!--                <button id="get_untran" onclick="get_untranslations()">--><?php //__('Get Untranslated'); ?><!--</button>-->
                 <button id="new_lang"><?php __('Add Language'); ?></button>
             </td>
         </tr>
@@ -25,17 +25,20 @@
 <div id="editor">
     <div class="row">
         <div class="col">
-            <label for="en_translation"><?php __('English Sentence'); ?></label><button data-clipboard-target="#en_translation" class="small">COPY</button>
-            <textarea id="en_translation" rows="2"></textarea>
+            <label for="english_string"><?php __('English Sentence'); ?></label><button data-clipboard-target="#english_string" class="small">COPY</button>
+            <textarea id="english_string" rows="2" tabindex="1"></textarea>
         </div>
         <div class="col">
             <label for="translation"><?php __('Translation'); ?></label><button data-clipboard-target="#translation" class="small">COPY</button>
-            <textarea id="translation" rows="2"></textarea>
+            <textarea id="translation" rows="2" tabindex="2"></textarea>
+        </div>
+        <div class="col">
+            <button id="save" onclick="update_translation()"><?php __('Save'); ?></button>
         </div>
     </div>
     <div class="actions">
-<!--        <button id="save" onclick="save_row()">--><?php //__('Save'); ?><!--</button>-->
-        <button id="build" onclick="build_translations()"><?php __('Build'); ?></button>
+
+<!--        <button id="build" onclick="build_translations()">--><?php //__('Build'); ?><!--</button>-->
     </div>
 </div>
 <div class="modal s" id="modal_lang">

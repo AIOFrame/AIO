@@ -57,49 +57,82 @@ function save_untranslated( $string ){
     }
 }
 
-function insert_translation( $english_word, $language, $translation = '', $page = '' ) {
+function update_translation() {
 
-    $exist = select( 'translations', '', 'trans_base = "'.$english_word.'"' );
+    $english_string = isset( $_POST['english_string'] ) ? $_POST['english_string'] : '';
+    $language = isset( $_POST['language'] ) ? $_POST['language'] : '';
+    $translation = isset( $_POST['translation'] ) ? $_POST['translation'] : '';
+    $page = isset( $_POST['page'] ) ? $_POST['page'] : '';
 
-    if( !$exist ) {
+    $exist = select( 'translations', '', 'trans_base = "'.$english_string.'" AND trans_ln = "'.$language.'"' );
 
-        $trans = insert( 'translations', ['trans_base','trans_replace','trans_ln','trans_page'],[$english_word,$translation,$language,$page]);
+    if( $exist ) {
 
-        echo $trans ? json_encode([1,'Translation Added']) : json_encode([0,'Translation Not Added']);
+        $keys = ['trans_base','trans_ln'];
+        $vals = [$english_string,$language];
+        if( $translation !== '' ){
+            $keys[] = 'trans_replace';
+            $vals[] = $translation;
+        }
+        if( $page !== '' ){
+            $keys[] = 'trans_page';
+            $vals[] = $page;
+        }
+        $trans = update( 'translations', $keys, $vals, 'trans_base = "'.$english_string.'"');
+
+    } else {
+
+        $trans = insert( 'translations', ['trans_base','trans_replace','trans_ln','trans_page'],[$english_string,$translation,$language,$page]);
 
     }
+
+    echo isset( $trans ) && $trans ? json_encode([1,'Translation Stored']) : json_encode([0,'Translation Not Added']);
 
 }
 
 // Language Translation Files
 
 function get_translations() {
-    if( !empty( $_POST['languages'] ) && is_array( $_POST['languages'] ) ){
-        foreach( $_POST['languages'] as $ln ){
-            if( file_exists( APPPATH . 'languages/' . $ln . '.php' ) ){
-                $langs[] = include( APPPATH . 'languages/' . $ln . '.php' );
-            }
+
+    $ln = isset( $_POST['lang'] ) && !empty( $_POST['lang'] ) ? $_POST['lang'] : 'en';
+
+    $trans = select( 'translations', '', 'trans_ln = "'.$ln.'"' );
+
+    if( is_array( $trans ) ){
+        $data = [];
+        foreach( $trans as $tran ){
+            $data[$tran['trans_base']] = $tran['trans_replace'];
         }
-        if( !empty( $langs ) ){
-            if( !empty( $_POST['method'] ) && $_POST['method'] == 'json' ){
-                echo json_encode( $langs );
-            } else {
-                return include( $langs );
-            }
-        }
-    }
-    if( !empty( $_POST['lang'] ) ){
-        $ln = isset( $_POST['lang'] ) && !empty( $_POST['lang'] ) ? $_POST['lang'] : 'en';
-        if( file_exists( APPPATH . 'languages/' . $ln . '.php' ) ){
-            if( !empty( $_POST['method'] ) && $_POST['method'] == 'json' ){
-                echo json_encode( include( APPPATH . 'languages/' . $ln . '.php' ) );
-            } else {
-                return include( APPPATH . 'languages/' . $ln . '.php' );
-            }
+        if( !empty( $_POST['method'] ) && $_POST['method'] == 'json' ){
+            echo json_encode( $data );
         } else {
-            echo 0;
+            return $data;
+        }
+    } else {
+        echo json_encode([0,'No Translations Found']);
+    }
+}
+
+function translations_transfer() {
+
+    $languages = get_language_files();
+    foreach( $languages as $ln => $name ){
+        if( file_exists( APPPATH . 'languages/' . $ln . '.php' ) ){
+            $langs[$ln] = include( APPPATH . 'languages/' . $ln . '.php' );
         }
     }
+    if( is_array( $langs ) ){
+        foreach( $langs as $lang => $trans ) {
+            if( $lang == 'hi' || $lang == 'ru' ) {
+                foreach( $trans as $k => $tran ){
+                    skel($langs['en'][$k] . ' - ' . $tran);
+                    $i = insert_translation($langs['en'][$k], $lang, $tran);
+                    echo $i ? ' - Done<br/>' : ' - Failed<br/>';
+                }
+            }
+        }
+    }
+
 }
 
 // Returns list of language files present in App
@@ -129,21 +162,18 @@ function set_language( $language = '' ) {
 
 // Builds Translation Files
 
-function build_translations() {
-    $ls = $_POST['languages'];
-    $ts = $_POST['translations'];
-    $o = [];
-    if( is_array( $ls ) && is_array( $ts ) && count( $ls ) == count( $ts ) ){
-        foreach( $ls as $i => $l ){
-            //if( $first_file = fopen( APPPATH . 'languages/' . $l . '.php', 'w' ) ){
-                //$trans = '<?php return [';
-                foreach( $ts[$i] as $t ){
-                    //$trans .= '"'.$t.'",';
-                }
-                //$trans .= '];';
-                //fwrite( $first_file, $trans );
-                //fclose( $first_file );
-            //}
+function update_translations() {
+    $ln = $_POST['language'];
+    $trans = $_POST['translations'];
+    if( !empty( $ln ) && is_array( $trans ) ){
+        $passed = $failed = 0;
+        foreach( $trans as $en => $tran ){
+            $u = update_translation( $en, $ln, $tran );
+            if( $u ){
+                $passed++;
+            } else {
+                $failed++;
+            }
         }
     }
 }
