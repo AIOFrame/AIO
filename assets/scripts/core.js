@@ -91,15 +91,9 @@ $(document).ready(function(){
         var cl = $('[data-lang].on').data('lang');
         var nl = $(this).data('lang');
         var d = {'action':'get_translations','languages':[cl,nl],'method':'json'};
-
-        elog(d);
-
         $.post(location.origin,{'action':'set_language','lang':nl});
         $.post(location.origin,d,function(r){
             if( r = JSON.parse(r) ){
-
-                elog(r);
-
                 $.each(r[0],function(i){
                     if( r[0][i] !== '' && r[1][i] !== '') {
                         $(":contains('" + r[0][i] + "')").filter(function () {
@@ -113,6 +107,14 @@ $(document).ready(function(){
                 $('[data-lang]').removeClass('on');
                 $(this).addClass('on');
             }
+        });
+    })
+
+    .on('change','[data-languages]',function(){
+        var nl = $(this).val();
+        $.post(location.origin,{'action':'set_language','lang':nl},function(r){
+            notify('Language Changed!');
+            reload(3);
         });
     });
 
@@ -384,4 +386,11 @@ function slide_toggle( e, t ){
     $('body').on('click',e,function(){
         $(this).find(t).slideToggle();
     })
+}
+
+function reload( time_seconds ){
+
+    var t = time_seconds !== undefined && time_seconds !== '' ? time_seconds * 1000 : 5000;
+    setTimeout(function(){ location.reload() },t);
+
 }

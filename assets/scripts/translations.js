@@ -25,8 +25,8 @@ $(document).ready(function(){
     });
 
     // Edit Sentence
-    $('body').on('click','tbody td:not(:nth-child(3))',function(e){
-        $('tbody tr').removeClass('on');
+    $('body').on('click','#translations tbody td:not(:nth-child(3))',function(e){
+        $('#translations tbody tr').removeClass('on');
         var tr = $(this).parents('tr');
         tr.addClass('on');
         $('#save').data('row',tr.index());
@@ -41,7 +41,7 @@ $(document).ready(function(){
     // Save Sentence
     $('#translation').on('keyup',function(){
         save_row();
-    })
+    });
 
     // Delete Sentence
     $('body').on('click','.trash',function(){
@@ -56,11 +56,11 @@ function set_basic_translations() {
     //console.log(d);
     $.post(location.origin,d,function(r){
         if( r = JSON.parse(r) ){
-            $('tbody').html('');
+            $('#translations tbody').html('');
             $.each(r[0],function(i){
                 if( r[0][i] !== '' ){
                     var t = r[1][i] !== undefined ? r[1][i] : '';
-                    $('tbody').append('<tr><td>'+r[0][i]+'</td><td>'+t+'</td><td><i class="ico trash"></i></td></tr>');
+                    $('#translations tbody').append('<tr><td>'+r[0][i]+'</td><td>'+t+'</td><td><i class="ico trash"></i></td></tr>');
                 }
             });
         }
@@ -98,11 +98,11 @@ function get_untranslations() {
 
 function add_row( string ) {
     string = string === undefined ? '' : string;
-    $('tbody').append('<tr><td>'+string+'</td><td></td><td><i class="ico trash"></i></td></tr>').animate({ scrollTop: $('tbody')[0].scrollHeight }, 1000).find('tr:last-child').click();
+    $('#translations tbody').append('<tr><td>'+string+'</td><td></td><td><i class="ico trash"></i></td></tr>').animate({ scrollTop: $('tbody')[0].scrollHeight }, 1000).find('tr:last-child').click();
 }
 
 function save_row() {
-    var r = $('tbody tr:nth-child('+($('#save').data('row')+1)+')');
+    var r = $('#translations tbody tr:nth-child('+($('#save').data('row')+1)+')');
     if( r.length > 0 ){
         $(r).find('td:first-child').html($('#en_translation').val());
         $(r).find('td:nth-child(2)').html($('#translation').val());
@@ -117,7 +117,7 @@ function build_translations() {
     //var d = [];
     var sln = $('#language_selector').val();
     var fl = []; var sl = [];
-    $('tbody tr').each(function(i,e){
+    $('#translations tbody tr').each(function(i,e){
         fl.push( $(e).find('td:first-child').html() ); // = $(e).find('td:first-child').html();
         sl.push( $(e).find('td:last-child').html() );
         //d.push({ 'en': $(e).find('td:first-child').html(), sl:$(e).find('td:last-child').html() })
