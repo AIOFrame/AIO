@@ -62,6 +62,13 @@ function basic_tables() {
         [ 'time', 'DATETIME', '', 0 ],
     ]];
 
+    $tables[] = [ 'translations', 'trans', [
+        [ 'base', 'VARCHAR', 9999, 1 ],
+        [ 'ln', 'TINYTEXT', 2, 1 ],
+        [ 'replace', 'VARCHAR', 9999, 0 ],
+        [ 'page', 'VARCHAR', 255, 0 ]
+    ]];
+
     create_tables( $tables );
 }
 
@@ -69,4 +76,4 @@ if( APPDEBUG ){
     basic_tables();
 }
 
-//basic_tables();
+basic_tables();

@@ -196,6 +196,7 @@ function total( $table, $cols = '*', $where = '', $limit = 0, $offset = 0 , $gro
     return select( $table, $cols, $where, $limit, $offset, $group, true );
 }
 
+// TODO: Shift cols after where
 function select( $table, $cols = '*', $where = '', $limit = 0, $offset = 0 , $group = '', $count = false , $order_by = '', $sort = '') {
     global $db;
     $cols = $cols == "" ? "*" : $cols;

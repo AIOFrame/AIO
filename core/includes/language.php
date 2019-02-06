@@ -57,6 +57,20 @@ function save_untranslated( $string ){
     }
 }
 
+function insert_translation( $english_word, $language, $translation = '', $page = '' ) {
+
+    $exist = select( 'translations', '', 'trans_base = "'.$english_word.'"' );
+
+    if( !$exist ) {
+
+        $trans = insert( 'translations', ['trans_base','trans_replace','trans_ln','trans_page'],[$english_word,$translation,$language,$page]);
+
+        echo $trans ? json_encode([1,'Translation Added']) : json_encode([0,'Translation Not Added']);
+
+    }
+
+}
+
 // Language Translation Files
 
 function get_translations() {
@@ -121,15 +135,15 @@ function build_translations() {
     $o = [];
     if( is_array( $ls ) && is_array( $ts ) && count( $ls ) == count( $ts ) ){
         foreach( $ls as $i => $l ){
-            if( $first_file = fopen( APPPATH . 'languages/' . $l . '.php', 'w' ) ){
-                $trans = '<?php return [';
+            //if( $first_file = fopen( APPPATH . 'languages/' . $l . '.php', 'w' ) ){
+                //$trans = '<?php return [';
                 foreach( $ts[$i] as $t ){
-                    $trans .= '"'.$t.'",';
+                    //$trans .= '"'.$t.'",';
                 }
-                $trans .= '];';
-                fwrite( $first_file, $trans );
-                fclose( $first_file );
-            }
+                //$trans .= '];';
+                //fwrite( $first_file, $trans );
+                //fclose( $first_file );
+            //}
         }
     }
 }
