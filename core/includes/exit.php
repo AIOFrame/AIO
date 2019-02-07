@@ -2,18 +2,16 @@
 
 // Stores untranslated strings to database
 
-global $untranslated_words;
+global $translation_strings;
 
 if( isset( $_SESSION['lang'] ) && $_SESSION['lang'] !== 'en' && APPDEBUG ){
 
-    $translation_strings = get_option('translation_strings');
+    $db_translation_strings = get_option('translation_strings');
 
-    $euw = !empty( $existing_untranslated_words ) ? unserialize( $existing_untranslated_words ) : [];
+    $euw = !empty( $db_translation_strings ) ? unserialize( $db_translation_strings ) : [];
 
-    //$euw = is_array( $euw ) && $untranslated_words ? array_unique( array_merge( $euw, $untranslated_words ) ) : array_unique( $euw );
+    $euw = is_array( $euw ) && is_array( $translation_strings ) ? array_unique( array_merge( $euw, $translation_strings ) ) : array_unique( $euw );
 
-    //update_option('untranslated_' . $_SESSION['lang'], serialize( $euw ) );
-
-
+    update_option( 'translation_strings', serialize( array_filter( $euw ) ) );
 
 }

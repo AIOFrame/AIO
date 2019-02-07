@@ -92,8 +92,6 @@ function countries( $value = 'name', $key = 'iso2', $country_code = '' ){
     else
         $c2 = $value;
 
-    elog($key.' '.$c1);
-    elog($value.' '.$c2);
     $data = select( 'countries', $c1.','.$c2, $q );
 
     if( !empty( $data ) && is_array( $data ) ){

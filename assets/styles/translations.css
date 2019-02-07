@@ -101,7 +101,7 @@ textarea {
     flex:0 0 100px;
     max-width:100px;
 }
-#editor .actions button, #add_lang {
+#editor .actions button, #set_languages {
     margin: 0 0 0 15px;
     background: darkslategrey;
     text-transform: uppercase;
@@ -111,6 +111,14 @@ textarea {
     transition:.6s;
     color:#fff;
     display: inline-block;
+}
+#set_languages {
+    background:#000;
+    width:300px;
+    margin: 15px 0 0;
+}
+#language_selector+span {
+    max-width:300px;
 }
 #editor .actions .right button {
     margin:0 0 0 15px;

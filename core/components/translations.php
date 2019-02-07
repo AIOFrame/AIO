@@ -1,22 +1,57 @@
-<?php get_style( 'translations' ); get_scripts(['clipboard','core','translations']); ?>
+<?php get_style( 'translations' ); get_scripts(['clipboard','select2','core','translations']);
+$lfs = get_language_files();
+$ln = isset( $_POST['ln'] ) && !empty( $_POST['ln'] ) ? $_POST['ln'] : '';
+
+if( isset( $_POST['set_languages'] ) && !empty( $_POST['set_languages'] ) && is_array( $_POST['set_languages'] ) ) {
+    $set_langs = update_option( 'app_languages', $_POST['set_languages'] );
+    echo $set_langs ? '<script>notify("Languages Set!");</script>' : '';
+}
+
+?>
 <div id="data">
     <table id="translations">
         <thead>
         <tr>
             <td>ENGLISH - DEFAULT</td>
-            <td><select name="language_selector" id="language_selector">
-                    <?php $lfs = get_language_files(); unset($lfs['en']); select_options( $lfs ); ?>
-                </select></td>
+            <td><form method='post'><select name="ln" id="ln" onchange="this.form.submit()">
+                    <option selected disabled>Select Language</option>
+                    <?php select_options( $lfs, $ln ); ?>
+                </select></form></td>
             <td></td>
         </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+        <?php
+
+        $db_translation_strings = get_option( 'translation_strings' );
+
+        $tstrings = !empty( $db_translation_strings ) && $db_translation_strings !== '' ? unserialize( $db_translation_strings ) : [];
+
+        $trans = select( 'translations', '', 'trans_ln = "'.$ln.'"' );
+        if( is_array( $trans ) ){
+            $data = [];
+            foreach( $trans as $tran ){
+                $data[$tran['trans_base']] = $tran['trans_replace'];
+            }
+        }
+
+        foreach( $tstrings as $ts ){
+
+            echo '<tr><td>'.$ts.'</td>';
+
+            echo isset( $data[$ts] ) ? '<td>'.$data[$ts].'</td>' : '<td></td>';
+
+            echo '<td><i class="ico trash"></i></td></tr>';
+
+        }
+        ?>
+        </tbody>
         <tfoot>
         <tr>
             <td colspan="100%">
-                <button id="new_tran" onclick="add_row()"><?php __('New Sentence'); ?></button>
+<!--                <button id="new_tran" onclick="add_row()">--><?php //__('New Sentence'); ?><!--</button>-->
 <!--                <button id="get_untran" onclick="get_untranslations()">--><?php //__('Get Untranslated'); ?><!--</button>-->
-                <button id="new_lang"><?php __('Add Language'); ?></button>
+                <button id="manage_lns"><?php __('Manage Languages'); ?></button>
             </td>
         </tr>
         </tfoot>
@@ -43,11 +78,12 @@
 </div>
 <div class="modal s" id="modal_lang">
     <div class="close"></div>
-    <h4>Translate New Language</h4>
-    <div>
-        <select name="language_selector" id="language_selector">
+    <h2 class="mt0">Manage Languages</h2>
+    <form method='post' style="position:relative; width:300px;">
+        <label for="language_selector">Select Languages for Application</label>
+        <select name="set_languages[]" id="language_selector" class="select2" multiple>
             <?php select_options( get_languages() ); ?>
         </select>
-        <button id="add_lang" onclick="add_lang()"><?php __('ADD LANGUAGE'); ?></button>
-    </div>
+        <button id="set_languages"><?php __('SET LANGUAGES'); ?></button>
+    </form>
 </div>

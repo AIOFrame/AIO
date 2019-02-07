@@ -5,11 +5,6 @@ $(document).ready(function(){
     }
 
     // Load Default
-    set_basic_translations();
-
-    $('#language_selector').on('change',function(){
-        set_basic_translations();
-    });
 
     $('[data-clipboard-copy]').on('click',function () {
         clipboard = $($(this).data('clipboard-copy')).val();
@@ -19,9 +14,8 @@ $(document).ready(function(){
     /* $.post(location.origin,{'action':'get_translations','lang':'en'},function(r){
         console.log(r);
     });*/
-
-    $('#new_lang').on('click',function(){
-        $('#modal_lang').show();
+    $('#manage_lns').on('click',function(){
+        $('#modal_lang').addClass('on');
     });
 
     // Edit Sentence
@@ -47,12 +41,12 @@ $(document).ready(function(){
 
     // Delete Sentence
     $('body').on('click','.trash',function(){
-        if( confirm( 'Delete Row ?' ) ){
+        if( confirm( 'Delete Translation ?' ) ){
             var tr = $(this).parents('tr');
-            $.post( location.origin, { action:'remove_translation', string: $(tr).find('td:first-child').html(), ln: $('#language_selector').val() },function(r){
+            $.post( location.origin, { action:'remove_translation', string: $(tr).find('td:first-child').html(), ln: $('#ln').val() },function(r){
                 if( r = JSON.parse(r) ){
                     if( r[0] === 1 ){
-                       $(tr).remove();
+                       $(tr).find('td:nth-child(2)').html('');
                        notify(r[1]);
                     }
                 }
@@ -61,27 +55,10 @@ $(document).ready(function(){
     })
 });
 
-function set_basic_translations() {
-
-    var d = {'action':'get_translations','ln':$('#language_selector').val(),'method':'json'};
-
-    $.post(location.origin,d,function(r){
-        if( r = JSON.parse(r) ){
-            if( r[0] !== 0 ){
-                $('#translations tbody').html('');
-                $.each(r,function(base,replace){
-                    $('#translations tbody').append('<tr><td>'+base+'</td><td>'+replace+'</td><td><i class="ico trash"></i></td></tr>');
-                });
-            } else {
-                notify('No Translations found in Database');
-            }
-        }
-    });
-}
-
 function get_translations() {
     var d = {'action':'get_translations','lang':'en','method':'json'};
     $.post(location.origin,d,function(r){
+        elog(r);
         if( r = JSON.parse(r) ){
             return r;
             /*console.log(r);
@@ -124,7 +101,7 @@ function update_translation() {
     }
 
     // Update Translations
-    var ln = $('#language_selector').val();
+    var ln = $('#ln').val();
     var d = { 'action': 'update_translation', 'language': ln, 'english_string': $('#english_string').val(), 'translation': $('#translation').val() };
 
     $.post( location.origin, d, function(r){

@@ -81,6 +81,34 @@ function array_by_key( $array, $key ){
     return $new_array;
 }
 
+// TODO: Returns Multi array of only two sub arrays values into associative key and value
+
+function array_into_assoc( $array = [] ) {
+
+    if( !empty( $array ) ){
+
+        $data = [];
+
+        foreach( $array as $a ){
+
+            if( count( $a ) == 2 && is_array( $a ) ){
+
+                $data[$a[0]] = [];
+
+                foreach( $a as $k => $v ){
+
+                    $sub_data[$v] = '';
+
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
 // Prepares an array of only keys from a given array or post
 
 function prepare_keys( $array = '', $pre = '', $remove_empty = 1 ) {

@@ -2,8 +2,14 @@
 
 if( !defined( 'COREPATH' ) ) { exit(); }
 
-foreach( glob( dirname( __FILE__ ).'/includes/*.php' ) as $file ) {
-    if( $file !== dirname( __FILE__ ) . '/includes/exit.php' && $file !== dirname(__FILE__).'/includes/routes.php' ){
-        include_once( $file );
+function includes() {
+
+    $includes_order = [ 'functions', 'crypt', 'options', 'structure', 'alerts', 'arrays', 'data', 'elements', 'files', 'icons', 'language', 'modules', 'options', 'ajax', 'spreadsheet' ];
+
+    foreach( $includes_order as $file ) {
+        include_once( dirname( __FILE__ ) . '/includes/'. $file . '.php' );
     }
+
 }
+
+includes();

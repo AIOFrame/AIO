@@ -1,55 +1,43 @@
 <?php
 
 // Sets a User preferred language as global
-
 if( !empty( $_SESSION['lang'] ) && $_SESSION['lang'] !== 'en' ){
 
     global $translation_strings;
-
     global $translated_strings;
 
-    $translated_strings = select( 'translations', ['trans_base','trans_replace'], 'trans_ln = "'.$_SESSION['lang'].'"' );
+    $translated_strings = select( 'translations', 'trans_base,trans_replace', 'trans_ln = "'.$_SESSION['lang'].'"' );
 
-    skel( $translated_strings );
+    if( is_array( $translated_strings ) ){
 
-    /* if( file_exists( COREPATH . 'core/languages/en.php' ) ){
-        $clangs[] = include( COREPATH . 'core/languages/en.php' );
+        $new_data = [];
+
+        foreach( $translated_strings as $string ) {
+
+            $new_data[ $string['trans_base'] ] = $string['trans_replace'];
+
+        }
+
+        $translated_strings = $new_data;
     }
-    if( file_exists( COREPATH . 'core/languages/' . $_SESSION['lang'] . '.php' ) ){
-        $clangs[] = include( COREPATH . 'core/languages/' . $_SESSION['lang'] . '.php' );
-    }
-    if( file_exists( APPPATH . 'languages/en.php' ) ){
-        $langs[] = include( APPPATH . 'languages/en.php' );
-    }
-    if( file_exists( APPPATH . 'languages/' . $_SESSION['lang'] . '.php' ) ){
-        $langs[] = include( APPPATH . 'languages/' . $_SESSION['lang'] . '.php' );
-    }
-    $clangs = isset( $clangs[0] ) && isset( $clangs[1] ) && !is_integer( $clangs[0] ) && !is_integer( $clangs[1] ) ? array_combine( $clangs[0], $clangs[1] ) : [];
-    $langs = isset( $langs[0] ) && isset( $langs[1] ) && !is_integer( $langs[0] ) && !is_integer( $langs[1] ) && count($langs[0]) == count($langs[1]) ? array_combine( $langs[0], $langs[1] ) : [];
-    $langs = array_merge( $clangs, $langs ); */
-    //skel($langs);
 }
 
 // Changes and echo the word as per set language
 
 function __( $string ) {
 
-    global $translated_strings;
+    global $translated_strings; global $translation_strings; $translation_strings[] = $string;
 
-    global $translation_strings;
-
-    !isset( $langs[$string] ) || $langs[$string] == '' ? save_untranslated( $string ) : '';
-
-    echo isset( $langs[$string] ) && $langs[$string] !== '' ? $langs[$string] : $string;
+    echo isset( $translated_strings[$string] ) && $translated_strings[$string] !== '' ? $translated_strings[$string] : $string;
 }
 
 // Change and return the word as per set language
 
 function _t( $string ) {
-    global $langs; global $untranslated;
-    !isset( $langs[$string] ) || $langs[$string] == '' ? save_untranslated( $string ) : '';
-    //!isset( $langs[$string] ) ? $untranslated[] = $string : '';
-    return isset( $langs[$string] ) && $langs[$string] !== '' ? $langs[$string] : $string;
+
+    global $translated_strings; global $translation_strings; $translation_strings[] = $string;
+
+    return isset( $translated_strings[$string] ) && $translated_strings[$string] !== '' ? $translated_strings[$string] : $string;
 }
 
 function save_untranslated( $string ){
@@ -173,7 +161,7 @@ function translations_transfer() {
 // Returns list of language files present in App
 
 function get_language_files() {
-    $final_languages = [];
+    /* $final_languages = [];
     if( file_exists( APPPATH . 'languages' ) ){
         $languages = get_languages();
         foreach( glob( APPPATH . 'languages/*.php' ) as $file ){
@@ -181,7 +169,21 @@ function get_language_files() {
             isset( $languages[$lang] ) ? $final_languages[$lang] = $languages[$lang] : '';
         }
     }
-    return $final_languages;
+    return $final_languages; */
+    $app_langs = get_option( 'app_languages' );
+    if( !empty( $app_langs ) && $n = unserialize( $app_langs ) ) {
+        $langs = get_languages();
+        if( is_array( $langs ) ){
+            foreach( $n as $ln ){
+                $data[$ln] = $langs[$ln];
+            }
+            return is_array( $data ) ? $data : [];
+        } else {
+            return [];
+        }
+    } else {
+        return [];
+    }
 }
 
 // Set User Session of their preferred language choice
