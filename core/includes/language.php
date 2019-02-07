@@ -2,9 +2,17 @@
 
 // Sets a User preferred language as global
 
-if( !empty( $_SESSION['lang'] ) ){
-    global $langs; global $untranslated;
-    if( file_exists( COREPATH . 'core/languages/en.php' ) ){
+if( !empty( $_SESSION['lang'] ) && $_SESSION['lang'] !== 'en' ){
+
+    global $translation_strings;
+
+    global $translated_strings;
+
+    $translated_strings = select( 'translations', ['trans_base','trans_replace'], 'trans_ln = "'.$_SESSION['lang'].'"' );
+
+    skel( $translated_strings );
+
+    /* if( file_exists( COREPATH . 'core/languages/en.php' ) ){
         $clangs[] = include( COREPATH . 'core/languages/en.php' );
     }
     if( file_exists( COREPATH . 'core/languages/' . $_SESSION['lang'] . '.php' ) ){
@@ -18,16 +26,20 @@ if( !empty( $_SESSION['lang'] ) ){
     }
     $clangs = isset( $clangs[0] ) && isset( $clangs[1] ) && !is_integer( $clangs[0] ) && !is_integer( $clangs[1] ) ? array_combine( $clangs[0], $clangs[1] ) : [];
     $langs = isset( $langs[0] ) && isset( $langs[1] ) && !is_integer( $langs[0] ) && !is_integer( $langs[1] ) && count($langs[0]) == count($langs[1]) ? array_combine( $langs[0], $langs[1] ) : [];
-    $langs = array_merge( $clangs, $langs );
+    $langs = array_merge( $clangs, $langs ); */
     //skel($langs);
 }
 
 // Changes and echo the word as per set language
 
 function __( $string ) {
-    global $langs; global $untranslated;
+
+    global $translated_strings;
+
+    global $translation_strings;
+
     !isset( $langs[$string] ) || $langs[$string] == '' ? save_untranslated( $string ) : '';
-    //!isset( $langs[$string] ) ? $untranslated[] = $string : '';
+
     echo isset( $langs[$string] ) && $langs[$string] !== '' ? $langs[$string] : $string;
 }
 
@@ -57,12 +69,12 @@ function save_untranslated( $string ){
     }
 }
 
-function update_translation() {
+function update_translation( $english_string = '', $language = '', $translation = '', $page = '' ) {
 
-    $english_string = isset( $_POST['english_string'] ) ? $_POST['english_string'] : '';
-    $language = isset( $_POST['language'] ) ? $_POST['language'] : '';
-    $translation = isset( $_POST['translation'] ) ? $_POST['translation'] : '';
-    $page = isset( $_POST['page'] ) ? $_POST['page'] : '';
+    $english_string = isset( $_POST['english_string'] ) ? $_POST['english_string'] : $english_string;
+    $language = isset( $_POST['language'] ) ? $_POST['language'] : $language;
+    $translation = isset( $_POST['translation'] ) ? $_POST['translation'] : $translation;
+    $page = isset( $_POST['page'] ) ? $_POST['page'] : $page;
 
     $exist = select( 'translations', '', 'trans_base = "'.$english_string.'" AND trans_ln = "'.$language.'"' );
 
@@ -78,7 +90,7 @@ function update_translation() {
             $keys[] = 'trans_page';
             $vals[] = $page;
         }
-        $trans = update( 'translations', $keys, $vals, 'trans_base = "'.$english_string.'"');
+        $trans = update( 'translations', $keys, $vals, 'trans_base = "'.$english_string.'" && trans_ln = "'.$language.'"');
 
     } else {
 
@@ -90,11 +102,34 @@ function update_translation() {
 
 }
 
+function remove_translation() {
+
+    $string = isset( $_POST['string'] ) ? $_POST['string'] : '';
+    $ln = isset( $_POST['ln'] ) ? $_POST['ln'] : '';
+
+    if( $string !== '' && $ln !== '' ){
+
+        $trans = delete( 'translations', 'trans_base = "'.$string.'" AND trans_ln = "'.$ln.'"' );
+
+        if( $trans ) {
+
+            echo json_encode([1,'Translation Deleted']);
+
+        } else {
+
+            echo json_encode([0,'Could not delete Translation']);
+
+        }
+
+    }
+
+}
+
 // Language Translation Files
 
 function get_translations() {
 
-    $ln = isset( $_POST['lang'] ) && !empty( $_POST['lang'] ) ? $_POST['lang'] : 'en';
+    $ln = isset( $_POST['ln'] ) && !empty( $_POST['ln'] ) ? $_POST['ln'] : 'en';
 
     $trans = select( 'translations', '', 'trans_ln = "'.$ln.'"' );
 
@@ -123,10 +158,10 @@ function translations_transfer() {
     }
     if( is_array( $langs ) ){
         foreach( $langs as $lang => $trans ) {
-            if( $lang == 'hi' || $lang == 'ru' ) {
+            if( $lang !== 'en' ) {
                 foreach( $trans as $k => $tran ){
                     skel($langs['en'][$k] . ' - ' . $tran);
-                    $i = insert_translation($langs['en'][$k], $lang, $tran);
+                    $i = update_translation($langs['en'][$k], $lang, $tran);
                     echo $i ? ' - Done<br/>' : ' - Failed<br/>';
                 }
             }

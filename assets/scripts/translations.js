@@ -48,21 +48,33 @@ $(document).ready(function(){
     // Delete Sentence
     $('body').on('click','.trash',function(){
         if( confirm( 'Delete Row ?' ) ){
-            $(this).parents('tr').remove();
+            var tr = $(this).parents('tr');
+            $.post( location.origin, { action:'remove_translation', string: $(tr).find('td:first-child').html(), ln: $('#language_selector').val() },function(r){
+                if( r = JSON.parse(r) ){
+                    if( r[0] === 1 ){
+                       $(tr).remove();
+                       notify(r[1]);
+                    }
+                }
+            });
         }
     })
 });
 
 function set_basic_translations() {
 
-    var d = {'action':'get_translations','lang':$('#language_selector').val(),'method':'json'};
+    var d = {'action':'get_translations','ln':$('#language_selector').val(),'method':'json'};
 
     $.post(location.origin,d,function(r){
         if( r = JSON.parse(r) ){
-            $('#translations tbody').html('');
-            $.each(r,function(base,replace){
-                $('#translations tbody').append('<tr><td>'+base+'</td><td>'+replace+'</td><td><i class="ico trash"></i></td></tr>');
-            });
+            if( r[0] !== 0 ){
+                $('#translations tbody').html('');
+                $.each(r,function(base,replace){
+                    $('#translations tbody').append('<tr><td>'+base+'</td><td>'+replace+'</td><td><i class="ico trash"></i></td></tr>');
+                });
+            } else {
+                notify('No Translations found in Database');
+            }
         }
     });
 }
