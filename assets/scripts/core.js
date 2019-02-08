@@ -57,6 +57,7 @@ $(document).ready(function(){
     $('.modal .close').on('click',function(){
         $(this).parents('.modal').removeClass('on');
         $('article').removeClass('fade');
+        reset_modal($(this));
     });
 
     // ALERT & NOTIFICATION
@@ -334,8 +335,15 @@ function process_data( e ){
 }
 
 function edit_data( e, modal ) {
+
     var t = $(e).data('t') ? $($(e).data('t')) : $(modal);
     var data = $(e).data('data');
+
+    $.each( $(modal).find('button,h1,h2,h3,h4,h5,h6,span,i,p'), function( a, b ){
+        if( $(b).html().indexOf('Add') >= 0){
+            $(b).html( $(b).html().replace('Add','Update') );
+        }
+    });
 
     elog(data); elog(t);
 
@@ -346,6 +354,18 @@ function edit_data( e, modal ) {
             $('#'+i).val(d).change();
         }
     });
+}
+
+function reset_modal(e) {
+
+    $.each( $(e).parents('.modal').find('button,h1,h2,h3,h4,h5,h6,span,i,p'), function( a, b ){
+        if( $(b).html().indexOf('Update') >= 0){
+            $(b).html( $(b).html().replace('Update','Add') );
+        }
+    })
+
+    // TODO: If modal has class to empty then empty fields
+
 }
 
 function trash_data( q ) {
