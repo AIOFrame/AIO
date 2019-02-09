@@ -615,6 +615,21 @@ table.plain tr:after {
     margin:0 auto;
 }
 
+/* Simple Colors */
+
+.c_red {
+    color:red;
+}
+.c_fire {
+    color:firebrick;
+}
+.c_green {
+    color:green;
+}
+.c_black {
+    color:black;
+}
+
 /* Context Menu */
 
 .context-menu {
