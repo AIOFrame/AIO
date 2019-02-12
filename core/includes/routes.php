@@ -5,10 +5,6 @@
 
 if( !defined( 'COREPATH' ) ) { exit(); }
 
-foreach( glob( APPPATH . '/functions/*.php' ) as $file ) {
-    include( $file );
-}
-
 $sd = get_domain('sub');
 
 $als = ['a','b','c','d','e','f'];
