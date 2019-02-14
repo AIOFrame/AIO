@@ -236,7 +236,7 @@ table.plain tr:after {
     background-size:cover !important;
     cursor: pointer;
 }
-.ico.c, .tac .ico {
+.ico.c {
     display: block;
     margin:auto;
 }

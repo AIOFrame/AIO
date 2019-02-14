@@ -134,7 +134,7 @@ button.w, .btn.w, .bw button, .bw .btn {
 .bm0 button, .bm0 .btn {
     margin: 0;
 }
-button.red, .btn.red, .red button, .red .btn {
+button.red, .btn.red, .red button, .red .btn, .gr_red {
     background: rgb(153,1,1);
     background: -moz-linear-gradient(45deg, rgba(153,1,1,1) 0%, rgba(169,3,41,1) 100%);
     background: -webkit-linear-gradient(45deg, rgba(153,1,1,1) 0%,rgba(169,3,41,1) 100%);
@@ -152,7 +152,7 @@ button.b.red, .btn.b.red, .red.b button, .red.b .btn {
     color:rgb(153,1,1);
     border:1px solid rgb(153,1,1);
 }
-button.blue, .btn.blue, .blue button, .blue .btn {
+button.blue, .btn.blue, .blue button, .blue .btn, .gr_blue {
     background: rgb(0,125,204);
     background: -moz-linear-gradient(45deg, rgb(0,125,204) 0%, rgb(0,173,237) 100%);
     background: -webkit-linear-gradient(45deg, rgb(0,125,204) 0%,rgb(0,173,237) 100%);
