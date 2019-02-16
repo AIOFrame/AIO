@@ -69,9 +69,49 @@ function storage_url( $url ) {
     return !empty( $url ) ? APPURL . 'apps/' . APPDIR . $url : '';
 }
 
-// Emailer
+// Emailer by Modules
 
-function email( $to, $to_name ,$subject, $content, $from , $from_name, $cc = '' ){
+function email( $to, $subject, $content, $from, $cc = '' ){
+    include_once( COREPATH . 'core/components/mailer.php' );
+    $mail = new MAIL();
+    $mail->send_email( $to, $subject, $content, $from, $cc );
+}
+
+function sendgrid( $to, $subject, $content, $from, $cc = '' ) {
+
+    $key = get_option( 'sendgrid_key' );
+
+    if( !empty( $key ) ) {
+
+        require COREPATH . 'core/components/emailers/sendgrid/sendgrid-php.php';
+
+        $email = new \SendGrid\Mail\Mail();
+        $email->setFrom( $from );
+        $email->setSubject( $subject );
+
+        if( is_array( $to ) ){
+            foreach( $to as $k => $v ){
+                $email->addTo($k, $v);
+            }
+        } else {
+            $email->addTo($to);
+        }
+
+        $email->addContent("text/html", $content);
+        $sendgrid = new \SendGrid( $key );
+        try {
+            $response = $sendgrid->send($email);
+            elog( $response->statusCode() );
+        } catch (Exception $e) {
+            elog( $e->getMessage() );
+            return 0;
+        }
+    } else {
+        return 1;
+    }
+}
+
+function mandrill( $to, $to_name ,$subject, $content, $from , $from_name, $cc = '' ){
     include_once( COREPATH . 'core/components/mailer.php' );
     global $mailer_loaded;
     if( !$mailer_loaded ){

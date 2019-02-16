@@ -172,7 +172,7 @@ button.b.blue, .btn.b.blue, .blue.b button, .blue.b .btn {
 }
 button.coral, .btn.coral, .coral button, .coral .btn {
     background: #9f635b;
-    background: -moz-linear-gradient(45deg,#007dcc 0,#9c3737 100%);
+    background: -moz-linear-gradient(45deg,#9f635b 0,#9c3737 100%);
     background: -webkit-linear-gradient(45deg,#9f635b,#9c3737 100%);
     background: linear-gradient(45deg,#9f635b 0,#9c3737 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#007dcc',endColorstr='#9c3737',GradientType=1);
@@ -186,7 +186,7 @@ button.coral:active, .btn.coral:active, .coral button:active, .coral .btn:active
 }
 button.ocean,  .btn.ocean, .ocean button, .ocean .btn {
     background: #8ea096;
-    background: -moz-linear-gradient(45deg,#007dcc 0,#9c3737 100%);
+    background: -moz-linear-gradient(45deg,#8ea096 0,#8ea096 100%);
     background: -webkit-linear-gradient(45deg,#8ea096,#8ea096 100%);
     background: linear-gradient(45deg,#8ea096 0,#8eb59f 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#007dcc',endColorstr='#9c3737',GradientType=1);
@@ -194,7 +194,7 @@ button.ocean,  .btn.ocean, .ocean button, .ocean .btn {
 }
 button.sky, .btn.sky, .sky button, .sky .btn {
     background: #015e99;
-    background: -moz-linear-gradient(45deg,rgba(153,1,1,1) 0,rgba(169,3,41,1) 100%);
+    background: -moz-linear-gradient(45deg,#4a7b9a 0,#7099b3 100%);
     background: -webkit-linear-gradient(45deg, #4a7b9a 0,#7099b3 100%);
     background: linear-gradient(45deg,#4a7b9a 0,#7099b3 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#990101',endColorstr='#a90329',GradientType=1);

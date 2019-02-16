@@ -1,21 +1,21 @@
 <?php
 
-require_once 'Mandrill/Templates.php';
-require_once 'Mandrill/Exports.php';
-require_once 'Mandrill/Users.php';
-require_once 'Mandrill/Rejects.php';
-require_once 'Mandrill/Inbound.php';
-require_once 'Mandrill/Tags.php';
-require_once 'Mandrill/Messages.php';
-require_once 'Mandrill/Whitelists.php';
-require_once 'Mandrill/Ips.php';
-require_once 'Mandrill/Internal.php';
-require_once 'Mandrill/Subaccounts.php';
-require_once 'Mandrill/Urls.php';
-require_once 'Mandrill/Webhooks.php';
-require_once 'Mandrill/Senders.php';
-require_once 'Mandrill/Metadata.php';
-require_once 'Mandrill/Exceptions.php';
+require_once 'mandrill/Templates.php';
+require_once 'mandrill/Exports.php';
+require_once 'mandrill/Users.php';
+require_once 'mandrill/Rejects.php';
+require_once 'mandrill/Inbound.php';
+require_once 'mandrill/Tags.php';
+require_once 'mandrill/Messages.php';
+require_once 'mandrill/Whitelists.php';
+require_once 'mandrill/Ips.php';
+require_once 'mandrill/Internal.php';
+require_once 'mandrill/Subaccounts.php';
+require_once 'mandrill/Urls.php';
+require_once 'mandrill/Webhooks.php';
+require_once 'mandrill/Senders.php';
+require_once 'mandrill/Metadata.php';
+require_once 'mandrill/Exceptions.php';
 
 class Mandrill {
     
@@ -57,13 +57,13 @@ class Mandrill {
     );
 
     public function __construct($apikey=null) {
-        if(!$apikey) $apikey = getenv('MANDRILL_APIKEY');
+        if(!$apikey) $apikey = getenv('mandrill_APIKEY');
         if(!$apikey) $apikey = $this->readConfigs();
         if(!$apikey) throw new Mandrill_Error('You must provide a Mandrill API key');
         $this->apikey = $apikey;
 
         $this->ch = curl_init();
-        curl_setopt($this->ch, CURLOPT_USERAGENT, 'Mandrill-PHP/1.0.55');
+        curl_setopt($this->ch, CURLOPT_USERAGENT, 'mandrill-PHP/1.0.55');
         curl_setopt($this->ch, CURLOPT_POST, true);
         curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($this->ch, CURLOPT_HEADER, false);
@@ -149,7 +149,7 @@ class Mandrill {
     public function castError($result) {
         if($result['status'] !== 'error' || !$result['name']) throw new Mandrill_Error('We received an unexpected error: ' . json_encode($result));
 
-        $class = (isset(self::$error_map[$result['name']])) ? self::$error_map[$result['name']] : 'Mandrill_Error';
+        $class = (isset(self::$error_map[$result['name']])) ? self::$error_map[$result['name']] : 'mandrill_Error';
         return new $class($result['message'], $result['code']);
     }
 

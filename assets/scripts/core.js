@@ -5,7 +5,8 @@ var domain;
 $(document).ready(function(){
 
     // MANIPULATOR
-    $(document).on('click', '[data-action], [data-show], [data-on], [data-hide], [data-slide], [data-remove],[data-toggle],[data-resetsrc],[data-resetinput],[data-click]', function () {
+    // TODO: Change resetsrc and resetinput to reset
+    $(document).on('click', '[data-action], [data-show], [data-on], [data-hide], [data-slide], [data-remove], [data-toggle], [data-resetsrc], [data-resetinput], [data-click], [data-href]', function (e) {
         if ($(this).data('togglescroll') === true) {
             scroll_lock();
         }
@@ -29,6 +30,12 @@ $(document).ready(function(){
         if($($(this).data('show')).hasClass('modal') || $($(this).data('on')).hasClass('modal')){
             $('article').addClass('fade');
         }
+        if($(this).data('href')){
+            //elog($(e.target).data('prevent-default'));
+            if( $(e.target).data('prevent-default') === undefined ){
+                location.href = $(this).data('href');
+            }
+        }
     });
 
     // TABS & STEPS
@@ -51,6 +58,12 @@ $(document).ready(function(){
     // Previous Step
     $('.steps .prev').on('click', function () {
         $($(this).parents('.steps')).find('[data-t].on').prev().click();
+    });
+
+    // Prevent Default
+    $('body').on('click','a .prevdef',function(e){
+        //$(e).parents('a').preventDefault();
+        console.log($(e).parents('a'));
     });
 
     // MODAL

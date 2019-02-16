@@ -1,17 +1,14 @@
 <?php
 
-class Mailer
-{
+class MAIL {
 
-    function send_email($to, $subject, $content, $from, $cc = '')
-    {
+    function send_email($to, $subject, $content, $from, $cc = '') {
         $headers = "MIME-Version: 1.0" . "\r\n" . "Content-type:text/html;charset=UTF-8" . "\r\n" . "From: " . $from . "\r\n" . "Reply-To: " . $from;
         $headers .= !empty($c) ? "\r\n" . "CC: " . $cc : '';
         return mail($to, $subject, $content, $headers);
     }
 
-    function mandrill_send($to, $to_name, $subject, $content, $from, $from_name, $cc = '')
-    {
+    function mandrill_send($to, $to_name, $subject, $content, $from, $from_name, $cc = '') {
         require('Mandrill.php');
 
         $mandrill = new Mandrill('CNQfDLttNFDZ9Wq7D_ai8w');
