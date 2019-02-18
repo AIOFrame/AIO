@@ -39,11 +39,22 @@ $(document).ready(function(){
     });
 
     // TABS & STEPS
+    var tab = localStorage['tab'];
+    if( tab !== undefined ){
+        tab = JSON.parse(tab);
+        if( tab.page === location.href ){
+            setTimeout(function(){ $('[data-t="' + tab.tab + '"]').click(); },200);
+        }
+    }
+
     $('body').on('click', '.steps [data-t], .tab[data-t]', function () {
         $(this).parent().children().removeClass('on');
         $(this).addClass('on');
         $($(this).data('t')).parent().children().hide();
         $($(this).data('t')).show();
+        if( $(this).parent().data('store-tab') !== undefined ){
+            localStorage['tab'] = JSON.stringify({'page':location.href,'tab':$(this).data('t')})
+        }
     });
     $('body').on('click', '[data-step]', function () {
         $(this).parent().children().removeClass('on');
@@ -220,7 +231,7 @@ function empty( e, d ) {
 
 function sempty( e, d ) {
     d = d === undefined || d === '' ? '' : '[data-'+d+']';
-    elog(d);
+    //elog(d);
     if( $(e)[0] && $(e)[0].localName === 'div' ){
         var r = [];
         $.each($(e).find('input'+d+',select'+d),function(a,b){
@@ -231,9 +242,9 @@ function sempty( e, d ) {
                 $(b).addClass('empty');
                 r.push(true);
             }
-            elog(b);
+            //elog(b);
         });
-        elog(r);
+        //elog(r);
         return $.inArray(true,r) !== -1 ? true : false;
     } else {
         if( $(e).val() !== null && $(e).val() !== "" ){
@@ -375,7 +386,9 @@ function reset_modal(e) {
         if( $(b).html().indexOf('Update') >= 0){
             $(b).html( $(b).html().replace('Update','Add') );
         }
-    })
+    });
+
+    $(e).parents('.modal').data('id','');
 
     // TODO: If modal has class to empty then empty fields
 

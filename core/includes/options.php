@@ -398,34 +398,59 @@ function trash_data() {
 
 function create_table( $table ){
     if( is_array( $table ) && defined('APPCON') && APPCON ){
-        $query = 'CREATE TABLE IF NOT EXISTS '.$table[0].' ('.$table[1].'_id INT(13) AUTO_INCREMENT PRIMARY KEY';
-        if( is_array( $table[2] ) ){
-            foreach( $table[2] as $col ){
-                if( !empty( $col[0] && !empty( $col[1] ) ) ) {
-                    $col[2] = !empty( $col[2] ) ? $col[2] : '13';
-                    $col[3] = $col[3] == 0 ? 'NULL' : 'NOT NULL';
-                    if (in_array($col[1], ['BOOLEAN', 'DATETIME', 'DATE', 'TIME', 'TINYTEXT'])) {
-                        $query .= ',' . $table[1] . '_' . $col[0] . ' ' . $col[1] . ' ' . $col[3];
-                    } else {
-                        $query .= ',' . $table[1] . '_' . $col[0] . ' ' . $col[1] . '(' . $col[2] . ') ' . $col[3];
+
+        // Table Exist Check
+        global $db;
+        $check = "SHOW TABLES LIKE '".$table[0]."'";
+
+        if( mysqli_query( $db, $check ) ) {
+
+            if ( is_array( $table[2] ) ) {
+                foreach ( $table[2] as $col ) {
+                    if ( !empty($col[0]) && !empty($col[1]) ) {
+                        $col[2] = !empty($col[2]) ? $col[2] : '13';
+                        $col[3] = $col[3] == 0 ? 'NULL' : 'NOT NULL';
+                        //if (in_array($col[1], ['BOOLEAN', 'DATETIME', 'DATE', 'TIME', 'TINYTEXT'])) {
+                            create_column( $table[0], $table[1].'_'.$col[0], $col[1], $col[2], $col[3] );
+                            //$query .= ',' . $table[1] . '_' . $col[0] . ' ' . $col[1] . ' ' . $col[3];
+                        //} else {
+                            //create_column( $table[0], $col[0], $col[1], $col[2], $col[3] );
+                            //$query .= ',' . $table[1] . '_' . $col[0] . ' ' . $col[1] . '(' . $col[2] . ') ' . $col[3];
+                        //}
                     }
                 }
             }
-        }
-        $query .= ")";
 
-        $df = debug_backtrace();
-        $df = !empty($df) && is_array($df) && isset($df[0]['file']) && isset($df[0]['line']) ? '['.$df[0]['line'].' -> '.str_replace(COREPATH,'',$df[0]['file']).']' : '';
+        } else {
 
-        elog('[TABLE] '.$query.' '.$df.PHP_EOL.PHP_EOL);
+            $query = 'CREATE TABLE IF NOT EXISTS ' . $table[0] . ' (' . $table[1] . '_id INT(13) AUTO_INCREMENT PRIMARY KEY';
+            if (is_array($table[2])) {
+                foreach ($table[2] as $col) {
+                    if (!empty($col[0]) && !empty($col[1])) {
+                        $col[2] = !empty($col[2]) ? $col[2] : '13';
+                        $col[3] = $col[3] == 0 ? 'NULL' : 'NOT NULL';
+                        if (in_array($col[1], ['BOOLEAN', 'DATETIME', 'DATE', 'TIME', 'TINYTEXT'])) {
+                            $query .= ',' . $table[1] . '_' . $col[0] . ' ' . $col[1] . ' ' . $col[3];
+                        } else {
+                            $query .= ',' . $table[1] . '_' . $col[0] . ' ' . $col[1] . '(' . $col[2] . ') ' . $col[3];
+                        }
+                    }
+                }
+            }
+            $query .= ")";
 
-        if( !empty( $query ) ){
-            global $db;
-            if( mysqli_query( $db, $query ) == 1 ){
-                return true;
-            } else {
-                elog('[ERROR] '.$table[0].' '. mysqli_error($db));
-                return false;
+            $df = debug_backtrace();
+            $df = !empty($df) && is_array($df) && isset($df[0]['file']) && isset($df[0]['line']) ? '[' . $df[0]['line'] . ' -> ' . str_replace(COREPATH, '', $df[0]['file']) . ']' : '';
+
+            elog('[TABLE] ' . $query . ' ' . $df . PHP_EOL . PHP_EOL);
+
+            if (!empty($query)) {
+                if (mysqli_query($db, $query) == 1) {
+                    return true;
+                } else {
+                    elog('[ERROR] ' . $table[0] . ' ' . mysqli_error($db));
+                    return false;
+                }
             }
         }
     }
