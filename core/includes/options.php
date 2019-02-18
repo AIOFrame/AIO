@@ -105,8 +105,12 @@ function save_post_option( $option, $user = false ){
 function save_post_options( $options ){
     if( is_array( $options ) ){
         foreach( $options as $op ){
-            $u = isset( $op[1] ) && $op[1] ? 1 : 0;
-            save_post_option( $op[0], $u );
+            if( is_array( $op ) ){
+                $u = isset( $op[1] ) && $op[1] ? 1 : 0;
+                save_post_option( $op[0], $u );
+            } else {
+                save_post_option( $op );
+            }
         }
     }
 }
