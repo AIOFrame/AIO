@@ -80,7 +80,13 @@ $(document).ready(function(){
     // MODAL
     $('.modal .close').on('click',function(){
         $(this).parents('.modal').removeClass('on');
-        $('article').removeClass('fade');
+        var removeFade = true;
+        $('.modal').each(function(a,b){
+            if( $(b).hasClass('on') ) {
+                removeFade = false;
+            }
+        });
+        if( removeFade ) { $('article').removeClass('fade'); }
         reset_modal($(this));
     });
 
@@ -323,6 +329,11 @@ function process_data( e ){
     var p = $(e).parents('[data-t]');
     var title = $(p).data('title');
     var pre = $(p).data('pre');
+    if( $(p).data('sempty') !== '' && $(p).data('sempty') !== undefined ) {
+        if( sempty( p, $(p).data('sempty') ) ) {
+            return;
+        }
+    }
     var d = get_values( p, pre, pre );
     d.action = 'process_data';
     d.target = $(p).data('t');
