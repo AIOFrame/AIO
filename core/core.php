@@ -28,7 +28,6 @@ function is_sub_domain() {
 // Function to get domain or sub domain
 function get_domain( $t = 'main' ){
     $dex = explode( '.', rtrim($_SERVER['HTTP_HOST'],'/') );
-    //print_r($dex);
     if(count($dex) > 3){
         if( $t == 'sub' ){
             return $dex[1];
@@ -42,6 +41,8 @@ function get_domain( $t = 'main' ){
             } else {
                 return $dex[1].'.'.$dex[2];
             }
+        } else {
+            return $dex[1];
         }
     } else if(count($dex) == 2) {
         if($dex[0] !== 'www' && $dex[0] !== 'http://www' && $dex[0] !== 'https://www'){
@@ -50,6 +51,8 @@ function get_domain( $t = 'main' ){
             } else {
                 return $dex[0];
             }
+        } else {
+            return $dex[0];
         }
     } else if( count($dex) == 1 ){
         return strpos($dex[0], ':') !== false ? substr($dex[0], 0, strpos($dex[0],':')) : $dex[0];
@@ -72,7 +75,7 @@ function app_loader() {
             }
         }
     }
-    if( file_exists( COREPATH . 'apps/' . $app ) ) { // if app exists and config exists
+    if( !empty( $app ) && file_exists( COREPATH . 'apps/' . $app ) ) { // if app exists and config exists
 
         if( file_exists( COREPATH . 'apps/' . $app . '/config.php' ) ) { // If app has config file
             $c = include( COREPATH . 'apps/' . $app . '/config.php' );// load config
@@ -87,7 +90,7 @@ function app_loader() {
         //$c = !empty( $config ) ? $config : '';
         isset( $c['timezone'] ) && !empty( $c['timezone'] ) ? date_default_timezone_set( $c['timezone'] ) : ''; // Defines Timezone
 
-        isset( $c['ssl'] ) && $c['ssl'] && $_SERVER['HTTPS'] !== 'on' ? header('Location: https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ) : ''; // Forces SSL
+        isset( $c['ssl'] ) && $c['ssl'] && !isset( $_SERVER['HTTPS'] ) ? header('Location: https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ) : ''; // Forces SSL
 
         $appname = isset( $c['name'] ) && !empty( $c['name'] ) ? $c['name'] : ucwords( $app ); // Defines the Application Name Ex: Amazing App
         !defined( 'APPNAME' ) ? define( 'APPNAME', $appname ) : '';
