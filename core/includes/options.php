@@ -407,7 +407,9 @@ function create_table( $table ){
         global $db;
         $check = "SHOW TABLES LIKE '".$table[0]."'";
 
-        if( mysqli_query( $db, $check ) ) {
+        $exist = mysqli_query( $db, $check );
+
+        if( $exist->num_rows > 0 ) {
 
             if ( is_array( $table[2] ) ) {
                 foreach ( $table[2] as $col ) {
