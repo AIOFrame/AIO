@@ -92,7 +92,15 @@ function process_upload(fs) {
         }
         //console.log(d);
         $.ajax({
-            url: location.origin, type: 'POST', data: d, contentType: false, cache: false, processData: false, success: function (data) {
+            url: location.origin, type: 'POST', data: d, contentType: false, cache: false, processData: false,
+            xhr: function() {
+                var myXhr = $.ajaxSettings.xhr();
+                if(myXhr.upload){
+                    myXhr.upload.addEventListener('progress',upload_progress, false);
+                }
+                return myXhr;
+            },
+            success: function (data) {
                 var d = $.parseJSON(data);
                 if (d[0] === 'success') {
                     $('#file_uploader .no_uploaded_files').remove();
@@ -108,7 +116,23 @@ function process_upload(fs) {
             }
         });
     }
+}
 
+function upload_progress(e){
+
+    if(e.lengthComputable){
+        var max = e.total;
+        var current = e.loaded;
+
+        var Percentage = (current * 100)/max;
+        console.log(Percentage);
+
+
+        if(Percentage >= 100)
+        {
+            // process completed
+        }
+    }
 }
 
 function remove_file() {

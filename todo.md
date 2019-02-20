@@ -24,7 +24,7 @@ File Uploader Improvements:
 * Show progress of upload
 * Files UI and as page
 * Image compression for future large scale
-* Sharable files
+* Encrypted and Sharable files
 * Empty Files Found - Done
 * Upload Force Replace Option
 * Multiple Upload always but selection either multiple or single
