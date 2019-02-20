@@ -374,6 +374,8 @@ function edit_data( e, modal ) {
     var t = $(e).data('t') ? $($(e).data('t')) : $(modal);
     var data = $(e).data('data');
 
+    $('article').addClass('fade');
+
     $.each( $(modal).find('button,h1,h2,h3,h4,h5,h6,span,i,p'), function( a, b ){
         if( $(b).html().indexOf('Add') >= 0){
             $(b).html( $(b).html().replace('Add','Update') );
