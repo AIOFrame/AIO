@@ -2,14 +2,15 @@ $(document).ready(function(){
     $(document).mouseup(function(e) {
         var c = $('#file_uploader');
         if (!c.is(e.target) && c.has(e.target).length === 0) {
-            c.hide();
+            close_uploader();
         }
     });
     $('body').on('click','.fup_file',function(){
-        $('.fup_file').not(this).removeClass('on');
+        if( $('#file_uploader').data('multiple') === undefined  ) {
+            $('.fup_file').not(this).removeClass('on');
+        }
         $(this).toggleClass('on');
-
-        elog($(this).data('delete'));
+        //elog($(this).data('delete'));
         if( $(this).data('delete') !== '' && $(this).data('delete') !== undefined ){
             if( $(this).data('delete') === 0 ){
                 $('#file_uploader .files_delete').addClass('disabled');
@@ -17,11 +18,20 @@ $(document).ready(function(){
                 $('#file_uploader .files_delete').removeClass('disabled');
             }
         }
-
     }).on('click','.files_delete',function(){
-
+        var df = $('.fup_file.on');
+        if( df.length > 0 && df.data('id') !== undefined && df !== '' ) {
+            $.post(location.origin,{'action':'file_delete','id':df.data('id')},function(r){
+                if( r = JSON.parse(r) ) {
+                    uploader_notify(r[1]);
+                    if( r[0] === 1 ){
+                        $('.fup_file.on').remove();
+                    }
+                }
+            })
+        }
     }).on('click','#file_uploader .close',function(){
-        $(this).parents('#file_uploader').slideUp();
+        close_uploader();
     })
 
     // Standard File Chosen to Upload
@@ -50,37 +60,65 @@ $(document).ready(function(){
     .on('click','#file_uploader .files_insert',function(){
         var f = $('#file_uploader');
         var s = $('#file_uploader .fup_file.on');
-        if( f.data('url') !== undefined && f.data('url') !== "" ) {
-            if( s ){ $( f.data('url') ).val( s.data('url') ) }
+
+        if( f.data('multiple') === undefined ) {
+            if( f.data('s_img') !== undefined && f.data('s_img') !== "" ) {
+                if( s ){ $( f.data('s_img') ).html('').append( '<img width="150" height="150" src="'+f.data('dir')+ s.data('url') +'">' ) }
+            }
+            if( f.data('bg') !== undefined && f.data('bg') !== "" ) {
+                if( s ){ $( f.data('bg') ).css({'background-image':'url("'+f.data('dir')+ s.data('url') +'")'}) }
+            }
+            if( f.data('id') !== undefined && f.data('id') !== '' ){
+                if( s ){ $( f.data('id') ).val( s.data('id') ) }
+            }
+            if( f.data('url') !== undefined && f.data('url') !== "" ) {
+                if( s ){ $( f.data('url') ).val( s.data('url') ) }
+            }
+        } else {
+            var urls = []; var ids = [];
+            $.each(s,function(a,b){
+                urls.push($(b).data('url'));
+                ids.push($(b).data('ids'));
+            });
+            //elog(urls);
+            urls = urls.join('|');
+            ids = ids.join('|');
+            //elog(urls);
+            $(f.data('url')).val(urls);
+            $(f.data('id')).val(ids);
         }
-        if( f.data('s_img') !== undefined && f.data('s_img') !== "" ) {
-            if( s ){ $( f.data('s_img') ).html('').append( '<img width="150" height="150" src="'+f.data('dir')+ s.data('url') +'">' ) }
-        }
-        //console.log( f.data('bg') );
-        if( f.data('bg') !== undefined && f.data('bg') !== "" ) {
-            if( s ){ $( f.data('bg') ).css({'background-image':'url("'+f.data('dir')+ s.data('url') +'")'}) }
-        }
-        if( f.data('id') !== undefined && f.data('id') !== '' ){
-            if( s ){ $( f.data('id') ).val( s.data('id') ) }
-        }
+
         $('#file_uploader').slideUp();
         //console.log(s);
         setTimeout(function(){ var m = s.length > 0 ? 'File Selected Successfully!' : 'NO FILE SELECTED! File Uploader Closed!!' ; $('.file_notify').html(m).addClass('on') }, 500);
         setTimeout(function(){ $('.file_notify').removeClass('on') },1600);
     })
+
+    .on('click','[data-file-upload]',function(){
+        file_upload($(this));
+    })
 });
 
 function file_upload(e){
-    $('#file_uploader').slideDown().data('exts',$(e).data('exts')).data('url',$(e).data('url')).data('bg',$(e).data('bg')).data('id',$(e).data('id')).data('s_img',$(e).data('s_img')).data('path',$(e).data('path')).data('scope',$(e).data('scope'));
-    if($(e).data('delete') === undefined){
-        if( $('#file_uploader .files_delete').length !== 0 ){
-            //$('#file_uploader').find('.files_insert').parent().append('<div class="files_delete"></div>');
-            $('.files_delete').hide();
+    var fu = $('#file_uploader');
+    if( ( $(e).data('url') !== '' && $(e).data('url') !== undefined ) || ( $(e).data('id') !== '' && $(e).data('id') !== undefined ) ) {
+        if(!fu.is(':visible')) {
+            fu.slideDown();
         }
-        $( '#file_uploader' ).data('delete',false)
-    } else {
-        $('.files_delete').show();
-        $( '#file_uploader' ).data('delete',true)
+        fu.data('exts', $(e).data('exts')).data('url', $(e).data('url')).data('multiple', $(e).data('multiple')).data('bg', $(e).data('bg')).data('id', $(e).data('id')).data('s_img', $(e).data('s_img')).data('path', $(e).data('path')).data('scope', $(e).data('scope'));
+        elog(fu.data('multiple'));
+        if( fu.data('multiple') !== undefined ) {
+            $('.files_insert').addClass('multiple');
+        } else {
+            $('.files_insert').removeClass('multiple');
+        }
+        if ($(e).data('delete') === undefined) {
+            $('.files_delete').hide();
+            fu.data('delete', false)
+        } else {
+            $('.files_delete').show();
+            fu.data('delete', true)
+        }
     }
 }
 
@@ -130,11 +168,12 @@ function process_upload(fs) {
                     $('#file_uploader .no_uploaded_files').remove();
                     var size = parseInt(d[6]) > 1024 ? ( parseFloat(d[6]) / 1024 ).toFixed(2) + ' MB' : d[6] + ' KB';
                     var bg = $.inArray( d[5], Array('svg','jpg','png','jpeg') ) > -1 ? 'style="background-image:url(\''+d[7]+'\')"' : '';
-                    $('#file_uploader .uploaded_files').prepend( '<div class="fup_file new '+d[5]+'" data-id="'+d[4]+'" data-url="'+d[3]+'" '+bg+'><div class="name">'+d[2]+'</div><div class="size">'+size+'</div></div>' );
+                    var del = d[8] === 1 ? 'data-delete="1"' : 'data-delete="0"';
+                    $('#file_uploader .uploaded_files').prepend( '<div class="fup_file new '+d[5]+'" data-id="'+d[4]+'" data-url="'+d[3]+'" '+bg+' '+del+'><div class="name">'+d[2]+'</div><div class="size">'+size+'</div></div>' );
                     $('#file_uploader .fup_file').removeClass('on');
                     $('.file_notify').html('File Uploaded Successfully!').addClass('on');
                     setTimeout(function(){ $('.file_notify').removeClass('on'); },1000);
-                    setTimeout(function(){ $('.fup_file').removeClass('new') },3000);
+                    setTimeout(function(){ $('.fup_file').removeClass('new') },1000);
                     return [ true, 'File Uploaded Successfully', d ];
                 } else {
                     return [ true, 'File Uploaded Failed', 'There was an issue while sending file to server, please try again' ];
@@ -161,6 +200,15 @@ function upload_progress(e){
     }
 }
 
-function remove_file() {
+function uploader_notify( message ) {
 
+    $('.file_notify').html(message).addClass('on');
+
+    setTimeout(function(){ $('.file_notify').removeClass('on'); },2000);
+
+}
+
+function close_uploader() {
+    $('.fup_file').removeClass('on');
+    $('#file_uploader').slideUp().removeData(['id','url','exts','s_img','scope','path','bg','multiple']);
 }

@@ -226,6 +226,7 @@ function is_desktop() {
 
 function elog( $line ){
     $line = is_array( $line ) ? implode( ', ', array_keys( $line ) ) . '<>' . implode( ', ', $line ) : $line;
+    $line = is_object( $line ) ? var_dump($line) : $line;
     APPDEBUG ? error_log( $line ) : '';
 }
 

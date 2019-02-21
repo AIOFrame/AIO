@@ -93,15 +93,52 @@ function get_image_data() {
 
 // Delete an uploaded document
 
-function truncate_upload() {
-    $fid = $_POST['id'];
-    $uid = get_current_user_id();
-    $id = json_decode( image_data( $fid ), true );
-    //$ri = "DELETE FROM storage WHERE ";
-    $ri = delete( 'storage', 'ID = "'.$fid.'" AND file_scope = "'.$uid.'"' );
-    if( $ri && unlink( COREPATH.$id[1] ) ) {
-        echo json_encode( array( 'success', 'File Deleted', $id[0].' was deleted and erased from records successfully' ), true );
+function file_delete() {
+
+    if( isset( $_POST['id'] ) && $_POST['id'] !== '' ) {
+
+        $cry = Crypto::initiate();
+
+        $id = isset( $_POST['id'] ) && $_POST['id'] !== '' ? $cry->decrypt( $_POST['id'] ) : '';
+
+        if( is_numeric( $id ) ){
+
+            $user_id = get_current_user_id();
+
+            $file = select( 'storage', 'file_url', 'file_id = "'.$id.'" AND file_scope = "'.$user_id.'" AND file_delete = "1"', 1 );
+
+            if( !empty( $file['file_url'] ) ) {
+
+                elog(APPPATH . $file['file_url']);
+                $ac_file = unlink( APPPATH . $file['file_url'] );
+                $db_file = delete( 'storage', 'file_id = "'.$id.'" AND file_scope = "'.$user_id.'" AND file_delete = "1"' );
+
+                if( $ac_file && $db_file ) {
+
+                    echo json_encode( [ 1, _t('File Deleted') ] );
+
+                } else {
+
+                    echo json_encode( [ 0, _t('File NOT Deleted, Perhaps the file is restricted from deletion') ] );
+
+                }
+
+            } else {
+
+                echo json_encode( [ 0, _t('File NOT Deleted, Perhaps the file is restricted from deletion') ] );
+
+            }
+
+        } else {
+
+            echo json_encode( [ 0, _t('Decrypting file failed, Please refresh and try again') ] );
+
+        }
+
     } else {
-        echo json_encode( array( 'error', 'File NOT Deleted', 'File could not be deleted, it may not exist' ), true );
+
+        echo json_encode( [ 0, _t('Delete request could not be processed. Please try again and if issue persists approach Support') ] );
+
     }
+
 }

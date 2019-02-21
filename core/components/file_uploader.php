@@ -29,8 +29,8 @@ class FUP {
                 <div class="camera_view"></div>
             </div>
             <div class="files_actions">
-                <div class="files_insert"><i class="ico file select"></i> <?php __('Select'); ?></div>
-                <div class="files_delete"><i class="ico file trash"></i> <?php __('Delete'); ?></div>
+                <div class="files_insert"><i class="ico file select"></i> <span><?php __('Select'); ?></span><span><?php __('Select Multiple Files'); ?></span></div>
+                <div class="files_delete disabled"><i class="ico file trash"></i> <?php __('Delete'); ?></div>
             </div>
         </div>
         <div class="file_notify"></div>

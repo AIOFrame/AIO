@@ -91,6 +91,12 @@
     padding: 0;
     z-index:10;
 }
+.files_insert span:nth-child(3), .files_insert.multiple span:nth-child(2) {
+    display: none;
+}
+.files_insert.multiple span:nth-child(3) {
+    display: inline-block;
+}
 .files_head .ico.file.browse {
     background:url('../images/icons/browse.svg') no-repeat center;
 }

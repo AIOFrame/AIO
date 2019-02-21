@@ -307,11 +307,13 @@ function delete( $table, $logic ){
 
     elog('[DEL] '.$q.' '.$df.PHP_EOL.PHP_EOL);
 
-    if (mysqli_query( $db, $q )) {
-        return true;
-    } else {
+    $del = mysqli_query( $db, $q );
+
+    if( mysqli_error( $db ) ) {
         elog('[ERROR] '.mysqli_error($db));
-        return false;
+    } else {
+        $rows = mysqli_affected_rows( $db );
+        return $rows > 0 ? $rows : 0;
     }
 }
 
