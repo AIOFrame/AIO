@@ -11,6 +11,9 @@ function file_process() {
     // Sets the scope of uploaded file (If empty then the file is private)
     $scope = !empty($_POST['scope']) && $cry->decrypt( $_POST['scope'] ) == 'false' ? 0 : get_current_user_id();
 
+    // Sets the file is deletable or not
+    $delete = !empty($_POST['delete']) && $_POST['delete'] == 'true' ? 1 : 0;
+
     // Sets the path of the uploaded file (If empty then file is uploaded to user directory/y-m)
     $path = !empty($_POST['path']) ? $cry->decrypt($_POST['path']) : get_current_user_id().'/'.date('Y-m');
     if( empty($path) ){ echo json_encode('Location Accessibility Failure', false); return; }
@@ -27,9 +30,9 @@ function file_process() {
             $loc = '/storage/'.$path.'/'.$fn;
             $fz = round( $file['size'] / 1024 );
             $vfn = ucwords( str_replace('.'.$fe, '', str_replace('-', ' ', str_replace('_', ' ', $file['name']))));
-            $uq = insert( 'storage', array( 'file_name', 'file_url', 'file_scope', 'file_type', 'file_size' ), array( $vfn, $loc, $scope, $fe, $fz ) );
+            $uq = insert( 'storage', array( 'file_name', 'file_url', 'file_scope', 'file_type', 'file_size', 'file_delete' ), array( $vfn, $loc, $scope, $fe, $fz, $delete ) );
             if( $uq ){
-                $msg = array('success','File Uploaded Successfully',$fn,$loc,$cry->encrypt($uq),$fe,$fz,storage_url($loc));
+                $msg = array('success','File Uploaded Successfully',$fn,$loc,$cry->encrypt($uq),$fe,$fz,storage_url($loc),$delete);
                 echo json_encode($msg, true);
             } else {
                 unlink( APPPATH.'/storage/'.$path.'/'.$fn );

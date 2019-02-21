@@ -37,6 +37,7 @@ function basic_tables() {
         [ 'size', 'MEDIUMINT', '30', 'NOT NULL' ],
         [ 'small', 'VARCHAR', '255', 'NULL' ],
         [ 'medium', 'VARCHAR', '255', 'NULL' ],
+        [ 'delete', 'BOOLEAN', 1, 0 ],
     ] ];
 
     $tables[] = [ 'levels', 'lv', [

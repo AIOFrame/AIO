@@ -9,9 +9,10 @@ class FUP {
         <script src="<?php echo APPURL; ?>assets/scripts/upload.js"></script>
         <div id="file_uploader" class="file_modal" data-dir="<?php echo APPURL.'apps/'.APPDIR; ?>">
             <div class="files_head">
+                <h3><?php __('File Uploader'); ?></h3>
                 <div class="close"></div>
                 <input type="file" id="file_input">
-                <label for="file_input" class="fup_icon browse_file"><span><?php __('Browse File'); ?></span></label>
+                <label for="file_input" class="fup_icon browse_file"><i class="ico file browse"></i> <?php __('Browse File'); ?></label>
             </div>
             <div class="files_body">
                 <div class="uploaded_files">
@@ -19,7 +20,8 @@ class FUP {
                     $fs = select( 'storage', '*', 'file_scope = "'.$_SESSION['user_id'].'" OR file_scope = "0"', '40', 0, '', '', 'file_id', 'desc' );
                     if( !empty($fs) ){ foreach( $fs as $f ){
                         $bg = in_array($f['file_type'],['svg','jpg','png','jpeg']) ? 'style="background-image:url(\''.storage_url($f['file_url']).'\')"' : '';
-                        echo '<div '.$bg.' class="fup_file" data-id="'.$cry->encrypt($f['file_id']).'" data-url="'.$f['file_url'].'">'.$f['file_name'].'</div>';
+                        $size = $f['file_size'] > 1024 ? number_format((float)($f['file_size'] / 1024), 2, '.', '') . ' MB' : $f['file_size'].' KB';
+                        echo '<div '.$bg.' class="fup_file '.$f['file_type'].'" data-id="'.$cry->encrypt($f['file_id']).'" data-url="'.$f['file_url'].'" data-delete="'.$f['file_delete'].'"><div class="name">'.$f['file_name'].'</div><div class="size">'.$size.'</div></div>';
                     } } else {
                         echo '<div class="no_uploaded_files">'. _t('NO FILES FOUND!').'</div>';
                     } ?>
@@ -27,7 +29,8 @@ class FUP {
                 <div class="camera_view"></div>
             </div>
             <div class="files_actions">
-                <div class="files_insert"></div>
+                <div class="files_insert"><i class="ico file select"></i> <?php __('Select'); ?></div>
+                <div class="files_delete"><i class="ico file trash"></i> <?php __('Delete'); ?></div>
             </div>
         </div>
         <div class="file_notify"></div>

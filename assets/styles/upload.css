@@ -52,19 +52,33 @@
 }
 .file_modal .files_head {
     background:#333;
-    display: flex;
     position: relative;
+    color:#fff;
+}
+.file_modal .files_head h3 {
+    display: block;
+    margin: 0;
+    padding: 15px;
+    text-align: center;
 }
 .files_head input {
     display: none;
 }
-.files_head>label, .files_head>div {
-    color:#fff;
-    padding:25px 15px 40px;
+.files_head .browse_file {
+    padding:10px;
     margin: 0;
-    flex-grow: 1;
-    height:90px;
+    display: block;
     position: relative;
+    color:#fff;
+    text-align: center;
+    background:rgba(255,255,255,.05);
+    font-size: 16px;
+    font-weight: lighter;
+    text-transform: none;
+    cursor: pointer;
+}
+.files_head .browse_file i {
+    margin-right: 10px;
 }
 .files_head>.close {
     background:url('../images/icons/close.svg') no-repeat center / 40%;
@@ -77,20 +91,8 @@
     padding: 0;
     z-index:10;
 }
-.files_head span {
-    position: absolute;
-    bottom:8px;
-    left:50%;
-    transform:translateX(-50%);
-    text-align: center;
-    font-size:14px;
-    font-weight:100;
-    text-transform:capitalize;
-    letter-spacing:normal;
-    white-space:nowrap;
-}
-.fup_icon.browse_file {
-    background:url('../images/icons/browse.svg') no-repeat center 15px / 45px;
+.files_head .ico.file.browse {
+    background:url('../images/icons/browse.svg') no-repeat center;
 }
 .fup_icon.uploaded_files {
     background:url('../images/icons/uploads.svg') no-repeat center 15px / 45px;
@@ -102,18 +104,64 @@
     max-height:50vh;
     overflow-y:auto;
 }
-.fup_file {
+.file_modal .uploaded_files {
+    min-height:260px;
+    display: flex;
+    flex-wrap:wrap;
+    align-content:flex-start;
+}
+.fup_file, .uploaded_files>.uploading {
     font-size:12px;
-    padding:15px 10px 15px 50px;
-    border-bottom:1px solid rgba(0,0,0,.1);
+    padding:50px 10px 15px 10px;
     background-image:url('../images/icons/file.svg');
     background-repeat: no-repeat;
     background-size:40px;
-    background-position:5px 50%;
+    background-position:50% 5px;
     cursor: pointer;
     white-space: nowrap;
     overflow:hidden;
     position: relative;
+    flex:0 0 33.3337%;
+    max-width:33.3337%;
+    height:86px;
+    text-align: center;
+}
+.fup_file.gif {
+    background-image:url('../images/icons/files/gif.svg');
+}
+.fup_file.txt {
+    background-image:url('../images/icons/files/txt.svg');
+}
+.fup_file.zip, .fup_file.rar, .fup_file.tar {
+    background-image:url('../images/icons/files/zip.svg');
+}
+.fup_file.xls {
+    background-image:url('../images/icons/files/xls.svg');
+}
+.fup_file.xlsx {
+    background-image:url('../images/icons/files/xlsx.svg');
+}
+.fup_file.doc {
+    background-image:url('../images/icons/files/doc.svg');
+}
+.fup_file.docx {
+    background-image:url('../images/icons/files/docx.svg');
+}
+.fup_file.ppt {
+    background-image:url('../images/icons/files/ppt.svg');
+}
+.fup_file.pdf {
+    background-image:url('../images/icons/files/pdf.svg');
+}
+.fup_file.mp3 {
+    background-image:url('../images/icons/files/mp3.svg');
+}
+.fup_file .name {
+    overflow:hidden;
+}
+.fup_file .size, .uploading .perc {
+    font-size: 10px;
+    color:#aaa;
 }
 .fup_file.on {
     background-color:rgba(0,0,0,.1) !important;
@@ -135,28 +183,63 @@
     50% {background-color:rgba(73, 146, 255, 0.24)}
     100% {background-color:rgba(0, 0, 0, 0)}
 }
-.fup_file.on:after {
+.fup_file:after {
     content: '';
     position: absolute;
+    background: url(../images/icons/uncheck.svg) no-repeat center;
+    width: 20px;
+    height: 20px;
+    left: 10px;
+    top: 10px;
+}
+.fup_file.on:after {
     background: url(../images/icons/check.svg) no-repeat center;
-    width: 25px;
-    height: 25px;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
+}
+.uploaded_files .uploading .progress {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    outline:1px solid #eee;
+    outline-offset: -1px;
+    z-index: -1;
+}
+.uploaded_files .uploading .progress>div {
+    height:100%;
+    background: #eee;
+    transition:1s;
+    width:0;
 }
 .files_actions {
     display: flex;
+    border-top:1px solid #eee;
 }
 .files_actions>div {
-    height:65px;
-    width:80px;
+    height:45px;
     margin:0 auto;
     cursor: pointer;
+    flex-grow:1;
+    padding: 10px;
+    text-align: center;
+    font-size: 16px;
 }
-.files_delete {
-    background:url('../images/icons/delete.svg') no-repeat center / 55%;
+.files_actions>div:hover {
+    background:rgba(0,0,0,.05)
 }
-.files_insert {
-    background:url('../images/icons/check.svg') no-repeat center / 55%;
+.files_actions .files_delete.disabled {
+    opacity:.3;
+    pointer-events: none;
+}
+.files_actions .ico {
+    display: inline-block;
+    width:22px;
+    height:22px;
+    margin: 0 6px 0 0;
+}
+.files_actions .ico.file.select {
+    background:url('../images/icons/select.svg') no-repeat center;
+}
+.files_actions .ico.file.trash {
+    background:url('../images/icons/delete.svg') no-repeat center;
 }

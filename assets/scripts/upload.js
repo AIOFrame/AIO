@@ -7,7 +7,17 @@ $(document).ready(function(){
     });
     $('body').on('click','.fup_file',function(){
         $('.fup_file').not(this).removeClass('on');
-        $(this).toggleClass('on')
+        $(this).toggleClass('on');
+
+        elog($(this).data('delete'));
+        if( $(this).data('delete') !== '' && $(this).data('delete') !== undefined ){
+            if( $(this).data('delete') === 0 ){
+                $('#file_uploader .files_delete').addClass('disabled');
+            } else if( $(this).data('delete') === 1 ) {
+                $('#file_uploader .files_delete').removeClass('disabled');
+            }
+        }
+
     }).on('click','.files_delete',function(){
 
     }).on('click','#file_uploader .close',function(){
@@ -62,10 +72,15 @@ $(document).ready(function(){
 
 function file_upload(e){
     $('#file_uploader').slideDown().data('exts',$(e).data('exts')).data('url',$(e).data('url')).data('bg',$(e).data('bg')).data('id',$(e).data('id')).data('s_img',$(e).data('s_img')).data('path',$(e).data('path')).data('scope',$(e).data('scope'));
-    if($(e).data('delete') !== undefined){
-        if( $('#file_uploader .files_delete').length === 0 ){
-            $('#file_uploader').find('.files_insert').parent().append('<div class="files_delete"></div>');
+    if($(e).data('delete') === undefined){
+        if( $('#file_uploader .files_delete').length !== 0 ){
+            //$('#file_uploader').find('.files_insert').parent().append('<div class="files_delete"></div>');
+            $('.files_delete').hide();
         }
+        $( '#file_uploader' ).data('delete',false)
+    } else {
+        $('.files_delete').show();
+        $( '#file_uploader' ).data('delete',true)
     }
 }
 
@@ -90,7 +105,15 @@ function process_upload(fs) {
         if( $('#file_uploader').data('scope') !== '' && $('#file_uploader').data('scope') !== undefined ){
             d.append('scope',$('#file_uploader').data('scope'));
         }
-        //console.log(d);
+        if( $('#file_uploader').data('delete') !== '' && $('#file_uploader').data('delete') !== undefined && $('#file_uploader').data('delete') ){
+            d.append('delete','true');
+        } else {
+            d.append('delete','false');
+        }
+
+        $('#file_uploader .uploaded_files').prepend( '<div class="uploading"><div class="name">'+f.name+'</div><div class="perc"><span>0</span>%</div><div class="progress"><div></div></div></div>' );
+
+        elog(d);
         $.ajax({
             url: location.origin, type: 'POST', data: d, contentType: false, cache: false, processData: false,
             xhr: function() {
@@ -101,10 +124,13 @@ function process_upload(fs) {
                 return myXhr;
             },
             success: function (data) {
+                $('#file_uploader .uploading').remove();
                 var d = $.parseJSON(data);
                 if (d[0] === 'success') {
                     $('#file_uploader .no_uploaded_files').remove();
-                    $('#file_uploader .uploaded_files').prepend( '<div class="fup_file new" data-id="'+d[4]+'" style="background-image:url('+d[7]+')" data-url="'+d[3]+'">'+d[2]+'</div>' );
+                    var size = parseInt(d[6]) > 1024 ? ( parseFloat(d[6]) / 1024 ).toFixed(2) + ' MB' : d[6] + ' KB';
+                    var bg = $.inArray( d[5], Array('svg','jpg','png','jpeg') ) > -1 ? 'style="background-image:url(\''+d[7]+'\')"' : '';
+                    $('#file_uploader .uploaded_files').prepend( '<div class="fup_file new '+d[5]+'" data-id="'+d[4]+'" data-url="'+d[3]+'" '+bg+'><div class="name">'+d[2]+'</div><div class="size">'+size+'</div></div>' );
                     $('#file_uploader .fup_file').removeClass('on');
                     $('.file_notify').html('File Uploaded Successfully!').addClass('on');
                     setTimeout(function(){ $('.file_notify').removeClass('on'); },1000);
@@ -124,9 +150,9 @@ function upload_progress(e){
         var max = e.total;
         var current = e.loaded;
 
-        var Percentage = (current * 100)/max;
-        console.log(Percentage);
-
+        var Percentage = Math.round((current * 100)/max);
+        $('#file_uploader .progress>div').css({'width':Percentage+'%'});
+        $('#file_uploader .uploading .perc>span').html(Percentage);
 
         if(Percentage >= 100)
         {
