@@ -87,6 +87,7 @@ $(document).ready(function(){
             $(f.data('url')).val(urls);
             $(f.data('id')).val(ids);
         }
+        files_ui();
 
         $('#file_uploader').slideUp();
         //console.log(s);

@@ -149,6 +149,46 @@ $(document).ready(function(){
         });
     });
 
+    // FILES UI
+
+    files_ui();
+
+    $('body').on('click','.files_preview .trash',function(){
+
+        var dfile = $(this).next('.file').html();
+
+        if( dfile !== undefined && dfile !== '' && confirm('Are you sure to remove attached file ?') ) {
+
+            var files = $($(this).parents('[data-url]').data('url')).val().split('|');
+
+            var val = '';
+
+            if( $.isArray( files ) ) {
+
+                $(files).each(function(c,d){
+
+                    var efile = d.split('/')[ d.split('/').length - 1 ];
+
+                    if( efile !== dfile ) {
+
+                        val += d + '|';
+
+                    }
+
+                });
+
+            }
+
+            val = val.slice(0,-1);
+
+            $($(this).parents('[data-url]').data('url')).val(val);
+
+            files_ui();
+
+        }
+
+    });
+
     // Fetch States
 
     $('body').on('change','select[data-states]',function(){
@@ -172,9 +212,6 @@ $(document).ready(function(){
 
                         });
 
-                        elog(o);
-                        elog(t);
-
                         $(t).html(o);
 
                         if($(t).hasClass('select2')) {
@@ -196,6 +233,35 @@ $(document).ready(function(){
 
     $.each($('[data-ml]'),function(a,b){ $(b).css({'margin-left':$(b).data('ml')}); });
 });
+
+function files_ui() {
+
+    $('input[data-files]').each(function(a,b){
+
+        $(b).hide();
+
+        var files = $(b).val().split('|');
+
+        var files_ui = '';
+
+        $(files).each(function(c,d){
+
+            var file = d.split('/')[ d.split('/').length - 1 ];
+
+            var ext = file.split('.')[ file.split('.').length - 1 ];
+
+            files_ui += file !== '' ? '<div class="file"><i class="ico file '+ext+'"></i><i class="ico trash"></i><div class="file">'+file+'</div></div>' : '';
+
+        });
+
+        if( $(b).next().hasClass('files_preview') ){
+            $(b).next().remove();
+        }
+
+        $(b).after('<div class="files_preview" data-url="#'+ $(b).attr('id') +'">'+files_ui+'</div>');
+
+    });
+}
 
 function goto_step( e, s ){
     $(e).find('.step:nth-child('+s+')').click();

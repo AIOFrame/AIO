@@ -33,7 +33,8 @@
     background:rgba(255,255,255,.75);
 }
 .file_modal .no_uploaded_files {
-    padding: 80px 20px;
+    padding: 20%;
+    width:100%;
     text-align: center;
     letter-spacing: 2px;
     outline: 1px dashed #aaa;

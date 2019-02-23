@@ -224,6 +224,44 @@ table.plain tr:after {
     display: none;
 }
 
+/* FILES */
+
+.files_preview {
+    background:#eee;
+    /*box-shadow: 0 0 10px rgba(0,0,0,.05) inset;*/
+    border-radius: 4px;
+    padding:8px 50px 8px 8px;
+    position:relative;
+    min-height:60px;
+    margin-bottom: 15px;
+}
+.files_preview>.file {
+    background:#fff;
+    display:inline-block;
+    padding:4px 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,.1);
+    border-radius: 4px;
+    position: relative;
+    margin-right: 15px;
+    text-align: center;
+}
+.files_preview>.file:last-child {
+    margin: 0;
+}
+.files_preview>.file>div.file {
+    font-size: 12px;
+}
+.files_preview .ico.file {
+    margin:6px auto;
+}
+.files_preview .trash {
+    position:absolute;
+    top:5px;
+    right: 5px;
+    width: 15px;
+    height: 15px;
+}
+
 /* ICONS */
 
 .ico {
