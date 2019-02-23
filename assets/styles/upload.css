@@ -65,7 +65,7 @@
 .files_head input {
     display: none;
 }
-.files_head .browse_file {
+/*.files_head .browse_file {
     padding:10px;
     margin: 0;
     display: block;
@@ -80,7 +80,7 @@
 }
 .files_head .browse_file i {
     margin-right: 10px;
-}
+}*/
 .files_head>.close {
     background:url('../images/icons/close.svg') no-repeat center / 40%;
     position: absolute;
@@ -222,7 +222,7 @@
     display: flex;
     border-top:1px solid #eee;
 }
-.files_actions>div {
+.files_actions>div, .files_actions>label {
     height:45px;
     margin:0 auto;
     cursor: pointer;
@@ -230,8 +230,11 @@
     padding: 10px;
     text-align: center;
     font-size: 16px;
+    text-transform: none;
+    font-weight: lighter;
+    color: #000;
 }
-.files_actions>div:hover {
+.files_actions>div:hover, .files_actions>label:hover {
     background:rgba(0,0,0,.05)
 }
 .files_actions .files_delete.disabled {
@@ -249,4 +252,7 @@
 }
 .files_actions .ico.file.trash {
     background:url('../images/icons/delete.svg') no-repeat center;
+}
+.files_actions .ico.file.browse {
+    background:url('../images/icons/browse.svg') no-repeat center;
 }

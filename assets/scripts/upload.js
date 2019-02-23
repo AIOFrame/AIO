@@ -75,6 +75,7 @@ $(document).ready(function(){
                 if( s ){ $( f.data('url') ).val( s.data('url') ) }
             }
         } else {
+
             var urls = []; var ids = [];
             $.each(s,function(a,b){
                 urls.push($(b).data('url'));
@@ -84,6 +85,10 @@ $(document).ready(function(){
             urls = urls.join('|');
             ids = ids.join('|');
             //elog(urls);
+            var ut = $(f.data('url'));
+            var it = $(f.data('id'));
+            urls = ut.val() !== '' ? ut.val() + '|' + urls : urls;
+            ids = it.val() !== '' ? it.val() + '|' + ids : ids;
             $(f.data('url')).val(urls);
             $(f.data('id')).val(ids);
         }
@@ -103,11 +108,16 @@ $(document).ready(function(){
 function file_upload(e){
     var fu = $('#file_uploader');
     if( ( $(e).data('url') !== '' && $(e).data('url') !== undefined ) || ( $(e).data('id') !== '' && $(e).data('id') !== undefined ) ) {
+        if( $(e).data('files') === undefined ) {
+            $('#file_uploader .fup_file').hide();
+            $('.files_browse').click();
+        } else {
+            $('#file_uploader .fup_file').show();
+        }
         if(!fu.is(':visible')) {
             fu.slideDown();
         }
-        fu.data('exts', $(e).data('exts')).data('url', $(e).data('url')).data('multiple', $(e).data('multiple')).data('bg', $(e).data('bg')).data('id', $(e).data('id')).data('s_img', $(e).data('s_img')).data('path', $(e).data('path')).data('scope', $(e).data('scope'));
-        elog(fu.data('multiple'));
+        fu.data('exts', $(e).data('exts')).data('files',$(e).data('files')).data('url', $(e).data('url')).data('multiple', $(e).data('multiple')).data('bg', $(e).data('bg')).data('id', $(e).data('id')).data('s_img', $(e).data('s_img')).data('path', $(e).data('path')).data('scope', $(e).data('scope'));
         if( fu.data('multiple') !== undefined ) {
             $('.files_insert').addClass('multiple');
         } else {
@@ -175,6 +185,10 @@ function process_upload(fs) {
                     $('.file_notify').html('File Uploaded Successfully!').addClass('on');
                     setTimeout(function(){ $('.file_notify').removeClass('on'); },1000);
                     setTimeout(function(){ $('.fup_file').removeClass('new') },1000);
+                    if($('#file_uploader').data('files') === undefined){
+                        $('.fup_file.new').addClass('on');
+                        $('.files_insert').click();
+                    }
                     return [ true, 'File Uploaded Successfully', d ];
                 } else {
                     return [ true, 'File Uploaded Failed', 'There was an issue while sending file to server, please try again' ];
@@ -211,5 +225,5 @@ function uploader_notify( message ) {
 
 function close_uploader() {
     $('.fup_file').removeClass('on');
-    $('#file_uploader').slideUp().removeData(['id','url','exts','s_img','scope','path','bg','multiple']);
+    $('#file_uploader').slideUp().removeData(['id','url','exts','s_img','scope','path','bg','multiple','files']);
 }

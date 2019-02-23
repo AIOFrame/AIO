@@ -12,7 +12,6 @@ class FUP {
                 <h3><?php __('File Uploader'); ?></h3>
                 <div class="close"></div>
                 <input type="file" id="file_input">
-                <label for="file_input" class="fup_icon browse_file"><i class="ico file browse"></i> <?php __('Browse File'); ?></label>
             </div>
             <div class="files_body">
                 <div class="uploaded_files">
@@ -30,6 +29,7 @@ class FUP {
             </div>
             <div class="files_actions">
                 <div class="files_insert"><i class="ico file select"></i> <span><?php __('Select'); ?></span><span><?php __('Select Multiple Files'); ?></span></div>
+                <label for="file_input" class="files_browse"><i class="ico file browse"></i> <?php __('Browse File'); ?></label>
                 <div class="files_delete disabled"><i class="ico file trash"></i> <?php __('Delete'); ?></div>
             </div>
         </div>
