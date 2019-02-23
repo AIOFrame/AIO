@@ -38,6 +38,37 @@ $(document).ready(function(){
         }
     });
 
+    // Scroll Save
+
+    var scrollTimer;
+
+    $('[data-save-scroll]').each(function(a,b){
+
+        if( $(b).attr('id') !== undefined ) {
+
+            var scroll_pos = localStorage[ $(b).attr('id') + '_scroll' ];
+            $(b).scrollTop(scroll_pos);
+
+        }
+
+    })
+
+    .on( 'scroll', function(e){
+
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(function() {
+
+            var id = $($(e)[0].target).attr('id');
+            if( id !== undefined ) {
+
+                localStorage[ id + '_scroll' ] = $($(e)[0].target).scrollTop();
+
+            }
+
+        }, 250);
+
+    });
+
     // TABS & STEPS
     var tab = localStorage['tab'];
     if( tab !== undefined ){
@@ -96,7 +127,11 @@ $(document).ready(function(){
     });
 
     if( typeof ClipboardJS === 'function' ){
-        new ClipboardJS('.btn, button');
+        var clipboard = new ClipboardJS('[data-clipboard-target],[data-clipboard-text]');
+
+        clipboard.on('success', function(e) {
+            notify('Copied!',1);
+        })
     }
 
     if( $.fn.select2 !== undefined ){
