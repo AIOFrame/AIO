@@ -62,6 +62,17 @@ $(document).ready(function(){
         var s = $('#file_uploader .fup_file.on');
 
         if( f.data('multiple') === undefined ) {
+
+            var exts = $('#file_uploader').data('exts');
+            if( exts ){
+                exts = exts.split(',');
+                var ext = s.data('url').split('.')[s.data('url').split('.').length - 1];
+                if(exts.indexOf(ext) < 0){
+                    uploader_notify('The file should be one of the extensions ' + exts);
+                    return;
+                }
+            }
+
             if( f.data('s_img') !== undefined && f.data('s_img') !== "" ) {
                 if( s ){ $( f.data('s_img') ).html('').append( '<img width="150" height="150" src="'+f.data('dir')+ s.data('url') +'">' ) }
             }
@@ -74,6 +85,7 @@ $(document).ready(function(){
             if( f.data('url') !== undefined && f.data('url') !== "" ) {
                 if( s ){ $( f.data('url') ).val( s.data('url') ) }
             }
+
         } else {
 
             var urls = []; var ids = [];
@@ -92,10 +104,11 @@ $(document).ready(function(){
             $(f.data('url')).val(urls);
             $(f.data('id')).val(ids);
         }
+        file_ui();
         files_ui();
 
         $('#file_uploader').slideUp();
-        //console.log(s);
+        //elog(s);
         setTimeout(function(){ var m = s.length > 0 ? 'File Selected Successfully!' : 'NO FILE SELECTED! File Uploader Closed!!' ; $('.file_notify').html(m).addClass('on') }, 500);
         setTimeout(function(){ $('.file_notify').removeClass('on') },1600);
     })
@@ -108,7 +121,7 @@ $(document).ready(function(){
 function file_upload(e){
     var fu = $('#file_uploader');
     if( ( $(e).data('url') !== '' && $(e).data('url') !== undefined ) || ( $(e).data('id') !== '' && $(e).data('id') !== undefined ) ) {
-        if( $(e).data('files') === undefined ) {
+        if( $(e).data('history') === undefined ) {
             $('#file_uploader .fup_file').hide();
             $('.files_browse').click();
         } else {
@@ -135,13 +148,14 @@ function file_upload(e){
 
 function process_upload(fs) {
     for (var i = 0, f; f = fs[i]; i++) {
-        //console.log(i);
-        //console.log(f);
+        //elog(i);
+        //elog(f);
         var exts = $('#file_uploader').data('exts');
         if( exts ){
             exts = exts.split(',');
             var ext = f.name.split('.')[1];
             if(exts.indexOf(ext) < 0){
+                uploader_notify('The file should be one of the extensions ' + exts);
                 return [ false, 'Extension Restricted', 'The file should be one of the extensions ' + exts ];
             }
         }
@@ -182,8 +196,7 @@ function process_upload(fs) {
                     var del = d[8] === 1 ? 'data-delete="1"' : 'data-delete="0"';
                     $('#file_uploader .uploaded_files').prepend( '<div class="fup_file new '+d[5]+'" data-id="'+d[4]+'" data-url="'+d[3]+'" '+bg+' '+del+'><div class="name">'+d[2]+'</div><div class="size">'+size+'</div></div>' );
                     $('#file_uploader .fup_file').removeClass('on');
-                    $('.file_notify').html('File Uploaded Successfully!').addClass('on');
-                    setTimeout(function(){ $('.file_notify').removeClass('on'); },1000);
+                    uploader_notify('File Uploaded Successfully!');
                     setTimeout(function(){ $('.fup_file').removeClass('new') },1000);
                     if($('#file_uploader').data('files') === undefined){
                         $('.fup_file.new').addClass('on');
