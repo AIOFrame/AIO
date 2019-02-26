@@ -11,7 +11,7 @@ $pre = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on" ? "https://" : "htt
 
 // Check if HTACCESS exists
 if( !file_exists( COREPATH . '.htaccess' ) ){
-    $htdata = 'Options +FollowSymLinks -MultiViews
+    $htdata = '<IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteBase /
 
@@ -41,10 +41,10 @@ RewriteRule ^(.*)/$ index.php [QSA,L]
 ';
         $x++;
     }
+    $htdata .= '</IfModule>';
     if( $htfile = fopen( COREPATH . '.htaccess', 'w' ) ){
         fwrite( $htfile, $htdata );
         fclose( $htfile );
     }
-
 }
 require( dirname( __FILE__ ) . '/core/core.php' );
