@@ -224,6 +224,38 @@ table.plain tr:after {
     display: none;
 }
 
+/* INPUTS */
+
+.group input {
+    border-radius:0;
+}
+.group input:nth-child(1) {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.group input:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+input.c {
+    text-align: center;
+}
+input.r {
+    text-align: right;
+}
+input.l {
+    text-align: left;
+}
+input.xxs {
+    width:40px;
+}
+input.xs {
+    width:60px;
+}
+input.s {
+    width:100px;
+}
+
 /* FILES */
 
 .files_preview {
