@@ -105,7 +105,7 @@ $(document).ready(function(){
     // Prevent Default
     $('body').on('click','a .prevdef',function(e){
         //$(e).parents('a').preventDefault();
-        console.log($(e).parents('a'));
+        elog($(e).parents('a'));
     });
 
     // MODAL
@@ -146,7 +146,7 @@ $(document).ready(function(){
         });
         document.addEventListener( "contextmenu", function(e) {
             var x = e.clientX; var y = e.clientY;
-            //console.log(e);
+            //elog(e);
             e.preventDefault();
             $(cm).css({'left':x,'top':y,'display':'block'});
         });
@@ -186,6 +186,7 @@ $(document).ready(function(){
 
     // FILES UI
 
+    file_ui();
     files_ui();
 
     $('body').on('click','.files_preview .trash',function(){
@@ -219,6 +220,20 @@ $(document).ready(function(){
             $($(this).parents('[data-url]').data('url')).val(val);
 
             files_ui();
+
+        }
+
+    });
+
+    $('body').on('click','.file_preview .trash',function(){
+
+        var dfile = $(this).next('.file').html();
+
+        if( dfile !== undefined && dfile !== '' && confirm('Are you sure to remove attached file ?') ) {
+
+            $($(this).parents('[data-url]').data('url')).val('');
+
+            file_ui();
 
         }
 
@@ -269,6 +284,32 @@ $(document).ready(function(){
     $.each($('[data-ml]'),function(a,b){ $(b).css({'margin-left':$(b).data('ml')}); });
 });
 
+function file_ui() {
+
+    $('input[data-file]').each(function(i,f){
+
+        $(f).hide();
+
+        var d = $(f).val();
+
+        var file = d.split('/')[ d.split('/').length - 1 ];
+
+        var ext = file.split('.')[ file.split('.').length - 1 ];
+
+        var file_ui = file !== '' ? '<div class="file"><i class="ico file '+ext+'"></i><i class="ico trash"></i><div class="file">'+file+'</div></div>' : $(f).prev('button').show().clone();
+
+        if( !$(f).next().hasClass('file_preview') ){
+
+            $(f).after('<div class="file_preview" data-url="#'+ $(f).attr('id') +'"></div>');
+
+        }
+
+        $(f).next('.file_preview').html(file_ui);
+        $(f).prev('button').hide();
+
+    });
+}
+
 function files_ui() {
 
     $('input[data-files]').each(function(a,b){
@@ -289,11 +330,17 @@ function files_ui() {
 
         });
 
-        if( $(b).next().hasClass('files_preview') ){
-            $(b).next().remove();
+        files_ui = files_ui === '' ? $(b).prev('button').show().clone() : files_ui;
+
+        if( !$(b).next().hasClass('files_preview') ){
+
+            $(b).after('<div class="files_preview" data-url="#'+ $(b).attr('id') +'"></div>');
+
         }
 
-        $(b).after('<div class="files_preview" data-url="#'+ $(b).attr('id') +'">'+files_ui+'</div>');
+        $(b).next('.files_preview').html(files_ui);
+        $(b).prev('button').hide();
+        elog(files_ui);
 
     });
 }
@@ -427,6 +474,9 @@ function clear_values( e, s ){
 var appdebug = $('body').hasClass('debug') ? true : false;
 
 function process_data( e ){
+
+    $(e).attr('disabled',true);
+
     var p = $(e).parents('[data-t]');
     var title = $(p).data('title');
     var pre = $(p).data('pre');
@@ -461,6 +511,8 @@ function process_data( e ){
             if(r[0] === 1){
                 if(p.data('reload') !== undefined && p.data('reload') > 0){
                     setTimeout(function(){ location.reload() },p.data('reload') * 1000)
+                } else {
+                    $(e).attr('disabled',false);
                 }
                 if(p.data('reset') !== undefined && p.data('reset') !== ''){
                     $('[data-'+p.data('reset')+']').val('');
