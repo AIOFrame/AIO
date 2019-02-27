@@ -31,6 +31,10 @@ function __( $string ) {
     echo isset( $translated_strings[$string] ) && $translated_strings[$string] !== '' ? $translated_strings[$string] : $string;
 }
 
+function E( $string ) {
+    __( $string );
+}
+
 // Change and return the word as per set language
 
 function _t( $string ) {
@@ -38,6 +42,10 @@ function _t( $string ) {
     global $translated_strings; global $translation_strings; $translation_strings[] = $string;
 
     return isset( $translated_strings[$string] ) && $translated_strings[$string] !== '' ? $translated_strings[$string] : $string;
+}
+
+function T( $string ) {
+    return _t( $string );
 }
 
 function save_untranslated( $string ){

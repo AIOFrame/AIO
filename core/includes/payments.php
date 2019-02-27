@@ -28,7 +28,7 @@ function cc_avenue( $amount, $redirect_url = APPURL, $test = 0, $currency = 'AED
             $order_status="";
             $decryptValues=explode('&', $rcvdString);
             $dataSize=sizeof($decryptValues);
-            echo "<center>";
+
 
             for($i = 0; $i < $dataSize; $i++) {
                 $information=explode('=',$decryptValues[$i]);
@@ -36,26 +36,31 @@ function cc_avenue( $amount, $redirect_url = APPURL, $test = 0, $currency = 'AED
             }
 
             if($order_status==="Success") {
-                echo "<br>Thank you for shopping with us. Your credit card has been charged and your transaction is successful. We will be shipping your order to you soon.";
+                return [1,T('Payment Successful')];
+                //echo "<br>Thank you for shopping with us. Your credit card has been charged and your transaction is successful. We will be shipping your order to you soon.";
             } else if($order_status==="Aborted") {
-                echo "<br>Thank you for shopping with us.We will keep you posted regarding the status of your order through e-mail";
+                return [0,T('Payment Aborted')];
+                //echo "<br>Thank you for shopping with us.We will keep you posted regarding the status of your order through e-mail";
             } else if($order_status==="Failure") {
-                echo "<br>Thank you for shopping with us.However,the transaction has been declined.";
+                return [0,T('Payment Declined')];
+                //echo "<br>Thank you for shopping with us.However,the transaction has been declined.";
             } else {
-                echo "<br>Security Error. Illegal access detected";
+                return [0,T('Security Error, Illegal Access')];
+                //echo "<br>Security Error. Illegal access detected";
             }
-            echo "<br><br>";
+            /* echo "<br><br>";
             echo "<table cellspacing=4 cellpadding=4>";
             for($i = 0; $i < $dataSize; $i++) {
                 $information=explode('=',$decryptValues[$i]);
                 echo '<tr><td>'.$information[0].'</td><td>'.$information[1].'</td></tr>';
             }
             echo "</table><br>";
-            echo "</center>";
+            echo "</center>"; */
 
         } else {
 
             // set details
+            $amount = $test ? (string)$amount : $amount;
 
             $merchant_data='currency='.$currency.'&merchant_id='.$id.'&amount='.$amount.'&order_id='.$order_id.'&redirect_url='.$redirect_url.'&cancel_url='.$redirect_url.'&language=EN&';
             $working_key=$key;
@@ -83,7 +88,7 @@ function cc_avenue( $amount, $redirect_url = APPURL, $test = 0, $currency = 'AED
             isset($address['phone']) ? $ccavenue->setBillingTel($address['phone']) : '';
             isset($address['notes']) ? $ccavenue->setBillingNotes($address['notes']) : '';*/
 
-            echo $merchant_data;
+            //echo $merchant_data;
 
             $encrypted_data=encrypt($merchant_data,$working_key);
 

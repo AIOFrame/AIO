@@ -7,6 +7,8 @@ if( !defined( 'COREPATH' ) ) { exit(); }
 function get_title() {
     if( !empty( PAGE ) ) {
         $p = PAGE == 'ROOT' ? 'Welcome' : PAGE;
+        $pp = explode('/',PAGEPATH);
+        $p = is_numeric( $p ) ? $pp[count($pp)-1] : $p;
         echo ucwords( str_replace('-',' ', str_replace('_',' ', $p )) ) . ' - ' . APPNAME;
     } else {
         echo APPNAME;
@@ -272,6 +274,12 @@ function get_page( $n ){
         $x++;
     }
     file_exists( $fl ) ? include( $fl ) : '';
+}
+
+// APPURL echo
+
+function APPURL( $link ) {
+    echo APPURL.$link;
 }
 
 // Renders an array as <option> for <select> element

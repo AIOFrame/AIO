@@ -437,7 +437,7 @@ function create_table( $table ){
                     if (!empty($col[0]) && !empty($col[1])) {
                         $col[2] = !empty($col[2]) ? $col[2] : '13';
                         $col[3] = $col[3] == 0 ? 'NULL' : 'NOT NULL';
-                        if (in_array($col[1], ['BOOLEAN', 'DATETIME', 'DATE', 'TIME', 'TINYTEXT'])) {
+                        if (in_array($col[1], ['BOOLEAN', 'DATETIME', 'DATE', 'TIME', 'TINYTEXT', 'DOUBLE'])) {
                             $query .= ',' . $table[1] . '_' . $col[0] . ' ' . $col[1] . ' ' . $col[3];
                         } else {
                             $query .= ',' . $table[1] . '_' . $col[0] . ' ' . $col[1] . '(' . $col[2] . ') ' . $col[3];
