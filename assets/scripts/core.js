@@ -499,11 +499,11 @@ function process_data( e ){
         }
     });
 
-    elog(d);
+    //elog(d);
 
     $.post( domain, d, function(r){
 
-        elog(r);
+        //elog(r);
 
         if( r = JSON.parse(r) ){
             if(p.data('notify') !== undefined && p.data('notify') > 0){
@@ -536,7 +536,7 @@ function edit_data( e, modal ) {
         }
     });
 
-    elog(data); elog(t);
+    //elog(data); elog(t);
 
     $.each( data, function(i,d){
         if( i === 'id' ){
@@ -606,4 +606,8 @@ function reload( time_seconds ){
     var t = time_seconds !== undefined && time_seconds !== '' ? time_seconds * 1000 : 5000;
     setTimeout(function(){ location.reload() },t);
 
+}
+
+function page_warning( $message ) {
+    console.log( '%c' + $message, 'width:100%;background:#fff;border-radius:6px;box-shadow:0 0 15px rgba(0,0,0,.2);font-size:22px;padding:40px;text-align:center;color:#000;font-family:"Lato",sans-serif;font-weight:400;margin:20px;' );
 }

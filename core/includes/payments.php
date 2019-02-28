@@ -108,6 +108,10 @@ function cc_avenue( $amount, $redirect_url = APPURL, $test = 0, $currency = 'AED
             <?php
         }
 
+    } else {
+
+        notify( T('CC Avenue Payment ID or Key Missing from Options, Please consult developer') );
+
     }
 
 }

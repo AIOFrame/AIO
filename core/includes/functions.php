@@ -534,6 +534,10 @@ function G( $string ) {
     return isset( $_GET[$string] ) ? $_GET[$string] : 0;
 }
 
+function notify( $message ) {
+    echo '<script>$(document).ready(function(){ notify("' . $message . '"); });</script>';
+}
+
 /* File Uploader
 function media_upload() {
     include_once( COREPATH . 'core/components/media.php' );

@@ -176,7 +176,7 @@ function process_upload(fs) {
 
         $('#file_uploader .uploaded_files').prepend( '<div class="uploading"><div class="name">'+f.name+'</div><div class="perc"><span>0</span>%</div><div class="progress"><div></div></div></div>' );
 
-        elog(d);
+        //elog(d);
         $.ajax({
             url: location.origin, type: 'POST', data: d, contentType: false, cache: false, processData: false,
             xhr: function() {
