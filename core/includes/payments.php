@@ -9,11 +9,11 @@ function cc_avenue( $amount, $redirect_url = APPURL, $test = 0, $currency = 'AED
     $id = isset($cc['cc_id']) ? $cc['cc_id'] : '';
     $access = isset($cc['cc_access']) ? $cc['cc_access'] : '';
     $key = isset($cc['cc_key']) ? $cc['cc_key'] : '';
-    $tid = isset($cc['cc_test_id']) ? $cc['cc_test_id'] : '';
-    $taccess = isset($cc['cc_test_access']) ? $cc['cc_test_access'] : '';
-    $tkey = isset($cc['cc_test_key']) ? $cc['cc_test_key'] : '';
 
     if( $test ) {
+        $tid = isset($cc['cc_test_id']) ? $cc['cc_test_id'] : '';
+        $taccess = isset($cc['cc_test_access']) ? $cc['cc_test_access'] : '';
+        $tkey = isset($cc['cc_test_key']) ? $cc['cc_test_key'] : '';
         $id = $tid;
         $access = $taccess;
         $key = $tkey;
@@ -89,8 +89,11 @@ function cc_avenue( $amount, $redirect_url = APPURL, $test = 0, $currency = 'AED
             isset($address['notes']) ? $ccavenue->setBillingNotes($address['notes']) : '';*/
 
             //echo $merchant_data;
+            $merchant_data = substr( $merchant_data, 0 , -1 );
 
-            $encrypted_data=encrypt($merchant_data,$working_key);
+            echo $test ? $merchant_data : '';
+
+            $encrypted_data = encrypt($merchant_data, $working_key);
 
             $post_url = 'https://secure.ccavenue.ae/transaction/transaction.do?command=initiateTransaction';
 
@@ -102,8 +105,6 @@ function cc_avenue( $amount, $redirect_url = APPURL, $test = 0, $currency = 'AED
                 echo '<input type=hidden name=access_code value="' . $access_code . '">';
                 ?>
             </form>
-
-<!--            <script language='javascript'>document.redirect.submit();</script>-->
 
             <?php
         }
