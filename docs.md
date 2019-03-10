@@ -16,7 +16,7 @@
 
 // EACH APP NEEDS CONFIG PHP - SAMPLE BELOW
 
-$config = [
+return [
     'name' => 'FileTax',
     'slug' => 'ft',
     'host' => 'localhost',

@@ -23,39 +23,33 @@ function cc_avenue( $amount, $redirect_url = APPURL, $test = 0, $currency = 'AED
 
         if( isset( $_POST["encResp"] ) ){
 
-            $encResponse=$_POST["encResp"];			//This is the response sent by the CCAvenue Server
-            $rcvdString=decrypt($encResponse,$key);		//Crypto Decryption used as per the specified working key.
-            $order_status="";
-            $decryptValues=explode('&', $rcvdString);
-            $dataSize=sizeof($decryptValues);
-
-
-            for($i = 0; $i < $dataSize; $i++) {
-                $information=explode('=',$decryptValues[$i]);
-                if($i==3)	$order_status=$information[1];
+            $encResponse=$_POST["encResp"];
+            $rcvdString=decrypt($encResponse,$key);
+            $odd = explode('&', $rcvdString);
+            //skel($odd);
+            foreach( $odd as $d ){
+                $a = explode( '=', $d );
+                $dd[$a[0]] = $a[1];
             }
 
-            if($order_status==="Success") {
-                return [1,T('Payment Successful')];
-                //echo "<br>Thank you for shopping with us. Your credit card has been charged and your transaction is successful. We will be shipping your order to you soon.";
-            } else if($order_status==="Aborted") {
-                return [0,T('Payment Aborted')];
-                //echo "<br>Thank you for shopping with us.We will keep you posted regarding the status of your order through e-mail";
-            } else if($order_status==="Failure") {
-                return [0,T('Payment Declined')];
-                //echo "<br>Thank you for shopping with us.However,the transaction has been declined.";
-            } else {
-                return [0,T('Security Error, Illegal Access')];
-                //echo "<br>Security Error. Illegal access detected";
+            $data = [ 'amount' => $dd['mer_amount'], 'currency' => $dd['currency'], 'gate' => 'CC Avenue', 'way' => $dd['payment_mode'], 'at' => date('Y-m-d H:i:s'), 'by' => get_current_user_id(), 'status' => $dd['order_status'] ];
+            $pay_record = insert( 'payments', prepare_keys( $data, 'pay_' ), prepare_values( $data ) );
+
+            switch( $dd['order_status'] ) {
+                case 'Success':
+                    if( empty( $pay_record ) ){ add_option( 'pay_bkp', $data, get_current_user_id() ); }
+                    return [$pay_record,T('Payment Successful')];
+                    break;
+                case 'Aborted':
+                    return [0,T('Payment Aborted')];
+                    break;
+                case 'Failure':
+                    return [0,T('Payment Declined')];
+                    break;
+                default:
+                    return [0,T('Security Error, Illegal Access')];
+                    break;
             }
-            /* echo "<br><br>";
-            echo "<table cellspacing=4 cellpadding=4>";
-            for($i = 0; $i < $dataSize; $i++) {
-                $information=explode('=',$decryptValues[$i]);
-                echo '<tr><td>'.$information[0].'</td><td>'.$information[1].'</td></tr>';
-            }
-            echo "</table><br>";
-            echo "</center>"; */
 
         } else {
 
