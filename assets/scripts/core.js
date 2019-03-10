@@ -282,7 +282,50 @@ $(document).ready(function(){
     // Markup '[data-m]','[data-mt]','[data-mr]','[data-mb]','[data-ml]','[data-p]','[data-pt]','[data-pr]','[data-pb]','[data-pl]'
 
     $.each($('[data-ml]'),function(a,b){ $(b).css({'margin-left':$(b).data('ml')}); });
+
+    // Number Formatter
+
+    $('body').on('keyup','input.fn',function(){
+        var a = format_number($(this).val());
+        $(this).val(a);
+    });
+
+    $('.fn:not(input)').each(function(i,e){
+        var a = format_number($(e).html());
+        $(this).html(a);
+    });
+
+    // $('input.fn').each(function(i,e){
+    //     var a = format_number($(e).val());
+    //     $(this).val(a);
+    // });
+
 });
+
+function format_number(a){
+    var selection = window.getSelection().toString();
+    if ( selection !== '' ) {
+        return;
+    }
+    if ( $.inArray( a.keyCode, [38,40,37,39] ) !== -1 ) {
+        return;
+    }
+    var a = a.toString().replace(/[\D\s\._\-]+/g, "");
+    a = a ? parseInt( a, 10 ) : 0;
+    return ( a === 0 ) ? "" : a.toLocaleString( "en-US" );
+}
+
+function fn( a ) {
+    return format_number( a );
+}
+
+function unformat_number(a) {
+    return parseInt( a.replace(/[($)\s\._,\-]+/g, '') );
+}
+
+function ufn( a ){
+    return unformat_number( a );
+}
 
 function file_ui() {
 
@@ -425,7 +468,7 @@ function get_values( e, s, pre ) {
 
         var v;
 
-        if($(this).hasClass('nf')){ v = unformat_number( $(this).val() ) } else { v = $(this).val() }
+        if($(this).hasClass('fn')){ v = ufn( $(this).val() ) } else { v = $(this).val() }
 
         if( $(this).attr('type') === 'checkbox' || $(this).attr('type') === 'radio' ){
 
@@ -449,6 +492,8 @@ function get_values( e, s, pre ) {
         }
 
     });
+
+    elog(data);
 
     return data;
 }

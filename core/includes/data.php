@@ -250,6 +250,20 @@ function currencies( $value = 'code', $key = 'currency', $country_code = false )
     //return $currencies;
 }
 
+function fn( $num ) {
+    echo _fn( $num );
+}
+
+function _fn( $num ) {
+    $fmt = new NumberFormatter($locale = 'en_US', NumberFormatter::CURRENCY);
+    return str_replace( '$', '', $fmt->format( $num ) );
+}
+
+function nth( $num ){
+    $fmt = new NumberFormatter($locale = 'en', 6);
+    echo $fmt->format( $num );
+}
+
 // Returns Languages
 
 function get_languages() {

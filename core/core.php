@@ -65,6 +65,9 @@ function sub_domain() {
 
 // Load Application Settings
 function app_loader() {
+
+    // Set Locale
+
     $app = !empty( sub_domain() ) ? sub_domain() : get_domain();
     if( file_exists( COREPATH . 'map.php' ) ){ // Checking if app mapping in defined // !file_exists( COREPATH . 'apps/' . $app ) &&
         include( COREPATH . 'map.php' );
