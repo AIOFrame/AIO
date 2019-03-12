@@ -303,7 +303,7 @@ $(document).ready(function(){
 });
 
 function format_number(a){
-    var selection = window.getSelection().toString();
+    /*var selection = window.getSelection().toString();
     if ( selection !== '' ) {
         return;
     }
@@ -311,8 +311,9 @@ function format_number(a){
         return;
     }
     var a = a.toString().replace(/[\D\s\._\-]+/g, "");
-    a = a ? parseInt( a, 10 ) : 0;
-    return ( a === 0 ) ? "" : a.toLocaleString( "en-US" );
+    //var a = a.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+    a = a ? parseInt( a, 10 ) : 0; */
+    return a.toLocaleString();
 }
 
 function fn( a ) {
@@ -320,7 +321,7 @@ function fn( a ) {
 }
 
 function unformat_number(a) {
-    return parseInt( a.replace(/[($)\s\._,\-]+/g, '') );
+    return parseFloat( a.replace(/[($)\s\._,\-]+/g, '') );
 }
 
 function ufn( a ){

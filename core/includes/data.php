@@ -254,9 +254,9 @@ function fn( $num ) {
     echo _fn( $num );
 }
 
-function _fn( $num ) {
-    $fmt = new NumberFormatter($locale = 'en_US', NumberFormatter::CURRENCY);
-    return str_replace( '$', '', $fmt->format( $num ) );
+function _fn( $num, $locale = 'AE' ) {
+    $fmt = new NumberFormatter($locale = 'en_'.$locale, NumberFormatter::CURRENCY);
+    return str_replace( 'AED', '', $fmt->format( $num ) );
 }
 
 function nth( $num ){
