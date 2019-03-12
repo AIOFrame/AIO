@@ -18,13 +18,20 @@ function get_title() {
 // Overrides the <title> in Header from a page
 
 function set_title( $title ){
+
     echo '<script>$(document).ready(function() { document.title = "' . $title . ' - ' . APPNAME . '"; });</script>';
+
 }
 
 // Fetches stylesheet with options
 
 function art( $color1, $color2 ) {
-    echo '<link rel="stylesheet" href="'.APPURL.'assets/art.php?fc='.$color1.'&sc='.$color2.'">';
+
+    $cache = get_config( 'cache' );
+
+    $v = round( time('h MM') / ( $cache * 60 ) );
+
+    echo '<link rel="stylesheet" href="'.APPURL.'assets/art.php?fc='.$color1.'&sc='.$color2.'?v=' . $v . '">';
 }
 
 // Returns a complete <link> for stylesheet if file exists either in app or in core, prioritizes minified file
@@ -33,7 +40,13 @@ global $universal;
 $universal = [ 'styles' => [], 'scripts' => [] ];
 
 function get_style( $f, $page_of = '' ) {
+
+    $cache = get_config( 'cache' );
+
+    $v = round( time('h MM') / ( $cache * 60 ) );
+
     global $universal;
+
     if( !in_array( $f, $universal['styles'] )) {
         $universal['styles'][] = $f;
         $af = APPPATH . 'assets/styles/' . $f;
@@ -51,9 +64,9 @@ function get_style( $f, $page_of = '' ) {
             $url = $cfl . '.css';
         }
         if( $page_of !== '' ) {
-            echo page_of( $page_of ) && $url !== '' ? '<link rel="stylesheet" href="' . $url . '">' : '';
+            echo page_of( $page_of ) && $url !== '' ? '<link rel="stylesheet" href="' . $url . '?v=' . $v . '">' : '';
         } else {
-            echo $url !== '' ? '<link rel="stylesheet" href="' . $url . '">' : '';
+            echo $url !== '' ? '<link rel="stylesheet" href="' . $url . '?v=' . $v . '">' : '';
         }
     }
 }
@@ -61,6 +74,11 @@ function get_style( $f, $page_of = '' ) {
 // Returns a complete <script> if file exists either in app or in core, prioritizes minified file
 
 function get_script( $f, $page_of = '' ) {
+
+    $cache = get_config( 'cache' );
+
+    $v = round( time('h MM') / ( $cache * 60 ) );
+
     global $universal;
     if( !in_array( $f, $universal['scripts'] )) {
         $universal['scripts'][] = $f;
@@ -79,9 +97,9 @@ function get_script( $f, $page_of = '' ) {
             $url = $cfl . '.js';
         }
         if( $page_of !== '' ){
-            echo page_of( $page_of ) && $url !== '' ? '<script src="' . $url . '"></script>' : '';
+            echo page_of( $page_of ) && $url !== '' ? '<script src="' . $url . '?v=' . $v . '"></script>' : '';
         } else {
-            echo $url !== '' ? '<script src="' . $url . '"></script>' : '';
+            echo $url !== '' ? '<script src="' . $url . '?v=' . $v . '"></script>' : '';
         }
 
     }
@@ -140,6 +158,45 @@ function bg_asset( $f ) {
 
 function reset_styles() {
     get_style( 'reset' );
+}
+
+// Read Config
+
+function get_config( $name ) {
+
+    if( file_exists( APPPATH . '/config.php' ) ) {
+
+        $c = include( APPPATH . '/config.php' );
+
+        if( is_array( $c ) && isset( $c[ $name ] ) ){
+
+            return $c[ $name ];
+
+        }
+
+    }
+
+}
+
+// Write Config
+
+function set_config( $name, $value ) {
+
+    if( file_exists( APPPATH . '/config.php' ) ) {
+
+        $c = include( APPPATH . '/config.php' );
+
+        if( is_array( $c ) ){
+
+            $c[ $name ] = $value;
+
+            // Write to file
+
+
+        }
+
+    };
+
 }
 
 // Loops an array of file names for .min.css / .css extension and returns if exists
