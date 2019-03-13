@@ -105,7 +105,7 @@ $(document).ready(function(){
     // Prevent Default
     $('body').on('click','a .prevdef',function(e){
         //$(e).parents('a').preventDefault();
-        elog($(e).parents('a'));
+        //elog($(e).parents('a'));
     });
 
     // MODAL
@@ -384,7 +384,7 @@ function files_ui() {
 
         $(b).next('.files_preview').html(files_ui);
         $(b).prev('button').hide();
-        elog(files_ui);
+        //elog(files_ui);
 
     });
 }

@@ -425,9 +425,9 @@ function render_input( $type = 'text', $id, $label, $placeholder = '', $value = 
         $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
         $post = '</div>';
     }
-    $ph = !empty( $placeholder ) ? ' placeholder="'.$placeholder.'"' : '';
-    $at = !empty( $attrs ) ? ' '.$attrs : '';
-    $va = !empty( $value ) ? ' value="'.$value.'"' : '';
+    $ph = $placeholder !== '' ? ' placeholder="'.$placeholder.'"' : '';
+    $at = $attrs !== '' ? ' '.$attrs : '';
+    $va = $value !== '' ? ' value="'.$value.'"' : '';
     switch( $type ){
         case 'textarea':
             $input = '<textarea id="'.$id.'" name="'.$id.'" "'.$ph.$at.'">'.$va.'</textarea>';
@@ -441,14 +441,15 @@ function render_input( $type = 'text', $id, $label, $placeholder = '', $value = 
     echo $input.$post;
 }
 
-function render_inputs( $type = 'text', $ids, $attrs = '', $pre = '', $post = '' ){
-    if( is_array( $ids ) ){
-        foreach( $ids as $id ){
-            $slug = isset($id[0]) && !empty($id[0]) ? $id[0] : '';
-            $label = isset($id[1]) && !empty($id[1]) ? $id[1] : '';
-            $ph = isset($id[2]) && !empty($id[2]) ? $id[2] : '';
-            $value = isset($id[3]) && !empty($id[3]) ? $id[3] : '';
-            render_input( $type, $slug, $label, $ph, $value, $attrs, $pre, $post );
+function render_inputs( $type = 'text', $array, $attrs = '', $pre = '', $post = '' ){
+    if( is_array( $array ) ){
+        foreach( $array as $id ){
+            $slug = isset($id[0]) && $id[0] !== '' ? $id[0] : '';
+            $label = isset($id[1]) && $id[1] !== '' ? $id[1] : '';
+            $place = isset($id[2]) && $id[2] !== '' ? $id[2] : '';
+            $value = isset($id[3]) && $id[3] !== '' ? $id[3] : '';
+            $attr = isset($id[4]) && $id[4] !== '' ? $id[4] : '';
+            render_input( $type, $slug, $label, $place, $value, $attr.' '.$attrs, $pre, $post );
         }
     }
 }
