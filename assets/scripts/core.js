@@ -407,7 +407,7 @@ function empty( e, d ) {
 
     elog(d);
 
-    if( $(e)[0] && $(e)[0].localName === 'div' ) {
+    if( $(e)[0] && ( $(e)[0].localName === 'div' || $(e)[0].localName === 'tr' ) ) {
         var r = [];
         $.each($(e).find('input'+d+',select'+d),function(a,b){
             if( b !== undefined && $(b).val() !== null && $(b).val() !== "" ){
@@ -430,7 +430,7 @@ function empty( e, d ) {
 function sempty( e, d ) {
     d = d === undefined || d === '' ? '' : '[data-'+d+']';
     //elog(d);
-    if( $(e)[0] && $(e)[0].localName === 'div' ){
+    if( $(e)[0] && ( $(e)[0].localName === 'div' || $(e)[0].localName === 'tr' ) ){
         var r = [];
         $.each($(e).find('input'+d+',select'+d),function(a,b){
             if( b !== undefined && $(b).val() !== null && $(b).val() !== "" ){
@@ -440,9 +440,9 @@ function sempty( e, d ) {
                 $(b).addClass('empty');
                 r.push(true);
             }
-            //elog(b);
+            elog(b);
         });
-        //elog(r);
+        elog(r);
         return $.inArray(true,r) !== -1 ? true : false;
     } else {
         if( $(e).val() !== null && $(e).val() !== "" ){
@@ -578,6 +578,7 @@ function process_data( e ){
                 }
                 if(p.data('reset') !== undefined && p.data('reset') !== ''){
                     $('[data-'+p.data('reset')+']').val('');
+                    files_ui();
                 }
             }
         }
