@@ -197,7 +197,7 @@ table.xls td {
     min-height:40px;
     cursor: pointer;
 }
-table.xls tbody td {
+table.xls tbody td, table.xls tfoot td {
     padding: 0;
 }
 table.xls td input {

@@ -495,12 +495,12 @@ function create_column( $table, $column, $type = 'TEXT', $length = '13', $null =
     $query = "ALTER TABLE $table ADD $column $type$length $null";
     $query .= !empty($default) ? ' default "'.$default.'"' : '';
 
-    elog('[COL] '.$exist);
+    //elog('[COL] '.$exist);
 
     $df = debug_backtrace();
     $df = !empty($df) && is_array($df) && isset($df[0]['file']) && isset($df[0]['line']) ? '['.$df[0]['line'].' -> '.str_replace(COREPATH,'',$df[0]['file']).']' : '';
 
-    elog('[COL] '.$query.' '.$df.PHP_EOL.PHP_EOL);
+    //elog('[COL] '.$query.' '.$df.PHP_EOL.PHP_EOL);
 
     global $db;
     $e = mysqli_query( $db, $exist );
@@ -508,7 +508,7 @@ function create_column( $table, $column, $type = 'TEXT', $length = '13', $null =
         if( mysqli_query( $db, $query ) ){
             return true;
         } else {
-            elog('[ERROR] '.$column.' '.mysqli_error($db));
+            //elog('[ERROR] '.$column.' '.mysqli_error($db));
             return false;
         }
     }
