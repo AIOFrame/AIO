@@ -29,9 +29,9 @@ function art( $color1, $color2 ) {
 
     $cache = get_config( 'cache' );
 
-    $v = $cache ? round( time('h MM') / ( $cache * 60 ) ) : 0;
+    $v = $cache ? '?v=' . round( time('h MM') / ( $cache * 60 ) ) : '';
 
-    echo '<link rel="stylesheet" href="'.APPURL.'assets/art.php?fc='.$color1.'&sc='.$color2.'?v=' . $v . '">';
+    echo '<link rel="stylesheet" href="'.APPURL.'assets/art.php?fc='.$color1.'&sc='.$color2. $v . '">';
 }
 
 // Returns a complete <link> for stylesheet if file exists either in app or in core, prioritizes minified file
@@ -43,7 +43,7 @@ function get_style( $f, $page_of = '' ) {
 
     $cache = get_config( 'cache' );
 
-    $v = $cache ? round( time('h MM') / ( $cache * 60 ) ) : 0;
+    $v = $cache ? '?v=' . round( time('h MM') / ( $cache * 60 ) ) : '';
 
     global $universal;
 
@@ -64,9 +64,9 @@ function get_style( $f, $page_of = '' ) {
             $url = $cfl . '.css';
         }
         if( $page_of !== '' ) {
-            echo page_of( $page_of ) && $url !== '' ? '<link rel="stylesheet" href="' . $url . '?v=' . $v . '">' : '';
+            echo page_of( $page_of ) && $url !== '' ? '<link rel="stylesheet" href="' . $url . $v . '">' : '';
         } else {
-            echo $url !== '' ? '<link rel="stylesheet" href="' . $url . '?v=' . $v . '">' : '';
+            echo $url !== '' ? '<link rel="stylesheet" href="' . $url . $v . '">' : '';
         }
     }
 }
@@ -77,7 +77,7 @@ function get_script( $f, $page_of = '' ) {
 
     $cache = get_config( 'cache' );
 
-    $v = $cache ? round( time('h MM') / ( $cache * 60 ) ) : 0;
+    $v = $cache ? '?v=' . round( time('h MM') / ( $cache * 60 ) ) : '';
 
     global $universal;
     if( !in_array( $f, $universal['scripts'] )) {
@@ -97,9 +97,9 @@ function get_script( $f, $page_of = '' ) {
             $url = $cfl . '.js';
         }
         if( $page_of !== '' ){
-            echo page_of( $page_of ) && $url !== '' ? '<script src="' . $url . '?v=' . $v . '"></script>' : '';
+            echo page_of( $page_of ) && $url !== '' ? '<script src="' . $url . $v . '"></script>' : '';
         } else {
-            echo $url !== '' ? '<script src="' . $url . '?v=' . $v . '"></script>' : '';
+            echo $url !== '' ? '<script src="' . $url . $v . '"></script>' : '';
         }
 
     }
