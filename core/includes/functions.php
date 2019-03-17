@@ -29,7 +29,7 @@ function art( $color1, $color2 ) {
 
     $cache = get_config( 'cache' );
 
-    $v = round( time('h MM') / ( $cache * 60 ) );
+    $v = $cache ? round( time('h MM') / ( $cache * 60 ) ) : 0;
 
     echo '<link rel="stylesheet" href="'.APPURL.'assets/art.php?fc='.$color1.'&sc='.$color2.'?v=' . $v . '">';
 }
@@ -43,7 +43,7 @@ function get_style( $f, $page_of = '' ) {
 
     $cache = get_config( 'cache' );
 
-    $v = round( time('h MM') / ( $cache * 60 ) );
+    $v = $cache ? round( time('h MM') / ( $cache * 60 ) ) : 0;
 
     global $universal;
 
@@ -77,7 +77,7 @@ function get_script( $f, $page_of = '' ) {
 
     $cache = get_config( 'cache' );
 
-    $v = round( time('h MM') / ( $cache * 60 ) );
+    $v = $cache ? round( time('h MM') / ( $cache * 60 ) ) : 0;
 
     global $universal;
     if( !in_array( $f, $universal['scripts'] )) {
