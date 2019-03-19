@@ -464,7 +464,7 @@ function valid_email( id ) {
     return !pattern.test( $(id).val() );
 }
 
-function svalid_email( id ) {
+function svalid_email( id, notify ) {
     var v = valid_email( id );
     !v ? $(id).removeClass('empty') : $(id).addClass('empty');
     return v;
