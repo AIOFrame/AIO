@@ -405,8 +405,6 @@ function prev_step( e ) {
 function empty( e, d ) {
     d = d === undefined || d === '' ? '' : '[data-'+d+']';
 
-    elog(d);
-
     if( $(e)[0] && ( $(e)[0].localName === 'div' || $(e)[0].localName === 'tr' ) ) {
         var r = [];
         $.each($(e).find('input'+d+',select'+d),function(a,b){
@@ -429,7 +427,9 @@ function empty( e, d ) {
 
 function sempty( e, d ) {
     d = d === undefined || d === '' ? '' : '[data-'+d+']';
-    //elog(d);
+
+    var result;
+
     if( $(e)[0] && ( $(e)[0].localName === 'div' || $(e)[0].localName === 'tr' ) ){
         var r = [];
         $.each($(e).find('input'+d+',select'+d),function(a,b){
@@ -439,20 +439,27 @@ function sempty( e, d ) {
             } else {
                 $(b).addClass('empty');
                 r.push(true);
+                if( $(e).data('empty-notify') !== undefined && $(e).data('empty-notify') !== '' ) {
+                    notify( $(e).data('empty-notify') );
+                }
             }
             elog(b);
         });
         elog(r);
-        return $.inArray(true,r) !== -1 ? true : false;
+        result = $.inArray(true,r) !== -1 ? true : false;
     } else {
         if( $(e).val() !== null && $(e).val() !== "" ){
             $(e).removeClass('empty');
-            return false;
+            result = false;
         } else {
             $(e).addClass('empty');
-            return true;
+            result = true;
+        }
+        if( result && $(e).data('empty-notify') !== undefined && $(e).data('empty-notify') !== '' ) {
+            notify( $(e).data('empty-notify') );
         }
     }
+    return result;
 }
 
 function clear(e){
@@ -464,15 +471,21 @@ function valid_email( id ) {
     return !pattern.test( $(id).val() );
 }
 
-function svalid_email( id, notify ) {
+function svalid_email( id ) {
     var v = valid_email( id );
     !v ? $(id).removeClass('empty') : $(id).addClass('empty');
+    if( v && $(id).data('valid-email-notify') !== undefined && $(id).data('valid-email-notify') !== '' ) {
+        notify( $(id).data('valid-email-notify') );
+    }
     return v;
 }
 
 function slength( e, l ){
     var r = $(e).val().length > l;
     r ? $(e).removeClass('empty') : $(e).addClass('empty');
+    if( !r && $(e).data('length-notify') !== undefined && $(e).data('length-notify') !== '' ) {
+        notify( $(e).data('length-notify') );
+    }
     return !r;
 }
 
@@ -550,7 +563,7 @@ function process_data( e ){
         }
     }
     var d = get_values( p, pre, pre );
-    d.action = 'process_data';
+    d.action = $(e).data('action') !== undefined && $(e).data('action') !== '' ? $(e).data('action') : 'process_data';
     d.target = $(p).data('t');
     d.pre = pre;
 
