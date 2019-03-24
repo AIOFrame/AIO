@@ -481,7 +481,7 @@ function svalid_email( id ) {
 }
 
 function slength( e, l ){
-    var r = $(e).val().length > l;
+    var r = $(e).val().length >= l;
     r ? $(e).removeClass('empty') : $(e).addClass('empty');
     if( !r && $(e).data('length-notify') !== undefined && $(e).data('length-notify') !== '' ) {
         notify( $(e).data('length-notify') );
