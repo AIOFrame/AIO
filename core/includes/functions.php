@@ -538,12 +538,19 @@ function render_menu( $array, $prefix = '' ) {
     }
 }
 
-function editable_data( $data = [] ) {
+function editable_data( $data = [], $remove = '' ) {
     $final = [];
+    $remove = explode( ',', $remove );
     foreach( $data as $k => $v ){
-        $final[ str_replace('_','',strstr($k,'_')) ] = $v;
+        $k = str_replace( '_', '', strstr($k,'_') );
+        if( $k == 'id' ) {
+            $cry = CRYPTO::initiate();
+            $final[ $k ] = $cry->encrypt( $v );
+        } else if( !in_array( $k, $remove ) ){
+            $final[ $k ] = $v;
+        }
     }
-    echo json_encode($final);
+    echo json_encode( $final );
 }
 
 // False user sessions for development mode

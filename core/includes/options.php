@@ -23,7 +23,7 @@ function update_options() {
 }
 
 function update_option( $name, $value, $user_id = 0, $autoload = 0 ) {
-    if( !empty( $name ) && !empty( $value )){
+    if( $name !== '' && $value !== '' ){
         $c = select( 'options', '*', 'option_name = "'.$name.'" AND option_scope = "'.$user_id.'"', 1 );
         if( $c ) {
             $u = update( 'options', ['option_value', 'option_scope', 'option_load' ], [ $value, $user_id, $autoload ], 'option_name = "'.$name.'"' );

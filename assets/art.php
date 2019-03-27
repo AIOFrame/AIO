@@ -24,6 +24,7 @@ if( isset( $_GET['fc'] ) ){
 
 if( isset( $_GET['sc'] ) ){
     $sc = $_GET['sc'];
+    $sc = substr( $sc, 0, strpos( $sc, '?'));
     if( strlen( $sc ) <= 6 ){
         $art = str_replace( '222', $sc, $art );
     } else {
