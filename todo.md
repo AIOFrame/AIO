@@ -14,6 +14,9 @@ CoreApp Improvements:
 * Database Seeding and Database Migration
 * Block access to Functions
 * Elements to be dynamic like icons
+* Icons CSS
+* Plyr JS Integrate
+* Tour / Guide like Shepherd
 
 File Uploader Improvements:
 * Breakdown of loaded file list

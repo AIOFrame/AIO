@@ -447,3 +447,7 @@ function logout_all() {
     session_destroy();
     echo 1;
 }
+
+function get_os() {
+    return ACCESS::get_user_os();
+}

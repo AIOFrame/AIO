@@ -70,12 +70,10 @@ $(document).ready(function(){
     });
 
     // TABS & STEPS
-    var tab = localStorage['tab'];
+    var pagepath = location.href.replace(location.origin+'/','').replace('/','_');
+    var tab = localStorage[ pagepath + '_tab'];
     if( tab !== undefined ){
-        tab = JSON.parse(tab);
-        if( tab.page === location.href ){
-            setTimeout(function(){ $('[data-t="' + tab.tab + '"]').click(); },200);
-        }
+        setTimeout(function(){ $('[data-t="' + tab + '"]').click(); },200);
     }
 
     $('body').on('click', '.steps [data-t], .tab[data-t]', function () {
@@ -84,15 +82,17 @@ $(document).ready(function(){
         $($(this).data('t')).parent().children().hide();
         $($(this).data('t')).show();
         if( $(this).parent().data('store-tab') !== undefined ){
-            localStorage['tab'] = JSON.stringify({'page':location.href,'tab':$(this).data('t')})
+            localStorage[ pagepath + '_tab' ] = $(this).data('t');
         }
     });
+
     $('body').on('click', '[data-step]', function () {
         $(this).parent().children().removeClass('on');
         $(this).addClass('on');
         $($(this).data('step')).parent().children().hide();
         $($(this).data('step')).show();
     });
+
     // Next Step
     $('.steps .next').on('click', function () {
         $($(this).parents('.steps')).find('[data-t].on').next().click();
