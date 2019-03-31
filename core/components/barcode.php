@@ -10,6 +10,7 @@ class BRCD {
             }
         }
         $r = rand(1,9999);
+        $textShow = $textShow ? "true" : "false";
         echo '<svg id="brcd_'.$r.'"></svg>';
         echo '<script>';
             echo 'JsBarcode("#brcd_'.$r.'", "'.$text.'", {';

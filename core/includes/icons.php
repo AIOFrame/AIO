@@ -21,7 +21,7 @@ function _icon( $name, $size = 25, $thickness = 15, $color = '#000000', $stroke 
     if( file_exists( COREPATH . 'core/components/icons/'. $name . '.svg' ) || file_exists( APPPATH . 'assets/images/icons/' .$name . '.svg' ) ) {
         $icons[] = $name;
         $stroke = $stroke ? 'none' : $color;
-        $data = '<div class="ico '.str_replace(' ','_',$name).'" style="width:' . $size . 'px;height:' . $size . 'px;stroke-width:' . $thickness . ' !important;stroke:' . $color . ';fill:' . $stroke . ' !important">';
+        $data = '<div class="ico '.str_replace(' ','_',$name).'" style="width:' . $size . 'px;height:' . $size . 'px;stroke-width:' . $thickness . ' !important;stroke:' . $color . ' !important;fill:' . $stroke . ' !important">';
         $f = file_exists( COREPATH . 'core/components/icons/'. $name . '.svg' ) ? file_get_contents( COREPATH . 'core/components/icons/' . $name . '.svg') : file_get_contents( APPPATH . 'assets/images/icons/' . $name . '.svg');
         $f = remove_elements( $f, '<style', '</style>' );
         $f = remove_elements( $f, '<?xml', '?>' );
@@ -41,6 +41,8 @@ function _icon( $name, $size = 25, $thickness = 15, $color = '#000000', $stroke 
         } */
         return $data;
     } else if( file_exists( APPPATH . 'assets/images/'.$name.'.jpg') || file_exists( APPPATH . 'assets/images/'.$name.'.png' ) ) {
+
+    } else {
 
     }
 }

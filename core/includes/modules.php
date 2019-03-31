@@ -44,7 +44,7 @@ function render_maps() {
 
 // Include and Render various BarCode
 
-function barcode( $text, $width = '100', $height = '36', $textShow = 'false', $bgColor = '#ffffff', $lineColor = '#000000', $textAlign = 'center', $textPosition = 'bottom', $textMargin = '0', $format = 'CODE128' ) {
+function barcode( $text, $width = '100', $height = '36', $textShow = 0, $bgColor = '#ffffff', $lineColor = '#000000', $textAlign = 'center', $textPosition = 'bottom', $textMargin = '0', $format = 'CODE128' ) {
     include_once( COREPATH . 'core/components/barcode.php' );
     global $barcode_loaded;
     if( !$barcode_loaded ) {
@@ -66,7 +66,11 @@ function file_upload() {
     }
 }
 function storage_url( $url ) {
-    return !empty( $url ) ? APPURL . 'apps/' . APPDIR . $url : '';
+    return $url !== '' ? APPURL . 'apps/' . APPDIR . $url : '';
+}
+
+function file_url( $url ) {
+    return $url !== '' ? APPPATH . $url : '';
 }
 
 // Emailer by Modules
