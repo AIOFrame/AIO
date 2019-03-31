@@ -177,11 +177,12 @@ function update( $table, $cols, $values, $where = '' ){
 
     global $db;
     $q = "UPDATE $table SET ". $logic . " where ". $where;
-    elog('[QUERY] '.$q);
-    if ( $db->query($q) === TRUE){
+    elog('[UPDATE] '.$q.PHP_EOL.PHP_EOL);
+    $dq = $db->query($q);
+    if ( $dq === TRUE && $db->affected_rows > 0 ){
         return true;
     } else {
-        elog( '[ERROR] '.$table.' '.mysqli_error($db) );
+        elog( '[ERROR] '.$table.' '.mysqli_error($db).PHP_EOL.PHP_EOL );
         return false;
     }
 }
@@ -325,7 +326,7 @@ function process_data() {
         unset($a['target']);
 
         if( !empty( $a['id'] ) ){
-            $id = $a['id'];
+            $id = $cry->decrypt( $a['id'] );
             unset($a['id']);
         }
 
@@ -376,13 +377,21 @@ function process_data() {
             $query = insert( $table, $keys, $values );
         }
 
-        if( $query ){
-            echo json_encode([1,'Added Successfully']);
+        if( !empty( $id ) ) {
+            if ($query) {
+                echo json_encode([1, T('Updated Successfully')]);
+            } else {
+                echo json_encode([0, T('Could not update data, please try again or contact support')]);
+            }
         } else {
-            echo json_encode([0,'Could not insert data, please try again or contact admin']);
+            if( $query ){
+                echo json_encode([1, T('Added Successfully')]);
+            } else {
+                echo json_encode([0, T('Could not insert data, please try again or contact support')]);
+            }
         }
     } else {
-        echo json_encode([0,'Database not targeted properly, please contact admin']);
+        echo json_encode([0,T('Database not targeted properly, please contact support')]);
     }
 }
 
@@ -393,12 +402,12 @@ function trash_data() {
     if( $d = explode('|',$d) ){
         $t = delete( $d[0], $d[1].' = '.$d[2] );
         if( $t ){
-            echo json_encode([1,'Data deleted successfully']);
+            echo json_encode([1,T('Data deleted successfully')]);
         } else {
-            echo json_encode([0,'Delete data failed due to query misinterpret']);
+            echo json_encode([0,T('Delete data failed due to query misinterpret, please contact support')]);
         }
     } else {
-        echo json_encode([0,'Delete data failed due to query misinterpret']);
+        echo json_encode([0,T('Delete data failed due to query misinterpret, please contact support')]);
     }
 }
 
