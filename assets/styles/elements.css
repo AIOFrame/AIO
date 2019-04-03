@@ -265,6 +265,9 @@ input.s {
     min-height:40px;
     margin-bottom: 15px;
 }
+td .files_preview {
+    margin: 0;
+}
 .files_preview>.file, .file_preview>.file {
     background:#fff;
     display:inline-block;
@@ -293,6 +296,12 @@ input.s {
 }
 .files_preview>.file>div.file, .file_preview>.file>div.file {
     font-size: 12px;
+    width: 180px;
+    overflow: hidden;
+    height: 16px;
+}
+td .files_preview>.file>div.file, td .file_preview>.file>div.file {
+    width: 120px;
 }
 .files_preview .ico.file {
     margin:6px auto;

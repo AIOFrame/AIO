@@ -344,7 +344,9 @@ function file_ui() {
 
         if( !$(f).next().hasClass('file_preview') ){
 
-            $(f).after('<div class="file_preview" data-url="#'+ $(f).attr('id') +'"></div>');
+            var id = $(f).prev('button').data('url');
+
+            $(f).after('<div class="file_preview" data-url="'+ id +'"></div>');
 
         }
 
@@ -378,7 +380,9 @@ function files_ui() {
 
         if( !$(b).next().hasClass('files_preview') ){
 
-            $(b).after('<div class="files_preview" data-url="#'+ $(b).attr('id') +'"></div>');
+            var id = $(b).prev('button').data('url');
+
+            $(b).after('<div class="files_preview" data-url="'+ id +'"></div>');
 
         }
 
