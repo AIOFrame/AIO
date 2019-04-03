@@ -300,6 +300,16 @@ $(document).ready(function(){
     //     $(this).val(a);
     // });
 
+    $("input[data-no-space]").on({
+        keydown: function(e) {
+            if (e.which === 32)
+                return false;
+        },
+        change: function() {
+            this.value = this.value.replace(/\s/g,'');
+        }
+    });
+
 });
 
 function format_number(a){
