@@ -1,11 +1,15 @@
 <?php get_style( 'translations' ); get_scripts(['clipboard','select2','core','translations']);
-$lfs = get_language_files();
+
 $ln = isset( $_POST['ln'] ) && !empty( $_POST['ln'] ) ? $_POST['ln'] : '';
 
-if( isset( $_POST['set_languages'] ) && !empty( $_POST['set_languages'] ) && is_array( $_POST['set_languages'] ) ) {
-    $set_langs = update_option( 'app_languages', $_POST['set_languages'] );
+if( isset( $_POST['set_languages'] ) && !empty( $_POST['set_languages'] ) ) {
+    $set_langs = update_option( 'app_languages', serialize( $_POST['set_languages'] ) );
     echo $set_langs ? '<script>notify("Languages Set!");</script>' : '';
 }
+
+$lfs = get_language_files();
+
+$langs = get_option( 'app_languages' );
 
 ?>
 <div id="data">
@@ -51,7 +55,7 @@ if( isset( $_POST['set_languages'] ) && !empty( $_POST['set_languages'] ) && is_
             <td colspan="100%">
 <!--                <button id="new_tran" onclick="add_row()">--><?php //__('New Sentence'); ?><!--</button>-->
 <!--                <button id="get_untran" onclick="get_untranslations()">--><?php //__('Get Untranslated'); ?><!--</button>-->
-                <button id="manage_lns"><?php __('Manage Languages'); ?></button>
+                <button id="manage_lns" data-on="#modal_lang"><?php __('Manage Languages'); ?></button>
             </td>
         </tr>
         </tfoot>
@@ -76,13 +80,13 @@ if( isset( $_POST['set_languages'] ) && !empty( $_POST['set_languages'] ) && is_
 <!--        <button id="build" onclick="build_translations()">--><?php //__('Build'); ?><!--</button>-->
     </div>
 </div>
-<div class="modal s" id="modal_lang">
+<div class="modal s" id="modal_lang" data-fade="0">
     <div class="close"></div>
     <h2 class="mt0">Manage Languages</h2>
     <form method='post' style="position:relative; width:300px;">
         <label for="language_selector">Select Languages for Application</label>
         <select name="set_languages[]" id="language_selector" class="select2" multiple>
-            <?php select_options( get_languages() ); ?>
+            <?php select_options( get_languages(), $langs ); ?>
         </select>
         <button id="set_languages"><?php __('SET LANGUAGES'); ?></button>
     </form>

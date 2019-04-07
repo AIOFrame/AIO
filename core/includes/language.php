@@ -1,10 +1,10 @@
 <?php
 
-// Sets a User preferred language as global
+// Runs only if session lang is other than english
 if( !empty( $_SESSION['lang'] ) && $_SESSION['lang'] !== 'en' ){
 
-    global $translation_strings;
-    global $translated_strings;
+    global $translation_strings; // Yet to be translated
+    global $translated_strings; // Already translated
 
     $translated_strings = select( 'translations', 'trans_base,trans_replace', 'trans_ln = "'.$_SESSION['lang'].'"' );
 
@@ -26,9 +26,21 @@ if( !empty( $_SESSION['lang'] ) && $_SESSION['lang'] !== 'en' ){
 
 function __( $string ) {
 
-    global $translated_strings; global $translation_strings; $translation_strings[] = $string;
+    global $translated_strings; global $translation_strings; //$translation_strings[] = $string;
 
-    echo isset( $translated_strings[$string] ) && $translated_strings[$string] !== '' ? $translated_strings[$string] : $string;
+    if( isset( $translated_strings[ $string ] ) && $translated_strings[ $string ] !== '' ){
+
+        echo $translated_strings[ $string ];
+
+    } else {
+
+        echo $string;
+
+        // Add to translation string
+        $translation_strings[] = $string;
+
+    }
+
 }
 
 function E( $string ) {
@@ -179,15 +191,19 @@ function get_language_files() {
     }
     return $final_languages; */
     $app_langs = get_option( 'app_languages' );
-    if( !empty( $app_langs ) && $n = unserialize( $app_langs ) ) {
-        $langs = get_languages();
-        if( is_array( $langs ) ){
-            foreach( $n as $ln ){
-                $data[$ln] = $langs[$ln];
+
+    if( !empty( $app_langs ) ) {
+        $n = unserialize( $app_langs );
+        if( is_array( $n ) ) {
+            $langs = get_languages();
+            if (is_array($langs)) {
+                foreach ($n as $ln) {
+                    $data[$ln] = $langs[$ln];
+                }
+                return is_array($data) ? $data : [];
+            } else {
+                return [];
             }
-            return is_array( $data ) ? $data : [];
-        } else {
-            return [];
         }
     } else {
         return [];

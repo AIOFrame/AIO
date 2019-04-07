@@ -27,7 +27,10 @@ $(document).ready(function(){
         $($(this).data('resetsrc')).attr('src', '');
         $($(this).data('resetinput')).val('');
         $($(this).data('click')).click();
-        if($($(this).data('show')).hasClass('modal') || $($(this).data('on')).hasClass('modal')){
+        if($($(this).data('show')).hasClass('modal') && $($(this).data('show')).data('fade') === undefined ){
+            $('article').addClass('fade');
+        }
+        if($($(this).data('on')).hasClass('modal') && $($(this).data('on')).data('fade') === undefined ){
             $('article').addClass('fade');
         }
         if($(this).data('href')){
@@ -158,7 +161,7 @@ $(document).ready(function(){
         var nl = $(this).data('lang');
         var d = {'action':'get_translations','languages':[cl,nl],'method':'json'};
         $.post(location.origin,{'action':'set_language','lang':nl});
-        $.post(location.origin,d,function(r){
+        /* $.post(location.origin,d,function(r){
             if( r = JSON.parse(r) ){
                 $.each(r[0],function(i){
                     if( r[0][i] !== '' && r[1][i] !== '') {
@@ -173,7 +176,8 @@ $(document).ready(function(){
                 $('[data-lang]').removeClass('on');
                 $(this).addClass('on');
             }
-        });
+        }); */
+        location.reload();
     })
 
     .on('change','[data-languages]',function(){

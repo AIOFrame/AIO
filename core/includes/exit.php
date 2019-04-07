@@ -2,9 +2,11 @@
 
 // Stores untranslated strings to database
 
-global $translation_strings;
-
 if( isset( $_SESSION['lang'] ) && $_SESSION['lang'] !== 'en' && APPDEBUG ){
+
+    global $translation_strings;
+
+    //skel( $translation_strings );
 
     $db_translation_strings = get_option('translation_strings');
 

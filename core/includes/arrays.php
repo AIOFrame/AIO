@@ -3,7 +3,7 @@
 // Skeleton for Arrays and Objects
 
 function skel( $s ){
-    if( $s !== '' ){
+    if( !empty( $s ) ){
         echo '<pre style="font-size:15px">';
         print_r( $s );
         echo '</pre>';

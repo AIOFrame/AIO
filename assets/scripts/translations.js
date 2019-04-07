@@ -14,9 +14,6 @@ $(document).ready(function(){
     /* $.post(location.origin,{'action':'get_translations','lang':'en'},function(r){
         console.log(r);
     });*/
-    $('#manage_lns').on('click',function(){
-        $('#modal_lang').addClass('on');
-    });
 
     // Edit Sentence
     $('body').on('click','#translations tbody td:not(:nth-child(3))',function(e){
@@ -26,10 +23,6 @@ $(document).ready(function(){
         $('#editor').data('row',tr.index());
         $('#english_string').val(tr.find('td:first-child').html());
         $('#translation').val(tr.find('td:nth-child(2)').html()).focus();
-    });
-
-    $('.modal .close').on('click',function(){
-        $(this).parents('.modal').hide();
     });
 
     // Save Sentence
@@ -104,12 +97,16 @@ function update_translation() {
     var ln = $('#ln').val();
     var d = { 'action': 'update_translation', 'language': ln, 'english_string': $('#english_string').val(), 'translation': $('#translation').val() };
 
-    $.post( location.origin, d, function(r){
-        if( r = JSON.parse(r) ){
-            elog(r);
-            notify(r[1]);
-        }
-    });
+    if( ln !== null ) {
+        $.post( location.origin, d, function(r){
+            if( r = JSON.parse(r) ){
+                elog(r);
+                notify(r[1]);
+            }
+        });
+    } else {
+        notify('Please select a language and then add translations!');
+    }
     //$('#translations tbody tr').data('edited','');
     //}
 }
