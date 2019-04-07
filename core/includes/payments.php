@@ -85,7 +85,7 @@ function cc_avenue( $amount, $redirect_url = APPURL, $test = 0, $currency = 'AED
             //echo $merchant_data;
             $merchant_data = substr( $merchant_data, 0 , -1 );
 
-            echo $test ? $merchant_data : '';
+            $test ? skel( explode( '&', $merchant_data ) ) : '';
 
             $encrypted_data = encrypt($merchant_data, $working_key);
 
