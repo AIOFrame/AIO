@@ -454,7 +454,7 @@ function create_table( $table ){
                     }
                 }
             }
-            $query .= ")";
+            $query .= ") DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
 
             $df = debug_backtrace();
             $df = !empty($df) && is_array($df) && isset($df[0]['file']) && isset($df[0]['line']) ? '[' . $df[0]['line'] . ' -> ' . str_replace(COREPATH, '', $df[0]['file']) . ']' : '';
