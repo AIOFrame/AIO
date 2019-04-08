@@ -107,11 +107,12 @@ function app_loader() {
 
         if( isset( $c['host'] ) && !empty( $c['host'] ) && isset( $c['user'] ) && !empty( $c['user'] ) && isset( $c['pass'] ) && !empty( $c['pass'] ) && isset( $c['database'] ) && !empty( $c['database'] ) ){
 
-            header("Content-Type: text/html; charset=UTF-8");
+            //header("Content-Type: text/html; charset=UTF-8");
 
             global $db;
             $db = @mysqli_connect( $c['host'], $c['user'], $c['pass'], $c['database'] );
             if ( $db ) {
+                mysqli_query( $db, "SET NAMES 'utf8'");
                 mysqli_query( $db, 'SET CHARACTER SET utf8' );
                 !defined( 'APPCON' ) ? define( 'APPCON', true ) : '';
             } else {
