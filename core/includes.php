@@ -6,7 +6,7 @@ function includes() {
 
     // Includes First set of Internal files to Include
 
-    $first_internal_includes = [ 'functions', 'crypt', 'options', 'payments', 'structure', 'alerts', 'arrays', 'data', 'elements', 'files', 'icons', 'language', 'modules', 'options', 'spreadsheet' ];
+    $first_internal_includes = [ 'functions', 'crypt', 'options', 'payments', 'structure', 'alerts', 'arrays', 'data', 'elements', 'files', 'icons', 'language', 'modules', 'options', 'spreadsheet', 'user' ];
 
     foreach( $first_internal_includes as $first_internal_file ) {
         include_once( dirname( __FILE__ ) . '/includes/'. $first_internal_file . '.php' );

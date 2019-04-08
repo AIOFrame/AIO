@@ -6,6 +6,9 @@ input[type=radio], input[type=checkbox] {
     display: inline-block;
     vertical-align: middle;
 }
+body.d input[type=radio]:not(:checked), body.d input[type=checkbox]:not(:checked) {
+    background:rgb(30,30,30);
+}
 input[type=radio]:checked, input[type=checkbox]:checked {
     background:#000;
 }
@@ -18,6 +21,33 @@ input[type=radio]+label, input[type=checkbox]+label {
 }
 input.load {
     background:url('../images/load.svg') no-repeat center;
+}
+input[type=checkbox].slide {
+    border-radius:50%;
+    background:#fff;
+    margin-right:25px;
+    box-shadow: 0 2px 5px rgba(0,0,0,.2);
+}
+input[type=checkbox].slide:checked {
+    margin-right: 10px;
+    margin-left: 15px;
+}
+input[type=checkbox].slide:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 1px solid #5b5b5b;
+    border-radius: 7px;
+    height: 15px;
+    width: 40px;
+    display: block;
+    z-index: -1;
+    transition:.6s;
+}
+input[type=checkbox].slide:checked:before {
+    left: -15px;
 }
 
 /* Select2 Fix */

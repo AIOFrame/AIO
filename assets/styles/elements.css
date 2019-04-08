@@ -606,6 +606,11 @@ td .files_preview>.file>div.file, td .file_preview>.file>div.file {
     border:1px solid lightgrey;
     border-radius:10px;
 }
+.d .no_data {
+    border:0;
+    background:rgb(20,20,20);
+    color:#fff;
+}
 
 /* Paper */
 

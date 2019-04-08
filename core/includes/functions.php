@@ -62,9 +62,13 @@ function get_style( $f, $page_of = '' ) {
             $url = $cfl . '.min.css';
         } else if (file_exists($cf . '.css')) {
             $url = $cfl . '.css';
+        } else if (file_exists($af)) {
+            $url = $afl;
+        } else if (file_exists($cf)) {
+            $url = $cfl;
         }
-        if( $page_of !== '' ) {
-            echo page_of( $page_of ) && $url !== '' ? '<link rel="stylesheet" href="' . $url . $v . '">' : '';
+        if ($page_of !== '') {
+            echo page_of($page_of) && $url !== '' ? '<link rel="stylesheet" href="' . $url . $v . '">' : '';
         } else {
             echo $url !== '' ? '<link rel="stylesheet" href="' . $url . $v . '">' : '';
         }
