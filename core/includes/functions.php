@@ -114,7 +114,7 @@ function get_script( $f, $page_of = '' ) {
 function font( $array = [] ){
     $weights = isset( $array[1] ) && !empty( $array[1] ) ? $array[1] : '400';
     $fonts[] = $array[0].':'.$weights;
-    echo !empty( $fonts ) ? '<link rel="stylesheet" href="' . APPURL . 'assets/fonts.php?family='. implode( '|', $fonts ) .'">' : '';
+    echo !empty( $fonts ) ? '<link rel="stylesheet" href="' . APPURL . 'assets/fonts.php?'.APPDIR.'='. implode( '|', $fonts ) .'">' : '';
 }
 
 function fonts( $array = [] ){
@@ -135,7 +135,7 @@ function fonts( $array = [] ){
         $weights = isset( $f[1] ) && !empty( $f[1] ) ? $f[1] : '400';
         $fonts[] = $f[0].':'.$weights;
     }
-    echo !empty( $fonts ) ? '<link rel="stylesheet" href="' . APPURL . 'assets/fonts.php?family='. implode( '|', $fonts ) .'">' : '';
+    echo !empty( $fonts ) ? '<link rel="stylesheet" href="' . APPURL . 'assets/fonts.php?'.APPDIR.'='. implode( '|', $fonts ) .'">' : '';
 }
 
 //

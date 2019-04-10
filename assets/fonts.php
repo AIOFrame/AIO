@@ -1,5 +1,14 @@
 <?php
 
+$app = '';
+
+if( is_array( $_GET ) ) {
+    foreach( $_GET as $a => $f ) {
+        $app = !is_numeric( $a ) ? $a : '';
+        $_GET['family'] = $f;
+    }
+}
+
 header("Content-type: text/css; charset: UTF-8");
 header("Cache-Control: max-age=14400");
 
@@ -30,16 +39,52 @@ foreach( glob( dirname( __FILE__ ) . '/fonts/*', GLOB_ONLYDIR ) as $f ){
             $ws = !empty( $font[1] ) ? explode( ',', $font[1] ) : [ 400 ];
             foreach( $ws as $w ){
                 $fp = '/' . $fn . '-' . $weights[ $w ];
+                echo '@font-face{font-family:\'' . $fn . '\';';
                 if( file_exists( $f . $fp.'.eot' ) ) {
-                    echo '@font-face{font-family:\'' . $fn . '\';';
-                    echo file_exists($f . $fp. '.eot' ) ? 'src:url(\'fonts/'.$fn . $fp . '.eot\');src:' : 'src:';
-                    echo file_exists($f . $fp. '.eot') ? 'url(\'fonts/'.$fn . $fp . '.eot?#iefix\') format(\'embeded-opentype\')' : '';
-                    echo file_exists($f . $fp. '.woff2') ? ',url(\'fonts/'.$fn . $fp . '.woff2\') format(\'woff2\')' : '';
-                    echo file_exists($f . $fp. '.woff') ? ',url(\'fonts/'.$fn . $fp . '.woff\') format(\'woff\')' : '';
-                    echo ';font-weight:' . $w . ';';
-                    echo 'font-style:normal';
-                    echo '}';
+                    echo file_exists($f . $fp . '.eot') ? 'src:url(\'fonts/' . $fn . $fp . '.eot\');src:' : 'src:';
+                    echo file_exists($f . $fp . '.eot') ? 'url(\'fonts/' . $fn . $fp . '.eot?#iefix\') format(\'embeded-opentype\')' : '';
                 }
+                if( file_exists( $f . $fp.'.woff2' ) ) {
+                    echo file_exists($f . $fp. '.woff2') ? ',url(\'fonts/'.$fn . $fp . '.woff2\') format(\'woff2\')' : '';
+                }
+                if( file_exists( $f . $fp.'.woff' ) ) {
+                    echo file_exists($f . $fp. '.woff') ? ',url(\'fonts/'.$fn . $fp . '.woff\') format(\'woff\')' : '';
+                }
+                echo ';font-weight:' . $w . ';';
+                echo 'font-style:normal';
+                echo '}';
+            }
+        }
+    }
+}
+
+foreach( glob( dirname( __DIR__ ) . '/apps/' . $app . '/assets/fonts/*', GLOB_ONLYDIR ) as $f ){
+
+    $weights = [ 100 => 'Thin', 200 => 'ExtraLight', 300 => 'Light', 400 => 'Regular', 500 => 'Medium', 600 => 'SemiBold', 700 => 'Bold', 800 => 'ExtraBold', 900 => 'Black' ];
+
+    $fe = explode( '/', $f );
+    $fn = $fe[ count( $fe ) - 1 ];
+
+    global $fonts;
+    foreach( $fonts as $font ){
+        if( strtolower( $fn ) == strtolower( $font[0] ) ){
+            $ws = !empty( $font[1] ) ? explode( ',', $font[1] ) : [ 400 ];
+            foreach( $ws as $w ){
+                $fp = '/' . $fn . '-' . $weights[ $w ];
+                echo '@font-face{font-family:\'' . $fn . '\';';
+                if( file_exists( $f . $fp.'.eot' ) ) {
+                    echo file_exists($f . $fp . '.eot') ? 'src:url(\'../apps/'.$app.'/assets/fonts/' . $fn . $fp . '.eot\');src:' : 'src:';
+                    echo file_exists($f . $fp . '.eot') ? 'url(\'../apps/'.$app.'/assets/fonts/' . $fn . $fp . '.eot?#iefix\') format(\'embeded-opentype\')' : '';
+                }
+                if( file_exists( $f . $fp.'.woff2' ) ) {
+                    echo file_exists($f . $fp. '.woff2') ? ',url(\'../apps/'.$app.'/assets/fonts/'.$fn . $fp . '.woff2\') format(\'woff2\')' : '';
+                }
+                if( file_exists( $f . $fp.'.woff' ) ) {
+                    echo file_exists($f . $fp. '.woff') ? ',url(\'../apps/'.$app.'/assets/fonts/'.$fn . $fp . '.woff\') format(\'woff\')' : '';
+                }
+                echo ';font-weight:' . $w . ';';
+                echo 'font-style:normal';
+                echo '}';
             }
         }
     }

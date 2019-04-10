@@ -1,7 +1,7 @@
 <?php
 
 // Reset Icons
-if( APPDEBUG ) {
+if( APPDEBUG && file_exists( APPPATH . 'assets/styles/icons.css' ) ) {
     $icon_css = fopen(APPPATH . 'assets/styles/icons.css', 'w') or die();
     fwrite($icon_css, '');
     fclose($icon_css);
