@@ -63,6 +63,9 @@
 .tal { text-align:left; }
 .tac { text-align:center; }
 .tar { text-align:right; }
+.df.l { justify-content: flex-start }
+.df.c { justify-content: center }
+.df.r { justify-content: flex-end }
 select.tar { text-align-last: right; }
 
 .lh1 { line-height:100% }
