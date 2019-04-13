@@ -38,7 +38,8 @@ foreach( glob( dirname( __FILE__ ) . '/fonts/*', GLOB_ONLYDIR ) as $f ){
         if( strtolower( $fn ) == strtolower( $font[0] ) ){
             $ws = !empty( $font[1] ) ? explode( ',', $font[1] ) : [ 400 ];
             foreach( $ws as $w ){
-                $fp = '/' . $fn . '-' . $weights[ $w ];
+                $weight = is_numeric( $w ) ? $weights[ $w ] : $w;
+                $fp = '/' . $fn . '-' . $weight;
                 echo '@font-face{font-family:\'' . $fn . '\';';
                 if( file_exists( $f . $fp.'.eot' ) ) {
                     echo file_exists($f . $fp . '.eot') ? 'src:url(\'fonts/' . $fn . $fp . '.eot\');src:' : 'src:';
@@ -70,7 +71,8 @@ foreach( glob( dirname( __DIR__ ) . '/apps/' . $app . '/assets/fonts/*', GLOB_ON
         if( strtolower( $fn ) == strtolower( $font[0] ) ){
             $ws = !empty( $font[1] ) ? explode( ',', $font[1] ) : [ 400 ];
             foreach( $ws as $w ){
-                $fp = '/' . $fn . '-' . $weights[ $w ];
+                $weight = is_numeric( $w ) ? $weights[ $w ] : $w;
+                $fp = '/' . $fn . '-' . $weight;
                 echo '@font-face{font-family:\'' . $fn . '\';';
                 if( file_exists( $f . $fp.'.eot' ) ) {
                     echo file_exists($f . $fp . '.eot') ? 'src:url(\'../apps/'.$app.'/assets/fonts/' . $fn . $fp . '.eot\');src:' : 'src:';
