@@ -424,7 +424,6 @@ td .files_preview>.file>div.file, td .file_preview>.file>div.file {
     outline: none;
     line-height: 15px;
     width:auto;
-    font-family:'Lato',sans-serif;
     box-sizing:border-box;
     text-transform:uppercase;
     transition:.3s;
