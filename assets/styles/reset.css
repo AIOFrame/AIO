@@ -1,14 +1,11 @@
 /* Resets v1.2 */
 
 html, body, div, span, applet, object, iframe,  p, button, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header,  menu, nav, output, ruby, section, summary, time, mark, audio, video, select, input, textarea, text {
-    //font-family: 'Segoe UI','Helvetica',sans-serif;
-    //font-weight: 300;
     margin:0;
     padding:0;
     font-style:normal;
 }
 h1, h2, h3, h4, h5, h6 {
-    //font-family: 'Segoe UI','Helvetica',sans-serif;
     font-weight: 300;
     padding: 0;
     margin: 10px 0;
@@ -25,7 +22,6 @@ input, button, select, textarea {
     padding:12px;
     box-sizing: border-box;
     border:1px solid #ddd;
-    //font-family: 'Lato', sans-serif;
     outline:none;
     font-size:14px;
     margin-bottom: 20px;
