@@ -159,7 +159,6 @@ class ACCESS {
                 $enc = $cry->encrypt($user['user_id'] . '|' . $code);
                 // Send Email
                 email($user['user_email'], T('Password Reset Email from ' . APPNAME), 'You requested for password reset, <a href="' . $url . '/?r=' . $enc . '">Please click here to reset password.</a>', 'server@email.com');
-                elog($url.'/?r='.$enc);
                 return [1, T('Password reset link has been emailed')];
             }
         } else {
@@ -171,10 +170,25 @@ class ACCESS {
         // Url to decode Code and Username
         $cry = Crypto::initiate();
         $code = $cry->decrypt( $code );
-        // If username and code match, let set new password
+        $c = explode( '|', $code );
 
-        // Update User Password
-
+        if( is_array( $c ) ) {
+            // If username and code match, let set new password
+            $user = select('users', 'user_login,user_reset_pass', 'user_id = "' . $c[0] . '"', 1);
+            if( $user['user_reset_pass'] === $c[1] ) {
+                // Update User Password
+                $update = $this->update_user( $user['user_login'], $password, [ 'user_reset_pass' => NULL ] );
+                if( $update ) {
+                    return [1, T('Your password has been updated successfully')];
+                } else {
+                    return [0, T('Your password was not updated, please contact support!')];
+                }
+            } else {
+                return [0, T('Your reset link doesn\'t match our records for this user! Please try the process again or contact support!')];
+            }
+        } else {
+            return [0, T('Your reset link seems to be corrupted, please try resetting again or contact support!')];
+        }
     }
 
     function get_users() {
