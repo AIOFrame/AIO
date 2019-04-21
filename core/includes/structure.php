@@ -12,6 +12,7 @@ function basic_tables() {
         [ 'pic', 'VARCHAR', '255', 'NULL' ],
         [ 'data', 'VARCHAR', '9999', 'NULL' ],
         [ 'level', 'INT', '13', 'NULL' ],
+        [ 'reset_pass', 'VARCHAR', 11, 'NULL' ],
     ] ];
 
     $tables[] = [ 'access', 'access', [

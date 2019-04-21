@@ -145,6 +145,38 @@ class ACCESS {
         }
     }
 
+    function reset_password( $u, $url ) {
+        $user = select( 'users', 'user_id,user_email', 'user_login = "'.$u.'" OR user_email = "'.$u.'"', 1 );
+        //skell( $user );
+        if( $user ) {
+            // Generate Code
+            $code = self::generate_password(6);
+            // Store in user_reset_pass
+            $up = update( 'users', ['user_reset_pass'], [$code], 'user_id = "'.$user['user_id'].'"' );
+            if( $up ) {
+                // Encrypt Code and Username
+                $cry = Crypto::initiate();
+                $enc = $cry->encrypt($user['user_id'] . '|' . $code);
+                // Send Email
+                email($user['user_email'], T('Password Reset Email from ' . APPNAME), 'You requested for password reset, <a href="' . $url . '/?r=' . $enc . '">Please click here to reset password.</a>', 'server@email.com');
+                elog($url.'/?r='.$enc);
+                return [1, T('Password reset link has been emailed')];
+            }
+        } else {
+            return [0, T('User / Email not found to reset password')];
+        }
+    }
+
+    function update_password( $code, $password ) {
+        // Url to decode Code and Username
+        $cry = Crypto::initiate();
+        $code = $cry->decrypt( $code );
+        // If username and code match, let set new password
+
+        // Update User Password
+
+    }
+
     function get_users() {
         $us = select( 'users', '', '', '', '', '', '', 'ID' );
         $users = [];
@@ -272,6 +304,38 @@ function set_login() {
     } else {
         echo json_encode([0,'Fields seem to empty']);
     }
+}
+
+function reset_pass( $u = '', $url = '' ) {
+    if( !user_logged_in() ) {
+        if ( is_array( $u ) ) {
+            unset( $_POST['action'] );
+            $u = $_POST['u'];
+            $url = $_POST['url'];
+        }
+        if ( $u !== '' ) {
+            global $access;
+            echo json_encode($access->reset_password( $u, $url ));
+        }
+    }
+}
+
+function update_pass( $code = '', $password = '' ) {
+    if( !user_logged_in() ) {
+        if ( is_array( $code ) ) {
+            unset( $_POST['action'] );
+            $code = $_POST['code'];
+            $password = $_POST['password'];
+        }
+        if ( $code !== '' ) {
+            global $access;
+            echo json_encode($access->update_password( $code, $password ));
+        }
+    }
+}
+
+function change_pass( $u = '', $p = '' ) {
+
 }
 
 function get_current_user_id() {
