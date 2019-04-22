@@ -354,11 +354,13 @@ function select_options( $options = '', $selected = '', $placeholder = '' ) {
     if( is_array($d) ){
         if (is_assoc($d)) {
             foreach ($d as $k => $t) {
-                echo '<option value="' . $k . '" ' . ($k == $s ? "selected" : "") . '>' . $t . '</option>';
+                if( is_array( $selected ) && in_array( $k, $selected ) ) { $s = 'selected'; } else if( $k == $s ) { $s = 'selected'; } else { $s = ''; }
+                echo '<option value="' . $k . '" ' . $s . '>' . $t . '</option>';
             }
         } else {
             foreach ($d as $t) {
-                echo '<option value="' . $t . '" ' . ($t == $s ? "selected" : "") . '>' . $t . '</option>';
+                if( is_array( $selected ) && in_array( $t, $selected ) ) { $s = 'selected'; } else if( $t == $s ) { $s = 'selected'; } else { $s = ''; }
+                echo '<option value="' . $t . '" ' . $s . '>' . $t . '</option>';
             }
 
         }

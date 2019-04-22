@@ -78,7 +78,7 @@ function file_url( $url ) {
 function email( $to, $subject, $content, $from, $cc = '' ){
     include_once( COREPATH . 'core/components/mailer.php' );
     $mail = new MAIL();
-    $mail->send_email( $to, $subject, $content, $from, $cc );
+    return $mail->send_email( $to, $subject, $content, $from, $cc );
 }
 
 function sendgrid( $to, $subject, $content, $from, $cc = '' ) {

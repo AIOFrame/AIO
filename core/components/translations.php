@@ -10,6 +10,8 @@ if( isset( $_POST['set_languages'] ) && !empty( $_POST['set_languages'] ) ) {
 $lfs = get_language_files();
 
 $langs = get_option( 'app_languages' );
+$langs = !empty( $langs ) ? unserialize( $langs ) : '';
+//skel( $langs );
 
 ?>
 <div id="data">
