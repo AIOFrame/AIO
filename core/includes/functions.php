@@ -588,6 +588,15 @@ function remove_elements( $html, $start, $end ) {
     return $html;
 }
 
+function get_string_between( $string, $start, $end ){
+    $string = ' ' . $string;
+    $ini = strpos($string, $start);
+    if ($ini == 0) return '';
+    $ini += strlen($start);
+    $len = strpos($string, $end, $ini) - $ini;
+    return substr($string, $ini, $len);
+}
+
 function encrypt_array( $array ){
     $cry = Crypto::initiate();
     return $cry->encrypt(serialize($array));
