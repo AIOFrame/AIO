@@ -155,6 +155,9 @@ header button {
 .b.insert .s {
     background: #0086cb;
 }
+.b.log .s {
+    background: saddlebrown;
+}
 
 /* Others */
 

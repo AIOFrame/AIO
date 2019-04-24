@@ -285,6 +285,56 @@ function is_desktop() {
     }
 }
 
+//
+
+function device() {
+
+    if( stripos( $_SERVER['HTTP_USER_AGENT'] , 'iPod' ) ) {
+
+        return 'iPod';
+
+    } else if( stripos( $_SERVER['HTTP_USER_AGENT'] , 'iPhone' ) ) {
+
+        return 'iPhone';
+
+    } else if( stripos( $_SERVER['HTTP_USER_AGENT'] , 'iPad' ) ) {
+
+        return 'iPad';
+
+    } else if( stripos( $_SERVER['HTTP_USER_AGENT'] , 'Android' ) ) {
+
+        return 'Android';
+
+    } else if( stripos( $_SERVER['HTTP_USER_AGENT'] , 'webOS' ) ) {
+
+        return 'webOS';
+
+    } else {
+
+        return '';
+
+    }
+
+}
+
+//
+
+function is_ios() {
+
+    $d = device();
+
+    if( $d == 'iPad' || $d == 'iPhone' || $d = 'iPod' ) {
+
+        return true;
+
+    } else {
+
+        return false;
+
+    }
+
+}
+
 // Error Logs if APP is under DEBUG Mode
 
 function elog( $line ){

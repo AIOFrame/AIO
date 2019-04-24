@@ -64,8 +64,6 @@ function error_log_viewer( $file = '' ) {
 
         while ( $l = fgets( $file )) {
 
-            //skel( $l );
-
             // Extract Date
             $date = get_string_between($l, '[', ']');
             $edate = easy_date( $date, 'h:i:s a d M, Y' );
