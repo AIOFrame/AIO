@@ -17,6 +17,8 @@ CoreApp Improvements:
 * Icons CSS
 * Plyr JS Integrate
 * Tour / Guide like Shepherd
+* Different config per app by domain
+* All APIs in one place
 
 File Uploader Improvements:
 * Breakdown of loaded file list
