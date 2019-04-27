@@ -96,6 +96,7 @@ function update_translation() {
     // Update Translations
     var ln = $('#ln').val();
     var d = { 'action': 'update_translation', 'language': ln, 'english_string': $('#english_string').val(), 'translation': $('#translation').val() };
+    elog(d);
 
     if( ln !== null ) {
         $.post( location.origin, d, function(r){

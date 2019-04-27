@@ -19,6 +19,8 @@ FRONTEND
 * Icons CSS
 * Tour / Guide like Shepherd
 * BotUI js integration
+* Different config per app by domain
+* All APIs in one place
 
 File Uploader
 
@@ -62,4 +64,4 @@ CHINA
 SMS Gateways Integration
 
 * MSG91
-* 
+* Twilio

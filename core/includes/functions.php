@@ -285,6 +285,56 @@ function is_desktop() {
     }
 }
 
+//
+
+function device() {
+
+    if( stripos( $_SERVER['HTTP_USER_AGENT'] , 'iPod' ) ) {
+
+        return 'iPod';
+
+    } else if( stripos( $_SERVER['HTTP_USER_AGENT'] , 'iPhone' ) ) {
+
+        return 'iPhone';
+
+    } else if( stripos( $_SERVER['HTTP_USER_AGENT'] , 'iPad' ) ) {
+
+        return 'iPad';
+
+    } else if( stripos( $_SERVER['HTTP_USER_AGENT'] , 'Android' ) ) {
+
+        return 'Android';
+
+    } else if( stripos( $_SERVER['HTTP_USER_AGENT'] , 'webOS' ) ) {
+
+        return 'webOS';
+
+    } else {
+
+        return '';
+
+    }
+
+}
+
+//
+
+function is_ios() {
+
+    $d = device();
+
+    if( $d == 'iPad' || $d == 'iPhone' || $d = 'iPod' ) {
+
+        return true;
+
+    } else {
+
+        return false;
+
+    }
+
+}
+
 // Error Logs if APP is under DEBUG Mode
 
 function elog( $line ){
@@ -354,11 +404,13 @@ function select_options( $options = '', $selected = '', $placeholder = '' ) {
     if( is_array($d) ){
         if (is_assoc($d)) {
             foreach ($d as $k => $t) {
-                echo '<option value="' . $k . '" ' . ($k == $s ? "selected" : "") . '>' . $t . '</option>';
+                if( is_array( $selected ) && in_array( $k, $selected ) ) { $s = 'selected'; } else if( $k == $s ) { $s = 'selected'; } else { $s = ''; }
+                echo '<option value="' . $k . '" ' . $s . '>' . $t . '</option>';
             }
         } else {
             foreach ($d as $t) {
-                echo '<option value="' . $t . '" ' . ($t == $s ? "selected" : "") . '>' . $t . '</option>';
+                if( is_array( $selected ) && in_array( $t, $selected ) ) { $s = 'selected'; } else if( $t == $s ) { $s = 'selected'; } else { $s = ''; }
+                echo '<option value="' . $t . '" ' . $s . '>' . $t . '</option>';
             }
 
         }
@@ -584,6 +636,15 @@ function remove_elements( $html, $start, $end ) {
         $exist = strpos( $html, $start ) > 0 ? 1 : 0;
     } while ( $exist > 0 );
     return $html;
+}
+
+function get_string_between( $string, $start, $end ){
+    $string = ' ' . $string;
+    $ini = strpos($string, $start);
+    if ($ini == 0) return '';
+    $ini += strlen($start);
+    $len = strpos($string, $end, $ini) - $ini;
+    return substr($string, $ini, $len);
 }
 
 function encrypt_array( $array ){

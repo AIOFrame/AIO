@@ -84,7 +84,7 @@ function update_translation( $english_string = '', $language = '', $translation 
     $translation = isset( $_POST['translation'] ) ? $_POST['translation'] : $translation;
     $page = isset( $_POST['page'] ) ? $_POST['page'] : $page;
 
-    $exist = select( 'translations', '', 'trans_base = "'.$english_string.'" AND trans_ln = "'.$language.'"' );
+    $exist = select( 'translations', '', 'BINARY trans_base = "'.$english_string.'" AND trans_ln = "'.$language.'"' );
 
     if( $exist ) {
 

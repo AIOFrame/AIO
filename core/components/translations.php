@@ -10,7 +10,9 @@ if( isset( $_POST['set_languages'] ) && !empty( $_POST['set_languages'] ) ) {
 $lfs = get_language_files();
 
 $langs = get_option( 'app_languages' );
-
+$langs = !empty( $langs ) ? unserialize( $langs ) : '';
+//skel( $langs );
+if( isset( $_POST['ln'] ) ) {
 ?>
 <div id="data">
     <table id="translations">
@@ -91,3 +93,9 @@ $langs = get_option( 'app_languages' );
         <button id="set_languages"><?php __('SET LANGUAGES'); ?></button>
     </form>
 </div>
+<?php } else { ?>
+<form method='post'><select name="ln" id="ln" onchange="this.form.submit()">
+        <option selected disabled>Select Language</option>
+        <?php select_options( $lfs, $ln ); ?>
+    </select></form>
+<?php }
