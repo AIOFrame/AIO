@@ -526,6 +526,15 @@ function create_column( $table, $column, $type = 'TEXT', $length = '13', $null =
     }
 }
 
+function query( $query ) {
+
+    global $db;
+    $e = mysqli_query( $db, $query );
+
+    return $e;
+
+}
+
 function export_tables( $tables = [] ) {
 
 }

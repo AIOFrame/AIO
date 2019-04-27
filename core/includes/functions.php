@@ -323,7 +323,7 @@ function is_ios() {
 
     $d = device();
 
-    if( $d == 'iPad' || $d == 'iPhone' || $d = 'iPod' ) {
+    if( $d == 'iPad' || $d == 'iPhone' || $d == 'iPod' ) {
 
         return true;
 
@@ -666,6 +666,18 @@ function G( $string ) {
 
 function notify( $message ) {
     echo '<script>$(document).ready(function(){ notify("' . $message . '"); });</script>';
+}
+
+function aio_ui( $ui ) {
+
+    $f = COREPATH . 'core/ui/' . $ui . '.php';
+
+    if( file_exists( $f ) ) {
+
+        require( $f );
+
+    }
+
 }
 
 /* File Uploader
