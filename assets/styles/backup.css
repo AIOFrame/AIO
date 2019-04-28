@@ -1,0 +1,43 @@
+#backup {
+    margin:0 20px;
+    padding:10px 20px 20px;
+    background:#fff;
+    border-radius:20px;
+}
+button.backup {
+    margin: 0;
+    background: #007dcc;
+    background: -moz-linear-gradient(45deg,#007dcc 0,#00aded 100%);
+    background: -webkit-linear-gradient(45deg,#007dcc 0,#00aded 100%);
+    background: linear-gradient(45deg,#007dcc 0,#00aded 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#007dcc',endColorstr='#00aded',GradientType=1);
+    box-shadow: 0 0 6px rgba(0,125,204,.2), 0 2px 6px rgba(0,0,0,.2);
+}
+button.backup:hover {
+    box-shadow: 0 0 6px rgba(0,125,204,.3),0 4px 6px rgba(0,125,204,.3)
+}
+.b {
+    padding:10px 20px;
+    background: #fff;
+    display: block;
+    border-radius: 15px;
+    box-shadow: 5px 5px 60px rgba(0,0,0,.05);
+    margin: 20px 0 0;
+    transition: .6s;
+    position: relative;
+}
+.b .dt {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-weight: lighter;
+    font-size: 13px;
+    background: #ddd;
+    color: #fff;
+    border-radius: 6px;
+    padding: 4px 8px;
+    transition: .6s;
+}
+.b:hover .dt {
+    background: #bbb
+}
