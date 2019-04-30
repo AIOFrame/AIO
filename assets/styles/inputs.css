@@ -1,18 +1,18 @@
 /* INPUTS */
 
-input[type=radio], input[type=checkbox] {
+[type=radio], [type=checkbox] {
     cursor: pointer;
     margin: 8px 8px 8px 0;
     display: inline-block;
     vertical-align: middle;
 }
-body.d input[type=radio]:not(:checked), body.d input[type=checkbox]:not(:checked) {
+body.d [type=radio]:not(:checked), body.d [type=checkbox]:not(:checked) {
     background:rgb(30,30,30);
 }
-input[type=radio]:checked, input[type=checkbox]:checked {
+[type=radio]:checked, [type=checkbox]:checked {
     background:#000;
 }
-input[type=radio]+label, input[type=checkbox]+label {
+[type=radio]+label, [type=checkbox]+label {
     text-transform: none;
     font-size: 14px;
     letter-spacing: unset;
@@ -22,32 +22,59 @@ input[type=radio]+label, input[type=checkbox]+label {
 input.load {
     background:url('../images/load.svg') no-repeat center;
 }
-input[type=checkbox].slide {
-    border-radius:50%;
+[type=checkbox].slide, [type=checkbox].slide:active, [type=checkbox].slide:checked {
+    height: 20px;
+    width: 50px;
+    background:#ddd;
+    border-radius: 10px;
+    border:0;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0;
+    /* border-radius:50%;
     background:#fff;
     margin-right:25px;
-    box-shadow: 0 2px 5px rgba(0,0,0,.2);
+    box-shadow: 0 2px 5px rgba(0,0,0,.2); */
 }
-input[type=checkbox].slide:checked {
-    margin-right: 10px;
-    margin-left: 15px;
+body.d [type=checkbox].slide {
+    background:rgb(40,40,40);
 }
-input[type=checkbox].slide:before {
+[type=checkbox].slide.s {
+    height:15px;
+    width:40px;
+}
+[type=checkbox].slide.xs {
+    height:10px;
+    width:30px;
+}
+[type=checkbox].slide.l {
+    height:25px;
+    width:60px;
+}
+[type=checkbox].slide:before {
     content: '';
     position: absolute;
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    border: 1px solid #5b5b5b;
-    border-radius: 7px;
-    height: 15px;
-    width: 40px;
-    display: block;
-    z-index: -1;
+    height:30px;
+    width:30px;
+    border-radius: 20px;
     transition:.6s;
+    box-shadow:0 3px 15px rgba(0,0,0,.2);
+    background:#fff;
 }
-input[type=checkbox].slide:checked:before {
-    left: -15px;
+[type=checkbox].slide.s:before {
+    height:23px;
+    width:23px;
+}
+[type=checkbox].slide.xs:before {
+    height:18px;
+    width:18px;
+}
+[type=checkbox].slide.l:before {}
+[type=checkbox].slide:checked:before {
+    left: 43%;
 }
 
 /* Select2 Fix */
@@ -182,7 +209,7 @@ button.b.red, .btn.b.red, .red.b button, .red.b .btn {
     color:rgb(153,1,1);
     border:1px solid rgb(153,1,1);
 }
-button.blue, .btn.blue, .blue button, .blue .btn, .gr_blue {
+button.blue, .btn.blue, .blue button, .blue .btn, .gr_blue, [type=checkbox]:checked.slide:before {
     background: rgb(0,125,204);
     background: -moz-linear-gradient(45deg, rgb(0,125,204) 0%, rgb(0,173,237) 100%);
     background: -webkit-linear-gradient(45deg, rgb(0,125,204) 0%,rgb(0,173,237) 100%);

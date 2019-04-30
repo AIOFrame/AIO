@@ -747,6 +747,28 @@ td .files_preview>.file>div.file, td .file_preview>.file>div.file {
     color:black;
 }
 
+/* Accordion */
+
+.acc {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.acc .head {
+    padding: 15px 20px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+.acc .body {
+    padding: 0;
+    height:0;
+    overflow:hidden;
+}
+.acc.on .body {
+    padding: 20px;
+    height:auto;
+}
+
 /* Context Menu */
 
 .context-menu {
@@ -770,4 +792,14 @@ td .files_preview>.file>div.file, td .file_preview>.file>div.file {
 }
 .context-menu>div:last-child {
     border:0;
+}
+
+@media all and (min-width:0px) and (max-width: 800px) {
+    .tabs>div:first-child {
+        display: flex;
+        overflow-x:auto;
+    }
+    .tab {
+        white-space: nowrap;
+    }
 }

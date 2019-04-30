@@ -55,20 +55,20 @@ label {
     font-weight: bold;
     color: #0d3d63;
 }
-input[type=checkbox], input[type=radio] {
+[type=checkbox], [type=radio] {
     width:auto;
     box-shadow:none;
 }
-input[type=radio], input[type=checkbox] {
+[type=radio], [type=checkbox] {
     cursor: pointer;
     margin: 8px 8px 8px 0;
     display: inline-block;
     vertical-align: middle;
 }
-input[type=radio]:checked, input[type=checkbox]:checked {
+[type=radio]:checked, [type=checkbox]:checked {
     background:#000;
 }
-input[type=radio]+label, input[type=checkbox]+label {
+[type=radio]+label, [type=checkbox]+label {
     text-transform: none;
     font-size: 14px;
     letter-spacing: unset;
