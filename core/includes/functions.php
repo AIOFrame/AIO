@@ -668,15 +668,17 @@ function notify( $message ) {
     echo '<script>$(document).ready(function(){ notify("' . $message . '"); });</script>';
 }
 
-function aio_ui( $ui, $array ) {
+function UI( $ui, $array = [] ) {
 
     $f = COREPATH . 'core/ui/' . $ui . '.php';
 
     if( file_exists( $f ) ) {
 
-        global $ui_params;
-        $ui_params = $array;
-        require( $f );
+        if( !empty( $array ) ) {
+            global $ui_params;
+            $ui_params = $array;
+        }
+        include( $f );
 
     }
 
