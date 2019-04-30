@@ -516,7 +516,7 @@ function in_text( $id, $label, $placeholder = '', $value = '', $attrs = '', $pre
     render_input( 'text', $id, $label, $placeholder, $value, $attrs, $pre, $post );
 }
 
-function in_texts( $array, $attrs, $pre = '', $post = '' ){
+function in_texts( $array, $attrs = '', $pre = '', $post = '' ){
     if( is_array( $array ) ){
         if( is_assoc( $array ) ){
             foreach( $array as $k => $v ){
