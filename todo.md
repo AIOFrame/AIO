@@ -8,6 +8,8 @@ BACKEND
 * Database Seeding and Database Migration
 * All API options
 * User Level Management
+* Restrict JSON Requests
+* REST API Implementation
 
 FRONTEND
 
@@ -20,7 +22,7 @@ FRONTEND
 * Tour / Guide like Shepherd
 * BotUI js integration
 * Different config per app by domain
-* All APIs in one place
+* Simpler JSON Request Func
 
 File Uploader
 

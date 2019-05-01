@@ -684,12 +684,6 @@ function notify( text, duration ) {
     },duration);
 }
 
-function toggle_class_on( e ){
-    $('body').on('click',e,function(){
-        $(this).toggleClass('on');
-    })
-}
-
 function slide_toggle( e, t ){
     $('body').on('click',e,function(){
         $(this).find(t).slideToggle();
@@ -700,6 +694,35 @@ function reload( time_seconds ){
 
     var t = time_seconds !== undefined && time_seconds !== '' ? time_seconds * 1000 : 5000;
     setTimeout(function(){ location.reload() },t);
+
+}
+
+function post( action, data, notif, reload ) {
+
+    var d = $.extend({}, {'action':action}, data);
+
+    $.post( location.origin, d, function(r) {
+
+        try {
+
+            var r = JSON.parse( r );
+
+            if( r[0] === 1 && notif !== '' ) {
+
+                notify( r[1], notif );
+
+            }
+
+            if( r[0] === 1 && reload !== '' ) {
+
+                setTimeout(function(){ location.reload() }, reload * 1000 );
+
+            }
+
+        }
+        catch( e ) { elog(e); }
+
+    })
 
 }
 
