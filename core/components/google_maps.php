@@ -4,21 +4,26 @@ class GMaps {
 
     public function google_maps() {
         $k = get_option( 'google_maps_key' );
+        if( empty( $k ) ){
+            $k = get_config('google_maps_key');
+        }
         if( !empty( $k ) ) {
             ?>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo $k; ?>"></script>
+<script async defer src="//maps.googleapis.com/maps/api/js?key=<?php echo $k; ?>" type="text/javascript"></script>
             <?php
 } ?>
 <script>
     $(document).ready(function(){
-        $.each( $('[data-map]'), function( i,e ){
-            GoogleMap(e);
-        })
-    })
+        setTimeout(function(){
+            $.each( $('[data-map]'), function( i,e ){
+                GoogleMap(e);
+            })
+        },500)
+    });
     var loc = {lat: 25.212212, lng: 55.275135};
     function GoogleMap(e, key = '<?php echo $k; ?>'  ) {
-        if(key === ''){ alert('Google Maps Key Error, Option \'google_maps_key\' is missing in options database or pass key as second parameter in GoogleMaps(e, key)'); return }
-        var con = { center: loc }
+        if(key === ''){ elog('Google Maps Key Error, Option \'google_maps_key\' is missing in options database or pass key as second parameter in GoogleMaps(e, key)'); return }
+        var con = { center: loc };
         if($(e).data('value')){
             var d = $(e).data('value');
             d = d.split(',');
@@ -111,7 +116,7 @@ class GMaps {
                         $('.chosen').trigger("chosen:updated");
                     }
                 } else {
-                    window.alert('Geocoder failed due to: ' + status);
+                    elog('Geocoder failed due to: ' + status);
                 }
             })
         }

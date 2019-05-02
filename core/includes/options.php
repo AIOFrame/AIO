@@ -43,10 +43,13 @@ function add_option( $name, $value, $user_id = 0 ) {
 }
 
 function get_option( $name, $user = false, $key = 'name' ) {
-    $q = $key == 'id' ? 'option_id = "'.$name.'"' : 'option_name = "'.$name.'"';
-    $query = $user == 1 ? $q . ' AND option_scope = "'.$_SESSION['user_id'].'"' : $q;
-    $o = select( 'options', 'option_value', $query, 1 );
-    return $o ? $o['option_value'] : false;
+    global $db;
+    if( $db ) {
+        $q = $key == 'id' ? 'option_id = "'.$name.'"' : 'option_name = "'.$name.'"';
+        $query = $user == 1 ? $q . ' AND option_scope = "'.$_SESSION['user_id'].'"' : $q;
+        $o = select( 'options', 'option_value', $query, 1 );
+        return $o ? $o['option_value'] : false;
+    }
 }
 
 
