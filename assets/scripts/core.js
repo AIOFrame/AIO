@@ -43,34 +43,9 @@ $(document).ready(function(){
 
     // Scroll Save
 
-    var scrollTimer;
+    restore_scroll();
 
-    $('[data-save-scroll]').each(function(a,b){
-
-        if( $(b).attr('id') !== undefined ) {
-
-            var scroll_pos = localStorage[ $(b).attr('id') + '_scroll' ];
-            $(b).scrollTop(scroll_pos);
-
-        }
-
-    })
-
-    .on( 'scroll', function(e){
-
-        clearTimeout(scrollTimer);
-        scrollTimer = setTimeout(function() {
-
-            var id = $($(e)[0].target).attr('id');
-            if( id !== undefined ) {
-
-                localStorage[ id + '_scroll' ] = $($(e)[0].target).scrollTop();
-
-            }
-
-        }, 250);
-
-    });
+    store_scroll();
 
     // TABS & STEPS
     var pagepath = location.href.replace(location.origin+'/','').replace('/','_');
@@ -340,6 +315,38 @@ function unformat_number(a) {
 
 function ufn( a ){
     return unformat_number( a );
+}
+
+function store_scroll() {
+    var scrollTimer;
+    $('[data-save-scroll]').on( 'scroll', function(e){
+
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(function() {
+
+            var id = $($(e)[0].target).attr('id');
+            if (id !== undefined) {
+
+                localStorage[id + '_scroll'] = $($(e)[0].target).scrollTop();
+
+            }
+
+        }, 250);
+
+    });
+}
+
+function restore_scroll() {
+    $('[data-save-scroll]').each(function(a,b){
+
+        if( $(b).attr('id') !== undefined ) {
+
+            var scroll_pos = localStorage[ $(b).attr('id') + '_scroll' ];
+            $(b).scrollTop(scroll_pos);
+
+        }
+
+    })
 }
 
 function file_ui() {

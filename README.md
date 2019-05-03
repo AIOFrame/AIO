@@ -1,3 +1,5 @@
+Licensed under GNU GPL v3.0
+
 #### Default Defines
 COREPATH
 Main Application Server ROOT Directory Path
