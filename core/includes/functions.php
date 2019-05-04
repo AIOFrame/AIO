@@ -404,13 +404,14 @@ function select_options( $options = '', $selected = '', $placeholder = '' ) {
     if( is_array($d) ){
         if (is_assoc($d)) {
             foreach ($d as $k => $t) {
-                if( is_array( $selected ) && in_array( $k, $selected ) ) { $s = 'selected'; } else if( $k == $s ) { $s = 'selected'; } else { $s = ''; }
-                echo '<option value="' . $k . '" ' . $s . '>' . $t . '</option>';
+                if( is_array( $s ) && in_array( $k, $s ) ) { $sel = 'selected'; } else if( $k == $s ) { $sel = 'selected'; } else { $sel = ''; }
+                echo '<option value="' . $k . '" ' . $sel . '>' . $t . '</option>';
             }
+            !empty($sel) ? elog($s) : '';
         } else {
             foreach ($d as $t) {
-                if( is_array( $selected ) && in_array( $t, $selected ) ) { $s = 'selected'; } else if( $t == $s ) { $s = 'selected'; } else { $s = ''; }
-                echo '<option value="' . $t . '" ' . $s . '>' . $t . '</option>';
+                if( is_array( $s ) && in_array( $t, $s ) ) { $sel = 'selected'; } else if( $t == $s ) { $sel = 'selected'; } else { $sel = ''; }
+                echo '<option value="' . $t . '" ' . $sel . '>' . $t . '</option>';
             }
 
         }

@@ -197,10 +197,11 @@ function get_language_files() {
         if( is_array( $n ) ) {
             $langs = get_languages();
             if (is_array($langs)) {
+                $data['en'] = 'English';
                 foreach ($n as $ln) {
                     $data[$ln] = $langs[$ln];
                 }
-                return is_array($data) ? $data : [];
+                return $data;
             } else {
                 return [];
             }
