@@ -12,7 +12,7 @@ $file = $ui_params['file'] == '' ? ini_get('error_log') : $ui_params['file'];
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?php echo 'E Log - '.APPNAME; ?></title>
-    <?php get_styles(['reset','aio_ui','elog','shorts']);
+    <?php get_styles(['reset','aio_ui','elog','micro']);
     get_script('jquery');
     font(['Lato','300,500']); ?>
 </head><body>

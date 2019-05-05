@@ -29,13 +29,13 @@
 .df.fg>div { flex-grow: 1 }
 
 .vat { vertical-align: top }
-.vabl { vertical-align: baseline }
+.val { vertical-align: baseline }
 .vam { vertical-align: middle }
 .vab { vertical-align: bottom }
 
 .fw,.ww { width:100%; }
 .fv { width:100vw; height:100vh }
-.wa { width:auto; }
+.wa { width:auto }
 .ol { white-space: nowrap; overflow:hidden }
 
 /* Appearance */
@@ -44,7 +44,7 @@
 .op2{ opacity: .2 }
 .op3{ opacity: .3 }
 .op5{ opacity: .5 }
-.op9{ opacity: .98 }
+.op9{ opacity: .9 }
 .op1{ opacity: 1 }
 
 .bt1 { border-top:1px solid }
@@ -60,9 +60,9 @@
 
 /* Text Positions */
 
-.tal { text-align:left; }
-.tac { text-align:center; }
-.tar { text-align:right; }
+.tal { text-align:left }
+.tac { text-align:center }
+.tar { text-align:right }
 .df.l { justify-content: flex-start }
 .df.c { justify-content: center }
 .df.r { justify-content: flex-end }
