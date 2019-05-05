@@ -120,37 +120,41 @@ function save_post_options( $options ){
 
 // Inserts data into table Ex: insert( 'users', array( 'name', 'age' ), array( 'ahmed', '38') );
 function insert( $table, $names, $values ){
-    if( is_array( $names ) && is_array( $values ) ) {
-        if( count( $names ) == count( $values ) ){
-            global $db;
-            $names = implode( ',', $names );
-            $fv = "'";
-            foreach( $values as $value ){
-                if( is_array( $value ) ){
-                    $fv .= implode(',',$value)."','";
-                } else {
-                    $fv .= $value."','";
+    global $db;
+    if( $db ) {
+        if (is_array($names) && is_array($values)) {
+            if (count($names) == count($values)) {
+                $names = implode(',', $names);
+                $fv = "'";
+                foreach ($values as $value) {
+                    if (is_array($value)) {
+                        $fv .= implode(',', $value) . "','";
+                    } else {
+                        $fv .= $value . "','";
+                    }
                 }
-            }
-            $fv = substr($fv,0, -2);
-            $q = "INSERT INTO $table ($names) VALUES ($fv)";
+                $fv = substr($fv, 0, -2);
+                $q = "INSERT INTO $table ($names) VALUES ($fv)";
 
-            $df = debug_backtrace();
-            $df = !empty($df) && is_array($df) && isset($df[0]['file']) && isset($df[0]['line']) ? '<<'.$df[0]['line'].'>> {'.str_replace(COREPATH,'',$df[0]['file']).'}' : '';
+                $df = debug_backtrace();
+                $df = !empty($df) && is_array($df) && isset($df[0]['file']) && isset($df[0]['line']) ? '<<' . $df[0]['line'] . '>> {' . str_replace(COREPATH, '', $df[0]['file']) . '}' : '';
 
-            elog('|INSERT| '.$q.' '.$df.PHP_EOL.PHP_EOL);
-            //return $q;
-            $query = $db ? mysqli_query( $db, $q ) : '';
-            if( $query ) {
-                return mysqli_insert_id( $db );
+                elog('|INSERT| ' . $q . ' ' . $df . PHP_EOL . PHP_EOL);
+                //return $q;
+                $query = $db ? mysqli_query($db, $q) : '';
+                if ($query) {
+                    return mysqli_insert_id($db);
+                } else {
+                    elog('|ERROR| ' . $table . ' ' . mysqli_error($db));
+                    return false;
+                }
             } else {
-                elog( '|ERROR| '.$table.' '.mysqli_error($db) );
+                elog($table . ' has ' . count($names) . ' columns but ' . count($values) . ' values provided');
                 return false;
             }
-        } else {
-            elog( $table. ' has '. count($names) . ' columns but '. count($values) . ' values provided');
-            return false;
         }
+    } else {
+        return [];
     }
 }
 
@@ -210,42 +214,46 @@ function total( $table, $cols = '*', $where = '', $limit = 0, $offset = 0 , $gro
 // TODO: Shift cols after where
 function select( $table, $cols = '*', $where = '', $limit = 0, $offset = 0 , $group = '', $count = false , $order_by = '', $sort = '') {
     global $db;
-    $cols = $cols == "" ? "*" : $cols;
-    if( !is_array( $table ) ){
-        $o = $count ? "SELECT COUNT('". $cols ."') FROM $table " : "SELECT ". $cols ." FROM $table ";
-    } else {
-        $o = "SELECT ". $cols ." FROM $table[1] $table[0] $table[2] ON $table[1].$table[3] = $table[2].$table[4] ";
-    }
-    $o .= !empty( $where ) && $where !== '' ? ' WHERE '.$where : '';
-    $o .= !empty( $group ) ?  "GROUP BY ".$group: ""  ;
-    $o .= !empty( $order_by ) && $order_by !== '' ? ' ORDER BY '.$order_by : '';
-    $o .= !empty( $sort ) && $sort !== '' && !empty( $order_by ) && $order_by !== '' ? ' '.$sort : '';
-    $o .= $limit >= 1 ? ' LIMIT '.$limit : '';
-    $o .= $offset > 1 ? ' OFFSET '.$offset : '';
-
-    $df = debug_backtrace();
-    $df = !empty($df) && is_array($df) && isset($df[0]['file']) && isset($df[0]['line']) ? '<<'.$df[0]['line'].'>> {'.str_replace(COREPATH,'',$df[0]['file']).'}' : '';
-
-    elog('|SELECT| '.$o.' '.$df.PHP_EOL.PHP_EOL);
-
-    $q = $db ? mysqli_query($db, $o) : '';
-
-    if( $q ){
-        $data = [];
-        while ($row = $q->fetch_assoc()) {
-            $data[] = $row;
+    if( $db ) {
+        $cols = $cols == "" ? "*" : $cols;
+        if (!is_array($table)) {
+            $o = $count ? "SELECT COUNT('" . $cols . "') FROM $table " : "SELECT " . $cols . " FROM $table ";
+        } else {
+            $o = "SELECT " . $cols . " FROM $table[1] $table[0] $table[2] ON $table[1].$table[3] = $table[2].$table[4] ";
         }
-        if( $count && !empty( $data ) ){
-            return end( $data[0] );
-        } else if( !empty( $data ) ){
-            if( $limit == 1 ){
-                return $data[0];
-            } else {
-                return $data;
+        $o .= !empty($where) && $where !== '' ? ' WHERE ' . $where : '';
+        $o .= !empty($group) ? "GROUP BY " . $group : "";
+        $o .= !empty($order_by) && $order_by !== '' ? ' ORDER BY ' . $order_by : '';
+        $o .= !empty($sort) && $sort !== '' && !empty($order_by) && $order_by !== '' ? ' ' . $sort : '';
+        $o .= $limit >= 1 ? ' LIMIT ' . $limit : '';
+        $o .= $offset > 1 ? ' OFFSET ' . $offset : '';
+
+        $df = debug_backtrace();
+        $df = !empty($df) && is_array($df) && isset($df[0]['file']) && isset($df[0]['line']) ? '<<' . $df[0]['line'] . '>> {' . str_replace(COREPATH, '', $df[0]['file']) . '}' : '';
+
+        elog('|SELECT| ' . $o . ' ' . $df . PHP_EOL . PHP_EOL);
+
+        $q = $db ? mysqli_query($db, $o) : '';
+
+        if ($q) {
+            $data = [];
+            while ($row = $q->fetch_assoc()) {
+                $data[] = $row;
             }
+            if ($count && !empty($data)) {
+                return end($data[0]);
+            } else if (!empty($data)) {
+                if ($limit == 1) {
+                    return $data[0];
+                } else {
+                    return $data;
+                }
+            }
+        } else {
+            elog('|ERROR| ' . mysqli_error($db) . ' ' . $df);
         }
     } else {
-        elog('|ERROR| '.mysqli_error($db).' '.$df);
+        return [];
     }
 }
 

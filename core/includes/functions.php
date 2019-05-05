@@ -393,6 +393,10 @@ function APPURL( $link ) {
     echo APPURL.$link;
 }
 
+function back_link( $url = './' ) {
+    echo '<a id="back" class="nico" href="'.$url.'"></a>';
+}
+
 // Renders an array as <option> for <select> element
 
 function select_options( $options = '', $selected = '', $placeholder = '' ) {

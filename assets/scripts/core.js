@@ -625,10 +625,14 @@ function process_data( e ){
     });
 }
 
-function edit_data( e, modal ) {
+function edit_data( e, modal, on ) {
 
     var t = $(e).data('t') ? $($(e).data('t')) : $(modal);
     var data = $(e).data('data');
+
+    if( on !== undefined ) {
+        $(t).addClass('on');
+    }
 
     $('article').addClass('fade');
 
