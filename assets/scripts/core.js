@@ -718,17 +718,21 @@ function post( action, data, notif, reload ) {
 
             var r = JSON.parse( r );
 
-            if( r[0] === 1 && notif !== '' ) {
+            if( notif !== '' ) {
 
                 notify( r[1], notif );
 
             }
 
-            if( r[0] === 1 && reload !== '' ) {
+            if( r[0] === 1 && reload !== undefined ) {
 
                 setTimeout(function(){ location.reload() }, reload * 1000 );
 
             }
+
+            elog(r);
+
+            return r[0] === 1;
 
         }
         catch( e ) { elog(e); }

@@ -72,32 +72,43 @@ class ACCESS {
 
         // Checks if user with same login name or email exists
         $email = !empty($d['email']) ? $d['email'] : $user_login;
-        $uq = select( 'users', 'user_id', 'user_login = "' . $user_login . '" OR user_email = "' . $email . '"', 1 );
+
+        if( !is_numeric( $user_login ) ) {
+            $uq = select( 'users', 'user_id', 'user_login = "' . $user_login . '" OR user_email = "' . $email . '"', 1 );
+        } else {
+            $uq['user_id'] = $user_login;
+        }
+
         if ( is_array( $uq ) ) {
+
             $uq = $uq['user_id'];
-            $n = !empty( $d['name'] ) ? $d['name'] : ucwords( str_replace( '_', ' ', $user_login ) );
-            $user_keys = [ 'user_login', 'user_name', 'user_data' ];
-            $user_vals = [ $user_login, $n, serialize($d) ];
-            if( !empty( $columns ) && is_assoc( $columns ) ){
-                foreach( $columns as $k => $v ){
-                    $user_keys[] = $k;
-                    $user_vals[] = $v;
+            $n = !empty($d['name']) ? $d['name'] : ucwords(str_replace('_', ' ', $user_login));
+            if( !is_numeric( $user_login ) ) {
+                $user_keys = ['user_login', 'user_name', 'user_data'];
+                $user_vals = [$user_login, $n, serialize($d)];
+                if (!empty($columns) && is_assoc($columns)) {
+                    foreach ($columns as $k => $v) {
+                        $user_keys[] = $k;
+                        $user_vals[] = $v;
+                    }
                 }
+                $nu = update( 'users', $user_keys, $user_vals, 'user_id = "'.$uq.'"' );
+            } else {
+                $nu = 1;
             }
-            $nu = update( 'users', $user_keys, $user_vals, 'user_id = "'.$uq.'"' );
             if( !empty( $password ) && $password !== '' ){
                 if ( $nu ) {
                     // Sets the user's access data
                     $um = update( 'access', ['access_pass'], [ password_hash( $password, PASSWORD_BCRYPT, ['cost' => 12] )], 'access_uid = "'.$uq.'"' );
-                    return $um ? [true, $nu] : [false, 'A new User could not be created'];
+                    return $um ? [true, $nu] : [0, 'Update Successful'];
                 } else {
-                    return [false, 'Issue when creating a new User'];
+                    return [1, 'Failed to update'];
                 }
             } else {
                 if( $nu ){
-                    return [true, $nu];
+                    return [1, $nu];
                 } else {
-                    return [false, 'Issue when creating a new User'];
+                    return [0, 'Failed to update'];
                 }
             }
         } else {
@@ -346,10 +357,6 @@ function update_pass( $code = '', $password = '' ) {
             echo json_encode($access->update_password( $code, $password ));
         }
     }
-}
-
-function change_pass( $u = '', $p = '' ) {
-
 }
 
 function get_current_user_id() {

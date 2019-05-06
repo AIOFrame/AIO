@@ -395,13 +395,13 @@ function process_data() {
             if ($query) {
                 echo json_encode([1, T('Updated Successfully')]);
             } else {
-                echo json_encode([0, T('Could not update data, please try again or contact support')]);
+                echo json_encode([0, T('not updated, maybe data is empty')]);
             }
         } else {
             if( $query ){
                 echo json_encode([1, T('Added Successfully')]);
             } else {
-                echo json_encode([0, T('Could not insert data, please try again or contact support')]);
+                echo json_encode([0, T('not stored, please try again or contact support')]);
             }
         }
     } else {
