@@ -102,7 +102,17 @@ function app_loader() {
         !defined( 'APPDEBUG' ) ? define( 'APPDEBUG', $debug ) : '';
         if( APPDEBUG ) {
             error_reporting(E_ALL);
-            ini_set( 'error_log', APPPATH . '/storage/log/error_log.log' );
+            $log_dir = APPPATH . 'storage/log';
+            $elog = $log_dir . '/error_log.log';
+            if( !file_exists( $log_dir )){
+                mkdir( $log_dir, 0700 );
+            }
+            if( !file_exists( $elog )) {
+                $file = fopen($elog, 'w');
+                fwrite($file, '');
+                fclose($file);
+            }
+            ini_set( 'error_log', APPPATH . 'storage/log/error_log.log' );
         } else {
             error_reporting(0);
         }

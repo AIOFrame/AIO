@@ -2,7 +2,7 @@
 
 global $ui_params;
 
-$file = $ui_params['file'] == '' ? ini_get('error_log') : $ui_params['file'];
+$file = isset( $ui_params['file'] ) && $ui_params['file'] !== '' ? $ui_params['file'] : ini_get('error_log');
 
     if( $file = fopen( $file, 'r' ) ) { ?>
 <!doctype html>
