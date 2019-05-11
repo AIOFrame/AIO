@@ -100,7 +100,12 @@ function app_loader() {
 
         $debug = isset( $c['debug'] ) && !empty( $c['debug'] ) ? $c['debug'] : false; // Defines if the Application is under development mode
         !defined( 'APPDEBUG' ) ? define( 'APPDEBUG', $debug ) : '';
-        APPDEBUG ? error_reporting(E_ALL) : error_reporting(0);
+        if( APPDEBUG ) {
+            error_reporting(E_ALL);
+            ini_set( 'error_log', APPPATH . '/storage/log/error_log.log' );
+        } else {
+            error_reporting(0);
+        }
 
         $ekey = isset( $c['key'] ) && !empty( $c['key'] ) ? $c['key'] : str_replace(' ','_',defined('APPNAME') ); // Defines the Application Encryption Key
         !defined( 'EKEY' ) ? define( 'EKEY', $ekey ) : '';

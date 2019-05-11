@@ -6,7 +6,7 @@
             <div class="tab" data-t="#aio_sms"><?php E('SMS'); ?></div>
             <div class="tab" data-t="#aio_other"><?php E('Other'); ?></div>
         </div>
-        <div class="tab_data p20">
+        <div class="tab_data pt20">
             <div id="aio_pays">
                 <div class="row mb20">
                     <div class="col-lg-6 col-6">

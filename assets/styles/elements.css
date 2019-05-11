@@ -751,13 +751,14 @@ td .files_preview>.file>div.file, td .file_preview>.file>div.file {
 
 .acc {
     border: 1px solid #ddd;
-    border-radius: 10px;
+    border-radius: 4px;
     overflow: hidden;
 }
 .acc .head {
     padding: 15px 20px;
     border-bottom: 1px solid #ddd;
     cursor: pointer;
+    background:url('../images/select.svg') no-repeat calc(100% - 6px) / 20px;
 }
 .acc .body {
     padding: 0;
