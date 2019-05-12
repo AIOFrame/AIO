@@ -10,28 +10,3 @@ button.backup {
 button.backup:hover {
     box-shadow: 0 0 6px rgba(0,125,204,.3),0 4px 6px rgba(0,125,204,.3)
 }
-.b {
-    padding:20px;
-    background: #fff;
-    display: block;
-    border-radius: 15px;
-    box-shadow: 5px 5px 60px rgba(0,0,0,.05);
-    margin: 20px 0 0;
-    transition: .6s;
-    position: relative;
-}
-.b .dt {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    font-weight: lighter;
-    font-size: 13px;
-    background: #ddd;
-    color: #fff;
-    border-radius: 6px;
-    padding: 4px 8px;
-    transition: .6s;
-}
-.b:hover .dt {
-    background: #bbb
-}

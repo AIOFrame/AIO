@@ -1,4 +1,4 @@
-body, div, p, input, select {
+body, div, p, input, select, button {
     font-family: 'Lato', sans-serif;
 }
 body {
@@ -90,10 +90,79 @@ header select {
     color:#fff;
     background:#000;
 }
-
 button {
     margin: 0;
     border-radius:4px;
-    background:#ddd;
     padding:6px 20px;
+}
+
+/* BLOCKS */
+
+.b {
+    background:#fff;
+    display: block;
+    border-radius:15px;
+    box-shadow:5px 5px 60px rgba(0,0,0,.05);
+    margin: 0 0 20px;
+    transition:.6s;
+    position: relative;
+    box-sizing: border-box;
+}
+.b>.l {
+    padding: 50px 15px 15px;
+    font-size: 16px;
+}
+.b .a, .b .b {
+    position: absolute;
+    top:15px;
+    left: 15px;
+    background: none;
+    display: flex;
+    padding: 0;
+}
+.b .b {
+    left:auto;
+    right: 15px;
+}
+.b .a>div {
+    padding:5px 8px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color:#fff;
+    font-weight: lighter;
+}
+.b .b>div, .b .b>button {
+    font-weight: lighter;
+    font-size: 13px;
+    border-radius:6px;
+    padding:4px 8px;
+    transition:.6s;
+    cursor: pointer;
+    color:#fff;
+}
+.b .b>div, .b .b>button {
+    border:1px solid #5691b0;
+    color:#5691b0;
+    margin-left: 15px;
+}
+.b .b>div:hover, .b .b>button:hover {
+    background:#5691b0;
+    color:#fff;
+}
+.b .ft {
+    display: flex;
+    font-size: 13px;
+}
+.b .ft>div {
+    flex:0 0 auto;
+    max-width:50%;
+    flex-grow:1;
+    padding: 8px 15px 12px;
+    box-sizing:border-box;
+    font-weight: lighter;
+    border-top: 1px solid #ebebeb;
+}
+.b .ft>div:last-child {
+    text-align: right;
 }

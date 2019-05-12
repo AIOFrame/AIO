@@ -12,15 +12,16 @@ $file = isset( $ui_params['file'] ) && $ui_params['file'] !== '' ? $ui_params['f
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?php echo 'E Log - '.APPNAME; ?></title>
+    <link rel="shortcut icon" href="<?php echo APPURL . 'assets/images/aio.png'; ?>">
     <?php get_styles(['reset','aio_ui','log','micro']);
     get_script('jquery');
     font(['Lato','300,500']); ?>
 </head>
-<body class="log debug">
+<body <?php body_class('debug'); ?>>
     <header>
         <div class="one">
             <div id="back" onclick="window.history.back();"></div>
-            <a href="<?php APPURL; ?>" id="brand">AIO <?php echo strtoupper(APPNAME); ?> ERROR LOG</a>
+            <a href="" id="brand">AIO <?php echo strtoupper(APPNAME); ?> ERROR LOG</a>
         </div>
         <div class="two tar">
             <select name="type" id="type">
