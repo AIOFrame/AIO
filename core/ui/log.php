@@ -12,26 +12,32 @@ $file = isset( $ui_params['file'] ) && $ui_params['file'] !== '' ? $ui_params['f
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?php echo 'E Log - '.APPNAME; ?></title>
-    <?php get_styles(['reset','aio_ui','elog','micro']);
+    <?php get_styles(['reset','aio_ui','log','micro']);
     get_script('jquery');
     font(['Lato','300,500']); ?>
-</head><body>
+</head>
+<body class="log debug">
     <header>
         <div class="one">
-            <a href="<?php APPURL; ?>" id="brand">TO ERR IS HUMAN</a>
+            <div id="back" onclick="window.history.back();"></div>
+            <a href="<?php APPURL; ?>" id="brand">AIO <?php echo strtoupper(APPNAME); ?> ERROR LOG</a>
         </div>
         <div class="two tar">
+            <select name="type" id="type">
+                <?php select_options(['a'=>'All','l'=>'Log','e'=>'Error','i'=>'Insert','s'=>'Select','u'=>'Update','d'=>'Delete']); ?>
+            </select>
             <div class="search">
                 <input type="text" placeholder="Search...">
-                <button type="stack" title="Search Stack Overflow">SO</button>
+                <button type="button" title="Search Stack Overflow">SO</button>
             </div>
             <button class="refresh">RELOAD</button>
             <button class="clear">CLEAR</button>
         </div>
     </header>
-    <div class="log" data-save-scroll>
+    <article>
+        <div class="error_log" data-save-scroll>
 <?php
-
+        $x = 0;
         while ( $l = fgets( $file )) {
 
             // Extract Date
@@ -57,25 +63,33 @@ $file = isset( $ui_params['file'] ) && $ui_params['file'] !== '' ? $ui_params['f
             $log = str_replace( '[' . $date . '] ', '', str_replace( '|' . $type . '| ', '', str_replace( '<<' . $line . '>> ', '', str_replace( '{' . $doc . '}', '', $l ) ) ) );
 
             if( !empty( $date ) && !empty( $log ) ) { ?>
-                <div class="b <?php echo strtolower( $type ); ?>">
+                <div class="b <?php echo strtolower($type[0]); ?>">
                     <div class="a">
                         <div class="s"><?php echo $type; ?></div>
-                        <?php echo isset( $table ) ? '<div class="t">' . strtoupper( $table ) . '</div>' : ''; ?>
+                        <?php echo isset( $table ) ? '<div class="t">' . $table . '</div>' : ''; ?>
                     </div>
-                    <div class="dt"><?php echo $edate; ?></div>
-                    <div class="c"><?php echo $log; ?></div>
-                    <div class="f">
+                    <div class="b">
+                        <div class="co" data-clipboard-target="#l<?php echo $x; ?>">COPY LOG</div>
+                        <div class="go">GOOGLE</div>
+                        <div class="so">STACK OF</div>
+                    </div>
+                    <div id="l<?php echo $x; ?>" class="l"><?php echo $log; ?></div>
+                    <div class="ft">
                         <div class="l"><?php echo !empty( $line ) ? 'Line - '.$line : ''; ?></div>
-                        <div class="d"><?php echo $doc; ?></div>
+                        <div class="f"><?php echo $doc; ?></div>
+                        <div class="d"><?php echo $edate; ?></div>
                     </div>
                 </div>
-            <?php }
-        }
-
-        get_scripts(['core','elog']);
-
-        echo '</div><div id="notification"><h4 class="title"></h4><div class="close"></div><div class="message"></div></div></body></html>';
-
-        fclose( $file );
-
-    }
+            <?php $x++; }
+        } ?>
+        </div>
+        <?php get_scripts(['core','clipboard','aio_ui','log']); ?>
+    </article>
+    <div id="notification">
+        <h4 class="title"></h4>
+        <div class="close"></div>
+        <div class="message"></div>
+    </div>
+</body>
+</html>
+<?php fclose( $file ); }
