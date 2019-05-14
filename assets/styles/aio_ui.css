@@ -132,6 +132,10 @@ button {
     color:#fff;
     font-weight: lighter;
 }
+.b .a>div:first-child {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
 .b .b>div, .b .b>button {
     font-weight: lighter;
     font-size: 13px;

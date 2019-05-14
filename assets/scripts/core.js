@@ -109,8 +109,17 @@ $(document).ready(function(){
 
         clipboard.on('success', function(e) {
             notify('Copied!',1);
-        })
+        });
+
+        clipboard.on('error', function(e) {
+            elog('Action:', e.action);
+            elog('Trigger:', e.trigger);
+        });
     }
+
+    $(body).on('click',['data-paste'],function(){
+        elog( paste( $(this).data('paste') ) );
+    });
 
     if( $.fn.select2 !== undefined ){
         $('select.easy, select.select2').select2({ width:'100%' });
@@ -738,6 +747,16 @@ function post( action, data, notif, reload ) {
         catch( e ) { elog(e); }
 
     })
+
+}
+
+async function paste( e ) {
+    var t = navigator.clipboard.readText();
+    $(e).val(t);
+}
+
+// TODO: Search filter to filter repeating elements for specific text
+function search_filter( repeater, targets, c ) {
 
 }
 

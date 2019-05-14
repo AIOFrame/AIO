@@ -43,8 +43,6 @@
 }
 .b.s .s {
     background:forestgreen;
-    border-top-left-radius: 6px;
-    border-bottom-left-radius: 6px;
 }
 .b.d .s, .b.e .s {
     background:firebrick;
@@ -52,8 +50,8 @@
 .b.e {
     border:1px solid firebrick;
 }
-.b.u .s {
-    background: #ffb605;
+.b.l .s {
+    background: #ff7705;
 }
 .b.i .s {
     background: #0086cb;
