@@ -428,6 +428,9 @@ td .files_preview>.file>div.file, td .file_preview>.file>div.file {
     text-transform:uppercase;
     transition:.3s;
 }
+body.d .tab {
+    box-shadow: 5px 0 45px #000;
+}
 .tabs.material, .tab_heads.material {
     width:100%;
     display: block;
@@ -440,6 +443,13 @@ td .files_preview>.file>div.file, td .file_preview>.file>div.file {
     line-height: normal;
     height:auto;
     color:#000;
+}
+.tabs.material .tab.l {
+    padding-left: 0;
+}
+.tabs.material .tab.l.on:after {
+    width:calc(100% - 20px);
+    left:0;
 }
 .tabs.material .tab.on, .tab_heads.material .tab.on {
     color:#000;
@@ -754,11 +764,17 @@ td .files_preview>.file>div.file, td .file_preview>.file>div.file {
     border-radius: 4px;
     overflow: hidden;
 }
+body.d .acc {
+    border:1px solid #242424;
+}
 .acc .head {
     padding: 15px 20px;
     border-bottom: 1px solid #ddd;
     cursor: pointer;
     background:url('../images/select.svg') no-repeat calc(100% - 6px) / 20px;
+}
+body.d .acc .head {
+    border-bottom: 1px solid #242424;
 }
 .acc .body {
     padding: 0;

@@ -481,7 +481,8 @@ function render_checkboxs( $name, $values = [], $attr = '', $label_first = 0, $p
 
 // Render Input Elements
 
-function render_input( $type = 'text', $id, $label, $placeholder = '', $value = '', $attrs = '', $pre = '', $post = '' ){
+function render_input( $type, $id, $label, $placeholder = '', $value = '', $attrs = '', $pre = '', $post = '' ){
+    $type = $type == '' ? 'text' : $type;
     if( is_numeric( $pre ) ){
         $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
         $post = '</div>';
@@ -492,6 +493,12 @@ function render_input( $type = 'text', $id, $label, $placeholder = '', $value = 
     switch( $type ){
         case 'textarea':
             $input = '<textarea id="'.$id.'" name="'.$id.'" "'.$ph.$at.'">'.$va.'</textarea>';
+            break;
+        case 'slide':
+        case 'toggle':
+            $input = '<div><input type="hidden" id="'.$id.'" name="'.$id.'" '.$at.$ph.$va.'>';
+            $ch = $value == 'true' || $value == '1' ? 'checked' : '';
+            $input .= '<input type="checkbox" data-check="#'.$id.'" class="slide m" '.$ch.'></div>';
             break;
         default:
             $input = '<input type="'.$type.'" id="'.$id.'" name="'.$id.'" '.$at.$ph.$va.'>';

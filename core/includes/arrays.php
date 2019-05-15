@@ -25,7 +25,7 @@ function skell( $s ){
 // Checks if array is associated array
 
 function is_assoc( $a ) {
-    return array_keys( $a ) !== range(0, count( $a ) - 1);
+    return is_array( $a ) ? array_keys( $a ) !== range(0, count( $a ) - 1) : false;
 }
 
 // Restructures an array grouped by a common of key value

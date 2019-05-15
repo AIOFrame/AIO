@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit9a8a510d165ee4b7c3064fd72e4569c8
+class ComposerStaticInit8b0d3eb4385ba044ca3813b6f539571b
 {
     public static $files = array (
         '3f8bdd3b35094c73a26f0106e3c0f8b2' => __DIR__ . '/../..' . '/lib/SendGrid.php',
@@ -43,8 +43,8 @@ class ComposerStaticInit9a8a510d165ee4b7c3064fd72e4569c8
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit9a8a510d165ee4b7c3064fd72e4569c8::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit9a8a510d165ee4b7c3064fd72e4569c8::$prefixDirsPsr4;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit8b0d3eb4385ba044ca3813b6f539571b::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit8b0d3eb4385ba044ca3813b6f539571b::$prefixDirsPsr4;
 
         }, null, ClassLoader::class);
     }

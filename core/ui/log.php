@@ -38,7 +38,7 @@ $file = isset( $ui_params['file'] ) && $ui_params['file'] !== '' ? $ui_params['f
     <article>
         <div class="error_log" data-save-scroll>
 <?php
-        $x = 0;
+        $x = 0; $logger = '';
         while ( $l = fgets( $file )) {
 
             // Extract Date
@@ -61,6 +61,9 @@ $file = isset( $ui_params['file'] ) && $ui_params['file'] !== '' ? $ui_params['f
             // Extract Document
             $doc = get_string_between($l, '{', '}');
 
+            //
+            //$php_errors = ['PHP Notice:','PHP 1.','PHP 2.','PHP 3.','PHP 4.','PHP 5.','PHP 6.','PHP 7.',]
+            //if(  )
             $log = str_replace( '[' . $date . '] ', '', str_replace( '|' . $type . '| ', '', str_replace( '<<' . $line . '>> ', '', str_replace( '{' . $doc . '}', '', $l ) ) ) );
 
             if( !empty( $date ) && !empty( $log ) ) { ?>

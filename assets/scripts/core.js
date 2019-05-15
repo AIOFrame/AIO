@@ -39,6 +39,14 @@ $(document).ready(function(){
                 location.href = $(this).data('href');
             }
         }
+    })
+
+    .on('change','[data-check]',function(){
+
+        var v = $(this).is(':checked') ? 'true' : 'false';
+
+        $($(this).data('check')).val(v);
+
     });
 
     // Scroll Save
@@ -117,9 +125,9 @@ $(document).ready(function(){
         });
     }
 
-    $(body).on('click',['data-paste'],function(){
-        elog( paste( $(this).data('paste') ) );
-    });
+    //$(body).on('click',['data-paste'],function(){
+        //elog( paste( $(this).data('paste') ) );
+    //});
 
     if( $.fn.select2 !== undefined ){
         $('select.easy, select.select2').select2({ width:'100%' });
@@ -750,10 +758,10 @@ function post( action, data, notif, reload ) {
 
 }
 
-async function paste( e ) {
+/* async function paste( e ) {
     var t = navigator.clipboard.readText();
     $(e).val(t);
-}
+} */
 
 // TODO: Search filter to filter repeating elements for specific text
 function search_filter( repeater, targets, c ) {
