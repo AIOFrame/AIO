@@ -8,6 +8,7 @@ function cc_avenue( $amount, $redirect_url = APPURL, $currency = 'AED', $order_i
     $cc = get_options($ccapis);
 
     $test = isset( $cc['pay_test'] ) && $cc['pay_test'] == 'true' ? 1 : 0;
+    $site = str_replace( 'http://', '', str_replace( 'https://', '', str_replace( 'www.', '', APPURL ) ) );
 
     if( $test ) {
         $tid = isset($cc['cc_test_id']) ? $cc['cc_test_id'] : '';
@@ -21,9 +22,8 @@ function cc_avenue( $amount, $redirect_url = APPURL, $currency = 'AED', $order_i
         if( is_array( $cc_auths ) ) {
             foreach( $cc_auths as $cc_auth ) {
                 $cc_data = explode( ',', $cc_auth );
-                if( is_array( $cc_data ) && $cc_data[0].'/' == APPURL ) {
+                if( is_array( $cc_data ) && $cc_data[0].'/' == $site ) {
                     $id = $cc_data[1];
-                    elog( $id );
                     $access = $cc_data[2];
                     $key = $cc_data[3];
                 }
