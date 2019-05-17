@@ -17,6 +17,7 @@ function cc_avenue( $amount, $redirect_url = APPURL, $currency = 'AED', $order_i
         $id = $tid;
         $access = $taccess;
         $key = $tkey;
+        $log = 'Test payment via CC Avenue, Test ID : '. $tid .', Test Access : '. $taccess . ', Test Key : '. $tkey . '.';
     } else if( isset( $cc['cc_auth'] ) && !empty( $cc['cc_auth'] ) ) {
         $cc_auths = explode( '|', $cc['cc_auth'] );
         if( is_array( $cc_auths ) ) {
@@ -29,7 +30,9 @@ function cc_avenue( $amount, $redirect_url = APPURL, $currency = 'AED', $order_i
                 }
             }
         }
+        $log = 'Payment via CC Avenue, ID : '.$id.', Access : '.$access.', Key : '.$key . '.';
     }
+    elog( $log, 'payment', '', '', 'CC Avenue' );
 
     if ( !empty($id) && !empty($key) ) {
 
@@ -117,6 +120,7 @@ function cc_avenue( $amount, $redirect_url = APPURL, $currency = 'AED', $order_i
 
     } else {
 
+        elog( 'Payment ID or Key missing', 'payment', '', '', 'CC Avenue' );
         notify( T('CC Avenue Payment ID or Key Missing from Options, Please consult developer') );
 
     }

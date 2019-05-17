@@ -33,10 +33,16 @@
     background:#aaa;
 }
 
-.b .t {
-    background:#000;
+.b .a>div:first-child {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+.b .a>div:last-child {
     border-top-right-radius: 6px;
     border-bottom-right-radius: 6px;
+}
+.b .t {
+    background:#000;
 }
 .b>.l {
     font-family: monospace;
@@ -50,7 +56,7 @@
 .b.e {
     border:1px solid firebrick;
 }
-.b.l .s {
+.b .s {
     background: #ff7705;
 }
 .b.i .s {

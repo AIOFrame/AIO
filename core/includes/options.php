@@ -137,19 +137,18 @@ function insert( $table, $names, $values ){
                 $q = "INSERT INTO $table ($names) VALUES ($fv)";
 
                 $df = debug_backtrace();
-                $df = !empty($df) && is_array($df) && isset($df[0]['file']) && isset($df[0]['line']) ? '<<' . $df[0]['line'] . '>> {' . str_replace(COREPATH, '', $df[0]['file']) . '}' : '';
 
-                elog('|INSERT| ' . $q . ' ' . $df . PHP_EOL . PHP_EOL);
+                elog( $q, 'insert', $df[0]['line'], $df[0]['file'], $table );
                 //return $q;
                 $query = $db ? mysqli_query($db, $q) : '';
                 if ($query) {
                     return mysqli_insert_id($db);
                 } else {
-                    elog('|ERROR| ' . $table . ' ' . mysqli_error($db));
+                    elog( mysqli_error($db), 'error', $df[0]['line'], $df[0]['file'], $table );
                     return false;
                 }
             } else {
-                elog($table . ' has ' . count($names) . ' columns but ' . count($values) . ' values provided');
+                elog($table . ' has ' . count($names) . ' columns but ' . count($values) . ' values provided', 'error', $df[0]['line'], $df[0]['file'], $table );
                 return false;
             }
         }
@@ -183,16 +182,18 @@ function update( $table, $cols, $values, $where = '' ){
     $logic = substr( $logic, 0, -2 );
 
     $df = debug_backtrace();
-    $df = !empty($df) && is_array($df) && isset($df[0]['file']) && isset($df[0]['line']) ? '<<'.$df[0]['line'].'>> {'.str_replace(COREPATH,'',$df[0]['file']).'}' : '';
+    //$df = !empty($df) && is_array($df) && isset($df[0]['file']) && isset($df[0]['line']) ? '<<'.$df[0]['line'].'>> {'.str_replace(COREPATH,'',$df[0]['file']).'}' : '';
 
     global $db;
     $q = "UPDATE $table SET ". $logic . " where ". $where;
-    elog('|UPDATE| '.$q.' '.$df.PHP_EOL.PHP_EOL);
+
+    elog( $q, 'update', $df[0]['line'], $df[0]['file'], $table );
+
     $dq = $db->query($q);
     if ( $dq === TRUE && $db->affected_rows > 0 ){
         return true;
     } else {
-        elog( '|ERROR| '.$table.' '.mysqli_error($db).' '.$df.PHP_EOL.PHP_EOL );
+        elog( mysqli_error( $db ), 'error', $df[0]['line'], $df[0]['file'], $table );
         return false;
     }
 }
@@ -218,8 +219,10 @@ function select( $table, $cols = '*', $where = '', $limit = 0, $offset = 0 , $gr
         $cols = $cols == "" ? "*" : $cols;
         if (!is_array($table)) {
             $o = $count ? "SELECT COUNT('" . $cols . "') FROM $table " : "SELECT " . $cols . " FROM $table ";
+            $target = $table;
         } else {
             $o = "SELECT " . $cols . " FROM $table[1] $table[0] $table[2] ON $table[1].$table[3] = $table[2].$table[4] ";
+            $target = $table[1];
         }
         $o .= !empty($where) && $where !== '' ? ' WHERE ' . $where : '';
         $o .= !empty($group) ? "GROUP BY " . $group : "";
@@ -229,9 +232,8 @@ function select( $table, $cols = '*', $where = '', $limit = 0, $offset = 0 , $gr
         $o .= $offset > 1 ? ' OFFSET ' . $offset : '';
 
         $df = debug_backtrace();
-        $df = !empty($df) && is_array($df) && isset($df[0]['file']) && isset($df[0]['line']) ? '<<' . $df[0]['line'] . '>> {' . str_replace(COREPATH, '', $df[0]['file']) . '}' : '';
 
-        elog('|SELECT| ' . $o . ' ' . $df . PHP_EOL . PHP_EOL);
+        elog( $o, 'select', $df[0]['line'], $df[0]['file'], $target );
 
         $q = $db ? mysqli_query($db, $o) : '';
 
@@ -250,7 +252,7 @@ function select( $table, $cols = '*', $where = '', $limit = 0, $offset = 0 , $gr
                 }
             }
         } else {
-            elog('|ERROR| ' . mysqli_error($db) . ' ' . $df);
+            elog( mysqli_error( $db ), 'error', $df[0]['line'], $df[0]['file'], $target );
         }
     } else {
         return [];
@@ -318,14 +320,13 @@ function delete( $table, $logic ){
     }
 
     $df = debug_backtrace();
-    $df = !empty($df) && is_array($df) && isset($df[0]['file']) && isset($df[0]['line']) ? '<<'.$df[0]['line'].'>> {'.str_replace(COREPATH,'',$df[0]['file']).'}' : '';
 
-    elog('|DELETE| '.$q.' '.$df.PHP_EOL.PHP_EOL);
+    elog( $q, 'delete', $df[0]['line'], $df[0]['file'], $table );
 
     $del = mysqli_query( $db, $q );
 
     if( mysqli_error( $db ) ) {
-        elog('|ERROR| '.mysqli_error($db));
+        elog( mysqli_error($db), 'delete', $df[0]['line'], $df[0]['file'], $table );
     } else {
         $rows = mysqli_affected_rows( $db );
         return $rows > 0 ? $rows : 0;
@@ -431,6 +432,7 @@ function create_table( $table ){
         // Table Exist Check
         global $db;
         $check = "SHOW TABLES LIKE '".$table[0]."'";
+        $target = $table[0];
 
         $exist = mysqli_query( $db, $check );
 
@@ -454,6 +456,8 @@ function create_table( $table ){
 
         } else {
 
+            $target = $table[0];
+
             $query = 'CREATE TABLE IF NOT EXISTS ' . $table[0] . ' (' . $table[1] . '_id INT(13) AUTO_INCREMENT PRIMARY KEY';
             if (is_array($table[2])) {
                 foreach ($table[2] as $col) {
@@ -471,15 +475,15 @@ function create_table( $table ){
             $query .= ") DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
 
             $df = debug_backtrace();
-            $df = !empty($df) && is_array($df) && isset($df[0]['file']) && isset($df[0]['line']) ? '<<' . $df[0]['line'] . '>> {' . str_replace(COREPATH, '', $df[0]['file']) . '}' : '';
 
-            elog('|TABLE| ' . $query . ' ' . $df . PHP_EOL . PHP_EOL);
+            //elog('|TABLE| ' . $query . ' ' . $df . PHP_EOL . PHP_EOL);
+            elog( $query, 'table', $df[0]['line'], $df[0]['file'], $target );
 
             if (!empty($query)) {
                 if (mysqli_query($db, $query) == 1) {
                     return true;
                 } else {
-                    elog('|ERROR| ' . $table[0] . ' ' . mysqli_error($db));
+                    elog( mysqli_error($db), 'error', $df[0]['line'], $df[0]['file'], $target );
                     return false;
                 }
             }
@@ -518,12 +522,8 @@ function create_column( $table, $column, $type = 'TEXT', $length = '13', $null =
     $query = "ALTER TABLE $table ADD $column $type$length $null";
     $query .= !empty($default) ? ' default "'.$default.'"' : '';
 
-    //elog('[COL] '.$exist);
-
     $df = debug_backtrace();
-    $df = !empty($df) && is_array($df) && isset($df[0]['file']) && isset($df[0]['line']) ? '<<'.$df[0]['line'].'>> {'.str_replace(COREPATH,'',$df[0]['file']).'}' : '';
-
-    //elog('[COL] '.$query.' '.$df.PHP_EOL.PHP_EOL);
+    /* elog( $query, 'column', $df[0]['line'], $df[0]['file'], $table . '-' . $column ); */
 
     global $db;
     $e = mysqli_query( $db, $exist );
@@ -531,7 +531,7 @@ function create_column( $table, $column, $type = 'TEXT', $length = '13', $null =
         if( mysqli_query( $db, $query ) ){
             return true;
         } else {
-            //elog('[ERROR] '.$column.' '.mysqli_error($db));
+            elog( $column.' '.mysqli_error($db), 'error', $df[0]['line'], $df[0]['file'], $table . '-' . $column );
             return false;
         }
     }
@@ -561,9 +561,9 @@ function import_tables( $file ) {
         global $db;
 
         $df = debug_backtrace();
-        $df = !empty($df) && is_array($df) && isset($df[0]['file']) && isset($df[0]['line']) ? '<<'.$df[0]['line'].'>> {'.str_replace(COREPATH,'',$df[0]['file']).'}' : '';
+        //$df = !empty($df) && is_array($df) && isset($df[0]['file']) && isset($df[0]['line']) ? '<<'.$df[0]['line'].'>> {'.str_replace(COREPATH,'',$df[0]['file']).'}' : '';
 
-        elog('|SELECT| '.$o.' '.$df.PHP_EOL.PHP_EOL);
+        //elog('|SELECT| '.$o.' '.$df.PHP_EOL.PHP_EOL);
 
         $q = $db ? mysqli_query($db, $o) : '';
 

@@ -337,10 +337,23 @@ function is_ios() {
 
 // Error Logs if APP is under DEBUG Mode
 
-function elog( $line ){
-    $line = is_array( $line ) ? implode( ', ', array_keys( $line ) ) . '<>' . implode( ', ', $line ) : $line;
-    $line = is_object( $line ) ? var_dump($line) : $line;
-    APPDEBUG ? error_log( $line ) : '';
+function elog( $log, $type = 'log', $line = '', $file = '', $target = '' ){
+
+    //$log = is_array( $log ) ? implode( ', ', array_keys( $line ) ) . '<>' . implode( ', ', $line ) : $line;
+    $log = is_object( $log ) ? var_dump( $log ) : $log;
+
+    $data = $log . '<AIO>' . $type;
+    $data .= $line !== '' ? '<AIO>' . $line : '';
+    $data .= $file !== '' ? '<AIO>' . $file : '';
+    $data .= $target !== '' ? '<AIO>' . $target : '';
+
+    // Get dev users
+    $devs = get_config( 'dev' );
+    $devs = !empty( $dev ) ? explode( ',', $devs ) : [];
+    $debug = isset( $_SESSION['user_id'] ) && is_array( $devs ) && in_array( $_SESSION['user_id'], $devs ) ? 1 : 0;
+
+    // Log
+    APPDEBUG || $debug ? error_log( $data . PHP_EOL ) : '';
 }
 
 // Gets any file from components folder
