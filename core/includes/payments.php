@@ -1,14 +1,13 @@
 <?php
 
-function cc_avenue( $amount, $redirect_url = APPURL, $test = 0, $currency = 'AED', $order_id = '112233', $name = '', $address = '', $city = '', $state = '', $zip = '', $country = '', $tel = '', $email = '' ) {
+function cc_avenue( $amount, $redirect_url = APPURL, $currency = 'AED', $order_id = '112233', $name = '', $address = '', $city = '', $state = '', $zip = '', $country = '', $tel = '', $email = '' ) {
 
     require_once COREPATH . 'core/components/pays/ccavenue/Crypto.php';
 
-    $ccapis = ['cc_id','cc_access','cc_key','cc_test_id','cc_test_access','cc_test_key'];
+    $ccapis = ['pay_test','cc_auth','cc_test_id','cc_test_access','cc_test_key'];
     $cc = get_options($ccapis);
-    $id = isset($cc['cc_id']) ? $cc['cc_id'] : '';
-    $access = isset($cc['cc_access']) ? $cc['cc_access'] : '';
-    $key = isset($cc['cc_key']) ? $cc['cc_key'] : '';
+
+    $test = isset( $cc['pay_test'] ) && $cc['pay_test'] == 'true' ? 1 : 0;
 
     if( $test ) {
         $tid = isset($cc['cc_test_id']) ? $cc['cc_test_id'] : '';
@@ -17,6 +16,19 @@ function cc_avenue( $amount, $redirect_url = APPURL, $test = 0, $currency = 'AED
         $id = $tid;
         $access = $taccess;
         $key = $tkey;
+    } else if( isset( $cc['cc_auth'] ) && !empty( $cc['cc_auth'] ) ) {
+        $cc_auths = explode( '|', $cc['cc_auth'] );
+        if( is_array( $cc_auths ) ) {
+            foreach( $cc_auths as $cc_auth ) {
+                $cc_data = explode( ',', $cc_auth );
+                if( is_array( $cc_data ) && $cc_data[0].'/' == APPURL ) {
+                    $id = $cc_data[1];
+                    elog( $id );
+                    $access = $cc_data[2];
+                    $key = $cc_data[3];
+                }
+            }
+        }
     }
 
     if ( !empty($id) && !empty($key) ) {

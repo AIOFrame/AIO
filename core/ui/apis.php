@@ -1,7 +1,8 @@
 <?php global $ui_params;
+$ui_params = is_array( $ui_params ) && !empty( $ui_params ) ? $ui_params : [];
 $sets = [ 'sms' => 'SMS', 'email' => 'E Mail', 'payments' => 'Payments', 'other' => 'Other' ];
 
-$apis = ['pay_way','pay_test','cc_id','cc_access','cc_key','cc_test_id','cc_test_access','cc_test_key','cc_test','mailer','send_grid_key'];
+$apis = ['pay_way','pay_test','cc_auth','cc_test_id','cc_test_access','cc_test_key','cc_test','mailer','send_grid_key'];
 //skel($_POST);
 save_post_options( $apis );
 $o = get_options( $apis );
@@ -12,7 +13,7 @@ $o = get_options( $apis );
         <div class="tab_heads">
             <?php $x = 0; foreach( $ui_params as $p ) {
                 $c = $x == 0 ? 'l on' : '';
-                echo '<div class="tab '.$c.'" data-t="#'.$p.'">'.T($sets[$p]).'</div>';
+                echo '<div class="tab ' . $c . '" data-t="#' . $p . '">' . T($sets[$p]) . '</div>';
                 $x++;
             } ?>
         </div>
@@ -34,11 +35,12 @@ $o = get_options( $apis );
                 <div id="cc_options" class="acc <?php echo isset($o['pay_way']) && $o['pay_way'] == 'cc_avenue' ? 'on' : ''; ?>">
                     <div class="head" data-on="#cc_options"><?php E('CC Avenue APIs'); ?></div>
                     <div class="body">
+                        <pre class="mb15">Ex: Domain,ID,Access,Key|Domain,ID,Access,Key</pre>
                         <div class="row">
-                            <?php in_texts([['cc_id','ID','',$o['cc_id'] ?? ''],['cc_access','Access','',$o['cc_access'] ?? ''],['cc_key','Key','',$o['cc_key'] ?? ''],],'data-cc',4); ?>
+                            <?php in_texts([['cc_auth','CC Avenue Codes','',$o['cc_auth'] ?? '']],'data-cc',12); ?>
                             <?php in_texts([['cc_test_id','Test ID','',$o['cc_test_id'] ?? ''],['cc_test_access','Test Access','',$o['cc_test_access'] ?? ''],['cc_test_key','Test Key','',$o['cc_test_key'] ?? '']],'data-cc',4); ?>
-                            <div class="col-12">Test Info - Card : 5123456789012346, Exp Month : May (05), Exp Year : 2021, CCV : 123</div>
                         </div>
+                        <p>Test Card : 5123456789012346, Exp Month : May (05), Exp Year : 2021, CCV : 123</p>
                     </div>
                 </div>
                 <div class="tar"><button class="blue r5 mb0"><?php E('Save Payment APIs'); ?></button></div>
