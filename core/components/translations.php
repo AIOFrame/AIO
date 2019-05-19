@@ -57,9 +57,9 @@ if( isset( $_POST['ln'] ) ) {
         <tfoot>
         <tr>
             <td colspan="100%">
-<!--                <button id="new_tran" onclick="add_row()">--><?php //__('New Sentence'); ?><!--</button>-->
-<!--                <button id="get_untran" onclick="get_untranslations()">--><?php //__('Get Untranslated'); ?><!--</button>-->
-                <button id="manage_lns" data-on="#modal_lang"><?php __('Manage Languages'); ?></button>
+<!--                <button id="new_tran" onclick="add_row()">--><?php //E('New Sentence'); ?><!--</button>-->
+<!--                <button id="get_untran" onclick="get_untranslations()">--><?php //E('Get Untranslated'); ?><!--</button>-->
+                <button id="manage_lns" data-on="#modal_lang"><?php E('Manage Languages'); ?></button>
             </td>
         </tr>
         </tfoot>
@@ -68,24 +68,24 @@ if( isset( $_POST['ln'] ) ) {
 <div id="editor">
     <div class="row">
         <div class="col">
-            <label for="english_string"><?php __('English Sentence'); ?></label>
+            <label for="english_string"><?php E('English Sentence'); ?></label>
             <button data-clipboard-target="#english_string" class="small">COPY</button>
             <?php echo $browser == 'Chrome' ? '<button data-paste="#english_string" class="small">PASTE</button>' : ''; ?>
             <textarea id="english_string" rows="2" tabindex="1"></textarea>
         </div>
         <div class="col">
-            <label for="translation"><?php __('Translation'); ?></label>
+            <label for="translation"><?php E('Translation'); ?></label>
             <button data-clipboard-target="#translation" class="small">COPY</button>
             <?php echo $browser == 'Chrome' ? '<button data-paste="#translation" class="small">PASTE</button>' : ''; ?>
             <textarea id="translation" rows="2" tabindex="2"></textarea>
         </div>
         <div class="col">
-            <button id="save" onclick="update_translation()"><?php __('Save'); ?></button>
+            <button id="save" onclick="update_translation()"><?php E('Save'); ?></button>
         </div>
     </div>
     <div class="actions">
 
-<!--        <button id="build" onclick="build_translations()">--><?php //__('Build'); ?><!--</button>-->
+<!--        <button id="build" onclick="build_translations()">--><?php //E('Build'); ?><!--</button>-->
     </div>
 </div>
 <div class="modal s" id="modal_lang" data-fade="0">
@@ -96,7 +96,7 @@ if( isset( $_POST['ln'] ) ) {
         <select name="set_languages[]" id="language_selector" class="select2" multiple>
             <?php select_options( get_languages(), $langs ); ?>
         </select>
-        <button id="set_languages"><?php __('SET LANGUAGES'); ?></button>
+        <button id="set_languages"><?php E('SET LANGUAGES'); ?></button>
     </form>
 </div>
 <?php } else { ?>

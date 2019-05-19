@@ -136,8 +136,9 @@ function app_loader() {
 
         }
         require( COREPATH . 'core/access.php' ); // Loads authorization files
-        require( COREPATH . 'core/includes.php' ); // Loads all PHP files from Includes
         require( COREPATH . 'core/includes/routes.php' ); // Loads Routes PHP File
+        require( COREPATH . 'core/includes.php' ); // Loads all PHP files from Includes
+        defined( 'PAGELOAD' ) ? include( PAGELOAD ) : '';
         require( COREPATH . 'core/includes/exit.php' ); // Loads closing PHP file
     } else {
         $error = '00';

@@ -9,9 +9,9 @@ function get_title() {
         $p = PAGE == 'ROOT' ? 'Welcome' : PAGE;
         $pp = explode('/',PAGEPATH);
         $p = is_numeric( $p ) ? $pp[count($pp)-1] : $p;
-        echo ucwords( str_replace('-',' ', str_replace('_',' ', $p )) ) . ' - ' . APPNAME;
+        echo T( ucwords( str_replace('-',' ', str_replace('_',' ', $p )) ) ) . ' - ' . T( APPNAME );
     } else {
-        echo APPNAME;
+        E( APPNAME );
     }
 }
 
@@ -339,7 +339,7 @@ function is_ios() {
 
 function elog( $log, $type = 'log', $line = '', $file = '', $target = '' ){
 
-    //$log = is_array( $log ) ? implode( ', ', array_keys( $line ) ) . '<>' . implode( ', ', $line ) : $line;
+    $log = is_array( $log ) ? json_encode( $log ) : $log;
     $log = is_object( $log ) ? var_dump( $log ) : $log;
 
     $data = $log . '<AIO>' . $type;

@@ -115,29 +115,29 @@ function file_delete() {
 
                 if( $ac_file && $db_file ) {
 
-                    echo json_encode( [ 1, _t('File Deleted') ] );
+                    echo json_encode( [ 1, T('File Deleted') ] );
 
                 } else {
 
-                    echo json_encode( [ 0, _t('File NOT Deleted, Perhaps the file is restricted from deletion') ] );
+                    echo json_encode( [ 0, T('File NOT Deleted, Perhaps the file is restricted from deletion') ] );
 
                 }
 
             } else {
 
-                echo json_encode( [ 0, _t('File NOT Deleted, Perhaps the file is restricted from deletion') ] );
+                echo json_encode( [ 0, T('File NOT Deleted, Perhaps the file is restricted from deletion') ] );
 
             }
 
         } else {
 
-            echo json_encode( [ 0, _t('Decrypting file failed, Please refresh and try again') ] );
+            echo json_encode( [ 0, T('Decrypting file failed, Please refresh and try again') ] );
 
         }
 
     } else {
 
-        echo json_encode( [ 0, _t('Delete request could not be processed. Please try again and if issue persists approach Support') ] );
+        echo json_encode( [ 0, T('Delete request could not be processed. Please try again and if issue persists approach Support') ] );
 
     }
 

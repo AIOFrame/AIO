@@ -20,14 +20,14 @@ $o = get_options( $apis );
         <div class="tab_data pt20">
             <?php if( in_array( 'payments', $ui_params ) ) { ?>
             <form method="post"  id="payments">
-                <div class="row">
-                    <div class="col-lg-6 col-6">
+                <div class="row mb15">
+                    <div class="col-lg-6 col-12">
                         <label for="pay_way"><?php E('Preferred Payment Gateway'); ?></label>
                         <select id="pay_way" name="pay_way" class="select2" data-placeholder="<?php E('Select Payment Gateway'); ?>">
                             <?php select_options(['cc_avenue'=>'CC Avenue','paypal'=>'Paypal','stripe'=>'Stripe','2checkout'=>'2 Checkout','authorize'=>'Authorize.Net','skrill'=>'Skrill','amazon'=>'Amazon Payments','payfort'=>'Payfort','telr'=>'Telr','instamojo'=>'Instamojo','WePay'=>'We Pay','paytm'=>'Pay TM','alipay'=>'Ali Pay','wechat'=>'We Chat Pay / Ten Pay','unionpay'=>'Union Pay'],$o['pay_way'] ?? ''); ?>
                         </select>
                     </div>
-                    <div class="col-lg-6 col-6">
+                    <div class="col-lg-6 col-12">
                         <?php render_input('toggle','pay_test',T('Enable Payment Test Mode'),'',$o['pay_test'] ?? ''); ?>
 <!--                            <input type="checkbox" id="pay_test" name="pay_test" class="slide" value="1"<?php //echo isset($o['pay_test']) ? 'checked' : ''; ?>-->
                     </div>
@@ -48,8 +48,8 @@ $o = get_options( $apis );
             <?php }
             if( in_array( 'payments', $ui_params ) ) { ?>
             <form method="post"  id="email" class="dn">
-                <div class="row">
-                    <div class="col-lg-6 col-6">
+                <div class="row mb15">
+                    <div class="col-lg-6 col-12">
                         <label for="mailer"><?php E('Preferred E Mail Marketer'); ?></label>
                         <select id="mailer" name="mailer" class="select2" data-placeholder="<?php E('Select E Mail Marketer'); ?>">
                             <?php select_options(['sendinblue'=>'Send in Blue','sendgrid'=>'SendGrid','getresponse'=>'GetResponse','sendx'=>'SendX','mailchimp'=>'Mail Chimp','mandrill'=>'Mandrill','smtp'=>'SMTP'],$o['mailer'] ?? ''); ?>

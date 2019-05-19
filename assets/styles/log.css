@@ -1,14 +1,5 @@
 .refresh {
     margin-right: 15px;
-    background: rgb(0,125,204);
-    background: -moz-linear-gradient(45deg, rgb(0,125,204) 0%, rgb(0,173,237) 100%);
-    background: -webkit-linear-gradient(45deg, rgb(0,125,204) 0%,rgb(0,173,237) 100%);
-    background: linear-gradient(45deg, rgb(0,125,204) 0%,rgb(0,173,237) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007dcc', endColorstr='#00aded',GradientType=1 );
-    box-shadow:0 0 6px rgba(0,125,204,.2), 0 2px 6px rgba(0,0,0,.2);
-}
-.refresh:hover {
-    box-shadow:0 0 6px rgba(0,125,204,.3), 0 4px 6px rgba(0,125,204,.3);
 }
 .clear {
     background: rgb(153,1,1);

@@ -1,50 +1,48 @@
+header select {
+    width:180px;
+}
+select, input, textarea {
+    font-family:'Lato',sans-serif;
+}
 table {
     width:100%;
     overflow:hidden;
     border-collapse: collapse;
 }
-table thead {
-    background:#000;
-}
-table tbody {
-    max-height:calc(100% - 40px);
-    overflow-y:auto;
-    display: block;
-}
 table tr {
     display: table;
     width: 100%;
     table-layout: fixed;
+    margin-bottom: 18px;
+    background:#fff;
+    border-bottom: 2px solid #f3f3f3;
+    border-radius: 10px;
 }
 table td {
-    border:1px solid rgba(0,0,0,.1);
+    border-right:1px solid #f3f3f3;
     cursor: pointer;
     width:50%;
+    font-weight: lighter;
+    padding: 15px;
+    position: relative;
 }
-table thead td {
-    font-weight: normal;
-    letter-spacing: 2px;
-    padding:15px 10px;
-    color:#fff;
+table td:nth-child(3) {
+    width:12vw;
+    word-break: break-word;
 }
-table thead td:nth-child(3), table tbody td:nth-child(3) {
+table td:nth-child(4) {
     width: 50px;
     text-align: center;
 }
-table thead select {
-    margin: 0;
-    border:0;
-    color:#fff;
-    padding: 0;
+table td span {
+    position: absolute;
+    right: 15px;
 }
-table tbody td {
-    padding: 10px;
+table tbody tr.on {
+    background:rgba(0,0,0,.2);
 }
-table tr {
-    transition:.6s;
-}
-table tbody tr:hover, table tbody tr.on {
-    background:rgba(0,0,150,.1);
+table tbody tr:hover {
+    background:rgba(0,0,150,.2);
 }
 table tfoot {
     text-align: center;
@@ -67,14 +65,26 @@ table tfoot button {
 }
 #editor {
     position: fixed;
-    bottom:0;
-    left:0;
-    width:100%;
+    top:-60px;
+    left:3%;
+    width:93%;
     box-sizing: border-box;
-    padding: 20px;
+    padding: 40px 20px 20px;
     box-shadow:0 0 60px rgba(0,0,0,.2);
     z-index:1;
     background:rgba(255,255,255,.95);
+    transition:.6s;
+    opacity:0;
+    pointer-events: none;
+    border-radius:20px;
+}
+#editor.on {
+    top:60px;
+    opacity:1;
+    pointer-events: all
+}
+#string {
+    border-bottom-left-radius: 10px;
 }
 label {
     text-transform: uppercase;
@@ -85,17 +95,28 @@ label {
 textarea {
     box-shadow:0 0 20px rgba(0,0,0,.1) inset;
     resize:none;
+    margin: 0;
 }
 #editor .actions {
     text-align: right;
 }
-#editor textarea {
-    margin: 0;
+#editor .close {
+    background:url('../images/close.svg') no-repeat center / 70%;
+    position: absolute;
+    right:10px;
+    top:25px;
+    width:35px;
+    height:35px;
+    cursor: pointer;
 }
 #save {
-    padding: 24px 0;
-    margin: 22px 0 0;
-    width: 100%;
+    padding: 22px 0;
+    margin: 22px 0 0 20px;
+    width: calc(100% - 20px);
+    background: #000;
+    color: #fff;
+    border-bottom-right-radius: 10px;
+    cursor: pointer;
 }
 #editor .col:nth-child(3) {
     flex:0 0 100px;
@@ -136,6 +157,7 @@ textarea {
     margin:0 0 0 15px;
     border-radius:0;
     border-bottom:0;
+    box-shadow:none;
 }
 #notification {
     position: fixed;

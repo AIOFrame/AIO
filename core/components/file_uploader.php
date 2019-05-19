@@ -22,7 +22,7 @@ class FUP {
                         $size = $f['file_size'] > 1024 ? number_format((float)($f['file_size'] / 1024), 2, '.', '') . ' MB' : $f['file_size'].' KB';
                         echo '<div '.$bg.' class="fup_file '.$f['file_type'].'" data-id="'.$cry->encrypt($f['file_id']).'" data-url="'.$f['file_url'].'" data-delete="'.$f['file_delete'].'"><div class="name">'.$f['file_name'].'</div><div class="size">'.$size.'</div></div>';
                     } } else {
-                        echo '<div class="no_uploaded_files">'. _t('NO FILES FOUND!').'</div>';
+                        echo '<div class="no_uploaded_files">'. T('NO FILES FOUND!').'</div>';
                     } ?>
                 </div>
                 <div class="camera_view"></div>

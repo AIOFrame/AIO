@@ -1,63 +1,73 @@
 <?php
 
-// Runs only if session lang is other than english
-if( !empty( $_SESSION['lang'] ) && $_SESSION['lang'] !== 'en' ){
+// Runs only if session lang is other than base language
+$lang = get_config('lang');
+$lang = empty( $lang ) ? 'en' : $lang;
+!defined( 'BASELANG' ) ? define( 'BASELANG', $lang ) : '';
 
-    global $translation_strings; // Yet to be translated
-    global $translated_strings; // Already translated
+if( !empty( $_SESSION['lang'] ) && isset( $lang ) && $_SESSION['lang'] !== $lang ){
 
-    $translated_strings = select( 'translations', 'trans_base,trans_replace', 'trans_ln = "'.$_SESSION['lang'].'"' );
+    $l = $_SESSION['lang'];
+    global $translated; // Already translated
+    global $untranslated;
 
-    if( is_array( $translated_strings ) ){
+    // Load translations from database
+    $db_trans = select( 'translations', 't_base, t_'.$l );
+    $db_trans = !empty( $db_trans ) && is_array( $db_trans ) ? $db_trans : [];
+
+    // Add translations to global variable $translated
+    if( !empty( $db_trans ) && is_array( $db_trans ) ){
 
         $new_data = [];
+        foreach( $db_trans as $t) {
 
-        foreach( $translated_strings as $string ) {
-
-            $new_data[ $string['trans_base'] ] = $string['trans_replace'];
+            $new_data[ $t['t_base'] ] = $t['t_'.$l];
 
         }
-
-        $translated_strings = $new_data;
-    }
-}
-
-// Changes and echo the word as per set language
-
-function __( $string ) {
-
-    global $translated_strings; global $translation_strings; //$translation_strings[] = $string;
-
-    if( isset( $translated_strings[ $string ] ) && $translated_strings[ $string ] !== '' ){
-
-        echo $translated_strings[ $string ];
-
-    } else {
-
-        echo $string;
-
-        // Add to translation string
-        $translation_strings[] = $string;
+        $translated = $new_data;
 
     }
-
+    //skel( $translated );
+    //echo count( $translated );
 }
 
 function E( $string ) {
-    __( $string );
+    echo T( $string );
 }
 
-// Change and return the word as per set language
-
-function _t( $string ) {
-
-    global $translated_strings; global $translation_strings; $translation_strings[] = $string;
-
-    return isset( $translated_strings[$string] ) && $translated_strings[$string] !== '' ? $translated_strings[$string] : $string;
-}
-
+// Returns the translation of string if present, or adds to untranslated
 function T( $string ) {
-    return _t( $string );
+
+    //$lang = defined(BASELANG) ? BASELANG : 'en';
+    global $translated;
+    global $untranslated;
+    $translated = empty( $translated ) ? [] : $translated;
+    $untranslated = empty( $untranslated ) ? [] : $untranslated;
+
+    if( !empty( $_SESSION['lang'] ) && defined( 'BASELANG' ) && $_SESSION['lang'] !== BASELANG ) {
+
+        if( !array_key_exists( $string, $translated ) && !array_key_exists( $string, $untranslated ) ) {
+
+            $df = debug_backtrace();
+            $file = in_array(count($df), [3, 5, 7, 9, 11, 13]) ? $df[1]['file'] : $df[2]['file'];
+
+            $file = !empty($file) && strpos( $file, 'pages/' ) > 0 ? str_replace(COREPATH, '', str_replace('apps/' . APPDIR . '/pages/', '', str_replace('.php', '', str_replace('/index', '', $file)))) : '';
+
+            $untranslated[ $string ] = [ $file ]; // Add string and page to untranslated
+
+        }
+
+        return isset( $translated[$string] ) && $translated[$string] !== '' ? $translated[$string] : $string;
+
+    } else {
+
+        return $string;
+
+    }
+}
+
+function __( $string ) {
+    return T( $string );
 }
 
 function save_untranslated( $string ){
@@ -77,32 +87,36 @@ function save_untranslated( $string ){
     }
 }
 
-function update_translation( $english_string = '', $language = '', $translation = '', $page = '' ) {
+function update_translation( $string = '', $language = '', $translation = '', $page = '' ) {
 
-    $english_string = isset( $_POST['english_string'] ) ? $_POST['english_string'] : $english_string;
+    $string = isset( $_POST['string'] ) ? $_POST['string'] : $string;
     $language = isset( $_POST['language'] ) ? $_POST['language'] : $language;
     $translation = isset( $_POST['translation'] ) ? $_POST['translation'] : $translation;
     $page = isset( $_POST['page'] ) ? $_POST['page'] : $page;
 
-    $exist = select( 'translations', '', 'BINARY trans_base = "'.$english_string.'" AND trans_ln = "'.$language.'"' );
+    $exist = select( 'translations', '', 'BINARY t_base = "'.$string.'"' );
 
-    if( $exist ) {
+    if( !empty( $language ) && !empty( $translation ) && !empty( $string ) ) {
 
-        $keys = ['trans_base','trans_ln'];
-        $vals = [$english_string,$language];
-        if( $translation !== '' ){
-            $keys[] = 'trans_replace';
-            $vals[] = $translation;
+        if( $exist ) {
+
+            $keys = ['t_base'];
+            $vals = [$string];
+            if( $translation !== '' ){
+                $keys[] = 't_'.$language;
+                $vals[] = $translation;
+            }
+            if( $page !== '' ){
+                $keys[] = 't_page';
+                $vals[] = $page;
+            }
+            $trans = update( 'translations', $keys, $vals, 't_base = "'.$string.'"');
+
+        } else {
+
+            $trans = insert( 'translations', ['t_base','t_'.$language,'trans_page'],[$string,$translation,$page]);
+
         }
-        if( $page !== '' ){
-            $keys[] = 'trans_page';
-            $vals[] = $page;
-        }
-        $trans = update( 'translations', $keys, $vals, 'trans_base = "'.$english_string.'" && trans_ln = "'.$language.'"');
-
-    } else {
-
-        $trans = insert( 'translations', ['trans_base','trans_replace','trans_ln','trans_page'],[$english_string,$translation,$language,$page]);
 
     }
 
@@ -245,11 +259,11 @@ function get_untranslated() {
     if( !empty( $_SESSION['lang'] ) ){
 
         $words = get_option( 'untranslated_' . $_SESSION['lang'] );
-        echo !empty( $words ) ? json_encode( [1, unserialize($words)] ) : json_encode( [0, _t('Fetching untranslated words failed')] );
+        echo !empty( $words ) ? json_encode( [1, unserialize($words)] ) : json_encode( [0, T('Fetching untranslated words failed')] );
 
     } else {
 
-        echo json_encode( [0, _t('Language is not selected, Please select Language')] );
+        echo json_encode( [0, T('Language is not selected, Please select Language')] );
 
     }
 
