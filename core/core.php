@@ -102,8 +102,12 @@ function app_loader() {
         !defined( 'APPDEBUG' ) ? define( 'APPDEBUG', $debug ) : '';
         if( APPDEBUG ) {
             error_reporting(E_ALL);
-            $log_dir = APPPATH . 'storage/log';
+            $str_dir = APPPATH . 'storage';
+            $log_dir = $str_dir . '/log';
             $elog = $log_dir . '/error_log.log';
+            if( !file_exists($str_dir  ) ) {
+                mkdir( $str_dir, 0700 );
+            }
             if( !file_exists( $log_dir )){
                 mkdir( $log_dir, 0700 );
             }

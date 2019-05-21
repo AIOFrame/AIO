@@ -97,9 +97,9 @@ $file = isset( $ui_params['file'] ) && $ui_params['file'] !== '' ? $ui_params['f
                         $doc = get_string_between( $log, 'in ', ' on' );
                     }
                     ?>
-                    <div class="b <?php echo strtolower( $type )[0]; ?>">
+                    <div class="b <?php echo isset( $type ) ? strtolower( $type )[0] : ''; ?>">
                         <div class="a">
-                            <div class="s"><?php echo $type; ?></div>
+                            <div class="s"><?php echo isset( $type ) ? $type : ''; ?></div>
                             <?php echo isset($target) && $target !== '' ? '<div class="t">' . $target . '</div>' : ''; ?>
                         </div>
                         <div class="b">
@@ -107,10 +107,10 @@ $file = isset( $ui_params['file'] ) && $ui_params['file'] !== '' ? $ui_params['f
                             <div class="go">GOOGLE</div>
                             <div class="so">STACK OF</div>
                         </div>
-                        <div id="l<?php echo $x; ?>" class="l"><?php echo $log; ?></div>
+                        <div id="l<?php echo $x; ?>" class="l"><?php echo isset( $log ) ? $log : ''; ?></div>
                         <div class="ft">
                             <div class="l"><?php echo !empty($line) ? 'Line - ' . $line : ''; ?></div>
-                            <div class="f"><?php echo $doc; ?></div>
+                            <div class="f"><?php echo isset( $doc ) ? $doc : ''; ?></div>
                             <div class="d"><?php echo $date; ?></div>
                         </div>
                     </div>
