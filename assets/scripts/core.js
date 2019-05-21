@@ -552,6 +552,14 @@ function edit_data( e, modal, on ) {
             $('#'+i).val(d).change();
         }
     });
+
+    /* if( typeof files_ui === 'function' ){
+        files_ui();
+    }
+
+    if( typeof file_ui === 'function' ){
+        file_ui();
+    } */
 }
 
 function reset_modal(e) {

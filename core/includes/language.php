@@ -194,7 +194,7 @@ function translations_transfer() {
 
 // Returns list of language files present in App
 
-function get_language_files() {
+function app_languages() {
     /* $final_languages = [];
     if( file_exists( APPPATH . 'languages' ) ){
         $languages = get_languages();
@@ -215,7 +215,7 @@ function get_language_files() {
                 foreach ($n as $ln) {
                     $data[$ln] = $langs[$ln];
                 }
-                return $data;
+                return array_unique( $data );
             } else {
                 return [];
             }
