@@ -66,6 +66,8 @@ function get_style( $f, $page_of = '' ) {
             $url = $afl;
         } else if (file_exists($cf)) {
             $url = $cfl;
+        } else {
+            elog( $f. ' style file not found' );
         }
         if ($page_of !== '') {
             echo page_of($page_of) && $url !== '' ? '<link rel="stylesheet" href="' . $url . $v . '">' : '';
@@ -99,6 +101,8 @@ function get_script( $f, $page_of = '' ) {
             $url = $cfl . '.min.js';
         } else if (file_exists($cf . '.js')) {
             $url = $cfl . '.js';
+        } else {
+            elog( $f. ' script file not found' );
         }
         if( $page_of !== '' ){
             echo page_of( $page_of ) && $url !== '' ? '<script src="' . $url . $v . '"></script>' : '';
