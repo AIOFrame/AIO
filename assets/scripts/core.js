@@ -182,58 +182,7 @@ $(document).ready(function(){
 
     // FILES UI
 
-    file_ui();
-    files_ui();
 
-    $('body').on('click','.files_preview .trash',function(){
-
-        var dfile = $(this).next('.file').html();
-
-        if( dfile !== undefined && dfile !== '' && confirm('Are you sure to remove attached file ?') ) {
-
-            var files = $($(this).parents('[data-url]').data('url')).val().split('|');
-
-            var val = '';
-
-            if( $.isArray( files ) ) {
-
-                $(files).each(function(c,d){
-
-                    var efile = d.split('/')[ d.split('/').length - 1 ];
-
-                    if( efile !== dfile ) {
-
-                        val += d + '|';
-
-                    }
-
-                });
-
-            }
-
-            val = val.slice(0,-1);
-
-            $($(this).parents('[data-url]').data('url')).val(val);
-
-            files_ui();
-
-        }
-
-    });
-
-    $('body').on('click','.file_preview .trash',function(){
-
-        var dfile = $(this).next('.file').html();
-
-        if( dfile !== undefined && dfile !== '' && confirm('Are you sure to remove attached file ?') ) {
-
-            $($(this).parents('[data-url]').data('url')).val('');
-
-            file_ui();
-
-        }
-
-    });
 
     // Fetch States
 
@@ -366,71 +315,6 @@ function restore_scroll() {
     })
 }
 
-function file_ui() {
-
-    $('input[data-file]').each(function(i,f){
-
-        $(f).hide();
-
-        var d = $(f).val();
-
-        var file = d.split('/')[ d.split('/').length - 1 ];
-
-        var ext = file.split('.')[ file.split('.').length - 1 ];
-
-        var file_ui = file !== '' ? '<div class="file"><i class="ico file '+ext+'"></i><i class="ico trash"></i><div class="file">'+file+'</div></div>' : $(f).prev('button').show().clone();
-
-        if( !$(f).next().hasClass('file_preview') ){
-
-            var id = $(f).prev('button').data('url');
-
-            $(f).after('<div class="file_preview" data-url="'+ id +'"></div>');
-
-        }
-
-        $(f).next('.file_preview').html(file_ui);
-        $(f).prev('button').hide();
-
-    });
-}
-
-function files_ui() {
-
-    $('input[data-files]').each(function(a,b){
-
-        $(b).hide();
-
-        var files = $(b).val().split('|');
-
-        var files_ui = '';
-
-        $(files).each(function(c,d){
-
-            var file = d.split('/')[ d.split('/').length - 1 ];
-
-            var ext = file.split('.')[ file.split('.').length - 1 ];
-
-            files_ui += file !== '' ? '<div class="file"><i class="ico file '+ext+'"></i><i class="ico trash"></i><div class="file">'+file+'</div></div>' : '';
-
-        });
-
-        files_ui = files_ui === '' ? $(b).prev('button').show().clone() : files_ui;
-
-        if( !$(b).next().hasClass('files_preview') ){
-
-            var id = $(b).prev('button').data('url');
-
-            $(b).after('<div class="files_preview" data-url="'+ id +'"></div>');
-
-        }
-
-        $(b).next('.files_preview').html(files_ui);
-        $(b).prev('button').hide();
-        //elog(files_ui);
-
-    });
-}
-
 function goto_step( e, s ){
     $(e).find('.step:nth-child('+s+')').click();
 }
@@ -485,9 +369,9 @@ function sempty( e, d ) {
                     notify( $(e).data('empty-notify') );
                 }
             }
-            elog(b);
+            //elog(b);
         });
-        elog(r);
+        //elog(r);
         result = $.inArray(true,r) !== -1 ? true : false;
     } else {
         if( $(e).val() !== null && $(e).val() !== "" ){
@@ -633,7 +517,7 @@ function process_data( e ){
                 }
                 if(p.data('reset') !== undefined && p.data('reset') !== ''){
                     $('[data-'+p.data('reset')+']').val('');
-                    files_ui();
+                    //files_ui();
                 }
             }
         }
@@ -730,6 +614,8 @@ function post( action, data, notif, reload ) {
     var d = $.extend({}, {'action':action}, data);
 
     $.post( location.origin, d, function(r) {
+
+        elog(r);
 
         try {
 
