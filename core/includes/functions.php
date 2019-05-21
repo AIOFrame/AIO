@@ -443,7 +443,7 @@ function select_options( $options = '', $selected = '', $placeholder = '' ) {
     }
 }
 
-function render_options( $type = 'radio', $name, $values = [], $attr = '', $label_first = 0, $pre = '', $post = '' ) {
+function render_options( $type = 'radio', $name, $values = [], $checked = '', $attr = '', $label_first = 0, $pre = '', $post = '' ) {
     if( is_array( $values ) ) {
         $type = $type == 'radio' ? 'type="radio"' : 'type="checkbox"';
         $valued = is_assoc( $values ) ? true : false; $x = 0;
@@ -456,10 +456,11 @@ function render_options( $type = 'radio', $name, $values = [], $attr = '', $labe
             foreach ($values as $val => $title) {
                 $k = $valued ? $val . $x . '_' . $uq : str_replace(' ', '', $name) . $x;
                 $value = $valued ? $val : $title;
+                $c = $value == $checked ? 'checked' : '';
                 if ($label_first) {
-                    echo $pre . '<label for="' . $k . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' name="' . $name . '" id="' . $k . '" value="' . $value . '" >' . $post;
+                    echo $pre . '<label for="' . $k . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' name="' . $name . '" id="' . $k . '" value="' . $value . '" '. $c .' >' . $post;
                 } else {
-                    echo $pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" id="' . $k . '" value="' . $value . '" ><label for="' . $k . '">' . $title . '</label>' . $post;
+                    echo $pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" id="' . $k . '" value="' . $value . '" '. $c .' ><label for="' . $k . '">' . $title . '</label>' . $post;
                 }
                 $x++;
             }
@@ -488,12 +489,12 @@ function render_options( $type = 'radio', $name, $values = [], $attr = '', $labe
     }
 }
 
-function render_radios( $name, $values = [], $attr = '', $label_first = 0, $pre = '', $post = '' ){
-    render_options( 'radio', $name, $values, $attr, $label_first, $pre, $post );
+function render_radios( $name, $values = [], $checked, $attr = '', $label_first = 0, $pre = '', $post = '' ){
+    render_options( 'radio', $name, $values, $checked, $attr, $label_first, $pre, $post );
 }
 
 function render_checkboxs( $name, $values = [], $attr = '', $label_first = 0, $pre = '', $post = '' ){
-    render_options( 'checkbox', $name, $values, $attr, $label_first, $pre, $post );
+    render_options( 'checkbox', $name, $values, $checked, $attr, $label_first, $pre, $post );
 }
 
 // Render Input Elements

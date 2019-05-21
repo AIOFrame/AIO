@@ -4,9 +4,9 @@ class FUP {
 
     function file_uploader() {
         $cry = Crypto::initiate();
+        get_style('upload');
+        get_script('upload');
         ?>
-        <link rel="stylesheet" href="<?php echo APPURL; ?>assets/styles/upload.css">
-        <script src="<?php echo APPURL; ?>assets/scripts/upload.js"></script>
         <div id="file_uploader" class="file_modal" data-dir="<?php echo APPURL.'apps/'.APPDIR; ?>">
             <div class="files_head">
                 <h3><?php __('File Uploader'); ?></h3>

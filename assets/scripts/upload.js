@@ -116,6 +116,56 @@ $(document).ready(function(){
     .on('click','[data-file-upload]',function(){
         file_upload($(this));
     })
+
+    .on('click','.files_preview .trash',function(){
+
+        var dfile = $(this).next('.file').html();
+
+        if( dfile !== undefined && dfile !== '' && confirm('Are you sure to remove attached file ?') ) {
+
+            var files = $($(this).parents('[data-url]').data('url')).val().split('|');
+
+            var val = '';
+
+            if( $.isArray( files ) ) {
+
+                $(files).each(function(c,d){
+
+                    var efile = d.split('/')[ d.split('/').length - 1 ];
+
+                    if( efile !== dfile ) {
+
+                        val += d + '|';
+
+                    }
+
+                });
+
+            }
+
+            val = val.slice(0,-1);
+
+            $($(this).parents('[data-url]').data('url')).val(val);
+
+            files_ui();
+
+        }
+
+    })
+
+    .on('click','.file_preview .trash',function(){
+
+        var dfile = $(this).next('.file').html();
+
+        if( dfile !== undefined && dfile !== '' && confirm('Are you sure to remove attached file ?') ) {
+
+            $($(this).parents('[data-url]').data('url')).val('');
+
+            file_ui();
+
+        }
+
+    });
 });
 
 function file_ui() {
@@ -152,7 +202,9 @@ function files_ui() {
 
         $(b).hide();
 
-        var files = $(b).val().split('|');
+        var files = $(b).val() !== '' ? $(b).val().split('|') : '';
+
+        elog(files);
 
         var files_ui = '';
 
@@ -179,59 +231,6 @@ function files_ui() {
         $(b).next('.files_preview').html(files_ui);
         $(b).prev('button').hide();
         //elog(files_ui);
-
-    });
-
-    file_ui();
-    files_ui();
-
-    $('body').on('click','.files_preview .trash',function(){
-
-        var dfile = $(this).next('.file').html();
-
-        if( dfile !== undefined && dfile !== '' && confirm('Are you sure to remove attached file ?') ) {
-
-            var files = $($(this).parents('[data-url]').data('url')).val().split('|');
-
-            var val = '';
-
-            if( $.isArray( files ) ) {
-
-                $(files).each(function(c,d){
-
-                    var efile = d.split('/')[ d.split('/').length - 1 ];
-
-                    if( efile !== dfile ) {
-
-                        val += d + '|';
-
-                    }
-
-                });
-
-            }
-
-            val = val.slice(0,-1);
-
-            $($(this).parents('[data-url]').data('url')).val(val);
-
-            files_ui();
-
-        }
-
-    });
-
-    $('body').on('click','.file_preview .trash',function(){
-
-        var dfile = $(this).next('.file').html();
-
-        if( dfile !== undefined && dfile !== '' && confirm('Are you sure to remove attached file ?') ) {
-
-            $($(this).parents('[data-url]').data('url')).val('');
-
-            file_ui();
-
-        }
 
     });
 }
