@@ -95,7 +95,8 @@ if( !isset( $_POST['action'] ) ) { // Checks if AJAX Action Request is sent so c
         define_path( $st, 1 );
         define_page( $ilfl );
     } else if( file_exists( COREPATH . 'apps/' . $t . '/pages/404.php' ) ) { // Doesn't exist on sub domain or defaults, so check if 404 page exists
-        include( COREPATH . 'apps/' . $t . '/pages/404.php'); // Exists so load 404
+        define_path( '404' );
+        define_page( COREPATH . 'apps/' . $t . '/pages/404.php'); // Exists so load 404
     } else {
         $error = '404';
         include( COREPATH . 'core/pages/error.php'); // Loads super 404
