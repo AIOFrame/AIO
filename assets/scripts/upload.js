@@ -182,15 +182,15 @@ function file_ui() {
 
         var file_ui = file !== '' ? '<div class="f"><i class="ico file '+ext+'"></i><i class="ico trash"></i><div class="f">'+file+'</div></div>' : $(f).prev('button').show().clone();
 
-        if( !$(f).next().hasClass('fp') ){
+        if( !$(f).next().hasClass('aio_fp') ){
 
             var id = $(f).prev('button').data('url');
 
-            $(f).after('<div class="fp" data-url="'+ id +'"></div>');
+            $(f).after('<div class="aio_fp" data-url="'+ id +'"></div>');
 
         }
 
-        $(f).next('.fp').html(file_ui);
+        $(f).next('.aio_fp').html(file_ui);
         $(f).prev('button').hide();
 
     });
@@ -216,17 +216,22 @@ function files_ui() {
 
         });
 
-        files_ui = files_ui === '' ? $(b).prev('button').show().clone() : files_ui;
+        //files_ui = files_ui === '' ? $(b).prev('button').show().clone() : files_ui;
+        files_ui = files_ui !== '' ? '<div class="w">' + files_ui + '</div>' : '';
 
-        if( !$(b).next().hasClass('fsp') ){
+        if( !$(b).next().hasClass('aio_fsp') ){
 
             var id = $(b).prev('button').data('url');
 
-            $(b).after('<div class="fsp" data-url="'+ id +'"></div>');
+            $(b).after('<div class="aio_fsp" data-url="'+ id +'"></div>');
 
         }
 
-        $(b).next('.fsp').html(files_ui);
+        var um = !$(b).prop('disabled') ? $(b).prev('button')[0].outerHTML : 'test';
+        elog( files_ui );
+
+        $(b).next('.aio_fsp').html( files_ui + um );
+        $(b).next('.aio_fsp').find('button').show().html('+');
         $(b).prev('button').hide();
         //elog(files_ui);
 
