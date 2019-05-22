@@ -553,13 +553,13 @@ function edit_data( e, modal, on ) {
         }
     });
 
-    /* if( typeof files_ui === 'function' ){
+    if( typeof files_ui === 'function' ){
         files_ui();
     }
 
     if( typeof file_ui === 'function' ){
         file_ui();
-    } */
+    }
 }
 
 function reset_modal(e) {

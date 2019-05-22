@@ -1,36 +1,36 @@
 $(document).ready(function(){
     $(document).mouseup(function(e) {
-        var c = $('#file_uploader');
+        var c = $('#aio_up');
         if (!c.is(e.target) && c.has(e.target).length === 0) {
             close_uploader();
         }
     });
-    $('body').on('click','.fup_file',function(){
-        if( $('#file_uploader').data('multiple') === undefined  ) {
-            $('.fup_file').not(this).removeClass('on');
+    $('body').on('click','.f',function(){
+        if( $('#aio_up').data('multiple') === undefined  ) {
+            $('.f').not(this).removeClass('on');
         }
         $(this).toggleClass('on');
         //elog($(this).data('delete'));
         if( $(this).data('delete') !== '' && $(this).data('delete') !== undefined ){
             if( $(this).data('delete') === 0 ){
-                $('#file_uploader .files_delete').addClass('disabled');
+                $('#aio_up .fd').addClass('disabled');
             } else if( $(this).data('delete') === 1 ) {
-                $('#file_uploader .files_delete').removeClass('disabled');
+                $('#aio_up .fd').removeClass('disabled');
             }
         }
-    }).on('click','.files_delete',function(){
-        var df = $('.fup_file.on');
+    }).on('click','.fd',function(){
+        var df = $('.f.on');
         if( df.length > 0 && df.data('id') !== undefined && df !== '' ) {
             $.post(location.origin,{'action':'file_delete','id':df.data('id')},function(r){
                 if( r = JSON.parse(r) ) {
                     uploader_notify(r[1]);
                     if( r[0] === 1 ){
-                        $('.fup_file.on').remove();
+                        $('.f.on').remove();
                     }
                 }
             })
         }
-    }).on('click','#file_uploader .close',function(){
+    }).on('click','#aio_up .close',function(){
         close_uploader();
     })
 
@@ -51,19 +51,19 @@ $(document).ready(function(){
         e.stopPropagation();
         e.preventDefault();
         $(this).removeClass('hover');
-    }).bind('drop','.file_modal',function(){
+    }).bind('drop','.file_modal',function(e){
         e.stopPropagation();
         e.preventDefault();
     })
 
     // File Insert
-    .on('click','#file_uploader .files_insert',function(){
-        var f = $('#file_uploader');
-        var s = $('#file_uploader .fup_file.on');
+    .on('click','#aio_up .fi',function(){
+        var f = $('#aio_up');
+        var s = $('#aio_up .f.on');
 
         if( f.data('multiple') === undefined ) {
 
-            var exts = $('#file_uploader').data('exts');
+            var exts = $('#aio_up').data('exts');
             if( exts ){
                 exts = exts.split(',');
                 var ext = s.data('url').split('.')[s.data('url').split('.').length - 1];
@@ -107,7 +107,7 @@ $(document).ready(function(){
         file_ui();
         files_ui();
 
-        $('#file_uploader').slideUp();
+        $('#aio_up').slideUp();
         //elog(s);
         setTimeout(function(){ var m = s.length > 0 ? 'File Selected Successfully!' : 'NO FILE SELECTED! File Uploader Closed!!' ; $('.file_notify').html(m).addClass('on') }, 500);
         setTimeout(function(){ $('.file_notify').removeClass('on') },1600);
@@ -117,9 +117,9 @@ $(document).ready(function(){
         file_upload($(this));
     })
 
-    .on('click','.files_preview .trash',function(){
+    .on('click','.fsp .trash',function(){
 
-        var dfile = $(this).next('.file').html();
+        var dfile = $(this).next('.f').html();
 
         if( dfile !== undefined && dfile !== '' && confirm('Are you sure to remove attached file ?') ) {
 
@@ -153,9 +153,9 @@ $(document).ready(function(){
 
     })
 
-    .on('click','.file_preview .trash',function(){
+    .on('click','.fp .trash',function(){
 
-        var dfile = $(this).next('.file').html();
+        var dfile = $(this).next('.f').html();
 
         if( dfile !== undefined && dfile !== '' && confirm('Are you sure to remove attached file ?') ) {
 
@@ -180,17 +180,17 @@ function file_ui() {
 
         var ext = file.split('.')[ file.split('.').length - 1 ];
 
-        var file_ui = file !== '' ? '<div class="file"><i class="ico file '+ext+'"></i><i class="ico trash"></i><div class="file">'+file+'</div></div>' : $(f).prev('button').show().clone();
+        var file_ui = file !== '' ? '<div class="f"><i class="ico file '+ext+'"></i><i class="ico trash"></i><div class="f">'+file+'</div></div>' : $(f).prev('button').show().clone();
 
-        if( !$(f).next().hasClass('file_preview') ){
+        if( !$(f).next().hasClass('fp') ){
 
             var id = $(f).prev('button').data('url');
 
-            $(f).after('<div class="file_preview" data-url="'+ id +'"></div>');
+            $(f).after('<div class="fp" data-url="'+ id +'"></div>');
 
         }
 
-        $(f).next('.file_preview').html(file_ui);
+        $(f).next('.fp').html(file_ui);
         $(f).prev('button').hide();
 
     });
@@ -204,8 +204,6 @@ function files_ui() {
 
         var files = $(b).val() !== '' ? $(b).val().split('|') : '';
 
-        elog(files);
-
         var files_ui = '';
 
         $(files).each(function(c,d){
@@ -214,21 +212,21 @@ function files_ui() {
 
             var ext = file.split('.')[ file.split('.').length - 1 ];
 
-            files_ui += file !== '' ? '<div class="file"><i class="ico file '+ext+'"></i><i class="ico trash"></i><div class="file">'+file+'</div></div>' : '';
+            files_ui += file !== '' ? '<div class="f"><i class="ico file '+ext+'"></i><i class="ico trash"></i><div class="f">'+file+'</div></div>' : '';
 
         });
 
         files_ui = files_ui === '' ? $(b).prev('button').show().clone() : files_ui;
 
-        if( !$(b).next().hasClass('files_preview') ){
+        if( !$(b).next().hasClass('fsp') ){
 
             var id = $(b).prev('button').data('url');
 
-            $(b).after('<div class="files_preview" data-url="'+ id +'"></div>');
+            $(b).after('<div class="fsp" data-url="'+ id +'"></div>');
 
         }
 
-        $(b).next('.files_preview').html(files_ui);
+        $(b).next('.fsp').html(files_ui);
         $(b).prev('button').hide();
         //elog(files_ui);
 
@@ -236,29 +234,32 @@ function files_ui() {
 }
 
 function file_upload(e){
-    var fu = $('#file_uploader');
+    var fu = $('#aio_up');
     if( ( $(e).data('url') !== '' && $(e).data('url') !== undefined ) || ( $(e).data('id') !== '' && $(e).data('id') !== undefined ) ) {
         if( $(e).data('history') === undefined ) {
-            $('#file_uploader .fup_file').hide();
-            $('.files_browse').click();
+            $('#aio_up .f').hide();
+            $('.fb').click();
         } else {
-            $('#file_uploader .fup_file').show();
+            $('#aio_up .f').show();
         }
         if(!fu.is(':visible')) {
             fu.slideDown();
         }
         fu.data('exts', $(e).data('exts')).data('files',$(e).data('files')).data('url', $(e).data('url')).data('multiple', $(e).data('multiple')).data('bg', $(e).data('bg')).data('id', $(e).data('id')).data('s_img', $(e).data('s_img')).data('path', $(e).data('path')).data('scope', $(e).data('scope'));
         if( fu.data('multiple') !== undefined ) {
-            $('.files_insert').addClass('multiple');
+            $('.fi').addClass('multiple');
         } else {
-            $('.files_insert').removeClass('multiple');
+            $('.fi').removeClass('multiple');
         }
         if ($(e).data('delete') === undefined) {
-            $('.files_delete').hide();
+            $('.fd').hide();
             fu.data('delete', false)
         } else {
-            $('.files_delete').show();
+            $('.fd').show();
             fu.data('delete', true)
+        }
+        if( $(e).data('title') !== undefined ){
+            $('#aio_up h3').html( $(e).data('title') );
         }
     }
 }
@@ -267,7 +268,7 @@ function process_upload(fs) {
     for (var i = 0, f; f = fs[i]; i++) {
         //elog(i);
         //elog(f);
-        var exts = $('#file_uploader').data('exts');
+        var exts = $('#aio_up').data('exts');
         if( exts ){
             exts = exts.split(',');
             var ext = f.name.split('.')[1];
@@ -279,19 +280,19 @@ function process_upload(fs) {
         var d = new FormData();
         d.append(i, f);
         d.append('action', 'file_process');
-        if( $('#file_uploader').data('path') !== '' && $('#file_uploader').data('path') !== undefined ){
-            d.append('path',$('#file_uploader').data('path'));
+        if( $('#aio_up').data('path') !== '' && $('#aio_up').data('path') !== undefined ){
+            d.append('path',$('#aio_up').data('path'));
         }
-        if( $('#file_uploader').data('scope') !== '' && $('#file_uploader').data('scope') !== undefined ){
-            d.append('scope',$('#file_uploader').data('scope'));
+        if( $('#aio_up').data('scope') !== '' && $('#aio_up').data('scope') !== undefined ){
+            d.append('scope',$('#aio_up').data('scope'));
         }
-        if( $('#file_uploader').data('delete') !== '' && $('#file_uploader').data('delete') !== undefined && $('#file_uploader').data('delete') ){
+        if( $('#aio_up').data('delete') !== '' && $('#aio_up').data('delete') !== undefined && $('#aio_up').data('delete') ){
             d.append('delete','true');
         } else {
             d.append('delete','false');
         }
 
-        $('#file_uploader .uploaded_files').prepend( '<div class="uploading"><div class="name">'+f.name+'</div><div class="perc"><span>0</span>%</div><div class="progress"><div></div></div></div>' );
+        $('#aio_up .uploaded_files').prepend( '<div class="uploading"><div class="name">'+f.name+'</div><div class="perc"><span>0</span>%</div><div class="progress"><div></div></div></div>' );
 
         //elog(d);
         $.ajax({
@@ -304,20 +305,20 @@ function process_upload(fs) {
                 return myXhr;
             },
             success: function (data) {
-                $('#file_uploader .uploading').remove();
+                $('#aio_up .uploading').remove();
                 var d = $.parseJSON(data);
                 if (d[0] === 'success') {
-                    $('#file_uploader .no_uploaded_files').remove();
+                    $('#aio_up .no_uploaded_files').remove();
                     var size = parseInt(d[6]) > 1024 ? ( parseFloat(d[6]) / 1024 ).toFixed(2) + ' MB' : d[6] + ' KB';
                     var bg = $.inArray( d[5], Array('svg','jpg','png','jpeg') ) > -1 ? 'style="background-image:url(\''+d[7]+'\')"' : '';
                     var del = d[8] === 1 ? 'data-delete="1"' : 'data-delete="0"';
-                    $('#file_uploader .uploaded_files').prepend( '<div class="fup_file new '+d[5]+'" data-id="'+d[4]+'" data-url="'+d[3]+'" '+bg+' '+del+'><div class="name">'+d[2]+'</div><div class="size">'+size+'</div></div>' );
-                    $('#file_uploader .fup_file').removeClass('on');
+                    $('#aio_up .uploaded_files').prepend( '<div class="fup_file new '+d[5]+'" data-id="'+d[4]+'" data-url="'+d[3]+'" '+bg+' '+del+'><div class="name">'+d[2]+'</div><div class="size">'+size+'</div></div>' );
+                    $('#aio_up .f').removeClass('on');
                     uploader_notify('File Uploaded Successfully!');
-                    setTimeout(function(){ $('.fup_file').removeClass('new') },1000);
-                    if($('#file_uploader').data('files') === undefined){
-                        $('.fup_file.new').addClass('on');
-                        $('.files_insert').click();
+                    setTimeout(function(){ $('.f').removeClass('new') },1000);
+                    if($('#aio_up').data('files') === undefined){
+                        $('.f.new').addClass('on');
+                        $('.fi').click();
                     }
                     return [ true, 'File Uploaded Successfully', d ];
                 } else {
@@ -335,8 +336,8 @@ function upload_progress(e){
         var current = e.loaded;
 
         var Percentage = Math.round((current * 100)/max);
-        $('#file_uploader .progress>div').css({'width':Percentage+'%'});
-        $('#file_uploader .uploading .perc>span').html(Percentage);
+        $('#aio_up .progress>div').css({'width':Percentage+'%'});
+        $('#aio_up .uploading .perc>span').html(Percentage);
 
         if(Percentage >= 100)
         {
@@ -354,6 +355,6 @@ function uploader_notify( message ) {
 }
 
 function close_uploader() {
-    $('.fup_file').removeClass('on');
-    $('#file_uploader').slideUp().removeData(['id','url','exts','s_img','scope','path','bg','multiple','files']);
+    $('.f').removeClass('on');
+    $('#aio_up').slideUp().removeData(['id','url','exts','s_img','scope','path','bg','multiple','files']);
 }

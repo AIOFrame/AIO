@@ -7,9 +7,9 @@ class FUP {
         get_style('upload');
         get_script('upload');
         ?>
-        <div id="file_uploader" class="file_modal" data-dir="<?php echo APPURL.'apps/'.APPDIR; ?>">
+        <div id="aio_up" class="file_modal" data-dir="<?php echo APPURL.'apps/'.APPDIR; ?>">
             <div class="files_head">
-                <h3><?php __('File Uploader'); ?></h3>
+                <h3><?php E('File Uploader'); ?></h3>
                 <div class="close"></div>
                 <input type="file" id="file_input">
             </div>
@@ -20,7 +20,7 @@ class FUP {
                     if( !empty($fs) ){ foreach( $fs as $f ){
                         $bg = in_array($f['file_type'],['svg','jpg','png','jpeg']) ? 'style="background-image:url(\''.storage_url($f['file_url']).'\')"' : '';
                         $size = $f['file_size'] > 1024 ? number_format((float)($f['file_size'] / 1024), 2, '.', '') . ' MB' : $f['file_size'].' KB';
-                        echo '<div '.$bg.' class="fup_file '.$f['file_type'].'" data-id="'.$cry->encrypt($f['file_id']).'" data-url="'.$f['file_url'].'" data-delete="'.$f['file_delete'].'"><div class="name">'.$f['file_name'].'</div><div class="size">'.$size.'</div></div>';
+                        echo '<div '.$bg.' class="f '.$f['file_type'].'" data-id="'.$cry->encrypt($f['file_id']).'" data-url="'.$f['file_url'].'" data-delete="'.$f['file_delete'].'"><div class="name">'.$f['file_name'].'</div><div class="size">'.$size.'</div></div>';
                     } } else {
                         echo '<div class="no_uploaded_files">'. T('NO FILES FOUND!').'</div>';
                     } ?>
@@ -28,9 +28,9 @@ class FUP {
                 <div class="camera_view"></div>
             </div>
             <div class="files_actions">
-                <div class="files_insert"><i class="ico file select"></i> <span><?php __('Select'); ?></span><span><?php __('Select Multiple Files'); ?></span></div>
-                <label for="file_input" class="files_browse"><i class="ico file browse"></i> <?php __('Browse File'); ?></label>
-                <div class="files_delete disabled"><i class="ico file trash"></i> <?php __('Delete'); ?></div>
+                <div class="fi"><i class="ico file select"></i> <span><?php E('Select'); ?></span><span><?php E('Select Multiple Files'); ?></span></div>
+                <label for="file_input" class="fb"><i class="ico file browse"></i> <?php E('Browse File'); ?></label>
+                <div class="df disabled"><i class="ico file trash"></i> <?php E('Delete'); ?></div>
             </div>
         </div>
         <div class="file_notify"></div>
