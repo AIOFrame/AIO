@@ -15,9 +15,10 @@ function favicon( $icon ){
 }
 
 function body_class( $extra_class = '' ) {
-    $dc = APPDEBUG ? 'debug' : '';
+    $dc = APPDEBUG ? 'debug ' : '';
     $pc = str_replace('/',' ',PAGEPATH);
-    echo 'class="'.$dc.' '.$pc.' '.$extra_class.'"';
+    $ec = !empty( $extra_class ) ? ' '.$extra_class : '';
+    echo 'class="'.$dc.$pc.$ec.'"';
 }
 
 function ace( $element_id, $mode = 'html' ) {
