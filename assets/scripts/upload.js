@@ -117,7 +117,7 @@ $(document).ready(function(){
         file_upload($(this));
     })
 
-    .on('click','.fsp .trash',function(){
+    .on('click','.aio_fsp .trash',function(){ elog('test');
 
         var dfile = $(this).next('.f').html();
 
@@ -153,7 +153,7 @@ $(document).ready(function(){
 
     })
 
-    .on('click','.fp .trash',function(){
+    .on('click','.aio_fp .trash',function(){
 
         var dfile = $(this).next('.f').html();
 
