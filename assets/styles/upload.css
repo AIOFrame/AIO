@@ -12,6 +12,9 @@
     display: none;
     min-width:360px;
 }
+body.d .file_modal, body.d .file_notify {
+    background:rgba(25,25,25,.98);
+}
 .file_notify {
     z-index: 1000;
     padding: 20px 40px;
@@ -55,6 +58,9 @@
     background:#333;
     position: relative;
     color:#fff;
+}
+body.d .file_modal .files_head {
+    background:rgb(35,35,35);
 }
 .file_modal .files_head h3 {
     display: block;
@@ -173,6 +179,9 @@
 #aio_up .f.on {
     background-color:rgba(0,0,0,.1) !important;
 }
+body.d #aio_up .f.on {
+    background-color:rgba(0,0,0,.2) !important;
+}
 #aio_up .f.new {
     background-color:rgba(73, 146, 255, 0.24) !important;
     animation:new_file linear 1s infinite;
@@ -222,6 +231,9 @@
     display: flex;
     border-top:1px solid #eee;
 }
+body.d .files_actions {
+    border-top:1px solid rgb(35,35,35);
+}
 .files_actions>div, .files_actions>label {
     height:45px;
     margin:0 auto;
@@ -233,6 +245,9 @@
     text-transform: none;
     font-weight: lighter;
     color: #000;
+}
+body.d .files_actions>div, body.d .files_actions>label {
+    color:#fff;
 }
 .files_actions>div:hover, .files_actions>label:hover {
     background:rgba(0,0,0,.05)

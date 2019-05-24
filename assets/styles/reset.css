@@ -86,3 +86,15 @@ fieldset{
     border: 0;
 }
 .ace_editor div, .ace_editor span { font-family: monospace; }
+::-webkit-scrollbar {
+    background: rgba(255,255,255,.05);
+    width:12px;
+    display: block;
+    padding: 2px;
+}
+::-webkit-scrollbar-thumb {
+    border:2px solid rgba(255,255,255,.05);
+    margin-left: 1px;
+    border-radius: 2px;
+    background: rgba(0,0,0,.2);
+}

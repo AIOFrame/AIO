@@ -14,11 +14,23 @@ function favicon( $icon ){
     }
 }
 
-function body_class( $extra_class = '' ) {
+function body_class( $class = '' ) {
+
+    // Is Debug
     $dc = APPDEBUG ? 'debug ' : '';
+
+    // Page path
     $pc = str_replace('/',' ',PAGEPATH);
-    $ec = !empty( $extra_class ) ? ' '.$extra_class : '';
-    echo 'class="'.$dc.$pc.$ec.'"';
+
+    // Custom class
+    $ec = !empty( $class ) ? ' '.$class : '';
+
+    // Dark mode
+    $dm = isset($_SESSION['dark_mode']) && $_SESSION['dark_mode'] == 'true';
+    $dm = !empty( $dm ) ? ' d' : '';
+
+    // Final output
+    echo 'class="'.$dc.$pc.$ec.$dm.'"';
 }
 
 function ace( $element_id, $mode = 'html' ) {

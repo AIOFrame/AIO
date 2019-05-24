@@ -1,9 +1,17 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="100%" height="100%" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;">
-    <path id="folders" d="M446.1,263.7L446.1,417C446.1,433.1 433.1,446.2 417,446.2L51.1,446.2C35.2,446.2 22,433.1 22,417L22,263.7L22,241.4L22,153.5C22,137.4 35.1,124.4 51.3,124.4L212.1,124.4L241.3,182.8L416.7,182.8C433,182.8 446,195.9 446,212L446,241.3L446.1,263.7ZM65.8,104.3L65.8,95.1C65.8,79 78.9,66 95.1,66L245,66L274.2,124.4L460.6,124.4C476.9,124.4 489.9,137.5 489.9,153.6L489.9,358.5C489.9,374.6 482.3,387.7 466.3,387.7L466.2,387.7" style="fill:none;fill-rule:nonzero;stroke:black;stroke-width:15px;"/>
-    <g>
-        <path d="M210.7,267.9C210.7,286.4 203.2,302.9 191.1,315C179,327.1 162.3,334.6 144,334.6C107.2,334.6 77.3,304.7 77.3,267.9C77.3,231.1 107.2,201.2 144,201.2C180.8,201.2 210.7,231.1 210.7,267.9Z" style="fill:none;fill-rule:nonzero;stroke:black;stroke-width:15px;"/>
-        <path d="M260.2,391.7L191.2,315" style="fill:none;fill-rule:nonzero;stroke:black;stroke-width:15px;"/>
-    </g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 23.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns:serif="http://www.serif.com/"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 128 128"
+	 style="enable-background:new 0 0 128 128;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;stroke:#888888;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+</style>
+<path id="folders" class="st0" d="M111.5,65.9v38.3c0,4-3.2,7.3-7.3,7.3H12.8c-4,0-7.3-3.3-7.3-7.3V65.9v-5.6v-22
+	c0-4,3.3-7.3,7.3-7.3H53l7.3,14.6h43.9c4.1,0,7.3,3.3,7.3,7.3v7.3V65.9z M16.5,26.1v-2.3c0-4,3.3-7.3,7.3-7.3h37.5l7.3,14.6h46.6
+	c4.1,0,7.3,3.3,7.3,7.3v51.2c0,4-1.9,7.3-5.9,7.3l0,0"/>
+<g>
+	<path class="st0" d="M52.7,67c0,4.6-1.9,8.8-4.9,11.8s-7.2,4.9-11.8,4.9c-9.2,0-16.7-7.5-16.7-16.7S26.8,50.3,36,50.3
+		S52.7,57.8,52.7,67z"/>
+	<path class="st0" d="M65.1,97.9L47.8,78.8"/>
+</g>
 </svg>

@@ -5,6 +5,10 @@ body {
     margin:80px 0 0;
     background:#f3f3f3;
 }
+body.d {
+    background: #0a0a0a;
+    color:#fff;
+}
 article {
     height:calc(100vh - 80px);
     overflow-y:auto;
@@ -27,6 +31,10 @@ header {
     box-sizing: border-box;
     background:rgba(255,255,255,.98);
     z-index: 10;
+}
+body.d header {
+    background:rgba(20,20,20,.98);
+    border-bottom:1px solid rgb(40,40,40);
 }
 #back {
     width:40px;
@@ -63,9 +71,14 @@ header button {
     border-radius:8px;
     display: inline-block;
     vertical-align: top;
-    box-shadow:0 1px 6px 0 rgba(32,33,36,0.28);
     margin-right: 15px;
     height:40px;
+    box-shadow:0 1px 6px 0 rgba(32,33,36,0.28);
+}
+body.d .search, body.d header select {
+    box-shadow:none;
+    border:1px solid rgb(50,50,50);
+    color:#fff;
 }
 header select {
     padding:6px 12px;
@@ -84,6 +97,9 @@ header select {
     height: 40px;
     box-sizing: border-box;
     font-weight: lighter;
+}
+body.d .search input {
+    color:#fff;
 }
 .search button {
     box-shadow:none;
@@ -121,6 +137,10 @@ button:hover {
     position: relative;
     box-sizing: border-box;
 }
+body.d .b {
+    background: rgb(20,20,20);
+    border:1px solid rgb(40,40,40);
+}
 .b>.l {
     padding: 50px 15px 15px;
     font-size: 16px;
@@ -136,6 +156,8 @@ button:hover {
 .b .b {
     left:auto;
     right: 15px;
+    border-radius:0;
+    border:0 !important;
 }
 .b .a>div {
     padding:5px 8px;
@@ -145,7 +167,6 @@ button:hover {
     color:#fff;
     font-weight: lighter;
 }
-
 .b .b>div, .b .b>button {
     font-weight: lighter;
     font-size: 13px;
@@ -176,6 +197,9 @@ button:hover {
     box-sizing:border-box;
     font-weight: lighter;
     border-top: 1px solid #ebebeb;
+}
+body.d .b .ft>div {
+    border-top:1px solid rgb(35,35,35);
 }
 .b .ft>div:last-child {
     text-align: right;
