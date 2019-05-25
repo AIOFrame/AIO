@@ -49,14 +49,14 @@ $file = isset( $ui_params['file'] ) && $ui_params['file'] !== '' ? $ui_params['f
 
             // Extract Log
             $lb = explode('<AIO>', $l);
-            if (is_array($lb) && count($lb) > 2) {
-                $log = $lb[0];
-                $type = isset($lb[1]) ? $lb[1] : '';
+            //if (is_array($lb) && count($lb) > 2) {
+                $log = is_json( $lb[0] ) ? json_decode( $lb[0] ) : $lb[0];
+                $type = isset($lb[1]) ? $lb[1] : 'LOG';
                 $line = isset($lb[2]) ? $lb[2] : '';
                 $doc = isset($lb[3]) ? $lb[3] : '';
                 $target = isset($lb[4]) ? $lb[4] : '';
-            }
-            //skel( $l );
+            //}
+            //skel( $type );
 
             //$edate = easy_date( $date, 'h:i:s a d M, Y' );
 
@@ -97,7 +97,7 @@ $file = isset( $ui_params['file'] ) && $ui_params['file'] !== '' ? $ui_params['f
                         $doc = get_string_between( $log, 'in ', ' on' );
                     }
                     ?>
-                    <div class="b <?php echo isset( $type ) ? strtolower( $type )[0] : ''; ?>">
+                    <div class="b <?php echo isset( $type[0] ) ? strtolower( $type )[0] : ''; ?>">
                         <div class="a">
                             <div class="s"><?php echo isset( $type ) ? $type : ''; ?></div>
                             <?php echo isset($target) && $target !== '' ? '<div class="t">' . $target . '</div>' : ''; ?>
@@ -107,7 +107,7 @@ $file = isset( $ui_params['file'] ) && $ui_params['file'] !== '' ? $ui_params['f
                             <div class="go">GOOGLE</div>
                             <div class="so">STACK OF</div>
                         </div>
-                        <div id="l<?php echo $x; ?>" class="l"><?php echo isset( $log ) ? $log : ''; ?></div>
+                        <div id="l<?php echo $x; ?>" class="l"><pre><?php echo is_array( $log ) || is_object( $log ) ? print_r( $log ) : $log; ?></pre></div>
                         <div class="ft">
                             <div class="l"><?php echo !empty($line) ? 'Line - ' . $line : ''; ?></div>
                             <div class="f"><?php echo isset( $doc ) ? $doc : ''; ?></div>

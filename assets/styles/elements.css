@@ -747,6 +747,23 @@ body.d .acc .head {
 .context-menu>div:last-child {
     border:0;
 }
+
+/* Others */
+
+.no_access {
+    margin: 40px auto;
+    width: 400px;
+    max-width:30vw;
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    border:1px solid firebrick;
+}
+.no_access h3 {
+    margin-top: 0;
+    font-weight: bold;
+    text-transform: uppercase;
+}
 ::-webkit-scrollbar {
     background: rgba(255,255,255,.05);
     width:12px;

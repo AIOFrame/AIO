@@ -145,6 +145,10 @@ body.d .b {
     padding: 50px 15px 15px;
     font-size: 16px;
 }
+.b>.l pre {
+    word-break: break-word;
+    white-space: pre-wrap;
+}
 .b .a, .b .b {
     position: absolute;
     top:15px;

@@ -170,15 +170,19 @@ function reset_styles() {
 
 // Read Config
 
-function get_config( $name ) {
+function get_config( $name = '' ) {
 
-    if( file_exists( APPPATH . '/config.php' ) ) {
+    if( file_exists( APPPATH . 'config.php' ) ) {
 
-        $c = include( APPPATH . '/config.php' );
+        $c = include( APPPATH . 'config.php' );
 
         if( is_array( $c ) && isset( $c[ $name ] ) ){
 
             return $c[ $name ];
+
+        } else if ( is_array( $c ) ) {
+
+            return $c;
 
         }
 
@@ -342,7 +346,6 @@ function is_ios() {
 // Error Logs if APP is under DEBUG Mode
 
 function elog( $log, $type = 'log', $line = '', $file = '', $target = '' ){
-
     $log = is_array( $log ) ? json_encode( $log ) : $log;
     $log = is_object( $log ) ? var_dump( $log ) : $log;
 
@@ -489,17 +492,17 @@ function render_options( $type = 'radio', $name, $values = [], $checked = '', $a
     }
 }
 
-function render_radios( $name, $values = [], $checked, $attr = '', $label_first = 0, $pre = '', $post = '' ){
+function render_radios( $name, $values = [], $checked = '', $attr = '', $label_first = 0, $pre = '', $post = '' ){
     render_options( 'radio', $name, $values, $checked, $attr, $label_first, $pre, $post );
 }
 
-function render_checkboxs( $name, $values = [], $attr = '', $label_first = 0, $pre = '', $post = '' ){
+function render_checkboxs( $name, $values = [], $checked = '', $attr = '', $label_first = 0, $pre = '', $post = '' ){
     render_options( 'checkbox', $name, $values, $checked, $attr, $label_first, $pre, $post );
 }
 
 // Render Input Elements
 
-function render_input( $type, $id, $label, $placeholder = '', $value = '', $attrs = '', $pre = '', $post = '' ){
+function render_input( $type, $id, $label, $placeholder = '', $value = '', $attrs = '', $pre = '', $name = '', $post = '' ){
     $type = $type == '' ? 'text' : $type;
     if( is_numeric( $pre ) ){
         $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
@@ -508,18 +511,19 @@ function render_input( $type, $id, $label, $placeholder = '', $value = '', $attr
     $ph = $placeholder !== '' ? ' placeholder="'.$placeholder.'"' : '';
     $at = $attrs !== '' ? ' '.$attrs : '';
     $va = $value !== '' ? ' value="'.$value.'"' : '';
+    $n = $name !== '' ? $name : $id;
     switch( $type ){
         case 'textarea':
-            $input = '<textarea id="'.$id.'" name="'.$id.'" "'.$ph.$at.'">'.$va.'</textarea>';
+            $input = '<textarea id="'.$id.'" name="'.$n.'" "'.$ph.$at.'">'.$va.'</textarea>';
             break;
         case 'slide':
         case 'toggle':
-            $input = '<div><input type="hidden" id="'.$id.'" name="'.$id.'" '.$at.$ph.$va.'>';
+            $input = '<div><input type="hidden" id="'.$id.'" name="'.$n.'" '.$at.$ph.$va.'>';
             $ch = $value == 'true' || $value == '1' ? 'checked' : '';
             $input .= '<input type="checkbox" data-check="#'.$id.'" class="slide m" '.$ch.'></div>';
             break;
         default:
-            $input = '<input type="'.$type.'" id="'.$id.'" name="'.$id.'" '.$at.$ph.$va.'>';
+            $input = '<input type="'.$type.'" id="'.$id.'" name="'.$n.'" '.$at.$ph.$va.'>';
             break;
     }
     echo $pre;

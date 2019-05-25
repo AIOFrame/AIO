@@ -69,6 +69,13 @@ function array_group_by( $array, $key ) {
     return $grouped;
 }
 
+// Check if string is json
+
+function is_json( $string ) {
+    json_decode( $string );
+    return ( json_last_error() == JSON_ERROR_NONE );
+}
+
 // Restructures an array with key value as key
 
 function array_by_key( $array, $key ){
