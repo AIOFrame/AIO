@@ -43,11 +43,11 @@ function get_style( $f, $page_of = '' ) {
 
     $cache = get_config( 'cache' );
 
-    $v = $cache ? '?v=' . round( time('h MM') / ( $cache * 60 ) ) : '';
+    $v = !empty( $cache ) ? '?v=' . round( time('h MM') / ( $cache * 60 ) ) : '';
 
     global $universal;
 
-    if( !in_array( $f, $universal['styles'] )) {
+    if( !empty($f) && !in_array( $f, $universal['styles'] )) {
         $universal['styles'][] = $f;
         $af = APPPATH . 'assets/styles/' . $f;
         $cf = COREPATH . 'assets/styles/' . $f;
@@ -86,7 +86,7 @@ function get_script( $f, $page_of = '' ) {
     $v = $cache ? '?v=' . round( time('h MM') / ( $cache * 60 ) ) : '';
 
     global $universal;
-    if( !in_array( $f, $universal['scripts'] )) {
+    if( !empty($f) && !in_array( $f, $universal['scripts'] )) {
         $universal['scripts'][] = $f;
         $af = APPPATH . 'assets/scripts/' . $f;
         $cf = COREPATH . 'assets/scripts/' . $f;
@@ -180,7 +180,7 @@ function get_config( $name = '' ) {
 
             return $c[ $name ];
 
-        } else if ( is_array( $c ) ) {
+        } else if ( is_array( $c ) && $name == '' ) {
 
             return $c;
 
@@ -472,10 +472,11 @@ function render_options( $type = 'radio', $name, $values = [], $checked = '', $a
                 $k = $valued ? $val . $x . '_' . $uq : str_replace(' ', '', $name) . $x;
                 $title = is_array($val) && !empty($val[1]) ? $val[1] : $val;
                 $value = is_array($val) ? $val[0] : $val;
+                $c = $value == $checked ? 'checked' : '';
                 if ($label_first) {
-                    echo $pre . '<label for="' . $k . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' name="' . $name . '" id="' . $k . '" value="' . $value . '" >' . $post;
+                    echo $pre . '<label for="' . $k . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' name="' . $name . '" id="' . $k . '" value="' . $value . '" '.$c.'>' . $post;
                 } else {
-                    echo $pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" id="' . $k . '" value="' . $value . '" ><label for="' . $k . '">' . $title . '</label>' . $post;
+                    echo $pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" id="' . $k . '" value="' . $value . '" '.$c.'><label for="' . $k . '">' . $title . '</label>' . $post;
                 }
                 $x++;
             }
