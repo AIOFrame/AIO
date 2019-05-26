@@ -317,7 +317,7 @@ function process_upload(fs) {
                     var size = parseInt(d[6]) > 1024 ? ( parseFloat(d[6]) / 1024 ).toFixed(2) + ' MB' : d[6] + ' KB';
                     var bg = $.inArray( d[5], Array('svg','jpg','png','jpeg') ) > -1 ? 'style="background-image:url(\''+d[7]+'\')"' : '';
                     var del = d[8] === 1 ? 'data-delete="1"' : 'data-delete="0"';
-                    $('#aio_up .uploaded_files').prepend( '<div class="fup_file new '+d[5]+'" data-id="'+d[4]+'" data-url="'+d[3]+'" '+bg+' '+del+'><div class="name">'+d[2]+'</div><div class="size">'+size+'</div></div>' );
+                    $('#aio_up .uploaded_files').prepend( '<div class="f new '+d[5]+'" data-id="'+d[4]+'" data-url="'+d[3]+'" '+bg+' '+del+'><div class="name">'+d[2]+'</div><div class="size">'+size+'</div></div>' );
                     $('#aio_up .f').removeClass('on');
                     uploader_notify('File Uploaded Successfully!');
                     setTimeout(function(){ $('.f').removeClass('new') },1000);
@@ -325,9 +325,9 @@ function process_upload(fs) {
                         $('.f.new').addClass('on');
                         $('.fi').click();
                     }
-                    return [ true, 'File Uploaded Successfully', d ];
+                    return [ 1, 'File Uploaded Successfully', d ];
                 } else {
-                    return [ true, 'File Uploaded Failed', 'There was an issue while sending file to server, please try again' ];
+                    return [ 1, 'File Uploaded Failed', 'There was an issue while sending file to server, please try again' ];
                 }
             }
         });
