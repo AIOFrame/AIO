@@ -144,7 +144,13 @@ function fonts( $array = [] ){
 
 //
 
-function icons( ){
+function icons() {
+
+    echo '<link rel="stylesheet" href="' .APPURL . 'assets/icons.php?'.APPDIR.'=1">';
+
+}
+
+function icons_old( ){
     echo '<link rel="stylesheet" href="' .APPURL . 'apps/' . APPNAME . '/assets/styles/icons.css">';
 }
 
@@ -606,11 +612,11 @@ function render_menu( $array, $prefix = '' ) {
                         $sec_row_class = 'class="on"';
                     }
                     $sec_title = !empty( $sec_row[1] ) && !is_array( $sec_row[1] ) ? $sec_row[1] : ucwords( $sec_row[0] );
-                    $sec .= '<li><a href="'.APPURL.$prefix.$first_row[0].'/'.$prefix.$sec_row[0].'" '.$sec_row_class.'>'.$sec_title.'</a></li>';
+                    $sec .= '<li><a href="'.APPURL.$prefix.$first_row[0].'/'.$prefix.$sec_row[0].'" '.$sec_row_class.'>'.T($sec_title).'</a></li>';
                 }
                 $sec .= '</ul>';
             }
-            echo '<li '.$first_li_class.'><a href="'.APPURL.$prefix.$first_row[0].'" '.$first_row_class.'>'.$title.'</a>'.$sec.'</li>';
+            echo '<li '.$first_li_class.'><a href="'.APPURL.$prefix.$first_row[0].'" '.$first_row_class.'>'.T($title).'</a>'.$sec.'</li>';
             /*    $title = ucfirst( $l );
                 $sls .= '<ul>';
                 foreach( $t as $sl => $st ){
@@ -625,7 +631,7 @@ function render_menu( $array, $prefix = '' ) {
         }
         echo '</ul>';
 
-        !empty( $title ) ? define( 'PAGET', $title ) : '';
+        !empty( $title ) && !defined( 'PAGET' ) ? define( 'PAGET', $title ) : '';
     }
 }
 

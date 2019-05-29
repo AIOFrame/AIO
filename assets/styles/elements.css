@@ -60,14 +60,35 @@
 .modal .modal {
     z-index:15;
 }
-.modal.m {
-    min-width:60vw;
-}
-.modal.sm {
-    min-width:40vw;
+.modal.ml {
+    min-width:80vw;
 }
 .modal.l {
-    min-width:80vw;
+    width:80vw;
+}
+.modal.mm {
+    min-width:60vw;
+}
+.modal.m {
+    width:60vw;
+}
+.modal.ms {
+    min-width:40vw;
+}
+.modal.s {
+    width:40vw;
+}
+.modal.mxs {
+    min-width:30vw;
+}
+.modal.xs {
+    width:30vw;
+}
+.modal.mxxs {
+    min-width:20vw;
+}
+.modal.xxs {
+    width:20vw;
 }
 .modal.f {
     width: calc(100vw - 60px);
@@ -611,7 +632,7 @@ body.d .tab {
     height:22px;
     background-repeat:no-repeat !important;
     background-position:center !important;
-    background-size:cover !important;
+    background-size:contain !important;
     cursor: pointer;
 }
 .ico.c {
