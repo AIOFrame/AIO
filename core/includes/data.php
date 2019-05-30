@@ -254,12 +254,13 @@ function currencies( $key = 'code', $value = 'name', $country_code = false ){
     //return $currencies;
 }
 
-function fn( $num ) {
-    echo _fn( $num );
+function fn( $num, $decimals = 2, $locale = 'AE' ) {
+    echo _fn( $num, $decimals, $locale );
 }
 
-function _fn( $num, $locale = 'AE' ) {
+function _fn( $num, $decimals = 2, $locale = 'AE' ) {
     $fmt = new NumberFormatter($locale = 'en_'.$locale, NumberFormatter::CURRENCY);
+    $fmt->setAttribute(\NumberFormatter::MAX_FRACTION_DIGITS, $decimals);
     return str_replace( 'AED', '', $fmt->format( $num ) );
 }
 

@@ -593,7 +593,7 @@ function render_menu( $array, $prefix = '' ) {
 
             $url = explode( '/', PAGEPATH );
 
-            $first_row_class = $url[0] == $first_row[0] ? 'class="on"' : '';
+            $first_row_class = PAGEPATH == $first_row[0] ? 'class="on"' : '';
             $first_li_class = $url[0] == $first_row[0] ? 'class="open"' : '';
 
             $sec_rows = '';
