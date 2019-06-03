@@ -47,6 +47,36 @@ $(document).ready(function(){
 
         $($(this).data('check')).val(v);
 
+    })
+
+    .on('click','.aio_dynamics .add',function(){
+
+        var dyn = $(this).parents('.aio_dynamics').prev('input').data('dyn');
+
+        $(this).parents('.aio_dynamics').find('.fields').append(dyn);
+
+    })
+
+    .on('click','.aio_dynamics .trash',function(){
+
+        $(this).parents('.field_set').remove();
+
+    })
+
+    .on('change keyup','.aio_dynamics input',function () {
+
+        var d = [];
+
+        $.each( $(this).parents('.aio_dynamics').find('.field_set'), function(a,b){
+
+            d.push( get_values( b ) );
+
+        });
+
+        console.log(d);
+
+        $(this).parents('.aio_dynamics').prev('input').val(d);
+
     });
 
     // Scroll Save
@@ -70,9 +100,9 @@ $(document).ready(function(){
         if( $(this).parent().data('store-tab') !== undefined ){
             localStorage[ pagepath + '_tab' ] = $(this).data('t');
         }
-    });
+    })
 
-    $('body').on('click', '[data-step]', function () {
+    .on('click', '[data-step]', function () {
         $(this).parent().children().removeClass('on');
         $(this).addClass('on');
         $($(this).data('step')).parent().children().hide();
@@ -86,6 +116,27 @@ $(document).ready(function(){
     // Previous Step
     $('.steps .prev').on('click', function () {
         $($(this).parents('.steps')).find('[data-t].on').prev().click();
+    });
+
+    // Dynamic Data
+    $('[data-dynamic]').each( function(a,b){
+
+        var dyn = '<div class="field_set">';
+
+        $.each( $(b).data('dynamic'), function(c,d){
+
+            dyn += '<div class="set"><div class="trash"></div>';
+            dyn += d[0] == 'text' ? '<label for="' + d[1] + '">'+ d[2] +'</label><input type="' + d[0] + '" placeholder="'+ d[2] +'" id="'+ d[1] +'">' : '<input type="' + d[0] + '" id="'+ d[1] +'"><label for="' + d[1] + '">'+ d[2] +'</label>';
+            dyn += '</div>';
+
+        });
+
+        dyn += '</div>';
+
+        $('<div class="aio_dynamics"><div class="fields">'+dyn+'</div><div class="btn add">+</div></div>').insertAfter($(b));
+
+        $(this).data('dyn',dyn).hide();
+
     });
 
     // Prevent Default
@@ -419,9 +470,11 @@ function get_values( e, s, pre ) {
 
     pre = pre !== undefined && pre !== '' ? pre + '_' : '';
 
+    s = s !== undefined && s !== '' ? '[data-'+s+']' : '';
+
     var data = {};
 
-    $(e).find(":input[data-"+s+"]:not(:button)","select[data-"+s+"]","textarea[data-"+s+"]").each(function () {
+    $(e).find(":input"+s+":not(:button)","select"+s,"textarea"+s).each(function () {
 
         var v;
 

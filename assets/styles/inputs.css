@@ -31,6 +31,7 @@ input.load {
     display: inline-block;
     vertical-align: middle;
     padding: 0;
+    position: relative;
     /* border-radius:50%;
     background:#fff;
     margin-right:25px;
@@ -75,6 +76,68 @@ body.d [type=checkbox].slide {
 [type=checkbox].slide.l:before {}
 [type=checkbox].slide:checked:before {
     left: 43%;
+}
+
+/* AIO Dynamics */
+
+.aio_dynamics {
+    position:relative;
+}
+.aio_dynamics .add {
+    position:absolute;
+    right:0;
+    top:0;
+    height:40px;
+    width:40px;
+    font-size:22px;
+    padding:5px 14px;
+    margin:0;
+}
+.aio_dynamics .fields {
+    margin-right:40px;
+    padding:0 15px 0 0;
+}
+.aio_dynamics .field_set {
+    margin-bottom:15px;
+    border:1px solid #ddd;
+    padding:15px;
+    position: relative;
+}
+.aio_dynamics .field_set:last-child {
+    margin-bottom: 0;
+}
+.aio_dynamics input {
+    margin-bottom:6px;
+}
+.aio_dynamics .set:last-child input {
+    margin-bottom: 0;
+}
+.aio_dynamics [type=checkbox], .aio_dynamics [type=radio] {
+    margin-right:15px;
+}
+.aio_dynamics label {
+    font-size:9px;
+    text-transform:uppercase;
+    color:#000;
+    letter-spacing:2px;
+    font-weight:normal;
+}
+.aio_dynamics input+label {
+    text-transform:none;
+    letter-spacing:normal;
+    font-size:inherit;
+    font-weight:inherit;
+    vertical-align: initial;
+}
+.aio_dynamics .trash {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width:35px;
+    height:35px;
+    padding:10px;
+    background:url('../images/close.svg') no-repeat center / 25px;
+    cursor: pointer;
 }
 
 /* Select2 Fix */

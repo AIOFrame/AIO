@@ -9,6 +9,13 @@ $errors = [
 ];
 $title = !empty( $error ) && !empty( $errors[$error] ) ? $errors[ $error ] : 'What ? Error ??';
 $id = !empty( $error ) ? $error : '0';
+$page_title = $id . ' - ' . $title;
+if( $id == '00' ) {
+    include_once( COREPATH . 'core/includes/setup.php' );
+    include_once( COREPATH . 'core/includes/arrays.php' );
+    include_once( COREPATH . 'core/includes/functions.php' );
+    $page_title = 'Welcome to AIO Setup';
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -17,36 +24,36 @@ $id = !empty( $error ) ? $error : '0';
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><?php echo $id . ' - ' . $title; ?></title>
-    <style>
-        body {
-            text-align: center;
-        }
-        h1, h2, button {
-            font-family:'Segoe UI','Helvetica Neue',sans-serif;
-            font-weight: lighter;
-            letter-spacing: 2px;
-        }
-        h1 {
-            font-size: 160px;
-            margin:10vh auto 30px;
-        }
-        h2 {
-            font-size: 40px;
-            text-transform: uppercase;
-        }
-        button {
-            border:0;
-            padding:12px 25px;
-            font-size: 20px;
-            cursor:pointer;
-            outline: 0;
-        }
-    </style>
+    <title><?php echo $page_title; ?></title>
+    <link rel="shortcut icon" href="<?php echo APPURL.'assets/images/aio.png'; ?>">
+    <link rel="stylesheet" href="<?php echo APPURL.'assets/styles/error.min.css'; ?>">
+    <?php if( $id == '00' && ( isset( $_POST['setup'] ) || isset( $_POST['step'] ) ) ) {
+        echo '<link rel="stylesheet" href="'.APPURL.'assets/styles/reset.min.css">';
+        echo '<link rel="stylesheet" href="'.APPURL.'assets/styles/select2.min.css">';
+        echo '<link rel="stylesheet" href="'.APPURL.'assets/styles/inputs.min.css">';
+        echo '<link rel="stylesheet" href="'.APPURL.'assets/styles/install.min.css">';
+    } ?>
 </head>
 <body>
-    <h1><?php echo $id; ?></h1>
-    <h2><?php echo $title; ?></h2>
-    <button onclick="window.history.back()">GO BACK</button>
+    <?php
+
+    if( ( !isset( $_POST['setup'] ) || $_POST['setup'] !== 'Yes' ) && !isset( $_POST['step'] ) ) {
+        echo '<h1 id="id">'.$id.'</h1><h2 id="title">'.$title.'</h2>';
+    }
+
+    if( get_user_ip() == '127.0.0.1' ) {
+
+        include_once(COREPATH . 'core/pages/install.php');
+
+    } else {
+
+        echo '<button id="back" onclick="window.history.back()">GO BACK</button>';
+
+    } ?>
+    <?php if( $id == '00' && ( isset( $_POST['setup'] ) || isset( $_POST['step'] ) ) ) {
+        echo '<script src="'.APPURL.'assets/scripts/jquery.min.js"></script>';
+        echo '<script src="'.APPURL.'assets/scripts/select2.min.js"></script>';
+        echo '<script src="'.APPURL.'assets/scripts/core.min.js"></script>';
+    } ?>
 </body>
 </html>

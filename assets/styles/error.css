@@ -1,0 +1,26 @@
+body {
+    text-align: center;
+}
+#id, #title, #back, p, div, input, textarea, select, button, h1, h2, h3, h4, h5, h6, li {
+    font-family:'Lato','Helvetica Neue',sans-serif;
+    font-weight: 300;
+}
+#id, #title, #back {
+    letter-spacing: 2px;
+    font-weight:lighter;
+}
+#id {
+    font-size: 160px;
+    margin:10vh auto 30px;
+}
+#title {
+    font-size: 40px;
+    text-transform: uppercase;
+}
+#back {
+    border:0;
+    padding:12px 25px;
+    font-size: 20px;
+    cursor:pointer;
+    outline: 0;
+}
