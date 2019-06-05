@@ -86,7 +86,7 @@ body.d [type=checkbox].slide {
 .aio_dynamics .add {
     position:absolute;
     right:0;
-    top:0;
+    bottom:0;
     height:40px;
     width:40px;
     font-size:22px;

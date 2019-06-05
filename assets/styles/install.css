@@ -67,6 +67,9 @@ button.to.f {
     margin:0 -15px 40px;
     align-items: center;
 }
+.setup .q:last-child {
+    margin-bottom: 0;
+}
 .setup .q>div {
     flex:0 0 calc(50% - 30px);
     max-width:calc(50% - 30px);
@@ -107,13 +110,19 @@ button.to.f {
     overflow-y:auto;
     overflow-x: hidden;
 }
-.aio_dynamics .set:nth-child(2), .aio_dynamics .set:nth-child(3) {
+.aio_dynamics .set:nth-child(4), .aio_dynamics .set:nth-child(5) {
     display: inline-block;
     vertical-align: top;
     width:50%;
 }
-.aio_dynamics .set:nth-child(1) label {
+.aio_dynamics .set:nth-child(2) label {
     display: none;
+}
+.aio_dynamics .url {
+    min-height:30px;
+    border-bottom:1px solid #ddd;
+    margin-bottom: 6px;
+    padding: 12px;
 }
 .aio_dynamics [type=checkbox] {
     margin-bottom: 0;

@@ -75,7 +75,7 @@ $(document).ready(function(){
 
         console.log(d);
 
-        $(this).parents('.aio_dynamics').prev('input').val(d);
+        $(this).parents('.aio_dynamics').prev('input').val( JSON.stringify( d ) );
 
     });
 
@@ -121,12 +121,23 @@ $(document).ready(function(){
     // Dynamic Data
     $('[data-dynamic]').each( function(a,b){
 
-        var dyn = '<div class="field_set">';
+        var dyn = '<div class="field_set"><div class="trash"></div>';
+
+        var i = 0;
 
         $.each( $(b).data('dynamic'), function(c,d){
 
-            dyn += '<div class="set"><div class="trash"></div>';
-            dyn += d[0] == 'text' ? '<label for="' + d[1] + '">'+ d[2] +'</label><input type="' + d[0] + '" placeholder="'+ d[2] +'" id="'+ d[1] +'">' : '<input type="' + d[0] + '" id="'+ d[1] +'"><label for="' + d[1] + '">'+ d[2] +'</label>';
+            i++;
+
+            dyn += '<div class="set">';
+
+            if( d[0] === 'text' ) {
+                dyn += '<label for="' + d[1] + '_' + i + '">'+ d[2] +'</label><input type="' + d[0] + '" placeholder="'+ d[2] +'" id="'+ d[1] +'_'+i+'">'
+            } else if( d[0] === 'div' ) {
+                dyn += '<div class="'+d[1]+'">'+location.href+'page</div>';
+            } else if( d[0] === 'checkbox' || d[0] === 'radio' ) {
+                dyn += '<input type="' + d[0] + '" id="'+ d[1] + '_' + i + '"><label for="' + d[1] + '_' + i + '">'+ d[2] +'</label>'
+            }
             dyn += '</div>';
 
         });

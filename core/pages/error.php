@@ -54,6 +54,7 @@ if( $id == '00' ) {
         echo '<script src="'.APPURL.'assets/scripts/jquery.min.js"></script>';
         echo '<script src="'.APPURL.'assets/scripts/select2.min.js"></script>';
         echo '<script src="'.APPURL.'assets/scripts/core.min.js"></script>';
+        echo '<script src="'.APPURL.'assets/scripts/aio_install.min.js"></script>';
     } ?>
 </body>
 </html>

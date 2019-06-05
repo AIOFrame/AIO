@@ -25,7 +25,7 @@ function set_title( $title ){
 
 // Fetches stylesheet with options
 
-function art( $color1, $color2 ) {
+function art( $color1 = '000', $color2 = '000' ) {
 
     $cache = get_config( 'cache' );
 

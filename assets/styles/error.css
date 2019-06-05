@@ -24,3 +24,12 @@ body {
     cursor:pointer;
     outline: 0;
 }
+button {
+    font-size: 12px;
+    padding:4px 8px;
+    background:none;
+    border-radius:6px;
+    margin:15px;
+    cursor:pointer;
+    outline:0;
+}
