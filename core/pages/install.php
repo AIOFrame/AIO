@@ -50,7 +50,7 @@ if( ( isset( $p['setup'] ) && $p['setup'] == 'Yes' ) || isset( $p['step'] ) ) {
         </div>
 
         <div class="foot">
-            <button class="to n" name="step" value="2"></button>
+            <button type="button" class="to n" name="step" value="2"></button>
         </div>
 
     </form>

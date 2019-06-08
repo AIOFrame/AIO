@@ -88,7 +88,7 @@ function basic_tables() {
 }
 
 if( APPDEBUG ){
-    basic_tables();
+    //basic_tables();
 }
 
 //basic_tables();

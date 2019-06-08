@@ -122,13 +122,9 @@ $(document).ready(function(){
     $('[data-dynamic]').each( function(a,b){
 
         var dyn = '<div class="field_set"><div class="trash"></div>';
-
         var i = 0;
-
         $.each( $(b).data('dynamic'), function(c,d){
-
             i++;
-
             dyn += '<div class="set">';
 
             if( d[0] === 'text' ) {
@@ -139,15 +135,10 @@ $(document).ready(function(){
                 dyn += '<input type="' + d[0] + '" id="'+ d[1] + '_' + i + '"><label for="' + d[1] + '_' + i + '">'+ d[2] +'</label>'
             }
             dyn += '</div>';
-
         });
-
         dyn += '</div>';
-
         $('<div class="aio_dynamics"><div class="fields">'+dyn+'</div><div class="btn add">+</div></div>').insertAfter($(b));
-
         $(this).data('dyn',dyn).hide();
-
     });
 
     // Prevent Default

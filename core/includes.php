@@ -5,9 +5,16 @@ if( !defined( 'COREPATH' ) ) { exit(); }
 function includes() {
 
     // Includes First set of Internal files to Include
-
-    $first_internal_includes = [ 'functions', 'crypt', 'options', 'payments', 'structure', 'alerts', 'arrays', 'data', 'elements', 'files', 'icons', 'language', 'modules', 'options', 'spreadsheet', 'user', 'backup', 'log' ];
-
+    $first_internal_includes = [ 'functions', 'crypt' ];
+    if( file_exists( APPPATH . 'config.php' ) ) {
+        $data = include(APPPATH . 'config.php');
+        $data = !empty( $data ) && is_array( $data ) && isset( $data['data'] ) ? $data['data'] : [];
+    }
+    if( isset( $data ) && !empty( $data ) && isset( $data['type'] ) && isset( $data['server'] ) && isset( $data['base'] ) && isset( $data['user'] ) && isset( $data['pass'] ) ) {
+        $first_internal_includes[] = 'connect/'.$data['type'];
+    }
+    array_push( $first_internal_includes, 'functions', 'crypt', 'payments', 'structure', 'alerts', 'arrays', 'data', 'elements', 'files', 'icons', 'language', 'modules', 'spreadsheet', 'user', 'backup', 'log' );
+    //print_r( $first_internal_includes );
     foreach( $first_internal_includes as $first_internal_file ) {
         include_once( dirname( __FILE__ ) . '/includes/'. $first_internal_file . '.php' );
     }
