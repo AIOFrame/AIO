@@ -5,7 +5,7 @@ $lang = get_config('lang');
 $lang = empty( $lang ) ? 'en' : $lang;
 !defined( 'BASELANG' ) ? define( 'BASELANG', $lang ) : '';
 
-if( !empty( $_SESSION['lang'] ) && isset( $lang ) && $_SESSION['lang'] !== $lang ){
+if( !empty( $_SESSION['lang'] ) && defined( 'BASELANG' ) && $_SESSION['lang'] !== BASELANG ) {
 
     $l = $_SESSION['lang'];
     global $translated; // Already translated
