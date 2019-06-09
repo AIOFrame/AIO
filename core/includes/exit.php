@@ -1,7 +1,7 @@
 <?php
 
 // Stores untranslated strings to database
-$l = isset( $_SESSION['lang'] ) ? $_SESSION['lang'] : '';
+$l = isset( $_SESSION['lang'] ) ? $_SESSION['lang'] : 'en';
 if( defined( 'BASELANG' ) && $l !== BASELANG ){
 
     global $untranslated;
@@ -10,8 +10,10 @@ if( defined( 'BASELANG' ) && $l !== BASELANG ){
 
         foreach( $untranslated as $u => $p ){
 
-            //skel( $ut );
-            insert('translations', ['t_base', 't_page'], [ $u, $p ]);
+            $t = select( 'translations', 't_base', 't_base = "'.$u.'"' );
+            if( !$t ) {
+                insert('translations', ['t_base', 't_page'], [$u, $p]);
+            }
 
         }
 
