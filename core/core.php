@@ -124,21 +124,7 @@ function app_loader() {
         $ekey = isset( $c['key'] ) && !empty( $c['key'] ) ? $c['key'] : str_replace(' ','_',defined('APPNAME') ); // Defines the Application Encryption Key
         !defined( 'EKEY' ) ? define( 'EKEY', $ekey ) : '';
 
-        if( isset( $c['host'] ) && !empty( $c['host'] ) && isset( $c['user'] ) && !empty( $c['user'] ) && isset( $c['pass'] ) && !empty( $c['pass'] ) && isset( $c['database'] ) && !empty( $c['database'] ) ){
-
-            //header("Content-Type: text/html; charset=UTF-8");
-
-            global $db;
-            $db = @mysqli_connect( $c['host'], $c['user'], $c['pass'], $c['database'] );
-            if ( $db ) {
-                mysqli_query( $db, "SET NAMES 'utf8'");
-                mysqli_query( $db, 'SET CHARACTER SET utf8' );
-                !defined( 'APPCON' ) ? define( 'APPCON', true ) : '';
-            } else {
-                die( mysqli_connect_error() );
-            }
-
-        }
+        require( COREPATH . 'core/includes/connect/connect.php' ); // Loads authorization files
         require( COREPATH . 'core/access.php' ); // Loads authorization files
         require( COREPATH . 'core/includes/routes.php' ); // Loads Routes PHP File
         require( COREPATH . 'core/includes.php' ); // Loads all PHP files from Includes
