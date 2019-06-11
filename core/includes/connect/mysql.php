@@ -477,7 +477,7 @@ function create_table( $table ){
             $df = debug_backtrace();
 
             //elog('|TABLE| ' . $query . ' ' . $df . PHP_EOL . PHP_EOL);
-            elog( $query, 'table', $df[0]['line'], $df[0]['file'], $target );
+            elog( $query, 'log', $df[0]['line'], $df[0]['file'], $target );
 
             if (!empty($query)) {
                 if (mysqli_query($db, $query) == 1) {
@@ -523,7 +523,7 @@ function create_column( $table, $column, $type = 'TEXT', $length = '13', $null =
     $query .= !empty($default) ? ' default "'.$default.'"' : '';
 
     $df = debug_backtrace();
-    /* elog( $query, 'column', $df[0]['line'], $df[0]['file'], $table . '-' . $column ); */
+    elog( $query, 'column', $df[0]['line'], $df[0]['file'], $table . '-' . $column );
 
     global $db;
     $e = mysqli_query( $db, $exist );

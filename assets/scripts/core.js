@@ -677,7 +677,6 @@ function post( action, data, notify_time, reload_time ) {
     $.post( location.origin, d, function(r) {
         elog(r);
         try {
-            elog(r);
             r = JSON.parse( r );
             elog(r);
             if( notify_time !== '' ) {
