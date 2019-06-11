@@ -672,39 +672,24 @@ function reload( time_seconds ){
 
 }
 
-function post( action, data, notif, reload ) {
-
+function post( action, data, notify_time, reload_time ) {
     var d = $.extend({}, {'action':action}, data);
-
     $.post( location.origin, d, function(r) {
-
         elog(r);
-
         try {
-
-            var r = JSON.parse( r );
-
-            if( notif !== '' ) {
-
-                notify( r[1], notif );
-
-            }
-
-            if( r[0] === 1 && reload !== undefined ) {
-
-                setTimeout(function(){ location.reload() }, reload * 1000 );
-
-            }
-
             elog(r);
-
-            return r[0] === 1;
-
+            r = JSON.parse( r );
+            elog(r);
+            if( notify_time !== '' ) {
+                notify( r[1], notify_time );
+            }
+            if( r[0] === 1 && reload_time !== undefined ) {
+                $.isNumeric( reload_time ) ? setTimeout(function(){ location.reload() }, reload_time * 1000 ) : location.href = reload_time;
+            }
+            return r[0];
         }
         catch( e ) { elog(e); }
-
-    })
-
+    });
 }
 
 /* async function paste( e ) {

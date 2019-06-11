@@ -41,7 +41,7 @@ if( $id == '00' ) {
         echo '<h1 id="id">'.$id.'</h1><h2 id="title">'.$title.'</h2>';
     }
 
-    if( get_user_ip() == '127.0.0.1' ) {
+    if( $id == '00' && get_user_ip() == '127.0.0.1' ) {
 
         include_once(COREPATH . 'core/pages/install.php');
 
