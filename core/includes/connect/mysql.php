@@ -522,14 +522,13 @@ function create_column( $table, $column, $type = 'TEXT', $length = '13', $null =
     $query .= !empty($default) ? ' default "'.$default.'"' : '';
 
     $df = debug_backtrace();
-    elog( $query, 'column', $df[0]['line'], $df[0]['file'], $table . '-' . $column );
-
     global $db;
     $e = mysqli_query( $db, $exist );
     if( $e && $e->fetch_assoc()['COUNT(*)'] == 0 ){
         if( mysqli_query( $db, $query ) ){
             return true;
         } else {
+            elog( $query, 'column', $df[0]['line'], $df[0]['file'], $table . '-' . $column );
             elog( $column.' '.mysqli_error($db), 'error', $df[0]['line'], $df[0]['file'], $table . '-' . $column );
             return false;
         }

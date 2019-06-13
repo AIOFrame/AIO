@@ -9,3 +9,11 @@ if( isset( $_POST['action'] ) && !empty( $_POST['action'] ) ){
     }
     die();
 }
+
+function es( $string ) {
+    echo json_encode( [ 1, T( $string ) ] );
+}
+
+function ef( $string ) {
+    echo json_encode( [ 0, T( $string ) ] );
+}
