@@ -83,7 +83,10 @@ function email( $to, $subject, $content, $from, $cc = '' ){
 
 function sendgrid( $to, $subject, $content, $from, $cc = '' ) {
 
-    $key = get_option( 'sendgrid_key' );
+    $key = get_config( 'sendgrid_key' );
+    if( empty( $key ) ) {
+        $key = get_option( 'sendgrid_key' );
+    }
 
     if( !empty( $key ) ) {
 
@@ -106,12 +109,13 @@ function sendgrid( $to, $subject, $content, $from, $cc = '' ) {
         try {
             $response = $sendgrid->send($email);
             elog( $response->statusCode() );
+            return 1;
         } catch (Exception $e) {
             elog( $e->getMessage() );
             return 0;
         }
     } else {
-        return 1;
+        return 0;
     }
 }
 
