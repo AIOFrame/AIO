@@ -508,7 +508,7 @@ body.d .tab {
     border-radius:0;
     background-position: center;
     background-repeat: no-repeat;
-    background-size:contain;
+    background-size:80px;
 }
 .block .title {
     font-size: 16px;

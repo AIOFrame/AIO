@@ -123,6 +123,7 @@ function insert( $table, $names, $values ){
     global $db;
     if( $db ) {
         if (is_array($names) && is_array($values)) {
+            $df = debug_backtrace();
             if (count($names) == count($values)) {
                 $names = implode(',', $names);
                 $fv = "'";
@@ -135,8 +136,6 @@ function insert( $table, $names, $values ){
                 }
                 $fv = substr($fv, 0, -2);
                 $q = "INSERT INTO $table ($names) VALUES ($fv)";
-
-                $df = debug_backtrace();
 
                 elog( $q, 'insert', $df[0]['line'], $df[0]['file'], $table );
                 //return $q;
@@ -514,7 +513,7 @@ function create_tables( $tables ) {
 
 function create_column( $table, $column, $type = 'TEXT', $length = '13', $null = true, $default = '' ){
     $type == 'BOOLEAN' ? $type = 'TINYINT' : '';
-    $length = in_array($type, ['BOOLEAN', 'DATETIME', 'DATE', 'TIME', 'TINYTEXT']) ? '' : $length;
+    $length = in_array($type, ['BOOLEAN', 'DATETIME', 'DATE', 'TIME', 'TINYTEXT','DOUBLE']) ? '' : $length;
     $null = $null ? 'NULL' : 'NOT NULL';
     $length = !empty($length) ? '('.$length.')' : '';
     $exist = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$column'";

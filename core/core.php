@@ -102,6 +102,7 @@ function app_loader() {
         !defined( 'APPDEBUG' ) ? define( 'APPDEBUG', $debug ) : '';
         if( APPDEBUG ) {
             error_reporting(E_ALL);
+            ini_set('display_errors', 1);
             $str_dir = APPPATH . 'storage';
             $log_dir = $str_dir . '/log';
             $elog = $log_dir . '/error_log.log';
