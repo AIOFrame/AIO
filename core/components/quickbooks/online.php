@@ -11,32 +11,31 @@ class QB_ONLINE {
         if( !isset( $_SESSION['qb_token'] ) ) {
             global $cbuss;
             if( isset( $cbuss['id'] ) ) {
-                $config = include('config.php');
                 $keys = get_options(['qb_client_id', 'qb_client_secret'], $cbuss['id']);
-                $config['client_id'] = $keys['qb_client_id'];
-                $config['client_secret'] = $keys['qb_client_secret'];
-                //skel($config);
+                skel( $keys );
                 // Create SDK instance
                 $dataService = DataService::Configure(array(
                     'auth_mode' => 'oauth2',
-                    'ClientID' => $config['client_id'],
-                    'ClientSecret' => $config['client_secret'],
-                    'RedirectURI' => $config['oauth_redirect_uri'],
-                    'scope' => $config['oauth_scope'],
+                    'ClientID' => $keys['qb_client_id'],
+                    'ClientSecret' => $keys['qb_client_secret'],
+                    'RedirectURI' => APPURL,
+                    'scope' => 'com.intuit.quickbooks.accounting',
                     'baseUrl' => "development"
                 ));
                 $OAuth2LoginHelper = $dataService->getOAuth2LoginHelper();
                 $authUrl = $OAuth2LoginHelper->getAuthorizationCodeURL();
-                skel($authUrl);
+                skel( $authUrl );
 
-                skel( $_SERVER['QUERY_STRING'] );
                 $parseUrl = $this->parseAuthRedirectUrl( $_SERVER['QUERY_STRING'] );
-                skel( $parseUrl );
 
-                /*$accessToken = $OAuth2LoginHelper->exchangeAuthorizationCodeForToken($parseUrl['code'], $parseUrl['realmId']);
+                echo '<script>var qb_url = "'.$authUrl.'";</script><button id="qb_auth" onclick="oauth.loginPopup()">'.T('Authorize Quick Books').'</button>';
+                get_script( 'quickbooks/online' );
+
+                $accessToken = $OAuth2LoginHelper->exchangeAuthorizationCodeForToken($parseUrl['code'], $parseUrl['realmId']);
+                skel($parseUrl);
                 $dataService->updateOAuth2Token($accessToken);
 
-                $_SESSION['qb_token'] = $accessToken;*/
+                $_SESSION['qb_token'] = $accessToken;
             }
         }
     }
