@@ -1,0 +1,540 @@
+[
+    {
+        "name": "markbaker/complex",
+        "version": "1.4.7",
+        "version_normalized": "1.4.7.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/MarkBaker/PHPComplex.git",
+            "reference": "1ea674a8308baf547cbcbd30c5fcd6d301b7c000"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/MarkBaker/PHPComplex/zipball/1ea674a8308baf547cbcbd30c5fcd6d301b7c000",
+            "reference": "1ea674a8308baf547cbcbd30c5fcd6d301b7c000",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^5.6.0|^7.0.0"
+        },
+        "require-dev": {
+            "dealerdirect/phpcodesniffer-composer-installer": "^0.4.3",
+            "phpcompatibility/php-compatibility": "^8.0",
+            "phpdocumentor/phpdocumentor": "2.*",
+            "phploc/phploc": "2.*",
+            "phpmd/phpmd": "2.*",
+            "phpunit/phpunit": "^4.8.35|^5.4.0",
+            "sebastian/phpcpd": "2.*",
+            "squizlabs/php_codesniffer": "^3.3.0"
+        },
+        "time": "2018-10-13T23:28:42+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Complex\\": "classes/src/"
+            },
+            "files": [
+                "classes/src/functions/abs.php",
+                "classes/src/functions/acos.php",
+                "classes/src/functions/acosh.php",
+                "classes/src/functions/acot.php",
+                "classes/src/functions/acoth.php",
+                "classes/src/functions/acsc.php",
+                "classes/src/functions/acsch.php",
+                "classes/src/functions/argument.php",
+                "classes/src/functions/asec.php",
+                "classes/src/functions/asech.php",
+                "classes/src/functions/asin.php",
+                "classes/src/functions/asinh.php",
+                "classes/src/functions/atan.php",
+                "classes/src/functions/atanh.php",
+                "classes/src/functions/conjugate.php",
+                "classes/src/functions/cos.php",
+                "classes/src/functions/cosh.php",
+                "classes/src/functions/cot.php",
+                "classes/src/functions/coth.php",
+                "classes/src/functions/csc.php",
+                "classes/src/functions/csch.php",
+                "classes/src/functions/exp.php",
+                "classes/src/functions/inverse.php",
+                "classes/src/functions/ln.php",
+                "classes/src/functions/log2.php",
+                "classes/src/functions/log10.php",
+                "classes/src/functions/negative.php",
+                "classes/src/functions/pow.php",
+                "classes/src/functions/rho.php",
+                "classes/src/functions/sec.php",
+                "classes/src/functions/sech.php",
+                "classes/src/functions/sin.php",
+                "classes/src/functions/sinh.php",
+                "classes/src/functions/sqrt.php",
+                "classes/src/functions/tan.php",
+                "classes/src/functions/tanh.php",
+                "classes/src/functions/theta.php",
+                "classes/src/operations/add.php",
+                "classes/src/operations/subtract.php",
+                "classes/src/operations/multiply.php",
+                "classes/src/operations/divideby.php",
+                "classes/src/operations/divideinto.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Mark Baker",
+                "email": "mark@lange.demon.co.uk"
+            }
+        ],
+        "description": "PHP Class for working with complex numbers",
+        "homepage": "https://github.com/MarkBaker/PHPComplex",
+        "keywords": [
+            "complex",
+            "mathematics"
+        ]
+    },
+    {
+        "name": "markbaker/matrix",
+        "version": "1.1.4",
+        "version_normalized": "1.1.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/MarkBaker/PHPMatrix.git",
+            "reference": "6ea97472b5baf12119b4f31f802835b820dd6d64"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/MarkBaker/PHPMatrix/zipball/6ea97472b5baf12119b4f31f802835b820dd6d64",
+            "reference": "6ea97472b5baf12119b4f31f802835b820dd6d64",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^5.6.0|^7.0.0"
+        },
+        "require-dev": {
+            "dealerdirect/phpcodesniffer-composer-installer": "^0.4.3",
+            "phpcompatibility/php-compatibility": "^8.0",
+            "phpdocumentor/phpdocumentor": "2.*",
+            "phploc/phploc": "2.*",
+            "phpmd/phpmd": "2.*",
+            "phpunit/phpunit": "^4.8.35|^5.4.0",
+            "sebastian/phpcpd": "2.*",
+            "squizlabs/php_codesniffer": "^3.3.0"
+        },
+        "time": "2018-11-04T22:12:12+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Matrix\\": "classes/src/"
+            },
+            "files": [
+                "classes/src/functions/adjoint.php",
+                "classes/src/functions/antidiagonal.php",
+                "classes/src/functions/cofactors.php",
+                "classes/src/functions/determinant.php",
+                "classes/src/functions/diagonal.php",
+                "classes/src/functions/identity.php",
+                "classes/src/functions/inverse.php",
+                "classes/src/functions/minors.php",
+                "classes/src/functions/trace.php",
+                "classes/src/functions/transpose.php",
+                "classes/src/operations/add.php",
+                "classes/src/operations/directsum.php",
+                "classes/src/operations/subtract.php",
+                "classes/src/operations/multiply.php",
+                "classes/src/operations/divideby.php",
+                "classes/src/operations/divideinto.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Mark Baker",
+                "email": "mark@lange.demon.co.uk"
+            }
+        ],
+        "description": "PHP Class for working with matrices",
+        "homepage": "https://github.com/MarkBaker/PHPMatrix",
+        "keywords": [
+            "mathematics",
+            "matrix",
+            "vector"
+        ]
+    },
+    {
+        "name": "mashape/unirest-php",
+        "version": "v3.0.4",
+        "version_normalized": "3.0.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Mashape/unirest-php.git",
+            "reference": "842c0f242dfaaf85f16b72e217bf7f7c19ab12cb"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Mashape/unirest-php/zipball/842c0f242dfaaf85f16b72e217bf7f7c19ab12cb",
+            "reference": "842c0f242dfaaf85f16b72e217bf7f7c19ab12cb",
+            "shasum": ""
+        },
+        "require": {
+            "ext-curl": "*",
+            "php": ">=5.4.0"
+        },
+        "require-dev": {
+            "codeclimate/php-test-reporter": "0.1.*",
+            "phpunit/phpunit": "~4.4"
+        },
+        "suggest": {
+            "ext-json": "Allows using JSON Bodies for sending and parsing requests"
+        },
+        "time": "2016-08-11T17:49:21+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Unirest\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "description": "Unirest PHP",
+        "homepage": "https://github.com/Mashape/unirest-php",
+        "keywords": [
+            "client",
+            "curl",
+            "http",
+            "https",
+            "rest"
+        ]
+    },
+    {
+        "name": "phpoffice/phpspreadsheet",
+        "version": "1.7.0",
+        "version_normalized": "1.7.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
+            "reference": "84e09df79855ed3da84e2eab6850eb7741d8cbda"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/84e09df79855ed3da84e2eab6850eb7741d8cbda",
+            "reference": "84e09df79855ed3da84e2eab6850eb7741d8cbda",
+            "shasum": ""
+        },
+        "require": {
+            "ext-ctype": "*",
+            "ext-dom": "*",
+            "ext-fileinfo": "*",
+            "ext-gd": "*",
+            "ext-iconv": "*",
+            "ext-libxml": "*",
+            "ext-mbstring": "*",
+            "ext-simplexml": "*",
+            "ext-xml": "*",
+            "ext-xmlreader": "*",
+            "ext-xmlwriter": "*",
+            "ext-zip": "*",
+            "ext-zlib": "*",
+            "markbaker/complex": "^1.4",
+            "markbaker/matrix": "^1.1",
+            "php": "^5.6|^7.0",
+            "psr/simple-cache": "^1.0"
+        },
+        "require-dev": {
+            "doctrine/instantiator": "^1.0.0",
+            "dompdf/dompdf": "^0.8.0",
+            "friendsofphp/php-cs-fixer": "@stable",
+            "jpgraph/jpgraph": "^4.0",
+            "mpdf/mpdf": "^7.0.0",
+            "phpcompatibility/php-compatibility": "^8.0",
+            "phpunit/phpunit": "^5.7",
+            "squizlabs/php_codesniffer": "^3.3",
+            "tecnickcom/tcpdf": "^6.2"
+        },
+        "suggest": {
+            "dompdf/dompdf": "Option for rendering PDF with PDF Writer",
+            "jpgraph/jpgraph": "Option for rendering charts, or including charts with PDF or HTML Writers",
+            "mpdf/mpdf": "Option for rendering PDF with PDF Writer",
+            "tecnickcom/tcpdf": "Option for rendering PDF with PDF Writer"
+        },
+        "time": "2019-05-26T02:50:36+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "PhpOffice\\PhpSpreadsheet\\": "src/PhpSpreadsheet"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-2.1-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Erik Tilt"
+            },
+            {
+                "name": "Adrien Crivelli"
+            },
+            {
+                "name": "Maarten Balliauw",
+                "homepage": "https://blog.maartenballiauw.be"
+            },
+            {
+                "name": "Mark Baker",
+                "homepage": "https://markbakeruk.net"
+            },
+            {
+                "name": "Franck Lefevre",
+                "homepage": "https://rootslabs.net"
+            }
+        ],
+        "description": "PHPSpreadsheet - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
+        "homepage": "https://github.com/PHPOffice/PhpSpreadsheet",
+        "keywords": [
+            "OpenXML",
+            "excel",
+            "gnumeric",
+            "ods",
+            "php",
+            "spreadsheet",
+            "xls",
+            "xlsx"
+        ]
+    },
+    {
+        "name": "psr/simple-cache",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/php-fig/simple-cache.git",
+            "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/php-fig/simple-cache/zipball/408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
+            "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2017-10-23T01:57:42+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Psr\\SimpleCache\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "PHP-FIG",
+                "homepage": "http://www.php-fig.org/"
+            }
+        ],
+        "description": "Common interfaces for simple caching",
+        "keywords": [
+            "cache",
+            "caching",
+            "psr",
+            "psr-16",
+            "simple-cache"
+        ]
+    },
+    {
+        "name": "quickbooks/v3-php-sdk",
+        "version": "5.0.4",
+        "version_normalized": "5.0.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/intuit/QuickBooks-V3-PHP-SDK.git",
+            "reference": "f9d1e768adaba9bda7a1fd374adca04fc119b85c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/intuit/QuickBooks-V3-PHP-SDK/zipball/f9d1e768adaba9bda7a1fd374adca04fc119b85c",
+            "reference": "f9d1e768adaba9bda7a1fd374adca04fc119b85c",
+            "shasum": ""
+        },
+        "require": {
+            "ext-dom": "*",
+            "ext-mbstring": "*",
+            "php": ">=5.6.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^5.7"
+        },
+        "suggest": {
+            "ext-curl": "Uses Curl to make HTTP Requests",
+            "guzzlehttp/guzzle": "Uses Guzzle to make HTTP Requests"
+        },
+        "time": "2019-03-26T08:42:18+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "QuickBooksOnline\\API\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "hlu2",
+                "email": "Hao_Lu@intuit.com"
+            }
+        ],
+        "description": "The Official PHP SDK for QuickBooks Online Accounting API",
+        "homepage": "http://developer.intuit.com",
+        "keywords": [
+            "api",
+            "http",
+            "quickbooks",
+            "rest",
+            "smallbusiness"
+        ]
+    },
+    {
+        "name": "spipu/html2pdf",
+        "version": "v5.2.1",
+        "version_normalized": "5.2.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/spipu/html2pdf.git",
+            "reference": "7dca57b61fdb2d6920635ff2332dbc82d4be19f3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/spipu/html2pdf/zipball/7dca57b61fdb2d6920635ff2332dbc82d4be19f3",
+            "reference": "7dca57b61fdb2d6920635ff2332dbc82d4be19f3",
+            "shasum": ""
+        },
+        "require": {
+            "ext-mbstring": "*",
+            "php": "^5.4 || ^7.0",
+            "tecnickcom/tcpdf": "^6.2"
+        },
+        "require-dev": {
+            "phake/phake": "^2.0",
+            "phpunit/phpunit": "^4.0 || ^5.0",
+            "squizlabs/php_codesniffer": "^3.0"
+        },
+        "suggest": {
+            "ext-gd": "Allows to embed images into the PDF",
+            "fagundes/zff-html2pdf": "if you need to integrate Html2Pdf with Zend Framework 2 (zf2)"
+        },
+        "time": "2018-10-26T13:33:18+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Spipu\\Html2Pdf\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "OSL-3.0"
+        ],
+        "authors": [
+            {
+                "name": "Spipu",
+                "homepage": "https://github.com/spipu",
+                "role": "Developer"
+            }
+        ],
+        "description": "Html2Pdf is a HTML to PDF converter written in PHP5 (it uses TCPDF). OFFICIAL PACKAGE",
+        "homepage": "http://html2pdf.fr/",
+        "keywords": [
+            "html",
+            "html2pdf",
+            "pdf"
+        ]
+    },
+    {
+        "name": "tecnickcom/tcpdf",
+        "version": "6.2.26",
+        "version_normalized": "6.2.26.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/tecnickcom/TCPDF.git",
+            "reference": "367241059ca166e3a76490f4448c284e0a161f15"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/367241059ca166e3a76490f4448c284e0a161f15",
+            "reference": "367241059ca166e3a76490f4448c284e0a161f15",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2018-10-16T17:24:05+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "config",
+                "include",
+                "tcpdf.php",
+                "tcpdf_parser.php",
+                "tcpdf_import.php",
+                "tcpdf_barcodes_1d.php",
+                "tcpdf_barcodes_2d.php",
+                "include/tcpdf_colors.php",
+                "include/tcpdf_filters.php",
+                "include/tcpdf_font_data.php",
+                "include/tcpdf_fonts.php",
+                "include/tcpdf_images.php",
+                "include/tcpdf_static.php",
+                "include/barcodes/datamatrix.php",
+                "include/barcodes/pdf417.php",
+                "include/barcodes/qrcode.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-3.0"
+        ],
+        "authors": [
+            {
+                "name": "Nicola Asuni",
+                "email": "info@tecnick.com",
+                "role": "lead"
+            }
+        ],
+        "description": "TCPDF is a PHP class for generating PDF documents and barcodes.",
+        "homepage": "http://www.tcpdf.org/",
+        "keywords": [
+            "PDFD32000-2008",
+            "TCPDF",
+            "barcodes",
+            "datamatrix",
+            "pdf",
+            "pdf417",
+            "qrcode"
+        ]
+    }
+]

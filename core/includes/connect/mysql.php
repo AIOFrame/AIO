@@ -54,7 +54,7 @@ function get_option( $name, $user = false, $key = 'name' ) {
 
 
 function get_options( $opn, $user = false, $key = 'name' ) {
-    global $db; $q = '';
+    $q = '';
     if( is_array( $opn ) ){
         foreach( $opn as $op ){
             if( $key == 'id' ){
@@ -71,7 +71,7 @@ function get_options( $opn, $user = false, $key = 'name' ) {
         }
     }
     $q = !empty( $q ) ? substr($q, 0, -3) : $q;
-    $query = $user ? $q . ' AND option_scope = "'.$_SESSION['user_id'].'"' : $q;
+    $query = $user ? '('. $q . ') AND option_scope = "'.$user.'"' : $q;
     $o = select( 'options', 'option_name, option_value', $query );
     $d = [];
     if( is_array( $o ) ){
