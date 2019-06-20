@@ -13,7 +13,7 @@ class Excel {
 
     private function __construct() {
 
-        require_once COREPATH . 'core/components/spreadsheet/vendor/autoload.php';
+        require_once COREPATH . 'core/components/vendor/autoload.php';
 
     }
 
