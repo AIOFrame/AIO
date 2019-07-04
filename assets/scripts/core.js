@@ -482,12 +482,17 @@ function get_values( e, s, pre ) {
 
         if($(this).hasClass('fn')){ v = ufn( $(this).val() ) } else { v = $(this).val() }
 
-        if( $(this).attr('type') === 'checkbox' || $(this).attr('type') === 'radio' ){
+        if( $(this).attr('type') === 'checkbox' ){
 
             v = $(this).is(':checked');
-
             if( v === true ){ v = 1; } else if( v === false ) { v = 0; }
 
+        } else if( $(this).attr('type') === 'radio' ) {
+
+            k = $(this).is(':checked') ? $(this).attr('name') : '';
+            v = $(this).is(':checked') ? $(this).val() : '';
+            data[k] = v;
+            return true;
         }
 
         if( $(this).data('key') !== undefined ){
