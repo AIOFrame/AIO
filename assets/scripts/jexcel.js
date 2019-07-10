@@ -1,10 +1,10 @@
 /**
- * (c) jExcel v3.2.9
- * 
+ * (c) jExcel v3.3.1
+ *
  * Author: Paul Hodel <paul.hodel@gmail.com>
  * Website: https://bossanova.uk/jexcel/
  * Description: Create amazing web based spreadsheets.
- * 
+ *
  * This software is distribute under MIT License
  */
 
@@ -159,7 +159,7 @@ var jexcel = (function(el, options) {
             noCellsSelected: 'No cells selected',
         },
         // About message
-        about:"jExcel CE Spreadsheet\nVersion 3.2.9\nAuthor: Paul Hodel <paul.hodel@gmail.com>\nWebsite: https://jexcel.net/v3",
+        about:"jExcel CE Spreadsheet\nVersion 3.3.1\nAuthor: Paul Hodel <paul.hodel@gmail.com>\nWebsite: https://jexcel.net/v3",
     };
 
     // Loading initial configuration from user
@@ -223,7 +223,7 @@ var jexcel = (function(el, options) {
 
     /**
      * Prepare the jexcel table
-     * 
+     *
      * @Param config
      */
     obj.prepareTable = function() {
@@ -397,6 +397,7 @@ var jexcel = (function(el, options) {
         // Row
         obj.headerContainer = document.createElement('tr');
         var tempCol = document.createElement('td');
+        tempCol.classList.add('jexcel_selectall');
         obj.headerContainer.appendChild(tempCol);
 
         for (var i = 0; i < obj.options.columns.length; i++) {
@@ -538,7 +539,7 @@ var jexcel = (function(el, options) {
 
     /**
      * Set data
-     * 
+     *
      * @param array data In case no data is sent, default is reloaded
      * @return void
      */
@@ -651,7 +652,7 @@ var jexcel = (function(el, options) {
 
     /**
      * Get the whole table data
-     * 
+     *
      * @param integer row number
      * @return string value
      */
@@ -682,9 +683,9 @@ var jexcel = (function(el, options) {
             if (px > 0) {
                 py++;
             }
-       }
+        }
 
-       return dataset;
+        return dataset;
     }
 
     /**
@@ -814,7 +815,7 @@ var jexcel = (function(el, options) {
                 value = obj.executeFormula(value, i, j)
             }
             if (obj.options.columns[i].mask) {
-                var decimal = obj.options.columns[i].decimal || '.'; 
+                var decimal = obj.options.columns[i].decimal || '.';
                 value = '' + jSuites.mask.run(value, obj.options.columns[i].mask, decimal);
             }
 
@@ -922,10 +923,10 @@ var jexcel = (function(el, options) {
         } else {
             var toolbar = obj.options.toolbar;
         }
- 
-        for (var i = 0; i < toolbar.length; i++) { 
-            if (toolbar[i].type == 'i') { 
-                var toolbarItem = document.createElement('i'); 
+
+        for (var i = 0; i < toolbar.length; i++) {
+            if (toolbar[i].type == 'i') {
+                var toolbarItem = document.createElement('i');
                 toolbarItem.classList.add('jexcel_toolbar_item');
                 toolbarItem.classList.add('material-icons');
                 toolbarItem.setAttribute('data-k', toolbar[i].k);
@@ -937,51 +938,51 @@ var jexcel = (function(el, options) {
                     toolbarItem.onclick = function() {
                         var k = this.getAttribute('data-k');
                         var v = this.getAttribute('data-v');
-                        obj.setStyle(obj.highlighted, k, v); 
+                        obj.setStyle(obj.highlighted, k, v);
                     }
                 }
                 // Append element
-                toolbarItem.innerHTML = toolbar[i].content; 
-                obj.toolbar.appendChild(toolbarItem); 
-            } else if (toolbar[i].type == 'select') { 
-               var toolbarItem = document.createElement('select');
-               toolbarItem.classList.add('jexcel_toolbar_item');
-               toolbarItem.setAttribute('data-k', toolbar[i].k);
-               // Handle onchange
-               if (toolbar[i].onchange && typeof(toolbar[i].onchange)) {
-                   toolbarItem.onchange = toolbar[i].onchange;
-               } else {
-                   toolbarItem.onchange = function() {
-                       var k = this.getAttribute('data-k');
-                       obj.setStyle(obj.highlighted, k, this.value);
-                   }
-               }
-               // Add options to the dropdown
-               for(var j = 0; j < toolbar[i].v.length; j++) {
+                toolbarItem.innerHTML = toolbar[i].content;
+                obj.toolbar.appendChild(toolbarItem);
+            } else if (toolbar[i].type == 'select') {
+                var toolbarItem = document.createElement('select');
+                toolbarItem.classList.add('jexcel_toolbar_item');
+                toolbarItem.setAttribute('data-k', toolbar[i].k);
+                // Handle onchange
+                if (toolbar[i].onchange && typeof(toolbar[i].onchange)) {
+                    toolbarItem.onchange = toolbar[i].onchange;
+                } else {
+                    toolbarItem.onchange = function() {
+                        var k = this.getAttribute('data-k');
+                        obj.setStyle(obj.highlighted, k, this.value);
+                    }
+                }
+                // Add options to the dropdown
+                for(var j = 0; j < toolbar[i].v.length; j++) {
                     var toolbarDropdownOption = document.createElement('option');
                     toolbarDropdownOption.value = toolbar[i].v[j];
                     toolbarDropdownOption.innerHTML = toolbar[i].v[j];
                     toolbarItem.appendChild(toolbarDropdownOption);
-               }
-               obj.toolbar.appendChild(toolbarItem);
-            } else if (toolbar[i].type == 'color') { 
-                 var toolbarItem = document.createElement('i');
-                 toolbarItem.classList.add('jexcel_toolbar_item');
-                 toolbarItem.classList.add('material-icons');
-                 toolbarItem.setAttribute('data-k', toolbar[i].k);
-                 toolbarItem.setAttribute('data-v', '');
-                 obj.toolbar.appendChild(toolbarItem);
-                 toolbarItem.onclick = function() {
-                     this.color.open();
-                 }
-                 toolbarItem.innerHTML = toolbar[i].content;
-                 jSuites.color(toolbarItem, {
-                     onchange:function(o, v) {
-                         var k = o.getAttribute('data-k');
-                         obj.setStyle(obj.highlighted, k, v);
-                     }
-                 });
-            } 
+                }
+                obj.toolbar.appendChild(toolbarItem);
+            } else if (toolbar[i].type == 'color') {
+                var toolbarItem = document.createElement('i');
+                toolbarItem.classList.add('jexcel_toolbar_item');
+                toolbarItem.classList.add('material-icons');
+                toolbarItem.setAttribute('data-k', toolbar[i].k);
+                toolbarItem.setAttribute('data-v', '');
+                obj.toolbar.appendChild(toolbarItem);
+                toolbarItem.onclick = function() {
+                    this.color.open();
+                }
+                toolbarItem.innerHTML = toolbar[i].content;
+                jSuites.color(toolbarItem, {
+                    onchange:function(o, v) {
+                        var k = o.getAttribute('data-k');
+                        obj.setStyle(obj.highlighted, k, v);
+                    }
+                });
+            }
         }
     }
 
@@ -1105,7 +1106,7 @@ var jexcel = (function(el, options) {
                 }
             }
         }
-        
+
         return data;
     }
 
@@ -1231,7 +1232,7 @@ var jexcel = (function(el, options) {
 
     /**
      * Open the editor
-     * 
+     *
      * @param object cell
      * @return void
      */
@@ -1386,7 +1387,7 @@ var jexcel = (function(el, options) {
 
     /**
      * Close the editor and save the information
-     * 
+     *
      * @param object cell
      * @param boolean save
      * @return void
@@ -1476,32 +1477,32 @@ var jexcel = (function(el, options) {
         obj.edition = null;
     },
 
-    /**
-     * Get the value from a cell
-     * 
-     * @param object cell
-     * @return string value
-     */
-    obj.getValue = function(cell) {
-        if (typeof(cell) == 'object') {
-            var x = cell.getAttribute('data-x');
-            var y = cell.getAttribute('data-y');
-        } else {
-            cell = jexcel.getIdFromColumnName(cell, true);
-            var x = cell[0];
-            var y = cell[1];
-        }
+        /**
+         * Get the value from a cell
+         *
+         * @param object cell
+         * @return string value
+         */
+        obj.getValue = function(cell) {
+            if (typeof(cell) == 'object') {
+                var x = cell.getAttribute('data-x');
+                var y = cell.getAttribute('data-y');
+            } else {
+                cell = jexcel.getIdFromColumnName(cell, true);
+                var x = cell[0];
+                var y = cell[1];
+            }
 
-        if (x != null && y != null) {
-            return obj.options.data[y][x];
-        }
+            if (x != null && y != null) {
+                return obj.options.data[y][x];
+            }
 
-        return null;
-    }
+            return null;
+        }
 
     /**
      * Get the value from a coords
-     * 
+     *
      * @param int x
      * @param int y
      * @return string value
@@ -1514,7 +1515,7 @@ var jexcel = (function(el, options) {
 
     /**
      * Set a cell value
-     * 
+     *
      * @param object cell destination cell
      * @param object value value
      * @return void
@@ -1529,7 +1530,7 @@ var jexcel = (function(el, options) {
 
             // Update cell
             records.push(obj.updateCell(x, y, value));
-         } else {
+        } else {
             var keys = Object.keys(cell);
             if (keys.length > 0) {
                 for (var i = 0; i < keys.length; i++) {
@@ -1557,7 +1558,7 @@ var jexcel = (function(el, options) {
                     // Update cell
                     var value = ''+obj.options.data[cell[1]][cell[0]];
                     if (value.substr(0,1) == '=') {
-                        records.push(obj.updateCell(cell[0], cell[1], value));
+                        records.push(obj.updateCell(cell[0], cell[1], value, true));
                     } else {
                         // No longer a formula, remove from the chain
                         Object.keys(obj.formula)[i] = null;
@@ -1607,13 +1608,13 @@ var jexcel = (function(el, options) {
 
     /**
      * Update cell content
-     * 
+     *
      * @param object cell
      * @return void
      */
     obj.updateCell = function(x, y, value, force) {
         // Changing value depending on the column type
-        if (obj.records[y][x].classList.contains('readonly') == true && force == false) {
+        if (obj.records[y][x].classList.contains('readonly') == true && ! force) {
             // Do nothing
         } else {
             // On change
@@ -1657,7 +1658,7 @@ var jexcel = (function(el, options) {
                     var formatted = jSuites.calendar.extractDateFromString(value, obj.options.columns[x].options.format);
                     // Update data and cell
                     obj.options.data[y][x] = value;
-                    obj.records[y][x].innerHTML = jSuites.calendar.getDateString(formatted ? formatted : value);
+                    obj.records[y][x].innerHTML = jSuites.calendar.getDateString(formatted ? formatted : value, obj.options.columns[x].options.format);
                 } else if (obj.options.columns[x].type == 'color') {
                     // Update color
                     obj.options.data[y][x] = value;
@@ -1669,7 +1670,7 @@ var jexcel = (function(el, options) {
                         obj.records[y][x].innerHTML = '';
                         obj.records[y][x].appendChild(color);
                     } else {
-                    obj.records[y][x].style.color = value;
+                        obj.records[y][x].style.color = value;
                         obj.records[y][x].innerHTML = value;
                     }
                 } else if (obj.options.columns[x].type == 'image') {
@@ -1689,17 +1690,17 @@ var jexcel = (function(el, options) {
                         value = obj.executeFormula(value, x, y);
                     }
                     if (obj.options.columns[x].mask) {
-                        var decimal = obj.options.columns[x].decimal || '.'; 
+                        var decimal = obj.options.columns[x].decimal || '.';
                         value = '' + jSuites.mask.run(value, obj.options.columns[x].mask, decimal);
                     }
                     obj.records[y][x].innerHTML = value;
 
                     // Handle big text inside a cell
                     if (obj.records[y][x].innerHTML.length > 200) {
-                        obj.records[y][x].style.whiteSpace = 'pre-wrap'; 
+                        obj.records[y][x].style.whiteSpace = 'pre-wrap';
                     } else {
                         if (obj.options.wordWrap == false && obj.options.columns[x].wordWrap == false) {
-                            obj.records[y][x].style.whiteSpace = ''; 
+                            obj.records[y][x].style.whiteSpace = '';
                         }
                     }
                 }
@@ -1743,7 +1744,7 @@ var jexcel = (function(el, options) {
         var y2 = parseInt(d.getAttribute('data-y'));
 
         // Records
-        var records = []; 
+        var records = [];
         var lineNumber = 1;
 
         // Copy data procedure
@@ -1882,8 +1883,10 @@ var jexcel = (function(el, options) {
 
                 // Check for merged cells
                 if (obj.highlighted[i].getAttribute('data-merged')) {
-                    var ux = parseInt(obj.highlighted[i].getAttribute('colspan'));
-                    var uy = parseInt(obj.highlighted[i].getAttribute('rowspan'));
+                    var colspan = parseInt(obj.highlighted[i].getAttribute('colspan'));
+                    var rowspan = parseInt(obj.highlighted[i].getAttribute('rowspan'));
+                    var ux = colspan > 0 ? px + (colspan - 1) : px;
+                    var uy = rowspan > 0 ? py + (rowspan - 1): py;
                 } else {
                     var ux = px;
                     var uy = py;
@@ -2112,7 +2115,7 @@ var jexcel = (function(el, options) {
 
     /**
      * Remove copy selection
-     * 
+     *
      * @return void
      */
     obj.removeCopySelection = function() {
@@ -2130,7 +2133,7 @@ var jexcel = (function(el, options) {
 
     /**
      * Update copy selection
-     * 
+     *
      * @param int x, y
      * @return void
      */
@@ -2188,7 +2191,7 @@ var jexcel = (function(el, options) {
 
     /**
      * Update corner position
-     * 
+     *
      * @return void
      */
     obj.updateCornerPosition = function() {
@@ -2273,7 +2276,7 @@ var jexcel = (function(el, options) {
 
     /**
      * Get the column width
-     * 
+     *
      * @param int column   column number (first column is: 0)
      * @return int current width
      */
@@ -2298,7 +2301,7 @@ var jexcel = (function(el, options) {
 
     /**
      * Set the column width
-     * 
+     *
      * @param int column number (first column is: 0)
      * @param int new column width
      * @param int old column width
@@ -2341,7 +2344,7 @@ var jexcel = (function(el, options) {
 
     /**
      * Set the row height
-     * 
+     *
      * @param row - row number (first row is: 0)
      * @param height - new row height
      * @param oldHeight - old row height
@@ -2389,7 +2392,7 @@ var jexcel = (function(el, options) {
 
     /**
      * Get the row height
-     * 
+     *
      * @param row - row number (first column is: 0)
      * @return height - current row height
      */
@@ -2409,7 +2412,7 @@ var jexcel = (function(el, options) {
 
     /**
      * Get the column title
-     * 
+     *
      * @param column - column number (first column is: 0)
      * @param title - new column title
      */
@@ -2419,7 +2422,7 @@ var jexcel = (function(el, options) {
 
     /**
      * Set the column title
-     * 
+     *
      * @param column - column number (first column is: 0)
      * @param title - new column title
      */
@@ -2446,7 +2449,7 @@ var jexcel = (function(el, options) {
 
     /**
      * Get the headers
-     * 
+     *
      * @param asArray
      * @return mixed
      */
@@ -2462,7 +2465,7 @@ var jexcel = (function(el, options) {
 
     /**
      * Get style information from cell(s)
-     * 
+     *
      * @return integer
      */
     obj.getStyle = function(cell, key) {
@@ -2491,7 +2494,7 @@ var jexcel = (function(el, options) {
                 }
             }
 
-           return data;
+            return data;
         } else {
             cell = jexcel.getIdFromColumnName(cell, true);
 
@@ -2499,21 +2502,21 @@ var jexcel = (function(el, options) {
         }
     },
 
-    obj.resetStyle = function(o, ignoreHistoryAndEvents) {
-        var keys = Object.keys(o);
-        for (var i = 0; i < keys.length; i++) {
-            // Position
-            var cell = jexcel.getIdFromColumnName(keys[i], true);
-            if (obj.records[cell[1]] && obj.records[cell[1]][cell[0]]) {
-                obj.records[cell[1]][cell[0]].setAttribute('style', '');
+        obj.resetStyle = function(o, ignoreHistoryAndEvents) {
+            var keys = Object.keys(o);
+            for (var i = 0; i < keys.length; i++) {
+                // Position
+                var cell = jexcel.getIdFromColumnName(keys[i], true);
+                if (obj.records[cell[1]] && obj.records[cell[1]][cell[0]]) {
+                    obj.records[cell[1]][cell[0]].setAttribute('style', '');
+                }
             }
+            obj.setStyle(o, null, null, null, ignoreHistoryAndEvents);
         }
-        obj.setStyle(o, null, null, null, ignoreHistoryAndEvents);
-    }
 
     /**
      * Set meta information to cell(s)
-     * 
+     *
      * @return integer
      */
     obj.setStyle = function(o, k, v, force, ignoreHistoryAndEvents) {
@@ -2631,7 +2634,7 @@ var jexcel = (function(el, options) {
         } else {
             var cell = cellId;
         }
-        
+
         // Keep old value
         var title = obj.records[cell[1]][cell[0]].getAttribute('title');
         var author = obj.records[cell[1]][cell[0]].getAttribute('data-author');
@@ -2706,7 +2709,7 @@ var jexcel = (function(el, options) {
             // Test order
             var temp = [];
             if (obj.options.columns[column].type == 'calendar' ||
-                obj.options.columns[column].type == 'checkbox' || 
+                obj.options.columns[column].type == 'checkbox' ||
                 obj.options.columns[column].type == 'radio') {
                 for (var j = 0; j < obj.options.data.length; j++) {
                     temp[j] = [ j, obj.options.data[j][column] ];
@@ -2813,7 +2816,7 @@ var jexcel = (function(el, options) {
 
     /**
      * Move row
-     * 
+     *
      * @return void
      */
     obj.moveRow = function(o, d, ignoreDom) {
@@ -2841,7 +2844,11 @@ var jexcel = (function(el, options) {
 
         if (! ignoreDom) {
             if (Array.prototype.indexOf.call(obj.tbody.children, obj.rows[d]) >= 0) {
-                obj.tbody.insertBefore(obj.rows[o], obj.rows[d]);
+                if (o > d) {
+                    obj.tbody.insertBefore(obj.rows[o], obj.rows[d]);
+                } else {
+                    obj.tbody.insertBefore(obj.rows[o], obj.rows[d].nextSibling);
+                }
             } else {
                 obj.tbody.removeChild(obj.rows[o]);
             }
@@ -2877,7 +2884,7 @@ var jexcel = (function(el, options) {
 
     /**
      * Insert a new row
-     * 
+     *
      * @param mixed - number of blank lines to be insert or a single array with the data of the new row
      * @param rowNumber
      * @param insertBefore
@@ -3003,7 +3010,7 @@ var jexcel = (function(el, options) {
 
     /**
      * Delete a row by number
-     * 
+     *
      * @param integer rowNumber - row number to be excluded
      * @param integer numOfRows - number of lines
      * @return void
@@ -3123,7 +3130,7 @@ var jexcel = (function(el, options) {
 
     /**
      * Move column
-     * 
+     *
      * @return void
      */
     obj.moveColumn = function(o, d) {
@@ -3186,7 +3193,7 @@ var jexcel = (function(el, options) {
 
     /**
      * Insert a new column
-     * 
+     *
      * @param mixed - num of columns to be added or data to be added in one single column
      * @param int columnNumber - number of columns to be created
      * @param bool insertBefore
@@ -3350,7 +3357,7 @@ var jexcel = (function(el, options) {
 
     /**
      * Delete a column by number
-     * 
+     *
      * @param integer columnNumber - reference column to be excluded
      * @param integer numOfColumns - number of columns to be excluded from the reference column
      * @return void
@@ -3489,7 +3496,7 @@ var jexcel = (function(el, options) {
 
     /**
      * Get seleted rows numbers
-     * 
+     *
      * @return array
      */
     obj.getSelectedRows = function(asIds) {
@@ -3508,30 +3515,26 @@ var jexcel = (function(el, options) {
         return rows;
     },
 
-    /**
-     * Get seleted rows numbers
-     * 
-     * @return array
-     */
-    obj.getSelectedColumns = function(asIds) {
-        var cols = [];
-        // Get all selected cols
-        for (var i = 0; i < obj.headers.length; i++) {
-            if (obj.headers[i].classList.contains('selected')) {
-                if (asIds) {
+        /**
+         * Get seleted column numbers
+         *
+         * @return array
+         */
+        obj.getSelectedColumns = function() {
+            var cols = [];
+            // Get all selected cols
+            for (var i = 0; i < obj.headers.length; i++) {
+                if (obj.headers[i].classList.contains('selected')) {
                     cols.push(i);
-                } else {
-                    cols.push(obj.cols[j]);
                 }
             }
-        }
 
-        return cols;
-    }
+            return cols;
+        }
 
     /**
      * Update cell references
-     * 
+     *
      * @return void
      */
     obj.updateTableReferences = function() {
@@ -3626,7 +3629,7 @@ var jexcel = (function(el, options) {
                         obj.options.mergeCells[columnIdFrom][2][j].setAttribute('data-x', x + mergeCellUpdates[keys[i]][1]);
                         obj.options.mergeCells[columnIdFrom][2][j].setAttribute('data-y', y + mergeCellUpdates[keys[i]][2]);
                     }
-    
+
                     obj.options.mergeCells[columnIdTo] = obj.options.mergeCells[columnIdFrom];
                     delete(obj.options.mergeCells[columnIdFrom]);
                 }
@@ -3643,7 +3646,7 @@ var jexcel = (function(el, options) {
         obj.updateTable();
     }
 
-    
+
     /**
      * Custom settings for the cells
      */
@@ -3656,7 +3659,7 @@ var jexcel = (function(el, options) {
                 for (var i = 0; i < obj.headers.length; i++) {
                     if (obj.options.data[j][i]) {
                         test = true;
-                    } 
+                    }
                 }
                 if (test) {
                     break;
@@ -3677,7 +3680,7 @@ var jexcel = (function(el, options) {
                 for (var j = 0; j < obj.rows.length; j++) {
                     if (obj.options.data[j][i]) {
                         test = true;
-                    } 
+                    }
                 }
                 if (test) {
                     break;
@@ -3848,7 +3851,7 @@ var jexcel = (function(el, options) {
                 }
 
                 expression = expression.replace(tokens[index], f.join(','));
-            };
+            }
         }
 
         var tokens = expression.match(/([A-Z]+[0-9]+)\:([A-Z]+[0-9]+)/g);
@@ -3887,7 +3890,7 @@ var jexcel = (function(el, options) {
                     }
                     // Get column data
                     if ((''+value).substr(0,1) == '=') {
-                        value = obj.executeFormula(value, position[1], position[0]);
+                        value = obj.executeFormula(value, position[0], position[1]);
                     }
                     // Type!
                     if ((''+value).trim() == '' || value != Number(value)) {
@@ -4311,6 +4314,10 @@ var jexcel = (function(el, options) {
     }
 
     obj.selectAll = function() {
+        if (! obj.selectedCell) {
+            obj.selectedCell = [];
+        }
+
         obj.selectedCell[0] = 0;
         obj.selectedCell[1] = 0;
         obj.selectedCell[2] = obj.headers.length - 1;
@@ -4336,7 +4343,7 @@ var jexcel = (function(el, options) {
         // pageNumber
         if (pageNumber == null || pageNumber == -1) {
             // Last page
-            pageNumber = Math.ceil(results.length / quantityPerPage); 
+            pageNumber = Math.ceil(results.length / quantityPerPage);
         }
 
         var startRow = (pageNumber * quantityPerPage);
@@ -4462,6 +4469,11 @@ var jexcel = (function(el, options) {
      * Search
      */
     obj.search = function(query) {
+        // Query
+        if (query) {
+            var query = query.toLowerCase();
+        }
+
         // Reset selection
         obj.resetSelection();
 
@@ -4573,7 +4585,7 @@ var jexcel = (function(el, options) {
         // pageNumber
         if (pageNumber == null || pageNumber == -1) {
             // Last page
-            pageNumber = Math.ceil(results.length / quantityPerPage); 
+            pageNumber = Math.ceil(results.length / quantityPerPage);
         }
 
         // Page number
@@ -4676,11 +4688,11 @@ var jexcel = (function(el, options) {
                 // Text
                 var format = function(format) {
                     var args = Array.prototype.slice.call(arguments, 1);
-                    return format.replace(/{(\d+)}/g, function(match, number) { 
-                      return typeof args[number] != 'undefined'
-                        ? args[number] 
-                        : match
-                      ;
+                    return format.replace(/{(\d+)}/g, function(match, number) {
+                        return typeof args[number] != 'undefined'
+                            ? args[number]
+                            : match
+                            ;
                     });
                 };
 
@@ -4691,7 +4703,7 @@ var jexcel = (function(el, options) {
 
     /**
      * Download CSV table
-     * 
+     *
      * @return null
      */
     obj.download = function() {
@@ -4716,7 +4728,7 @@ var jexcel = (function(el, options) {
 
     /**
      * Initializes a new history record for undo/redo
-     * 
+     *
      * @return null
      */
     obj.setHistory = function(changes) {
@@ -4734,7 +4746,7 @@ var jexcel = (function(el, options) {
 
     /**
      * Copy method
-     * 
+     *
      * @param bool highlighted - Get only highlighted cells
      * @param delimiter - \t default to keep compatibility with excel
      * @return string value
@@ -4768,7 +4780,7 @@ var jexcel = (function(el, options) {
                     var value = obj.options.data[j][i];
                     if (value.match && (value.match(/,/g) || value.match(/\n/) || value.match(/\"/))) {
                         value = value.replace(new RegExp('"', 'g'), '""');
-                        value = '"' + value + '"'; 
+                        value = '"' + value + '"';
                     }
                     col.push(value);
 
@@ -4777,7 +4789,7 @@ var jexcel = (function(el, options) {
                     if (label.match && (label.match(/,/g) || label.match(/\n/) || label.match(/\"/))) {
                         // Scape double quotes
                         label = label.replace(new RegExp('"', 'g'), '""');
-                        label = '"' + label + '"'; 
+                        label = '"' + label + '"';
                     }
                     colLabel.push(label);
 
@@ -4813,16 +4825,16 @@ var jexcel = (function(el, options) {
         }
 
         // Keep data
-        obj.data = str; 
+        obj.data = str;
         // Keep non visible information
-        obj.hashString = obj.hash(obj.textarea.value); 
+        obj.hashString = obj.hash(obj.textarea.value);
 
         return str;
     }
 
     /**
      * jExcel paste method
-     * 
+     *
      * @param integer row number
      * @return string value
      */
@@ -4848,7 +4860,7 @@ var jexcel = (function(el, options) {
             // Records
             var i = 0;
             var j = 0;
-            var records = []; 
+            var records = [];
             var newStyle = {};
             var oldStyle = {};
             var styleIndex = 0;
@@ -5234,7 +5246,7 @@ var jexcel = (function(el, options) {
             arr[row][col] = arr[row][col] || '';
 
             // If the current character is a quotation mark, and we're inside a quoted field, and the next character is also a quotation mark, add a quotation mark to the current column and skip the next character
-            if (cc == '"' && quote && nc == '"') { arr[row][col] += cc; ++c; continue; }  
+            if (cc == '"' && quote && nc == '"') { arr[row][col] += cc; ++c; continue; }
 
             // If it's just one quotation mark, begin/end quoted field
             if (cc == '"') { quote = !quote; continue; }
@@ -5411,7 +5423,7 @@ var jexcel = (function(el, options) {
                             obj.insertRow(1, parseInt(y), 1);
                         }
                     });
-                    
+
                     items.push({
                         title:obj.options.text.insertANewRowAfter,
                         onclick:function() {
@@ -5596,7 +5608,7 @@ jexcel.build = function() {
 
 /**
  * Get letter based on a number
- * 
+ *
  * @param integer i
  * @return string letter
  */
@@ -5615,7 +5627,7 @@ jexcel.getColumnName = function(i) {
 
 /**
  * Convert excel like column to jexcel id
- * 
+ *
  * @param string id
  * @return string id
  */
@@ -5653,7 +5665,7 @@ jexcel.getIdFromColumnName = function (id, arr) {
 
 /**
  * Convert jexcel id to excel like column name
- * 
+ *
  * @param string id
  * @return string id
  */
@@ -5667,7 +5679,7 @@ jexcel.getColumnNameFromId = function (cellId) {
 
 /**
  * Inside jexcel table
- * 
+ *
  * @param string id
  * @return string id
  */
@@ -5716,13 +5728,13 @@ jexcel.keyDownControls = function(e) {
                 if (jexcel.current.options.columns[jexcel.current.edition[2]].type == 'calendar') {
                     jexcel.current.editor[0].children[0].calendar.close(1);
                 } else if (jexcel.current.options.columns[jexcel.current.edition[2]].type == 'dropdown' ||
-                           jexcel.current.options.columns[jexcel.current.edition[2]].type == 'autocomplete') {
+                    jexcel.current.options.columns[jexcel.current.edition[2]].type == 'autocomplete') {
                     // Do nothing
                 } else {
                     // Alt enter -> do not close editor
                     if ((jexcel.current.options.wordWrap == true ||
-                         jexcel.current.options.columns[jexcel.current.edition[2]].wordWrap == true ||
-                         jexcel.current.options.data[jexcel.current.edition[3]][jexcel.current.edition[2]].length > 200) && e.altKey) {
+                        jexcel.current.options.columns[jexcel.current.edition[2]].wordWrap == true ||
+                        jexcel.current.options.data[jexcel.current.edition[3]][jexcel.current.edition[2]].length > 200) && e.altKey) {
                         // Add new line to the editor
                         var editorTextarea = jexcel.current.edition[0].children[0];
                         var editorValue = jexcel.current.edition[0].children[0].value;
@@ -5864,11 +5876,11 @@ jexcel.keyDownControls = function(e) {
                                             jexcel.current.openEditor(jexcel.current.records[rowId][columnId], true);
                                         }
                                     } else if ((e.keyCode == 113) ||
-                                               (e.keyCode == 110) ||
-                                               (e.keyCode >= 48 && e.keyCode <= 57) ||
-                                               (e.keyCode >= 65 && e.keyCode <= 90) ||
-                                               (e.keyCode >= 96 && e.keyCode <= 105) ||
-                                               (e.keyCode >= 186 && e.keyCode <= 190)) {
+                                        (e.keyCode == 110) ||
+                                        (e.keyCode >= 48 && e.keyCode <= 57) ||
+                                        (e.keyCode >= 65 && e.keyCode <= 90) ||
+                                        (e.keyCode >= 96 && e.keyCode <= 105) ||
+                                        (e.keyCode >= 186 && e.keyCode <= 190)) {
                                         // Start edition
                                         jexcel.current.openEditor(jexcel.current.records[rowId][columnId], true);
                                     }
@@ -5920,7 +5932,11 @@ jexcel.mouseDownControls = function(e) {
     }
 
     if (jexcel.current && mouseButton == 1) {
-        if (e.target.classList.contains('jexcel_corner')) {
+        if (e.target.classList.contains('jexcel_selectall')) {
+            if (jexcel.current) {
+                jexcel.current.selectAll();
+            }
+        } else if (e.target.classList.contains('jexcel_corner')) {
             if (jexcel.current.options.editable == true) {
                 jexcel.current.selectedCorner = true;
             }
@@ -6686,7 +6702,7 @@ jexcel.fromSpreadsheet = function(file, __callback) {
             __callback(convert(wb))
         };
     } else {
-        oReq.setRequestHeader("Accept-Charset", "x-user-defined");  
+        oReq.setRequestHeader("Accept-Charset", "x-user-defined");
         oReq.onreadystatechange = function() { if(oReq.readyState == 4 && oReq.status == 200) {
             var ff = convertResponseBodyToText(oReq.responseBody);
             var wb = XLSX.read(ff, {type:"binary", cellFormula:true, cellStyles:true });
@@ -7347,8 +7363,8 @@ jexcel.methods.database = (function() {
                     hasMatchingCriteria = true;
                     for (var p = 1; p < criteria.length; ++p) {
                         currentCriteriaResult = currentCriteriaResult
-                                || eval(database[k][l] + criteria[p]); // jshint
-                                                                        // ignore:line
+                            || eval(database[k][l] + criteria[p]); // jshint
+                        // ignore:line
                     }
                 }
                 if (hasMatchingCriteria) {
@@ -7627,12 +7643,12 @@ jexcel.methods.engineering = (function() {
         } else {
             // Return error if places is nonnumeric
             if (isNaN(places)) {
-              return error.value;
+                return error.value;
             }
 
             // Return error if places is negative
             if (places < 0) {
-              return error.num;
+                return error.num;
             }
 
             // Truncate places in case it is not an integer
@@ -7668,12 +7684,12 @@ jexcel.methods.engineering = (function() {
         } else {
             // Return error if places is nonnumeric
             if (isNaN(places)) {
-              return error.value;
+                return error.value;
             }
 
             // Return error if places is negative
             if (places < 0) {
-              return error.num;
+                return error.num;
             }
 
             // Truncate places in case it is not an integer
@@ -8067,10 +8083,10 @@ jexcel.methods.engineering = (function() {
         for (var i = 0; i < units.length; i++) {
             alt = (units[i][2] === null) ? [] : units[i][2];
             if (units[i][1] === base_from_unit || alt.indexOf(base_from_unit) >= 0) {
-              from = units[i];
+                from = units[i];
             }
             if (units[i][1] === base_to_unit || alt.indexOf(base_to_unit) >= 0) {
-              to = units[i];
+                to = units[i];
             }
         }
 
@@ -8081,25 +8097,25 @@ jexcel.methods.engineering = (function() {
 
             // Handle dekao unit prefix (only unit prefix with two characters)
             if (from_unit.substring(0, 2) === 'da') {
-              from_unit_prefix = ["dekao", 1e+01, "da"];
+                from_unit_prefix = ["dekao", 1e+01, "da"];
             }
 
             // Handle binary prefixes first (so that 'Yi' is processed before
             // 'Y')
             if (from_binary_prefix) {
-              from_multiplier = from_binary_prefix[2];
-              base_from_unit = from_unit.substring(2);
+                from_multiplier = from_binary_prefix[2];
+                base_from_unit = from_unit.substring(2);
             } else if (from_unit_prefix) {
-              from_multiplier = from_unit_prefix[1];
-              base_from_unit = from_unit.substring(from_unit_prefix[2].length);
+                from_multiplier = from_unit_prefix[1];
+                base_from_unit = from_unit.substring(from_unit_prefix[2].length);
             }
 
             // Lookup from unit
             for (var j = 0; j < units.length; j++) {
-              alt = (units[j][2] === null) ? [] : units[j][2];
-              if (units[j][1] === base_from_unit || alt.indexOf(base_from_unit) >= 0) {
-                  from = units[j];
-              }
+                alt = (units[j][2] === null) ? [] : units[j][2];
+                if (units[j][1] === base_from_unit || alt.indexOf(base_from_unit) >= 0) {
+                    from = units[j];
+                }
             }
         }
 
@@ -8110,25 +8126,25 @@ jexcel.methods.engineering = (function() {
 
             // Handle dekao unit prefix (only unit prefix with two characters)
             if (to_unit.substring(0, 2) === 'da') {
-              to_unit_prefix = ["dekao", 1e+01, "da"];
+                to_unit_prefix = ["dekao", 1e+01, "da"];
             }
 
             // Handle binary prefixes first (so that 'Yi' is processed before
             // 'Y')
             if (to_binary_prefix) {
-              to_multiplier = to_binary_prefix[2];
-              base_to_unit = to_unit.substring(2);
+                to_multiplier = to_binary_prefix[2];
+                base_to_unit = to_unit.substring(2);
             } else if (to_unit_prefix) {
-              to_multiplier = to_unit_prefix[1];
-              base_to_unit = to_unit.substring(to_unit_prefix[2].length);
+                to_multiplier = to_unit_prefix[1];
+                base_to_unit = to_unit.substring(to_unit_prefix[2].length);
             }
 
             // Lookup to unit
             for (var k = 0; k < units.length; k++) {
-              alt = (units[k][2] === null) ? [] : units[k][2];
-              if (units[k][1] === base_to_unit || alt.indexOf(base_to_unit) >= 0) {
-                  to = units[k];
-              }
+                alt = (units[k][2] === null) ? [] : units[k][2];
+                if (units[k][1] === base_to_unit || alt.indexOf(base_to_unit) >= 0) {
+                    to = units[k];
+                }
             }
         }
 
@@ -8174,12 +8190,12 @@ jexcel.methods.engineering = (function() {
         } else {
             // Return error if places is nonnumeric
             if (isNaN(places)) {
-              return error.value;
+                return error.value;
             }
 
             // Return error if places is negative
             if (places < 0) {
-              return error.num;
+                return error.num;
             }
 
             // Truncate places in case it is not an integer
@@ -8219,12 +8235,12 @@ jexcel.methods.engineering = (function() {
         } else {
             // Return error if places is nonnumeric
             if (isNaN(places)) {
-              return error.value;
+                return error.value;
             }
 
             // Return error if places is negative
             if (places < 0) {
-              return error.num;
+                return error.num;
             }
 
             // Truncate places in case it is not an integer
@@ -8264,12 +8280,12 @@ jexcel.methods.engineering = (function() {
         } else {
             // Return error if places is nonnumeric
             if (isNaN(places)) {
-              return error.value;
+                return error.value;
             }
 
             // Return error if places is negative
             if (places < 0) {
-              return error.num;
+                return error.num;
             }
 
             // Truncate places in case it is not an integer
@@ -8351,12 +8367,12 @@ jexcel.methods.engineering = (function() {
         } else {
             // Return error if places is nonnumeric
             if (isNaN(places)) {
-              return error.value;
+                return error.value;
             }
 
             // Return error if places is negative
             if (places < 0) {
-              return error.num;
+                return error.num;
             }
 
             // Truncate places in case it is not an integer
@@ -8414,12 +8430,12 @@ jexcel.methods.engineering = (function() {
         } else {
             // Return error if places is nonnumeric
             if (isNaN(places)) {
-              return error.value;
+                return error.value;
             }
 
             // Return error if places is negative
             if (places < 0) {
-              return error.num;
+                return error.num;
             }
 
             // Truncate places in case it is not an integer
@@ -8482,24 +8498,24 @@ jexcel.methods.engineering = (function() {
         if (plus >= 0 || minus >= 0) {
             // Return error if imaginary unit is neither i nor j
             if (!unit) {
-              return error.num;
+                return error.num;
             }
 
             // Return imaginary coefficient of complex number
             if (plus >= 0) {
-              return (isNaN(inumber.substring(0, plus)) || isNaN(inumber.substring(plus + 1, inumber.length - 1))) ?
-                  error.num :
-                  Number(inumber.substring(plus + 1, inumber.length - 1));
+                return (isNaN(inumber.substring(0, plus)) || isNaN(inumber.substring(plus + 1, inumber.length - 1))) ?
+                    error.num :
+                    Number(inumber.substring(plus + 1, inumber.length - 1));
             } else {
-              return (isNaN(inumber.substring(0, minus)) || isNaN(inumber.substring(minus + 1, inumber.length - 1))) ?
-                  error.num :
-                  -Number(inumber.substring(minus + 1, inumber.length - 1));
+                return (isNaN(inumber.substring(0, minus)) || isNaN(inumber.substring(minus + 1, inumber.length - 1))) ?
+                    error.num :
+                    -Number(inumber.substring(minus + 1, inumber.length - 1));
             }
         } else {
             if (unit) {
-              return (isNaN(inumber.substring(0, inumber.length - 1))) ? error.num : inumber.substring(0, inumber.length - 1);
+                return (isNaN(inumber.substring(0, inumber.length - 1))) ? error.num : inumber.substring(0, inumber.length - 1);
             } else {
-              return (isNaN(inumber)) ? error.num : 0;
+                return (isNaN(inumber)) ? error.num : 0;
             }
         }
     };
@@ -8758,7 +8774,7 @@ jexcel.methods.engineering = (function() {
             var d = exports.IMAGINARY(arguments[i]);
 
             if (utils.anyIsError(a, b, c, d)) {
-              return error.value;
+                return error.value;
             }
 
             // Complute product of two complex numbers
@@ -8801,24 +8817,24 @@ jexcel.methods.engineering = (function() {
         if (plus >= 0 || minus >= 0) {
             // Return error if imaginary unit is neither i nor j
             if (!unit) {
-              return error.num;
+                return error.num;
             }
 
             // Return real coefficient of complex number
             if (plus >= 0) {
-              return (isNaN(inumber.substring(0, plus)) || isNaN(inumber.substring(plus + 1, inumber.length - 1))) ?
-                  error.num :
-                  Number(inumber.substring(0, plus));
+                return (isNaN(inumber.substring(0, plus)) || isNaN(inumber.substring(plus + 1, inumber.length - 1))) ?
+                    error.num :
+                    Number(inumber.substring(0, plus));
             } else {
-              return (isNaN(inumber.substring(0, minus)) || isNaN(inumber.substring(minus + 1, inumber.length - 1))) ?
-                  error.num :
-                  Number(inumber.substring(0, minus));
+                return (isNaN(inumber.substring(0, minus)) || isNaN(inumber.substring(minus + 1, inumber.length - 1))) ?
+                    error.num :
+                    Number(inumber.substring(0, minus));
             }
         } else {
             if (unit) {
-              return (isNaN(inumber.substring(0, inumber.length - 1))) ? error.num : 0;
+                return (isNaN(inumber.substring(0, inumber.length - 1))) ? error.num : 0;
             } else {
-              return (isNaN(inumber)) ? error.num : inumber;
+                return (isNaN(inumber)) ? error.num : inumber;
             }
         }
     };
@@ -8997,7 +9013,7 @@ jexcel.methods.engineering = (function() {
             var d = this.IMAGINARY(args[i]);
 
             if (utils.anyIsError(a, b, c, d)) {
-              return error.value;
+                return error.value;
             }
 
             // Complute product of two complex numbers
@@ -9061,12 +9077,12 @@ jexcel.methods.engineering = (function() {
         } else {
             // Return error if places is nonnumeric
             if (isNaN(places)) {
-              return error.value;
+                return error.value;
             }
 
             // Return error if places is negative
             if (places < 0) {
-              return error.num;
+                return error.num;
             }
 
             // Truncate places in case it is not an integer
@@ -9118,12 +9134,12 @@ jexcel.methods.engineering = (function() {
         } else {
             // Return error if places is nonnumeric
             if (isNaN(places)) {
-              return error.value;
+                return error.value;
             }
 
             // Return error if places is negative
             if (places < 0) {
-              return error.num;
+                return error.num;
             }
 
             // Truncate places in case it is not an integer
@@ -9207,9 +9223,9 @@ jexcel.methods.financial = (function() {
     exports.CUMIPMT = function(rate, periods, value, start, end, type) {
         // Credits: algorithm inspired by Apache OpenOffice
         // Credits: Hannes Stiebitzhofer for the translations of function and
-            // variable names
+        // variable names
         // Requires exports.FV() and exports.PMT() from exports.js
-            // [http://stoic.com/exports/]
+        // [http://stoic.com/exports/]
 
         rate = utils.parseNumber(rate);
         periods = utils.parseNumber(periods);
@@ -9219,7 +9235,7 @@ jexcel.methods.financial = (function() {
         }
 
         // Return error if either rate, periods, or value are lower than or
-            // equal to zero
+        // equal to zero
         if (rate <= 0 || periods <= 0 || value <= 0) {
             return error.num;
         }
@@ -9261,7 +9277,7 @@ jexcel.methods.financial = (function() {
     exports.CUMPRINC = function(rate, periods, value, start, end, type) {
         // Credits: algorithm inspired by Apache OpenOffice
         // Credits: Hannes Stiebitzhofer for the translations of function and
-            // variable names
+        // variable names
 
         rate = utils.parseNumber(rate);
         periods = utils.parseNumber(periods);
@@ -9271,7 +9287,7 @@ jexcel.methods.financial = (function() {
         }
 
         // Return error if either rate, periods, or value are lower than or
-            // equal to zero
+        // equal to zero
         if (rate <= 0 || periods <= 0 || value <= 0) {
             return error.num;
         }
@@ -9383,7 +9399,7 @@ jexcel.methods.financial = (function() {
         }
 
         // Return error if any of the parameters is negative or if factor is
-            // null
+        // null
         if (cost < 0 || salvage < 0 || life < 0 || period < 0 || factor <= 0) {
             return error.num;
         }
@@ -9427,7 +9443,7 @@ jexcel.methods.financial = (function() {
         }
 
         // Return error if fraction is greater than or equal to 0 and less than
-            // 1
+        // 1
         if (fraction >= 0 && fraction < 1) {
             return error.div0;
         }
@@ -9464,7 +9480,7 @@ jexcel.methods.financial = (function() {
         }
 
         // Return error if fraction is greater than or equal to 0 and less than
-            // 1
+        // 1
         if (fraction >= 0 && fraction < 1) {
             return error.div0;
         }
@@ -9627,7 +9643,7 @@ jexcel.methods.financial = (function() {
         };
 
         // Initialize dates and check that values contains at least one positive
-            // value and one negative value
+        // value and one negative value
         var dates = [];
         var positive = false;
         var negative = false;
@@ -9642,7 +9658,7 @@ jexcel.methods.financial = (function() {
         }
 
         // Return error if values does not contain at least one positive value
-            // and one negative value
+        // and one negative value
         if (!positive || !negative) {
             return error.num;
         }
@@ -10093,7 +10109,7 @@ jexcel.methods.financial = (function() {
         };
 
         // Check that values contains at least one positive value and one
-            // negative value
+        // negative value
         var positive = false;
         var negative = false;
         for (var i = 0; i < values.length; i++) {
@@ -10106,7 +10122,7 @@ jexcel.methods.financial = (function() {
         }
 
         // Return error if values does not contain at least one positive value
-            // and one negative value
+        // and one negative value
         if (!positive || !negative) {
             return error.num;
         }
@@ -10368,9 +10384,9 @@ jexcel.methods.logical = (function() {
             if (switchCount) {
                 for (var index = 0; index < switchCount; index++) {
                     if (targetValue === arguments[index * 2 + 1]) {
-                      result = arguments[index * 2 + 2];
-                      switchSatisfied = true;
-                      break;
+                        result = arguments[index * 2 + 2];
+                        switchSatisfied = true;
+                        break;
                     }
                 }
             }
@@ -10711,18 +10727,18 @@ jexcel.methods.math = (function() {
             return o;
         }
         for (var i, j, n, d, r = 1;
-            (n = o.pop()) !== undefined;) {
+             (n = o.pop()) !== undefined;) {
             while (n > 1) {
                 if (n % 2) {
                     for (i = 3, j = Math.floor(Math.sqrt(n)); i <= j && n % i; i += 2) {
-                      //empty
+                        //empty
                     }
                     d = (i <= j) ? i : n;
                 } else {
                     d = 2;
                 }
                 for (n /= d, r *= d, i = o.length; i;
-                    (o[--i] % d) === 0 && (o[i] /= d) === 1 && o.splice(i, 1)) {
+                     (o[--i] % d) === 0 && (o[i] /= d) === 1 && o.splice(i, 1)) {
                     //empty
                 }
             }
@@ -11395,7 +11411,7 @@ jexcel.methods.text = (function() {
             if (value instanceof Array) {
                 value.forEach(function (line) {
                     if (result !== '') {
-                      result += '\n';
+                        result += '\n';
                     }
                     result += (line.replace(/<(?:.|\n)*?>/gm, ''));
                 });

@@ -1,10 +1,10 @@
 /**
- * (c) jExcel v3.2.5
- * 
+ * (c) jExcel v3.3.1
+ *
  * Author: Paul Hodel <paul.hodel@gmail.com>
  * Website: https://bossanova.uk/jexcel/
  * Description: Create amazing web based spreadsheets.
- * 
+ *
  * This software is distribute under MIT License
  */
 :root {
@@ -324,7 +324,7 @@
     left:-2000px;
     cursor:crosshair;
     box-sizing: initial;
-    z-index:1000;
+    z-index:10000;
 }
 
 .jexcel .editor
@@ -387,17 +387,17 @@
 
 .jexcel, .jexcel td, .jexcel_corner
 {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-user-drag: none;
-  -khtml-user-drag: none;
-  -moz-user-drag: none;
-  -o-user-drag: none;
-  user-drag: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
 }
 
 .jexcel_textarea
@@ -574,7 +574,7 @@
     display:none;
 }
 
-.jexcel_toolbar i.jexcel_toolbar_item 
+.jexcel_toolbar i.jexcel_toolbar_item
 {
     width:24px;
     height:24px;
@@ -583,12 +583,12 @@
     display:inline-block;
 }
 
-.jexcel_toolbar i.jexcel_toolbar_item:hover 
+.jexcel_toolbar i.jexcel_toolbar_item:hover
 {
     background-color:#ddd;
 }
 
-.jexcel_toolbar select.jexcel_toolbar_item 
+.jexcel_toolbar select.jexcel_toolbar_item
 {
     margin-left:2px;
     margin-right:2px;
