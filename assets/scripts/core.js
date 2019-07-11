@@ -640,9 +640,7 @@ function trash_data( q ) {
     var d = { 'action':'trash_data', 'query':q };
     elog(d);
     if( confirm('Are you sure to delete ?') ){
-        $.post( location.origin, d, function(r){
-            elog(r);
-        })
+        post( 'trash_data', { 'query': q }, 4, 4 )
     }
 }
 

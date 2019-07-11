@@ -24,7 +24,7 @@ function includes() {
     $app_functions_dirs = isset( $c['function_dirs'] ) ? $c['function_dirs'] : [ 'functions' ];
 
     // Get in config and include pages if user logged in
-    if( isset( $c['logged_in'] ) && !empty( $c['in'] ) && user_logged_in() ) {
+    if( isset( $c['logged_in'] ) && !empty( $c['logged_in'] ) && user_logged_in() ) {
         if( is_assoc( $c['logged_in'] ) ) {
 
         } else if( is_array( $c['logged_in'] ) ) {
