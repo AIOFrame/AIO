@@ -645,7 +645,19 @@ function trash_data( q ) {
 }
 
 function elog( d ) {
-    appdebug ? console.log( d ) : '';
+    if( appdebug ) {
+        if (window.console) {
+            if (Function.prototype.bind) {
+                elog = Function.prototype.bind.call(console.log, console);
+            }
+            else {
+                elog = function() {
+                    Function.prototype.apply.call(console.log, console, arguments);
+                };
+            }
+            elog.apply(this, arguments);
+        }
+    }
 }
 
 // ALERTS
@@ -675,7 +687,7 @@ function reload( time_seconds ){
 
 }
 
-function post( action, data, notify_time, reload_time ) {
+function post( action, data, notify_time, reload_time, redirect, redirect_time ) {
     var d = $.extend({}, {'action':action}, data);
     $.post( location.origin, d, function(r) {
         elog(r);
@@ -685,8 +697,16 @@ function post( action, data, notify_time, reload_time ) {
             if( notify_time !== '' ) {
                 notify( r[1], notify_time );
             }
-            if( r[0] === 1 && reload_time !== undefined ) {
+            if( r[0] !== 0 && reload_time !== undefined ) {
                 $.isNumeric( reload_time ) ? setTimeout(function(){ location.reload() }, reload_time * 1000 ) : location.href = reload_time;
+            }
+            if( redirect !== undefined && redirect !== '' ) {
+                redirect_time = redirect_time !== undefined && redirect_time !== '' ? redirect_time : 0;
+                if( r[0] !== 0 ) {
+                    setTimeout(function(){
+                        location.href = redirect;
+                    }, redirect_time * 1000)
+                }
             }
             return r[0];
         }

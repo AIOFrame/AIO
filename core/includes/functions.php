@@ -39,11 +39,18 @@ function art( $color1 = '000', $color2 = '000' ) {
 global $universal;
 $universal = [ 'styles' => [], 'scripts' => [] ];
 
-function get_style( $f, $page_of = '' ) {
+function get_style( $f, $params = [], $page_of = '' ) {
 
     $cache = get_config( 'cache' );
-
     $v = !empty( $cache ) ? '?v=' . round( time('h MM') / ( $cache * 60 ) ) : '';
+
+    $p = '';
+    if( is_array( $params ) ) {
+        foreach( $params as $pk => $pv ) {
+            $p .= '&'.$pk.'='.$pv;
+        }
+    }
+    $v = !empty( $v ) ? $v . $p : $p;
 
     global $universal;
 
