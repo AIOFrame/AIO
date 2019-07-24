@@ -2,10 +2,10 @@
     $.fn.fps =  $.fn.fullpagescroll = function() {
 
         // Add wrapper class
-        $(this).css({'height':'100vh','width':'100vw','overflow-y':'auto','position':'relative'});
+        $(this).css({'height':'100%','width':'100%','overflow-y':'auto','position':'relative'});
 
         // Add pages class
-        $(this).children().css({'height':'100vh','width':'100vw','overflow':'hidden','position':'relative'});
+        $(this).children().css({'height':'100%','width':'100%','overflow':'hidden','position':'relative'});
         $(this).children(':nth-child('+(1)+')').addClass('on');
 
         // On scroll detect direction and animate

@@ -280,6 +280,9 @@ body.d .files_actions>div, body.d .files_actions>label {
     border:1px solid #888;
     padding: 10px 10px 0 10px;
 }
+.empty + .aio_fsp {
+    box-shadow: 0 0 1px 1px firebrick inset;
+}
 td .aio_fsp {
     margin: 0;
 }
