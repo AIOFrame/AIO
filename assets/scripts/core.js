@@ -490,8 +490,10 @@ function get_values( e, s, pre ) {
         } else if( $(this).attr('type') === 'radio' ) {
 
             k = $(this).is(':checked') ? $(this).attr('name') : '';
-            v = $(this).is(':checked') ? $(this).val() : '';
-            data[k] = v;
+            k = $(this).data('key') !== undefined ? $(this).data('key') : k;
+            //v = $(this).is(':checked') ? $(this).val() : '';
+            v = $('input[name='+$(this).attr('name')+']:checked').val();
+            data[ pre + k ] = v;
             return true;
         }
 
@@ -692,7 +694,7 @@ function reload( time_seconds ){
 
 }
 
-function post( action, data, notify_time, reload_time, redirect, redirect_time ) {
+function post( action, data, notify_time, reload_time, redirect, redirect_time, callback ) {
     var d = $.extend({}, {'action':action}, data);
     $.post( location.origin, d, function(r) {
         elog(r);
@@ -702,7 +704,7 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time )
             if( notify_time !== '' ) {
                 notify( r[1], notify_time );
             }
-            if( r[0] !== 0 && reload_time !== undefined ) {
+            if( r[0] !== 0 && reload_time !== undefined && reload_time !== '' && reload_time !== '0' ) {
                 $.isNumeric( reload_time ) ? setTimeout(function(){ location.reload() }, reload_time * 1000 ) : location.href = reload_time;
             }
             if( redirect !== undefined && redirect !== '' ) {
@@ -713,7 +715,8 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time )
                     }, redirect_time * 1000)
                 }
             }
-            return r[0];
+            eval( callback + '("' + r + '")' )
+            //this[callback](r);
         }
         catch( e ) { elog(e); }
     });
