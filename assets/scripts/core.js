@@ -660,6 +660,11 @@ function elog( d ) {
     }
 }
 
+function getParam( param ) {
+    let p = new URLSearchParams(window.location.search);
+    return p.get( param );
+}
+
 // ALERTS
 
 function alerted( $m ) {
