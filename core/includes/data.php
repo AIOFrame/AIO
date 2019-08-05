@@ -254,7 +254,7 @@ function currencies( $key = 'code', $value = 'name', $country_code = false ){
     //return $currencies;
 }
 
-function fn( $num, $decimals = 2, $locale = 'AE' ) {
+function __fn( $num, $decimals = 2, $locale = 'AE' ) {
     echo _fn( $num, $decimals, $locale );
 }
 
