@@ -26,12 +26,12 @@ if( $id == '00' ) {
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?php echo $page_title; ?></title>
     <link rel="shortcut icon" href="<?php echo APPURL.'assets/images/aio.png'; ?>">
-    <link rel="stylesheet" href="<?php echo APPURL.'assets/styles/error.min.css'; ?>">
+    <link rel="stylesheet" href="<?php echo APPURL.'assets/styles/error.css'; ?>">
     <?php if( $id == '00' && ( isset( $_POST['setup'] ) || isset( $_POST['step'] ) ) ) {
-        echo '<link rel="stylesheet" href="'.APPURL.'assets/styles/reset.min.css">';
-        echo '<link rel="stylesheet" href="'.APPURL.'assets/styles/select2.min.css">';
-        echo '<link rel="stylesheet" href="'.APPURL.'assets/styles/inputs.min.css">';
-        echo '<link rel="stylesheet" href="'.APPURL.'assets/styles/install.min.css">';
+        echo '<link rel="stylesheet" href="'.APPURL.'assets/styles/reset.css">';
+        echo '<link rel="stylesheet" href="'.APPURL.'assets/styles/select2.css">';
+        echo '<link rel="stylesheet" href="'.APPURL.'assets/styles/inputs.css">';
+        echo '<link rel="stylesheet" href="'.APPURL.'assets/styles/aio_install.css">';
     } ?>
 </head>
 <body>
@@ -51,10 +51,10 @@ if( $id == '00' ) {
 
     } ?>
     <?php if( $id == '00' && ( isset( $_POST['setup'] ) || isset( $_POST['step'] ) ) ) {
-        echo '<script src="'.APPURL.'assets/scripts/jquery.min.js"></script>';
-        echo '<script src="'.APPURL.'assets/scripts/select2.min.js"></script>';
-        echo '<script src="'.APPURL.'assets/scripts/core.min.js"></script>';
-        echo '<script src="'.APPURL.'assets/scripts/aio_install.min.js"></script>';
+        echo '<script src="'.APPURL.'assets/scripts/jquery.js"></script>';
+        echo '<script src="'.APPURL.'assets/scripts/select2.js"></script>';
+        echo '<script src="'.APPURL.'assets/scripts/core.js"></script>';
+        echo '<script src="'.APPURL.'assets/scripts/aio_install.js"></script>';
     } ?>
 </body>
 </html>
