@@ -78,7 +78,7 @@ if( ( isset( $p['setup'] ) && $p['setup'] == 'Yes' ) || isset( $p['step'] ) ) {
             </div>
 
             <div class="q">
-                <div>Include internal styles / scripts ?</div>
+                <div>Include AIO styles / scripts ?</div>
                 <div>
                     <select name="ints[]" class="select2" multiple>
                         <?php $ints = [
@@ -96,7 +96,7 @@ if( ( isset( $p['setup'] ) && $p['setup'] == 'Yes' ) || isset( $p['step'] ) ) {
             </div>
 
             <div class="q">
-                <div>Include external styles / scripts ?</div>
+                <div>Include third party styles / scripts ?</div>
                 <div>
                     <select name="exts[]" class="select2" multiple>
                         <?php $exts = [
