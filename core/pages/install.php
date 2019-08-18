@@ -86,7 +86,7 @@ if( ( isset( $p['setup'] ) && $p['setup'] == 'Yes' ) || isset( $p['step'] ) ) {
                             'ux_core'=>'AIO Core JS',
                             'ux_aio_full_page'=>'AIO Full Page JS',
                             'art()'=>'AIO Art CSS',
-                            'ui_input'=>'AIO Inputs CSS',
+                            'ui_inputs'=>'AIO Inputs CSS',
                             'icons()'=>'AIO Auto Icons CSS',
                             'ui_micro'=>'AIO Micro CSS',
                         ];
