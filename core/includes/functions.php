@@ -206,22 +206,20 @@ function get_config( $name = '' ) {
 // Write Config
 
 function set_config( $name, $value ) {
-
+    $c = [];
     if( file_exists( APPPATH . '/config.php' ) ) {
-
         $c = include( APPPATH . '/config.php' );
-
-        if( is_array( $c ) ){
-
-            $c[ $name ] = $value;
-
-            // Write to file
-
-
-        }
-
     };
-
+    $c[ $name ] = $value;
+    $config_php = fopen( APPPATH . '/config.php', 'w' );
+    $config_text = '<?php'.PHP_EOL.'return ['.PHP_EOL;
+    foreach( $c as $k => $v ) {
+        if( !is_array( $v ) ) {
+            $config_text .= is_numeric( $v ) ? '    "' . $k . '" => ' . $v . ',' . PHP_EOL : '    "' . $k . '" => "' . $v . '",' . PHP_EOL;
+        }
+    }
+    $config_text .= '];';
+    fwrite( $config_php, $config_text );
 }
 
 // Loops an array of file names for .min.css / .css extension and returns if exists
