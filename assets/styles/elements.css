@@ -787,7 +787,7 @@ body.d .acc .head {
 }
 ::-webkit-scrollbar {
     background: rgba(255,255,255,.05);
-    width:12px;
+    width:8px;
     display: block;
     padding: 2px;
 }
