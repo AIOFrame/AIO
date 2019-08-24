@@ -25,6 +25,7 @@
 .dni { display: none !important; }
 .di { display: inline }
 .df { display: flex }
+.df.wr { flex-wrap:wrap }
 .dfi { display: flex !important; }
 .df.fg>div { flex-grow: 1 }
 
