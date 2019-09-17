@@ -6,7 +6,7 @@ $(document).ready(function(){
 
     // MANIPULATOR
     // TODO: Change resetsrc and resetinput to reset
-    $(document).on('click', '[data-action], [data-show], [data-on], [data-hide], [data-slide], [data-remove], [data-toggle], [data-resetsrc], [data-resetinput], [data-click], [data-href]', function (e) {
+    $(document).on('click', '[data-action], [data-show], [data-on], [data-off], [data-hide], [data-slide], [data-remove], [data-toggle], [data-resetsrc], [data-resetinput], [data-click], [data-href]', function (e) {
         if ($(this).data('togglescroll') === true) {
             scroll_lock();
         }
@@ -19,6 +19,7 @@ $(document).ready(function(){
             $($(this).data('show')).toggleClass($(this).data('targettoggleclass'));
         }
         $($(this).data('on')).toggleClass('on');
+        $($(this).data('off')).removeClass('on');
         $($(this).data('remove')).remove();
         $($(this).data('hide')).hide();
         $($(this).data('show')).show();
