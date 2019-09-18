@@ -702,6 +702,7 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
         try {
             r = JSON.parse( r );
             elog(r);
+            eval( callback + '(' + JSON.stringify( r ) + ')' );
             if( notify_time !== '' ) {
                 notify( r[1], notify_time );
             }
@@ -716,7 +717,6 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
                     }, redirect_time * 1000)
                 }
             }
-            eval( callback + '("' + r + '")' )
             //this[callback](r);
         }
         catch( e ) { elog(e); }
