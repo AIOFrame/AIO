@@ -9,23 +9,26 @@
         $(this).children(':nth-child('+(1)+')').addClass('on');
 
         // On scroll detect direction and animate
-        var scrolling = false;
-        $(this).on('mousewheel',function(e){
+        var SD = true;
+        $(this).on('mousewheel DOMMouseScroll touchMove',function(e){
             e.preventDefault();
-            if( !scrolling ){
+            if( SD ){
+                var sa = e.originalEvent.wheelDelta;
                 var h = $(this).height();
                 var a = $(this).children('.on').index() + 1;
-                if(e.originalEvent.wheelDelta > 0 && a > 1) {
-                    scrolling = true;
-                    $(this).children().removeClass('on');
+                SD = false;
+                elog(a);
+                $(this).children().removeClass('on');
+                if( sa > 0 && a > 1 ) {
                     $(this).children(':nth-child('+(a-1)+')').addClass('on');
-                    $(this).animate({ 'scrollTop': '-='+h }, 800, function() { scrolling = false; });
-                } else if(e.originalEvent.wheelDelta < 0 && a < $(this).children().length) {
-                    scrolling = true;
-                    $(this).children().removeClass('on');
+                    $(this).animate({ 'scrollTop': '-='+h }, 600);
+                } else if( sa < 0 && a < $(this).children().length) {
                     $(this).children(':nth-child('+(a+1)+')').addClass('on');
-                    $(this).animate({ 'scrollTop': '+='+h }, 800, function() { scrolling = false; });
+                    $(this).animate({ 'scrollTop': '+='+h }, 600);
                 }
+                setTimeout(function () {
+                    SD = true;
+                }, 1600);
             }
         })
 
