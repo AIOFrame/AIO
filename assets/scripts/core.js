@@ -736,3 +736,7 @@ function search_filter( repeater, targets, c ) {
 function page_warning( $message ) {
     console.log( '%c' + $message, 'width:100%;background:#fff;border-radius:6px;box-shadow:0 0 15px rgba(0,0,0,.2);font-size:22px;padding:40px;text-align:center;color:#000;font-family:"Lato",sans-serif;font-weight:400;margin:20px;' );
 }
+
+function is_mobile() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
