@@ -269,6 +269,11 @@ function nth( $num ){
     echo $fmt->format( $num );
 }
 
+function _nth( $num ){
+    $fmt = new NumberFormatter($locale = 'en', 6);
+    return $fmt->format( $num );
+}
+
 // Returns Languages
 
 function get_languages() {
