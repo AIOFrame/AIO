@@ -82,7 +82,7 @@ function get_user_uploads( $off = 0 ) {
 // Previous function as json encoded
 
 function ajax_user_uploads(){
-    $off = $_POST['off'] ?? 0;
+    // $off = $_POST['off'] ?? 0;
     // echo json_encode(get_user_uploads($off));
 }
 
