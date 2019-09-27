@@ -3,8 +3,6 @@
 // This is the backend function that processes file upload
 
 function file_process() {
-    elog( $_POST );
-    elog( $_FILES );
     $cry = Crypto::initiate();
     //echo $cry->decrypt( $_POST['scope'] );
     //return;
@@ -18,9 +16,7 @@ function file_process() {
     // Sets the path of the uploaded file (If empty then file is uploaded to user directory/y-m)
     $path = !empty($_POST['path']) ? $cry->decrypt($_POST['path']) : get_current_user_id().'/'.date('Y-m');
     if( empty($path) ){ echo json_encode('Location Accessibility Failure', false); return; }
-    elog('before');
     foreach( $_FILES as $file ){
-        elog( $file );
         $fn = $file['name'];
         if ( !is_dir( APPPATH.'/storage/'.$path )) {
             mkdir( APPPATH.'/storage/'.$path, 0777, true);
@@ -28,7 +24,6 @@ function file_process() {
         $fe = pathinfo($fn, PATHINFO_EXTENSION);
         $fnc = explode('.',$fn); //[0].'_'.date('d_h_s').'.'.explode('.',$fn)[1];
         $fn = str_replace('.'.$fnc[count($fnc) - 1],'_'.date('y_h_s').'.'.$fnc[count($fnc) - 1],$fn);
-        elog('success');
         if( move_uploaded_file( $file['tmp_name'], APPPATH.'/storage/'.$path.'/'.$fn ) ) {
             $loc = '/storage/'.$path.'/'.$fn;
             $fz = round( $file['size'] / 1024 );
@@ -125,7 +120,6 @@ function file_delete() {
 
             if( !empty( $file['file_url'] ) ) {
 
-                elog(APPPATH . $file['file_url']);
                 $ac_file = unlink( APPPATH . $file['file_url'] );
                 $db_file = delete( 'storage', 'file_id = "'.$id.'" AND file_scope = "'.$user_id.'" AND file_delete = "1"' );
 
