@@ -83,7 +83,7 @@ function get_user_uploads( $off = 0 ) {
 
 function ajax_user_uploads(){
     $off = $_POST['off'] ?? 0;
-    echo json_encode(get_user_uploads($off));
+    // echo json_encode(get_user_uploads($off));
 }
 
 // Gets image url from id
