@@ -3,7 +3,8 @@
 // This is the backend function that processes file upload
 
 function file_process() {
-
+    elog( $_POST );
+    elog( $_FILES );
     $cry = Crypto::initiate();
     //echo $cry->decrypt( $_POST['scope'] );
     //return;
@@ -17,8 +18,9 @@ function file_process() {
     // Sets the path of the uploaded file (If empty then file is uploaded to user directory/y-m)
     $path = !empty($_POST['path']) ? $cry->decrypt($_POST['path']) : get_current_user_id().'/'.date('Y-m');
     if( empty($path) ){ echo json_encode('Location Accessibility Failure', false); return; }
-
+    elog('before');
     foreach( $_FILES as $file ){
+        elog( $file );
         $fn = $file['name'];
         if ( !is_dir( APPPATH.'/storage/'.$path )) {
             mkdir( APPPATH.'/storage/'.$path, 0777, true);
@@ -26,17 +28,24 @@ function file_process() {
         $fe = pathinfo($fn, PATHINFO_EXTENSION);
         $fnc = explode('.',$fn); //[0].'_'.date('d_h_s').'.'.explode('.',$fn)[1];
         $fn = str_replace('.'.$fnc[count($fnc) - 1],'_'.date('y_h_s').'.'.$fnc[count($fnc) - 1],$fn);
+        elog('success');
         if( move_uploaded_file( $file['tmp_name'], APPPATH.'/storage/'.$path.'/'.$fn ) ) {
             $loc = '/storage/'.$path.'/'.$fn;
             $fz = round( $file['size'] / 1024 );
             $vfn = ucwords( str_replace('.'.$fe, '', str_replace('-', ' ', str_replace('_', ' ', $file['name']))));
-            $uq = insert( 'storage', array( 'file_name', 'file_url', 'file_scope', 'file_type', 'file_size', 'file_delete' ), array( $vfn, $loc, $scope, $fe, $fz, $delete ) );
-            if( $uq ){
-                $msg = array('success','File Uploaded Successfully',$fn,$loc,$cry->encrypt($uq),$fe,$fz,storage_url($loc),$delete);
-                echo json_encode($msg, true);
+            global $db;
+            if( $db ) {
+                $uq = insert('storage', array('file_name', 'file_url', 'file_scope', 'file_type', 'file_size', 'file_delete'), array($vfn, $loc, $scope, $fe, $fz, $delete));
+                if( $uq ){
+                    $msg = array('success','File Uploaded Successfully',$fn,$loc,$cry->encrypt($uq),$fe,$fz,storage_url($loc),$delete);
+                    echo json_encode($msg, true);
+                } else {
+                    unlink( APPPATH.'/storage/'.$path.'/'.$fn );
+                    $msg = array('error','File not uploaded','Could not save record to storage database','','');
+                    echo json_encode($msg, true);
+                }
             } else {
-                unlink( APPPATH.'/storage/'.$path.'/'.$fn );
-                $msg = array('error','File not uploaded','Could not save record to storage database','','');
+                $msg = array('success','File Uploaded Successfully',$fn,$loc,'',$fe,$fz,storage_url($loc),$delete);
                 echo json_encode($msg, true);
             }
         } else {
@@ -50,17 +59,24 @@ function file_process() {
 // This outputs an array of current user uploads to file uploader
 
 function get_user_uploads( $off = 0 ) {
-    global $conn;
-    $uid = get_current_user_id();
-    $iq = "SELECT * FROM storage WHERE file_scope = '$uid' ORDER BY ID DESC LIMIT 20 OFFSET $off";
-    if( $mq = mysqli_query( $conn, $iq ) ) {
-        while( $row = mysqli_fetch_assoc( $mq ) ) {
-            $fd[$row['ID']] = array( $row['file_name'], $row['file_url'], $row['file_type'], $row['file_size'], substr(strrchr($row['file_url'],'.'),1) );
+    /*global $db;
+    if( $db ) {
+        $uid = get_current_user_id();
+        $iq = select( 'storage', '', 'file_scope = "'.$uid.'"', 20, $off, '', 0, 'ID' );
+        //$iq = "SELECT * FROM storage WHERE file_scope = '$uid' ORDER BY ID DESC LIMIT 20 OFFSET $off";
+        //if ($mq = mysqli_query($conn, $iq)) {
+        if ( is_array( $iq ) ) {
+            foreach( $iq as $i => $q ) {
+                //return $q;
+            }
+            /*while ($row = mysqli_fetch_assoc( $mq ) ) {
+                $fd[$row['ID']] = array($row['file_name'], $row['file_url'], $row['file_type'], $row['file_size'], substr(strrchr($row['file_url'], '.'), 1));
+            }
+            if (!empty($fd)) {
+                return $fd;
+            }
         }
-        if( !empty( $fd ) ){
-            return $fd;
-        }
-    }
+    }*/
 }
 
 // Previous function as json encoded

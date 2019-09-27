@@ -85,6 +85,9 @@ $(document).ready(function(){
             if( f.data('url') !== undefined && f.data('url') !== "" ) {
                 if( s ){ $( f.data('url') ).val( s.data('url') ) }
             }
+            if( f.data('callback') !== undefined && f.data('callback') !== "" ) {
+                //eval( callback + '(' + f.data('callback') + ')' );
+            }
 
         } else {
 
@@ -244,7 +247,7 @@ function file_upload(e){
         if(!fu.is(':visible')) {
             fu.slideDown();
         }
-        fu.data('exts', $(e).data('exts')).data('files',$(e).data('files')).data('url', $(e).data('url')).data('multiple', $(e).data('multiple')).data('bg', $(e).data('bg')).data('id', $(e).data('id')).data('s_img', $(e).data('s_img')).data('path', $(e).data('path')).data('scope', $(e).data('scope'));
+        fu.data('exts', $(e).data('exts')).data('files',$(e).data('files')).data('url', $(e).data('url')).data('multiple', $(e).data('multiple')).data('bg', $(e).data('bg')).data('id', $(e).data('id')).data('s_img', $(e).data('s_img')).data('path', $(e).data('path')).data('scope', $(e).data('scope')).data('callback', $(e).data('callback'));
         if( fu.data('multiple') !== undefined ) {
             $('.fi').addClass('multiple');
         } else {
@@ -293,7 +296,7 @@ function process_upload(fs) {
 
         $('#aio_up .uploaded_files').prepend( '<div class="uploading"><div class="name">'+f.name+'</div><div class="perc"><span>0</span>%</div><div class="progress"><div></div></div></div>' );
 
-        //elog(d);
+        console.log(d);
         $.ajax({
             url: location.origin, type: 'POST', data: d, contentType: false, cache: false, processData: false,
             xhr: function() {
@@ -304,6 +307,7 @@ function process_upload(fs) {
                 return myXhr;
             },
             success: function (data) {
+                console.log(data);
                 $('#aio_up .uploading').remove();
                 var d = $.parseJSON(data);
                 if (d[0] === 'success') {
@@ -346,11 +350,8 @@ function upload_progress(e){
 }
 
 function uploader_notify( message ) {
-
     $('.file_notify').html(message).addClass('on');
-
     setTimeout(function(){ $('.file_notify').removeClass('on'); },2000);
-
 }
 
 function close_uploader() {
