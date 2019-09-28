@@ -507,6 +507,9 @@ function logout() {
     if( empty($_POST['session_id']) ){
         $_SESSION = array();
         session_destroy();
+        echo 1;
+    } else {
+        echo 0;
     }
     //echo 1;
 }

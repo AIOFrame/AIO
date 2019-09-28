@@ -565,28 +565,8 @@ function process_data( e ){
     });
 
     //elog(d);
-
-    $.post( domain, d, function(r){
-
-        //elog(r);
-
-        if( r = JSON.parse(r) ){
-            if(p.data('notify') !== undefined && p.data('notify') > 0){
-                notify(title+' '+r[1]);
-            }
-            if(r[0] === 1){
-                if(p.data('reload') !== undefined && p.data('reload') > 0){
-                    setTimeout(function(){ location.reload() },p.data('reload') * 1000)
-                }
-                if(p.data('reset') !== undefined && p.data('reset') !== ''){
-                    $('[data-'+p.data('reset')+']').val('');
-                    //files_ui();
-                }
-            }
-        }
-
-        $(e).attr('disabled',false);
-    });
+    post( d.action, d, p.data('notify'), p.data('reload'), '', 0, '', p.data('reset') );
+    $(e).attr('disabled',false);
 }
 
 function edit_data( e, modal, on ) {
@@ -695,19 +675,24 @@ function reload( time_seconds ){
 
 }
 
-function post( action, data, notify_time, reload_time, redirect, redirect_time, callback ) {
+function post( action, data, notify_time, reload_time, redirect, redirect_time, callback, reset ) {
     var d = $.extend({}, {'action':action}, data);
     $.post( location.origin, d, function(r) {
         elog(r);
         try {
             r = JSON.parse( r );
-            elog(r);
-            eval( callback + '(' + JSON.stringify( r ) + ')' );
-            if( notify_time !== '' ) {
+            //elog(r);
+            if( notify_time !== undefined && notify_time !== '' ) {
                 notify( r[1], notify_time );
             }
             if( r[0] !== 0 && reload_time !== undefined && reload_time !== '' && reload_time !== '0' ) {
                 $.isNumeric( reload_time ) ? setTimeout(function(){ location.reload() }, reload_time * 1000 ) : location.href = reload_time;
+            }
+            if( r[0] !== 0 && reset !== undefined && reset !== '' && reset !== '0' ) {
+                $('[data-'+reset+']').val('');
+            }
+            if( callback !== undefined && callback !== '' ) {
+                eval( callback + '(' + JSON.stringify( r ) + ')' );
             }
             if( redirect !== undefined && redirect !== '' ) {
                 redirect_time = redirect_time !== undefined && redirect_time !== '' ? redirect_time : 0;
@@ -719,7 +704,9 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
             }
             //this[callback](r);
         }
-        catch( e ) { elog(e); }
+        catch( rat ) {
+            console.log( rat );
+        }
     });
 }
 

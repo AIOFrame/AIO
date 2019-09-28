@@ -69,6 +69,18 @@ function array_group_by( $array, $key ) {
     return $grouped;
 }
 
+// Create multiple where statement from Array
+
+function create_where_from_array( $where, $array, $type = 'OR' ) {
+    $s = '';
+    if( !empty( $where ) && !empty( $array ) && is_array( $array ) ) {
+        foreach( $array as $a => $k ) {
+            $s .= $where.' = "'.$k.'" '.$type.' ';
+        }
+    }
+    return rtrim( $s, ' OR ');
+}
+
 // Check if string is json
 
 function is_json( $string ) {
