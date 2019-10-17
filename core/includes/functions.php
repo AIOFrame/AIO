@@ -644,7 +644,7 @@ function editable_data( $data = [], $remove = '' ) {
     $final = [];
     $remove = explode( ',', $remove );
     foreach( $data as $k => $v ){
-        $k = ltrim( strstr($k,'_'), '_' );
+        $k = strpos( $k, '_') !== false ? ltrim( strstr($k,'_'), '_' ) : $k;
         if( $k == 'id' ) {
             $cry = CRYPTO::initiate();
             $final[ $k ] = $cry->encrypt( $v );

@@ -77,6 +77,14 @@ body.d [type=checkbox].slide {
 [type=checkbox].slide:checked:before {
     left: 43%;
 }
+[type=color], [type=color]:focus {
+    display: block;
+    width:35px;
+    height:35px;
+    padding: 0;
+    border: 0;
+    outline: 0;
+}
 
 /* AIO Dynamics */
 
