@@ -43,14 +43,20 @@ class ACCESS {
         // Prepares data to insert into users table
         $dt = date('Y-m-d H-i-s');
         $n = !empty( $d['name'] ) ? $d['name'] : ucwords( str_replace( '_', ' ', $user_login ) );
+        if( !empty( $d['name'] ) ) {
+            unset( $d['name'] );
+        }
+        elog( $d );
 
         // Creates new user
         $user_keys = [ 'user_login', 'user_name', 'user_since', 'user_data' ];
         $user_vals = [ $user_login, $n, $dt, serialize($d) ];
         if( !empty( $columns ) && is_assoc( $columns ) ){
             foreach( $columns as $k => $v ){
-                $user_keys[] = $k;
-                $user_vals[] = $v;
+                if( !isset( $user_keys[$k] ) ) {
+                    $user_keys[] = $k;
+                    $user_vals[] = $v;
+                }
             }
         }
         $nu = insert( 'users', $user_keys, $user_vals );
