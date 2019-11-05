@@ -78,6 +78,7 @@ body.d [type=checkbox].slide {
     left: 43%;
 }
 [type=color], [type=color]:focus {
+    cursor:pointer;
     display: block;
     width:35px;
     height:35px;
@@ -184,6 +185,27 @@ body.d [type=checkbox].slide {
     height:15px;
     width:15px;
     left: 0;
+}
+
+/* COLOR PICKER */
+
+[data-color-picker] {
+    cursor:pointer;
+}
+.color-picker {
+    position: fixed;
+    left: 50vw;
+    top: 50vh;
+    transform: translate(-50%,-50%);
+    background: rgba(255,255,255,.75);
+    box-shadow: 0 0 50px rgba(0,0,0,0.2);
+    padding: 20px;
+    border-radius:10px;
+    pointer-events: none;
+    opacity:0;
+    z-index:9999;
+    transition:.6s;
+    backdrop-filter: blur(8px) saturate(2);
 }
 
 /* BUTTONS */

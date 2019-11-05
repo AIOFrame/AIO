@@ -32,7 +32,7 @@
     left:50%;
     top: calc(50% + 10vh);
     transform: translate(-50%,calc(-50% - 5vh));
-    background: rgba(255,255,255,.98);
+    background: rgba(255,255,255,.85);
     box-shadow: 0 0 50px rgba(0,0,0,0.2);
     padding: 20px;
     /* display: none;
@@ -45,6 +45,7 @@
     z-index:-1;
     margin-top: 20px;
     transition:.6s;
+    backdrop-filter: blur(8px) saturate(2);
 }
 .modal .t {
     margin-top: 0;

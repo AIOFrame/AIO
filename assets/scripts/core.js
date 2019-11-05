@@ -73,12 +73,21 @@ $(document).ready(function(){
             d.push( get_values( b ) );
 
         });
-
         console.log(d);
-
         $(this).parents('.aio_dynamics').prev('input').val( JSON.stringify( d ) );
-
     });
+
+    // Color Picker
+
+    $('body').on('click','[data-color-picker]',function(){
+        init_color_picker($(this));
+        $('.color-picker').css({'opacity':1,'pointer-events':'all'});
+        elog($(this));
+    });
+
+    if( $('[data-color-picker]').length > 0 ) {
+        $('<div class="color-picker"></div>').appendTo('body');
+    }
 
     // Scroll Save
 
@@ -311,6 +320,13 @@ $(document).ready(function(){
 
 });
 
+$(document).mouseup(function(e) {
+    var cp = $('.color-picker');
+    if (!cp.is(e.target) && cp.has(e.target).length === 0) {
+        cp.css({'opacity':0,'pointer-events':'none'}).html('');
+    }
+});
+
 function format_number(a){
     /*var selection = window.getSelection().toString();
     if ( selection !== '' ) {
@@ -323,6 +339,23 @@ function format_number(a){
     //var a = a.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
     a = a ? parseInt( a, 10 ) : 0; */
     return a.toLocaleString();
+}
+
+function init_color_picker( e ) {
+    var cp = $('.color-picker');
+    $(e).data('value') !== undefined ? $(cp).data('value',$(e).data('value')) : $(cp).data('value',$(e));
+    $(e).data('background') !== undefined ? $(cp).data('background',$(e).data('background')) : $(cp).data('background',$(e));
+    var colorPicker = new iro.ColorPicker('.color-picker',{
+        color: $(e).val(),
+        width: $(e).data('width'),
+    });
+    colorPicker.on('color:change', onColorChange);
+}
+
+function onColorChange( color ) {
+    var cp = $('.color-picker');
+    $(cp).data('value') !== undefined ? $($(cp).data('value')).val(color.hexString) : '';
+    $(cp).data('background') !== undefined ? $(cp).data('background').css({'background-color':color.hexString}) : '';
 }
 
 function fn( a ) {
