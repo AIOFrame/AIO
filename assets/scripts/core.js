@@ -529,6 +529,10 @@ function get_values( e, s, pre ) {
             v = $('input[name='+$(this).attr('name')+']:checked').val();
             data[ pre + k ] = v;
             return true;
+        } else if( $(this).is( "select" ) && $(this).attr('multiple') !== undefined ) {
+
+            v = $(this).val().join(", ");
+
         }
 
         if( $(this).data('key') !== undefined ){

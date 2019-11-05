@@ -273,7 +273,7 @@ body.d .files_actions>div, body.d .files_actions>label {
 }
 .aio_fsp {
     /*box-shadow: 0 0 10px rgba(0,0,0,.05) inset;*/
-    border-radius: 10px;
+    border-radius: 5px;
     position:relative;
     min-height:40px;
     margin-bottom: 15px;
