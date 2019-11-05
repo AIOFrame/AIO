@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!-- Generator: Adobe Illustrator 23.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
 <style type="text/css">
-	.st0{display:none;fill:#7F7F7F;}
-	.st1{fill:none;stroke:#000000;stroke-width:10;stroke-miterlimit:10;}
+	.st0{fill:none;stroke:#000000;stroke-width:10;stroke-miterlimit:10;}
 </style>
-<rect class="st0" width="512" height="512"/>
-<rect x="173" y="174" transform="matrix(-1 -1.224647e-16 1.224647e-16 -1 650 630.6667)" class="st1" width="304" height="282.7"/>
-<polyline class="st1" points="173,340.7 37,340.7 37,58 341,58 341,174 "/>
+<rect x="173" y="174" class="st0" width="304" height="282.7"/>
+<polyline class="st0" points="173,340.7 37,340.7 37,58 341,58 341,174 "/>
 </svg>

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 22.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!-- Generator: Adobe Illustrator 23.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 86 86" style="enable-background:new 0 0 86 86;" xml:space="preserve">
+	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:none;stroke:#000000;stroke-miterlimit:10;}
+	.st0{fill:none;stroke:#000000;stroke-width:15;stroke-miterlimit:10;}
 </style>
 <g id="Artboard_1">
 	<g id="Group_2096" transform="translate(23.993 4.901)">
-		<path id="Path_213" class="st0" d="M9.8,73.5h14.5V38.6h11.2l1.2-12.2H24.3v-7.7c0-2.7,1.2-3,2.5-3h9.7v-12H25
-			c-13,0-15.2,9-15.2,14.7v8h-8v12.2h8V73.5z"/>
+		<path id="Path_213" class="st0" d="M175,463.1h87.9V251.6h67.9l7.3-73.9h-75.1V131c0-16.4,7.3-18.2,15.2-18.2h58.8V40.1h-69.7
+			c-78.8,0-92.1,54.5-92.1,89.1v48.5h-48.5v73.9H175V463.1z"/>
 	</g>
 </g>
 </svg>

@@ -42,9 +42,9 @@ class ACCESS {
 
         // Prepares data to insert into users table
         $dt = date('Y-m-d H-i-s');
-        $n = !empty( $d['name'] ) ? $d['name'] : ucwords( str_replace( '_', ' ', $user_login ) );
-        if( !empty( $d['name'] ) ) {
-            unset( $d['name'] );
+        $n = !empty( $columns['name'] ) ? $columns['name'] : ucwords( str_replace( '_', ' ', $user_login ) );
+        if( !empty( $columns['name'] ) ) {
+            unset( $columns['name'] );
         }
         elog( $d );
 

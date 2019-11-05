@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!-- Generator: Adobe Illustrator 23.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 250 250" style="enable-background:new 0 0 250 250;" xml:space="preserve">
+	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
 <style type="text/css">
 	.st0{fill:none;stroke:#000000;stroke-width:6;stroke-linejoin:round;stroke-miterlimit:10;}
 	.st1{fill:none;stroke:#000000;stroke-width:6;stroke-miterlimit:10;}
 	.st2{fill:none;stroke:#000000;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
 </style>
 <g id="_23_Page_Rank_Badge">
-	<polygon class="st0" points="186.5,120.2 211.9,94.7 186.5,69.3 186.5,33.2 150.5,33.2 125,7.8 99.5,33.2 63.5,33.2 63.5,69.2 
-		38,94.7 63.5,120.2 63.5,156.2 99.5,156.2 125,181.7 150.4,156.2 186.5,156.2 	"/>
-	<circle class="st1" cx="125" cy="94.7" r="34.8"/>
-	<polyline class="st2" points="111.9,168.6 69.3,242.1 59.3,204 21.2,214.3 63.5,141 	"/>
-	<polyline class="st2" points="138.1,168.6 180.7,242.2 190.7,204.1 228.8,214.4 186.5,141 	"/>
+	<polygon class="st0" points="373.5,246.8 422.1,198.1 373.5,149.5 373.5,80.5 304.7,80.5 256,32 207.3,80.5 138.5,80.5 
+		138.5,149.4 89.7,198.1 138.5,246.8 138.5,315.6 207.3,315.6 256,364.4 304.5,315.6 373.5,315.6 	"/>
+	<circle class="st1" cx="256" cy="198.1" r="66.5"/>
+	<polyline class="st2" points="231,339.3 149.5,479.8 130.4,407 57.6,426.7 138.5,286.6 	"/>
+	<polyline class="st2" points="281,339.3 362.5,480 381.6,407.2 454.4,426.9 373.5,286.6 	"/>
 </g>
 </svg>
