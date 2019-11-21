@@ -65,8 +65,8 @@ function file_upload() {
         $file_upload_loaded = 1;
     }
 }
-function storage_url( $url ) {
-    return $url !== '' ? APPURL . 'apps/' . APPDIR . str_replace( ' ', '%20', $url) : '';
+function storage_url( $url = '' ) {
+    return mb_substr( $url, 0, 9) == '/storage/' ? APPURL . 'apps/' . APPDIR . str_replace( ' ', '%20', $url) : $url;
 }
 
 function file_url( $url ) {

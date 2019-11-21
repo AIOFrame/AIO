@@ -34,6 +34,7 @@ File Uploader
 * Drag and Drop file upload
 * Files in a page
 * Encrypted and Sharable files
+* Add URL instead of file upload
 
 Payment Gateways Integration
 
