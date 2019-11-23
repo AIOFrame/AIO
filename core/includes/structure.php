@@ -69,14 +69,14 @@ function basic_tables() {
         [ 'page', 'VARCHAR', 255, 0 ],
     ]];
 
-    /* $ln = get_option( 'app_languages' );
+    $ln = get_option( 'app_languages' );
     $ln = !empty( $ln ) ? unserialize( $ln ) : [];
     if( is_array( $ln ) && !empty( $ln ) ) {
         foreach( $ln as $l ) {
             $trans[2][] = [ $l, 'TEXT', 9999, 0 ];
         }
         $tables[] = $trans;
-    } */
+    }
     create_tables( $tables );
 }
 
