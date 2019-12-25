@@ -66,7 +66,7 @@ function file_upload() {
     }
 }
 function storage_url( $url = '' ) {
-    return mb_substr( $url, 0, 9) == '/storage/' ? APPURL . 'apps/' . APPDIR . str_replace( ' ', '%20', $url) : $url;
+    return mb_substr( $url, 0, 9) == '/storage/' || mb_substr( $url, 0, 8) == '/assets/' ? APPURL . 'apps/' . APPDIR . str_replace( ' ', '%20', $url) : $url;
 }
 
 function file_url( $url ) {
