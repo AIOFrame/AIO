@@ -629,7 +629,13 @@ function edit_data( e, modal, on ) {
         if( i === 'id' ){
             t.addClass('on').data('id',d);
         } else {
-            $('#'+i).val(d).change();
+            if( $('#'+i).attr('type') === 'checkbox' ){
+
+                d === '1' || d === true ? $('#'+i).prop('checked',true) : $('#'+i).prop('checked',false);
+
+            } else {
+                $('#'+i).val(d).change();
+            }
         }
     });
 

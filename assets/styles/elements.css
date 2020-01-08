@@ -474,6 +474,9 @@ body.d .tab {
     margin-bottom: 20px;
     /*overflow:hidden;*/
 }
+.block.off, .block.disabled, .plate.off, .plate.disabled {
+    opacity:.5;
+}
 .plate {
     padding: 0;
 }
