@@ -526,7 +526,7 @@ function render_input( $type, $id, $label, $placeholder = '', $value = '', $attr
     $n = $name !== '' ? $name : $id;
     switch( $type ){
         case 'textarea':
-            $input = '<textarea id="'.$id.'" name="'.$n.'" "'.$ph.$at.'">'.$va.'</textarea>';
+            $input = '<textarea id="'.$id.'" name="'.$n.'" '.$ph.$at.'>'.$va.'</textarea>';
             break;
         case 'slide':
         case 'toggle':

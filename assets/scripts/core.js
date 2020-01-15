@@ -568,18 +568,25 @@ function get_checkbox_values( e, string ) {
 }
 
 function clear_values( e, s ){
-    $(e).find(":input[data-"+s+"]:not(:button)","select[data-"+s+"]","textarea[data-"+s+"]").each(function () {
-        $(this).val("").trigger('chosen:updated');
-    });
+    if( s === '' || s === undefined ) {
+        $(e).find(":input:not(:button)","select","textarea").each(function () {
+            $(this).val("").trigger('chosen:updated');
+        });
+    } else {
+        $(e).find(":input[data-"+s+"]:not(:button)","select[data-"+s+"]","textarea[data-"+s+"]").each(function () {
+            $(this).val("").trigger('chosen:updated');
+        });
+    }
 }
 
 var appdebug = $('body').hasClass('debug') ? true : false;
 
 function process_data( e ){
 
-    $(e).attr('disabled',true);
+    //$(e).attr('disabled',true);
 
     var p = $(e).parents('[data-t]');
+    p.addClass('load');
     var title = $(p).data('title');
     var pre = $(p).data('pre');
     if( $(p).data('sempty') !== '' && $(p).data('sempty') !== undefined ) {
@@ -602,8 +609,12 @@ function process_data( e ){
     });
 
     //elog(d);
-    post( d.action, d, p.data('notify'), p.data('reload'), '', 0, '', p.data('reset') );
-    $(e).attr('disabled',false);
+    post( d.action, d, p.data('notify'), p.data('reload'), p.data('redirect'), 0, p.data('callback'), p.data('reset') );
+
+}
+
+function process_finish( r ) {
+    //$(e).attr('disabled',false);
 }
 
 function edit_data( e, modal, on ) {
@@ -735,7 +746,10 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
                 $('[data-'+reset+']').val('');
             }
             if( callback !== undefined && callback !== '' ) {
-                eval( callback + '(' + JSON.stringify( r ) + ')' );
+                callback = callback.split(',');
+                $.each( callback, function(i,call){
+                    eval( call + '(' + JSON.stringify( r ) + ')' );
+                });
             }
             if( redirect !== undefined && redirect !== '' ) {
                 redirect_time = redirect_time !== undefined && redirect_time !== '' ? redirect_time : 0;

@@ -152,3 +152,17 @@ function file_delete() {
     }
 
 }
+
+function download_url( $urls, $class = 'file', $element = 'a' ) {
+    $urls = explode( ',', $urls );
+    if( is_array( $urls ) ) {
+        foreach( $urls as $u ) {
+            if( $element == 'a' ) {
+                $data = 'href="'.storage_url( $u ).'"';
+            } else {
+                $data = storage_url( $u );
+            }
+            echo '<'.$element.' '.$data.' class="ico '.$class.'"></'.$element.'>';
+        }
+    }
+}

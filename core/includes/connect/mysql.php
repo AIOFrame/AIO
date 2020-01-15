@@ -384,27 +384,15 @@ function process_data() {
         $keys = prepare_keys( $a );
         $values = prepare_values( $a );
 
-        if( !empty( $id ) ){
-            $query = update( $table, $keys, $values, $pre.'_id = "'.$id.'"' );
-        } else {
-            $query = insert( $table, $keys, $values );
-        }
+        $query = !empty( $id ) ? update( $table, $keys, $values, $pre.'_id = "'.$id.'"' ) : $query = insert( $table, $keys, $values );
 
         if( !empty( $id ) ) {
-            if ($query) {
-                echo json_encode([1, T('Updated Successfully')]);
-            } else {
-                echo json_encode([0, T('not updated, maybe data is empty')]);
-            }
+            $query ? es('Updated Successfully') : ef('Not updated, data sent maybe unchanged / empty');
         } else {
-            if( $query ){
-                echo json_encode([1, T('Added Successfully')]);
-            } else {
-                echo json_encode([0, T('not stored, please try again or contact support')]);
-            }
+            $query ? es('Added Successfully') : ef('Not stored, please try again or contact support');
         }
     } else {
-        echo json_encode([0,T('Database not targeted properly, please contact support')]);
+        ef('Database not targeted properly, please contact support');
     }
 }
 

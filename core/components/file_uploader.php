@@ -29,8 +29,8 @@ class FUP {
                 <div class="camera_view"></div>
             </div>
             <div class="files_actions">
-                <div class="fi"><i class="ico file select"></i> <span><?php E('Select'); ?></span><span><?php E('Select Multiple Files'); ?></span></div>
-                <label for="file_input" class="fb"><i class="ico file browse"></i> <?php E('Browse File'); ?></label>
+                <div class="fi"><i class="ico file select"></i> <span><?php E('Select'); ?></span><span><?php E('Select Files'); ?></span></div>
+                <label for="file_input" class="fb"><i class="ico file browse"></i> <?php E('Browse'); ?></label>
                 <div class="df disabled"><i class="ico file trash"></i> <?php E('Delete'); ?></div>
             </div>
         </div>
