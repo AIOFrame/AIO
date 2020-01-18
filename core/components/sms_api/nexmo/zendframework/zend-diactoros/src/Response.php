@@ -1,15 +1,22 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-diactoros for the canonical source repository
- * @copyright Copyright (c) 2015-2017 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2015-2018 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md New BSD License
  */
 
+declare(strict_types=1);
+
 namespace Zend\Diactoros;
 
-use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
+
+use function gettype;
+use function is_float;
+use function is_numeric;
+use function is_scalar;
+use function sprintf;
 
 /**
  * HTTP response encapsulation.
@@ -81,7 +88,7 @@ class Response implements ResponseInterface
         422 => 'Unprocessable Entity',
         423 => 'Locked',
         424 => 'Failed Dependency',
-        425 => 'Unordered Collection',
+        425 => 'Too Early',
         426 => 'Upgrade Required',
         428 => 'Precondition Required',
         429 => 'Too Many Requests',
@@ -107,7 +114,7 @@ class Response implements ResponseInterface
     /**
      * @var string
      */
-    private $reasonPhrase = '';
+    private $reasonPhrase;
 
     /**
      * @var int
@@ -118,9 +125,9 @@ class Response implements ResponseInterface
      * @param string|resource|StreamInterface $body Stream identifier and/or actual stream resource
      * @param int $status Status code for the response, if any.
      * @param array $headers Headers for the response, if any.
-     * @throws InvalidArgumentException on any invalid element.
+     * @throws Exception\InvalidArgumentException on any invalid element.
      */
-    public function __construct($body = 'php://memory', $status = 200, array $headers = [])
+    public function __construct($body = 'php://memory', int $status = 200, array $headers = [])
     {
         $this->setStatusCode($status);
         $this->stream = $this->getStream($body, 'wb+');
@@ -130,7 +137,7 @@ class Response implements ResponseInterface
     /**
      * {@inheritdoc}
      */
-    public function getStatusCode()
+    public function getStatusCode() : int
     {
         return $this->statusCode;
     }
@@ -138,25 +145,18 @@ class Response implements ResponseInterface
     /**
      * {@inheritdoc}
      */
-    public function getReasonPhrase()
+    public function getReasonPhrase() : string
     {
-        if (! $this->reasonPhrase
-            && isset($this->phrases[$this->statusCode])
-        ) {
-            $this->reasonPhrase = $this->phrases[$this->statusCode];
-        }
-
         return $this->reasonPhrase;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function withStatus($code, $reasonPhrase = '')
+    public function withStatus($code, $reasonPhrase = '') : Response
     {
         $new = clone $this;
-        $new->setStatusCode($code);
-        $new->reasonPhrase = $reasonPhrase;
+        $new->setStatusCode($code, $reasonPhrase);
         return $new;
     }
 
@@ -164,22 +164,36 @@ class Response implements ResponseInterface
      * Set a valid status code.
      *
      * @param int $code
-     * @throws InvalidArgumentException on an invalid status code.
+     * @param string $reasonPhrase
+     * @throws Exception\InvalidArgumentException on an invalid status code.
      */
-    private function setStatusCode($code)
+    private function setStatusCode($code, $reasonPhrase = '') : void
     {
         if (! is_numeric($code)
             || is_float($code)
             || $code < static::MIN_STATUS_CODE_VALUE
             || $code > static::MAX_STATUS_CODE_VALUE
         ) {
-            throw new InvalidArgumentException(sprintf(
+            throw new Exception\InvalidArgumentException(sprintf(
                 'Invalid status code "%s"; must be an integer between %d and %d, inclusive',
-                (is_scalar($code) ? $code : gettype($code)),
+                is_scalar($code) ? $code : gettype($code),
                 static::MIN_STATUS_CODE_VALUE,
                 static::MAX_STATUS_CODE_VALUE
             ));
         }
-        $this->statusCode = $code;
+
+        if (! is_string($reasonPhrase)) {
+            throw new Exception\InvalidArgumentException(sprintf(
+                'Unsupported response reason phrase; must be a string, received %s',
+                is_object($reasonPhrase) ? get_class($reasonPhrase) : gettype($reasonPhrase)
+            ));
+        }
+
+        if ($reasonPhrase === '' && isset($this->phrases[$code])) {
+            $reasonPhrase = $this->phrases[$code];
+        }
+
+        $this->reasonPhrase = $reasonPhrase;
+        $this->statusCode = (int) $code;
     }
 }

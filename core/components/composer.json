@@ -1,7 +1,7 @@
 {
     "require": {
         "quickbooks/v3-php-sdk": "^5.0",
-        "phpoffice/phpspreadsheet": "^1.7",
+        "phpoffice/phpspreadsheet": "^1.9",
         "spipu/html2pdf": "^5.2",
         "mashape/unirest-php": "^3.0"
     }

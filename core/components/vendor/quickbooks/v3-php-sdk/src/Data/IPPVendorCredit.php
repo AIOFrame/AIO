@@ -66,6 +66,18 @@ class IPPVendorCredit
 	 * @var float
 	 */
 	public $Balance;
+	/**
+	 * @Definition 
+								Product: QBO Only
+								Description: True if the VendorCredit should be included in annual TPAR, specific to AU region.
+							
+	 * @xmlType element
+	 * @xmlNamespace http://schema.intuit.com/finance/v3
+	 * @xmlMinOccurs 0
+	 * @xmlName IncludeInAnnualTPAR
+	 * @var boolean
+	 */
+	public $IncludeInAnnualTPAR;
 
 
 } // end class IPPVendorCredit

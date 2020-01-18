@@ -1,17 +1,19 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       http://github.com/zendframework/zend-diactoros for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
+ * @see       https://github.com/zendframework/zend-diactoros for the canonical source repository
+ * @copyright Copyright (c) 2015-2018 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md New BSD License
  */
 
+declare(strict_types=1);
+
 namespace Zend\Diactoros;
 
-use InvalidArgumentException;
-use RuntimeException;
 use Psr\Http\Message\StreamInterface;
+
+use function array_key_exists;
+
+use const SEEK_SET;
 
 /**
  * Implementation of PSR HTTP streams
@@ -25,7 +27,7 @@ class CallbackStream implements StreamInterface
 
     /**
      * @param callable $callback
-     * @throws InvalidArgumentException
+     * @throws Exception\InvalidArgumentException
      */
     public function __construct(callable $callback)
     {
@@ -35,7 +37,7 @@ class CallbackStream implements StreamInterface
     /**
      * {@inheritdoc}
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->getContents();
     }
@@ -43,7 +45,7 @@ class CallbackStream implements StreamInterface
     /**
      * {@inheritdoc}
      */
-    public function close()
+    public function close() : void
     {
         $this->callback = null;
     }
@@ -51,7 +53,7 @@ class CallbackStream implements StreamInterface
     /**
      * {@inheritdoc}
      */
-    public function detach()
+    public function detach() : ?callable
     {
         $callback = $this->callback;
         $this->callback = null;
@@ -60,11 +62,8 @@ class CallbackStream implements StreamInterface
 
     /**
      * Attach a new callback to the instance.
-     *
-     * @param callable $callback
-     * @throws InvalidArgumentException for callable callback
      */
-    public function attach(callable $callback)
+    public function attach(callable $callback) : void
     {
         $this->callback = $callback;
     }
@@ -72,22 +71,23 @@ class CallbackStream implements StreamInterface
     /**
      * {@inheritdoc}
      */
-    public function getSize()
+    public function getSize() : ?int
     {
+        return null;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function tell()
+    public function tell() : int
     {
-        throw new RuntimeException('Callback streams cannot tell position');
+        throw Exception\UntellableStreamException::forCallbackStream();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function eof()
+    public function eof() : bool
     {
         return empty($this->callback);
     }
@@ -95,7 +95,7 @@ class CallbackStream implements StreamInterface
     /**
      * {@inheritdoc}
      */
-    public function isSeekable()
+    public function isSeekable() : bool
     {
         return false;
     }
@@ -105,37 +105,21 @@ class CallbackStream implements StreamInterface
      */
     public function seek($offset, $whence = SEEK_SET)
     {
-        throw new RuntimeException('Callback streams cannot seek position');
+        throw Exception\UnseekableStreamException::forCallbackStream();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rewind()
+    public function rewind() : void
     {
-        throw new RuntimeException('Callback streams cannot rewind position');
+        throw Exception\UnrewindableStreamException::forCallbackStream();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function isWritable()
-    {
-        return false;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function write($string)
-    {
-        throw new RuntimeException('Callback streams cannot write');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isReadable()
+    public function isWritable() : bool
     {
         return false;
     }
@@ -143,18 +127,35 @@ class CallbackStream implements StreamInterface
     /**
      * {@inheritdoc}
      */
-    public function read($length)
+    public function write($string) : void
     {
-        throw new RuntimeException('Callback streams cannot read');
+        throw Exception\UnwritableStreamException::forCallbackStream();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getContents()
+    public function isReadable() : bool
+    {
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function read($length) : string
+    {
+        throw Exception\UnreadableStreamException::forCallbackStream();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getContents() : string
     {
         $callback = $this->detach();
-        return $callback ? $callback() : '';
+        $contents = $callback ? $callback() : '';
+        return (string) $contents;
     }
 
     /**
