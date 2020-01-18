@@ -192,7 +192,7 @@ body.d [type=checkbox].slide {
 [data-color-picker] {
     cursor:pointer;
 }
-.color-picker {
+.color_picker_wrap {
     position: fixed;
     left: 50vw;
     top: 50vh;
@@ -206,6 +206,19 @@ body.d [type=checkbox].slide {
     z-index:9999;
     transition:.6s;
     backdrop-filter: blur(8px) saturate(2);
+}
+.color_picker_wrap.on {
+    opacity:1;
+    pointer-events:all
+}
+.color_picker_wrap .close {
+    background:url('../images/close.svg') no-repeat center / 70%;
+    position: absolute;
+    right:10px;
+    top:10px;
+    width:40px;
+    height:40px;
+    cursor: pointer;
 }
 
 /* BUTTONS */

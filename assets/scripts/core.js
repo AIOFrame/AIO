@@ -80,13 +80,16 @@ $(document).ready(function(){
     // Color Picker
 
     $('body').on('click','[data-color-picker]',function(){
+        $('.color_picker_wrap').addClass('on');
         init_color_picker($(this));
-        $('.color-picker').css({'opacity':1,'pointer-events':'all'});
-        elog($(this));
+    })
+
+    .on('click','.color_picker_wrap .close',function(){
+        $('.color_picker_wrap').removeClass('on');
     });
 
     if( $('[data-color-picker]').length > 0 ) {
-        $('<div class="color-picker"></div>').appendTo('body');
+        $('<div class="color_picker_wrap"><div class="close"></div><div class="color-picker"></div></div>').appendTo('body');
     }
 
     // Scroll Save
@@ -321,9 +324,9 @@ $(document).ready(function(){
 });
 
 $(document).mouseup(function(e) {
-    var cp = $('.color-picker');
+    var cp = $('.color_picker_wrap');
     if (!cp.is(e.target) && cp.has(e.target).length === 0) {
-        cp.css({'opacity':0,'pointer-events':'none'}).html('');
+        cp.removeClass('on').children('.color-picker').html('');
     }
 });
 
@@ -343,12 +346,12 @@ function format_number(a){
 
 function init_color_picker( e ) {
     var cp = $('.color-picker');
-    $(e).data('value') !== undefined ? $(cp).data('value',$(e).data('value')) : $(cp).data('value',$(e));
+    $(e).data('value') !== undefined ? $(cp).data('value',$(e).data('value')) : $(cp).data('value',$(e)); // Reads target element to set value, and sets it to color picker
     $(e).data('background') !== undefined ? $(cp).data('background',$(e).data('background')) : $(cp).data('background',$(e));
-    var colorPicker = new iro.ColorPicker('.color-picker',{
-        color: $(e).val(),
-        width: $(e).data('width'),
-    });
+    var v = {};
+    v.color = $(e).val() !== '' && $(e).val() !== undefined ? $(e).val() : '#fff';
+    v.width = $(e).data('width') !== '' && $(e).data('width') !== undefined ? $(e).data('width') : '200';
+    var colorPicker = new iro.ColorPicker('.color-picker');
     colorPicker.on('color:change', onColorChange);
 }
 
@@ -514,7 +517,7 @@ function get_values( e, s, pre ) {
 
         var v;
 
-        if($(this).hasClass('fn')){ v = ufn( $(this).val() ) } else { v = $(this).val() }
+        v = $(this).hasClass('fn') ? ufn( $(this).val() ) : $(this).val(); // Un Format Number
 
         if( $(this).attr('type') === 'checkbox' ){
 
@@ -547,6 +550,8 @@ function get_values( e, s, pre ) {
 
             data[pre + $(this).attr('class')] = v;
         }
+        elog($(this).attr('id'));
+        elog(v);
 
     });
 
@@ -591,6 +596,7 @@ function process_data( e ){
     var pre = $(p).data('pre');
     if( $(p).data('sempty') !== '' && $(p).data('sempty') !== undefined ) {
         if( sempty( p, $(p).data('sempty') ) ) {
+            $(p).removeClass('load');
             $(e).attr('disabled',false);
             return;
         }

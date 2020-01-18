@@ -166,10 +166,8 @@ function insert( $table, $names, $values ){
  */
 function update( $table, $cols, $values, $where = '' ){
     $logic  = "";
-    if( is_string( $cols ) ){
-        $cols = explode( ',', $cols );
-        $values = explode( ',', $values );
-    }
+    $cols = is_string( $cols ) ? explode( ',', $cols ) : $cols;
+    $values = is_string( $values ) ? explode( ',', $values ) : $values;
     if ( count( $cols ) == count( $values ) ) {
         foreach( $cols as $i => $col ){
             if( is_array( $values[$i] ))
@@ -380,9 +378,8 @@ function process_data() {
             }
             unset($a['h']);
         }
-
-        $keys = prepare_keys( $a );
-        $values = prepare_values( $a );
+        $keys = prepare_keys( $a, '', 0 );
+        $values = prepare_values( $a, '', 0 );
 
         $query = !empty( $id ) ? update( $table, $keys, $values, $pre.'_id = "'.$id.'"' ) : $query = insert( $table, $keys, $values );
 

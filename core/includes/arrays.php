@@ -40,7 +40,7 @@ function array_group_by( $array, $key ) {
 
     $grouped = [];
     if( is_array( $array ) && !empty( $array ) ){
-        foreach ($array as $value) {
+        foreach ($array as $k => $value) {
             $key = null;
 
             if (is_callable($func)) {
@@ -55,7 +55,7 @@ function array_group_by( $array, $key ) {
                 continue;
             }
 
-            $grouped[$key][] = $value;
+            $grouped[$key][$k] = $value;
         }
     }
     if (func_num_args() > 2) {
