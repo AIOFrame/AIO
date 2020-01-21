@@ -74,7 +74,7 @@ class ACCESS {
         }
     }
 
-    function update_user( $user_login, $password = '', $columns = [], $d = [] ) {
+    function update_user( $user_login, $password = '', $columns = [], $d = [], $logout = false ) {
 
         // Checks if user with same login name or email exists
         $email = !empty($d['email']) ? $d['email'] : $user_login;
@@ -106,6 +106,7 @@ class ACCESS {
                 if ( $nu ) {
                     // Sets the user's access data
                     $um = update( 'access', ['access_pass'], [ password_hash( $password, PASSWORD_BCRYPT, ['cost' => 12] )], 'access_uid = "'.$uq.'"' );
+                    $um && $logout ? delete( 'sessions', 'ss_uid = "'.$uq.'"' ) : '';
                     return $um ? [true, $nu] : [0, 'Update Successful'];
                 } else {
                     return [1, 'Failed to update'];
