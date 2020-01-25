@@ -17,7 +17,7 @@ class FUP {
                 <div class="uploaded_files">
                     <?php
                     global $db;
-                    $fs = $db ? select( 'storage', '*', 'file_scope = "'.$_SESSION['user_id'].'" OR file_scope = "0"', '40', 0, '', '', 'file_id', 'desc' ) : '';
+                    $fs = $db && !empty( $_SESSION ) ? select( 'storage', '*', 'file_scope = "'.$_SESSION['user_id'].'" OR file_scope = "0"', '40', 0, '', '', 'file_id', 'desc' ) : '';
                     if( !empty($fs) ){ foreach( $fs as $f ){
                         $bg = in_array($f['file_type'],['svg','jpg','png','jpeg']) ? 'style="background-image:url(\''.storage_url($f['file_url']).'\')"' : '';
                         $size = $f['file_size'] > 1024 ? number_format((float)($f['file_size'] / 1024), 2, '.', '') . ' MB' : $f['file_size'].' KB';

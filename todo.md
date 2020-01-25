@@ -7,9 +7,9 @@ BACKEND
 * CACHE System based on App Mode // PHPFastCache
 * Database Seeding and Database Migration
 * All API options
-* User Level Management
 * Restrict JSON Requests
 * REST API Implementation
+* AIO Setup to include font selector
 
 FRONTEND
 
@@ -18,7 +18,6 @@ FRONTEND
 * Advanced context menu
 * Block access to ASYNC Functions
 * Elements to be dynamic like icons
-* Icons CSS
 * Tour / Guide like Shepherd
 * BotUI js integration
 * Different config per app by domain
@@ -26,6 +25,8 @@ FRONTEND
 
 File Uploader
 
+* List and Icons View Toggle
+* Doesn't work for non logged in users
 * Uploaded file thumbnail if size is below 512kb else load button
 * Image editor
 * Image compress engine + options
