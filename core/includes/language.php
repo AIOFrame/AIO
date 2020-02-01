@@ -229,7 +229,7 @@ function app_languages() {
 
 function set_language( $language = '' ) {
     unset($_POST['action']);
-    $language = !empty( $language ) ? $language : !empty( $_POST['lang'] ) ? $_POST['lang'] : 'en';
+    $language = !empty( $language ) ? $language : ( !empty( $_POST['lang'] ) ? $_POST['lang'] : 'en' );
     //elog($language);
     if( !empty( $language ) ){
         $_SESSION['lang'] = $language;

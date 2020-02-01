@@ -577,7 +577,7 @@ function in_texts( $array, $attrs = '', $pre = '', $post = '' ){
 // Checks if current page is as param
 
 function page_is( $p ) {
-    return is_array( $p ) ? in_array(PAGEPATH,$p) ? true : false : PAGEPATH == $p ? true : false;
+    return is_array( $p ) ? ( in_array(PAGEPATH,$p) ? true : false ) : ( PAGEPATH == $p ? true : false );
 }
 
 // Checks if current page is in set of page names
