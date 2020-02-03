@@ -2,6 +2,6 @@
     "require": {
         "phpoffice/phpspreadsheet": "^1.9",
         "mashape/unirest-php": "^3.0",
-        "mpdf/mpdf": "^8.0"
+        "knplabs/knp-snappy": "^1.2"
     }
 }

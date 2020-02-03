@@ -7,7 +7,6 @@ namespace Composer\Autoload;
 class ComposerStaticInit194ddf12a67bb40cb108d45b1bf4ac44
 {
     public static $files = array (
-        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'abede361264e2ae69ec1eee813a101af' => __DIR__ . '/..' . '/markbaker/complex/classes/src/functions/abs.php',
         '21a5860fbef5be28db5ddfbc3cca67c4' => __DIR__ . '/..' . '/markbaker/complex/classes/src/functions/acos.php',
         '1546e3f9d127f2a9bb2d1b6c31c26ef1' => __DIR__ . '/..' . '/markbaker/complex/classes/src/functions/acosh.php',
@@ -69,9 +68,9 @@ class ComposerStaticInit194ddf12a67bb40cb108d45b1bf4ac44
     );
 
     public static $prefixLengthsPsr4 = array (
-        's' => 
+        'S' => 
         array (
-            'setasign\\Fpdi\\' => 14,
+            'Symfony\\Component\\Process\\' => 26,
         ),
         'P' => 
         array (
@@ -81,12 +80,11 @@ class ComposerStaticInit194ddf12a67bb40cb108d45b1bf4ac44
         ),
         'M' => 
         array (
-            'Mpdf\\' => 5,
             'Matrix\\' => 7,
         ),
-        'D' => 
+        'K' => 
         array (
-            'DeepCopy\\' => 9,
+            'Knp\\Snappy\\' => 11,
         ),
         'C' => 
         array (
@@ -95,9 +93,9 @@ class ComposerStaticInit194ddf12a67bb40cb108d45b1bf4ac44
     );
 
     public static $prefixDirsPsr4 = array (
-        'setasign\\Fpdi\\' => 
+        'Symfony\\Component\\Process\\' => 
         array (
-            0 => __DIR__ . '/..' . '/setasign/fpdi/src',
+            0 => __DIR__ . '/..' . '/symfony/process',
         ),
         'Psr\\SimpleCache\\' => 
         array (
@@ -111,17 +109,13 @@ class ComposerStaticInit194ddf12a67bb40cb108d45b1bf4ac44
         array (
             0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
         ),
-        'Mpdf\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/mpdf/mpdf/src',
-        ),
         'Matrix\\' => 
         array (
             0 => __DIR__ . '/..' . '/markbaker/matrix/classes/src',
         ),
-        'DeepCopy\\' => 
+        'Knp\\Snappy\\' => 
         array (
-            0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
+            0 => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy',
         ),
         'Complex\\' => 
         array (
