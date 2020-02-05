@@ -73,6 +73,8 @@ function get_style( $f, $params = [], $page_of = '' ) {
             $url = $afl;
         } else if (file_exists($cf)) {
             $url = $cfl;
+        } else if( strpos( $f, 'http') !== false ) {
+            $url = $f . '';
         } else {
             elog( $f. ' style file not found' );
         }
@@ -108,6 +110,8 @@ function get_script( $f, $page_of = '' ) {
             $url = $cfl . '.min.js';
         } else if (file_exists($cf . '.js')) {
             $url = $cfl . '.js';
+        } else if( strpos( $f, 'http') !== false ) {
+            $url = $f . '';
         } else {
             elog( $f. ' script file not found' );
         }
