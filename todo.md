@@ -10,6 +10,8 @@ BACKEND
 * Restrict JSON Requests
 * REST API Implementation
 * AIO Setup to include font selector
+* AIO Setup to ask for color scheme and setup for inputs, elements etc
+* Code Inputs CSS into art() type func 
 
 FRONTEND
 
