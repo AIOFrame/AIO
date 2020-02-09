@@ -69,6 +69,10 @@ function storage_url( $url = '' ) {
     return mb_substr( $url, 0, 9) == '/storage/' || mb_substr( $url, 0, 8) == '/assets/' ? APPURL . 'apps/' . APPDIR . str_replace( ' ', '%20', $url) : $url;
 }
 
+function asset_url( $url = '' ) {
+    return $url !== '' ? APPURL . 'apps/' . APPDIR . '/assets/' . $url : '';
+}
+
 function file_url( $url ) {
     return $url !== '' ? APPPATH . $url : '';
 }
