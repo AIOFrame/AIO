@@ -638,6 +638,9 @@ function edit_data( e, modal, on ) {
         if( $(b).html().indexOf('Add') >= 0){
             $(b).html( $(b).html().replace('Add','Update') );
         }
+        if( $(b).html().indexOf('ADD') >= 0){
+            $(b).html( $(b).html().replace('ADD','UPDATE') );
+        }
     });
 
     //elog(data); elog(t);
@@ -671,6 +674,9 @@ function reset_modal(e) {
         if( $(b).html().indexOf('Update') >= 0){
             $(b).html( $(b).html().replace('Update','Add') );
         }
+        if( $(b).html().indexOf('UPDATE') >= 0){
+            $(b).html( $(b).html().replace('UPDATE','ADD') );
+        }
     });
 
     $(e).parents('.modal').data('id','');
@@ -679,11 +685,13 @@ function reset_modal(e) {
 
 }
 
+/* Example: <i class="ico trash" onclick="trash_data(<?php echo $cry->encrypt('table|column|'.$id); ?>)"></i> */
+
 function trash_data( q ) {
     var d = { 'action':'trash_data', 'query':q };
     elog(d);
     if( confirm('Are you sure to delete ?') ){
-        post( 'trash_data', { 'query': q }, 4, 4 )
+        post( 'trash_data', { 'query': q }, 2, 2 )
     }
 }
 
