@@ -29,7 +29,7 @@ function art( $color1 = '000', $color2 = '000' ) {
 
     $cache = get_config( 'cache' );
 
-    $v = $cache ? '?v=' . round( time() / ( $cache * 60 ) ) : '';
+    $v = $cache ? '&v=' . round( time() / ( $cache * 60 ) ) : '';
 
     echo '<link rel="stylesheet" href="'.APPURL.'assets/art.php?fc='.$color1.'&sc='.$color2. $v . '">';
 }
