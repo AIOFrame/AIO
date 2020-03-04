@@ -321,6 +321,7 @@ $(document).ready(function(){
         }
     });
 
+    appdebug = $('body').hasClass('debug') ? true : false;
 });
 
 $(document).mouseup(function(e) {
