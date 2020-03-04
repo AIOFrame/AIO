@@ -746,7 +746,10 @@ function reload( time_seconds ){
 
 function post( action, data, notify_time, reload_time, redirect, redirect_time, callback, reset ) {
     var d = $.extend({}, {'action':action}, data);
-    $.post( location.origin, d, function(r) {
+    if( this.post ) {
+        this.post.abort();
+    }
+    this.post = $.post( location.origin, d, function(r) {
         elog(r);
         try {
             r = JSON.parse( r );
