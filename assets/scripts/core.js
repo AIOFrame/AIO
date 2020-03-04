@@ -746,9 +746,9 @@ function reload( time_seconds ){
 
 function post( action, data, notify_time, reload_time, redirect, redirect_time, callback, reset ) {
     var d = $.extend({}, {'action':action}, data);
-    if( this.post ) {
+    /* if( this.post ) {
         this.post.abort();
-    }
+    } */
     this.post = $.post( location.origin, d, function(r) {
         elog(r);
         try {
@@ -780,7 +780,7 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
             //this[callback](r);
         }
         catch( rat ) {
-            console.log( rat );
+            elog( rat );
         }
     });
 }
