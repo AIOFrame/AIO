@@ -221,11 +221,24 @@ function set_config( $name, $value ) {
         if( !is_array( $v ) ) {
             $config_text .= is_numeric( $v ) ? '    "' . $k . '" => ' . $v . ',' . PHP_EOL : '    "' . $k . '" => "' . $v . '",' . PHP_EOL;
         } else {
-            /* if( is_assoc( $v ) ) {
-            skel( $v );
-            } else {
-                $config_text .= '"' . $k . '" => [' . implode( ',', $v ) . ']';
-            } */
+            $config_text .= '    "' . $k . '" => [ ';
+            foreach( $v as $sk => $sv ) {
+                if( is_array( $sv ) ) {
+                    if( is_assoc( $sv ) ) {
+                        $config_text .= '"' . $sk . '" => [ "';
+                        foreach( $sv as $tk => $tv ) {
+                            $config_text .= '"' . $tk . '" => "' . $tv . '", ';
+                        }
+                        $config_text .= '" ],' . PHP_EOL;
+                    } else {
+                        $config_text .= '"' . $sk . '" => [ "' . implode( '", "', $sv ) . '" ],' . PHP_EOL;
+                    }
+                } else {
+                    $config_text .= '"' . $sk . '" => "' . $sv . '", ';
+                }
+            }
+            $config_text .= ' ],' . PHP_EOL;
+
             //$config_text .=
         }
     }
