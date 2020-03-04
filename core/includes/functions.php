@@ -220,6 +220,13 @@ function set_config( $name, $value ) {
     foreach( $c as $k => $v ) {
         if( !is_array( $v ) ) {
             $config_text .= is_numeric( $v ) ? '    "' . $k . '" => ' . $v . ',' . PHP_EOL : '    "' . $k . '" => "' . $v . '",' . PHP_EOL;
+        } else {
+            /* if( is_assoc( $v ) ) {
+            skel( $v );
+            } else {
+                $config_text .= '"' . $k . '" => [' . implode( ',', $v ) . ']';
+            } */
+            //$config_text .=
         }
     }
     $config_text .= '];';
