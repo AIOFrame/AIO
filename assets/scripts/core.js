@@ -746,10 +746,7 @@ function reload( time_seconds ){
 
 function post( action, data, notify_time, reload_time, redirect, redirect_time, callback, reset ) {
     var d = $.extend({}, {'action':action}, data);
-    /* if( this.post ) {
-        this.post.abort();
-    } */
-    /* this.post = $.post( location.origin, d, function(r) {
+    $.post( location.origin, d, function(r) {
         elog(r);
         try {
             r = JSON.parse( r );
@@ -781,41 +778,6 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
         }
         catch( rat ) {
             elog( rat );
-        }
-    }); */
-    elog(location.origin);
-    elog(d);
-    $.ajax({
-        type: 'POST',
-        url: location.origin,
-        data: JSON.stringify( d ),
-        async: true,
-        success: function( r ) {
-            r = JSON.parse( r );
-            elog(r);
-            if( notify_time !== undefined && notify_time !== '' ) {
-                notify( r[1], notify_time );
-            }
-            if( r[0] !== 0 && reload_time !== undefined && reload_time !== '' && reload_time !== '0' ) {
-                $.isNumeric( reload_time ) ? setTimeout(function(){ location.reload() }, reload_time * 1000 ) : location.href = reload_time;
-            }
-            if( r[0] !== 0 && reset !== undefined && reset !== '' && reset !== '0' ) {
-                $('[data-'+reset+']').val('');
-            }
-            if( callback !== undefined && callback !== '' ) {
-                callback = callback.split(',');
-                $.each( callback, function(i,call){
-                    eval( call + '(' + JSON.stringify( r ) + ')' );
-                });
-            }
-            if( redirect !== undefined && redirect !== '' ) {
-                redirect_time = redirect_time !== undefined && redirect_time !== '' ? redirect_time : 0;
-                if( r[0] !== 0 ) {
-                    setTimeout(function(){
-                        location.href = redirect;
-                    }, redirect_time * 1000)
-                }
-            }
         }
     });
 }
