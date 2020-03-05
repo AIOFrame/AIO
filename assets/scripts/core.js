@@ -749,11 +749,13 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
     /* if( this.post ) {
         this.post.abort();
     } */
+    elog(this.post);
+    elog(d);
     this.post = $.post( location.origin, d, function(r) {
         elog(r);
         try {
             r = JSON.parse( r );
-            //elog(r);
+            elog(r);
             if( notify_time !== undefined && notify_time !== '' ) {
                 notify( r[1], notify_time );
             }
