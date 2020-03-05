@@ -783,6 +783,8 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
             elog( rat );
         }
     }); */
+    elog(location.origin);
+    elog(d);
     $.ajax({
         type: 'POST',
         url: location.origin,
