@@ -788,7 +788,7 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
     $.ajax({
         type: 'POST',
         url: location.origin,
-        data: d,
+        data: JSON.stringify( d ),
         async: true,
         success: function( r ) {
             r = JSON.parse( r );
