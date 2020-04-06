@@ -653,6 +653,11 @@ function edit_data( e, modal, on ) {
 
                 d === '1' || d === true ? $('#'+i).prop('checked',true) : $('#'+i).prop('checked',false);
 
+            } if( $('#'+i).prop('type') == 'select-multiple' ) {
+                var d = $.map(d.split(','), function(value){
+                    return parseInt(value);
+                });
+                $('#'+i).val(d).change();
             } else {
                 $('#'+i).val(d).change();
             }

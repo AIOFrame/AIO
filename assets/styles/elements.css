@@ -494,16 +494,27 @@ body.d .tab {
 .block:hover {
     box-shadow:0 0 30px rgba(0,0,0,.2), 0 10px 30px rgba(0,0,0,.05);
 }
-.block .image {
+.block .image, .block .pic {
     width: 80px;
     height: 80px;
     margin:10px auto;
-    border-radius:25px;
     border:1px solid lightgrey;
     font-size: 30px;
     padding: 20px 0;
     text-align: center;
     box-sizing: border-box;
+}
+.block .pic {
+    border-radius:25px;
+}
+.block .image.nb {
+    border:none;
+}
+.block .image.r {
+    margin:10px 0 10px auto;
+}
+.block .image.l {
+    margin:10px auto 10px 0;
 }
 .block .image.bg {
     width: 100%;
@@ -514,9 +525,14 @@ body.d .tab {
     background-size:80px;
 }
 .block .title {
-    font-size: 16px;
     text-align: center;
     text-transform: uppercase;
+}
+.block .title.l {
+    text-align: left;
+}
+.block .title.r {
+    text-align: right;
 }
 .block .desc>div, .block .desc>p {
     font-size: 14px;
@@ -534,6 +550,11 @@ body.d .tab {
     right: 10px;
     opacity:.3;
     transition:.6s;
+    z-index:5;
+}
+.block .actions.l {
+    right: auto;
+    left: 10px;
 }
 .block:hover .actions {
     opacity:1;
