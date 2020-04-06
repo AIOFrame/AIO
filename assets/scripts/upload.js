@@ -1,3 +1,5 @@
+elog('test');
+
 $(document).ready(function(){
     $(document).mouseup(function(e) {
         var c = $('#aio_up');
@@ -10,12 +12,12 @@ $(document).ready(function(){
             $('.f').not(this).removeClass('on');
         }
         $(this).toggleClass('on');
-        //elog($(this).data('delete'));
+        elog($(this).data('delete'));
         if( $(this).data('delete') !== '' && $(this).data('delete') !== undefined ){
             if( $(this).data('delete') === 0 ){
-                $('#aio_up .fd').addClass('disabled');
+                $('#aio_up .df').addClass('disabled');
             } else if( $(this).data('delete') === 1 ) {
-                $('#aio_up .fd').removeClass('disabled');
+                $('#aio_up .df').removeClass('disabled');
             }
         }
     }).on('click','.fd',function(){
@@ -170,6 +172,8 @@ $(document).ready(function(){
 
     });
 });
+
+elog('test');
 
 function file_ui() {
 

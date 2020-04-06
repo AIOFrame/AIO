@@ -321,6 +321,7 @@ $(document).ready(function(){
         }
     });
 
+    appdebug = $('body').hasClass('debug') ? true : false;
 });
 
 $(document).mouseup(function(e) {
@@ -754,7 +755,7 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
         elog(r);
         try {
             r = JSON.parse( r );
-            //elog(r);
+            elog(r);
             if( notify_time !== undefined && notify_time !== '' ) {
                 notify( r[1], notify_time );
             }
@@ -781,7 +782,7 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
             //this[callback](r);
         }
         catch( rat ) {
-            console.log( rat );
+            elog( rat );
         }
     });
 }
