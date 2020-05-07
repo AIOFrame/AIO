@@ -1,5 +1,3 @@
-elog('test');
-
 $(document).ready(function(){
     $(document).mouseup(function(e) {
         var c = $('#aio_up');
@@ -12,7 +10,7 @@ $(document).ready(function(){
             $('.f').not(this).removeClass('on');
         }
         $(this).toggleClass('on');
-        elog($(this).data('delete'));
+        //elog($(this).data('delete'));
         if( $(this).data('delete') !== '' && $(this).data('delete') !== undefined ){
             if( $(this).data('delete') === 0 ){
                 $('#aio_up .df').addClass('disabled');
@@ -122,7 +120,7 @@ $(document).ready(function(){
         file_upload($(this));
     })
 
-    .on('click','.aio_fsp .trash',function(){ elog('test');
+    .on('click','.aio_fsp .trash',function(){ //elog('test');
 
         var dfile = $(this).next('.f').html();
 
@@ -173,7 +171,7 @@ $(document).ready(function(){
     });
 });
 
-elog('test');
+//elog('test');
 
 function file_ui() {
 
@@ -223,7 +221,7 @@ function files_ui() {
             $(b).after('<div class="aio_fsp" data-url="'+ id +'"></div>');
         }
 
-        elog( files_ui );
+        //elog( files_ui );
 
         //$(b).next('.aio_fsp').find('button').show().html('+');
         var um = !$(b).prop('disabled') ? $(b).prev('button')[0].outerHTML : '';

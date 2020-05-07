@@ -27,6 +27,8 @@ FRONTEND
 
 File Uploader
 
+* File Uploader Easier Function
+* File Uploader issues on mobile (ex: trash button)
 * List and Icons View Toggle
 * Doesn't work for non logged in users
 * Uploaded file thumbnail if size is below 512kb else load button
@@ -43,7 +45,7 @@ Payment Gateways Integration
 
 International
 
-* Paypal
+* Paypal****
 * Stripe
 * 2Checkout
 * Authorize.Net
@@ -71,3 +73,6 @@ SMS Gateways Integration
 
 * MSG91
 * Twilio
+
+EXTRA THINGS
+
