@@ -45,7 +45,7 @@ Payment Gateways Integration
 
 International
 
-* Paypal****
+* Paypal
 * Stripe
 * 2Checkout
 * Authorize.Net
@@ -76,3 +76,13 @@ SMS Gateways Integration
 
 EXTRA THINGS
 
+1. Website Elements Designer (5 Days)
+2. Page Builder (5 Days)
+3. Domain Registrar API (4 Days)
+4. CentOS WebPanel API / Custom WebPanel (10 Days)
+5. Website Customization Options (5 Days)
+6. UPI Payment Gateways (5 Days)
+7. Local SMS Gateways (2 Days)
+8. Backend CMS UI (6 Days)
+9. Backend Programming (30 Days)
+10. Frontend Website

@@ -208,3 +208,40 @@ body.d .b .ft>div {
 .b .ft>div:last-child {
     text-align: right;
 }
+
+@media only screen and (max-width:600px) {
+    header {
+        height: auto;
+        flex-wrap:wrap;
+        padding: 10px;
+        position: relative;
+    }
+    body {
+        margin: 0;
+    }
+    header>div {
+        flex:0 0 100%;
+        max-width:none !important;
+        flex-wrap:wrap;
+    }
+    header>div:first-child {
+        margin-bottom: 10px;
+    }
+    article {
+        padding: 10px;
+    }
+    .search, header select {
+        display: block;
+        width: 100%;
+        margin: 0 0 10px;
+    }
+    .search {
+        text-align: left;
+    }
+    header select:last-child {
+        margin: 0;
+    }
+    header form {
+        display: flex;
+    }
+}

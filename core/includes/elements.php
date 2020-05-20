@@ -14,6 +14,20 @@ function favicon( $icon ){
     }
 }
 
+function html_class( $class = '' ) {
+    // Is Debug
+    $dc = APPDEBUG ? 'debug ' : '';
+
+    // Is RTL
+    $dir = isset( $_SESSION['lang'] ) && in_array( $_SESSION['lang'], ['ar','iw','ku','fa','ur'] ) ? 'dir="rtl" lang="'.$_SESSION['lang'].'"' : '';
+
+    // Custom class
+    $ec = !empty( $class ) ? 'class="'.$class.' '.$dc.'"' : '';
+
+    // Final Output
+    echo $dir.' '.$ec;
+}
+
 function body_class( $class = '' ) {
 
     // Is Debug

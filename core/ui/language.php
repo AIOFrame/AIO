@@ -10,7 +10,7 @@ $langs = get_languages();
 $langs = is_array( $langs ) ? $langs : [];
 
 $app_langs = get_option( 'app_languages' );
-$app_langs = !empty( $app_langs ) ? unserialize( $app_langs ) : '';
+$app_langs = !empty( $app_langs ) ? unserialize( $app_langs ) : [];
 
 $app_languages = [];
 foreach( $app_langs as $al ) {
@@ -103,18 +103,20 @@ $pages = array_unique( $pages );
                 </div>
 
             <?php }*/
-        } else if( $lang == 'add' ) { ?>
-            <form method="post" style="width:50%;margin:0 auto">
+        } else if( $lang == 'add' ) {
+            unset($langs['en']); ?>
+            <form method="post">
                 <h2 class="mb20">Please select your translatable languages</h2>
                 <div class="mb20">
-                    <select name="languages[]" id="languages[]" multiple class="select2">
-                        <?php select_options( $langs, $app_langs, 'Select Languages' ); ?>
+                    <select name="languages[]" id="languages[]" multiple class="select2" data-placeholder="Select Languages">
+                        <option></option>
+                        <?php select_options( $langs, $app_langs ); ?>
                     </select>
                 </div>
                 <div class="tar"><button onchange="this.form.submit()">Set Languages</button></div>
             </form>
         <?php } else { ?>
-            <form method="post" style="width:50%;margin:0 auto">
+            <form method="post">
                 <h3>Please select a language to start managing translations</h3>
                 <select name="lang" id="lang" onchange="this.form.submit()">
                     <?php select_options( array_merge( ['add'=>'Add Language'], $app_languages ), $lang, 'Select Language' ); ?>

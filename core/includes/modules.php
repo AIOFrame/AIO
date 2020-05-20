@@ -89,7 +89,8 @@ function email( $to, $subject, $content, $from, $cc = '' ){
 function sendgrid( $to, $subject, $content, $from, $cc = '' ) {
 
     $key = get_config( 'sendgrid_key' );
-    if( empty( $key ) ) {
+    global $con;
+    if( empty( $key ) && $con ) {
         $key = get_option( 'sendgrid_key' );
     }
 
@@ -120,6 +121,7 @@ function sendgrid( $to, $subject, $content, $from, $cc = '' ) {
             return 0;
         }
     } else {
+        elog('SendGrid Key is Empty! Please add key to config or option.');
         return 0;
     }
 }

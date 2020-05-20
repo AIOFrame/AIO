@@ -73,12 +73,14 @@ function basic_tables() {
     $ln = !empty( $ln ) ? unserialize( $ln ) : [];
     if( is_array( $ln ) && !empty( $ln ) ) {
         foreach( $ln as $l ) {
-            $trans[2][] = [ $l, 'TEXT', 9999, 0 ];
+            if( $l !== 'en' )
+                $trans[2][] = [ $l, 'TEXT', 9999, 0 ];
         }
         $tables[] = $trans;
     }
     create_tables( $tables );
 }
+
 
 if( APPDEBUG ){
     basic_tables();

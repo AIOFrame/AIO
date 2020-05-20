@@ -193,3 +193,34 @@ textarea {
 .ico.trash {
     background:url('../../core/components/icons/trash.svg') no-repeat center;
 }
+
+@media only screen and (max-width:600px) {
+    #editor {
+        padding: 20px;
+    }
+    #editor.on {
+        top:auto;
+        bottom: 0;
+    }
+    #editor .row {
+        flex-wrap:wrap;
+    }
+    #editor .col, #editor .col:nth-child(3) {
+        flex:0 0 100%;
+        margin: 0;
+        max-width:none;
+    }
+    #save {
+        margin: 15px 0 0;
+        padding: 10px 15px;
+        width: 100%;
+        border-radius:5px;
+        text-transform: uppercase;
+    }
+    #editor textarea {
+        border-radius:5px;
+    }
+    #editor .close {
+        top: 10px;
+    }
+}

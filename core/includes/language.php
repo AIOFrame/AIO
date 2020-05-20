@@ -12,7 +12,7 @@ if( !empty( $_SESSION['lang'] ) && defined( 'BASELANG' ) && $_SESSION['lang'] !=
     global $untranslated;
 
     // Load translations from database
-    $db_trans = select( 'translations', 't_base, t_'.$l );
+    $db_trans = !is_array( $l ) ? select( 'translations', 't_base, t_'.$l ) : [];
     $db_trans = !empty( $db_trans ) && is_array( $db_trans ) ? $db_trans : [];
 
     // Add translations to global variable $translated
@@ -228,11 +228,19 @@ function app_languages() {
 // Set User Session of their preferred language choice
 
 function set_language( $language = '' ) {
-    unset($_POST['action']);
-    $language = !empty( $language ) ? $language : ( !empty( $_POST['lang'] ) ? $_POST['lang'] : 'en' );
-    //elog($language);
-    if( !empty( $language ) ){
+    if( !empty( $_POST ) ) {
+        unset( $_POST['action'] );
+        $language = !empty( $_POST['lang'] ) && !is_array( $_POST['lang'] ) ? $_POST['lang'] : 'en';
+    } else {
+        $language = !empty( $language ) && !is_array( $language ) ? $language : 'en';
+    }
+    if( !empty( $language ) && !is_array( $language ) ){
         $_SESSION['lang'] = $language;
+    }
+    if( !empty( $_POST ) ) {
+        es('Successfully changed Language');
+    } else {
+        ef('Failed to change language!');
     }
 }
 

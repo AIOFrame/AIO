@@ -115,6 +115,14 @@ function get_script( $f, $page_of = '' ) {
         } else {
             elog( $f. ' script file not found' );
         }
+        if( $f == 'recaptcha' ) {
+            $site_key = get_config('recaptcha_site_key');
+            if( !empty( $site_key ) ) {
+                $url = 'https://www.google.com/recaptcha/api.js?render='.$site_key;
+                echo '<script data-recaptcha src="' . $url . '"></script>';
+                return;
+            }
+        }
         if( $page_of !== '' ){
             echo page_of( $page_of ) && $url !== '' ? '<script src="' . $url . $v . '"></script>' : '';
         } else {
@@ -464,19 +472,19 @@ function select_options( $options = '', $selected = '', $placeholder = '' ) {
         if (is_assoc($d)) {
             foreach ($d as $k => $t) {
                 if( is_array( $s ) && in_array( $k, $s ) ) { $sel = 'selected'; } else if( $k == $s ) { $sel = 'selected'; } else { $sel = ''; }
-                echo '<option value="' . $k . '" ' . $sel . '>' . $t . '</option>';
+                echo '<option value="' . $k . '" ' . $sel . '>' . T($t) . '</option>';
             }
             !empty($sel) ? elog($s) : '';
         } else {
             foreach ($d as $t) {
                 if( is_array( $s ) && in_array( $t, $s ) ) { $sel = 'selected'; } else if( $t == $s ) { $sel = 'selected'; } else { $sel = ''; }
-                echo '<option value="' . $t . '" ' . $sel . '>' . $t . '</option>';
+                echo '<option value="' . $t . '" ' . $sel . '>' . T($t) . '</option>';
             }
 
         }
     } else if( is_numeric( $d ) ){
         for($x=0;$x<=$d;$x++){
-            echo '<option value="' . $x . '" ' . ($x == $s ? "selected" : "") . '>' . $x . '</option>';
+            echo '<option value="' . $x . '" ' . ($x == $s ? "selected" : "") . '>' . T($x) . '</option>';
         }
     }
 }
@@ -563,7 +571,7 @@ function render_input( $type, $id, $label, $placeholder = '', $value = '', $attr
             break;
     }
     echo $pre;
-    echo !empty( $label ) ? '<label for="'.$id.'">'.$label.'</label>' : '';
+    echo !empty( $label ) ? '<label for="'.$id.'">'.T($label).'</label>' : '';
     echo $input.$post;
 }
 

@@ -218,7 +218,9 @@ $(document).ready(function(){
         var cl = $('[data-lang].on').data('lang');
         var nl = $(this).data('lang');
         var d = {'action':'get_translations','languages':[cl,nl],'method':'json'};
-        $.post(location.origin,{'action':'set_language','lang':nl});
+        //$.post(location.origin,{'action':'set_language','lang':nl});
+        elog(nl);
+        post('set_language',{'lang':nl},'',1);
         /* $.post(location.origin,d,function(r){
             if( r = JSON.parse(r) ){
                 $.each(r[0],function(i){
@@ -235,7 +237,6 @@ $(document).ready(function(){
                 $(this).addClass('on');
             }
         }); */
-        location.reload();
     })
 
     .on('change','[data-languages]',function(){
@@ -750,6 +751,21 @@ function reload( time_seconds ){
 }
 
 function post( action, data, notify_time, reload_time, redirect, redirect_time, callback, reset ) {
+    // Google Recaptcha V3 Start
+    if( callback !== undefined && callback !== '' && callback.indexOf('recaptcha') >= 0 ) {
+        var site_key = $('script[data-recaptcha]').attr('src').replace('https://www.google.com/recaptcha/api.js?render=','');
+        if( site_key !== '' && site_key !== undefined && site_key !== null ) {
+            grecaptcha.ready(function() {
+                grecaptcha.execute(site_key,{action:'recaptcha_verify'}).then(function(t) {
+                    data.recaptcha_token = t;
+                    post( action, data, notify_time, reload_time, redirect, redirect_time, callback.replace('recaptcha,','').replace('recaptcha',''), reset  )
+                });
+            });
+        }
+        return;
+    }
+    // Google Recaptcha V3 End
+    elog(callback);
     var d = $.extend({}, {'action':action}, data);
     $.post( location.origin, d, function(r) {
         elog(r);
@@ -768,7 +784,9 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
             if( callback !== undefined && callback !== '' ) {
                 callback = callback.split(',');
                 $.each( callback, function(i,call){
-                    eval( call + '(' + JSON.stringify( r ) + ')' );
+                    if( call !== 'recaptcha' ) {
+                        eval( call + '(' + JSON.stringify( r ) + ')' );
+                    }
                 });
             }
             if( redirect !== undefined && redirect !== '' ) {
