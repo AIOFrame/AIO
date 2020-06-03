@@ -32,6 +32,8 @@ $(document).ready(function(){
         }
     }).on('click','#aio_up .close',function(){
         close_uploader();
+    }).on('click','[data-upload]',function(e){
+        file_upload(e);
     })
 
     // Standard File Chosen to Upload
@@ -244,6 +246,9 @@ function file_upload(e){
             $('#aio_up .f').hide();
             $('.fb').click();
         } else {
+            if( $(e).data('force-browse') !== undefined ) {
+                $('.fb').click();
+            }
             $('#aio_up .f').show();
         }
         if(!fu.is(':visible')) {
