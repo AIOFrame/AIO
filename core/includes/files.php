@@ -83,23 +83,24 @@ function ajax_user_uploads(){
 
 // Gets image url from id
 
-function image_data( $fid ) {
+function asset_id_to_url( $fid ) {
     global $conn;
     $uid = get_current_user_id();
-    $iq = "SELECT * FROM storage WHERE ID = '$fid' AND file_scope = '$uid'";
-    if( $mq = mysqli_query( $conn, $iq ) ) {
+    $iq = select( 'storage', '', 'file_id = "'.$fid.'" && file_scope = "'.$uid.'"' ); //"SELECT * FROM storage WHERE ID = '$fid' AND file_scope = '$uid'";
+    return $iq;
+    /* if( $mq = mysqli_query( $conn, $iq ) ) {
         while( $row = mysqli_fetch_assoc( $mq ) ) {
             $fd = array( $row['file_name'], $row['file_url'], $row['file_type'], $row['file_size'], substr(strrchr($row['file_url'],'.'),1) );
             return json_encode($fd);
         }
-    }
+    } */
 }
 
 // Previous function as echoed
 
 function get_image_data() {
     $fid = $_POST['id'];
-    echo image_data( $fid );
+    echo asset_id_to_url( $fid );
 }
 
 // Delete an uploaded document
