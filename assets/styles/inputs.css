@@ -89,6 +89,9 @@ body.d [type=checkbox].slide {
 .select2-container .select2-selection--single {
     height: auto;
 }
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    margin:0 2px;
+}
 
 /* AIO Dynamics */
 

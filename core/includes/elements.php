@@ -14,7 +14,7 @@ function favicon( $icon ){
     }
 }
 
-function html_class( $class = '' ) {
+function html_class( $class = '', $extras = 1 ) {
     // Is Debug
     $dc = APPDEBUG ? 'debug ' : '';
 
@@ -24,8 +24,20 @@ function html_class( $class = '' ) {
     // Custom class
     $ec = !empty( $class ) ? 'class="'.$class.' '.$dc.'"' : '';
 
+    $ex = '';
+    if( $extras ) {
+        global $access;
+        // Get Browser
+        $browser = $access::get_user_browser();
+        $ex = 'browser="'.str_replace(' ','_',strtolower($browser)).'"';
+
+        // Get OS
+        $os = $access::get_user_os();
+        $ex .= ' client="'.str_replace(' ','_',strtolower($os)).'"';
+    }
+
     // Final Output
-    echo $dir.' '.$ec;
+    echo $dir.' '.$ec.' '.$ex;
 }
 
 function body_class( $class = '' ) {

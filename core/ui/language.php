@@ -45,7 +45,7 @@ $pages = array_unique( $pages );
 <header>
     <div class="one">
         <div id="back" onclick="window.history.back();"></div>
-        <a href="" id="brand"><?php echo T('TRANSLATIONS'); ?></a>
+        <a href="" id="brand"><?php E('Translations'); ?></a>
     </div>
     <div class="two tar">
         <?php if( !empty( $lang ) && $lang !== 'add' ) { ?>
@@ -65,7 +65,7 @@ $pages = array_unique( $pages );
 </header>
 <div id="progress"><span style="width:<?php echo count( $ts ); ?>"></span></div>
 <article id="trans" data-save-scroll>
-    <div id="backup">
+    <div>
         <?php
 
         //global $ui_params;
@@ -73,20 +73,23 @@ $pages = array_unique( $pages );
 
         if( !empty( $ts ) && is_array( $ts ) && !empty( $lang ) && $lang !== 'add' ) {
 
-            echo '<table id="translations">';
+            echo '<div id="translations">';
 
             foreach( $ts as $ts ){
 
+                echo '<div>';
                 if( !empty( $page ) && !in_array( $page, ['All','Global'] ) && $ts['t_page'] !== $page ) { continue; }
                 //$p = isset( $ts['t_page'] ) && !empty( $ts['t_page'] ) ?  '<span>'.$ts['t_page'].'</span>' : '';
-                echo isset( $ts['t_base'] ) ? '<td>'.$ts['t_base'].'</td>' : '<td></td>';
-                echo isset( $ts['t_'.$lang] ) ? '<td>'.$ts['t_'.$lang].'</td>' : '<td></td>';
-                echo isset( $ts['t_page'] ) ? '<td>'.$ts['t_page'].'</td>' : '<td></td>';
+                echo isset( $ts['t_base'] ) ? '<div>'.$ts['t_base'].'</div>' : '<div></div>';
+                echo isset( $ts['t_'.$lang] ) ? '<div>'.$ts['t_'.$lang].'</div>' : '<div></div>';
+                echo isset( $ts['t_page'] ) ? '<div>'.APPURL.$ts['t_page'].'</div>' : '<div></div>';
 
                 //echo '<td><i class="ico trash"></i></td>';
-                echo '</tr>';
+                echo '</div>';
 
             }
+
+            echo '</div>';
 
             /*foreach ( $ts as $t ) { ?>
 

@@ -11,6 +11,8 @@ BACKEND
 * REST API Implementation
 * AIO Setup to include font selector
 * AIO Setup to ask for color scheme and setup for inputs, elements etc
+* AIO Setup of pages issue
+* AIO to add image compression settings
 * Code Inputs CSS into art() type func 
 
 FRONTEND

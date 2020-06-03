@@ -105,7 +105,7 @@ $(document).ready(function(){
         setTimeout(function(){ $('[data-t="' + tab + '"]').click(); },200);
     }
 
-    $('body').on('click', '.steps [data-t], .tab[data-t]', function () {
+    $('body').on('click', '.steps [data-t], [data-t]', function () {
         $(this).parent().children().removeClass('on');
         $(this).addClass('on');
         $($(this).data('t')).parent().children().hide();

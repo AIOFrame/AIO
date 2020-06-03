@@ -456,35 +456,39 @@ function APPURL( $link ) {
     echo APPURL.$link;
 }
 
-function back_link( $url = './' ) {
-    echo '<a id="back" class="nico" href="'.$url.'"></a>';
+function back_link( $url = './', $title = '' ) {
+    echo '<a id="back" class="nico" href="'.$url.'">'.$title.'</a>';
 }
 
 // Renders an array as <option> for <select> element
 
-function select_options( $options = '', $selected = '', $placeholder = '' ) {
+function select_options( $options = '', $selected = '', $placeholder = '', $translate = 0 ) {
     $d = $options;
     $s = $selected;
     if( $placeholder !== '' ){
+        $placeholder = $translate ? T($placeholder) : $placeholder;
         echo empty($s) ? '<option disabled selected>'.$placeholder.'</option>' : '<option disabled>'.$placeholder.'</option>';
     }
     if( is_array($d) ){
         if (is_assoc($d)) {
             foreach ($d as $k => $t) {
+                $t = $translate ? T($t) : $t;
                 if( is_array( $s ) && in_array( $k, $s ) ) { $sel = 'selected'; } else if( $k == $s ) { $sel = 'selected'; } else { $sel = ''; }
-                echo '<option value="' . $k . '" ' . $sel . '>' . T($t) . '</option>';
+                echo '<option value="' . $k . '" ' . $sel . '>' . $t . '</option>';
             }
             !empty($sel) ? elog($s) : '';
         } else {
             foreach ($d as $t) {
+                $t = $translate ? T($t) : $t;
                 if( is_array( $s ) && in_array( $t, $s ) ) { $sel = 'selected'; } else if( $t == $s ) { $sel = 'selected'; } else { $sel = ''; }
-                echo '<option value="' . $t . '" ' . $sel . '>' . T($t) . '</option>';
+                echo '<option value="' . $t . '" ' . $sel . '>' . $t . '</option>';
             }
 
         }
     } else if( is_numeric( $d ) ){
         for($x=0;$x<=$d;$x++){
-            echo '<option value="' . $x . '" ' . ($x == $s ? "selected" : "") . '>' . T($x) . '</option>';
+            $t = $translate ? T($x) : $x;
+            echo '<option value="' . $x . '" ' . ($x == $s ? "selected" : "") . '>' . $t . '</option>';
         }
     }
 }
@@ -506,7 +510,7 @@ function render_options( $type = 'radio', $name, $values = [], $checked = '', $a
                 if ($label_first) {
                     echo $pre . '<label for="' . $k . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' name="' . $name . '" id="' . $k . '" value="' . $value . '" '. $c .' >' . $post;
                 } else {
-                    echo $pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" id="' . $k . '" value="' . $value . '" '. $c .' ><label for="' . $k . '">' . $title . '</label>' . $post;
+                    echo $pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" data-key="'.$name.'" id="' . $k . '" value="' . $value . '" '. $c .' ><label for="' . $k . '">' . $title . '</label>' . $post;
                 }
                 $x++;
             }
@@ -567,7 +571,7 @@ function render_input( $type, $id, $label, $placeholder = '', $value = '', $attr
             $input .= '<input type="checkbox" data-check="#'.$id.'" class="slide m" '.$ch.'></div>';
             break;
         default:
-            $input = '<input type="'.$type.'" id="'.$id.'" name="'.$n.'" '.$at.$ph.$va.'>';
+            $input = '<input type="'.$type.'" autocapitalize="none" id="'.$id.'" name="'.$n.'" '.$at.$ph.$va.'>';
             break;
     }
     echo $pre;

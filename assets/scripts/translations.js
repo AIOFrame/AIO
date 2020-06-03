@@ -17,30 +17,25 @@ $(document).ready(function(){
 
     // Type in Search
     $('.search input').on('keyup',function(e){
-
         var sv = $(this).val();
         //elog(sv);
-
-        $.each($('table tr'),function(a,b){
-
-
-            if( $(b).find('td').html().indexOf(sv) >= 0 ) {
+        $.each($('#translations > div'),function(a,b){
+            if( $(b).find('div:nth-child(1)').html().indexOf(sv) >= 0 ) {
                 $(b).show();
             } else {
                 $(b).hide();
             }
-
         })
     });
 
     // Edit Sentence
-    $('body').on('click','#translations tbody td:not(:nth-child(3))',function(e){
-        $('#translations tbody tr').removeClass('on');
-        var tr = $(this).parents('tr');
+    $('body').on('click','#translations > div > div',function(e){
+        $('#translations > div').removeClass('on');
+        var tr = $(this).parent('div');
         tr.addClass('on');
         $('#editor').addClass('on').data('row',tr.index());
-        $('#string').val(tr.find('td:first-child').html());
-        $('#translation').val(tr.find('td:nth-child(2)').html()).focus();
+        $('#string').val(tr.find('div:nth-child(1)').html());
+        $('#translation').val(tr.find('div:nth-child(2)').html()).focus();
     });
 
     // Save Sentence

@@ -256,6 +256,10 @@ class ACCESS {
         return $os_platform;
     }
 
+    public static function get_user_device() {
+        return $_SERVER["HTTP_USER_AGENT"];
+    }
+
     public static function get_user_browser() {
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
         $browser = "Unknown Browser";
