@@ -1,10 +1,14 @@
 $(document).ready(function(){
+
+    // Close Uploader on click outside
     $(document).mouseup(function(e) {
         var c = $('#aio_up');
         if (!c.is(e.target) && c.has(e.target).length === 0) {
             close_uploader();
         }
     });
+
+    // Select or Deselect Uploaded File
     $('body').on('click','.f',function(){
         if( $('#aio_up').data('multiple') === undefined  ) {
             $('.f').not(this).removeClass('on');
@@ -13,12 +17,15 @@ $(document).ready(function(){
         //elog($(this).data('delete'));
         if( $(this).data('delete') !== '' && $(this).data('delete') !== undefined ){
             if( $(this).data('delete') === 0 ){
-                $('#aio_up .df').addClass('disabled');
+                $('#aio_up .fd').addClass('disabled');
             } else if( $(this).data('delete') === 1 ) {
-                $('#aio_up .df').removeClass('disabled');
+                $('#aio_up .fd').removeClass('disabled');
             }
         }
-    }).on('click','.fd',function(){
+    })
+
+    // Delete a file from Uploaded Files
+    .on('click','.fd',function(){
         var df = $('.f.on');
         if( df.length > 0 && df.data('id') !== undefined && df !== '' ) {
             $.post(location.origin,{'action':'file_delete','id':df.data('id')},function(r){
@@ -30,47 +37,43 @@ $(document).ready(function(){
                 }
             })
         }
-    }).on('click','#aio_up .close',function(){
-        close_uploader();
-    }).on('click','[data-upload]',function(e){
-        file_upload(e);
     })
 
-    // Standard File Chosen to Upload
+    // Close Uploader
+    .on('click','#aio_up .close',function(){
+        close_uploader();
+    })
+    .on('keyup',function(e){
+        if( $('#aio_up').hasClass('on') && e.key === 'Escape' ) {
+            close_uploader();
+        }
+    })
 
+    // Show Uploader
+    .on('click','[data-upload]',function(e){
+        file_upload(e.target);
+    })
+
+
+    // Standard File Chosen to Upload
     .on('change','#file_input',function(){
         var fs = this.files;
         process_upload(fs);
-    })
-
-    // Drag and Drop File Upload
-
-    .bind('dragover','.file_modal',function(e){
-        e.stopPropagation();
-        e.preventDefault();
-        $(this).addClass('hover');
-    }).bind('dragleave','.file_modal',function(e){
-        e.stopPropagation();
-        e.preventDefault();
-        $(this).removeClass('hover');
-    }).bind('drop','.file_modal',function(e){
-        e.stopPropagation();
-        e.preventDefault();
     })
 
     // File Insert
     .on('click','#aio_up .fi',function(){
         var f = $('#aio_up');
         var s = $('#aio_up .f.on');
-
         if( f.data('multiple') === undefined ) {
 
             var exts = $('#aio_up').data('exts');
             if( exts ){
                 exts = exts.split(',');
                 var ext = s.data('url').split('.')[s.data('url').split('.').length - 1];
-                if(exts.indexOf(ext) < 0){
-                    uploader_notify('The file should be one of the extensions ' + exts);
+                if( exts.indexOf(ext) < 0 ){
+                    var msg = $('#aio_up .extension_limit').html();
+                    uploader_notify(msg + ' <strong>' + exts + '</strong>');
                     return;
                 }
             }
@@ -104,73 +107,80 @@ $(document).ready(function(){
             //elog(urls);
             var ut = $(f.data('url'));
             var it = $(f.data('id'));
-            urls = ut.val() !== '' ? ut.val() + '|' + urls : urls;
-            ids = it.val() !== '' ? it.val() + '|' + ids : ids;
+            //urls = ut.val() !== '' ? ut.val() + '|' + urls : urls;
+            //ids = it.val() !== '' ? it.val() + '|' + ids : ids;
             $(f.data('url')).val(urls);
             $(f.data('id')).val(ids);
         }
         file_ui();
         files_ui();
 
-        $('#aio_up').slideUp();
+        $('#aio_up').slideUp().addClass('on');
         //elog(s);
-        setTimeout(function(){ var m = s.length > 0 ? 'File Selected Successfully!' : 'NO FILE SELECTED! File Uploader Closed!!' ; $('.file_notify').html(m).addClass('on') }, 500);
+        setTimeout(function(){ var m = s.length > 0 ? $('#aio_up .file_select').html() : $('#aio_up .no_file_select').html() ; $('.file_notify').html(m).addClass('on') }, 500);
         setTimeout(function(){ $('.file_notify').removeClass('on') },1600);
     })
 
-    .on('click','[data-file-upload]',function(){
-        file_upload($(this));
-    })
-
+    // Delete File from Multiple Files UI
     .on('click','.aio_fsp .trash',function(){ //elog('test');
-
         var dfile = $(this).next('.f').html();
-
-        if( dfile !== undefined && dfile !== '' && confirm('Are you sure to remove attached file ?') ) {
-
+        if( dfile !== undefined && dfile !== '' && confirm( $('#aio_up .remove_confirm').html() ) ) {
             var files = $($(this).parents('[data-url]').data('url')).val().split('|');
-
             var val = '';
-
             if( $.isArray( files ) ) {
-
                 $(files).each(function(c,d){
-
                     var efile = d.split('/')[ d.split('/').length - 1 ];
-
                     if( efile !== dfile ) {
-
                         val += d + '|';
-
                     }
-
                 });
-
             }
-
             val = val.slice(0,-1);
-
             $($(this).parents('[data-url]').data('url')).val(val);
-
             files_ui();
-
         }
-
     })
 
+    // Delete file from Files UI
     .on('click','.aio_fp .trash',function(){
-
         var dfile = $(this).next('.f').html();
-
-        if( dfile !== undefined && dfile !== '' && confirm('Are you sure to remove attached file ?') ) {
-
+        if( dfile !== undefined && dfile !== '' && confirm( $('#aio_up .remove_confirm').html() ) ) {
             $($(this).parents('[data-url]').data('url')).val('');
-
             file_ui();
-
         }
-
     });
+
+    // Drag and Drop File Upload
+    $('#aio_up .files_body').bind('dragover','.file_modal',function(e){
+        e.stopPropagation();
+        e.preventDefault();
+        $(this).addClass('hover');
+    }).bind('dragleave','.file_modal',function(e){
+        e.stopPropagation();
+        e.preventDefault();
+        $(this).removeClass('hover');
+    }).bind('drop','.file_modal',function(e){
+        e.stopPropagation();
+        e.preventDefault();
+        process_upload(e.originalEvent.dataTransfer.files);
+        $(this).removeClass('hover');
+    });
+
+    // Search Files
+    $('#aio_up .search').on('search keyup',function(){
+        var s = $(this).val().toLowerCase();
+        $('#aio_up .uploaded_files .f').each(function(a,b){
+            if( $(b).find('.name').html().toLowerCase().indexOf(s) >= 0 ) {
+                $(b).show();
+            } else {
+                $(b).hide();
+            }
+        });
+    });
+
+    // File and Files UI
+    file_ui();
+    files_ui();
 });
 
 //elog('test');
@@ -188,7 +198,7 @@ function file_ui() {
         var file_ui = file !== '' ? '<div class="f"><i class="ico file '+ext+'"></i>'+trash+'<div class="f">'+file+'</div></div>' : $(f).prev('button').show().clone();
         if( !$(f).next().hasClass('aio_fp') ){
             var id = $(f).prev('button').data('url');
-            $(f).after('<div class="aio_fp" data-url="'+ id +'"></div>');
+            $(f).after('<div class="aio_fp aio_files" data-url="'+ id +'"></div>');
         }
 
         $(f).next('.aio_fp').html(file_ui);
@@ -200,7 +210,6 @@ function file_ui() {
 function files_ui() {
 
     $('input[data-files]').each(function(a,b){
-
         $(b).hide();
         var files = $(b).val() !== '' ? $(b).val().split('|') : '';
         var files_ui = '';
@@ -220,7 +229,7 @@ function files_ui() {
 
         if( !$(b).next().hasClass('aio_fsp') ){
             var id = $(b).prev('button').data('url');
-            $(b).after('<div class="aio_fsp" data-url="'+ id +'"></div>');
+            $(b).after('<div class="aio_fsp aio_files" data-url="'+ id +'"></div>');
         }
 
         //elog( files_ui );
@@ -233,6 +242,9 @@ function files_ui() {
         } else {
             $(b).next('.aio_fsp').find('button').hide();
         }
+        if( $(b).data('color') !== undefined && $(b).data('color') !== '' ) {
+            $('.aio_fsp button').css({'background-color':$(b).data('color')})
+        }
         $(b).prev('button').hide();
         //elog(files_ui);
 
@@ -242,6 +254,7 @@ function files_ui() {
 function file_upload(e){
     var fu = $('#aio_up');
     if( ( $(e).data('url') !== '' && $(e).data('url') !== undefined ) || ( $(e).data('id') !== '' && $(e).data('id') !== undefined ) ) {
+        // Show or Hide previous uploads
         if( $(e).data('history') === undefined ) {
             $('#aio_up .f').hide();
             $('.fb').click();
@@ -251,15 +264,35 @@ function file_upload(e){
             }
             $('#aio_up .f').show();
         }
-        if(!fu.is(':visible')) {
-            fu.slideDown();
+        // Sets a custom color
+        var title = $('#aio_up .files_head h3');
+        if( $(e).data('color') !== undefined && $(e).data('color') !== '' ) {
+            title.css({'background-color':$(e).data('color')});
+        } else {
+            title.css({'background-color':'#333'});
         }
-        fu.data('exts', $(e).data('exts')).data('files',$(e).data('files')).data('url', $(e).data('url')).data('multiple', $(e).data('multiple')).data('bg', $(e).data('bg')).data('id', $(e).data('id')).data('s_img', $(e).data('s_img')).data('path', $(e).data('path')).data('scope', $(e).data('scope')).data('callback', $(e).data('callback'));
+        // Sets a custom title
+        if( $(e).data('title') !== undefined && $(e).data('title') !== '' ) {
+            $('#aio_up').data('title_backup',title.html());
+            title.html($(e).data('title'));
+        } else {
+            title.html($('#aio_up').data('title_backup'));
+        }
+        // Close if modal is already open
+        if(!fu.is(':visible')) {
+            fu.slideDown().addClass('on');
+        }
+        // Sets data parameters from initializer to modal
+        $.each($(e).data(),function(a,b){
+            fu.data(a,b)
+        });
+        //fu.data('exts', $(e).data('exts')).data('files',$(e).data('files')).data('url', $(e).data('url')).data('multiple', $(e).data('multiple')).data('bg', $(e).data('bg')).data('id', $(e).data('id')).data('s_img', $(e).data('s_img')).data('path', $(e).data('path')).data('scope', $(e).data('scope')).data('callback', $(e).data('callback'));
         if( fu.data('multiple') !== undefined ) {
             $('.fi').addClass('multiple');
         } else {
             $('.fi').removeClass('multiple');
         }
+        // Shows or Hides delete button
         if ($(e).data('delete') === undefined) {
             $('.fd').hide();
             fu.data('delete', false)
@@ -267,8 +300,13 @@ function file_upload(e){
             $('.fd').show();
             fu.data('delete', true)
         }
-        if( $(e).data('title') !== undefined ){
-            $('#aio_up h3').html( $(e).data('title') );
+        // Shows already selected files
+        if( $( $(e).data('url') ).val() !== '' ) {
+            var selected_files = $( $(e).data('url') ).val().split('|');
+            $('#aio_up .f').removeClass('on');
+            $.each( selected_files, function(a,sf){
+                $('#aio_up .f[data-url="'+sf+'"]').addClass('on');
+            })
         }
     }
 }
@@ -282,7 +320,8 @@ function process_upload(fs) {
             exts = exts.split(',');
             var ext = f.name.split('.')[1];
             if(exts.indexOf(ext) < 0){
-                uploader_notify('The file should be one of the extensions ' + exts);
+                var msg = $('#aio_up .extension_limit').html();
+                uploader_notify(msg + ' <strong>' + exts + '</strong>');
                 return [ false, 'Extension Restricted', 'The file should be one of the extensions ' + exts ];
             }
         }
@@ -303,7 +342,7 @@ function process_upload(fs) {
 
         $('#aio_up .uploaded_files').prepend( '<div class="uploading"><div class="name">'+f.name+'</div><div class="perc"><span>0</span>%</div><div class="progress"><div></div></div></div>' );
 
-        console.log(d);
+        //console.log(d);
         $.ajax({
             url: location.origin, type: 'POST', data: d, contentType: false, cache: false, processData: false,
             xhr: function() {
@@ -324,14 +363,15 @@ function process_upload(fs) {
                     var del = d[8] === 1 ? 'data-delete="1"' : 'data-delete="0"';
                     $('#aio_up .uploaded_files').prepend( '<div class="f new '+d[5]+'" data-id="'+d[4]+'" data-url="'+d[3]+'" '+bg+' '+del+'><div class="name">'+d[2]+'</div><div class="size">'+size+'</div></div>' );
                     $('#aio_up .f').removeClass('on');
-                    uploader_notify('File Uploaded Successfully!');
+                    uploader_notify( $('#aio_up .upload_success').html() );
                     setTimeout(function(){ $('.f').removeClass('new') },1000);
                     if($('#aio_up').data('files') === undefined){
                         $('.f.new').addClass('on');
                         $('.fi').click();
                     }
-                    return [ 1, 'File Uploaded Successfully', d ];
+                    return [ 1, $('#aio_up .upload_success').html(), d ];
                 } else {
+                    uploader_notify( r[1] );
                     return [ 1, 'File Uploaded Failed', 'There was an issue while sending file to server, please try again' ];
                 }
             }
@@ -340,19 +380,12 @@ function process_upload(fs) {
 }
 
 function upload_progress(e){
-
-    if(e.lengthComputable){
+    if( e.lengthComputable ){
         var max = e.total;
         var current = e.loaded;
-
-        var Percentage = Math.round((current * 100)/max);
-        $('#aio_up .progress>div').css({'width':Percentage+'%'});
-        $('#aio_up .uploading .perc>span').html(Percentage);
-
-        if(Percentage >= 100)
-        {
-            // process completed
-        }
+        var perc = Math.round((current * 100)/max);
+        $('#aio_up .progress>div').css({'width':perc+'%'});
+        $('#aio_up .uploading .perc>span').html(perc);
     }
 }
 
@@ -363,5 +396,5 @@ function uploader_notify( message ) {
 
 function close_uploader() {
     $('.f').removeClass('on');
-    $('#aio_up').slideUp().removeData(['id','url','exts','s_img','scope','path','bg','multiple','files']);
+    $('#aio_up').slideUp().removeClass('on').removeData(['id','url','exts','s_img','scope','path','bg','multiple','files']);
 }

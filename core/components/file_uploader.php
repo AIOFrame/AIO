@@ -14,10 +14,11 @@ class FUP {
                 <input type="file" id="file_input">
             </div>
             <div class="files_body">
+                <input type="search" placeholder="<?php E('Search'); ?>" class="search">
                 <div class="uploaded_files">
                     <?php
                     global $db;
-                    $fs = $db && !empty( $_SESSION ) ? select( 'storage', '*', 'file_scope = "'.$_SESSION['user_id'].'" OR file_scope = "0"', '40', 0, '', '', 'file_id', 'desc' ) : '';
+                    $fs = $db ? ( !empty( $_SESSION ) ? select( 'storage', '*', 'file_scope = "'.$_SESSION['user_id'].'" OR file_scope = "0"', '40', 0, '', '', 'file_id', 'desc' ) : select( 'storage', '*', 'file_scope = "0"', '40', 0, '', '', 'file_id', 'desc' ) ) : '';
                     if( !empty($fs) ){ foreach( $fs as $f ){
                         $bg = in_array($f['file_type'],['svg','jpg','png','jpeg']) ? 'style="background-image:url(\''.storage_url($f['file_url']).'\')"' : '';
                         $size = $f['file_size'] > 1024 ? number_format((float)($f['file_size'] / 1024), 2, '.', '') . ' MB' : $f['file_size'].' KB';
@@ -27,11 +28,20 @@ class FUP {
                     } ?>
                 </div>
                 <div class="camera_view"></div>
+                <div class="drop_files"><span><?php E('Drop files to Upload!'); ?></span></div>
             </div>
             <div class="files_actions">
-                <div class="fi"><i class="ico file select"></i> <span><?php E('Select'); ?></span><span><?php E('Select Files'); ?></span></div>
-                <label for="file_input" class="fb"><i class="ico file browse"></i> <?php E('Browse'); ?></label>
-                <div class="df disabled"><i class="ico file trash"></i> <?php E('Delete'); ?></div>
+                <div class="fi ico select"><?php E('Select'); ?></div>
+                <label for="file_input" class="fb ico browse"><?php E('Browse'); ?></label>
+                <div class="disabled fd ico trash"><?php E('Delete'); ?></div>
+            </div>
+            <div class="translations">
+                <div class="extension_limit"><?php E('The file should be one of the extensions'); ?></div>
+                <div class="size_limit"></div>
+                <div class="file_select"><?php E('File Selected Successfully!'); ?></div>
+                <div class="no_file_select"><?php E('NO FILE SELECTED! File Uploader Closed!!'); ?></div>
+                <div class="remove_confirm"><?php E('Are you sure to remove attached file ?'); ?></div>
+                <div class="upload_success"><?php E('File Uploaded Successfully!'); ?></div>
             </div>
         </div>
         <div class="file_notify"></div>
@@ -40,12 +50,7 @@ class FUP {
 
 }
 
-/* TYPES OF UPLOAD
-
-1. Unique per user file that gets stored in app (not root) > assets > images > user_id > file
-2. Bulk saving directory that stores as app (not root) > assets > images > profile_pictures
-
-HOW TO USE
+/* HOW TO USE
 
 HTML Attribute Structure
 onclick - Triggers upload

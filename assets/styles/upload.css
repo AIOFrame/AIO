@@ -8,9 +8,10 @@
   transform: translate(-50%, -50%);
   overflow: hidden;
   width: 32vw;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px) saturate(2);
+  -webkit-backdrop-filter: blur(10px) saturate(2);
   display: none;
-  min-width: 360px;
 }
 
 body.d .file_modal, body.d .file_notify {
@@ -41,14 +42,18 @@ body.d .file_modal, body.d .file_notify {
   background: rgba(255, 255, 255, 0.75);
 }
 
+.file_modal .uploaded_files {
+  min-height: 260px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  position: relative;
+}
 .file_modal .no_uploaded_files {
   min-height: 260px;
   height: 100%;
   width: 100%;
   text-align: center;
-  letter-spacing: 2px;
-  outline: 1px dashed #aaa;
-  outline-offset: -25px;
 }
 .file_modal .no_uploaded_files span {
   position: absolute;
@@ -57,38 +62,67 @@ body.d .file_modal, body.d .file_notify {
   display: block;
   transform: translate(-50%, -50%);
 }
-
-.file_modal.hover:before {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 22px;
-  content: "Drop File to Upload";
-  width: 100%;
-  text-align: center;
-  z-index: 999;
+.file_modal .search {
+  box-shadow: none;
+  border: 0;
+  background: #eee;
+  border-radius: 4px;
+  margin: 5px;
+  width: calc(100% - 10px);
+  font-size: 16px;
+  padding: 8px;
+  font-weight: lighter;
 }
-
+.file_modal .files_body {
+  border-bottom: 1px solid #eee;
+  position: relative;
+}
+.file_modal .files_body .uploaded_files {
+  max-height: 50vh;
+  overflow-y: auto;
+}
 .file_modal .files_head {
   background: #333;
   position: relative;
   color: #fff;
 }
-
-body.d .file_modal .files_head {
-  background: #232323;
-}
-
 .file_modal .files_head h3 {
   display: block;
   margin: 0;
   padding: 15px;
   text-align: center;
 }
-
-.files_head input {
+.file_modal .files_head input {
   display: none;
+}
+.file_modal .drop_files {
+  position: absolute;
+  left: 5px;
+  bottom: 5px;
+  font-size: 22px;
+  width: calc(100% - 10px);
+  height: calc(100% - 60px);
+  text-align: center;
+  background: rgba(0, 0, 0, 0.05);
+  z-index: 999;
+  backdrop-filter: blur(10px) saturate(2);
+  -webkit-backdrop-filter: blur(10px) saturate(2);
+  opacity: 0;
+  pointer-events: none;
+  transition: 1s;
+}
+.file_modal .drop_files span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.file_modal .files_body.hover .drop_files {
+  opacity: 1;
+}
+
+body.d .file_modal .files_head {
+  background: #232323;
 }
 
 /*.files_head .browse_file {
@@ -139,17 +173,8 @@ body.d .file_modal .files_head {
   background: url("../images/icons/camera.svg") no-repeat center 15px/45px;
 }
 
-.file_modal .files_body {
-  max-height: 50vh;
-  overflow-y: auto;
-}
-
-.file_modal .uploaded_files {
-  min-height: 260px;
-  display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  position: relative;
+#aio_up .translations {
+  display: none;
 }
 
 #aio_up .f, .uploaded_files > .uploading {
@@ -163,10 +188,13 @@ body.d .file_modal .files_head {
   white-space: nowrap;
   overflow: hidden;
   position: relative;
-  flex: 0 0 33.3337%;
-  max-width: 33.3337%;
+  flex: 0 0 calc(33.33337% - 10px);
+  max-width: calc(33.333337% - 10px);
   height: 86px;
   text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin: 5px;
 }
 
 #aio_up .f.gif {
@@ -295,55 +323,46 @@ body.d #aio_up .f.on {
 .files_actions {
   display: flex;
   border-top: 1px solid #eee;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.1);
 }
-
-body.d .files_actions {
-  border-top: 1px solid #232323;
-}
-
 .files_actions > div, .files_actions > label {
-  height: 45px;
   margin: 0 auto;
   cursor: pointer;
   flex-grow: 1;
-  padding: 10px;
+  padding: 15px 10px;
   text-align: center;
   font-size: 16px;
   text-transform: none;
   font-weight: lighter;
   color: #000;
+  border-right: 1px solid #eee;
 }
-
-body.d .files_actions > div, body.d .files_actions > label {
-  color: #fff;
-}
-
-.files_actions > div:hover, .files_actions > label:hover {
-  background: rgba(0, 0, 0, 0.05);
-}
-
-.files_actions .df.disabled {
-  opacity: 0.3;
+.files_actions .disabled {
+  color: #ccc;
+  cursor: not-allowed;
   pointer-events: none;
 }
-
-.files_actions .ico {
-  display: inline-block;
-  width: 22px;
-  height: 22px;
-  margin: 0 6px 0 0;
+.files_actions .ico.select {
+  background: url("../images/icons/select.svg") no-repeat 10px center/20px;
+}
+.files_actions .ico.trash {
+  background: url("../images/icons/delete.svg") no-repeat 10px center/20px;
+}
+.files_actions .ico.disabled {
+  background: none;
+}
+.files_actions .ico.browse {
+  background: url("../images/icons/browse.svg") no-repeat 10px center/20px;
+}
+.files_actions > div:hover, .files_actions > label:hover {
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
-.files_actions .ico.file.select {
-  background: url("../images/icons/select.svg") no-repeat center;
+body.d .files_actions {
+  border-top: 1px solid #232323;
 }
-
-.files_actions .ico.file.trash {
-  background: url("../images/icons/delete.svg") no-repeat center;
-}
-
-.files_actions .ico.file.browse {
-  background: url("../images/icons/browse.svg") no-repeat center;
+body.d .files_actions div, body.d .files_actions label {
+  color: #fff;
 }
 
 .aio_fsp {
@@ -355,6 +374,37 @@ body.d .files_actions > div, body.d .files_actions > label {
   border: 1px solid #888;
   padding: 10px 10px 0 10px;
 }
+.aio_fsp > .w {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: 50px;
+}
+.aio_fsp > .w > .f {
+  flex: 0 0 calc(25% - 10px);
+  max-width: calc(25% - 10px);
+  margin: 0 10px 10px 0;
+  position: relative;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  padding: 4px;
+}
+.aio_fsp button {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  height: calc(100% + 2px);
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border: 0 !important;
+  background: #888;
+  color: #fff !important;
+  font-size: 24px;
+  width: 60px;
+  margin: 0;
+}
+.aio_fsp .ico.file {
+  margin: 6px auto;
+}
 
 .empty + .aio_fsp {
   box-shadow: 0 0 1px 1px firebrick inset;
@@ -364,7 +414,27 @@ td .aio_fsp {
   margin: 0;
 }
 
-.aio_fsp > .w > .f, .aio_fp > .f {
+/* .aio_fsp>.w>.f:nth-child(4n) {
+    margin-right: 0;
+} */
+.aio_fp {
+  width: 100%;
+  min-height: 40px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  position: relative;
+}
+.aio_fp > .f {
+  display: block;
+  margin: 0 !important;
+  padding: 8px;
+}
+.aio_fp > button {
+  width: 100%;
+  height: 100%;
+}
+
+.aio_files > .f {
   display: block;
   padding: 4px 8px;
   border: 1px solid #888;
@@ -373,72 +443,15 @@ td .aio_fsp {
   margin-right: 15px;
   text-align: center;
 }
-
-.aio_fsp > .w {
-  display: flex;
-  flex-wrap: wrap;
-  margin-right: 50px;
-}
-
-.aio_fsp > .w > .f {
-  flex: 0 0 calc(25% - 10px);
-  max-width: calc(25% - 10px);
-  margin: 0 10px 10px 0;
-}
-
-/* .aio_fsp>.w>.f:nth-child(4n) {
-    margin-right: 0;
-} */
-.aio_fsp button {
-  position: absolute;
-  top: -1px;
-  right: -1px;
-  height: calc(100% + 2px);
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  border: 0 !important;
-  background: #888;
-  color: #fff !important;
-  font-size: 24px;
-  width: 60px;
-}
-
-.aio_fp {
-  width: 100%;
-  min-height: 40px;
-  margin-bottom: 15px;
-  border-radius: 4px;
-  position: relative;
-}
-
-.aio_fp > .f {
-  display: block;
-  margin: 0;
-  padding: 8px;
-}
-
-.aio_fsp .f > .f, .aio_fp .f > .f {
+.aio_files .f > .f {
   font-size: 12px;
-  max-width: 100%;
+  max-width: calc(100% - 30px);
   overflow: hidden;
   height: 16px;
   display: inline-block;
   vertical-align: middle;
 }
-
-.aio_fsp .ico.file {
-  margin: 6px auto;
-}
-
-.aio_fp .ico.file {
-  height: 20px;
-  width: 20px;
-  display: inline-block;
-  vertical-align: middle;
-  background: url("../images/icons/file.svg") no-repeat center/contain;
-}
-
-.aio_fsp .trash, .aio_fp .trash {
+.aio_files .trash {
   cursor: pointer;
   position: absolute;
   top: 5px;
@@ -447,10 +460,76 @@ td .aio_fsp {
   height: 30px;
   background: url("../images/icons/delete.svg") no-repeat center/20px;
 }
+.aio_files .ico.file {
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+  vertical-align: middle;
+  background: url("../images/icons/file.svg") no-repeat center/contain;
+}
 
-.aio_fp > button {
-  width: 100%;
-  height: 100%;
+@media only screen and (max-width: 600px) {
+  .file_modal {
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    transform: none;
+    border-radius: 0;
+  }
+  .file_modal .files_body .uploaded_files {
+    height: 70vh;
+    min-height: auto;
+    max-height: none;
+    padding-bottom: 20vh;
+  }
+
+  .file_notify {
+    width: 100vw;
+  }
+
+  .files_actions {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+  }
+  .files_actions > div, .files_actions > label {
+    padding: 20px 10px;
+    background: #fff !important;
+  }
+
+  #aio_up .f:after {
+    left: 5px;
+    top: 5px;
+    width: 15px;
+    height: 15px;
+  }
+
+  .aio_fsp > .w {
+    margin: 0;
+  }
+  .aio_fsp > .w > .f {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .aio_fsp > .w > .f .f {
+    padding-right: 20px;
+    overflow: hidden;
+    white-space: normal;
+    word-break: break-word;
+  }
+  .aio_fsp button {
+    position: relative;
+    top: auto;
+    height: auto;
+    left: -1px;
+    bottom: -1px;
+    margin: 0 -10px;
+    width: calc(100% + 22px);
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 5px;
+  }
 }
 
 /*# sourceMappingURL=upload.css.map */

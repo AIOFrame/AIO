@@ -13,7 +13,9 @@ BACKEND
 * AIO Setup to ask for color scheme and setup for inputs, elements etc
 * AIO Setup of pages issue
 * AIO to add image compression settings
-* Code Inputs CSS into art() type func 
+* Code Inputs CSS into art() type func
+* AIO Backups to zip database and storage with config password
+* AIO Auto Backup option
 
 FRONTEND
 
@@ -29,19 +31,17 @@ FRONTEND
 
 File Uploader
 
-* File Uploader Easier Function
 * File Uploader issues on mobile (ex: trash button)
 * List and Icons View Toggle
-* Doesn't work for non logged in users
 * Uploaded file thumbnail if size is below 512kb else load button
 * Image editor
 * Image compress engine + options
-* File search features
 * File upload renaming logic
-* Drag and Drop file upload
 * Files in a page
 * Encrypted and Sharable files
 * Add URL instead of file upload
+* File Upload Errors to be present in notify translated and trigger show
+* File Uploader multiple selects multiple files and on delete does one
 
 Payment Gateways Integration
 

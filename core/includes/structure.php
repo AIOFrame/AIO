@@ -31,7 +31,7 @@ function basic_tables() {
     ] ];
 
     $tables[] = [ 'storage', 'file', [
-        [ 'name', 'VARCHAR', '55', 1 ],
+        [ 'name', 'VARCHAR', '255', 1 ],
         [ 'url', 'VARCHAR', '255', 1 ],
         [ 'scope', 'INT', '13', 0 ],
         [ 'type', 'TINYTEXT', '', 'NOT NULL' ],
