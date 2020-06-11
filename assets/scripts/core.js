@@ -43,37 +43,25 @@ $(document).ready(function(){
     })
 
     .on('change','[data-check]',function(){
-
         var v = $(this).is(':checked') ? 'true' : 'false';
-
         $($(this).data('check')).val(v);
-
     })
 
     .on('click','.aio_dynamics .add',function(){
-
         var dyn = $(this).parents('.aio_dynamics').prev('input').data('dyn');
-
         $(this).parents('.aio_dynamics').find('.fields').append(dyn);
-
     })
 
     .on('click','.aio_dynamics .trash',function(){
-
         $(this).parents('.field_set').remove();
-
     })
 
     .on('change keyup','.aio_dynamics input',function () {
-
         var d = [];
-
         $.each( $(this).parents('.aio_dynamics').find('.field_set'), function(a,b){
-
             d.push( get_values( b ) );
-
         });
-        console.log(d);
+        elog(d);
         $(this).parents('.aio_dynamics').prev('input').val( JSON.stringify( d ) );
     });
 
@@ -246,49 +234,28 @@ $(document).ready(function(){
             reload(3);
         });
     });
-
-    // FILES UI
-
-
-
+    
     // Fetch States
 
     $('body').on('change','select[data-states]',function(){
-
         var t = $($(this).data('states'));
-
         if( $(this).data('states') !== '' ){
-
             $.post( location.origin, { 'action':'states', 'id': $(this).val() }, function(r){
-
                 if( r = JSON.parse( r ) ){
-
                     if( $.isArray( r ) ){
-
                         elog(r);
-
                         var o = '';
                         $.each( r, function(i,s){
-
                             o += '<option value="' + s + '">' + s + '</option>';
-
                         });
-
                         $(t).html(o);
-
                         if($(t).hasClass('select2')) {
-
                             $(t).select2('destroy').select2({ width:'100%' });
-
                         }
                     }
-
                 }
-
             });
-
         }
-
     });
 
     // Markup '[data-m]','[data-mt]','[data-mr]','[data-mb]','[data-ml]','[data-p]','[data-pt]','[data-pr]','[data-pb]','[data-pl]'
@@ -331,6 +298,17 @@ $(document).mouseup(function(e) {
         cp.removeClass('on').children('.color-picker').html('');
     }
 });
+
+function scroll_to( element, parent, speed ) {
+    speed = speed !== undefined && speed !== '' ? speed : 1000;
+    parent = parent !== undefined && parent !== '' ? parent : 'html,body';
+    if( !$( parent ).data['scrollbar'] ) {
+        $(parent).animate({scrollTop: $(element).offset().top}, speed);
+    } else {
+        const scrollbar = Scrollbar.init( $( parent )[0] );
+        scrollbar.scrollIntoView( $( element )[0] );
+    }
+}
 
 function format_number(a){
     /*var selection = window.getSelection().toString();

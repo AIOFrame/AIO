@@ -61,6 +61,7 @@ UAE
 
 INDIA
 
+* PayU
 * Instamojo
 * WePay
 * PayTM
