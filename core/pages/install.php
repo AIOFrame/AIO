@@ -1,163 +1,208 @@
 <?php
-
+include_once( COREPATH . 'core/includes/setup.php' );
+include_once( COREPATH . 'core/includes/arrays.php' );
+include_once( COREPATH . 'core/includes/functions.php' );
+include_once( COREPATH . 'core/includes/crypt.php' );
+include_once( COREPATH . 'core/includes/language.php' );
+?>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Welcome to AIO Setup</title>
+    <?php
+    reset_styles('Lato,Helvetica Neue');
+    fonts([['Lato','100,300']]);
+    get_styles(['select2','aio/inputs','aio/ui','aio/setup','aio/micro']);
+    ?>
+    <link rel="icon" href="<?php echo APPURL; ?>assets/images/fav_aio.png" type="image/png" >
+</head>
+<body>
+<?php
 $appdir = !empty( get_domain('sub') ) ? get_domain( 'sub' ) : get_domain();
-// Functions
-
 $p = $_POST;
+$cry = Crypto::initiate();
+?>
+    <header>
+        <div class="logo"><div class="drop"></div></div>
+        <h1>Welcome to AIO Setup</h1>
+    </header>
 
-// skel( $_POST );
+        <div class="setup one on">
 
-if( ( isset( $p['setup'] ) && $p['setup'] == 'Yes' ) || isset( $p['step'] ) ) {
+            <div class="head">
+                <h2>STEP 1</h2>
+                <h3>Basic Configuration</h3>
+            </div>
 
-    echo '<h1>Welcome to AIO App Setup</h1>';
+            <div class="data">
+                <div class="q">
+                    <label for="name"><span>Name your Web App</span></label>
+                    <input type="text" id="name" name="name" data-one placeholder="Ex: Food Delivery, Events App, <?php echo ucfirst( $appdir ); ?> App, <?php echo ucfirst( $appdir ); ?> etc.">
+                </div>
+                <div class="q">
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="fssl"><span>Do you want to force SSL ?</span><i class="tip">Enabling Force SSL will re-direct http:// to https:// always.</i></label>
+                        </div>
+                        <div class="col-6"><input type="checkbox" id="fssl" name="fssl" class="slide s" data-one></div>
+                    </div>
+                </div>
+                <div class="q">
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="debug"><span>Do you prefer debug mode ?</span><i class="tip">Enabling Debug mode will display PHP errors on screen, runs console logs for AIO scripts, log activities to AIO Log.</i></label>
+                        </div>
+                        <div class="col-6"><input type="checkbox" id="debug" name="debug" class="slide s" data-one checked></div>
+                    </div>
+                </div>
+                <div class="q">
+                    <div class="row">
+                        <div class="col-6"><label for="key"><span>Set a key for encryption</span><i class="tip">An encryption key will help in data crypto for security reasons, you don't need to remember this</i></label></div>
+                        <div class="col-6"><input type="text" id="key" name="key" placeholder="********" value="<?php echo $cry->random(10); ?>" data-one></div>
+                    </div>
+                </div>
+                <div class="q">
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="gitignore"><span>Create a default .gitignore for your app?</span><i class="tip">Creates a basic .gitignore for your app including a default list to ignore for AIO Apps</i></label>
+                        </div>
+                        <div class="col-6"><input type="checkbox" id="gitignore" name="gitignore" class="slide s" data-one checked></div>
+                    </div>
+                </div>
+            </div>
+            <nav>
+                <div class="n"></div>
+            </nav>
 
-    if( !isset( $p['step'] ) ) { ?>
-
-    <form class="setup one" method="post">
-
-        <div class="head">
-            <h2>STEP 1</h2>
-            <h3>Basic Configuration</h3>
         </div>
 
-        <div class="data">
+        <div class="setup two">
 
-            <div class="q">
-                <div>What would you like to call your Application / Website ?</div>
-                <div><input type="text" name="appname" placeholder="Ex: Food Delivery, AIO University, <?php echo ucfirst( $appdir ); ?> etc."></div>
+            <div class="head">
+                <h2>STEP 2</h2>
+                <h3>UI & UX</h3>
             </div>
 
-            <div class="q">
-                <div>Set a key for one way encryption</div>
-                <div><input type="text" name="key" placeholder="********"></div>
+            <div class="data">
+
+                <div class="q">
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="cache"><span>Cache styles & scripts</span> <i class="tip">Caching styles and scripts will load fresh file after set minutes.</i></label>
+                            <input type="number" id="cache" name="cache" placeholder="Ex: 2" value="0">
+                        </div>
+                        <?php
+                        text('color_1','Primary Color','','','data-color-picker',4);
+                        text('color_2','Secondary Color','','','data-color-picker',4);
+                        ?>
+                    </div>
+                </div>
+
+                <div class="q">
+                    <label for="fonts">Select Fonts</label>
+                    <select name="fonts" id="fonts" class="select2" multiple>
+                        <?php
+                        $weights = [ 'Thin' => 100, 'ExtraLight' => 200, 'Light' => 300, 'Regular' => 400, 'Medium' => 500, 'SemiBold' => 600, 'Bold' => 700, 'ExtraBold' => 800, 'Black' => 900 ];
+                        foreach( glob( COREPATH . '/assets/fonts/*', GLOB_ONLYDIR ) as $f ){
+                            $fn = str_replace( COREPATH . '/assets/fonts/', '', $f );
+                            echo '<optgroup label="'.$fn.'">';
+                            $ws = [];
+                            foreach( glob( $f . '/*.ttf' ) as $fw ){
+                                $fwn = str_replace( COREPATH . '/assets/fonts/' . $fn . '/', '', $fw );
+                                $fwn = str_replace( $fn . '-', '', $fwn );
+                                $fwn = str_replace( '.ttf', '', $fwn );
+                                echo '<option value="'.$fn.'_'.$weights[$fwn].'">'.$fwn.'</option>';
+                            }
+                            //render_checkboxs('weights',$ws,'','',0,3);
+                            echo '</optgroup>';
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class="q">
+                    <label for="ints"><span>Include AIO styles / scripts</span> <i class="tip">Add scripts included by AIO to enrich your web app</i></label>
+                    <div>
+                        <select id="ints" name="ints[]" class="select2" multiple>
+                            <?php $ints = [
+                                'ui_reset'=>'AIO Reset CSS -  Stylesheet that has custom reset css to begin with',
+                                'ux_core'=>'AIO Core JS - Core features easy element manipulation, tabs, steps, input data fetching etc',
+                                'ux_aio_full_page'=>'AIO Full Page JS - Full page scrolling script',
+                                'art()'=>'AIO Art CSS - Styles tables, modals, notifications, steps, tabs, blocks, images, icons etc',
+                                'ui_inputs'=>'AIO Inputs CSS - Styles inputs, buttons, date pickers, color pickers etc',
+                                'icons()'=>'AIO Auto Icons CSS - Automatic css for all icons present in your styles/icons dir',
+                                'ui_micro'=>'AIO Micro CSS - Adds micro css overwrides, ex: add class dn on element to display:none',
+                            ];
+                            select_options( $ints ); ?>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="q">
+                    <label for="exts"><span>Include 3rd party styles / scripts</span> <i class="tip">Select the desired styles / scripts for your app from the web's most popular 3rd party enhancements</i></label>
+                    <div>
+                        <select id="exts" name="exts[]" class="select2" multiple>
+                            <?php $exts = [
+                                //'ui_bootstrap'=>'Bootstrap',
+                                'ui_bootstrap_grid'=>'Bootstrap Grid',
+                                'b_select2'=>'Select 2',
+                                'b_datepicker'=>'Air Datepicker',
+                                'ux_chart'=>'Chart JS',
+                                'ux_jquery'=>'jQuery',
+                                'ux_jquery_ui'=>'jQuery UI',
+                                'ux_clipboard'=>'Clipboard JS',
+                                'ux_moment'=>'Moment JS',
+                                'ux_tilt'=>'Tilt JS',
+                                'ux_bot_ui'=>'Bot UI JS',
+                            ];
+                            select_options( $exts ); ?>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="q">
+                    <label for="styles"><span>Create Stylesheets</span> <i class="tip">Creates stylesheets with .scss extension, that will be auto linked on all your web app's pages</i></label>
+                    <div><input type="text" id="styles" name="styles" placeholder="Ex: users, contacts etc."></div>
+                </div>
+
+                <div class="q">
+                    <label for="scripts"><span>Create Scripts</span> <i class="tip">Creates scripts that will be auto linked on all your web app's pages in footer</i></label>
+                    <div><input type="text" id="scripts" name="scripts" placeholder="Ex: users, contacts etc."></div>
+                </div>
+
             </div>
 
-            <div class="q">
-                <div>Do you want to force SSL ?</div>
-                <div><input type="checkbox" name="fssl" class="slide s"></div>
-            </div>
-
-            <div class="q">
-                <div>Do you prefer debug mode ?</div>
-                <div><input type="checkbox" name="debug" class="slide s" checked></div>
-            </div>
-
-            <div class="q">
-                <div>Do you want to create a default .gitignore ?</div>
-                <div><input type="checkbox" name="gitignore" class="slide s" checked></div>
-            </div>
+            <nav>
+                <div class="p"></div>
+                <div class="n"></div>
+            </nav>
 
         </div>
 
-        <div class="foot">
-            <button class="to n" name="step" value="2"></button>
-        </div>
+        <div class="setup three">
 
-    </form>
+            <div class="head">
+                <h2>STEP 3</h2>
+                <h3>Database</h3>
+            </div>
 
-    <?php } else if( $p['step'] == '2' ) { ?>
+            <div class="data">
 
-    <form class="setup two" method="post">
-
-        <div class="head">
-            <h2>STEP 2</h2>
-            <h3>UI & UX</h3>
-        </div>
-
-        <div class="data">
-
-            <?php
+                <?php
                 foreach( $_POST as $k => $v ) {
-                    echo '<input type="hidden" name="'.$k.'" value="'.$v.'">';
+                    echo !is_array( $v ) ? '<input type="hidden" name="'.$k.'" value="'.$v.'">' : '<input type="hidden" name="'.$k.'[]" value=\''.serialize($v).'\'">';
                 }
-            ?>
+                ?>
 
-            <div class="q">
-                <div>How many minutes do you want to cache styles and scripts ?</div>
-                <div><input type="number" name="cache" placeholder="Ex: 2" value="0"></div>
-            </div>
-
-            <div class="q">
-                <div>Include AIO styles / scripts ?</div>
-                <div>
-                    <select name="ints[]" class="select2" multiple>
-                        <?php $ints = [
-                            'ui_reset'=>'AIO Reset CSS',
-                            'ux_core'=>'AIO Core JS',
-                            'ux_aio_full_page'=>'AIO Full Page JS',
-                            'art()'=>'AIO Art CSS',
-                            'ui_inputs'=>'AIO Inputs CSS',
-                            'icons()'=>'AIO Auto Icons CSS',
-                            'ui_micro'=>'AIO Micro CSS',
-                        ];
-                        select_options( $ints ); ?>
-                    </select>
-                </div>
-            </div>
-
-            <div class="q">
-                <div>Include third party styles / scripts ?</div>
-                <div>
-                    <select name="exts[]" class="select2" multiple>
-                        <?php $exts = [
-                            //'ui_bootstrap'=>'Bootstrap',
-                            'ui_bootstrap_grid'=>'Bootstrap Grid',
-                            'b_select2'=>'Select 2',
-                            'b_datepicker'=>'Air Datepicker',
-                            'ux_chart'=>'Chart JS',
-                            'ux_jquery'=>'jQuery',
-                            'ux_jquery_ui'=>'jQuery UI',
-                            'ux_clipboard'=>'Clipboard JS',
-                            'ux_moment'=>'Moment JS',
-                            'ux_tilt'=>'Tilt JS',
-                            'ux_bot_ui'=>'Bot UI JS',
-                        ];
-                        select_options( $exts ); ?>
-                    </select>
-                </div>
-            </div>
-
-            <div class="q">
-                <div>List the stylesheets you want to add globally</div>
-                <div><input type="text" name="styles" placeholder="Ex: users, contacts etc."></div>
-            </div>
-
-            <div class="q">
-                <div>And scripts you need to add globally</div>
-                <div><input type="text" name="scripts" placeholder="Ex: users, contacts etc."></div>
-            </div>
-
-        </div>
-
-        <div class="foot">
-            <button type="button" class="to p" name="step" value="1" onclick="window.history.back()"></button>
-            <button class="to n" name="step" value="3"></button>
-        </div>
-
-    </form>
-
-    <?php } else if( $p['step'] == '3' ) { ?>
-
-    <form class="setup three" method="post">
-
-        <div class="head">
-            <h2>STEP 3</h2>
-            <h3>Data</h3>
-        </div>
-
-        <div class="data">
-
-            <?php
-            foreach( $_POST as $k => $v ) {
-                echo !is_array( $v ) ? '<input type="hidden" name="'.$k.'" value="'.$v.'">' : '<input type="hidden" name="'.$k.'[]" value=\''.serialize($v).'\'">';
-            }
-            ?>
-
-            <div class="q">
-                <div>Which type of database does your app connect to ?</div>
-                <div>
-                    <select name="type" class="select2">
-                        <?php $bases = [
+                <div class="q">
+                    <label for="type">Select Database Type</label>
+                    <div class="row">
+                        <?php
+                        $bases = [
+                            ''=>'No Database Required',
                             'mysql'=>'MySQL',
                             'sql_lite'=>'SQL Lite',
                             'mongodb'=>'MongoDB',
@@ -166,85 +211,100 @@ if( ( isset( $p['setup'] ) && $p['setup'] == 'Yes' ) || isset( $p['step'] ) ) {
                             'oracle'=>'Oracle',
                             'pg_sql'=>'Post-gre SQL',
                         ];
-                        select_options( $bases ); ?>
-                    </select>
+                        render_radios('type',$bases,'','',0,4);
+                        ?>
+                    </div>
                 </div>
+
+                <div class="q">
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="server"><span>Database Server Host / URL</span></label>
+                            <div><input type="text" id="server" name="server" placeholder="Ex: localhost"></div>
+                        </div>
+                        <div class="col-6">
+                            <label for="base"><span>Database Name</span></label>
+                            <div><input type="text" id="base" name="base" placeholder="Ex: <?php echo $appdir; ?>_db"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="q">
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="user">Username</label>
+                            <input type="text" id="user" name="user" placeholder="Ex: <?php echo $appdir; ?>, admin etc.">
+                        </div>
+                        <div class="col-6">
+                            <?php text('pass','Password'); ?>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
 
-            <div class="q">
-                <div>Database Server Host / URL</div>
-                <div><input type="text" name="server" placeholder="Ex: localhost"></div>
-            </div>
-
-            <div class="q">
-                <div>Database Name</div>
-                <div><input type="text" name="base" placeholder="Ex: <?php echo $appdir; ?>_db"></div>
-            </div>
-
-            <div class="q">
-                <div>Authorized Username</div>
-                <div><input type="text" name="user" placeholder="Ex: <?php echo $appdir; ?>, admin etc."></div>
-            </div>
-
-            <div class="q">
-                <div>Password</div>
-                <div><input type="text" name="pass"></div>
-            </div>
+            <nav>
+                <div class="p"></div>
+                <div class="n"></div>
+            </nav>
 
         </div>
 
-        <div class="foot">
-            <button type="button" class="to p" name="step" value="1" onclick="window.history.back()"></button>
-            <button class="to n" name="step" value="4"></button>
-        </div>
+        <div class="setup four">
 
-    </form>
-
-    <?php } else if( $p['step'] == '4' ) { ?>
-
-    <form class="setup four" method="post">
-
-        <div class="head">
-            <h2>STEP 4</h2>
-            <h3>Pages</h3>
-        </div>
-
-        <div class="data">
-
-            <?php
-            foreach( $_POST as $k => $v ) {
-                echo !is_array( $v ) ? '<input type="hidden" name="'.$k.'" value="'.$v.'">' : '<input type="hidden" name="'.$k.'[]" value=\''.serialize($v).'\'">';
-            }
-            ?>
-
-            <div class="q">
-                <div>Setup function files for logged in users</div>
-                <div><input type="text" name="f_int" placeholder="Ex: contacts, invoices, payments, support etc."></div>
+            <div class="head">
+                <h2>STEP 4</h2>
+                <h3>Pages Structure</h3>
             </div>
 
-            <div class="q">
-                <div>Setup function files for non logged in users</div>
-                <div><input type="text" name="f_ext" placeholder="Ex: login, register, support etc."></div>
+            <div class="data">
+
+                <?php
+                foreach( $_POST as $k => $v ) {
+                    echo !is_array( $v ) ? '<input type="hidden" name="'.$k.'" value="'.$v.'">' : '<input type="hidden" name="'.$k.'[]" value=\''.serialize($v).'\'">';
+                }
+                ?>
+
+                <div class="q">
+                    <div>Setup function files for logged in users</div>
+                    <div><input type="text" name="f_int" placeholder="Ex: contacts, invoices, payments, support etc."></div>
+                </div>
+
+                <div class="q">
+                    <div>Setup function files for non logged in users</div>
+                    <div><input type="text" name="f_ext" placeholder="Ex: login, register, support etc."></div>
+                </div>
+
+                <div class="q">
+                    <label for="feats">Select your Web App Features </label>
+                    <div class="row">
+                        <?php $feats = [
+                            'cms'=>'AIO Content Management System',
+                            'commerce'=>'AIO Commerce',
+                        ];
+                        render_checkboxs( 'feats', $feats, '', 'data-one', 0, 6 );
+                        ?>
+                    </div>
+                </div>
+
+                <div>
+                    <div>Setup dynamic pages</div><br/>
+                    <div><input type="text" name="pages" data-dynamic='<?php echo json_encode([['text','page','Page'],['div','url'],['checkbox','script','Custom Script'],['checkbox','style','Custom Stylesheet']]); ?>'></div>
+                </div>
+
             </div>
 
-            <div>
-                <div>Setup dynamic pages</div><br/>
-                <div><input type="text" name="pages" data-dynamic='<?php echo json_encode([['text','page','Page'],['div','url'],['checkbox','script','Custom Script'],['checkbox','style','Custom Stylesheet']]); ?>'></div>
-            </div>
+            <nav>
+                <div class="p"></div>
+                <div class="f"></div>
+            </nav>
 
         </div>
 
-        <div class="foot">
-            <button type="button" class="to p" name="step" value="1" onclick="window.history.back()"></button>
-            <button class="to f" name="step" value="5"></button>
-        </div>
-
-    </form>
-
-    <?php } else if( $p['step'] == '5' ) {
-
+    <?php
         // Do Final
-        unset( $p['step'] );
+        /*unset( $p['step'] );
         $nl = PHP_EOL.'    ';
         $c = "<?php
 return [
@@ -397,24 +457,8 @@ return [
             fwrite( $con, $c );
             fclose( $con );
         }
-        echo '<p>Setup Complete :)</p><br/><form method="post"><button>Reload</button></form>';
-    }
-
-} else if( !isset( $p['setup'] ) ) {
-?>
-
-<div class="setup zero">
-
-    <div class="q">
-        <div>Would you like to setup "<?php echo $appdir; ?>" app instead ?</div>
-        <div>
-            <form method="post">
-                <button name="setup" value="Yes">Yes</button>
-                <button name="setup" value="No">No</button>
-            </form>
-        </div>
-    </div>
-
-</div>
-
-<?php } ?>
+        echo '<p>Setup Complete :)</p><br/><form method="post"><button>Reload</button></form>';*/
+    ?>
+</body>
+<?php get_scripts(['jquery','select2','smooth-scrollbar','iro','core','aio/setup']); ?>
+</html>

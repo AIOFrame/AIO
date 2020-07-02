@@ -10,3 +10,7 @@ function get_user_ip() {
     }
     return $ip == '::1' ? '127.0.0.1' : $ip;
 }
+
+function test_db() {
+
+}

@@ -26,11 +26,8 @@ function set_title( $title ){
 // Fetches stylesheet with options
 
 function art( $color1 = '000', $color2 = '000' ) {
-
     $cache = get_config( 'cache' );
-
     $v = $cache ? '&v=' . round( time() / ( $cache * 60 ) ) : '';
-
     echo '<link rel="stylesheet" href="'.APPURL.'assets/art.php?fc='.$color1.'&sc='.$color2. $v . '">';
 }
 
@@ -153,6 +150,8 @@ function fonts( $array = [] ){
     }
     echo $f !== '' ? '<link rel="stylesheet" href="' . $f . '">' : '';*/
     //?family=Titillium+Web:300,400
+    $appdir = !empty( get_domain('sub') ) ? get_domain( 'sub' ) : get_domain();
+    !defined(APPDIR) ? define(APPDIR,$appdir) : '';
     $fonts = [];
     foreach( $array as $f ){
         $weights = isset( $f[1] ) && !empty( $f[1] ) ? $f[1] : '400';
@@ -189,8 +188,10 @@ function bg_asset( $f ) {
 
 // Returns a reset style if it exists
 
-function reset_styles() {
-    get_style( 'reset' );
+function reset_styles( $font = '' ) {
+    $cache = get_config( 'cache' );
+    $v = $cache ? '&v=' . round( time() / ( $cache * 60 ) ) : '';
+    echo '<link rel="stylesheet" href="'.APPURL.'assets/styles/aio/reset.php?font='.str_replace(' ','$',$font).'">';
 }
 
 // Read Config
@@ -594,11 +595,11 @@ function render_inputs( $type = 'text', $array, $attrs = '', $pre = '', $post = 
 
 // Render Input type text Element
 
-function in_text( $id, $label, $placeholder = '', $value = '', $attrs = '', $pre = '', $post = '' ) {
+function text( $id, $label, $placeholder = '', $value = '', $attrs = '', $pre = '', $post = '' ) {
     render_input( 'text', $id, $label, $placeholder, $value, $attrs, $pre, $post );
 }
 
-function in_texts( $array, $attrs = '', $pre = '', $post = '' ){
+function texts( $array, $attrs = '', $pre = '', $post = '' ){
     if( is_array( $array ) ){
         if( is_assoc( $array ) ){
             foreach( $array as $k => $v ){

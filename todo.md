@@ -2,25 +2,43 @@ TODO:
 
 BACKEND
 
-* PHP Library Faker
-* PHP Ratchet for Sockets
-* CACHE System based on App Mode // PHPFastCache
-* Database Seeding and Database Migration
-* All API options
-* Restrict JSON Requests
-* REST API Implementation
-* AIO Setup to include font selector
-* AIO Setup to ask for color scheme and setup for inputs, elements etc
-* AIO Setup of pages issue
-* AIO to add image compression settings
-* Code Inputs CSS into art() type func
-* AIO Backups to zip database and storage with config password
-* AIO Auto Backup option
+Experimental:
+    * Database Seeding and Database Migration
+    * AIO to add image compression settings
+    * AIO to have practical code writer that converts to output realtime
+
+Libraries:
+    * PHP Library Faker
+    * PHP Ratchet for Sockets
+    * Have a look into PHPUnit
+    * CACHE System based on App Mode // PHPFastCache
+
+Code:
+    * Code an AIO Login / Register System with Social Login
+    * Improve the alert system
+    * Improve the bloody notification system in core JS + html structure
+    * Restrict JSON Requests
+    * Code Inputs CSS into art() type func
+    * AIO Backups to zip database and storage with config password
+    * AIO Auto Backup option
+    * AIO to support installation, enable/disable, un-installation of internal plugins
+    * AIO to include CMS feature as plugin
+    * AIO to have e-Commerce feature as plugin
+    * AIO to have an interface to show AIO version, update automatically
+    * AIO to read internal language files then database language
+
+AIO Setup
+    * AIO Setup to include font selector
+    * AIO Setup to ask for color scheme and setup for inputs, elements etc
+    * AIO Setup of pages issue
+    * AIO Setup to include login / register settings
+    * AIO Setup Pages to ask for AIO UIs setup, like backup, translation pages
+    * AIO Setup to ask for CMS
+    * AIO Setup to compare and show version is latest
 
 FRONTEND
 
 * Plyr JS Integrate
-* FireBase for PHP
 * Advanced context menu
 * Block access to ASYNC Functions
 * Elements to be dynamic like icons

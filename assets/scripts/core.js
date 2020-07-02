@@ -69,15 +69,24 @@ $(document).ready(function(){
 
     $('body').on('click','[data-color-picker]',function(){
         $('.color_picker_wrap').addClass('on');
-        init_color_picker($(this));
+        init_color_picker($(this),$(this).val());
     })
 
     .on('click','.color_picker_wrap .close',function(){
         $('.color_picker_wrap').removeClass('on');
-    });
+    })
+
+    .on('keyup','.color_picker_wrap input',function(){
+        if( $(this).val().length > 6 ) {
+            var cp = $('.color-picker');
+            $(cp).html('');
+            var colorPicker = iro.ColorPicker('.color-picker', {'color': $(this).val()});
+            $($(cp).data('value')).val($(this).val());
+        }
+    })
 
     if( $('[data-color-picker]').length > 0 ) {
-        $('<div class="color_picker_wrap"><div class="close"></div><div class="color-picker"></div></div>').appendTo('body');
+        $('<div class="color_picker_wrap"><div class="close"></div><div class="color-picker"></div><div class="controls"><input type="text" value="#ffffff" class="code"></div></div>').appendTo('body');
     }
 
     // Scroll Save
@@ -324,20 +333,25 @@ function format_number(a){
     return a.toLocaleString();
 }
 
-function init_color_picker( e ) {
+function init_color_picker( e, c ) {
     var cp = $('.color-picker');
     $(e).data('value') !== undefined ? $(cp).data('value',$(e).data('value')) : $(cp).data('value',$(e)); // Reads target element to set value, and sets it to color picker
-    $(e).data('background') !== undefined ? $(cp).data('background',$(e).data('background')) : $(cp).data('background',$(e));
+    $(e).data('background') !== undefined ? $(cp).data('background',$(e).data('background')) : '';
     var v = {};
     v.color = $(e).val() !== '' && $(e).val() !== undefined ? $(e).val() : '#fff';
     v.width = $(e).data('width') !== '' && $(e).data('width') !== undefined ? $(e).data('width') : '200';
-    var colorPicker = new iro.ColorPicker('.color-picker');
+    var colorPicker = new iro.ColorPicker('.color-picker',c);
     colorPicker.on('color:change', onColorChange);
+    onColorChange(colorPicker.hexString)
 }
 
 function onColorChange( color ) {
     var cp = $('.color-picker');
-    $(cp).data('value') !== undefined ? $($(cp).data('value')).val(color.hexString) : '';
+    if( $(cp).data('value') !== undefined ) {
+        $($(cp).data('value')).val(color.hexString)
+        $($(cp).data('value')).css({'border-color':color.hexString});
+    };
+    $('.color_picker_wrap input').val(color.hexString);
     $(cp).data('background') !== undefined ? $(cp).data('background').css({'background-color':color.hexString}) : '';
 }
 

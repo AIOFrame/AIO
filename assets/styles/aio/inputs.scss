@@ -1,0 +1,551 @@
+/* INPUTS */
+
+[type=radio], [type=checkbox] {
+  cursor: pointer;
+  margin: 8px 8px 8px 0;
+  display: inline-block;
+  vertical-align: middle;
+  border-radius:5px;
+}
+[type=radio]:checked, [type=checkbox]:checked {
+  background:#000;
+}
+[type=radio]+label, [type=checkbox]+label {
+  text-transform: none;
+  font-size: 14px;
+  letter-spacing: unset;
+  font-weight: lighter;
+  cursor:pointer;
+}
+input.load, input.loading {
+  background:url('../../images/load.svg') no-repeat center;
+}
+[type=checkbox].slide, [type=checkbox].slide:active, [type=checkbox].slide:checked {
+  height: 20px;
+  width: 50px;
+  background:#ddd;
+  border-radius: 10px;
+  border:0;
+  display: inline-block;
+  vertical-align: middle;
+  padding: 0;
+  position: relative;
+}
+body.d [type=checkbox].slide {
+  background:rgb(40,40,40);
+}
+[type=checkbox].slide.s {
+  height:15px;
+  width:40px;
+}
+[type=checkbox].slide.xs {
+  height:10px;
+  width:30px;
+}
+[type=checkbox].slide.l {
+  height:25px;
+  width:60px;
+}
+[type=checkbox].slide:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height:30px;
+  width:30px;
+  border-radius: 20px;
+  transition:.6s;
+  box-shadow:0 3px 15px rgba(0,0,0,.2);
+  background:#fff;
+}
+[type=checkbox].slide.s:before {
+  height:23px;
+  width:23px;
+}
+[type=checkbox].slide.xs:before {
+  height:18px;
+  width:18px;
+}
+[type=checkbox].slide.l:before {}
+[type=checkbox].slide:checked:before {
+  left: 43%;
+}
+[type=color], [type=color]:focus {
+  cursor:pointer;
+  display: block;
+  width:35px;
+  height:35px;
+  padding: 0;
+  border: 0;
+  outline: 0;
+}
+.select2-container .select2-selection--single {
+  height: auto;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+  margin:0 2px;
+  box-shadow:none;
+  border:0;
+}
+
+/* AIO Dynamics */
+
+.aio_dynamics {
+  position:relative;
+}
+.aio_dynamics .add {
+  position:absolute;
+  right:0;
+  bottom:0;
+  height:40px;
+  width:40px;
+  font-size:22px;
+  padding:5px 14px;
+  margin:0;
+}
+.aio_dynamics .fields {
+  margin-right:40px;
+  padding:0 15px 0 0;
+}
+.aio_dynamics .field_set {
+  margin-bottom:15px;
+  border:1px solid #ddd;
+  padding:15px;
+  position: relative;
+}
+.aio_dynamics .field_set:last-child {
+  margin-bottom: 0;
+}
+.aio_dynamics input {
+  margin-bottom:6px;
+}
+.aio_dynamics .set:last-child input {
+  margin-bottom: 0;
+}
+.aio_dynamics [type=checkbox], .aio_dynamics [type=radio] {
+  margin-right:15px;
+}
+.aio_dynamics label {
+  font-size:9px;
+  text-transform:uppercase;
+  color:#000;
+  letter-spacing:2px;
+  font-weight:normal;
+}
+.aio_dynamics input+label {
+  text-transform:none;
+  letter-spacing:normal;
+  font-size:inherit;
+  font-weight:inherit;
+  vertical-align: initial;
+}
+.aio_dynamics .trash {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width:35px;
+  height:35px;
+  padding:10px;
+  background:url('../../images/close.svg') no-repeat center / 25px;
+  cursor: pointer;
+}
+
+/* Select2 Fix */
+
+.select2-container {
+  width: 100% !important;
+}
+.select2-container--default .select2-selection--single {
+  padding: 12px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  height:auto;
+}
+.select2-selection__rendered {
+  line-height:normal !important;
+}
+.select2-search--dropdown {
+  padding: 0;
+}
+.select2-container--default .select2-search--dropdown .select2-search__field {
+  margin: 0;
+  border:0;
+  border-bottom:1px solid #ddd;
+  border-radius:0;
+  padding:8px;
+  box-shadow:none;
+}
+.select2-selection {
+  outline:none;
+}
+.select2-selection__arrow {
+  height:100% !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+  border:0;
+  margin: 0;
+  background:url('../../images/select.svg') no-repeat center;
+  transform:translateY(-50%);
+  height:15px;
+  width:15px;
+  left: 0;
+}
+
+/* COLOR PICKER */
+
+[data-color-picker] {
+  cursor:pointer;
+}
+.color_picker_wrap {
+  position: fixed;
+  left: 50vw;
+  top: 50vh;
+  transform: translate(-50%,-50%);
+  background: rgba(255,255,255,.75);
+  box-shadow: 0 0 50px rgba(0,0,0,0.2);
+  padding: 20px;
+  border-radius:10px;
+  pointer-events: none;
+  opacity:0;
+  z-index:9999;
+  transition:.6s;
+  backdrop-filter: blur(8px) saturate(2);
+}
+.color_picker_wrap .trans {
+  height:28px;
+  border-radius:15px;
+  margin:10px 0;
+  background:url('../../images/transparency.svg') repeat center/ 13px;
+}
+.color_picker_wrap .trans .grad {
+  height: 100%;
+  width: 100%;
+  background:linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+}
+.color_picker_wrap .trans .set {
+  height:16px;
+  width: 16px;
+  border:2px solid #000;
+  border-radius:5px;
+}
+.color_picker_wrap input {
+  margin:10px 0 0;
+  border-radius:10px;
+  background:#f1f1f1;
+  border:0 !important;
+  box-shadow:none !important;
+  text-align: center;
+}
+.color_picker_wrap.on {
+  opacity:1;
+  pointer-events:all
+}
+.color_picker_wrap .close {
+  background:url('../../images/close.svg') no-repeat center / 70%;
+  position: absolute;
+  right:10px;
+  top:10px;
+  width:40px;
+  height:40px;
+  cursor: pointer;
+}
+
+/* BUTTONS */
+
+button, .btn {
+  background:#000;
+  color:#fff;
+  letter-spacing: 1px;
+  transition:.6s;
+  border-radius:2px;
+  font-weight: 300;
+  text-transform: uppercase;
+  box-shadow:0 10px 30px rgba(0,0,0,.2);
+  margin: 15px 0;
+  padding: 8px 15px;
+  cursor: pointer;
+  line-height: normal;
+}
+.btn {
+  display: inline-block;
+}
+button.r5, .btn.r5, .br5 button, .br5 .btn {
+  border-radius:5px;
+}
+button.r1, .btn.r1, .br1 button, .br1 .btn {
+  border-radius:10px;
+}
+button.r, .btn.r, .br button, .br .btn {
+  border-radius:30px;
+}
+button.xxl, .btn.xxl, .bxxl button, .bxxl .btn {
+  font-size:22px;
+  padding:18px 30px;
+}
+button.b.xxl, .btn.b.xxl {
+  padding:17px 30px;
+}
+button.xl, .btn.xl, .bxl button, .bxl .btn {
+  font-size:18px;
+  padding:14px 24px;
+}
+button.b.xl, .btn.b.xl {
+  padding:13px 24px;
+}
+button.l, .btn.l, .bl button, .bl .btn {
+  font-size:15px;
+  padding:12px 20px;
+}
+button.b.l, .btn.b.l {
+  padding:9px 20px;
+}
+button.m, .btn.m, .bm button, .bm .btn {
+  font-size:13px;
+  padding: 8px 15px;
+}
+button.b.m, .btn.b.m {
+  padding: 7px 15px;
+}
+button.s, .btn.s, .bs button, .bs .btn {
+  font-size:12px;
+  padding: 6px 12px;
+}
+button.b.s, .btn.b.s {
+  padding: 5px 12px;
+}
+button.xs, .btn.xs, .bxs button, .bxs .btn {
+  font-size:10px;
+  padding: 5px 8px;
+}
+button.b.xs, .btn.b.xs {
+  padding: 4px 8px;
+}
+button.w, .btn.w, .bw button, .bw .btn {
+  width:100%;
+}
+.bm0 button, .bm0 .btn {
+  margin: 0;
+}
+button.red, .btn.red, .red button, .red .btn, .gr_red {
+  background: rgb(153,1,1);
+  background: -moz-linear-gradient(45deg, rgba(153,1,1,1) 0%, rgba(169,3,41,1) 100%);
+  background: -webkit-linear-gradient(45deg, rgba(153,1,1,1) 0%,rgba(169,3,41,1) 100%);
+  background: linear-gradient(45deg, rgba(153,1,1,1) 0%,rgba(169,3,41,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#990101', endColorstr='#a90329',GradientType=1 );
+  box-shadow:0 0 20px rgba(153,1,1,.2), 0 10px 30px rgba(0,0,0,.2);
+}
+button.red:hover, .btn.red:hover, .red button:hover, .red .btn:hover {
+  box-shadow:0 0 30px rgba(153,1,1,.3),0 10px 30px rgba(153,1,1,.3);
+}
+button.red:active, .btn.red:active, .red button:active, .red .btn:active {
+  box-shadow:0 0 20px rgba(153,1,1,.3),0 0 10px rgba(0,0,0,.2);
+}
+button.b.red, .btn.b.red, .red.b button, .red.b .btn {
+  color:rgb(153,1,1);
+  border:1px solid rgb(153,1,1);
+}
+button.blue, .btn.blue, .blue button, .blue .btn, .gr_blue, [type=checkbox]:checked.slide:before {
+  background: rgb(0,125,204);
+  background: -moz-linear-gradient(45deg, rgb(0,125,204) 0%, rgb(0,173,237) 100%);
+  background: -webkit-linear-gradient(45deg, rgb(0,125,204) 0%,rgb(0,173,237) 100%);
+  background: linear-gradient(45deg, rgb(0,125,204) 0%,rgb(0,173,237) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007dcc', endColorstr='#00aded',GradientType=1 );
+  box-shadow:0 0 20px rgba(0,125,204,.2), 0 10px 30px rgba(0,0,0,.2);
+}
+button.blue:hover, .btn.blue:hover, .blue button:hover, .blue .btn:hover {
+  box-shadow:0 0 30px rgba(0,125,204,.3), 0 10px 30px rgba(0,125,204,.3);
+}
+button.blue:active, .btn.blue:active, .blue button:active, .blue .btn:active {
+  box-shadow:0 0 20px rgba(0,125,204,.3), 0 0 10px rgba(0,0,0,.2);
+}
+button.b.blue, .btn.b.blue, .blue.b button, .blue.b .btn {
+  color:rgb(0,125,204);
+  border:1px solid rgb(0,125,204);
+}
+button.coral, .btn.coral, .coral button, .coral .btn {
+  background: #9f635b;
+  background: -moz-linear-gradient(45deg,#9f635b 0,#9c3737 100%);
+  background: -webkit-linear-gradient(45deg,#9f635b,#9c3737 100%);
+  background: linear-gradient(45deg,#9f635b 0,#9c3737 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#007dcc',endColorstr='#9c3737',GradientType=1);
+  box-shadow: 0 0 20px rgba(160, 97, 96, 0.2), 0 10px 30px rgba(0,0,0,.2);
+}
+button.coral:hover, .btn.coral:hover, .coral button:hover, .coral .btn:hover {
+  box-shadow:0 0 30px rgba(160, 97, 96, 0.3), 0 10px 30px rgba(160, 97, 96, 0.3);
+}
+button.coral:active, .btn.coral:active, .coral button:active, .coral .btn:active {
+  box-shadow:0 0 20px rgba(160, 97, 96, 0.3), 0 0 10px rgba(0,0,0,.2);
+}
+button.ocean,  .btn.ocean, .ocean button, .ocean .btn {
+  background: #8ea096;
+  background: -moz-linear-gradient(45deg,#8ea096 0,#8ea096 100%);
+  background: -webkit-linear-gradient(45deg,#8ea096,#8ea096 100%);
+  background: linear-gradient(45deg,#8ea096 0,#8eb59f 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#007dcc',endColorstr='#9c3737',GradientType=1);
+  box-shadow: 0 0 20px rgba(142, 160, 150, 0.3), 0 10px 30px rgba(0,0,0,.2);
+}
+button.sky, .btn.sky, .sky button, .sky .btn {
+  background: #015e99;
+  background: -moz-linear-gradient(45deg,#4a7b9a 0,#7099b3 100%);
+  background: -webkit-linear-gradient(45deg, #4a7b9a 0,#7099b3 100%);
+  background: linear-gradient(45deg,#4a7b9a 0,#7099b3 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#990101',endColorstr='#a90329',GradientType=1);
+  box-shadow: 0 0 20px rgba(74, 123, 154, 0.2), 0 10px 30px rgba(0,0,0,.2);
+}
+button.teal, .btn.teal, .teal button, .teal .btn {
+  background: rgb(0,177,193);
+  background: -moz-linear-gradient(45deg, rgb(0,177,193) 0%, rgb(0,213,224) 100%);
+  background: -webkit-linear-gradient(45deg, rgb(0,177,193) 0%,rgb(0,213,224) 100%);
+  background: linear-gradient(45deg, rgb(0,177,193) 0%,rgb(0,213,224) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00b1c1', endColorstr='#00d5e0',GradientType=1 );
+  box-shadow:0 0 20px rgba(0,213,224,.2), 0 10px 30px rgba(0,0,0,.2);
+}
+button.teal:hover, .btn.teal:hover, .teal button:hover, .teal .btn:hover {
+  box-shadow:0 0 30px rgba(0,177,193,.3),0 10px 30px rgba(0,177,193,.3);
+}
+button.teal:active, .btn.teal:active, .teal button:active, .teal .btn:active {
+  box-shadow:0 0 20px rgba(0,213,224,.3),0 0 10px rgba(0,0,0,.2);
+}
+button.b.teal, .btn.b.teal, .teal.b button, .teal.b .btn {
+  color:rgb(0,177,193);
+  border:1px solid rgb(0,177,193);
+}
+button.green, .btn.green, .green button, .green .btn {
+  background: rgb(0,127,0);
+  background: -moz-linear-gradient(45deg, rgb(0,127,0) 0%, rgb(38,163,0) 100%);
+  background: -webkit-linear-gradient(45deg, rgb(0,127,0) 0%,rgb(38,163,0) 100%);
+  background: linear-gradient(45deg, rgb(0,127,0) 0%,rgb(38,163,0) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007f00', endColorstr='#26a300',GradientType=1 );
+  box-shadow:0 0 20px rgba(38,163,0,.2), 0 10px 30px rgba(0,0,0,.2);
+}
+button.green:hover, .btn.green:hover, .green button:hover, .green .btn:hover {
+  box-shadow:0 0 30px rgba(38,163,0,.3), 0 10px 30px rgba(38,163,0,.3);
+}
+button.green:active, .btn.green:active, .green button:active, .green .btn:active {
+  box-shadow:0 0 20px rgba(38,163,0,.3), 0 0 30px rgba(0,0,0,.2);
+}
+button.b.green, .btn.b.green, .green.b button, .green.b .btn {
+  color:rgb(0,127,0);
+  border:1px solid rgb(0,127,0);
+}
+button.gold, .btn.gold, .gold button, .gold .btn {
+  background: rgb(173,149,114);
+  background: -moz-linear-gradient(45deg, rgb(173,149,114) 0%, rgb(211,187,139) 100%);
+  background: -webkit-linear-gradient(45deg, rgb(173,149,114) 0%,rgb(211,187,139) 100%);
+  background: linear-gradient(45deg, rgb(173,149,114) 0%,rgb(211,187,139) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ad9572', endColorstr='#d3bb8b',GradientType=1 );
+  box-shadow:0 0 20px rgba(211,187,139,.2), 0 10px 30px rgba(0,0,0,.2);
+}
+button.gold:hover, .btn.gold:hover, .gold button:hover, .gold .btn:hover {
+  box-shadow:0 0 30px rgba(211,187,139,.3), 0 10px 30px rgba(211,187,139,.5);
+}
+button.gold:active, .btn.gold:active, .gold button:active, .gold .btn:active {
+  box-shadow:0 0 20px rgba(211,187,139,.3), 0 0 30px rgba(0,0,0,.2);
+}
+button.b.gold, .btn.b.gold, .gold.b button, .gold.b .btn {
+  color:rgb(173,149,114);
+  border:1px solid rgb(173,149,114);
+}
+button.grey, .btn.grey, .grey button, .grey .btn {
+  background: rgb(173,173,173);
+  background: -moz-linear-gradient(45deg, rgb(173,173,173) 0%, rgb(196,196,196) 100%);
+  background: -webkit-linear-gradient(45deg, rgb(173,173,173) 0%,rgb(196,196,196) 100%);
+  background: linear-gradient(45deg, rgb(173,173,173) 0%,rgb(196,196,196) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#adadad', endColorstr='#c4c4c4',GradientType=1 );
+  box-shadow:0 0 20px rgba(196,196,196,.2), 0 10px 30px rgba(0,0,0,.2);
+}
+button.grey:hover, .btn.grey:hover, .grey button:hover, .grey .btn:hover {
+  box-shadow:0 0 30px rgba(196,196,196,.3), 0 10px 30px rgba(0,0,0,.1);
+}
+button.b.grey, .btn.b.grey, .grey.b button, .grey.b .btn {
+  color:rgb(150, 150, 150);
+  border:1px solid rgb(150, 150, 150);
+}
+button.black, .btn.black, .black button, .black .btn {
+  background: rgb(0,0,0);
+  background: -moz-linear-gradient(45deg, rgb(0,0,0) 0%, rgb(91,91,91) 100%);
+  background: -webkit-linear-gradient(45deg, rgb(0,0,0) 0%,rgb(91,91,91) 100%);
+  background: linear-gradient(45deg, rgb(0,0,0) 0%,rgb(91,91,91) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#5b5b5b',GradientType=1 );
+  box-shadow:0 0 20px rgba(91,91,91,.2), 0 10px 30px rgba(0,0,0,.2);
+}
+button.black:hover, .btn.black:hover, .black button:hover, .black .btn:hover {
+  box-shadow:0 0 30px rgba(91,91,91,.3), 0 10px 30px rgba(0,0,0,.3);
+}
+button.black:active, .btn.black:active, .black button:active, .black .btn:active {
+  box-shadow:0 0 20px rgba(91,91,91,.3), 0 0 30px rgba(0,0,0,.2);
+}
+button.b.black, .btn.b.black, .black.b button, .black.b .btn {
+  color:rgb(0,0,0);
+  border:1px solid rgb(0,0,0);
+}
+button.violet, .btn.violet, .violet button, .violet .btn {
+  background: rgb(98,0,219);
+  background: -moz-linear-gradient(45deg, rgb(98,0,219) 0%, rgb(154,42,252) 100%);
+  background: -webkit-linear-gradient(45deg, rgb(98,0,219) 0%,rgb(154,42,252) 100%);
+  background: linear-gradient(45deg, rgb(98,0,219) 0%,rgb(154,42,252) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6200db', endColorstr='#9a2afc',GradientType=1 );
+  box-shadow:0 0 20px rgba(154,42,252,.2), 0 10px 30px rgba(0,0,0,.2);
+}
+button.violet:hover, .btn.violet:hover, .violet button:hover, .violet .btn:hover {
+  box-shadow:0 0 30px rgba(154,42,252,.3), 0 10px 30px rgba(154,42,252,.2);
+}
+button.violet:active, .btn.violet:active, .violet button:active, .violet .btn:active {
+  box-shadow:0 0 20px rgba(154,42,252,.3), 0 0 30px rgba(0,0,0,.2);
+}
+button.b.violet, .btn.b.violet, .violet.b button, .violet.b .btn {
+  color:rgb(98,0,219);
+  border:1px solid rgb(98,0,219);
+}
+button.orange, .btn.orange, .orange button, .orange .btn {
+  background: rgb(206,134,0);
+  background: -moz-linear-gradient(45deg, rgb(206,134,0) 0%, rgb(255,157,0) 100%);
+  background: -webkit-linear-gradient(45deg, rgb(206,134,0) 0%,rgb(255,157,0) 100%);
+  background: linear-gradient(45deg, rgb(206,134,0) 0%,rgb(255,157,0) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ce8600', endColorstr='#ff9d00',GradientType=1 );
+  box-shadow:0 0 20px rgba(255,157,0,.2), 0 10px 30px rgba(0,0,0,.2);
+}
+button.orange:hover, .btn.orange:hover, .orange button:hover, .orange .btn:hover {
+  box-shadow:0 0 30px rgba(156, 98, 0,.3), 0 10px 30px rgba(156, 98, 0, 0.49);
+}
+button.orange:active, .btn.orange:active, .orange button:active, .orange .btn:active {
+  box-shadow:0 0 20px rgba(156, 98, 0,.3), 0 0 30px rgba(0,0,0,.2);
+}
+button.b.orange, .btn.b.orange, .orange.b button, .orange.b .btn {
+  color:rgb(206,134,0);
+  border:1px solid rgb(206,134,0);
+}
+button.b, .btn.b, .b button, .b .btn {
+  background:transparent;
+  border: 1px solid grey;
+}
+button.bsn, .btn.bsn, button.bsn:hover, .btn.bsn:hover, button.ns, .btn.ns, .bsn button, .bsn .btn, .ns button, .ns .btn {
+  box-shadow:none;
+}
+.sl.wide>div {
+  flex-grow:1
+}
+.sl button, .sl .btn {
+  border-radius:0;
+}
+.sl input, .sl>select, .sl>.chosen-container {
+  width:auto;
+}
+.sl button:nth-child(1), .sl .btn:nth-child(1) {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.sl button:last-child, .sl .btn:last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.next, .prev {
+  margin: 0;
+}
+
+/* DARK MODE */
+
+body.d [type=radio]:not(:checked), body.d [type=checkbox]:not(:checked) {
+  background:rgb(30,30,30);
+}

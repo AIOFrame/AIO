@@ -53,17 +53,25 @@ class Crypto {
     public function dec( $data ){
         echo $this->decrypt( $data );
     }
+
+    public function random( $length = 8 ) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
 }
 
-// HOW TO USE YA HALA :)
+// HOW TO USE
 
 // Fetch the class
 // $cry = Crypto::initiate();
 
 // TO ENCRYPT
-// $my_secret = $cry->encrypt("Hala is my Hero");
+// $my_secret = $cry->encrypt("Test String");
 
 // TO DECRYPT
 //$cry->decrypt( $my_secret );
-
-//Thanks Yaa Shaikh :))

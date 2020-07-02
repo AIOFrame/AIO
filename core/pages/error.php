@@ -10,11 +10,10 @@ $errors = [
 $title = !empty( $error ) && !empty( $errors[$error] ) ? $errors[ $error ] : 'What ? Error ??';
 $id = !empty( $error ) ? $error : '0';
 $page_title = $id . ' - ' . $title;
-if( $id == '00' ) {
-    include_once( COREPATH . 'core/includes/setup.php' );
-    include_once( COREPATH . 'core/includes/arrays.php' );
-    include_once( COREPATH . 'core/includes/functions.php' );
-    $page_title = 'Welcome to AIO Setup';
+$appdir = !empty( get_domain('sub') ) ? get_domain( 'sub' ) : get_domain();
+if( $id == '00' && ( isset( $_POST['setup'] ) || isset( $_POST['step'] ) ) ) {
+    include_once(COREPATH . 'core/pages/install.php');
+    return;
 }
 ?>
 <!doctype html>
@@ -27,12 +26,7 @@ if( $id == '00' ) {
     <title><?php echo $page_title; ?></title>
     <link rel="shortcut icon" href="<?php echo APPURL.'assets/images/aio.png'; ?>">
     <link rel="stylesheet" href="<?php echo APPURL.'assets/styles/error.css'; ?>">
-    <?php if( $id == '00' && ( isset( $_POST['setup'] ) || isset( $_POST['step'] ) ) ) {
-        echo '<link rel="stylesheet" href="'.APPURL.'assets/styles/reset.css">';
-        echo '<link rel="stylesheet" href="'.APPURL.'assets/styles/select2.css">';
-        echo '<link rel="stylesheet" href="'.APPURL.'assets/styles/inputs.css">';
-        echo '<link rel="stylesheet" href="'.APPURL.'assets/styles/aio_install.css">';
-    } ?>
+    <?php  ?>
 </head>
 <body>
     <?php
@@ -41,20 +35,27 @@ if( $id == '00' ) {
         echo '<h1 id="id">'.$id.'</h1><h2 id="title">'.$title.'</h2>';
     }
 
-    if( $id == '00' && get_user_ip() == '127.0.0.1' ) {
+    if( $id == '00' && !isset( $p['setup'] ) ) { ?>
 
-        include_once(COREPATH . 'core/pages/install.php');
+            <div class="setup zero">
 
+                <div class="q">
+                    <div>Would you like to setup "<?php echo $appdir; ?>" app instead ?</div>
+                    <div>
+                        <form method="post">
+                            <button name="setup" value="Yes">Yes</button>
+                            <button name="setup" value="No">No</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+        <?php
     } else {
 
         echo '<button id="back" onclick="window.history.back()">GO BACK</button>';
 
-    } ?>
-    <?php if( $id == '00' && ( isset( $_POST['setup'] ) || isset( $_POST['step'] ) ) ) {
-        echo '<script src="'.APPURL.'assets/scripts/jquery.js"></script>';
-        echo '<script src="'.APPURL.'assets/scripts/select2.js"></script>';
-        echo '<script src="'.APPURL.'assets/scripts/core.js"></script>';
-        echo '<script src="'.APPURL.'assets/scripts/aio_install.js"></script>';
     } ?>
 </body>
 </html>
