@@ -18,13 +18,13 @@ $pre = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on" ? "https://" : "htt
 
 foreach( glob( $path . '*.png' ) as $i ){
 
-    $n = str_replace( $path, '', str_replace( '.png', '', $i ) );
-    echo  '.i.'.$n.'{background:url("'.APPURL.'apps/'.$app.'/assets/icons/'.$n.'.png")}';
+    $n = str_replace( ' ', '.', str_replace( $path, '', str_replace( '.png', '', $i ) ) );
+    echo  '.i.'.$n.'{background-image:url("'.APPURL.'apps/'.$app.'/assets/icons/'.$n.'.png")}';
 
 }
 foreach( glob( $path . '*.svg' ) as $i ){
 
-    $n = str_replace( $path, '', str_replace( '.svg', '', $i ) );
-    echo  '.i.'.$n.'{background:url("'.APPURL.'apps/'.$app.'/assets/icons/'.$n.'.svg"); }';
+    $n = str_replace( ' ', '.', str_replace( $path, '', str_replace( '.svg', '', $i ) ) );
+    echo  '.i.'.$n.'{background-image:url("'.APPURL.'apps/'.$app.'/assets/icons/'.$n.'.svg"); }';
 
 }
