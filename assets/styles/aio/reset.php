@@ -25,10 +25,8 @@ if( isset( $_GET['weight'] ) && !empty( $_GET['weight'] ) && $_GET['weight'] !==
 
 if( isset( $_GET['scrollbar'] ) ) {
     $reset = str_replace( 'scrollbar {
-  width:12px;
-}', 'scrollbar {
-  width:'.$_GET['scrollbar'].'px;
-}', $reset );
+  width: 12px;
+}', 'scrollbar { width:'.$_GET['scrollbar'].'px }', $reset );
     $reset = str_replace( 'scrollbar{width:12px}', 'scrollbar{width:'.$_GET['scrollbar'].'px}', $reset );
 }
 

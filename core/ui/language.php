@@ -38,7 +38,9 @@ $pages = array_unique( $pages );
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?php echo 'Translations - '.APPNAME; ?></title>
     <link rel="shortcut icon" href="<?php echo APPURL . 'assets/images/aio.png'; ?>">
-    <?php get_styles( ['reset','select2','aio_ui','translations','micro'] ); font(['Lato','300,500']); ?>
+    <?php
+    reset_styles('Lato','300',5);
+    get_styles( ['select2','aio/ui','aio/translations','micro'] ); font(['Lato','300,500']); ?>
 </head>
 <body <?php body_class(); ?>>
 
