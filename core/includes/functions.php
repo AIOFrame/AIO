@@ -55,8 +55,10 @@ function get_style( $f, $params = [], $page_of = '' ) {
         $universal['styles'][] = $f;
         $af = APPPATH . 'assets/styles/' . $f;
         $cf = COREPATH . 'assets/styles/' . $f;
+        $caf = COREPATH . 'assets/styles/aio/' . $f;
         $afl = APPURL . 'apps/' . APPDIR . '/assets/styles/' . $f;
         $cfl = APPURL . 'assets/styles/' . $f;
+        $cafl = APPURL . 'assets/styles/aio/' . $f;
         $url = '';
         if (file_exists($af . '.min.css')) {
             $url = $afl . '.min.css';
@@ -66,6 +68,10 @@ function get_style( $f, $params = [], $page_of = '' ) {
             $url = $cfl . '.min.css';
         } else if (file_exists($cf . '.css')) {
             $url = $cfl . '.css';
+        } else if (file_exists($caf . '.min.css')) {
+            $url = $cafl . '.min.css';
+        } else if (file_exists($caf . '.css')) {
+            $url = $cafl . '.css';
         } else if (file_exists($af)) {
             $url = $afl;
         } else if (file_exists($cf)) {
@@ -188,10 +194,10 @@ function bg_asset( $f ) {
 
 // Returns a reset style if it exists
 
-function reset_styles( $font = '' ) {
+function reset_styles( $font = '', $weight = 'normal', $scrollbar = 5 ) {
     $cache = get_config( 'cache' );
     $v = $cache ? '&v=' . round( time() / ( $cache * 60 ) ) : '';
-    echo '<link rel="stylesheet" href="'.APPURL.'assets/styles/aio/reset.php?font='.str_replace(' ','$',$font).'">';
+    echo '<link rel="stylesheet" href="'.APPURL.'assets/styles/aio/reset.php?font='.str_replace(' ','$',$font).'&weight='.$weight.'&scrollbar='.$scrollbar.'">';
 }
 
 // Read Config
@@ -559,7 +565,11 @@ function render_input( $type, $id, $label, $placeholder = '', $value = '', $attr
     }
     $ph = $placeholder !== '' ? ' placeholder="'.$placeholder.'"' : '';
     $at = $attrs !== '' ? ' '.$attrs : '';
-    $va = $value !== '' ? ' value="'.$value.'"' : '';
+    if( $type == 'textarea' ) {
+        $va = $value !== '' ? $value : '';
+    } else {
+        $va = $value !== '' ? ' value="'.$value.'"' : '';
+    }
     $n = $name !== '' ? $name : $id;
     switch( $type ){
         case 'textarea':

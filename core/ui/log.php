@@ -14,7 +14,9 @@ $file = isset( $ui_params['file'] ) && $ui_params['file'] !== '' ? $ui_params['f
             <meta http-equiv="X-UA-Compatible" content="ie=edge">
             <title><?php echo 'E Log - ' . APPNAME; ?></title>
             <link rel="shortcut icon" href="<?php echo APPURL . 'assets/images/aio.png'; ?>">
-            <?php get_styles(['reset', 'aio_ui', 'aio/log', 'micro']);
+            <?php
+            reset_styles('Lato','300',5);
+            get_styles(['aio/ui', 'aio/log', 'micro']);
             get_script('jquery');
             font(['Lato', '300,500']); ?>
         </head>

@@ -93,4 +93,32 @@
   opacity: 1;
 }
 
+@media only screen and (max-width: 600px) {
+  .b {
+    padding: 10px;
+  }
+  .b .a, .b .b {
+    position: relative;
+    top: auto;
+    left: auto;
+  }
+  .b .l {
+    padding: 15px;
+  }
+  .b .a {
+    margin-bottom: 10px;
+  }
+  .b .ft {
+    flex-wrap: wrap;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+  }
+  .b .ft > div {
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding: 8px;
+    text-align: center !important;
+  }
+}
+
 /*# sourceMappingURL=log.css.map */
