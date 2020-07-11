@@ -723,9 +723,9 @@ function alerted( $m ) {
 
 function notify( text, duration ) {
     duration = duration !== undefined && duration !== '' && duration > 0 ? duration * 1000 : 6000;
-    $('#notification').addClass('on').children('div').not('.close').html( text );
+    $('#notify').addClass('on').children('div').not('.close').html( text );
     setTimeout(function(){
-        $('#notification').removeClass('on');
+        $('#notify').removeClass('on');
     },duration);
 }
 
