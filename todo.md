@@ -26,6 +26,7 @@ Code:
     * AIO to have e-Commerce feature as plugin
     * AIO to have an interface to show AIO version, update automatically
     * AIO to read internal language files then database language
+    * Translator to have export and import feature
 
 AIO Setup
     * AIO Setup to include font selector

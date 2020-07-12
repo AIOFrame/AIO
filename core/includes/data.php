@@ -274,6 +274,12 @@ function _nth( $num ){
     return $fmt->format( $num );
 }
 
+function pre( $text ) {
+    $text = str_replace( '<', '&lt;', $text );
+    $text = str_replace( '>', '&gt;', $text );
+    echo $text;
+}
+
 // Returns Languages
 
 function get_languages() {
