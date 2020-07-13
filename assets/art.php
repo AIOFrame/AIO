@@ -3,10 +3,10 @@
 header("Content-type: text/css; charset: UTF-8");
 header("Cache-Control: max-age=14400");
 
-if( file_exists( __DIR__ . '/styles/elements.min.css' ) ){
-    $art = file_get_contents( __DIR__ . '/styles/elements.min.css' );
+if( file_exists( __DIR__ . '/styles/aio/elements.min.css' ) ){
+    $art = file_get_contents( __DIR__ . '/styles/aio/elements.min.css' );
 } else {
-    $art = file_get_contents( __DIR__ . '/styles/elements.css' );
+    $art = file_get_contents( __DIR__ . '/styles/aio/elements.css' );
 }
 
 // Replace First Gradient
