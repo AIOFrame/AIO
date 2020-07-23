@@ -282,8 +282,16 @@ function pre( $text ) {
 
 // Returns Languages
 
-function get_languages() {
-    if( file_exists( COREPATH . 'core/components/data/' . 'languages' . '.php' ) ){
-        return include( COREPATH . 'core/components/data/' . 'languages' . '.php' );
+function get_languages( $lang_keys = [] ) {
+    $file = COREPATH . 'core/components/data/languages.php';
+    $lang = file_exists( $file ) ? include( $file ) : [];
+    if( !empty( $lang_keys ) ) {
+        $final = [];
+        foreach( $lang_keys as $l ) {
+            $final[$l] = $lang[$l];
+        }
+        return $final;
+    } else {
+        return $lang;
     }
 }

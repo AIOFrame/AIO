@@ -27,6 +27,8 @@ Code:
     * AIO to have an interface to show AIO version, update automatically
     * AIO to read internal language files then database language
     * Translator to have export and import feature
+    * Automatic database tables to include config option "User Management"
+    * Automatic database tables to include config option "File Storage"
 
 AIO Setup
     * AIO Setup to include font selector

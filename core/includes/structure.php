@@ -1,6 +1,6 @@
 <?php
 
-function basic_tables() {
+function user_tables() {
     $tables[] = [ 'users', 'user', [
         [ 'login', 'VARCHAR', '15', 'NOT NULL' ],
         [ 'email', 'VARCHAR', '45', 'NULL' ],
@@ -30,27 +30,9 @@ function basic_tables() {
         [ 'status', 'BOOLEAN', '', 'NOT NULL' ],
     ] ];
 
-    $tables[] = [ 'storage', 'file', [
-        [ 'name', 'VARCHAR', '255', 1 ],
-        [ 'url', 'VARCHAR', '255', 1 ],
-        [ 'scope', 'INT', '13', 0 ],
-        [ 'type', 'TINYTEXT', '', 'NOT NULL' ],
-        [ 'size', 'MEDIUMINT', '30', 'NOT NULL' ],
-        [ 'small', 'VARCHAR', '255', 'NULL' ],
-        [ 'medium', 'VARCHAR', '255', 'NULL' ],
-        [ 'delete', 'BOOLEAN', 1, 0 ],
-    ] ];
-
     $tables[] = [ 'levels', 'lv', [
         [ 'name', 'VARCHAR', '55', 'NOT NULL' ],
         [ 'status', 'BOOLEAN', '', 'NULL' ],
-    ] ];
-
-    $tables[] = [ 'options', 'option', [
-        [ 'name', 'VARCHAR', '200', 'NOT NULL' ],
-        [ 'value', 'VARCHAR', '9999', 'NOT NULL' ],
-        [ 'scope', 'INT', '13', 'NULL' ],
-        [ 'load', 'BOOLEAN', '', 'NULL' ],
     ] ];
 
     $tables[] = [ 'alerts', 'al', [
@@ -64,26 +46,71 @@ function basic_tables() {
         [ 'time', 'DATETIME', '', 0 ],
     ]];
 
+    create_tables( $tables );
+}
+
+function language_tables() {
+    $tables = [];
     $trans = [ 'translations', 't', [
         [ 'base', 'TEXT', 9999, 1 ],
         [ 'page', 'VARCHAR', 255, 0 ],
     ]];
 
-    $ln = get_option( 'app_languages' );
+    $ln = get_option( 'languages' );
     $ln = !empty( $ln ) ? unserialize( $ln ) : [];
     if( is_array( $ln ) && !empty( $ln ) ) {
         foreach( $ln as $l ) {
             if( $l !== 'en' )
                 $trans[2][] = [ $l, 'TEXT', 9999, 0 ];
         }
-        $tables[] = $trans;
     }
+    $tables[] = $trans;
+
     create_tables( $tables );
 }
 
-
-if( APPDEBUG ){
-    basic_tables();
+function storage_tables() {
+    $tables[] = [ 'storage', 'file', [
+        [ 'name', 'VARCHAR', '255', 1 ],
+        [ 'url', 'VARCHAR', '255', 1 ],
+        [ 'scope', 'INT', '13', 0 ],
+        [ 'type', 'TINYTEXT', '', 'NOT NULL' ],
+        [ 'size', 'MEDIUMINT', '30', 'NOT NULL' ],
+        [ 'small', 'VARCHAR', '255', 'NULL' ],
+        [ 'medium', 'VARCHAR', '255', 'NULL' ],
+        [ 'delete', 'BOOLEAN', 1, 0 ],
+    ] ];
+    create_tables( $tables );
 }
 
-//basic_tables();
+// Get config and database features
+$data = get_config( 'data' );
+if( is_array( $data ) && isset( $data['features'] ) && is_array( $data['features'] ) ) {
+
+    // Create User tables if featured
+    if( in_array( 'users', $data['features'] ) ) {
+        user_tables();
+    }
+
+    // Create Translation tables if featured
+    if( in_array( 'translations', $data['features'] ) ) {
+        language_tables();
+    }
+
+    // Create File uploader tables if featured
+    if( in_array( 'storage', $data['features'] ) ) {
+        storage_tables();
+    }
+
+}
+
+function basic_tables() {
+    $tables[] = [ 'options', 'option', [
+        [ 'name', 'VARCHAR', '200', 'NOT NULL' ],
+        [ 'value', 'VARCHAR', '9999', 'NOT NULL' ],
+        [ 'scope', 'INT', '13', 'NULL' ],
+        [ 'load', 'BOOLEAN', '', 'NULL' ],
+    ] ];
+    create_tables( $tables );
+}
+basic_tables();

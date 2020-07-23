@@ -3,13 +3,13 @@
 $base = defined( 'BASELANG' ) ? BASELANG : 'en';
 
 if( isset( $_POST['languages'] ) && is_array( $_POST['languages'] ) ) {
-    $save_langs = update_option( 'app_languages', serialize( $_POST['languages'] ) );
+    $save_langs = update_option( 'languages', serialize( $_POST['languages'] ) );
 }
 
 $langs = get_languages();
 $langs = is_array( $langs ) ? $langs : [];
 
-$app_langs = get_option( 'app_languages' );
+$app_langs = get_option( 'languages' );
 $app_langs = !empty( $app_langs ) ? unserialize( $app_langs ) : [];
 
 $app_languages = [];

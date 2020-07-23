@@ -49,6 +49,7 @@
   margin-top: 20px;
   transition: 0.6s;
   backdrop-filter: blur(8px) saturate(2);
+  -webkit-backdrop-filter: blur(8px) saturate(2);
 }
 .modal .t {
   margin-top: 0;
@@ -111,7 +112,7 @@
 }
 
 .modal .close, #notification .close, .alert .close {
-  background: url("../../images/close.svg") no-repeat center/70%;
+  background: url("../assets/icons/close.svg") no-repeat center/70%;
   position: absolute;
   right: 10px;
   top: 10px;
@@ -938,20 +939,6 @@ body.d .acc .head {
   margin-top: 0;
   font-weight: bold;
   text-transform: uppercase;
-}
-
-::-webkit-scrollbar {
-  background: rgba(255, 255, 255, 0.05);
-  width: 8px;
-  display: block;
-  padding: 2px;
-}
-
-::-webkit-scrollbar-thumb {
-  border: 2px solid rgba(255, 255, 255, 0.05);
-  margin-left: 1px;
-  border-radius: 2px;
-  background: rgba(0, 0, 0, 0.2);
 }
 
 @media all and (min-width: 0px) and (max-width: 800px) {
