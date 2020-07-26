@@ -100,11 +100,13 @@ function update_translation() {
     //if( $('#save').data('row') !== undefined && $('#save').data('row') !== '' ){
 
     // Update the Table
-    var r = $('#translations tbody tr:nth-child('+($('#editor').data('row')+1)+')');
+    var r = $('#translations div.on');
     if( r.length > 0 ){
-        $(r).data('edited',true).find('td:first-child').html($('#string').val());
-        $(r).find('td:nth-child(2)').html($('#translation').val());
+        $(r).data('edited',true).find('div:first-child').html($('#string').val());
+        $(r).find('div:nth-child(2)').html($('#translation').val());
     }
+    elog($('#editor').data('row')+1);
+
 
     // Update Translations
     var ln = $('#lang').val();
@@ -112,12 +114,13 @@ function update_translation() {
     elog(d);
 
     if( ln !== null ) {
-        $.post( location.origin, d, function(r){
-            if( r = JSON.parse(r) ){
-                elog(r);
-                notify(r[1]);
-                if( r[0] === 1 ) {
+        $.post( location.origin, d, function(re){
+            if( re = JSON.parse(re) ){
+                notify(re[1]);
+                if( re[0] === 1 ) {
                     $('#editor').removeClass('on');
+                    notify(re[1]);
+                    console.log($(r));
                 }
             }
         });
