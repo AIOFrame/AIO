@@ -9,6 +9,7 @@ if( file_exists( __DIR__ . '/reset.min.css' ) ){
     $reset = file_get_contents( __DIR__ . '/reset.css' );
 }
 
+$font = '';
 if( isset( $_GET['font'] ) && !empty( $_GET['font'] ) ){
     $fs = explode(',',str_replace('$',' ',$_GET['font']));
     foreach($fs as $f) {
