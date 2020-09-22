@@ -103,7 +103,7 @@ $(document).ready(function(){
         setTimeout(function(){ $('[data-t="' + tab + '"]').click(); },200);
     }
 
-    $('body').on('click', '.steps [data-t], [data-t]', function () {
+    $('body').on('click', '.steps [data-t],.tabs [data-t]', function () {
         $(this).parent().children().removeClass('on');
         $(this).addClass('on');
         $($(this).data('t')).parent().children().hide();
@@ -171,9 +171,9 @@ $(document).ready(function(){
         reset_modal($(this));
     });
 
-    // ALERT & NOTIFICATION
-    $('#notification .close, #alert .close').on('click',function(){
-        $(this).parents('#notification,#alert').removeClass('on');
+    // ALERT & notify
+    $('#notify .close, #alert .close').on('click',function(){
+        $(this).parents('#notify,#alert').removeClass('on');
     });
 
     if( typeof ClipboardJS === 'function' ){

@@ -687,7 +687,7 @@ function render_menu( $array, $prefix = '' ) {
     }
 }
 
-function editable_data( $data = [], $remove = '' ) {
+function _editable_data( $data = [], $remove = '' ) {
     $final = [];
     $remove = explode( ',', $remove );
     foreach( $data as $k => $v ){
@@ -699,7 +699,11 @@ function editable_data( $data = [], $remove = '' ) {
             $final[ $k ] = $v;
         }
     }
-    echo json_encode( $final );
+    return json_encode( $final );
+}
+
+function editable_data( $data = [], $remove = '' ) {
+    echo _editable_data( $data, $remove );
 }
 
 // False user sessions for development mode

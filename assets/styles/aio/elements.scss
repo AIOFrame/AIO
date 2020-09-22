@@ -286,6 +286,28 @@ input.s {
 body.d .fsp>.f, body.d .fp>.f {
   border:1px solid #232323
 }
+input[type=checkbox] {
+  background:#ddd;
+  border:0;
+}
+input[type=checkbox]:focus {
+  border: 0;
+}
+input[type=checkbox]:checked {
+  background:#ddd;
+  //box-shadow:0 0 2px 2px #ddd inset;
+}
+input[type=checkbox]:checked:after {
+  content:'';
+  background: #111;
+  background: linear-gradient(-45deg, #222 0%, #111 100%);
+  position: absolute;
+  width:calc(100% - 6px);
+  height:calc(100% - 6px);
+  left:3px;
+  top:3px;
+  border-radius:4px;
+}
 
 /* STEPS */
 
@@ -317,10 +339,7 @@ body.d .fsp>.f, body.d .fp>.f {
 .step.on {
   color:#fff;
   background: #111;
-  background: -moz-linear-gradient(-45deg, #111 0%, #222 100%);
-  background: -webkit-linear-gradient(-45deg, #111 0%,#222 100%);
-  background: linear-gradient(135deg, #111 0%,#222 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#111', endColorstr='#222',GradientType=1 );
+  background: linear-gradient(-45deg, #222 0%, #111 100%);
 }
 .step:after {
   position: absolute;
@@ -391,6 +410,20 @@ body.d .fsp>.f, body.d .fp>.f {
   box-sizing:border-box;
   text-transform:uppercase;
   transition:.3s;
+  .notify {
+    position: absolute;
+    top:-10px;
+    right: 0;
+    padding:2px 0;
+    width: 20px;
+    height: 20px;
+    border-radius:15px;
+    background:firebrick;
+    color:#fff;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+  }
 }
 body.d .tab {
   box-shadow: 5px 0 45px #000;
@@ -450,10 +483,7 @@ body.d .tab {
 }
 .tab.on {
   background: #111;
-  background: -moz-linear-gradient(left, #111 0%, #222 100%);
-  background: -webkit-linear-gradient(left, #111 0%,#222 100%);
-  background: linear-gradient(to right, #111 0%,#222 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0099ff', endColorstr='#3366cc',GradientType=1 );
+  background: linear-gradient(-90deg, #222 0%, #111 100%);
   color: #fff;
   box-shadow: 5px 0 55px rgba(0,0,0,.25), 5px 0 20px rgba(0,0,0,0.2);
 }

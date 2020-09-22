@@ -29,6 +29,7 @@ Code:
     * Translator to have export and import feature
     * Automatic database tables to include config option "User Management"
     * Automatic database tables to include config option "File Storage"
+    * Config functions array to add feature to login functions file by page
 
 AIO Setup
     * AIO Setup to include font selector

@@ -5,6 +5,7 @@
   display: inline-block;
   vertical-align: middle;
   border-radius: 5px;
+  position: relative;
 }
 
 [type=radio]:checked, [type=checkbox]:checked {
@@ -100,6 +101,7 @@ body.d [type=checkbox].slide {
   margin: 0 2px;
   box-shadow: none;
   border: 0;
+  background: none;
 }
 
 /* AIO Dynamics */
