@@ -2,7 +2,7 @@ body, div, p, input, select, button {
   font-family: 'Lato', sans-serif;
 }
 body {
-  margin:110px 0 0;
+  margin:0;
 }
 body.d {
   background: #0a0a0a;
@@ -20,7 +20,6 @@ article {
 
 header {
   position: fixed;
-  width:calc(100vw - 40px);
   height:70px;
   top:20px;
   left:20px;
@@ -31,12 +30,9 @@ header {
   z-index: 99;
   align-items: center;
   .logo {
-    flex:0 0 155px;
-    max-width:155px;
     height: 100%;
-    background:url('../../images/aio.svg') no-repeat 15px / 85px;
-    z-index:95;
-    position: relative;
+    background:url('../../images/aio.svg') no-repeat center / 85px;
+    width: 200px;
     cursor:pointer;
     .drop {
       position: absolute;
@@ -53,33 +49,12 @@ header {
       transition:.6s;
     }
   }
-  .logo:hover {
+  .menu:hover {
     .drop {
       top:100%;
       opacity: 1;
       pointer-events: all;
     }
-  }
-  .logo:after {
-    content:'';
-    position: absolute;
-    top: 50%;
-    right: 15px;
-    width: 30px;
-    height: 30px;
-    transform:translateY(-50%);
-    background:url('../../images/select.svg') no-repeat center / 25px;
-  }
-  .logo:hover:after {
-    transform:rotateZ(180deg) translateY(50%);
-    background:url('../../images/select.svg') no-repeat center / 25px;
-  }
-  h1 {
-    text-align: center;
-    padding-right: 155px;
-    text-transform: uppercase;
-    flex-grow: 1;
-    letter-spacing: 4px;
   }
 }
 body.d header {

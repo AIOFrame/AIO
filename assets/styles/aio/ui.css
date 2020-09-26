@@ -3,7 +3,7 @@ body, div, p, input, select, button {
 }
 
 body {
-  margin: 110px 0 0;
+  margin: 0;
 }
 
 body.d {
@@ -22,7 +22,6 @@ article {
 /* HEADER */
 header {
   position: fixed;
-  width: calc(100vw - 40px);
   height: 70px;
   top: 20px;
   left: 20px;
@@ -34,12 +33,9 @@ header {
   align-items: center;
 }
 header .logo {
-  flex: 0 0 155px;
-  max-width: 155px;
   height: 100%;
-  background: url("../../images/aio.svg") no-repeat 15px/85px;
-  z-index: 95;
-  position: relative;
+  background: url("../../images/aio.svg") no-repeat center/85px;
+  width: 200px;
   cursor: pointer;
 }
 header .logo .drop {
@@ -56,31 +52,10 @@ header .logo .drop {
   pointer-events: none;
   transition: 0.6s;
 }
-header .logo:hover .drop {
+header .menu:hover .drop {
   top: 100%;
   opacity: 1;
   pointer-events: all;
-}
-header .logo:after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: 15px;
-  width: 30px;
-  height: 30px;
-  transform: translateY(-50%);
-  background: url("../../images/select.svg") no-repeat center/25px;
-}
-header .logo:hover:after {
-  transform: rotateZ(180deg) translateY(50%);
-  background: url("../../images/select.svg") no-repeat center/25px;
-}
-header h1 {
-  text-align: center;
-  padding-right: 155px;
-  text-transform: uppercase;
-  flex-grow: 1;
-  letter-spacing: 4px;
 }
 
 body.d header {

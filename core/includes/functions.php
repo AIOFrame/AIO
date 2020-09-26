@@ -53,7 +53,7 @@ function get_style( $f, $params = [], $page_of = '' ) {
 
     if( !empty($f) && !in_array( $f, $universal['styles'] )) {
         $universal['styles'][] = $f;
-        $af = APPPATH . 'assets/styles/' . $f;
+        $af = defined( 'APPPATH' ) ? APPPATH . 'assets/styles/' . $f : '';
         $cf = COREPATH . 'assets/styles/' . $f;
         $caf = COREPATH . 'assets/styles/aio/' . $f;
         $afl = APPURL . 'apps/' . APPDIR . '/assets/styles/' . $f;
@@ -100,7 +100,7 @@ function get_script( $f, $page_of = '' ) {
     global $universal;
     if( !empty($f) && !in_array( $f, $universal['scripts'] )) {
         $universal['scripts'][] = $f;
-        $af = APPPATH . 'assets/scripts/' . $f;
+        $af = defined( 'APPPATH' ) ? APPPATH . 'assets/scripts/' . $f : '';
         $cf = COREPATH . 'assets/scripts/' . $f;
         $afl = APPURL . 'apps/' . APPDIR . '/assets/scripts/' . $f;
         $cfl = APPURL . 'assets/scripts/' . $f;
@@ -157,7 +157,8 @@ function fonts( $array = [] ){
     echo $f !== '' ? '<link rel="stylesheet" href="' . $f . '">' : '';*/
     //?family=Titillium+Web:300,400
     $appdir = !empty( get_domain('sub') ) ? get_domain( 'sub' ) : get_domain();
-    !defined(APPDIR) ? define(APPDIR,$appdir) : '';
+    !defined( 'APPDIR' ) ? define( 'APPDIR', $appdir ) : '';
+
     $fonts = [];
     foreach( $array as $f ){
         $weights = isset( $f[1] ) && !empty( $f[1] ) ? $f[1] : '400';
@@ -204,7 +205,7 @@ function reset_styles( $font = '', $weight = 'normal', $scrollbar = 5 ) {
 
 function get_config( $name = '' ) {
 
-    if( file_exists( APPPATH . 'config.php' ) ) {
+    if( defined('APPPATH') && file_exists( APPPATH . 'config.php' ) ) {
 
         $c = include( APPPATH . 'config.php' );
 

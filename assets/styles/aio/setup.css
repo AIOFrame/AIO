@@ -52,6 +52,7 @@ input[data-color-picker] {
   pointer-events: none;
   z-index: -1;
   overflow-y: auto;
+  padding: 40px 0;
 }
 .setup .head {
   text-align: center;
@@ -254,6 +255,10 @@ ul.select2-results__options .select2-results__option--selected {
 /* Footer */
 nav {
   justify-content: center;
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 nav {

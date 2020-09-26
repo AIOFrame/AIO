@@ -27,8 +27,10 @@ $p = $_POST;
 $cry = Crypto::initiate();
 ?>
     <header>
-        <div class="logo"><div class="drop"></div></div>
-        <h1>Welcome to AIO Setup</h1>
+        <div class="menu">
+            <div class="drop"></div>
+        </div>
+        <div class="logo"></div>
     </header>
 
         <div class="setup one on">

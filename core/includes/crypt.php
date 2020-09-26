@@ -9,7 +9,7 @@ class Crypto {
 
     private function __construct() {
         $this->method = 'AES-128-CBC';
-        $this->key = EKEY;
+        $this->key = defined( 'EKEY' ) ? EKEY : 'AIO_SECURE';
         $this->separator = ':';
     }
 
