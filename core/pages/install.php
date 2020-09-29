@@ -33,274 +33,278 @@ $cry = Crypto::initiate();
         <div class="logo"></div>
     </header>
 
-        <div class="setup one on">
+        <div class="setup_wrap">
 
-            <div class="head">
-                <h2>STEP 1</h2>
-                <h3>Basic Configuration</h3>
+            <div class="setup one on">
+
+                <div class="head">
+                    <h2>STEP 1</h2>
+                    <h3>Basic Configuration</h3>
+                </div>
+
+                <div class="data">
+                    <div class="q">
+                        <label for="name"><span>Name your Web App</span></label>
+                        <input type="text" id="name" name="name" data-one placeholder="Ex: Food Delivery, Events App, <?php echo ucfirst( $appdir ); ?> App, <?php echo ucfirst( $appdir ); ?> etc.">
+                    </div>
+                    <div class="q">
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="fssl"><span>Do you want to force SSL ?</span><i class="tip">Enabling Force SSL will re-direct http:// to https:// always.</i></label>
+                            </div>
+                            <div class="col-6"><input type="checkbox" id="fssl" name="fssl" class="slide s" data-one></div>
+                        </div>
+                    </div>
+                    <div class="q">
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="debug"><span>Do you prefer debug mode ?</span><i class="tip">Enabling Debug mode will display PHP errors on screen, runs console logs for AIO scripts, log activities to AIO Log.</i></label>
+                            </div>
+                            <div class="col-6"><input type="checkbox" id="debug" name="debug" class="slide s" data-one checked></div>
+                        </div>
+                    </div>
+                    <div class="q">
+                        <div class="row">
+                            <div class="col-6"><label for="key"><span>Set a key for encryption</span><i class="tip">An encryption key will help in data crypto for security reasons, you don't need to remember this</i></label></div>
+                            <div class="col-6"><input type="text" id="key" name="key" placeholder="********" value="<?php echo $cry->random(10); ?>" data-one></div>
+                        </div>
+                    </div>
+                    <div class="q">
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="gitignore"><span>Create a default .gitignore for your app?</span><i class="tip">Creates a basic .gitignore for your app including a default list to ignore for AIO Apps</i></label>
+                            </div>
+                            <div class="col-6"><input type="checkbox" id="gitignore" name="gitignore" class="slide s" data-one checked></div>
+                        </div>
+                    </div>
+                </div>
+                <nav>
+                    <div class="n"></div>
+                </nav>
+
             </div>
 
-            <div class="data">
-                <div class="q">
-                    <label for="name"><span>Name your Web App</span></label>
-                    <input type="text" id="name" name="name" data-one placeholder="Ex: Food Delivery, Events App, <?php echo ucfirst( $appdir ); ?> App, <?php echo ucfirst( $appdir ); ?> etc.">
+            <div class="setup two">
+
+                <div class="head">
+                    <h2>STEP 2</h2>
+                    <h3>UI & UX</h3>
                 </div>
-                <div class="q">
-                    <div class="row">
-                        <div class="col-6">
-                            <label for="fssl"><span>Do you want to force SSL ?</span><i class="tip">Enabling Force SSL will re-direct http:// to https:// always.</i></label>
+
+                <div class="data">
+
+                    <div class="q">
+                        <div class="row">
+                            <div class="col-4">
+                                <label for="cache"><span>Cache styles & scripts</span> <i class="tip">Caching styles and scripts will load fresh file after set minutes.</i></label>
+                                <input type="number" id="cache" name="cache" placeholder="Ex: 2" value="0">
+                            </div>
+                            <?php
+                            text('color_1','Primary Color','','','data-color-picker',4);
+                            text('color_2','Secondary Color','','','data-color-picker',4);
+                            ?>
                         </div>
-                        <div class="col-6"><input type="checkbox" id="fssl" name="fssl" class="slide s" data-one></div>
                     </div>
-                </div>
-                <div class="q">
-                    <div class="row">
-                        <div class="col-6">
-                            <label for="debug"><span>Do you prefer debug mode ?</span><i class="tip">Enabling Debug mode will display PHP errors on screen, runs console logs for AIO scripts, log activities to AIO Log.</i></label>
-                        </div>
-                        <div class="col-6"><input type="checkbox" id="debug" name="debug" class="slide s" data-one checked></div>
-                    </div>
-                </div>
-                <div class="q">
-                    <div class="row">
-                        <div class="col-6"><label for="key"><span>Set a key for encryption</span><i class="tip">An encryption key will help in data crypto for security reasons, you don't need to remember this</i></label></div>
-                        <div class="col-6"><input type="text" id="key" name="key" placeholder="********" value="<?php echo $cry->random(10); ?>" data-one></div>
-                    </div>
-                </div>
-                <div class="q">
-                    <div class="row">
-                        <div class="col-6">
-                            <label for="gitignore"><span>Create a default .gitignore for your app?</span><i class="tip">Creates a basic .gitignore for your app including a default list to ignore for AIO Apps</i></label>
-                        </div>
-                        <div class="col-6"><input type="checkbox" id="gitignore" name="gitignore" class="slide s" data-one checked></div>
-                    </div>
-                </div>
-            </div>
-            <nav>
-                <div class="n"></div>
-            </nav>
 
-        </div>
-
-        <div class="setup two">
-
-            <div class="head">
-                <h2>STEP 2</h2>
-                <h3>UI & UX</h3>
-            </div>
-
-            <div class="data">
-
-                <div class="q">
-                    <div class="row">
-                        <div class="col-4">
-                            <label for="cache"><span>Cache styles & scripts</span> <i class="tip">Caching styles and scripts will load fresh file after set minutes.</i></label>
-                            <input type="number" id="cache" name="cache" placeholder="Ex: 2" value="0">
-                        </div>
-                        <?php
-                        text('color_1','Primary Color','','','data-color-picker',4);
-                        text('color_2','Secondary Color','','','data-color-picker',4);
-                        ?>
-                    </div>
-                </div>
-
-                <div class="q">
-                    <label for="fonts">Select Fonts</label>
-                    <select name="fonts" id="fonts" class="select2" multiple>
-                        <?php
-                        $weights = [ 'Thin' => 100, 'ExtraLight' => 200, 'Light' => 300, 'Regular' => 400, 'Medium' => 500, 'SemiBold' => 600, 'Bold' => 700, 'ExtraBold' => 800, 'Black' => 900 ];
-                        foreach( glob( COREPATH . '/assets/fonts/*', GLOB_ONLYDIR ) as $f ){
-                            $fn = str_replace( COREPATH . '/assets/fonts/', '', $f );
-                            echo '<optgroup label="'.$fn.'">';
-                            $ws = [];
-                            foreach( glob( $f . '/*.ttf' ) as $fw ){
-                                $fwn = str_replace( COREPATH . '/assets/fonts/' . $fn . '/', '', $fw );
-                                $fwn = str_replace( $fn . '-', '', $fwn );
-                                $fwn = str_replace( '.ttf', '', $fwn );
-                                echo '<option value="'.$fn.'_'.$weights[$fwn].'">'.$fwn.'</option>';
+                    <div class="q">
+                        <label for="fonts">Select Fonts</label>
+                        <select name="fonts" id="fonts" class="select2" multiple>
+                            <?php
+                            $weights = [ 'Thin' => 100, 'ExtraLight' => 200, 'Light' => 300, 'Regular' => 400, 'Medium' => 500, 'SemiBold' => 600, 'Bold' => 700, 'ExtraBold' => 800, 'Black' => 900 ];
+                            foreach( glob( COREPATH . '/assets/fonts/*', GLOB_ONLYDIR ) as $f ){
+                                $fn = str_replace( COREPATH . '/assets/fonts/', '', $f );
+                                echo '<optgroup label="'.$fn.'">';
+                                $ws = [];
+                                foreach( glob( $f . '/*.ttf' ) as $fw ){
+                                    $fwn = str_replace( COREPATH . '/assets/fonts/' . $fn . '/', '', $fw );
+                                    $fwn = str_replace( $fn . '-', '', $fwn );
+                                    $fwn = str_replace( '.ttf', '', $fwn );
+                                    echo '<option value="'.$fn.'_'.$weights[$fwn].'">'.$fwn.'</option>';
+                                }
+                                //render_checkboxs('weights',$ws,'','',0,3);
+                                echo '</optgroup>';
                             }
-                            //render_checkboxs('weights',$ws,'','',0,3);
-                            echo '</optgroup>';
-                        }
-                        ?>
-                    </select>
-                </div>
-                <div class="q">
-                    <label for="ints"><span>Include AIO styles / scripts</span> <i class="tip">Add scripts included by AIO to enrich your web app</i></label>
-                    <div>
-                        <select id="ints" name="ints[]" class="select2" multiple>
-                            <?php $ints = [
-                                'ui_reset'=>'AIO Reset CSS -  Stylesheet that has custom reset css to begin with',
-                                'ux_core'=>'AIO Core JS - Core features easy element manipulation, tabs, steps, input data fetching etc',
-                                'ux_aio_full_page'=>'AIO Full Page JS - Full page scrolling script',
-                                'art()'=>'AIO Art CSS - Styles tables, modals, notifications, steps, tabs, blocks, images, icons etc',
-                                'ui_inputs'=>'AIO Inputs CSS - Styles inputs, buttons, date pickers, color pickers etc',
-                                'icons()'=>'AIO Auto Icons CSS - Automatic css for all icons present in your styles/icons dir',
-                                'ui_micro'=>'AIO Micro CSS - Adds micro css overwrides, ex: add class dn on element to display:none',
-                            ];
-                            select_options( $ints ); ?>
+                            ?>
                         </select>
                     </div>
+                    <div class="q">
+                        <label for="ints"><span>Include AIO styles / scripts</span> <i class="tip">Add scripts included by AIO to enrich your web app</i></label>
+                        <div>
+                            <select id="ints" name="ints[]" class="select2" multiple>
+                                <?php $ints = [
+                                    'ui_reset'=>'AIO Reset CSS -  Stylesheet that has custom reset css to begin with',
+                                    'ux_core'=>'AIO Core JS - Core features easy element manipulation, tabs, steps, input data fetching etc',
+                                    'ux_aio_full_page'=>'AIO Full Page JS - Full page scrolling script',
+                                    'art()'=>'AIO Art CSS - Styles tables, modals, notifications, steps, tabs, blocks, images, icons etc',
+                                    'ui_inputs'=>'AIO Inputs CSS - Styles inputs, buttons, date pickers, color pickers etc',
+                                    'icons()'=>'AIO Auto Icons CSS - Automatic css for all icons present in your styles/icons dir',
+                                    'ui_micro'=>'AIO Micro CSS - Adds micro css overwrides, ex: add class dn on element to display:none',
+                                ];
+                                select_options( $ints ); ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="q">
+                        <label for="exts"><span>Include 3rd party styles / scripts</span> <i class="tip">Select the desired styles / scripts for your app from the web's most popular 3rd party enhancements</i></label>
+                        <div>
+                            <select id="exts" name="exts[]" class="select2" multiple>
+                                <?php $exts = [
+                                    //'ui_bootstrap'=>'Bootstrap',
+                                    'ui_bootstrap_grid'=>'Bootstrap Grid',
+                                    'b_select2'=>'Select 2',
+                                    'b_datepicker'=>'Air Datepicker',
+                                    'ux_chart'=>'Chart JS',
+                                    'ux_jquery'=>'jQuery',
+                                    'ux_jquery_ui'=>'jQuery UI',
+                                    'ux_clipboard'=>'Clipboard JS',
+                                    'ux_moment'=>'Moment JS',
+                                    'ux_tilt'=>'Tilt JS',
+                                    'ux_bot_ui'=>'Bot UI JS',
+                                ];
+                                select_options( $exts ); ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="q">
+                        <label for="styles"><span>Create Stylesheets</span> <i class="tip">Creates stylesheets with .scss extension, that will be auto linked on all your web app's pages</i></label>
+                        <div><input type="text" id="styles" name="styles" placeholder="Ex: users, contacts etc."></div>
+                    </div>
+
+                    <div class="q">
+                        <label for="scripts"><span>Create Scripts</span> <i class="tip">Creates scripts that will be auto linked on all your web app's pages in footer</i></label>
+                        <div><input type="text" id="scripts" name="scripts" placeholder="Ex: users, contacts etc."></div>
+                    </div>
+
                 </div>
 
-                <div class="q">
-                    <label for="exts"><span>Include 3rd party styles / scripts</span> <i class="tip">Select the desired styles / scripts for your app from the web's most popular 3rd party enhancements</i></label>
-                    <div>
-                        <select id="exts" name="exts[]" class="select2" multiple>
-                            <?php $exts = [
-                                //'ui_bootstrap'=>'Bootstrap',
-                                'ui_bootstrap_grid'=>'Bootstrap Grid',
-                                'b_select2'=>'Select 2',
-                                'b_datepicker'=>'Air Datepicker',
-                                'ux_chart'=>'Chart JS',
-                                'ux_jquery'=>'jQuery',
-                                'ux_jquery_ui'=>'jQuery UI',
-                                'ux_clipboard'=>'Clipboard JS',
-                                'ux_moment'=>'Moment JS',
-                                'ux_tilt'=>'Tilt JS',
-                                'ux_bot_ui'=>'Bot UI JS',
+                <nav>
+                    <div class="p"></div>
+                    <div class="n"></div>
+                </nav>
+
+            </div>
+
+            <div class="setup three">
+
+                <div class="head">
+                    <h2>STEP 3</h2>
+                    <h3>Database</h3>
+                </div>
+
+                <div class="data">
+
+                    <?php
+                    foreach( $_POST as $k => $v ) {
+                        echo !is_array( $v ) ? '<input type="hidden" name="'.$k.'" value="'.$v.'">' : '<input type="hidden" name="'.$k.'[]" value=\''.serialize($v).'\'">';
+                    }
+                    ?>
+
+                    <div class="q">
+                        <label for="type">Select Database Type</label>
+                        <div class="row">
+                            <?php
+                            $bases = [
+                                ''=>'No Database Required',
+                                'mysql'=>'MySQL',
+                                'sql_lite'=>'SQL Lite',
+                                'mongodb'=>'MongoDB',
+                                'mssql'=>'Microsoft SQL Server',
+                                'firebase'=>'Firebase',
+                                'oracle'=>'Oracle',
+                                'pg_sql'=>'Post-gre SQL',
                             ];
-                            select_options( $exts ); ?>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="q">
-                    <label for="styles"><span>Create Stylesheets</span> <i class="tip">Creates stylesheets with .scss extension, that will be auto linked on all your web app's pages</i></label>
-                    <div><input type="text" id="styles" name="styles" placeholder="Ex: users, contacts etc."></div>
-                </div>
-
-                <div class="q">
-                    <label for="scripts"><span>Create Scripts</span> <i class="tip">Creates scripts that will be auto linked on all your web app's pages in footer</i></label>
-                    <div><input type="text" id="scripts" name="scripts" placeholder="Ex: users, contacts etc."></div>
-                </div>
-
-            </div>
-
-            <nav>
-                <div class="p"></div>
-                <div class="n"></div>
-            </nav>
-
-        </div>
-
-        <div class="setup three">
-
-            <div class="head">
-                <h2>STEP 3</h2>
-                <h3>Database</h3>
-            </div>
-
-            <div class="data">
-
-                <?php
-                foreach( $_POST as $k => $v ) {
-                    echo !is_array( $v ) ? '<input type="hidden" name="'.$k.'" value="'.$v.'">' : '<input type="hidden" name="'.$k.'[]" value=\''.serialize($v).'\'">';
-                }
-                ?>
-
-                <div class="q">
-                    <label for="type">Select Database Type</label>
-                    <div class="row">
-                        <?php
-                        $bases = [
-                            ''=>'No Database Required',
-                            'mysql'=>'MySQL',
-                            'sql_lite'=>'SQL Lite',
-                            'mongodb'=>'MongoDB',
-                            'mssql'=>'Microsoft SQL Server',
-                            'firebase'=>'Firebase',
-                            'oracle'=>'Oracle',
-                            'pg_sql'=>'Post-gre SQL',
-                        ];
-                        render_radios('type',$bases,'','',0,4);
-                        ?>
-                    </div>
-                </div>
-
-                <div class="q">
-                    <div class="row">
-                        <div class="col-6">
-                            <label for="server"><span>Database Server Host / URL</span></label>
-                            <div><input type="text" id="server" name="server" placeholder="Ex: localhost"></div>
-                        </div>
-                        <div class="col-6">
-                            <label for="base"><span>Database Name</span></label>
-                            <div><input type="text" id="base" name="base" placeholder="Ex: <?php echo $appdir; ?>_db"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="q">
-                    <div class="row">
-                        <div class="col-6">
-                            <label for="user">Username</label>
-                            <input type="text" id="user" name="user" placeholder="Ex: <?php echo $appdir; ?>, admin etc.">
-                        </div>
-                        <div class="col-6">
-                            <?php text('pass','Password'); ?>
+                            render_radios('type',$bases,'','',0,4);
+                            ?>
                         </div>
                     </div>
 
-                </div>
-
-            </div>
-
-            <nav>
-                <div class="p"></div>
-                <div class="n"></div>
-            </nav>
-
-        </div>
-
-        <div class="setup four">
-
-            <div class="head">
-                <h2>STEP 4</h2>
-                <h3>Pages Structure</h3>
-            </div>
-
-            <div class="data">
-
-                <?php
-                foreach( $_POST as $k => $v ) {
-                    echo !is_array( $v ) ? '<input type="hidden" name="'.$k.'" value="'.$v.'">' : '<input type="hidden" name="'.$k.'[]" value=\''.serialize($v).'\'">';
-                }
-                ?>
-
-                <div class="q">
-                    <div>Setup function files for logged in users</div>
-                    <div><input type="text" name="f_int" placeholder="Ex: contacts, invoices, payments, support etc."></div>
-                </div>
-
-                <div class="q">
-                    <div>Setup function files for non logged in users</div>
-                    <div><input type="text" name="f_ext" placeholder="Ex: login, register, support etc."></div>
-                </div>
-
-                <div class="q">
-                    <label for="feats">Select your Web App Features </label>
-                    <div class="row">
-                        <?php $feats = [
-                            'cms'=>'AIO Content Management System',
-                            'commerce'=>'AIO Commerce',
-                        ];
-                        render_checkboxs( 'feats', $feats, '', 'data-one', 0, 6 );
-                        ?>
+                    <div class="q">
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="server"><span>Database Server Host / URL</span></label>
+                                <div><input type="text" id="server" name="server" placeholder="Ex: localhost"></div>
+                            </div>
+                            <div class="col-6">
+                                <label for="base"><span>Database Name</span></label>
+                                <div><input type="text" id="base" name="base" placeholder="Ex: <?php echo $appdir; ?>_db"></div>
+                            </div>
+                        </div>
                     </div>
+
+                    <div class="q">
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="user">Username</label>
+                                <input type="text" id="user" name="user" placeholder="Ex: <?php echo $appdir; ?>, admin etc.">
+                            </div>
+                            <div class="col-6">
+                                <?php text('pass','Password'); ?>
+                            </div>
+                        </div>
+
+                    </div>
+
                 </div>
 
-                <div>
-                    <div>Setup dynamic pages</div><br/>
-                    <div><input type="text" name="pages" data-dynamic='<?php echo json_encode([['text','page','Page'],['div','url'],['checkbox','script','Custom Script'],['checkbox','style','Custom Stylesheet']]); ?>'></div>
-                </div>
+                <nav>
+                    <div class="p"></div>
+                    <div class="n"></div>
+                </nav>
 
             </div>
 
-            <nav>
-                <div class="p"></div>
-                <div class="f"></div>
-            </nav>
+            <div class="setup four">
+
+                <div class="head">
+                    <h2>STEP 4</h2>
+                    <h3>Pages Structure</h3>
+                </div>
+
+                <div class="data">
+
+                    <?php
+                    foreach( $_POST as $k => $v ) {
+                        echo !is_array( $v ) ? '<input type="hidden" name="'.$k.'" value="'.$v.'">' : '<input type="hidden" name="'.$k.'[]" value=\''.serialize($v).'\'">';
+                    }
+                    ?>
+
+                    <div class="q">
+                        <div>Setup function files for logged in users</div>
+                        <div><input type="text" name="f_int" placeholder="Ex: contacts, invoices, payments, support etc."></div>
+                    </div>
+
+                    <div class="q">
+                        <div>Setup function files for non logged in users</div>
+                        <div><input type="text" name="f_ext" placeholder="Ex: login, register, support etc."></div>
+                    </div>
+
+                    <div class="q">
+                        <label for="feats">Select your Web App Features </label>
+                        <div class="row">
+                            <?php $feats = [
+                                'cms'=>'AIO Content Management System',
+                                'commerce'=>'AIO Commerce',
+                            ];
+                            render_checkboxs( 'feats', $feats, '', 'data-one', 0, 6 );
+                            ?>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div>Setup dynamic pages</div><br/>
+                        <div><input type="text" name="pages" data-dynamic='<?php echo json_encode([['text','page','Page'],['div','url'],['checkbox','script','Custom Script'],['checkbox','style','Custom Stylesheet']]); ?>'></div>
+                    </div>
+
+                </div>
+
+                <nav>
+                    <div class="p"></div>
+                    <div class="f"></div>
+                </nav>
+
+            </div>
 
         </div>
 

@@ -43,16 +43,35 @@ input[data-color-picker] {
 }
 
 /* Setup UI */
-.setup {
+.setup_wrap {
   width: 768px;
+  margin: 0 auto;
+  height: calc(100vh - 110px);
+  position: relative;
+  padding: 20px 10px;
+}
+
+.setup {
+  width: 100%;
   text-align: left;
-  margin: 0;
   opacity: 0;
   height: 0;
   pointer-events: none;
   z-index: -1;
-  overflow-y: auto;
+  transform: translateY(20px);
+  transition: 0.6s;
+  margin-right: 10px;
+  overflow: hidden;
+}
+.setup .data {
+  max-height: calc(100vh - 300px);
+  overflow-y: hidden;
+}
+.setup .data .scroll-content {
   padding: 40px 0;
+}
+.setup .data .scrollbar-track-y {
+  transform: translateX(10px);
 }
 .setup .head {
   text-align: center;
@@ -176,16 +195,13 @@ input[data-color-picker] {
   text-align: center;
   margin-top: 60px;
 }
-.setup .data {
-  height: 50vh;
-  overflow-x: hidden;
-}
 
 .setup.on {
   opacity: 1;
-  height: 100%;
   pointer-events: all;
-  margin: 0 auto 10px;
+  transform: translateY(0);
+  height: auto;
+  overflow: auto;
 }
 
 .select2-container--default .select2-selection--multiple {
