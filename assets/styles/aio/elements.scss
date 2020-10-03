@@ -100,7 +100,7 @@
 .modal.f {
   width: calc(100vw - 60px);
 }
-.modal .close, #notification .close, .alert .close {
+.modal .close, #notify .close, .alert .close {
   background:url('../assets/icons/close.svg') no-repeat center / 70%;
   position: absolute;
   right:10px;

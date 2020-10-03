@@ -609,12 +609,13 @@ function process_data( e ){
         }
     });
 
-    //elog(d);
+    elog(d);
     post( d.action, d, p.data('notify'), p.data('reload'), p.data('redirect'), 0, p.data('callback'), p.data('reset') );
 
 }
 
 function process_finish( r ) {
+    elog( r );
     //$(e).attr('disabled',false);
 }
 
