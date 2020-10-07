@@ -27,11 +27,17 @@ $p = $_POST;
 $cry = Crypto::initiate();
 ?>
     <header>
-        <div class="menu">
-            <div class="drop"></div>
-        </div>
         <div class="logo"></div>
+        <div class="options">
+            <div class="lang">
+                <i class="ico lang"></i>
+                <div class="languages">
+
+                </div>
+            </div>
+        </div>
     </header>
+
 
         <div class="setup one on">
 
