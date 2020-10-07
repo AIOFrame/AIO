@@ -4,4 +4,4 @@ $map = [
     'localhost' => 'wifispot',
 ];
 
-$default = 'wifispot';
+//$default = 'wifispot';

@@ -689,6 +689,7 @@ function render_menu( $array, $prefix = '' ) {
 }
 
 function _editable_data( $data = [], $remove = '' ) {
+    // TODO: Check the issue with encrypting array without db_
     $final = [];
     $remove = explode( ',', $remove );
     foreach( $data as $k => $v ){
