@@ -3,7 +3,12 @@ body, div, p, input, select, button {
 }
 
 body {
-  margin: 0;
+  margin: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+  max-height: calc(100vh - 40px);
+  max-width: calc(100vw - 40px);
+  position: relative;
 }
 
 body.d {
@@ -12,9 +17,9 @@ body.d {
 }
 
 article {
-  height: calc(100vh - 80px);
-  overflow-y: auto;
-  width: 100vw;
+  height: calc(100vh - 40px);
+  max-width: calc(100vw - 40px);
+  margin: 20px 20px 20px 140px;
   padding: 20px;
   box-sizing: border-box;
 }
@@ -22,20 +27,24 @@ article {
 /* HEADER */
 header {
   position: fixed;
-  height: 70px;
+  height: calc( 100vh - 40px );
   top: 20px;
   left: 20px;
+  width: 120px;
   display: flex;
   background: rgba(255, 255, 255, 0.98);
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
+  border-radius: 15px 0 0 15px;
   z-index: 99;
   align-items: center;
 }
 header .logo {
-  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 80px;
   background: url("../../images/aio.svg") no-repeat center/85px;
-  width: 200px;
+  width: 100%;
   cursor: pointer;
 }
 header .logo .drop {
@@ -77,10 +86,6 @@ body.d header {
 header > div {
   flex-grow: 1;
   display: flex;
-}
-
-header > div:first-child {
-  max-width: calc(50% - 10px);
 }
 
 header > div:last-child {
@@ -142,26 +147,6 @@ body.d .search input {
   box-shadow: none;
   color: #fff;
   background: #000;
-}
-
-button {
-  margin: 0;
-  border-radius: 4px;
-  padding: 10px 20px;
-  background: #007dcc;
-  background: -moz-linear-gradient(45deg, #007dcc 0%, #00aded 100%);
-  background: -webkit-linear-gradient(45deg, #007dcc 0%, #00aded 100%);
-  background: linear-gradient(45deg, #007dcc 0%, #00aded 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#007dcc", endColorstr="#00aded",GradientType=1 );
-  box-shadow: 0 0 6px rgba(0, 125, 204, 0.2), 0 2px 6px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  color: #fff;
-  transition: 0.6s;
-  font-weight: lighter;
-}
-
-button:hover {
-  box-shadow: 0 0 6px rgba(0, 125, 204, 0.3), 0 4px 6px rgba(0, 125, 204, 0.3);
 }
 
 /* BLOCKS */
@@ -305,4 +290,4 @@ body.d .b .ft > div {
   }
 }
 
-/*# sourceMappingURL=ui.css.map */
+/*# sourceMappingURL=aio.css.map */

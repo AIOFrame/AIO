@@ -1,8 +1,41 @@
+/* LAYOUT */
+article {
+  margin: 20px 140px;
+}
+
+nav {
+  width: 120px;
+  height: calc(100vh - 40px);
+  justify-content: center;
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-end;
+}
+nav > div {
+  height: 50px;
+  width: 100%;
+  margin: 20px 0;
+  cursor: pointer;
+}
+nav .p {
+  background: url("../../icons/prev.svg") no-repeat center/contain;
+}
+nav .n {
+  background: url("../../icons/next.svg") no-repeat center/contain;
+}
+nav .f {
+  background: url("../../icons/okay.svg") no-repeat center/contain;
+}
+nav #lang {
+  background: url("../../icons/lang.svg") no-repeat center/contain;
+}
+
 /* BASICS */
 button {
   cursor: pointer;
-  border: 1px solid #aaa;
-  border-radius: 8px;
   padding: 8px 20px;
   text-transform: uppercase;
   margin: 20px 10px;
@@ -43,29 +76,25 @@ input[data-color-picker] {
 }
 
 /* Setup UI */
-.setup_wrap {
-  width: 768px;
-  margin: 0 auto;
-  height: calc(100vh - 110px);
-  position: relative;
-  padding: 20px 10px;
-}
-
 .setup {
+  position: relative;
+}
+.setup .content {
   width: 100%;
-  text-align: left;
   opacity: 0;
-  height: 0;
   pointer-events: none;
-  z-index: -1;
-  transform: translateY(20px);
+  transform: translate(0, 0);
   transition: 0.6s;
-  margin-right: 10px;
-  overflow: hidden;
+  position: absolute;
+  max-height: calc(100vh - 40px);
+}
+.setup nav {
+  opacity: 0;
+  pointer-events: none;
 }
 .setup .data {
-  max-height: calc(100vh - 300px);
-  overflow-y: hidden;
+  max-height: calc(100vh - 220px);
+  overflow-y: auto;
 }
 .setup .data .scroll-content {
   padding: 40px 0;
@@ -196,12 +225,18 @@ input[data-color-picker] {
   margin-top: 60px;
 }
 
-.setup.on {
+.setup.on .content {
   opacity: 1;
   pointer-events: all;
-  transform: translateY(0);
-  height: auto;
-  overflow: auto;
+  transform: translate(0, 0);
+}
+.setup.on nav {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.setup.on + .setup .content {
+  transform: translate(40px, 0);
 }
 
 .select2-container--default .select2-selection--multiple {
@@ -266,39 +301,6 @@ ul.select2-results__options .select2-results__option--selected {
 }
 .aio_dynamics [type=checkbox] + label {
   vertical-align: bottom;
-}
-
-/* Footer */
-nav {
-  justify-content: center;
-  position: fixed;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-nav {
-  display: flex;
-  flex-wrap: wrap;
-}
-nav > div {
-  flex: 0 0 50px;
-  max-width: 50px;
-  height: 50px;
-  margin: 10px 25px;
-  cursor: pointer;
-}
-nav .p {
-  background: url("../../icons/prev.svg") no-repeat center/contain;
-}
-nav .n {
-  background: url("../../icons/next.svg") no-repeat center/contain;
-}
-nav .f {
-  background: url("../../icons/okay.svg") no-repeat center/contain;
-}
-nav #lang {
-  background: url("../../icons/lang.svg") no-repeat center/contain;
 }
 
 /*# sourceMappingURL=setup.css.map */
