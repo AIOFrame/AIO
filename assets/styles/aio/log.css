@@ -1,18 +1,8 @@
-.refresh {
-  margin-right: 15px;
-}
-
-.clear {
-  background: #990101;
-  background: -moz-linear-gradient(45deg, #990101 0%, #a90329 100%);
-  background: -webkit-linear-gradient(45deg, #990101 0%, #a90329 100%);
-  background: linear-gradient(45deg, #990101 0%, #a90329 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#990101", endColorstr="#a90329",GradientType=1 );
-  box-shadow: 0 0 6px rgba(153, 1, 1, 0.2), 0 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-.clear:hover {
-  box-shadow: 0 0 6px rgba(153, 1, 1, 0.3), 0 4px 6px rgba(153, 1, 1, 0.3);
+/* FILTERS */
+[name=type] + label {
+  text-transform: uppercase;
+  font-size: 15px;
+  letter-spacing: 1px;
 }
 
 /* Log */
@@ -36,6 +26,7 @@
 }
 .b .ft > div {
   flex: 0 0 33.3337%;
+  overflow: hidden;
 }
 
 .b:hover .dt {
@@ -55,7 +46,7 @@
 }
 
 .b .s {
-  background: darkgoldenrod;
+  background: #5691b0;
 }
 
 .b.i .s {

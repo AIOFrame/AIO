@@ -1,6 +1,7 @@
 /* Place Universal Scripts Here */
 
 var domain;
+let b = $('body');
 
 $(document).ready(function(){
 
@@ -43,6 +44,12 @@ $(document).ready(function(){
         }
     })
 
+    .on('click','[data-dark]',function(){
+        $(this).toggleClass('on');
+        $(b).toggleClass('d');
+        localStorage.setItem('dark_mode',$(b).hasClass('d'));
+    })
+
     .on('change','[data-check]',function(){
         var v = $(this).is(':checked') ? 'true' : 'false';
         $($(this).data('check')).val(v);
@@ -68,7 +75,7 @@ $(document).ready(function(){
 
     // Color Picker
 
-    $('body').on('click','[data-color-picker]',function(){
+    $(b).on('click','[data-color-picker]',function(){
         $('.color_picker_wrap').addClass('on');
         init_color_picker($(this),$(this).val());
     })
@@ -86,8 +93,12 @@ $(document).ready(function(){
         }
     })
 
+    // Load Dark Mode
+    var dark = localStorage.getItem('dark_mode');
+    dark === 'true' ? b.addClass('d') : b.removeClass('d');
+
     if( $('[data-color-picker]').length > 0 ) {
-        $('<div class="color_picker_wrap"><div class="close"></div><div class="color-picker"></div><div class="controls"><input type="text" value="#ffffff" class="code"></div></div>').appendTo('body');
+        $('<div class="color_picker_wrap"><div class="close"></div><div class="color-picker"></div><div class="controls"><input type="text" value="#ffffff" class="code"></div></div>').appendTo(b);
     }
 
     // Scroll Save
@@ -103,7 +114,7 @@ $(document).ready(function(){
         setTimeout(function(){ $('[data-t="' + tab + '"]').click(); },200);
     }
 
-    $('body').on('click', '.steps [data-t],.tabs [data-t]', function () {
+    $(b).on('click', '.steps [data-t],.tabs [data-t]', function () {
         $(this).parent().children().removeClass('on');
         $(this).addClass('on');
         $($(this).data('t')).parent().children().hide();
@@ -153,7 +164,7 @@ $(document).ready(function(){
     });
 
     // Prevent Default
-    $('body').on('click','a .prevdef',function(e){
+    $(b).on('click','a .prevdef',function(e){
         //$(e).parents('a').preventDefault();
         //elog($(e).parents('a'));
     });
@@ -212,7 +223,7 @@ $(document).ready(function(){
     }
 
     // CHANGE LANGUAGE
-    $('body').on('click','[data-lang]',function(){
+    $(b).on('click','[data-lang]',function(){
         var cl = $('[data-lang].on').data('lang');
         var nl = $(this).data('lang');
         var d = {'action':'get_translations','languages':[cl,nl],'method':'json'};
@@ -247,7 +258,7 @@ $(document).ready(function(){
     
     // Fetch States
 
-    $('body').on('change','select[data-states]',function(){
+    $(b).on('change','select[data-states]',function(){
         var t = $($(this).data('states'));
         if( $(this).data('states') !== '' ){
             $.post( location.origin, { 'action':'states', 'id': $(this).val() }, function(r){
@@ -274,7 +285,7 @@ $(document).ready(function(){
 
     // Number Formatter
 
-    $('body').on('keyup','input.fn',function(){
+    $(b).on('keyup','input.fn',function(){
         var a = format_number($(this).val());
         $(this).val(a);
     });
@@ -299,7 +310,7 @@ $(document).ready(function(){
         }
     });
 
-    appdebug = $('body').hasClass('debug') ? true : false;
+    appdebug = $(b).hasClass('debug') ? true : false;
 });
 
 $(document).mouseup(function(e) {
@@ -579,7 +590,7 @@ function clear_values( e, s ){
     }
 }
 
-var appdebug = $('body').hasClass('debug') ? true : false;
+var appdebug = $(b).hasClass('debug') ? true : false;
 
 function process_data( e ){
 
@@ -732,7 +743,7 @@ function notify( text, duration ) {
 }
 
 function slide_toggle( e, t ){
-    $('body').on('click',e,function(){
+    $(b).on('click',e,function(){
         $(this).find(t).slideToggle();
     })
 }

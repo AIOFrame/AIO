@@ -13,31 +13,42 @@ $file = isset( $ui_params['file'] ) && $ui_params['file'] !== '' ? $ui_params['f
                   content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
             <meta http-equiv="X-UA-Compatible" content="ie=edge">
             <title><?php echo 'E Log - ' . APPNAME; ?></title>
-            <link rel="shortcut icon" href="<?php echo APPURL . 'assets/images/aio.png'; ?>">
+            <link rel="icon" href="<?php echo APPURL; ?>assets/images/fav_aio.png" type="image/png" >
             <?php
             reset_styles('Lato','300',5);
-            get_styles(['aio/ui', 'aio/log', 'micro']);
+            get_styles(['aio/aio']);
+            art('00A99D','047267',['inputs']);
+            get_styles(['aio/log','micro']);
             get_script('jquery');
             font(['Lato', '300,500']); ?>
         </head>
         <body <?php body_class('debug'); ?>>
         <header>
-            <div class="one">
-                <div id="back" onclick="window.history.back();"></div>
-                <a href="" id="brand">AIO <?php echo strtoupper(APPNAME); ?> ERROR LOG</a>
-            </div>
-            <div class="two tar">
-                <select name="type" id="type">
-                    <?php select_options(['a' => 'All', 'l' => 'Log', 'e' => 'Error', 'i' => 'Insert', 's' => 'Select', 'u' => 'Update', 'd' => 'Delete']); ?>
-                </select>
-                <div class="search">
-                    <input type="text" placeholder="Search...">
-                    <button type="button" title="Search Stack Overflow">SO</button>
-                </div>
-                <button class="refresh">RELOAD</button>
-                <button class="clear">CLEAR</button>
+            <div class="logo"></div>
+            <div class="title">LOG</div>
+            <div class="options">
+                <div id="back" class="ico back" onclick="window.history.back();"><i class="tip">Return to Previous Page</i></div>
+                <div class="ico reload refresh"><i class="tip">Reload</i></div>
+                <div data-on=".filters" class="ico filter"><i class="tip">Filters</i></div>
+                <div class="ico delete clear"><i class="tip">Clear all Log</i></div>
+                <div class="ico dark" data-dark=""><i class="tip">Toggle Dark Mode</i></div>
             </div>
         </header>
+        <aside>
+            <div class="filters scroll">
+                <input type="search" placeholder="Search">
+                <div class="p15 pt0">
+                    <button type="button" class="w m0 l r5 silver" title="Search Stack Overflow">Search Stackoverflow</button>
+                </div>
+                <div class="type p15">
+                    <label class="ttu">Filter by Type</label>
+                    <?php
+                    $types = ['a' => 'All', 'l' => 'Log', 'e' => 'Error', 'i' => 'Insert', 's' => 'Select', 'u' => 'Update', 'd' => 'Delete'];
+                    render_checkboxs( 'type', $types, '', '', 0, 12 );
+                    ?>
+                </div>
+            </div>
+        </aside>
         <article id="aio_log" data-save-scroll>
         <div class="error_log">
         <?php

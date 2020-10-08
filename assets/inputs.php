@@ -5,10 +5,10 @@ $v = isset( $_GET['v'] ) && !empty( $_GET['v'] ) ? $_GET['v'] : '14400';
 header("Content-type: text/css; charset: UTF-8");
 header("Cache-Control: max-age=".$v);
 
-if( file_exists( __DIR__ . '/styles/aio/elements.min.css' ) ){
-    $art = file_get_contents( __DIR__ . '/styles/aio/elements.min.css' );
+if( file_exists( __DIR__ . '/styles/aio/inputs.min.css' ) ){
+    $inputs = file_get_contents( __DIR__ . '/styles/aio/inputs.min.css' );
 } else {
-    $art = file_get_contents( __DIR__ . '/styles/aio/elements.css' );
+    $inputs = file_get_contents( __DIR__ . '/styles/aio/inputs.css' );
 }
 
 // Replace First Gradient
@@ -16,9 +16,9 @@ if( file_exists( __DIR__ . '/styles/aio/elements.min.css' ) ){
 if( isset( $_GET['fc'] ) ){
     $fc = $_GET['fc'];
     if( strlen( $fc ) <= 6 ){
-        $art = str_replace( '111', $fc, $art );
+        $inputs = str_replace( '111', $fc, $inputs );
     } else {
-        $art = str_replace( '#111', $fc, $art );
+        $inputs = str_replace( '#111', $fc, $inputs );
     }
 }
 
@@ -28,16 +28,16 @@ if( isset( $_GET['sc'] ) ){
     $sc = $_GET['sc'];
     //$sc = substr( $sc, 0, strpos( $sc, '?'));
     if( strlen( $sc ) <= 6 ){
-        $art = str_replace( '222', $sc, $art );
+        $inputs = str_replace( '222', $sc, $inputs );
     } else {
-        $art = str_replace( '#222', $sc, $art );
+        $inputs = str_replace( '#222', $sc, $inputs );
     }
 }
 
 // Replace necessary strings
 
-$art = str_replace( '../images', './images', $art );
+$inputs = str_replace( '../images', './images', $inputs );
 
 // Output CSS
 
-echo $art;
+echo $inputs;
