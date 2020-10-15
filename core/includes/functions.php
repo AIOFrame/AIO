@@ -267,6 +267,7 @@ function set_config( $name, $value ) {
 
 function get_styles( $ar = '', $page_of = '' ) {
     if( !empty( $ar ) ){
+        $ar = is_array( $ar ) ? $ar : explode( ',', str_replace( ' ', '', $ar ) );
         foreach( $ar as $f ){
             if( $page_of !== '' ){
                 page_of( $page_of ) ? get_style( $f ) : '';
@@ -281,6 +282,7 @@ function get_styles( $ar = '', $page_of = '' ) {
 
 function get_scripts( $ar = '', $page_of = '' ) {
     if( !empty( $ar ) ){
+        $ar = is_array( $ar ) ? $ar : explode( ',', str_replace( ' ', '', $ar ) );
         foreach( $ar as $f ){
             if( $page_of !== '' ){
                 page_of( $page_of ) ? get_script( $f ) : '';

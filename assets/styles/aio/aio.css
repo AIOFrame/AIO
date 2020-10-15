@@ -3,21 +3,21 @@ body, div, p, input, select, button {
 }
 
 body {
-  margin: 20px;
-  border-radius: 15px;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
   max-height: calc(100vh - 40px);
   max-width: calc(100vw - 40px);
   position: relative;
+  background: #fff;
 }
 
 article {
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
   height: calc(100vh - 40px);
   max-width: calc(100vw - 40px);
   margin: 20px 20px 20px 140px;
   padding: 20px;
   box-sizing: border-box;
   overflow-y: auto;
+  border-radius: 0 15px 15px 0;
 }
 
 /* HEADER */
@@ -85,11 +85,6 @@ header .drop {
   width: 100%;
   text-align: center;
   top: 80px;
-}
-
-body.d header {
-  background: rgba(20, 20, 20, 0.98);
-  border-bottom: 1px solid #282828;
 }
 
 aside {
@@ -179,20 +174,10 @@ header select {
   box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
 }
 
-body.d .search, body.d header select {
-  box-shadow: none;
-  border: 1px solid #323232;
-  color: #fff;
-}
-
 header select {
   padding: 6px 12px;
   width: 100px;
   cursor: pointer;
-}
-
-body.d .search input {
-  color: #fff;
 }
 
 .search button {
@@ -329,12 +314,37 @@ body.d .b .ft > div {
 
 /* DARK MODE */
 body.d {
-  background: #0a0a0a;
+  background: #000;
   color: #fff;
   /* DARK ICONS */
 }
+body.d header {
+  background: #191919;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+  border: 1px solid #333;
+}
+body.d article {
+  background: #0f0f0f;
+  border: 1px solid #444;
+}
+body.d aside .scroll {
+  background: #0f0f0f;
+  box-shadow: 0 0 50px black;
+}
+body.d [type=search], body.d input[data-color-picker] {
+  background: #212121;
+}
+body.d [data-lang] {
+  border-bottom: 1px solid #222;
+}
+body.d label {
+  color: #ddd;
+}
 body.d .logo {
   background: url("../../images/aio_white.svg") no-repeat center/85px;
+}
+body.d [type=text], body.d [type=search], body.d [type=password], body.d [type=number], body.d textarea {
+  color: #fff;
 }
 body.d .ico.lang {
   background: url("../../icons/w/lang.svg") no-repeat center/50px;

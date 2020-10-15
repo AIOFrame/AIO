@@ -5,7 +5,7 @@ $errors = [
     '404' => 'Page Not Found',
     '408' => 'Request Timeout',
     '000' => 'Database Connectivity Failure',
-    '00' => 'App Not Found',
+    '00' => 'WebApp Not Found',
 ];
 $title = !empty( $error ) && !empty( $errors[$error] ) ? $errors[ $error ] : 'What ? Error ??';
 $id = !empty( $error ) ? $error : '0';

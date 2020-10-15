@@ -2,20 +2,20 @@ body, div, p, input, select, button {
   font-family: 'Lato', sans-serif;
 }
 body {
-  margin:20px;
-  border-radius:15px;
-  box-shadow:0 0 30px rgba(0,0,0,.1);
   max-height:calc(100vh - 40px);
   max-width:calc(100vw - 40px);
   position: relative;
+  background:#fff;
 }
 article {
+  box-shadow:0 0 30px rgba(0,0,0,.1);
   height:calc(100vh - 40px);
   max-width:calc(100vw - 40px);
   margin:20px 20px 20px 140px;
   padding: 20px;
   box-sizing: border-box;
   overflow-y: auto;
+  border-radius:0 15px 15px 0;
 }
 
 /* HEADER */
@@ -83,10 +83,6 @@ header {
   width: 100%;
   text-align: center;
   top: 80px;
-}
-body.d header {
-  background:rgba(20,20,20,.98);
-  border-bottom:1px solid rgb(40,40,40);
 }
 aside {
   position: fixed;
@@ -169,18 +165,10 @@ header select {
   height:40px;
   box-shadow:0 1px 6px 0 rgba(32,33,36,0.28);
 }
-body.d .search, body.d header select {
-  box-shadow:none;
-  border:1px solid rgb(50,50,50);
-  color:#fff;
-}
 header select {
   padding:6px 12px;
   width:100px;
   cursor: pointer;
-}
-body.d .search input {
-  color:#fff;
 }
 .search button {
   box-shadow:none;
@@ -300,10 +288,36 @@ body.d .b .ft>div {
 /* DARK MODE */
 
 body.d {
-  background: #0a0a0a;
+  background:#000;
   color:#fff;
+  header {
+    background:rgb(25,25,25);
+    //border-bottom:1px solid rgb(40,40,40);
+    box-shadow:0 0 50px rgba(0,0,0,.8);
+    border:1px solid #333;
+  }
+  article {
+    background:rgb(15,15,15);
+    border:1px solid #444;
+  }
+  aside .scroll {
+    background:rgb(15,15,15);
+    box-shadow:0 0 50px rgba(0,0,0,1)
+  }
+  [type=search], input[data-color-picker] {
+    background:#212121;
+  }
+  [data-lang] {
+    border-bottom: 1px solid #222;
+  }
+  label {
+    color:#ddd;
+  }
   .logo {
     background:url("../../images/aio_white.svg") no-repeat center/85px;
+  }
+  [type=text], [type=search], [type=password], [type=number], textarea {
+    color:#fff;
   }
 
   /* DARK ICONS */

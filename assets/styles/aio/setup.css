@@ -1,6 +1,7 @@
 /* LAYOUT */
 article {
-  margin: 20px 140px;
+  margin: 20px 80px 20px 140px;
+  overflow-x: hidden;
 }
 
 nav {
@@ -8,11 +9,11 @@ nav {
   height: calc(100vh - 40px);
   justify-content: center;
   position: fixed;
-  right: 20px;
+  right: 0;
   top: 20px;
   display: flex;
   flex-wrap: wrap;
-  align-content: flex-end;
+  align-content: center;
 }
 nav > div {
   height: 50px;
@@ -105,7 +106,6 @@ input[data-color-picker] {
 .setup label {
   cursor: pointer;
   position: relative;
-  display: block;
   color: #000;
   font-weight: 200;
   font-size: 18px;
@@ -127,6 +127,8 @@ input[data-color-picker] {
   opacity: 0;
   top: auto;
   bottom: 10px;
+  word-break: normal;
+  white-space: normal;
 }
 .setup label i.tip.on {
   opacity: 1;
@@ -236,7 +238,7 @@ input[data-color-picker] {
 }
 
 .select2-container--default .select2-selection--multiple {
-  border: 1px solid #f1f1f1;
+  border: 0;
   background: #f1f1f1;
   border-radius: 10px;
   margin-top: 10px;
@@ -263,7 +265,7 @@ ul.select2-results__options li {
   border-radius: 5px;
   margin: 5px;
   padding: 6px 15px;
-  border: 1px solid #f1f1f1;
+  border: 0;
 }
 ul.select2-results__options .select2-results__option--selected {
   border: 1px solid #000;
@@ -276,6 +278,10 @@ ul.select2-results__options .select2-results__option--selected {
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
   background: #f1f1f1;
   color: #000;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+  border: 0;
 }
 
 .aio_dynamics .set:nth-child(4), .aio_dynamics .set:nth-child(5) {
@@ -300,5 +306,26 @@ ul.select2-results__options .select2-results__option--selected {
 }
 
 /* RESPONSIVE */
+/* DARK */
+body.d .setup label i.tip {
+  background-color: black;
+  color: white;
+}
+body.d input[type=text], body.d input[type=number] {
+  border-bottom: 1px solid #222;
+}
+body.d input[type=text]:focus, body.d input[type=number]:focus {
+  border-bottom: 1px solid #666;
+}
+body.d ul.select2-results__options li {
+  background: #444;
+  border: 1px solid #555;
+}
+body.d nav .p {
+  background: url("../../icons/w/prev.svg") no-repeat center/contain;
+}
+body.d nav .n {
+  background: url("../../icons/w/next.svg") no-repeat center/contain;
+}
 
 /*# sourceMappingURL=setup.css.map */

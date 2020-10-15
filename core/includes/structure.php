@@ -88,17 +88,17 @@ $feats = get_config( 'features' );
 if( is_array( $feats ) ) {
 
     // Create User tables if featured
-    if( in_array( 'users', $feats ) ) {
+    if( in_array( 'users', $feats ) || in_array( 'auth', $feats ) || in_array( 'authentication', $feats ) ) {
         user_tables();
     }
 
     // Create Translation tables if featured
-    if( in_array( 'translations', $feats ) ) {
+    if( in_array( 'translations', $feats ) || in_array( 'languages', $feats ) ) {
         language_tables();
     }
 
     // Create File uploader tables if featured
-    if( in_array( 'storage', $feats ) ) {
+    if( in_array( 'storage', $feats )|| in_array( 'uploads', $feats ) ) {
         storage_tables();
     }
 

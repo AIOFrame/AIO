@@ -170,7 +170,7 @@ function get_translations() {
     }
 }
 
-function translations_transfer() {
+/* function translations_transfer() {
 
     $languages = get_language_files();
     foreach( $languages as $ln => $name ){
@@ -190,7 +190,7 @@ function translations_transfer() {
         }
     }
 
-}
+} */
 
 // Returns list of language files present in App
 

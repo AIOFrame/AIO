@@ -12,7 +12,7 @@ foreach( $includes as $inc )
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>AIO Web App Builder</title>
     <?php
-    reset_styles('Lato,Helvetica Neue');
+    reset_styles('Lato,Helvetica Neue',300,5);
     fonts([['Lato','100,300']]);
     get_styles(['select2','aio/aio']);
     art('00A99D','047267',['inputs']);
@@ -34,13 +34,12 @@ $cry = Crypto::initiate();
             <div class="ico dark" data-dark><i class="tip">Toggle Dark Mode</i></div>
         </div>
     </header>
-
     <aside>
         <div class="languages scroll">
             <input type="search" class="filter_lang" placeholder="<?php E('Search'); ?>">
             <div class="list">
                 <?php
-                $langs = get_languages();
+                $langs = ['en'=>'English','hi'=>'Hindi','es'=>'Spanish','fr'=>'French','bn'=>'Bengali','ru'=>'Russian','zh'=>'Chinese','ar'=>'Arabic','pr'=>'Portuguese','in'=>'Indonesian','ja'=>'Japanese'];
                 if( is_array( $langs ) && !empty( $langs ) )
                     foreach( $langs as $k => $v )
                         echo '<div data-lang="' . $k . '">' . $v . '</div>';
@@ -61,7 +60,7 @@ $cry = Crypto::initiate();
                     <div class="data">
                         <div class="q">
                             <label for="name"><span>Name your Web App</span></label>
-                            <input type="text" id="name" name="name" data-one placeholder="Ex: Food Delivery, Events App, <?php echo ucfirst( $appdir ); ?> App, <?php echo ucfirst( $appdir ); ?> etc.">
+                            <input type="text" id="name" name="name" data-one placeholder="Ex: Food Delivery, Events, CRM, <?php echo ucfirst( $appdir ); ?> App, <?php echo ucfirst( $appdir ); ?> etc.">
                         </div>
                         <div class="q">
                             <div class="row">
