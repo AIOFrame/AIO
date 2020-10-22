@@ -345,8 +345,6 @@ input[type=checkbox]:checked {
 
 input[type=checkbox]:checked:after {
   content: "";
-  background: #111;
-  background: linear-gradient(-45deg, #222 0%, #111 100%);
   position: absolute;
   width: calc(100% - 6px);
   height: calc(100% - 6px);
@@ -610,6 +608,7 @@ body.d .tab {
 
 .block:hover {
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.05);
+  transform: translateY(-3px);
 }
 
 .block .image, .block .pic {

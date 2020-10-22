@@ -106,14 +106,13 @@ function save_post_option( $option, $user = false ){
 }
 
 function save_post_options( $options ){
-    if( is_array( $options ) ){
-        foreach( $options as $op ){
-            if( is_array( $op ) ){
-                $u = isset( $op[1] ) && $op[1] ? 1 : 0;
-                save_post_option( $op[0], $u );
-            } else {
-                save_post_option( $op );
-            }
+    $options = is_array( $options ) ? $options : explode( ',', $options );
+    foreach( $options as $op ){
+        if( is_array( $op ) ){
+            $u = isset( $op[1] ) && $op[1] ? 1 : 0;
+            save_post_option( $op[0], $u );
+        } else {
+            save_post_option( $op );
         }
     }
 }
@@ -122,6 +121,7 @@ function save_post_options( $options ){
 function insert( $table, $names, $values ){
     global $db;
     if( $db ) {
+        $names = is_array( $names ) ? $names : explode(',',$names);
         if (is_array($names) && is_array($values)) {
             $df = debug_backtrace();
             if (count($names) == count($values)) {
@@ -367,7 +367,6 @@ function process_data() {
             }
             unset($a['by']);
         }
-
         if( !empty( $a['h'] ) ){
             $cry = Crypto::initiate();
             $hs = unserialize($cry->decrypt($a['h']));
@@ -378,6 +377,7 @@ function process_data() {
             }
             unset($a['h']);
         }
+
         $keys = prepare_keys( $a, '', 0 );
         $values = prepare_values( $a, '', 0 );
 
