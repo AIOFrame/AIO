@@ -459,33 +459,35 @@ function ajax_google_sign() {
     }
 }
 
-function ajax_reg() {
-    if (!empty($_POST['data'])) {
-        $d = $_POST['data'];
-        if ($d['em']) {
-            if ($d['fn']) {
-                if ($d['lv'] == '0') {
-                    $em = $d['em'];
-                    $un = $d['un'];
-                    $fn = $d['fn'];
-                    $lv = $d['lv'];
+function register_user() {
+    $c = get_config();
+    $feats = is_array($c) && isset($c['access']) ? $c['access'] : [];
 
-                    $options = ['cost' => 12];
-                    $enc = password_hash($_POST['password'], PASSWORD_BCRYPT, $options);
+    if( in_array( 'register', $feats ) ) {
+        $d = $_POST;
+        $pass = isset( $_POST['pass'] ) && !empty( $_POST['pass'] ) ? $_POST['pass'] : ( isset( $_POST['password'] ) && !empty( $_POST['password'] ) ? $_POST['password'] : '' );
+        $data = isset( $_POST['data'] ) && !empty( $_POST['data'] ) ? $_POST['data'] : '';
+        if( !empty( $d['login'] ) && !empty( $pass ) ) {
 
-                    global $access;
-                    //function register_user($un, $ps, $em, $fn, $up, $l, $alert = true)
-                    echo json_encode($access->register_user($un, $enc,$em, $fn,'',$lv ,true));
+            // Encrypt Password
+            $pass = password_hash($pass, PASSWORD_BCRYPT, ['cost' => 12]);
 
-                } else {
-                    echo json_encode(array('error'), 'User Role is required');
-                }
-            } else
-                echo json_encode(array('error'), 'Full Name is required');
+            // Process user columns
+            $fields = ['email','role','eid','phone','pic'];
+            $columns = [];
+            foreach( $fields as $f ) {
+                $columns[ 'user_' . $f ] = isset( $d[$f] ) && !empty( $d[$f] ) ? $d[$f] : '';
+            }
+
+            // Add user
+            global $access;
+            $add_user = $access->register_user( $d['login'], $pass, $columns, $data );
+            is_array($add_user) && $add_user[0] == 1 ? es('Successfully added user!') : ef('Failed to add user!');
         } else {
-            echo json_encode(array('error'), 'Email Field is required');
+            ef('Login and Pass Fields are required!');
         }
-
+    } else {
+        ef('Registrations are not permitted in config, please contact developer');
     }
 }
 
@@ -498,7 +500,7 @@ function ajax_google_reg() {
             if (in_array(str_replace('@', '', strstr($d['email'], '@')), $gd)) {
                 echo json_encode($access->register_user($d['email'], $d['ID'], $d['email'], ucfirst(substr($d['email'], 0, strpos($d['email'], "@"))), $d['pic'], $d['level'], true));
             } else {
-                echo json_encode(array('error', 'Domain not approved', 'Login is restricted only to users from ' . $gd));
+                ef('Domain not approved - Login is restricted only to users from ' . $gd);
             }
         } else {
             echo json_encode($access->register_user($d['email'], $d['ID'], $d['email'], $d['email'], $d['pic'], $d['level'], true));
@@ -506,6 +508,7 @@ function ajax_google_reg() {
     }
 }
 
+// TODO: Add config to check if registrations are open, then process the following
 if (isset($_POST['ru_name']) && isset($_POST['ru_pass']) && isset($_POST['ru_email']) && isset($_POST['ru_fn']) && isset($_POST['ru_ln'])) {
     $access->register_user($_POST['ru_name'], $_POST['ru_pass'], $_POST['ru_email'], $_POST['ru_fn'], $_POST['ru_ln']);
 }
