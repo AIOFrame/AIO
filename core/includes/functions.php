@@ -530,11 +530,12 @@ function render_options( $type = 'radio', $name, $values = [], $checked = '', $a
                 $k = $valued ? $val . $x . '_' . $uq : str_replace(' ', '', $name) . $x;
                 $title = is_array($val) && !empty($val[1]) ? $val[1] : $val;
                 $value = is_array($val) ? $val[0] : $val;
+                $data = is_array($val) && !empty($val[2]) ? $val[2] : '';
                 $c = $value == $checked ? 'checked' : '';
                 if ($label_first) {
-                    echo $pre . '<label for="' . $k . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' name="' . $name . '" id="' . $k . '" value="' . $value . '" '.$c.'>' . $post;
+                    echo $pre . '<label for="' . $k . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' ' . $data . ' name="' . $name . '" id="' . $k . '" value="' . $value . '" '.$c.'>' . $post;
                 } else {
-                    echo $pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" id="' . $k . '" value="' . $value . '" '.$c.'><label for="' . $k . '">' . $title . '</label>' . $post;
+                    echo $pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" id="' . $k . '" value="' . $value . '" ' . $data . ' '.$c.'><label for="' . $k . '">' . $title . '</label>' . $post;
                 }
                 $x++;
             }

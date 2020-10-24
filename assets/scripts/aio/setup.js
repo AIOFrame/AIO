@@ -27,11 +27,11 @@ $(document).ready(function () {
     // Tip Display
     $('.setup label').on('mouseover',function(e){
         $(this).find('.tip').addClass('on');
-    }).on('mousemove',function(e){
-        $(this).find('.tip').css({ 'left': e.originalEvent.offsetX });
     }).on('mouseout',function(e){
         $(this).find('.tip').removeClass('on');
-    });
+    });/* .on('mousemove',function(e){
+        $(this).find('.tip').css({ 'left': e.originalEvent.offsetX });
+    }); */
 
     // Fonts
     $('#fonts').select2({

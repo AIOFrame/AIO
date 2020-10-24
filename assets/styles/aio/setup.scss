@@ -58,6 +58,10 @@ input[data-color-picker] {
   background:#f1f1f1;
   border:0;
 }
+select {
+  border-radius:10px;
+  font-size: 18px;
+}
 .ico {
   display: inline-block;
   vertical-align: top;
@@ -107,8 +111,8 @@ input[data-color-picker] {
     font-size:18px;
     i.tip {
       position: absolute;
-      width: 400px;
-      max-width:50vw;
+      white-space: normal;
+      width:300px;
       background:rgba(255,255,255,.92);
       padding:10px;
       backdrop-filter: blur(10px) saturate(2);
@@ -122,8 +126,8 @@ input[data-color-picker] {
       opacity: 0;
       top:auto;
       bottom:10px;
+      left:20px;
       word-break:normal;
-      white-space: normal;
     }
     i.tip.on {
       opacity: 1;
@@ -173,7 +177,7 @@ input[data-color-picker] {
     .col {
       flex-grow:1;
     }
-    .col-6 {
+    .col-6, .col-lg-6 {
       flex:0 0 calc(50% - 20px);
       max-width:calc(50% - 20px);
     }
@@ -185,10 +189,20 @@ input[data-color-picker] {
       flex:0 0 calc(33.333333% - 20px);
       max-width:calc(33.333333% - 20px);
     }
+    .col-6:nth-child(2n + 1), .col-lg-6:nth-child(2n + 1) {
+      margin-left: 0;
+      flex:0 0 calc(50% - 10px);
+      max-width:calc(50% - 10px);
+    }
     .col-4:nth-child(3n + 1), .col-lg-4:nth-child(3n + 1) {
       margin-left: 0;
       flex:0 0 calc(33.333333% - 10px);
       max-width:calc(33.333333% - 10px);
+    }
+    .col-6:nth-child(2n), .col-lg-6:nth-child(2n) {
+      margin-right: 0;
+      max-width:calc(50% - 10px);
+      flex:0 0 calc(50% - 10px);
     }
     .col-4:nth-child(3n), .col-lg-4:nth-child(3n) {
       margin-right: 0;
@@ -199,7 +213,7 @@ input[data-color-picker] {
   i.tip {
     position: absolute;
     z-index:999;
-    right: 0;
+    //right: 0;
     top: 50%;
     transform:translateY(-50%);
   }
