@@ -604,15 +604,23 @@ function process_data( e ){
     //$(e).attr('disabled',true);
 
     var p = $(e).parents('[data-t]');
+
     p.addClass('load');
     var title = $(p).data('title');
     var pre = $(p).data('pre');
+
+    // Check for empty values
     if( $(p).data('sempty') !== '' && $(p).data('sempty') !== undefined ) {
         if( sempty( p, $(p).data('sempty') ) ) {
             $(p).removeClass('load');
             $(e).attr('disabled',false);
             return;
         }
+    }
+
+    // Disable Send Button
+    if( $(p).data('reload') !== undefined && $(p).data('reload') !== null && parseInt( $(p).data('reload') ) > 0 ) {
+        $(p).find('[onclick="process_data(this)"]').attr('disabled',true);
     }
     var d = get_values( p, pre, pre );
     d.action = $(e).data('action') !== undefined && $(e).data('action') !== '' ? $(e).data('action') : 'process_data';
