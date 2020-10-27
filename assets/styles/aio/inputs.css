@@ -42,6 +42,7 @@
   letter-spacing: unset;
   font-weight: lighter;
   cursor: pointer;
+  color: #000;
 }
 
 input.load, input.loading {

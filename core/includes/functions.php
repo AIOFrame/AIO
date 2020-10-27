@@ -519,7 +519,7 @@ function render_options( $type = 'radio', $name, $values = [], $checked = '', $a
                 $value = $valued ? $val : $title;
                 $c = $value == $checked ? 'checked' : '';
                 if ($label_first) {
-                    echo $pre . '<label for="' . $k . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' name="' . $name . '" id="' . $k . '" value="' . $value . '" '. $c .' >' . $post;
+                    echo $pre . '<label for="' . $k . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' name="' . $name . '" data-key="'.$name.'" id="' . $k . '" value="' . $value . '" '. $c .' >' . $post;
                 } else {
                     echo $pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" data-key="'.$name.'" id="' . $k . '" value="' . $value . '" '. $c .' ><label for="' . $k . '">' . $title . '</label>' . $post;
                 }
@@ -533,9 +533,9 @@ function render_options( $type = 'radio', $name, $values = [], $checked = '', $a
                 $data = is_array($val) && !empty($val[2]) ? $val[2] : '';
                 $c = $value == $checked ? 'checked' : '';
                 if ($label_first) {
-                    echo $pre . '<label for="' . $k . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' ' . $data . ' name="' . $name . '" id="' . $k . '" value="' . $value . '" '.$c.'>' . $post;
+                    echo $pre . '<label for="' . $k . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' ' . $data . ' data-key="'.$name.'" name="' . $name . '" id="' . $k . '" value="' . $value . '" '.$c.'>' . $post;
                 } else {
-                    echo $pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" id="' . $k . '" value="' . $value . '" ' . $data . ' '.$c.'><label for="' . $k . '">' . $title . '</label>' . $post;
+                    echo $pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" data-key="'.$name.'" id="' . $k . '" value="' . $value . '" ' . $data . ' '.$c.'><label for="' . $k . '">' . $title . '</label>' . $post;
                 }
                 $x++;
             }
