@@ -1,0 +1,101 @@
+/* Modal */
+.modal {
+  position: fixed;
+  left: 50%;
+  top: calc(50% + 10vh);
+  transform: translate(-50%, calc(-50% - 5vh));
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  width: auto;
+  height: auto;
+  border-radius: 10px;
+  pointer-events: none;
+  opacity: 0;
+  z-index: -1;
+  margin-top: 20px;
+  transition: 0.6s;
+  backdrop-filter: blur(8px) saturate(2);
+  -webkit-backdrop-filter: blur(8px) saturate(2);
+}
+.modal .t {
+  margin-top: 0;
+  letter-spacing: 1px;
+}
+.modal .modal {
+  z-index: 15;
+}
+
+.modal.on {
+  /*display: block;*/
+  pointer-events: auto;
+  opacity: 1;
+  z-index: 30;
+  margin-top: 0;
+}
+
+.modal.ml {
+  min-width: 80vw;
+}
+
+.modal.f {
+  width: 100vw;
+  height: 100vh;
+}
+
+.modal.l {
+  width: 80vw;
+}
+
+.modal.mm {
+  min-width: 60vw;
+}
+
+.modal.m {
+  width: 60vw;
+}
+
+.modal.ms {
+  min-width: 40vw;
+}
+
+.modal.s {
+  width: 40vw;
+}
+
+.modal.mxs {
+  min-width: 30vw;
+}
+
+.modal.xs {
+  width: 30vw;
+}
+
+.modal.mxxs {
+  min-width: 20vw;
+}
+
+.modal.xxs {
+  width: 20vw;
+}
+
+.modal.f {
+  width: calc(100vw - 60px);
+}
+
+.modal .close, #notify .close, .alert .close {
+  background: url("../assets/icons/close.svg") no-repeat center/70%;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.alert .close {
+  width: 20px;
+  height: 20px;
+}
+
+/*# sourceMappingURL=modal.css.map */

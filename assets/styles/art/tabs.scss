@@ -1,0 +1,108 @@
+.tabs>div:first-child {
+  display: flex;
+}
+.tab {
+  display: block;
+  padding: 12px 15px 12px 35px;
+  box-shadow: 5px 0 55px rgba(0,0,0,.25);
+  background: #fff;
+  position: relative;
+  font-size: 15px;
+  height: 40px;
+  cursor: pointer;
+  outline: none;
+  line-height: 15px;
+  width:auto;
+  box-sizing:border-box;
+  text-transform:uppercase;
+  transition:.3s;
+  .notify {
+    position: absolute;
+    top:-10px;
+    right: 0;
+    padding:2px 0;
+    width: 20px;
+    height: 20px;
+    border-radius:15px;
+    background:firebrick;
+    color:#fff;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+  }
+}
+body.d .tab {
+  box-shadow: 5px 0 45px #000;
+}
+.tabs.material, .tab_heads.material {
+  width:100%;
+  display: block;
+  background:rgba(255,255,255,.65);
+}
+.tabs.material .tab, .tab_heads.material .tab {
+  background:none;
+  box-shadow:none;
+  padding:10px 20px;
+  line-height: normal;
+  height:auto;
+  color:#000;
+}
+.tabs.material .tab.l {
+  padding-left: 0;
+}
+.tabs.material .tab.l.on:after {
+  width:calc(100% - 20px);
+  left:0;
+}
+.tabs.material .tab.on, .tab_heads.material .tab.on {
+  color:#000;
+}
+.tabs.material .tab:after, .tab_heads.material .tab:after {
+  border:0;
+}
+.tabs.material .tab.on:after, .tab_heads.material .tab.on:after {
+  height:2px;
+  left:20px;
+  width:calc(100% - 40px);
+  background:#000;
+  bottom:0;
+}
+.tab:first-child {
+  padding-left: 25px;
+}
+.tab:nth-child(1):after {
+  right:-19px;
+}
+.tab:hover {
+  color: #111;
+}
+.tab:after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-top: 40px solid transparent;
+  border-bottom: 40px solid #fff;
+  border-right: 20px solid transparent;
+  position: absolute;
+  right: -20px;
+  bottom: 0;
+}
+.tab.on {
+  background: #111;
+  background: linear-gradient(-90deg, #222 0%, #111 100%);
+  color: #fff;
+  box-shadow: 5px 0 55px rgba(0,0,0,.25), 5px 0 20px rgba(0,0,0,0.2);
+}
+.tab.on:after {
+  border-bottom: 40px solid #222;
+}
+
+@media all and (min-width:0px) and (max-width: 800px) {
+  .tabs>div:first-child {
+    display: flex;
+    overflow-x:auto;
+  }
+  .tab {
+    white-space: nowrap;
+  }
+}

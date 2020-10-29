@@ -25,11 +25,11 @@ function set_title( $title ){
 
 // Fetches stylesheet with options
 
-function art( $color1 = '000', $color2 = '000', $styles = [] ) {
+function art( $color1 = '222', $color2 = '000', $arts = '' ) {
     $cache = get_config( 'cache' );
     $v = $cache ? '&v=' . round( time() / ( $cache * 60 ) ) : '';
-    echo in_array( 'elements', $styles ) ? '<link rel="stylesheet" href="'.APPURL.'assets/art.php?fc='.$color1.'&sc='.$color2. $v . '">' : '';
-    echo in_array( 'inputs', $styles ) ? '<link rel="stylesheet" href="'.APPURL.'assets/inputs.php?fc='.$color1.'&sc='.$color2. $v . '">' : '';
+    $arts = is_array( $arts ) ? implode( ',', $arts ) : $arts;
+    echo '<link rel="stylesheet" href="'.APPURL.'assets/art.php?fc='.$color1.'&sc='.$color2.'&arts='.$arts. $v . '">';
 }
 
 // Returns a complete <link> for stylesheet if file exists either in app or in core, prioritizes minified file
