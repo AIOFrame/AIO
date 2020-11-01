@@ -21,7 +21,7 @@ function file_process() {
     $delete = !empty($_POST['delete']) && $_POST['delete'] == 'true' ? 1 : 0;
 
     // Sets the path of the uploaded file (If empty then file is uploaded to user directory/y-m)
-    $path = !empty($_POST['path']) ? $cry->decrypt($_POST['path']) : get_current_user_id().'/'.date('Y-m');
+    $path = !empty($_POST['path']) ? $cry->decrypt($_POST['path']) : '/'.get_current_user_id().'/'.date('Y-m');
     if( empty($path) ){ echo json_encode(T('Location Accessibility Failure'), false); return; }
     foreach( $_FILES as $file ){
         $fn = $file['name'];

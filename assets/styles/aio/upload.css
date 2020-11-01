@@ -161,7 +161,7 @@ body.d .file_modal .files_head {
   display: inline-block;
 }
 
-.files_head .ico.file.browse {
+.files_head .i.file.browse {
   background: url("../../images/icons/browse.svg") no-repeat center;
 }
 
@@ -342,16 +342,16 @@ body.d #aio_up .f.on {
   cursor: not-allowed;
   pointer-events: none;
 }
-.files_actions .ico.select {
+.files_actions .i.select {
   background: url("../../images/icons/select.svg") no-repeat 10px center/20px;
 }
-.files_actions .ico.trash {
+.files_actions .i.trash {
   background: url("../../images/icons/delete.svg") no-repeat 10px center/20px;
 }
-.files_actions .ico.disabled {
+.files_actions .i.disabled {
   background: none;
 }
-.files_actions .ico.browse {
+.files_actions .i.browse {
   background: url("../../images/icons/browse.svg") no-repeat 10px center/20px;
 }
 .files_actions > div:hover, .files_actions > label:hover {
@@ -402,7 +402,7 @@ body.d .files_actions div, body.d .files_actions label {
   width: 60px;
   margin: 0;
 }
-.aio_fsp .ico.file {
+.aio_fsp .i.file {
   margin: 6px auto;
 }
 
@@ -460,7 +460,7 @@ td .aio_fsp {
   height: 30px;
   background: url("../../images/icons/delete.svg") no-repeat center/20px;
 }
-.aio_files .ico.file {
+.aio_files .i.file {
   height: 20px;
   width: 20px;
   display: inline-block;
