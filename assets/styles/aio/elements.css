@@ -353,6 +353,11 @@ input[type=checkbox]:checked:after {
   border-radius: 4px;
 }
 
+.grad {
+  background: #111;
+  background: linear-gradient(-45deg, #222 0%, #111 100%);
+}
+
 /* STEPS */
 .step_heads, .steps_head {
   display: -ms-flexbox;
@@ -567,9 +572,9 @@ body.d .tab {
 
 /* Blocks & Plates */
 .blocks > div {
-  -ms-flex: 0 0 25%;
+  /* -ms-flex: 0 0 25%;
   flex: 0 0 25%;
-  max-width: 25%;
+  max-width: 25%; */
 }
 
 .block, .plate {
@@ -792,7 +797,7 @@ body.d .tab {
 }
 
 /* ICONS */
-.ico {
+.ico, i.i {
   display: inline-block;
   vertical-align: top;
   width: 22px;
@@ -803,41 +808,41 @@ body.d .tab {
   cursor: pointer;
 }
 
-.ico.c {
+.ico.c, i.i.c {
   display: block;
   margin: auto;
 }
 
-.tac .ico.dib {
+.tac .ico.dib, .tac i.i.dib {
   display: inline-block;
 }
 
-.ico.sm, .ico.s {
+.ico.sm, .ico.s, i.i.s {
   width: 20px;
   height: 20px;
 }
 
-.ico.md, .ico.m {
+.ico.md, .ico.m, i.i.m {
   width: 32px;
   height: 32px;
 }
 
-.ico.lg, .ico.l {
+.ico.lg, .ico.l, i.i.l {
   width: 45px;
   height: 45px;
 }
 
-.ico.xl {
+.ico.xl, i.i.xl {
   width: 65px;
   height: 65px;
 }
 
-.ico.xxl {
+.ico.xxl, i.i.xl {
   width: 100px;
   height: 100px;
 }
 
-.ico.xxxl {
+.ico.xxxl, i.i.xxl {
   width: 150px;
   height: 150px;
 }
@@ -846,7 +851,7 @@ body.d .tab {
   position: absolute;
 }
 
-.ico.r {
+.ico.r, i.i.r {
   right: 0;
 }
 
