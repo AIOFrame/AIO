@@ -6,12 +6,12 @@ function user_tables() {
         [ 'email', 'VARCHAR', 45, 0 ],
         [ 'name', 'VARCHAR', 45, 1 ],
         [ 'since', 'DATETIME', '', 1 ],
-        [ 'role', 'VARCHAR', 45, 0 ],
-        [ 'eid', 'VARCHAR', 10, 0 ],
+        //[ 'role', 'VARCHAR', 45, 0 ],
+        //[ 'eid', 'VARCHAR', 10, 0 ],
         [ 'phone', 'VARCHAR', 20, 0 ],
         [ 'pic', 'VARCHAR', 255, 0 ],
         [ 'data', 'VARCHAR', 9999, 0 ],
-        [ 'level', 'INT', 13, 0 ],
+        [ 'perms', 'VARCHAR', 9999, 0 ],
         [ 'reset_pass', 'VARCHAR', 11, 0 ],
     ] ];
 
