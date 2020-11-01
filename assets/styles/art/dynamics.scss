@@ -1,0 +1,59 @@
+.dynamics {
+  position:relative;
+  .add {
+    position:absolute;
+    right:0;
+    bottom:0;
+    height:40px;
+    width:40px;
+    font-size:22px;
+    padding:5px 14px;
+    margin:0;
+  }
+  .fields {
+    margin-right:40px;
+    padding:0 15px 0 0;
+  }
+  .field_set {
+    margin-bottom:15px;
+    border:1px solid #ddd;
+    padding:15px;
+    position: relative;
+  }
+  .field_set:last-child {
+    margin-bottom: 0;
+  }
+  input {
+    margin-bottom:6px;
+  }
+  .set:last-child input {
+    margin-bottom: 0;
+  }
+  [type=checkbox], [type=radio] {
+    margin-right:15px;
+  }
+  label {
+    font-size:9px;
+    text-transform:uppercase;
+    color:#000;
+    letter-spacing:2px;
+    font-weight:normal;
+  }
+  input + label {
+    text-transform:none;
+    letter-spacing:normal;
+    font-size:inherit;
+    font-weight:inherit;
+    vertical-align: initial;
+  }
+  .trash {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width:35px;
+    height:35px;
+    padding:10px;
+    background:url('../../images/close.svg') no-repeat center / 25px;
+    cursor: pointer;
+  }
+}

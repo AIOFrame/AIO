@@ -527,8 +527,15 @@ function get_values( e, s, pre ) {
 
         if( $(this).attr('type') === 'checkbox' ){
 
-            v = $(this).is(':checked');
-            if( v === true ){ v = 1; } else if( v === false ) { v = 0; }
+            var t = $(this).is(':checked');
+            v = t === true ? 1 : 0;
+            /* var vl = $(this).val();
+            elog(vl);
+            if( vl === 1 || vl === 0 || vl === undefined ) {
+            } else {
+                var v = [];
+                t === true ? v.push( vl ) : '';
+            } */
 
         } else if( $(this).attr('type') === 'radio' ) {
 
@@ -556,12 +563,12 @@ function get_values( e, s, pre ) {
 
             data[pre + $(this).attr('class')] = v;
         }
-        elog($(this).attr('id'));
-        elog(v);
+        //elog($(this).attr('id'));
+        //elog(v);
 
     });
 
-    elog(data);
+    //elog(data);
 
     return data;
 }
@@ -597,15 +604,23 @@ function process_data( e ){
     //$(e).attr('disabled',true);
 
     var p = $(e).parents('[data-t]');
+
     p.addClass('load');
     var title = $(p).data('title');
     var pre = $(p).data('pre');
+
+    // Check for empty values
     if( $(p).data('sempty') !== '' && $(p).data('sempty') !== undefined ) {
         if( sempty( p, $(p).data('sempty') ) ) {
             $(p).removeClass('load');
             $(e).attr('disabled',false);
             return;
         }
+    }
+
+    // Disable Send Button
+    if( $(p).data('reload') !== undefined && $(p).data('reload') !== null && parseInt( $(p).data('reload') ) > 0 ) {
+        $(p).find('[onclick="process_data(this)"]').attr('disabled',true);
     }
     var d = get_values( p, pre, pre );
     d.action = $(e).data('action') !== undefined && $(e).data('action') !== '' ? $(e).data('action') : 'process_data';
@@ -735,11 +750,23 @@ function alerted( $m ) {
 }
 
 function notify( text, duration ) {
+    // Process duration of notification
     duration = duration !== undefined && duration !== '' && duration > 0 ? duration * 1000 : 6000;
-    $('#notify').addClass('on').children('div').not('.close').html( text );
-    setTimeout(function(){
-        $('#notify').removeClass('on');
-    },duration);
+
+    // Create notification message
+    var r = Math.random().toString(36).substring(7);
+    var n = '<div class="notify in n_'+r+'"><div class="data"><div class="close"></div><div class="message">'+text+'</div></div></div>'
+    let ns = $('.notices');
+
+    // Add Notification
+    ns.hasClass('b') ? ns.prepend(n) : ns.append(n);
+    setTimeout(function(){ $('.n_'+r).removeClass('in') },100);
+
+    // Prepare for Removal
+    setTimeout(function(){ $('.n_'+r).addClass('out') },duration+1000);
+
+    // Remove Notification
+    setTimeout(function(){ $('.n_'+r).remove() },duration+2000);
 }
 
 function slide_toggle( e, t ){

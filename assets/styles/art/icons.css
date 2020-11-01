@@ -1,0 +1,59 @@
+.ico {
+  display: inline-block;
+  vertical-align: top;
+  width: 22px;
+  height: 22px;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: contain !important;
+  cursor: pointer;
+}
+
+.ico.c {
+  display: block;
+  margin: auto;
+}
+
+.tac .ico.dib {
+  display: inline-block;
+}
+
+.ico.sm, .ico.s {
+  width: 20px;
+  height: 20px;
+}
+
+.ico.md, .ico.m {
+  width: 32px;
+  height: 32px;
+}
+
+.ico.lg, .ico.l {
+  width: 45px;
+  height: 45px;
+}
+
+.ico.xl {
+  width: 65px;
+  height: 65px;
+}
+
+.ico.xxl {
+  width: 100px;
+  height: 100px;
+}
+
+.ico.xxxl {
+  width: 150px;
+  height: 150px;
+}
+
+.ico.f, .ico.a {
+  position: absolute;
+}
+
+.ico.r {
+  right: 0;
+}
+
+/*# sourceMappingURL=icons.css.map */

@@ -1,0 +1,99 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+}
+table thead tr {
+  background: #fff;
+  z-index: 10;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.05);
+}
+table thead th {
+  padding: 12px 8px;
+  font-weight: normal;
+}
+table tbody {
+  background: #fff;
+}
+table tr {
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+table td {
+  padding: 10px;
+  position: relative;
+}
+table td input, table td textarea, table td select {
+  margin: 0;
+  width: auto;
+}
+table td.p0 {
+  padding: 0 !important;
+}
+table td.l, table th.l, table td.l input {
+  text-align: left;
+}
+table td.c, table th.c, table td.c input {
+  text-align: center;
+}
+table td.r, table th.r, table td.r input {
+  text-align: right;
+}
+
+table.m td {
+  padding: 10px;
+  font-size: 15px;
+}
+
+table.l tr {
+  position: relative;
+  border: 0;
+}
+table.l tr:after {
+  content: "";
+  width: calc(100% - 80px);
+  left: 20px;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.1);
+  display: block;
+  position: absolute;
+}
+table.l td {
+  padding: 20px 40px;
+  font-size: 16px;
+}
+
+table.xls thead tr {
+  box-shadow: none;
+}
+table.xls td {
+  padding: 8px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  min-height: 40px;
+  cursor: pointer;
+}
+table.xls tbody td, table.xls tfoot td {
+  padding: 0;
+}
+table.xls td input {
+  margin: 0;
+  border-radius: 0;
+  box-shadow: none;
+  border: 0;
+}
+
+table.plain {
+  background: none;
+  border-collapse: collapse;
+  border-radius: 0;
+}
+table.plain thead, table.plain tbody, table.plain tfoot, table.plain tr, table.plain td, table.plain th {
+  box-shadow: none;
+  background: #fff;
+  color: #000;
+}
+table.plain tr:after {
+  display: none;
+}
+
+/*# sourceMappingURL=table.css.map */

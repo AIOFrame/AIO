@@ -1,0 +1,130 @@
+/* .blocks>div {
+  -ms-flex: 0 0 25%;
+  flex: 0 0 25%;
+  max-width: 25%;
+} */
+.block {
+  background:#fff;
+  border-radius:10px;
+  padding: 15px;
+  position: relative;
+  cursor:pointer;
+  box-shadow:0 0 30px rgba(0,0,0,.04);
+  transition:.6s;
+  display: block;
+  margin-bottom: 20px;
+  .image, .pic {
+    width: 80px;
+    height: 80px;
+    margin: 10px auto;
+    border: 1px solid lightgrey;
+    font-size: 30px;
+    padding: 20px 0;
+    text-align: center;
+    box-sizing: border-box;
+  }
+  .pic {
+    border-radius:25px;
+  }
+  .image.nb {
+    border:none;
+  }
+  .image.r {
+    margin:10px 0 10px auto;
+  }
+  .image.l {
+    margin:10px auto 10px 0;
+  }
+  .image.bg {
+    width: 100%;
+    border:0;
+    border-radius:0;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:80px;
+  }
+  .title {
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .title.s {
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .title.l {
+    text-align: left;
+  }
+  .title.r {
+    text-align: right;
+  }
+  .block .desc>div, .block .desc>p {
+    font-size: 14px;
+    margin:10px 0;
+  }
+  .block .desc>div:last-child {
+    margin-bottom: 0;
+  }
+  .desc .ico {
+    margin-right: 5px;
+  }
+  .actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    opacity:.3;
+    transition:.6s;
+    z-index:5;
+  }
+  .actions.l {
+    right: auto;
+    left: 10px;
+  }
+  .actions>i, .actions>div {
+    margin:0 5px;
+  }
+  .status {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    font-size: 11px;
+    border: 1px solid lightgrey;
+    padding: 2px 5px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: grey;
+  }
+  .status.r {
+    left:auto;
+    right:10px;
+  }
+  .status.green {
+    color:darkolivegreen;
+    border:1px solid darkolivegreen;
+  }
+  .status.red {
+    color:firebrick;
+    border:1px solid firebrick
+  }
+}
+.block.off, .block.disabled, .plate.off, .plate.disabled {
+  opacity:.5;
+}
+/* .plate .head {
+  padding:12px 15px;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  box-shadow:0 5px 15px rgba(0,0,0,.02);
+  font-size: 15px;
+  letter-spacing: 1px;
+}
+.plate .body {
+  padding: 15px;
+} */
+.block:hover {
+  box-shadow:0 0 30px rgba(0,0,0,.2), 0 10px 30px rgba(0,0,0,.05);
+  transform:translateY(-3px);
+  .actions {
+    opacity:1;
+  }
+}

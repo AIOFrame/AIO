@@ -1,18 +1,31 @@
 <?php
 
-$v = isset( $_GET['v'] ) && !empty( $_GET['v'] ) ? $_GET['v'] : '14400';
+$art = '';
+$l = __DIR__ . '/styles/art/';
 
+// Fetch and set cache
+$v = isset( $_GET['v'] ) && !empty( $_GET['v'] ) ? $_GET['v'] : '14400';
 header("Content-type: text/css; charset: UTF-8");
 header("Cache-Control: max-age=".$v);
 
-if( file_exists( __DIR__ . '/styles/aio/elements.min.css' ) ){
-    $art = file_get_contents( __DIR__ . '/styles/aio/elements.min.css' );
-} else {
-    $art = file_get_contents( __DIR__ . '/styles/aio/elements.css' );
+// Auto fetch existing art styles
+$art_styles = glob( $l . '*.css' );
+$styles = [];
+foreach( $styles as $af ) {
+    $arts[] = str_replace( '.css', '', str_replace( $l, '', $af ) );
+}
+
+// Parse art modules
+$arts = isset( $_GET['arts'] ) && !empty( $_GET['arts'] ) ? explode( ',', $_GET['arts'] ) : [];
+foreach( $arts as $a ) {
+    if( in_array( $a . '.min', $arts ) && file_exists( $l . $a . '.min.css' ) ){
+        $art .= file_get_contents( $l . $a . '.min.css' );
+    } else if( in_array( $a, $arts ) && file_exists( $l . $a . '.css' ) ) {
+        $art .= file_get_contents( $l . $a . '.css' );
+    }
 }
 
 // Replace First Gradient
-
 if( isset( $_GET['fc'] ) ){
     $fc = $_GET['fc'];
     if( strlen( $fc ) <= 6 ){
@@ -23,7 +36,6 @@ if( isset( $_GET['fc'] ) ){
 }
 
 // Replace Second Gradient
-
 if( isset( $_GET['sc'] ) ){
     $sc = $_GET['sc'];
     //$sc = substr( $sc, 0, strpos( $sc, '?'));

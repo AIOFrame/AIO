@@ -1,0 +1,47 @@
+.a3 {
+  margin: 0 auto;
+  width: 297mm;
+}
+
+.a3.h {
+  width: 420mm;
+}
+
+.a4 {
+  width: 210mm;
+  margin: 0 auto;
+  /*height:calc( calc(100vw - 40px) * 1.4142 );*/
+}
+
+.a4.h {
+  width: 297px;
+}
+
+.a5 {
+  margin: 0 auto;
+  width: 148mm;
+}
+
+.a5.h {
+  width: 210mm;
+}
+
+.a6 {
+  margin: 0 auto;
+  width: 105mm;
+}
+
+.a6.h {
+  width: 148mm;
+}
+
+.a7 {
+  margin: 0 auto;
+  width: 74mm;
+}
+
+.a7.h {
+  width: 105mm;
+}
+
+/*# sourceMappingURL=sizes.css.map */

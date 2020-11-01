@@ -25,11 +25,11 @@ function set_title( $title ){
 
 // Fetches stylesheet with options
 
-function art( $color1 = '000', $color2 = '000', $styles = [] ) {
+function art( $color1 = '222', $color2 = '000', $arts = '' ) {
     $cache = get_config( 'cache' );
     $v = $cache ? '&v=' . round( time() / ( $cache * 60 ) ) : '';
-    echo in_array( 'elements', $styles ) ? '<link rel="stylesheet" href="'.APPURL.'assets/art.php?fc='.$color1.'&sc='.$color2. $v . '">' : '';
-    echo in_array( 'inputs', $styles ) ? '<link rel="stylesheet" href="'.APPURL.'assets/inputs.php?fc='.$color1.'&sc='.$color2. $v . '">' : '';
+    $arts = is_array( $arts ) ? implode( ',', $arts ) : $arts;
+    echo '<link rel="stylesheet" href="'.APPURL.'assets/art.php?fc='.$color1.'&sc='.$color2.'&arts='.$arts. $v . '">';
 }
 
 // Returns a complete <link> for stylesheet if file exists either in app or in core, prioritizes minified file
@@ -519,7 +519,7 @@ function render_options( $type = 'radio', $name, $values = [], $checked = '', $a
                 $value = $valued ? $val : $title;
                 $c = $value == $checked ? 'checked' : '';
                 if ($label_first) {
-                    echo $pre . '<label for="' . $k . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' name="' . $name . '" id="' . $k . '" value="' . $value . '" '. $c .' >' . $post;
+                    echo $pre . '<label for="' . $k . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' name="' . $name . '" data-key="'.$name.'" id="' . $k . '" value="' . $value . '" '. $c .' >' . $post;
                 } else {
                     echo $pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" data-key="'.$name.'" id="' . $k . '" value="' . $value . '" '. $c .' ><label for="' . $k . '">' . $title . '</label>' . $post;
                 }
@@ -533,9 +533,9 @@ function render_options( $type = 'radio', $name, $values = [], $checked = '', $a
                 $data = is_array($val) && !empty($val[2]) ? $val[2] : '';
                 $c = $value == $checked ? 'checked' : '';
                 if ($label_first) {
-                    echo $pre . '<label for="' . $k . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' ' . $data . ' name="' . $name . '" id="' . $k . '" value="' . $value . '" '.$c.'>' . $post;
+                    echo $pre . '<label for="' . $k . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' ' . $data . ' data-key="'.$name.'" name="' . $name . '" id="' . $k . '" value="' . $value . '" '.$c.'>' . $post;
                 } else {
-                    echo $pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" id="' . $k . '" value="' . $value . '" ' . $data . ' '.$c.'><label for="' . $k . '">' . $title . '</label>' . $post;
+                    echo $pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" data-key="'.$name.'" id="' . $k . '" value="' . $value . '" ' . $data . ' '.$c.'><label for="' . $k . '">' . $title . '</label>' . $post;
                 }
                 $x++;
             }
