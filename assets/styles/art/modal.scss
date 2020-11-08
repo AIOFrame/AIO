@@ -10,7 +10,6 @@
   padding: 20px;
   width:auto;
   height:auto;
-  border-radius:10px;
   pointer-events: none;
   opacity:0;
   z-index:-1;
@@ -18,13 +17,31 @@
   transition:.6s;
   backdrop-filter: blur(8px) saturate(2);
   -webkit-backdrop-filter: blur(8px) saturate(2);
-  .t {
+  .t, .title {
     margin-top: 0;
     letter-spacing: 1px;
+  }
+  .t.c, .title.c {
+    color:#111;
   }
   .modal {
     z-index:15;
   }
+  .close {
+    background:url('../assets/icons/close.svg') no-repeat center / 70%;
+    position: absolute;
+    right:10px;
+    top:10px;
+    width:40px;
+    height:40px;
+    cursor: pointer;
+  }
+}
+.modal.load [onclick=process_data] {
+  pointer-events: none;
+}
+.modal.b2 {
+  border:2px solid #111;
 }
 .modal.on {
   /*display: block;*/
@@ -70,16 +87,10 @@
 .modal.f {
   width: calc(100vw - 60px);
 }
-.modal .close, #notify .close, .alert .close {
-  background:url('../assets/icons/close.svg') no-repeat center / 70%;
-  position: absolute;
-  right:10px;
-  top:10px;
-  width:40px;
-  height:40px;
-  cursor: pointer;
-}
-.alert .close {
-  width:20px;
-  height:20px;
+
+// RTL
+[dir=rtl] .modal {
+  .t, .title {
+    letter-spacing: 0;
+  }
 }

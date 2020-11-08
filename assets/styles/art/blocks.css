@@ -48,6 +48,12 @@
   text-align: center;
   text-transform: uppercase;
 }
+.block .color1 {
+  color: #111;
+}
+.block .color2 {
+  color: #222;
+}
 .block .title.s {
   white-space: nowrap;
   overflow: hidden;

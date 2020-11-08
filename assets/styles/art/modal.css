@@ -9,7 +9,6 @@
   padding: 20px;
   width: auto;
   height: auto;
-  border-radius: 10px;
   pointer-events: none;
   opacity: 0;
   z-index: -1;
@@ -18,12 +17,32 @@
   backdrop-filter: blur(8px) saturate(2);
   -webkit-backdrop-filter: blur(8px) saturate(2);
 }
-.modal .t {
+.modal .t, .modal .title {
   margin-top: 0;
   letter-spacing: 1px;
 }
+.modal .t.c, .modal .title.c {
+  color: #111;
+}
 .modal .modal {
   z-index: 15;
+}
+.modal .close {
+  background: url("../assets/icons/close.svg") no-repeat center/70%;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.modal.load [onclick=process_data] {
+  pointer-events: none;
+}
+
+.modal.b2 {
+  border: 2px solid #111;
 }
 
 .modal.on {
@@ -83,19 +102,8 @@
   width: calc(100vw - 60px);
 }
 
-.modal .close, #notify .close, .alert .close {
-  background: url("../assets/icons/close.svg") no-repeat center/70%;
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-}
-
-.alert .close {
-  width: 20px;
-  height: 20px;
+[dir=rtl] .modal .t, [dir=rtl] .modal .title {
+  letter-spacing: 0;
 }
 
 /*# sourceMappingURL=modal.css.map */

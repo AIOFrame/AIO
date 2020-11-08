@@ -519,6 +519,41 @@ function create_column( $table, $column, $type = 'TEXT', $length = '13', $null =
     }
 }
 
+function import( $sql_file ) {
+    $query = '';
+    $script = file( $sql_file );
+    $df = debug_backtrace();
+    global $db;
+    foreach( $script as $l ) {
+
+        $startWith = substr( trim( $l ), 0 ,2 );
+        $endWith = substr( trim( $l ), -1 ,1 );
+
+        if( empty( $l ) || $startWith == '--' || $startWith == '/*' || $startWith == '//' ) {
+            continue;
+        }
+
+        $query = $query . $l;
+        if ($endWith == ';') {
+            mysqli_query( $db, $query ) or die('Problem in executing the SQL query <b>' . $query. '</b>');
+            $query= '';
+        }
+    }
+
+
+
+    /* $e = mysqli_query( $db, $exist );
+    if( $e && $e->fetch_assoc()['COUNT(*)'] == 0 ){
+        if( mysqli_query( $db, $query ) ){
+            return true;
+        } else {
+            elog( $query, 'column', $df[0]['line'], $df[0]['file'], $table . '-' . $column );
+            elog( $column.' '.mysqli_error($db), 'error', $df[0]['line'], $df[0]['file'], $table . '-' . $column );
+            return false;
+        }
+    } */
+}
+
 function query( $query ) {
 
     global $db;

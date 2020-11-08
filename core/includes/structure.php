@@ -98,8 +98,17 @@ if( is_array( $feats ) ) {
     }
 
     // Create File uploader tables if featured
-    if( in_array( 'storage', $feats )|| in_array( 'uploads', $feats ) ) {
+    if( in_array( 'storage', $feats ) || in_array( 'uploads', $feats ) ) {
         storage_tables();
+    }
+
+    // Create Countries and Currencies data
+    if( in_array( 'data', $feats ) || in_array( 'countries', $feats ) || in_array( 'world', $feats ) ) {
+        // Check if world data exists
+        $countries = select( 'countries', '1', '', 1 );
+        if( empty( $countries ) ) {
+            import( COREPATH . 'core/components/data/world.sql' );
+        }
     }
 
 }

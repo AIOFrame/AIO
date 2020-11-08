@@ -2,9 +2,11 @@ table {
   width:100%;
   border-collapse: collapse;
   box-shadow:0 0 10px rgba(0,0,0,.08);
+  border-spacing: 0;
   thead {
+    background: linear-gradient(-90deg, #222 0%, #111 100%);
     tr {
-      background:#fff;
+      //background:#fff;
       z-index:10;
       box-shadow:0 0 25px rgba(0,0,0,.05);
     }
@@ -44,7 +46,6 @@ table {
 }
 
 // Medium table
-
 table.m {
   td {
     padding:10px;
@@ -53,7 +54,6 @@ table.m {
 }
 
 // Large table
-
 table.l {
   tr {
     position: relative;
@@ -75,7 +75,6 @@ table.l {
 }
 
 // Extra large table for big family
-
 table.xls {
   thead tr {
     box-shadow:none;
@@ -98,7 +97,6 @@ table.xls {
 }
 
 // Simple Table
-
 table.plain {
   background:none;
   border-collapse:collapse;
@@ -110,5 +108,32 @@ table.plain {
   }
   tr:after {
     display: none;
+  }
+}
+
+// Border Rounded Table
+table.r {
+  thead tr {
+    border:0;
+  }
+  tr:first-child {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    td:first-child, th:first-child {
+      border-top-left-radius: 10px;
+    }
+    td:last-child, th:last-child {
+      border-top-right-radius: 10px;
+    }
+  }
+  tr:last-child {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    td:first-child, th:first-child {
+      border-bottom-left-radius: 10px;
+    }
+    td:last-child, th:last-child {
+      border-bottom-right-radius: 10px;
+    }
   }
 }

@@ -74,7 +74,6 @@ $(document).ready(function(){
     });
 
     // Color Picker
-
     $(b).on('click','[data-color-picker]',function(){
         $('.color_picker_wrap').addClass('on');
         init_color_picker($(this),$(this).val());
@@ -519,8 +518,25 @@ function get_values( e, s, pre ) {
 
     var data = {};
 
+    // Loop thru the input elements
     $(e).find(":input"+s+":not(:button)","select"+s,"textarea"+s).each(function () {
 
+        // Define Pre and Key
+        var pk;
+        var n = $(this).attr('name');
+        var k = $(this).data('key');
+        var id = $(this).attr('id');
+        if( k !== undefined ){
+            pk = pre + k;
+        } else if( id !== undefined ){
+            pk = pre + id;
+        } else if( n !== undefined ) {
+            pk = pre + n;
+        } else {
+            pk = pre + $(this).attr('class');
+        }
+
+        var m = $('[name='+n+']');
         var v;
 
         v = $(this).hasClass('fn') ? ufn( $(this).val() ) : $(this).val(); // Un Format Number
@@ -528,14 +544,15 @@ function get_values( e, s, pre ) {
         if( $(this).attr('type') === 'checkbox' ){
 
             var t = $(this).is(':checked');
-            v = t === true ? 1 : 0;
-            /* var vl = $(this).val();
-            elog(vl);
-            if( vl === 1 || vl === 0 || vl === undefined ) {
+
+            if( m.length > 1 ) {
+                v = $('[name=' + $(this).attr('name') + ']').map(function(){
+                    if( $(this).is(':checked') )
+                        return $(this).val();
+                }).toArray();
             } else {
-                var v = [];
-                t === true ? v.push( vl ) : '';
-            } */
+                v = t === true ? 1 : 0;
+            }
 
         } else if( $(this).attr('type') === 'radio' ) {
 
@@ -543,7 +560,7 @@ function get_values( e, s, pre ) {
             k = $(this).data('key') !== undefined ? $(this).data('key') : k;
             //v = $(this).is(':checked') ? $(this).val() : '';
             v = $('input[name='+$(this).attr('name')+']:checked').val();
-            data[ pre + k ] = v;
+            data[ pk ] = v;
             return true;
         } else if( $(this).is( "select" ) && $(this).attr('multiple') !== undefined ) {
 
@@ -551,20 +568,8 @@ function get_values( e, s, pre ) {
 
         }
 
-        if( $(this).data('key') !== undefined ){
-
-            data[pre + $(this).data('key')] = v;
-
-        } else if( $(this).attr('id') !== undefined ){
-
-            data[pre + $(this).attr('id')] = v;
-
-        } else {
-
-            data[pre + $(this).attr('class')] = v;
-        }
-        //elog($(this).attr('id'));
-        //elog(v);
+        // Finally push the value
+        data[ pk ] = v;
 
     });
 
@@ -614,9 +619,11 @@ function process_data( e ){
         if( sempty( p, $(p).data('sempty') ) ) {
             $(p).removeClass('load');
             $(e).attr('disabled',false);
+            notify('Input fields seem to be empty! Please fill and try again!!');
             return;
         }
     }
+    elog('test');
 
     // Disable Send Button
     if( $(p).data('reload') !== undefined && $(p).data('reload') !== null && parseInt( $(p).data('reload') ) > 0 ) {
@@ -755,18 +762,27 @@ function notify( text, duration ) {
 
     // Create notification message
     var r = Math.random().toString(36).substring(7);
-    var n = '<div class="notify in n_'+r+'"><div class="data"><div class="close"></div><div class="message">'+text+'</div></div></div>'
+    var n = '<div class="notify in n_'+r+'"><div class="data"><div class="close"></div><div class="message">'+text+'</div></div><div class="time"></div></div>'
+    var id = '.n_' + r;
     let ns = $('.notices');
+
+    // Animate Timer
+    var perc = 100;
+    var timer = setInterval(function(){
+        perc--;
+        $( id + ' .time' ).css({ 'width': 'calc('+perc+'% - 20px)' });
+    }, (duration + 400) / 100 );
+    setTimeout(function(){ clearInterval(timer) },duration);
 
     // Add Notification
     ns.hasClass('b') ? ns.prepend(n) : ns.append(n);
-    setTimeout(function(){ $('.n_'+r).removeClass('in') },100);
+    setTimeout(function(){ $(id).removeClass('in') },100);
 
     // Prepare for Removal
-    setTimeout(function(){ $('.n_'+r).addClass('out') },duration+1000);
+    setTimeout(function(){ $(id).addClass('out') },duration+1000);
 
     // Remove Notification
-    setTimeout(function(){ $('.n_'+r).remove() },duration+2000);
+    setTimeout(function(){ $(id).remove() },duration+2000);
 }
 
 function slide_toggle( e, t ){

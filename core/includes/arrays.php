@@ -156,6 +156,7 @@ function prepare_values( $array = '', $pre = '', $remove_empty = 1 ) {
     unset( $array['action'] );
     if( is_array( $array ) && !empty( $array ) ){
         foreach( $array as $k => $v ){
+            $v = is_array( $v ) ? serialize( $v ) : $v;
             if( $remove_empty ){
                 if( $v !== '' ){
                     $values[] = $pre.$v;

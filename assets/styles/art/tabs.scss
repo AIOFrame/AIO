@@ -40,6 +40,16 @@
   } */
   box-shadow: 0 -5px 15px rgba(0,0,0,.1);
 }
+.tab.r {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.tab.rl {
+  border-top-left-radius: 5px;
+}
+.tab.rr {
+  border-top-right-radius: 5px;
+}
 .tab.on {
   background: #111;
   background: linear-gradient(-90deg, #222 0%, #111 100%);
@@ -75,6 +85,24 @@
     bottom: 0;
     left: 20px;
     background:#000;
+  }
+}
+
+// Design 2
+.tabs.two {
+  .tab {
+    margin-right: 5px;
+  }
+  .tab:not(.on) {
+    padding:10px 15px;
+    height:36px;
+    margin-top:4px;
+  }
+}
+[dir=rtl] .tabs.two {
+  .tab {
+    margin-right: 0;
+    margin-left: 5px;
   }
 }
 
