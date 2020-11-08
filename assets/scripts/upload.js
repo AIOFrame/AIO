@@ -77,7 +77,7 @@ $(document).ready(function(){
                     return;
                 }
             }
-
+            elog(s.data);
             if( f.data('s_img') !== undefined && f.data('s_img') !== "" ) {
                 if( s ){ $( f.data('s_img') ).html('').append( '<img width="150" height="150" src="'+f.data('dir')+ s.data('url') +'">' ) }
             }
@@ -194,8 +194,8 @@ function file_ui() {
         var readonly = $(f).attr('readonly') !== undefined;
         var file = d.split('/')[ d.split('/').length - 1 ];
         var ext = file.split('.')[ file.split('.').length - 1 ];
-        var trash = !readonly ? '<i class="ico trash"></i>' : '';
-        var file_ui = file !== '' ? '<div class="f"><i class="ico file '+ext+'"></i>'+trash+'<div class="f">'+file+'</div></div>' : $(f).prev('button').show().clone();
+        var trash = !readonly ? '<i class="i trash"></i>' : '';
+        var file_ui = file !== '' ? '<div class="f"><i class="i file '+ext+'"></i>'+trash+'<div class="f">'+file+'</div></div>' : $(f).prev('button').show().clone();
         if( !$(f).next().hasClass('aio_fp') ){
             var id = $(f).prev('button').data('url');
             $(f).after('<div class="aio_fp aio_files" data-url="'+ id +'"></div>');
@@ -214,14 +214,14 @@ function files_ui() {
         var files = $(b).val() !== '' ? $(b).val().split('|') : '';
         var files_ui = '';
         var readonly = $(b).attr('readonly') !== undefined;
-        var trash = !readonly ? '<i class="ico trash"></i>' : '';
+        var trash = !readonly ? '<i class="i trash"></i>' : '';
         $(files).each(function(c,d){
             var file = d.split('/')[ d.split('/').length - 1 ];
             var ext = file.split('.')[ file.split('.').length - 1 ];
             if( readonly ) {
-                files_ui += file !== '' ? '<a href="'+location.origin+'/apps/'+location.host.split('.')[0]+d+'" class="f"><i class="ico file '+ext+'"></i>'+trash+'<div class="f">'+file+'</div></a>' : '';
+                files_ui += file !== '' ? '<a href="'+location.origin+'/apps/'+location.host.split('.')[0]+d+'" class="f"><i class="i file '+ext+'"></i>'+trash+'<div class="f">'+file+'</div></a>' : '';
             } else {
-                files_ui += file !== '' ? '<div class="f"><i class="ico file '+ext+'"></i>'+trash+'<div class="f">'+file+'</div></div>' : '';
+                files_ui += file !== '' ? '<div class="f"><i class="i file '+ext+'"></i>'+trash+'<div class="f">'+file+'</div></div>' : '';
             }
         });
         //files_ui = files_ui === '' ? $(b).prev('button').show().clone() : files_ui;

@@ -129,11 +129,11 @@
 .plate .body {
   padding: 15px;
 } */
-.block:hover {
+.block:not(.no-float):hover {
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.05);
   transform: translateY(-3px);
 }
-.block:hover .actions {
+.block:not(.no-float):hover .actions {
   opacity: 1;
 }
 

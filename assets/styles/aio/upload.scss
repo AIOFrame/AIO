@@ -154,7 +154,7 @@ body.d .file_modal .files_head {
 #aio_up .fi.multiple span:nth-child(3) {
   display: inline-block;
 }
-.files_head .ico.file.browse {
+.files_head .i.file.browse {
   background:url('../../images/icons/browse.svg') no-repeat center;
 }
 .fup_icon.uploaded_files {
@@ -296,16 +296,16 @@ body.d #aio_up .f.on {
     cursor:not-allowed;
     pointer-events: none;
   }
-  .ico.select {
+  .i.select {
     background:url('../../images/icons/select.svg') no-repeat 10px center / 20px;
   }
-  .ico.trash {
+  .i.trash {
     background:url('../../images/icons/delete.svg') no-repeat 10px center / 20px;
   }
-  .ico.disabled {
+  .i.disabled {
     background:none;
   }
-  .ico.browse {
+  .i.browse {
     background:url('../../images/icons/browse.svg') no-repeat 10px center / 20px;
   }
   >div:hover, >label:hover {
@@ -354,7 +354,7 @@ body.d .files_actions {
     width: 60px;
     margin: 0;
   }
-  .ico.file {
+  .i.file {
     margin:6px auto;
   }
 }
@@ -410,7 +410,7 @@ td .aio_fsp {
     height: 30px;
     background:url('../../images/icons/delete.svg') no-repeat center / 20px;
   }
-  .ico.file {
+  .i.file {
     height:20px;
     width:20px;
     display: inline-block;

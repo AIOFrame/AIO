@@ -1,10 +1,7 @@
-/* Place Universal Scripts Here */
-
 var domain;
 let b = $('body');
-
 $(document).ready(function(){
-
+    let b = $('body');
     // MANIPULATOR
     // TODO: Change resetsrc and resetinput to reset
     $(document).on('click', '[data-action], [data-show], [data-on], [data-off], [data-hide], [data-slide], [data-remove], [data-toggle], [data-resetsrc], [data-resetinput], [data-click], [data-href],[data-force-on]', function (e) {
@@ -122,8 +119,9 @@ $(document).ready(function(){
             localStorage[ pagepath + '_tab' ] = $(this).data('t');
         }
     })
+    console.log('test');
 
-    .on('click', '[data-step]', function () {
+    $('body').on('click', '[data-step]', function () {
         $(this).parent().children().removeClass('on');
         $(this).addClass('on');
         $($(this).data('step')).parent().children().hide();

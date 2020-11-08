@@ -66,8 +66,8 @@ function file_upload() {
     }
 }
 function storage_url( $url = '' ) {
-    //elog(mb_substr( $url, 1, 7));
-    return mb_substr( $url, 1, 7) == 'storage' || mb_substr( $url, 1, 6) == 'assets' ? APPURL . 'apps/' . APPDIR . str_replace( ' ', '%20', $url) : $url;
+    elog(mb_substr( $url, 1, 7));
+    return mb_substr( $url, 1, 7) == 'storage' || mb_substr( $url, 1, 6) == 'assets' ? APPURL . 'apps/' . APPDIR . $url : $url;
 }
 
 function asset_url( $url = '' ) {

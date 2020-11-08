@@ -20,21 +20,21 @@
   box-sizing: border-box;
   text-transform: uppercase;
   transition: 0.3s;
-  /* .notify {
-    position: absolute;
-    top:-10px;
-    right: 0;
-    padding:2px 0;
-    width: 20px;
-    height: 20px;
-    border-radius:15px;
-    background:firebrick;
-    color:#fff;
-    text-align: center;
-    font-size: 12px;
-    font-weight: bold;
-  } */
   box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+}
+.tab .alert {
+  position: absolute;
+  top: -10px;
+  right: 0;
+  padding: 2px 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 15px;
+  background: firebrick;
+  color: #fff;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
 }
 
 .tab.r {
