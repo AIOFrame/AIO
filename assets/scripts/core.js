@@ -661,6 +661,7 @@ function edit_data( e, modal, on ) {
 
     $('article').addClass('fade');
 
+    /*
     $.each( $(modal).find('button,h1,h2,h3,h4,h5,h6,span,i,p'), function( a, b ){
         if( $(b).html().indexOf('Add') >= 0){
             $(b).html( $(b).html().replace('Add','Update') );
@@ -669,6 +670,9 @@ function edit_data( e, modal, on ) {
             $(b).html( $(b).html().replace('ADD','UPDATE') );
         }
     });
+    */
+    $(modal).find('[data-add]').hide();
+    $(modal).find('[data-update]').show();
 
     //elog(data); elog(t);
 
@@ -701,7 +705,8 @@ function edit_data( e, modal, on ) {
 }
 
 function reset_modal(e) {
-
+    var m = $(e).parents('[data-t]');
+    /*
     $.each( $(e).parents('.modal').find('button,h1,h2,h3,h4,h5,h6,span,i,p'), function( a, b ){
         if( $(b).html().indexOf('Update') >= 0){
             $(b).html( $(b).html().replace('Update','Add') );
@@ -710,8 +715,11 @@ function reset_modal(e) {
             $(b).html( $(b).html().replace('UPDATE','ADD') );
         }
     });
+    */
+    $(m).find('[data-add]').show();
+    $(m).find('[data-update]').hide();
 
-    $(e).parents('.modal').data('id','');
+    $(m).data('id','');
 
     // TODO: If modal has class to empty then empty fields
 

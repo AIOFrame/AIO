@@ -17,11 +17,16 @@
     width: 80px;
     height: 80px;
     margin: 10px auto;
-    border: 1px solid lightgrey;
     font-size: 30px;
     padding: 20px 0;
     text-align: center;
     box-sizing: border-box;
+    background-size:contain;
+    background-position:center;
+    background-repeat:no-repeat;
+  }
+  .image.b, .pic.b {
+    border: 1px solid lightgrey;
   }
   .pic {
     border-radius:25px;

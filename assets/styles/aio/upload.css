@@ -436,7 +436,7 @@ td .aio_fsp {
 
 .aio_files > .f {
   display: block;
-  padding: 4px 8px;
+  padding: 10px 8px;
   border: 1px solid #888;
   border-radius: 4px;
   position: relative;
