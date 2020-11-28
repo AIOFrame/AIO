@@ -48,7 +48,7 @@ $(document).ready(function(){
     })
 
     .on('change','[data-check]',function(){
-        var v = $(this).is(':checked') ? 'true' : 'false';
+        var v = $(this).is(':checked') ? '1' : '0';
         $($(this).data('check')).val(v);
     })
 
