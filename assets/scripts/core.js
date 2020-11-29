@@ -118,8 +118,7 @@ $(document).ready(function(){
         if( $(this).parent().data('store-tab') !== undefined ){
             localStorage[ pagepath + '_tab' ] = $(this).data('t');
         }
-    })
-    console.log('test');
+    });
 
     $('body').on('click', '[data-step]', function () {
         $(this).parent().children().removeClass('on');
@@ -621,7 +620,6 @@ function process_data( e ){
             return;
         }
     }
-    elog('test');
 
     // Disable Send Button
     if( $(p).data('reload') !== undefined && $(p).data('reload') !== null && parseInt( $(p).data('reload') ) > 0 ) {
