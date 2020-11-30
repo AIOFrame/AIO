@@ -179,8 +179,11 @@ $(document).ready(function(){
     });
 
     // ALERT & notify
-    $('#notify .close, #alert .close').on('click',function(){
-        $(this).parents('#notify,#alert').removeClass('on');
+    $('body').on('click','.notify .close',function(){
+        // Prepare for Removal
+        $(this).parents('.notify').addClass('out');
+        // Remove Notification
+        setTimeout(function(){ $(this).parents('.notify').remove() }, 2000 );
     });
 
     if( typeof ClipboardJS === 'function' ){
