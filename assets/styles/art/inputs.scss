@@ -169,51 +169,51 @@ input.load, input.loading {
   background: rgba(255,255,255,.85);
   box-shadow: 0 0 50px rgba(0,0,0,0.2);
   padding: 20px;
-  border-radius:10px;
+  border-radius:25px;
   pointer-events: none;
   opacity:0;
   z-index:9999;
   transition:.6s;
   backdrop-filter: blur(8px) saturate(2);
   -webkit-backdrop-filter: blur(8px) saturate(2);
-}
-.color_picker_wrap .trans {
-  height:28px;
-  border-radius:15px;
-  margin:10px 0;
-  background:url('../../images/transparency.svg') repeat center/ 13px;
-}
-.color_picker_wrap .trans .grad {
-  height: 100%;
-  width: 100%;
-  background:linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
-}
-.color_picker_wrap .trans .set {
-  height:16px;
-  width: 16px;
-  border:2px solid #000;
-  border-radius:5px;
-}
-.color_picker_wrap input {
-  margin:10px 0 0;
-  border-radius:10px;
-  background:#f1f1f1;
-  border:0 !important;
-  box-shadow:none !important;
-  text-align: center;
+  .trans {
+    height:28px;
+    border-radius:15px;
+    margin:10px 0;
+    background:url('../../images/transparency.svg') repeat center/ 13px;
+    .grad {
+      height: 100%;
+      width: 100%;
+      background:linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+    }
+    .set {
+      height:16px;
+      width: 16px;
+      border:2px solid #000;
+      border-radius:5px;
+    }
+  }
+  input {
+    margin:10px 0 0;
+    border-radius:10px;
+    background:#f1f1f1;
+    border:0 !important;
+    box-shadow:none !important;
+    text-align: center;
+  }
+  .close {
+    background:url('../../icons/close.svg') no-repeat center / 70%;
+    position: absolute;
+    right:10px;
+    top:10px;
+    width:40px;
+    height:40px;
+    cursor: pointer;
+  }
 }
 .color_picker_wrap.on {
   opacity:1;
   pointer-events:all
-}
-.color_picker_wrap .close {
-  background:url('../../images/close.svg') no-repeat center / 70%;
-  position: absolute;
-  right:10px;
-  top:10px;
-  width:40px;
-  height:40px;
-  cursor: pointer;
 }
 
 .next, .prev {
@@ -223,6 +223,12 @@ input.load, input.loading {
 /* DARK MODE */
 
 body.d {
+  input, button, select, textarea {
+    border:1px solid #444;
+  }
+  [type=radio], [type=checkbox] {
+    border:1px solid #444;
+  }
   [type=checkbox].slide, [type=radio].slide {
     background:#323232;
   }
@@ -235,6 +241,12 @@ body.d {
   .color_picker_wrap {
     background:rgba(0,0,0,.8);
     box-shadow:0 0 50px rgba(40,40,40,1);
+    input {
+      background:rgba(30,30,30,1);
+    }
+  }
+  input[data-color-picker] {
+    text-shadow:1px 1px 1px #000;
   }
   .select2-container--default .select2-selection--multiple {
     background:#212121;

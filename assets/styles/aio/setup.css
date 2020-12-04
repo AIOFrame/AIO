@@ -321,6 +321,10 @@ ul.select2-results__options .select2-results__option--selected {
 
 /* RESPONSIVE */
 /* DARK */
+body.d input, body.d button, body.d textarea {
+  border: 0;
+  border-bottom: 1px solid #666;
+}
 body.d .setup label i.tip {
   background-color: black;
   color: white;
@@ -334,6 +338,9 @@ body.d input[type=text]:focus, body.d input[type=number]:focus {
 body.d ul.select2-results__options li {
   background: #444;
   border: 1px solid #555;
+}
+body.d aside > div.on {
+  border: 1px solid #444;
 }
 body.d nav .p {
   background: url("../../icons/w/prev.svg") no-repeat center/contain;

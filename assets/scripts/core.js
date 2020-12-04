@@ -349,11 +349,14 @@ function init_color_picker( e, c ) {
     $(e).data('value') !== undefined ? $(cp).data('value',$(e).data('value')) : $(cp).data('value',$(e)); // Reads target element to set value, and sets it to color picker
     $(e).data('background') !== undefined ? $(cp).data('background',$(e).data('background')) : '';
     var v = {};
-    v.color = $(e).val() !== '' && $(e).val() !== undefined ? $(e).val() : '#fff';
-    v.width = $(e).data('width') !== '' && $(e).data('width') !== undefined ? $(e).data('width') : '200';
-    var colorPicker = new iro.ColorPicker('.color-picker',c);
+    var c = c === '' || c === undefined ? '#aaaaaa' : c;
+    v.color = $(e).val() !== '' && $(e).val() !== undefined ? $(e).val() : c;
+    v.width = $(e).data('width') !== '' && $(e).data('width') !== undefined ? $(e).data('width') : '300';
+    var types = { 'box' : [ { component: iro.ui.Box }, { component: iro.ui.Slider, options: { sliderType: 'hue' } } ], 'wheel' : [ { component: iro.ui.Wheel } ] };
+    v.layout = $(e).data('type') !== '' && $(e).data('type') !== undefined ? types[ $(e).data('type') ] : types['box'];
+    var colorPicker = new iro.ColorPicker('.color-picker',v);
     colorPicker.on('color:change', onColorChange);
-    onColorChange(colorPicker.hexString)
+    //onColorChange(colorPicker.color);
 }
 
 function onColorChange( color ) {
@@ -361,7 +364,7 @@ function onColorChange( color ) {
     if( $(cp).data('value') !== undefined ) {
         $($(cp).data('value')).val(color.hexString)
         $($(cp).data('value')).css({'border-color':color.hexString});
-    };
+    }
     $('.color_picker_wrap input').val(color.hexString);
     $(cp).data('background') !== undefined ? $(cp).data('background').css({'background-color':color.hexString}) : '';
 }

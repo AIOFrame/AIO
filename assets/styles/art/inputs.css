@@ -190,7 +190,7 @@ input.load, input.loading {
   background: rgba(255, 255, 255, 0.85);
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 25px;
   pointer-events: none;
   opacity: 0;
   z-index: 9999;
@@ -198,27 +198,23 @@ input.load, input.loading {
   backdrop-filter: blur(8px) saturate(2);
   -webkit-backdrop-filter: blur(8px) saturate(2);
 }
-
 .color_picker_wrap .trans {
   height: 28px;
   border-radius: 15px;
   margin: 10px 0;
   background: url("../../images/transparency.svg") repeat center/13px;
 }
-
 .color_picker_wrap .trans .grad {
   height: 100%;
   width: 100%;
   background: linear-gradient(90deg, white 0%, rgba(255, 255, 255, 0) 100%);
 }
-
 .color_picker_wrap .trans .set {
   height: 16px;
   width: 16px;
   border: 2px solid #000;
   border-radius: 5px;
 }
-
 .color_picker_wrap input {
   margin: 10px 0 0;
   border-radius: 10px;
@@ -227,14 +223,8 @@ input.load, input.loading {
   box-shadow: none !important;
   text-align: center;
 }
-
-.color_picker_wrap.on {
-  opacity: 1;
-  pointer-events: all;
-}
-
 .color_picker_wrap .close {
-  background: url("../../images/close.svg") no-repeat center/70%;
+  background: url("../../icons/close.svg") no-repeat center/70%;
   position: absolute;
   right: 10px;
   top: 10px;
@@ -243,11 +233,22 @@ input.load, input.loading {
   cursor: pointer;
 }
 
+.color_picker_wrap.on {
+  opacity: 1;
+  pointer-events: all;
+}
+
 .next, .prev {
   margin: 0;
 }
 
 /* DARK MODE */
+body.d input, body.d button, body.d select, body.d textarea {
+  border: 1px solid #444;
+}
+body.d [type=radio], body.d [type=checkbox] {
+  border: 1px solid #444;
+}
 body.d [type=checkbox].slide, body.d [type=radio].slide {
   background: #323232;
 }
@@ -260,6 +261,12 @@ body.d [type=checkbox]:not(:checked).slide:before, body.d [type=radio]:not(:chec
 body.d .color_picker_wrap {
   background: rgba(0, 0, 0, 0.8);
   box-shadow: 0 0 50px #282828;
+}
+body.d .color_picker_wrap input {
+  background: #1e1e1e;
+}
+body.d input[data-color-picker] {
+  text-shadow: 1px 1px 1px #000;
 }
 body.d .select2-container--default .select2-selection--multiple {
   background: #212121;

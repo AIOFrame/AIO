@@ -322,6 +322,10 @@ ul.select2-results__options {
 /* DARK */
 
 body.d {
+  input, button, textarea {
+    border:0;
+    border-bottom:1px solid #666;
+  }
   .setup label i.tip {
     background-color:black;
     color:white;
@@ -335,6 +339,9 @@ body.d {
   ul.select2-results__options li {
     background:#444;
     border:1px solid #555;
+  }
+  aside > div.on {
+    border:1px solid #444;
   }
   nav {
     .p {

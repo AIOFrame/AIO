@@ -39,7 +39,7 @@ $cry = Crypto::initiate();
             <input type="search" class="filter_lang" placeholder="<?php E('Search'); ?>">
             <div class="list">
                 <?php
-                $langs = ['en'=>'English','hi'=>'Hindi','es'=>'Spanish','fr'=>'French','bn'=>'Bengali','ru'=>'Russian','zh'=>'Chinese','ar'=>'Arabic','pr'=>'Portuguese','in'=>'Indonesian','ja'=>'Japanese'];
+                $langs = ['en'=>'English','ar'=>'العربية (Arabic)','zh'=>'中文 (Chinese Simplified)','fr'=>'Français (French)','hi'=>'हिंदी (Hindi)','in'=>'Bahasa Indonesian','ja'=>'日本語 (Japanese)','pr'=>'Português (Portuguese)','ru'=>'русский (Russian)','es'=>'Español (Spanish)'];
                 if( is_array( $langs ) && !empty( $langs ) )
                     foreach( $langs as $k => $v )
                         echo '<div data-lang="' . $k . '">' . $v . '</div>';
@@ -78,7 +78,7 @@ $cry = Crypto::initiate();
                                 <div class="col-6"><input type="checkbox" id="debug" name="debug" class="slide s" data-one checked></div>
                             </div>
                         </div>
-                        <div class="q">
+                        <div class="q dn">
                             <div class="row">
                                 <div class="col-6"><label for="key"><span>Set a key for encryption</span><i class="tip">An encryption key will help in data crypto for security reasons, you don't need to remember this</i></label></div>
                                 <div class="col-6"><input type="text" id="key" name="key" placeholder="********" value="<?php echo $cry->random(10); ?>" data-one></div>
@@ -131,7 +131,7 @@ $cry = Crypto::initiate();
                                     </select>
                                 </div>
                                 <?php
-                                text('color_1','Primary Gradient Start','','','data-color-picker',4);
+                                text('color_1','Primary Gradient Start','','','data-color-picker data-type="wheel"',4);
                                 text('color_2','Primary Gradient End','','','data-color-picker',4);
                                 ?>
                             </div>

@@ -5,7 +5,7 @@ $(document).ready( function() {
         var fl = $('.filter_lang');
         if( fl.val().length > 2 ){
             $('[data-lang]').each(function(a,b){
-                ~$(b).text().indexOf( $('.filter_lang').val() ) ? $(b).show() : $(b).hide();
+                ~$(b).text().toLowerCase().indexOf( $('.filter_lang').val().toLowerCase() ) ? $(b).show() : $(b).hide();
             });
         } else {
             $('[data-lang]').show();
