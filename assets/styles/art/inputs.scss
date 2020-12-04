@@ -160,6 +160,9 @@ input.load, input.loading {
 
 [data-color-picker] {
   cursor:pointer;
+  padding-right: 35px;
+  position: relative;
+  background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"><rect rx="6" ry="6" width="25" height="25" style="fill:grey"/></svg>') no-repeat calc(100% - 10px)/20px;
 }
 .color_picker_wrap {
   position: fixed;

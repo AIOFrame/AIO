@@ -362,8 +362,10 @@ function init_color_picker( e, c ) {
 function onColorChange( color ) {
     var cp = $('.color-picker');
     if( $(cp).data('value') !== undefined ) {
-        $($(cp).data('value')).val(color.hexString)
-        $($(cp).data('value')).css({'border-color':color.hexString});
+        $($(cp).data('value')).val(color.hexString);
+        $($(cp).data('value')).css( 'background-image', 'url(\'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"><rect rx="6" ry="6" width="25" height="25" style="fill:%23'+color.hexString.substring(1)+'" /></svg>\')' );
+        //$($(cp).data('value')).css({'background':'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><rect rx="6" ry="6" width="25" height="25" style="fill:darkred" /></svg>\n") no-repeat calc(100% - 6px)/20px'});
+        //$($(cp).data('value')).css({'border-color':color.hexString});
     }
     $('.color_picker_wrap input').val(color.hexString);
     $(cp).data('background') !== undefined ? $(cp).data('background').css({'background-color':color.hexString}) : '';

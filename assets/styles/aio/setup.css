@@ -56,9 +56,9 @@ input[type=text]:focus, [type=number]:focus {
 
 input[data-color-picker] {
   border-radius: 10px;
-  padding: 12px !important;
+  padding: 12px 40px 12px 12px !important;
   text-shadow: 1px 1px 1px #fff;
-  background: #f1f1f1;
+  background-color: #f1f1f1;
   border: 0;
 }
 
