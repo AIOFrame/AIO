@@ -332,7 +332,7 @@ body.d aside .scroll {
   box-shadow: 0 0 50px black;
 }
 body.d [type=search], body.d input[data-color-picker] {
-  background: #212121;
+  background-color: #212121;
 }
 body.d [data-lang] {
   border-bottom: 1px solid #222;

@@ -131,7 +131,7 @@ $cry = Crypto::initiate();
                                     </select>
                                 </div>
                                 <?php
-                                text('color_1','Primary Gradient Start','','','data-color-picker data-type="wheel"',4);
+                                text('color_1','Primary Gradient Start','','','data-color-picker',4);
                                 text('color_2','Primary Gradient End','','','data-color-picker',4);
                                 ?>
                             </div>

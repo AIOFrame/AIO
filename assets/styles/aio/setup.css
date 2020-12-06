@@ -54,17 +54,11 @@ input[type=text]:focus, [type=number]:focus {
   border-bottom: 1px solid #000;
 }
 
-input[data-color-picker] {
-  border-radius: 10px;
-  padding: 12px 40px 12px 12px !important;
-  text-shadow: 1px 1px 1px #fff;
-  background-color: #f1f1f1;
-  border: 0;
-}
-
 select {
-  border-radius: 10px;
-  font-size: 18px;
+  font-size: 22px;
+  border: 0;
+  border-bottom: 1px solid #ddd;
+  box-shadow: none;
 }
 
 .ico {
@@ -270,16 +264,25 @@ select {
   background: none;
 }
 
-ul.select2-results__options {
-  display: flex;
-  flex-wrap: wrap;
-}
 ul.select2-results__options li {
+  display: flex;
   background: #f1f1f1;
   border-radius: 5px;
   margin: 5px;
-  padding: 6px 15px;
+  padding: 6px 10px;
   border: 0;
+  font-size: 13px;
+}
+ul.select2-results__options li ul {
+  display: flex;
+}
+ul.select2-results__options li .select2-results__group {
+  flex: 0 0 15%;
+  min-width: 100px;
+  padding: 10px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 ul.select2-results__options .select2-results__option--selected {
   border: 1px solid #000;
