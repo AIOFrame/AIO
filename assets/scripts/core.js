@@ -204,7 +204,7 @@ $(document).ready(function(){
     //});
 
     if( $.fn.select2 !== undefined ){
-        $('select.easy, select.select2').select2({ width:'100%' });
+        //$('select.easy, select.select2').select2({ width:'100%', templateResult: optionState, closeOnSelect: false });
     }
 
     // TODO: Make context menu dynamic
@@ -318,6 +318,16 @@ $(document).mouseup(function(e) {
         cp.removeClass('on').children('.color-picker').html('');
     }
 });
+
+function optionState (state) {
+    if (!state.id) {
+        return state.text;
+    }
+    var $state = $(
+        '<span class="yo">' + state.text + '</span>'
+    );
+    return $state;
+}
 
 function scroll_to( element, parent, speed ) {
     speed = speed !== undefined && speed !== '' ? speed : 1000;

@@ -35,8 +35,7 @@ $(document).ready(function () {
 
     // Fonts
     $('#fonts').select2({
-        templateSelection: function(item)
-        {
+        templateSelection: function(item) {
             value = item.id;
             select_name = item.element.offsetParent.name;
             optgroup_label = $('select[name="'+ select_name +'"] option[value="'+ value +'"]').parent('optgroup').prop('label');
@@ -45,7 +44,8 @@ $(document).ready(function () {
             } else {
                 return item.text;
             }
-        }
+        },
+        closeOnSelect: false
     });
 
 });

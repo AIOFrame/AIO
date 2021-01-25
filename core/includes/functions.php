@@ -504,7 +504,7 @@ function select_options( $options = '', $selected = '', $placeholder = '', $tran
     }
 }
 
-function render_options( $type = 'radio', $name, $values = [], $checked = '', $attr = '', $label_first = 0, $pre = '', $post = '' ) {
+function render_options( $type = 'radio', $name = '', $values = [], $checked = '', $attr = '', $label_first = 0, $pre = '', $post = '' ) {
     if( is_array( $values ) ) {
         $type = $type == 'radio' ? 'type="radio"' : 'type="checkbox"';
         $valued = is_assoc( $values ) ? true : false; $x = 0;
@@ -595,8 +595,8 @@ function render_input( $type, $id, $label, $placeholder = '', $value = '', $attr
     echo $input.$post;
 }
 
-function render_inputs( $type = 'text', $array, $attrs = '', $pre = '', $post = '' ){
-    if( is_array( $array ) ){
+function render_inputs( $type = 'text', $array = [], $attrs = '', $pre = '', $post = '' ){
+    if( !empty( $array ) && is_array( $array ) ){
         foreach( $array as $id ){
             $slug = isset($id[0]) && $id[0] !== '' ? $id[0] : '';
             $label = isset($id[1]) && $id[1] !== '' ? $id[1] : '';

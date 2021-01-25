@@ -138,7 +138,7 @@ $cry = Crypto::initiate();
                         </div>
                         <div class="q">
                             <label for="fonts">Select Fonts</label>
-                            <select name="fonts" id="fonts" class="select2" multiple>
+                            <select name="fonts" id="fonts" class="select2" multiple data-close="false">
                                 <?php
                                 $weights = [ 'Thin' => 100, 'ExtraLight' => 200, 'Light' => 300, 'Regular' => 400, 'Medium' => 500, 'SemiBold' => 600, 'Bold' => 700, 'ExtraBold' => 800, 'Black' => 900 ];
                                 foreach( glob( COREPATH . '/assets/fonts/*', GLOB_ONLYDIR ) as $f ){
@@ -171,9 +171,16 @@ $cry = Crypto::initiate();
                                     [ 'ui_micro', 'AIO Micro CSS', 'Adds micro css overwrides, ex: add class dn on element to display:none' ],
                                 ];
                                 foreach( $ints as $i ) {
-                                    echo '<div class="col-12 col-lg-6"><input type="checkbox" id="'.$i[0].'" name="ints[]"><label for="'.$i[0].'">'.$i[1].'<i class="tip">'.$i[2].'</i></label></div>';
+                                    //echo '<div class="col-12 col-lg-6"><input type="checkbox" id="'.$i[0].'" name="ints[]"><label for="'.$i[0].'">'.$i[1].'<i class="tip">'.$i[2].'</i></label></div>';
                                 }
                                 ?>
+                                <select name="ints" id="ints" class="select" multiple>
+                                    <?php
+                                    foreach( $ints as $i ) {
+                                        echo '<option value="'.$i[0].'">'.$i[1].'<span class="tip">'.$i[2].'</span></option>';
+                                    }
+                                    ?>
+                                </select>
                             </div>
                         </div>
                         <div class="q">
