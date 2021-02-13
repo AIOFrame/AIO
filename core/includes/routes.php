@@ -1,6 +1,5 @@
 <?php
 
-
 // This page loads the actual page content
 
 if( !defined( 'COREPATH' ) ) { exit(); }

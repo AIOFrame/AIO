@@ -4,13 +4,18 @@ class FUP {
 
     function file_uploader() {
         $cry = Crypto::initiate();
+        global $universal;
+        !in_array('jquery',$universal['scripts']) ? get_script('jquery') : '';
         get_style('upload');
         get_script('upload');
         ?>
         <div id="aio_up" class="file_modal" data-dir="<?php echo APPURL.'apps/'.APPDIR; ?>">
             <div class="files_head">
                 <h3><?php E('File Uploader'); ?></h3>
-                <div class="close"></div>
+                <div class="acts">
+                    <div class="size"></div>
+                    <div class="close"></div>
+                </div>
                 <input type="file" id="file_input">
             </div>
             <div class="files_body">

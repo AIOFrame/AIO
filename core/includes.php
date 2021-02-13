@@ -5,7 +5,7 @@ if( !defined( 'COREPATH' ) ) { exit(); }
 function includes() {
 
     // Includes First set of Internal files to Include
-    $first_internal_includes = [ 'functions', 'crypt' ];
+    $first_internal_includes = [ 'config', 'functions', 'crypt' ];
     if( file_exists( APPPATH . 'config.php' ) ) {
         $data = include(APPPATH . 'config.php');
         $data = !empty( $data ) && is_array( $data ) && isset( $data['data'] ) ? $data['data'] : [];
@@ -14,7 +14,7 @@ function includes() {
     if( $con ) {
         $first_internal_includes[] = 'connect/'.$data['type'];
     }
-    array_push( $first_internal_includes, 'functions', 'crypt', 'payments', 'alerts', 'arrays', 'data', 'elements', 'files', 'icons', 'language', 'modules', 'spreadsheet', 'user', 'backup', 'log', 'recaptcha' );
+    array_push( $first_internal_includes, 'assets', 'functions', 'device', 'crypt', 'payments', 'alerts', 'arrays', 'data', 'elements', 'files', 'icons', 'language', 'modules', 'spreadsheet', 'user', 'backup', 'log', 'recaptcha' );
     if( $con ) {
         $first_internal_includes[] = 'structure';
     }

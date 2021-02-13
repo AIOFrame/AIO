@@ -1,7 +1,7 @@
 <?php
 
 $art = '';
-$l = __DIR__ . '/styles/art/';
+$l = __DIR__ . '/styles/aio/art/';
 
 // Fetch and set cache
 $v = isset( $_GET['v'] ) && !empty( $_GET['v'] ) ? $_GET['v'] : '14400';

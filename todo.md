@@ -14,10 +14,10 @@ Libraries:
     * CACHE System based on App Mode // PHPFastCache
 
 Code:
-    * Code an AIO Login / Register System with Social Login
+    * Code an AIO Login / Register System with Social Login (output thru single function with config)
     * Improve the alert system
-    * Improve the bloody notification system in core JS + html structure
-    * Restrict JSON Requests
+    * Improve the stupid notification system in core JS + html structure
+    * Restrict AJAX Requests thru config file
     * Code Inputs CSS into art() type func
     * AIO Backups to zip database and storage with config password
     * AIO Auto Backup option
@@ -30,6 +30,8 @@ Code:
     * Automatic database tables to include config option "User Management"
     * Automatic database tables to include config option "File Storage"
     * Config functions array to add feature to login functions file by page
+    * AIO Admin panel function
+    * AIO config panel editor inside admin panel
 
 AIO Setup
     * AIO Setup to include font selector
@@ -55,6 +57,7 @@ File Uploader
 
 * File Uploader issues on mobile (ex: trash button)
 * List and Icons View Toggle
+* File Uploader to have more controls like copy file url, or create share url
 * Uploaded file thumbnail if size is below 512kb else load button
 * Image editor
 * Image compress engine + options
@@ -64,6 +67,7 @@ File Uploader
 * Add URL instead of file upload
 * File Upload Errors to be present in notify translated and trigger show
 * File Uploader multiple selects multiple files and on delete does one
+* Uploaded files not accessible publicly by default but serve if user is logged in
 
 Payment Gateways Integration
 

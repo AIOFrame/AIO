@@ -2,7 +2,7 @@
   position: fixed;
   z-index: 999;
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
+  border-radius: 10px;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -11,7 +11,14 @@
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(10px) saturate(2);
   -webkit-backdrop-filter: blur(10px) saturate(2);
-  display: none;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.8s;
+}
+
+.file_modal.on {
+  pointer-events: all;
+  opacity: 1;
 }
 
 body.d .file_modal, body.d .file_notify {
@@ -65,16 +72,16 @@ body.d .file_modal, body.d .file_notify {
 .file_modal .search {
   box-shadow: none;
   border: 0;
-  background: #eee;
-  border-radius: 4px;
-  margin: 5px;
-  width: calc(100% - 10px);
+  background: #eee url(../../icons/search.svg) no-repeat 10px center/20px;
+  border-radius: 20px;
+  width: calc(100% - 20px);
   font-size: 16px;
-  padding: 8px;
+  padding: 12px 12px 12px 40px;
   font-weight: lighter;
+  margin: 10px;
+  letter-spacing: 1px;
 }
 .file_modal .files_body {
-  border-bottom: 1px solid #eee;
   position: relative;
 }
 .file_modal .files_body .uploaded_files {
@@ -94,6 +101,29 @@ body.d .file_modal, body.d .file_notify {
 }
 .file_modal .files_head input {
   display: none;
+}
+.file_modal .files_head .acts {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  left: auto;
+  z-index: 10;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+}
+.file_modal .files_head .acts > div {
+  width: 40px;
+  height: 40px;
+  position: relative;
+}
+.file_modal .files_head .size {
+  background: url("../../icons/uploader/expand.svg") no-repeat center/40%;
+}
+.file_modal .files_head .close {
+  background: url("../../images/icons/close.svg") no-repeat center/40%;
+  left: auto;
+  top: auto;
 }
 .file_modal .drop_files {
   position: absolute;
@@ -141,18 +171,6 @@ body.d .file_modal .files_head {
 .files_head .browse_file i {
     margin-right: 10px;
 }*/
-.files_head > .close {
-  background: url("../../images/icons/close.svg") no-repeat center/40%;
-  position: absolute;
-  right: 4px;
-  top: 4px;
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-  padding: 0;
-  z-index: 10;
-}
-
 #aio_up .fi span:nth-child(3), #aio_up .fi.multiple span:nth-child(2) {
   display: none;
 }
@@ -323,7 +341,6 @@ body.d #aio_up .f.on {
 .files_actions {
   display: flex;
   border-top: 1px solid #eee;
-  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.1);
 }
 .files_actions > div, .files_actions > label {
   margin: 0 auto;
@@ -343,16 +360,16 @@ body.d #aio_up .f.on {
   pointer-events: none;
 }
 .files_actions .i.select {
-  background: url("../../images/icons/select.svg") no-repeat 10px center/20px;
+  background: url("../../icons/uploader/select.svg") no-repeat 10px center/22px;
 }
 .files_actions .i.trash {
-  background: url("../../images/icons/delete.svg") no-repeat 10px center/20px;
+  background: url("../../icons/uploader/trash.svg") no-repeat 10px center/20px;
 }
 .files_actions .i.disabled {
   background: none;
 }
 .files_actions .i.browse {
-  background: url("../../images/icons/browse.svg") no-repeat 10px center/20px;
+  background: url("../../icons/uploader/browse.svg") no-repeat 10px center/25px;
 }
 .files_actions > div:hover, .files_actions > label:hover {
   background-color: rgba(0, 0, 0, 0.05);
@@ -466,6 +483,28 @@ td .aio_fsp {
   display: inline-block;
   vertical-align: middle;
   background: url("../../images/icons/file.svg") no-repeat center/contain;
+}
+
+.file_modal.max {
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+}
+.file_modal.max .files_body .uploaded_files {
+  height: calc(100vh - 165px);
+  max-height: none;
+}
+.file_modal.max .no_uploaded_files {
+  min-height: auto;
+  height: calc(100vh - 165px);
+}
+.file_modal.max .drop_files {
+  min-height: auto;
+  height: calc(100vh - 165px);
+}
+.file_modal.max .f, .file_modal.max > .uploaded_files > .uploading {
+  flex: 0 0 220px !important;
+  max-width: 220px !important;
 }
 
 @media only screen and (max-width: 600px) {
