@@ -81,59 +81,9 @@ function file_url( $url ) {
 // Emailer by Modules
 
 function email( $to, $subject, $content, $from, $cc = '' ){
-    include_once( COREPATH . 'core/components/mailer.php' );
+    include_once( COREPATH . 'core/components/email.php' );
     $mail = new MAIL();
-    return $mail->send_email( $to, $subject, $content, $from, $cc );
-}
-
-function sendgrid( $to, $subject, $content, $from, $cc = '' ) {
-
-    $key = get_config( 'sendgrid_key' );
-    global $con;
-    if( empty( $key ) && $con ) {
-        $key = get_option( 'sendgrid_key' );
-    }
-
-    if( !empty( $key ) ) {
-
-        require COREPATH . 'core/components/emailers/sendgrid/sendgrid-php.php';
-
-        $email = new \SendGrid\Mail\Mail();
-        $email->setFrom( $from );
-        $email->setSubject( $subject );
-
-        if( is_array( $to ) ){
-            foreach( $to as $k => $v ){
-                $email->addTo($k, $v);
-            }
-        } else {
-            $email->addTo($to);
-        }
-
-        $email->addContent("text/html", $content);
-        $sendgrid = new \SendGrid( $key );
-        try {
-            $response = $sendgrid->send($email);
-            elog( $response->statusCode() );
-            return 1;
-        } catch (Exception $e) {
-            elog( $e->getMessage() );
-            return 0;
-        }
-    } else {
-        elog('SendGrid Key is Empty! Please add key to config or option.');
-        return 0;
-    }
-}
-
-function mandrill( $to, $to_name ,$subject, $content, $from , $from_name, $cc = '' ){
-    include_once( COREPATH . 'core/components/mailer.php' );
-    global $mailer_loaded;
-    if( !$mailer_loaded ){
-        $mailer = new Mailer;
-        return $mailer->mandrill_send( $to,$to_name, $subject, $content, $from,$from_name, $cc );
-        $mailer_loaded = 1;
-    }
+    return $mail->send( $to, $subject, $content, $from, $cc );
 }
 
 // Language Editor

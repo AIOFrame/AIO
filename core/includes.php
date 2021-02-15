@@ -14,7 +14,7 @@ function includes() {
     if( $con ) {
         $first_internal_includes[] = 'connect/'.$data['type'];
     }
-    array_push( $first_internal_includes, 'assets', 'functions', 'device', 'crypt', 'payments', 'alerts', 'arrays', 'data', 'elements', 'files', 'icons', 'language', 'modules', 'spreadsheet', 'user', 'backup', 'log', 'recaptcha' );
+    array_push( $first_internal_includes, 'assets', 'functions', 'device', 'inputs', 'crypt', 'payments', 'alerts', 'arrays', 'data', 'elements', 'files', 'icons', 'language', 'modules', 'spreadsheet', 'user', 'backup', 'log', 'recaptcha' );
     if( $con ) {
         $first_internal_includes[] = 'structure';
     }

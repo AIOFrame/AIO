@@ -241,12 +241,12 @@ class ACCESS {
             '/mac_powerpc/i' => 'Mac OS 9',
             '/linux/i' => 'Linux',
             '/ubuntu/i' => 'Ubuntu',
-            '/iphone/i' => 'iPhone',
-            '/ipod/i' => 'iPod',
-            '/ipad/i' => 'iPad',
+            '/iphone/i' => 'iOS',
+            '/ipod/i' => 'iOS',
+            '/ipad/i' => 'PadOS',
             '/android/i' => 'Android',
             '/blackberry/i' => 'BlackBerry',
-            '/webos/i' => 'Mobile'
+            '/webos/i' => 'webOS'
         ];
         foreach ($os_array as $regex => $value) {
             if (preg_match($regex, $user_agent)) {

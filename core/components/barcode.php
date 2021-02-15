@@ -1,11 +1,28 @@
 <?php
 
-class BRCD {
+/**
+ * Class BARCODE
+ */
+class BARCODE {
 
-    function generate( $text, $width, $height, $bgColor, $lineColor, $textShow, $textAlign, $textPosition, $textMargin, $format ) {
+    /**
+     * Converts a string or int to Barcode
+     * @param string $text Text to convert to Barcode
+     * @param int $width Width of the barcode
+     * @param int $height Height of the barcode
+     * @param string $bgColor Background color hex of the barcode
+     * @param string $lineColor Barcode lines color
+     * @param string $textShow true or false to show code as text
+     * @param string $textAlign left, right or center align text
+     * @param string $textPosition top, center or bottom position text
+     * @param int $textMargin Margin around the text
+     * @param string $format Format of the barcode
+     * @author Shaikh <hey@shaikh.dev>
+     */
+    function generate( string $text, int $width, int $height, string $bgColor, string $lineColor, string $textShow, string $textAlign, string $textPosition, int $textMargin, string $format ) {
         if( !defined( 'BARCODE_INCLUDED' ) ) {
-            if (file_exists(COREPATH . 'core/components/barcode/' . strtolower($format) . '.min.js')) {
-                echo '<script src="' . APPURL . '/core/components/barcode/' . strtolower($format) . '.min.js" type="text/javascript"></script>';
+            if (file_exists(COREPATH . 'core/components/ext/barcode/' . strtolower($format) . '.min.js')) {
+                echo '<script src="' . APPURL . '/core/components/ext/barcode/' . strtolower($format) . '.min.js" type="text/javascript"></script>';
                 define( 'BARCODE_INCLUDED', true );
             }
         }

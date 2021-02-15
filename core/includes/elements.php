@@ -55,8 +55,15 @@ function body_class( $class = '' ) {
     $dm = isset($_SESSION['dark_mode']) && $_SESSION['dark_mode'] == 'true';
     $dm = !empty( $dm ) ? ' d' : '';
 
+    // Get Client Info
+    $dev = strtolower(str_replace(' ','_',get_device()));
+    $os = strtolower(str_replace(' ','_',get_os()));
+    $brow = strtolower(str_replace(' ','_',get_browser()));
+
+    $dd = 'data-device="'.$dev.'" data-os="'.$os.'" data-browser="'.$brow.'"';
+
     // Final output
-    echo 'class="'.$dc.$pc.$ec.$dm.'"';
+    echo 'class="'.$dc.$pc.$ec.$dm.'" '.$dd;
 }
 
 function ace( $element_id, $mode = 'html' ) {

@@ -15,6 +15,8 @@ function get_device(): string {
         return 'Android';
     else if( stripos( $_SERVER['HTTP_USER_AGENT'] , 'webOS' ) )
         return 'webOS';
+    else if( stripos( $_SERVER['HTTP_USER_AGENT'] , 'macintosh' ) )
+        return 'Mac';
     else
         return '';
 }

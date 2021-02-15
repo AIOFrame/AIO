@@ -1,0 +1,16 @@
+.fps {
+  height: 100vh !important;
+  width: 100%;
+  display: block;
+  overflow-y:auto;
+  position: relative;
+  padding: 0 !important;
+  > article, > section, > div {
+    position: relative;
+    height: 100vh !important;
+    margin:0 !important;
+    overflow:hidden;
+    max-width:none !important;
+    width: 100% !important;
+  }
+}

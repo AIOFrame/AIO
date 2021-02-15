@@ -13,25 +13,31 @@ Libraries:
     * Have a look into PHPUnit
     * CACHE System based on App Mode // PHPFastCache
 
-Code:
+AIO Core
+    * Restrict AJAX Requests thru config file <- IMP
     * Code an AIO Login / Register System with Social Login (output thru single function with config)
     * Improve the alert system
     * Improve the stupid notification system in core JS + html structure
-    * Restrict AJAX Requests thru config file
     * Code Inputs CSS into art() type func
-    * AIO Backups to zip database and storage with config password
-    * AIO Auto Backup option
-    * AIO to support installation, enable/disable, un-installation of internal plugins
-    * AIO to include CMS feature as plugin
-    * AIO to have e-Commerce feature as plugin
-    * AIO to have an interface to show AIO version, update automatically
-    * AIO to read internal language files then database language
-    * Translator to have export and import feature
     * Automatic database tables to include config option "User Management"
     * Automatic database tables to include config option "File Storage"
     * Config functions array to add feature to login functions file by page
-    * AIO Admin panel function
+
+AIO Admin
+    * AIO Admin panel feature
+    * Pages: App Configurator, App Designer, Translations, Backup, Plugins, DB, About
     * AIO config panel editor inside admin panel
+    * AIO to have an interface to show AIO version, update automatically
+    * AIO to support installation, enable/disable, un-installation of internal plugins
+    * AIO to have e-Commerce feature as plugin
+
+AIO Backup
+    * AIO Auto Backup option
+    * AIO Backups to zip database and storage with config password
+
+AIO Translation
+    * Translator to have export and import feature
+    * AIO to read internal language files then database language
 
 AIO Setup
     * AIO Setup to include font selector
