@@ -56,9 +56,10 @@ function body_class( $class = '' ) {
     $dm = !empty( $dm ) ? ' d' : '';
 
     // Get Client Info
-    $dev = strtolower(str_replace(' ','_',get_device()));
-    $os = strtolower(str_replace(' ','_',get_os()));
-    $brow = strtolower(str_replace(' ','_',get_browser()));
+    $client = new CLIENT();
+    $dev = strtolower(str_replace(' ','_',$client->get_device_type()));
+    $os = strtolower(str_replace(' ','_',$client->get_os()));
+    $brow = strtolower(str_replace(' ','_',$client->get_browser()));
 
     $dd = 'data-device="'.$dev.'" data-os="'.$os.'" data-browser="'.$brow.'"';
 

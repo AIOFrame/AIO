@@ -1,84 +1,141 @@
 <?php
 
+class CLIENT {
+
+    function __construct() {
+        if( file_exists( COREPATH . 'core/components/ext/whichbrowser/autoload.php' ) )
+            require COREPATH . 'core/components/ext/whichbrowser/autoload.php';
+    }
+
+    /**
+     * Get client device model
+     * @return string
+     */
+    function get_device(): string {
+        if( isset( $_SESSION['client']['device']['model'] ) && !APPDEBUG ) {
+            return $_SESSION['client']['device']['model'];
+        } else {
+            $result = new WhichBrowser\Parser(getallheaders());
+            $_SESSION['client']['device']['model'] = $result->device->model;
+            return $result->device->model;
+        }
+    }
+
+    /**
+     * Get client device type
+     * @return string
+     */
+    function get_device_type(): string {
+        if( isset( $_SESSION['client']['device']['type'] ) && !APPDEBUG ) {
+            return $_SESSION['client']['device']['type'];
+        } else {
+            $result = new WhichBrowser\Parser(getallheaders());
+            $_SESSION['client']['device']['type'] = $result->device->type;
+            return $result->device->type;
+        }
+    }
+
+    /**
+     * Get client browser name
+     * @return string
+     */
+    function get_browser(): string {
+        if( isset( $_SESSION['client']['browser']['name'] ) && !APPDEBUG ) {
+            return $_SESSION['client']['browser']['name'];
+        } else {
+            $result = new WhichBrowser\Parser(getallheaders());
+            $_SESSION['client']['browser']['name'] = $result->browser->name;
+            return $result->browser->name;
+        }
+    }
+
+    /**
+     * Get client browser version
+     * @return string
+     */
+    function get_browser_version(): string {
+        if( isset( $_SESSION['client']['browser']['version']['value'] ) && !APPDEBUG ) {
+            return $_SESSION['client']['browser']['version']['value'];
+        } else {
+            $result = new WhichBrowser\Parser(getallheaders());
+            $_SESSION['client']['browser']['version']['value'] = $result->browser->version->value;
+            return $result->browser->version->value;
+        }
+    }
+
+    /**
+     * Get client operating system information
+     * @return string
+     */
+    function get_os(): string {
+        if( isset( $_SESSION['client']['os'] ) && !APPDEBUG ) {
+            return $_SESSION['client']['os'];
+        } else {
+            $result = new WhichBrowser\Parser(getallheaders());
+            $_SESSION['client']['os'] = $result->os->name;
+            return $result->os->name;
+        }
+    }
+
+    /**
+     * Get client operating system version
+     * @return string
+     */
+    function get_os_version(): string {
+        if( isset( $_SESSION['client']['os']['version']['value'] ) && !APPDEBUG ) {
+            return $_SESSION['client']['os']['version']['value'];
+        } else {
+            $result = new WhichBrowser\Parser(getallheaders());
+            $_SESSION['client']['os']['version']['value'] = $result->os->version->value;
+            return $result->os->version->value;
+        }
+    }
+
+    /**
+     * Checks if client is using mobile
+     * @return bool
+     */
+    function is_mobile(): bool {
+        $type = $this->get_device_type();
+        return $type == 'mobile';
+    }
+
+    /**
+     * Checks if client is using tablet
+     * @return bool
+     */
+    function is_tablet(): bool {
+        $type = $this->get_device_type();
+        return $type == 'tablet';
+    }
+
+    /**
+     * Checks if client is using desktop
+     * @return bool
+     */
+    function is_desktop(): bool {
+        $type = $this->get_device_type();
+        return $type == 'desktop';
+    }
+
+}
+
 /**
  * Get client device from user agent
  * @return string Client device name
  */
 function get_device(): string {
-    if( stripos( $_SERVER['HTTP_USER_AGENT'] , 'iPod' ) )
-        return 'iPod';
-    elseif ( stripos( $_SERVER['HTTP_USER_AGENT'] , 'iPhone' ) )
-        return 'iPhone';
-    elseif( stripos( $_SERVER['HTTP_USER_AGENT'] , 'iPad' ) )
-        return 'iPad';
-    elseif( stripos( $_SERVER['HTTP_USER_AGENT'] , 'Android' ) )
-        return 'Android';
-    else if( stripos( $_SERVER['HTTP_USER_AGENT'] , 'webOS' ) )
-        return 'webOS';
-    else if( stripos( $_SERVER['HTTP_USER_AGENT'] , 'macintosh' ) )
-        return 'Mac';
-    else
-        return '';
+    $client = new CLIENT();
+    return $client->get_device();
 }
 
 /**
- * Checks if user device is desktop
- * @return bool
+ * Checks if user device is using mobile
+ * @return string
  */
-function is_desktop(): bool {
-    if( !is_mobile() && !is_tablet() ){
-        return true;
-    } else {
-        return false;
-    }
-}
-
-/**
- * Checks if user device is iPad
- * @return bool
- */
-function is_tablet(): bool{
-    if ( empty($_SERVER['HTTP_USER_AGENT']) ) {
-        return false;
-    } elseif (
-        strpos($_SERVER['HTTP_USER_AGENT'], 'Android') !== false
-        || strpos($_SERVER['HTTP_USER_AGENT'], 'Silk/') !== false
-        || strpos($_SERVER['HTTP_USER_AGENT'], 'Kindle') !== false
-        || strpos($_SERVER['HTTP_USER_AGENT'], 'BlackBerry') !== false
-        || strpos($_SERVER['HTTP_USER_AGENT'], 'Opera Mini') !== false
-        || strpos($_SERVER['HTTP_USER_AGENT'], 'Opera Mobi') !== false ) {
-        return false;
-    } elseif ( strpos($_SERVER['HTTP_USER_AGENT'], 'Mobile') !== false && strpos($_SERVER['HTTP_USER_AGENT'], 'iPad') == false ) {
-        return false;
-    } elseif ( strpos($_SERVER['HTTP_USER_AGENT'], 'iPad') !== false ) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-/**
- * Checks if user device is Mobile
- * @return bool|string
- */
-function is_mobile() {
-    if ( empty($_SERVER['HTTP_USER_AGENT']) ) {
-        return false;
-    } elseif (
-        strpos($_SERVER['HTTP_USER_AGENT'], 'Android') !== false
-        || strpos($_SERVER['HTTP_USER_AGENT'], 'Silk/') !== false
-        || strpos($_SERVER['HTTP_USER_AGENT'], 'Kindle') !== false
-        || strpos($_SERVER['HTTP_USER_AGENT'], 'BlackBerry') !== false
-        || strpos($_SERVER['HTTP_USER_AGENT'], 'Opera Mini') !== false
-        || strpos($_SERVER['HTTP_USER_AGENT'], 'Opera Mobi') !== false ) {
-        return 'true';
-    } elseif ( strpos($_SERVER['HTTP_USER_AGENT'], 'Mobile') !== false && strpos($_SERVER['HTTP_USER_AGENT'], 'iPad') == false ) {
-        return true;
-    } elseif ( strpos($_SERVER['HTTP_USER_AGENT'], 'iPad') !== false ) {
-        return false;
-    } else {
-        return false;
-    }
+function is_mobile(): string {
+    $client = new CLIENT();
+    return $client->is_mobile();
 }
 
 /**
@@ -87,6 +144,8 @@ function is_mobile() {
  * @author Shaikh <hey@shaikh.dev>
  */
 function is_ios() {
-    $d = get_device();
-    return ( $d == 'iPad' || $d == 'iPhone' || $d == 'iPod' ) ? 1 : 0;
+    $client = new CLIENT();
+    return $client->get_device();
+    //$d = get_device();
+    //return ( $d == 'iPad' || $d == 'iPhone' || $d == 'iPod' ) ? 1 : 0;
 }

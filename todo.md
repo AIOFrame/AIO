@@ -30,6 +30,7 @@ AIO Admin
     * AIO to have an interface to show AIO version, update automatically
     * AIO to support installation, enable/disable, un-installation of internal plugins
     * AIO to have e-Commerce feature as plugin
+    * AIO to have uploaded file browser
 
 AIO Backup
     * AIO Auto Backup option

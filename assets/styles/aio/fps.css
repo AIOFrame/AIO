@@ -15,4 +15,13 @@
   width: 100% !important;
 }
 
+@media only screen and (max-width: 1020px) {
+  .fps {
+    height: auto;
+  }
+  .fps > article, .fps > section, .fps > div {
+    height: auto !important;
+  }
+}
+
 /*# sourceMappingURL=fps.css.map */

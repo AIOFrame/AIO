@@ -14,3 +14,11 @@
     width: 100% !important;
   }
 }
+@media only screen and (max-width: 1020px) {
+  .fps {
+    height:auto;
+    > article, > section, > div {
+      height:auto !important;
+    }
+  }
+}
