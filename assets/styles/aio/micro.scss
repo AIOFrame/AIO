@@ -95,6 +95,7 @@ select.tar { text-align-last: right; }
 .ls3{ letter-spacing: 3px }
 
 .bxs, .bsh { box-shadow: 5px 5px 5px rgba(0,0,0,.06); }
+.bsn { box-shadow:none }
 .ttu, .uc { text-transform: uppercase }
 .ttn, .nc { text-transform: none }
 
@@ -226,3 +227,13 @@ select.tar { text-align-last: right; }
 /* Others */
 
 .cp { cursor: pointer }
+
+[dir=rtl] {
+  .tal { text-align:right }
+  .tar { text-align:left }
+  .jcs { justify-content: flex-end; }
+  .jce { justify-content: flex-start; }
+  .df.l { justify-content: flex-end }
+  .df.r { justify-content: flex-start }
+  select.tar { text-align-last: left; }
+}

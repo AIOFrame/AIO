@@ -1,5 +1,23 @@
 <?php
 
+elog('Load structure');
+
+/**
+ * Creates options Table to save App settings, not optional
+ */
+$tables[] = [ 'options', 'option', [
+    [ 'name', 'VARCHAR', 200, 1 ],
+    [ 'value', 'VARCHAR', 9999, 1 ],
+    [ 'scope', 'INT', 13, 0 ],
+    [ 'load', 'BOOLEAN', '', 0 ],
+] ];
+$db = new DB();
+$db->create_tables( $tables );
+
+/**
+ * User tables for user login and restricted access, optional by App Config
+ * 'features' => ['users'] or ['auth'] or ['authentication']
+ */
 function user_tables() {
     $tables[] = [ 'users', 'user', [
         [ 'login', 'VARCHAR', 15, 1 ],
@@ -46,17 +64,25 @@ function user_tables() {
         [ 'time', 'DATETIME', '', 0 ],
     ]];
 
-    create_tables( $tables );
+    $db = new DB();
+    $db->create_tables( $tables );
 }
 
+/**
+ * Language translation tables, optional by App Config
+ * 'features' => ['translations'] or ['languages']
+ */
 function language_tables() {
+    $db = new DB();
+
     $tables = [];
     $trans = [ 'translations', 't', [
         [ 'base', 'TEXT', 9999, 1 ],
         [ 'page', 'VARCHAR', 255, 0 ],
     ]];
 
-    $ln = get_option( 'languages' );
+
+    $ln = $db->get_option( 'languages' );
     $ln = !empty( $ln ) ? unserialize( $ln ) : [];
     if( is_array( $ln ) && !empty( $ln ) ) {
         foreach( $ln as $l ) {
@@ -66,9 +92,13 @@ function language_tables() {
     }
     $tables[] = $trans;
 
-    create_tables( $tables );
+    $db->create_tables( $tables );
 }
 
+/**
+ * File upload tables, optional by App Config
+ * 'features' => ['uploads'] or ['storage']
+ */
 function storage_tables() {
     $tables[] = [ 'storage', 'file', [
         [ 'name', 'VARCHAR', 255, 1 ],
@@ -80,10 +110,13 @@ function storage_tables() {
         [ 'medium', 'VARCHAR', 255, 0 ],
         [ 'delete', 'BOOLEAN', 1, 0 ],
     ] ];
-    create_tables( $tables );
+    $db = new DB();
+    $db->create_tables( $tables );
 }
 
-// Get config and database features
+/**
+ * Get App Config and create database tables
+ */
 $feats = get_config( 'features' );
 if( is_array( $feats ) ) {
 
@@ -105,21 +138,12 @@ if( is_array( $feats ) ) {
     // Create Countries and Currencies data
     if( in_array( 'data', $feats ) || in_array( 'countries', $feats ) || in_array( 'world', $feats ) ) {
         // Check if world data exists
-        $countries = select( 'countries', '1', '', 1 );
+        $db = new DB();
+        $countries = $db->select( 'countries', '1', '', 1 );
         if( empty( $countries ) ) {
-            import( COREPATH . 'core/components/data/world.sql' );
+            $db->import( COREPATH . 'core/components/data/world.sql' );
         }
     }
 
 }
 
-function basic_tables() {
-    $tables[] = [ 'options', 'option', [
-        [ 'name', 'VARCHAR', 200, 1 ],
-        [ 'value', 'VARCHAR', 9999, 1 ],
-        [ 'scope', 'INT', 13, 0 ],
-        [ 'load', 'BOOLEAN', '', 0 ],
-    ] ];
-    create_tables( $tables );
-}
-basic_tables();

@@ -1,21 +1,19 @@
 <?php
 
-global $access;
-$access = new ACCESS();
-
 class ACCESS {
 
     function __construct() {
-        ob_start();
 
+        // Initiate Session
+        ob_start();
         session_name(str_replace(' ','',APPNAME));
 
         $secure = false;
         $httponly = true;
-
         //$domain = isset($domain) ? $domain : isset($_SERVER['SERVER_NAME']);
         //$https = isset($secure) ? $secure : isset($_SERVER['HTTPS']);
 
+        // Check if session cannot be set
         if (ini_set('session.use_only_cookies', 1) === FALSE) {
             header("Location: ../404");
             echo 'Could not initiate a safe session';
@@ -294,16 +292,6 @@ class ACCESS {
         return $ip == '::1' ? '127.0.0.1' : $ip;
     }
 
-    public static function get_mac() {
-        $os = ACCESS::get_user_os();
-        if( in_array( $os, ['Mac OS X'] ) ){
-            $d = shell_exec( 'ifconfig' );
-            skel($d);
-        }
-        //return shell_exec("ifconfig -a | grep -Po 'HWaddr \K.*$'");
-        //return shell_exec("arp -a ".escapeshellarg($_SERVER['REMOTE_ADDR'])." | grep -o -E '(:xdigit:{1,2}:){5}:xdigit:{1,2}'");
-    }
-
     public static function generate_password( $chars = 11 ) {
         $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
         $pass = array(); //remember to declare $pass as an array
@@ -552,4 +540,17 @@ function logout_all() {
 
 function get_os() {
     return ACCESS::get_user_os();
+}
+
+/**
+ * Set autoload user options as session
+ */
+if( user_logged_in() ) {
+    $db = new DB();
+    $options = $db->select('options', 'option_name,option_value', 'option_scope = "' . $_SESSION['user_id'] . '" AND option_load = 1');
+    if (is_array($options)) {
+        foreach ($options as $opt) {
+            $_SESSION[$opt['option_name']] = $opt['option_value'];
+        }
+    }
 }

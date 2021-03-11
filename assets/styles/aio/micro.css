@@ -304,6 +304,10 @@ select.tar {
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.06);
 }
 
+.bsn {
+  box-shadow: none;
+}
+
 .ttu, .uc {
   text-transform: uppercase;
 }
@@ -766,6 +770,28 @@ select.tar {
 /* Others */
 .cp {
   cursor: pointer;
+}
+
+[dir=rtl] .tal {
+  text-align: right;
+}
+[dir=rtl] .tar {
+  text-align: left;
+}
+[dir=rtl] .jcs {
+  justify-content: flex-end;
+}
+[dir=rtl] .jce {
+  justify-content: flex-start;
+}
+[dir=rtl] .df.l {
+  justify-content: flex-end;
+}
+[dir=rtl] .df.r {
+  justify-content: flex-start;
+}
+[dir=rtl] select.tar {
+  text-align-last: left;
 }
 
 /*# sourceMappingURL=micro.css.map */

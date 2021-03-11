@@ -3,7 +3,6 @@
 /**
  * Gets config setting value
  * @param string $name App config setting name
- * @return string
  */
 function get_config( $name = '' ) {
     $v = '';
@@ -25,8 +24,8 @@ function get_config( $name = '' ) {
  */
 function set_config(string $name, string $value) {
     $c = [];
-    if( file_exists( APPPATH . '/config.php' ) ) {
-        $c = include( APPPATH . '/config.php' );
+    if( file_exists( APPPATH . 'config.php' ) ) {
+        $c = include( APPPATH . 'config.php' );
     };
     $c[ $name ] = $value;
     $config_php = fopen( APPPATH . '/config.php', 'w' );

@@ -12,7 +12,12 @@ $id = !empty( $error ) ? $error : '0';
 $page_title = $id . ' - ' . $title;
 $appdir = !empty( get_domain('sub') ) ? get_domain( 'sub' ) : get_domain();
 if( $id == '00' && ( isset( $_POST['setup'] ) ) ) {
-    include_once(COREPATH . 'core/pages/install.php');
+    $deps = [ 'assets', 'config', 'functions', 'inputs' ];
+    foreach($deps as $dep){
+        $f = COREPATH . 'core/includes/' . $dep . '.php';
+        file_exists( $f ) ? include_once( $f ) : '';
+    }
+    include_once(COREPATH . 'core/pages/build.php');
     return;
 }
 ?>

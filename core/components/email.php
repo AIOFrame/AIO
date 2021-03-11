@@ -26,11 +26,11 @@ class MAIL {
 
     function sendgrid( $to, $subject, $content, $from, $cc = '', $key = '' ): bool {
 
-        $key = empty( $key ) ? get_config( 'sendgrid_key' ) : '';
-        global $con;
-        if( empty( $key ) && $con ) {
-            $key = get_option( 'sendgrid_key' );
+        if( empty( $key ) ) {
+            $con = new DB();
+            $key = $con->get_option('sendgrid_key');
         }
+        $key = empty( $key ) ? get_config( 'sendgrid_key' ) : $key;
 
         if( !empty( $key ) ) {
 
@@ -65,11 +65,12 @@ class MAIL {
     }
 
     function mailersend( $to, $subject, $content, $from, $cc = '', $key = '' ): bool {
-        $key = empty( $key ) ? get_config( 'mailersend_key' ) : '';
-        global $con;
-        if( empty( $key ) && $con ) {
-            $key = get_option( 'mailersend_key' );
+
+        if( empty( $key ) ) {
+            $con = new DB();
+            $key = $con->get_option( 'mailersend_key' );
         }
+        $key = empty( $key ) ? get_config( 'mailersend_key' ) : $key;
 
         if( !empty( $key ) ) {
             require COREPATH . 'core/components/ext/guzzle/autoload.php';

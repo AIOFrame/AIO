@@ -1,6 +1,6 @@
 <?php
 
-class DB {
+class DBB {
 
     function backup( $database = '', $tables = '*', $location = APPPATH . '/storage/backups/', $gzip = true ) {
 

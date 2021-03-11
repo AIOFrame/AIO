@@ -17,14 +17,11 @@ AIO Core
     * Restrict AJAX Requests thru config file <- IMP
     * Code an AIO Login / Register System with Social Login (output thru single function with config)
     * Improve the alert system
-    * Improve the stupid notification system in core JS + html structure
     * Code Inputs CSS into art() type func
-    * Automatic database tables to include config option "User Management"
-    * Automatic database tables to include config option "File Storage"
     * Config functions array to add feature to login functions file by page
 
 AIO Admin
-    * AIO Admin panel feature
+    * AIO Admin panel feature with PHP info stats
     * Pages: App Configurator, App Designer, Translations, Backup, Plugins, DB, About
     * AIO config panel editor inside admin panel
     * AIO to have an interface to show AIO version, update automatically
@@ -61,20 +58,19 @@ FRONTEND
 * Simpler JSON Request Func
 
 File Uploader
-
-* File Uploader issues on mobile (ex: trash button)
-* List and Icons View Toggle
-* File Uploader to have more controls like copy file url, or create share url
-* Uploaded file thumbnail if size is below 512kb else load button
-* Image editor
-* Image compress engine + options
-* File upload renaming logic
-* Files in a page
-* Encrypted and Sharable files
-* Add URL instead of file upload
-* File Upload Errors to be present in notify translated and trigger show
-* File Uploader multiple selects multiple files and on delete does one
-* Uploaded files not accessible publicly by default but serve if user is logged in
+    * File Uploader issues on mobile (ex: trash button)
+    * List and Icons View Toggle
+    * File Uploader to have more controls like copy file url, or create share url
+    * Uploaded file thumbnail if size is below 512kb else load button
+    * Image editor
+    * Image compress engine + options
+    * File upload renaming logic
+    * Files in a page
+    * Encrypted and Sharable files
+    * Add URL instead of file upload
+    * File Upload Errors to be present in notify translated and trigger show
+    * File Uploader multiple selects multiple files and on delete does one
+    * Uploaded files not accessible publicly by default but serve if user is logged in
 
 Payment Gateways Integration
 

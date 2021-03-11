@@ -1,3 +1,4 @@
+/* Steps */
 .step_heads, .steps_head {
   display: -ms-flexbox;
   display: flex;
@@ -92,6 +93,25 @@
 
 .step:nth-child(10), .tab:nth-child(10) {
   z-index: 1;
+}
+
+[dir=rtl] .step:after {
+  right: auto;
+  left: -9px;
+  border-left: 0;
+  border-right: 10px solid #eee;
+}
+[dir=rtl] .step.on:after {
+  border-left: 0;
+  border-right: 10px solid #000;
+}
+[dir=rtl] .step:first-child {
+  border-top-left-radius: 0;
+  border-top-right-radius: 5px;
+}
+[dir=rtl] .step:last-child {
+  border-top-right-radius: 0;
+  border-top-left-radius: 5px;
 }
 
 /*# sourceMappingURL=steps.css.map */

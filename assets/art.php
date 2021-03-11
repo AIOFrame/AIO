@@ -1,55 +1,63 @@
 <?php
 
 $art = '';
-$l = __DIR__ . '/styles/aio/art/';
+$ui_dir = __DIR__ . '/styles/aio/art/';
+$ux_dir = __DIR__ . '/scripts/aio/art/';
 
-// Fetch and set cache
-$v = isset( $_GET['v'] ) && !empty( $_GET['v'] ) ? $_GET['v'] : '14400';
-header("Content-type: text/css; charset: UTF-8");
-header("Cache-Control: max-age=".$v);
-
-// Auto fetch existing art styles
-$art_styles = glob( $l . '*.css' );
-$styles = [];
-foreach( $styles as $af ) {
-    $arts[] = str_replace( '.css', '', str_replace( $l, '', $af ) );
+// Fetch type and set cache
+if( isset( $_GET['type'] ) && $_GET['type'] == 'ux' ) {
+    $type = 'ux';
+    $header = 'Content-Type: application/javascript';
+} else {
+    $type = 'ui';
+    $header = 'Content-type: text/css; charset: UTF-8';
 }
+$v = isset( $_GET['v'] ) && !empty( $_GET['v'] ) ? $_GET['v'] : '14400';
+header( $header );
+header( 'Cache-Control: max-age=' . $v );
 
 // Parse art modules
 $arts = isset( $_GET['arts'] ) && !empty( $_GET['arts'] ) ? explode( ',', $_GET['arts'] ) : [];
-foreach( $arts as $a ) {
-    if( in_array( $a . '.min', $arts ) && file_exists( $l . $a . '.min.css' ) ){
-        $art .= file_get_contents( $l . $a . '.min.css' );
-    } else if( in_array( $a, $arts ) && file_exists( $l . $a . '.css' ) ) {
-        $art .= file_get_contents( $l . $a . '.css' );
+
+if( $type == 'ui' ) {
+
+    // Get style code
+    foreach( $arts as $a ) {
+        if( file_exists( $ui_dir . $a . '.min.css' ) ){
+            $art .= file_get_contents( $ui_dir . $a . '.min.css' );
+        } else if( file_exists( $ui_dir . $a . '.css' ) ) {
+            $art .= file_get_contents( $ui_dir . $a . '.css' );
+        }
     }
+
+    // Replace First Gradient
+    if( isset( $_GET['fc'] ) ){
+        $fc = $_GET['fc'];
+        $art = strlen( $fc ) <= 6 ? str_replace( '111', $fc, $art ) : str_replace( '#111', $fc, $art );
+    }
+
+    // Replace Second Gradient
+    if( isset( $_GET['sc'] ) ){
+        $sc = $_GET['sc'];
+        $art = strlen( $sc ) <= 6 ? str_replace( '222', $sc, $art ) : str_replace( '#222', $sc, $art );
+    }
+
+    // Replace necessary strings
+    $art = str_replace( '../images', './images', $art );
+
+} else if( $type == 'ux' ) {
+
+    // Get script code
+    foreach( $arts as $a ) {
+        if( file_exists( $ux_dir . $a . '.min.js' ) ){
+            $art .= file_get_contents( $ux_dir . $a . '.min.js' );
+        } else if( file_exists( $ux_dir . $a . '.js' ) ) {
+            $art .= file_get_contents( $ux_dir . $a . '.js' );
+        }
+    }
+
 }
 
-// Replace First Gradient
-if( isset( $_GET['fc'] ) ){
-    $fc = $_GET['fc'];
-    if( strlen( $fc ) <= 6 ){
-        $art = str_replace( '111', $fc, $art );
-    } else {
-        $art = str_replace( '#111', $fc, $art );
-    }
-}
-
-// Replace Second Gradient
-if( isset( $_GET['sc'] ) ){
-    $sc = $_GET['sc'];
-    //$sc = substr( $sc, 0, strpos( $sc, '?'));
-    if( strlen( $sc ) <= 6 ){
-        $art = str_replace( '222', $sc, $art );
-    } else {
-        $art = str_replace( '#222', $sc, $art );
-    }
-}
-
-// Replace necessary strings
-
-$art = str_replace( '../images', './images', $art );
-
-// Output CSS
+// Output code
 
 echo $art;

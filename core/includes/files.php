@@ -4,12 +4,13 @@
 
 function file_process() {
     $cry = Crypto::initiate();
+    $db = new DB();
     //echo $cry->decrypt( $_POST['scope'] );
     //return;
 
     // Sets the scope of uploaded file (If empty then the file is private)
     if( isset( $_POST['scope'] ) && !is_numeric( $_POST['scope'] ) ) {
-        $scope = $cry-decrypt( $_POST['scope'] );
+        $scope = $cry->decrypt( $_POST['scope'] );
     } else if( user_logged_in() ) {
         $scope = get_current_user_id();
     } else {
@@ -39,7 +40,7 @@ function file_process() {
             $vfn = ucwords( str_replace('.'.$fe, '', str_replace('-', ' ', str_replace('_', ' ', $file['name']))));
             global $db;
             if( $db ) {
-                $uq = insert('storage', ['file_name', 'file_url', 'file_scope', 'file_type', 'file_size', 'file_delete'], [$vfn, $loc, $scope, $fe, $fz, $delete]);
+                $uq = $db->insert('storage', ['file_name', 'file_url', 'file_scope', 'file_type', 'file_size', 'file_delete'], [$vfn, $loc, $scope, $fe, $fz, $delete]);
                 if( $uq ){
                     $msg = array('success',T('File Uploaded Successfully'),$fn,$loc,$cry->encrypt($uq),$fe,$fz,storage_url($loc),$delete);
                     echo json_encode($msg, true);
@@ -92,11 +93,11 @@ function ajax_user_uploads(){
 
 // Gets image url from id
 
-function asset_id_to_url( $fid ) {
-    global $conn;
+function asset_id_to_url( $fid ): array {
+    $db = new DB();
     $uid = get_current_user_id();
-    $iq = select( 'storage', '', 'file_id = "'.$fid.'" && file_scope = "'.$uid.'"' ); //"SELECT * FROM storage WHERE ID = '$fid' AND file_scope = '$uid'";
-    return $iq;
+    //"SELECT * FROM storage WHERE ID = '$fid' AND file_scope = '$uid'";
+    return $db->select( 'storage', '', 'file_id = "'.$fid.'" && file_scope = "'.$uid.'"' );
     /* if( $mq = mysqli_query( $conn, $iq ) ) {
         while( $row = mysqli_fetch_assoc( $mq ) ) {
             $fd = array( $row['file_name'], $row['file_url'], $row['file_type'], $row['file_size'], substr(strrchr($row['file_url'],'.'),1) );
@@ -118,7 +119,7 @@ function file_delete() {
 
     if( isset( $_POST['id'] ) && $_POST['id'] !== '' ) {
 
-        $cry = Crypto::initiate();
+        $cry = Crypto::initiate(); $db = new DB();
 
         $id = isset( $_POST['id'] ) && $_POST['id'] !== '' ? $cry->decrypt( $_POST['id'] ) : '';
 
@@ -126,38 +127,28 @@ function file_delete() {
 
             $user_id = get_current_user_id();
 
-            $file = select( 'storage', 'file_url', 'file_id = "'.$id.'" AND file_scope = "'.$user_id.'" AND file_delete = "1"', 1 );
+            $file = $db->select( 'storage', 'file_url', 'file_id = "'.$id.'" AND file_scope = "'.$user_id.'" AND file_delete = "1"', 1 );
 
             if( !empty( $file['file_url'] ) ) {
 
                 $ac_file = unlink( APPPATH . $file['file_url'] );
-                $db_file = delete( 'storage', 'file_id = "'.$id.'" AND file_scope = "'.$user_id.'" AND file_delete = "1"' );
+                $db_file = $db->delete( 'storage', 'file_id = "'.$id.'" AND file_scope = "'.$user_id.'" AND file_delete = "1"' );
 
-                if( $ac_file && $db_file ) {
-
-                    echo json_encode( [ 1, T('File Deleted') ] );
-
-                } else {
-
-                    echo json_encode( [ 0, T('File NOT Deleted, Perhaps the file is restricted from deletion') ] );
-
-                }
+                $ac_file && $db_file ? ES('File Deleted') : EF('File NOT Deleted, Perhaps the file is restricted from deletion');
 
             } else {
-
-                echo json_encode( [ 0, T('File NOT Deleted, Perhaps the file is restricted from deletion') ] );
-
+                EF('File NOT Deleted, Perhaps the file is restricted from deletion');
             }
 
         } else {
 
-            echo json_encode( [ 0, T('Decrypting file failed, Please refresh and try again') ] );
+            EF('Decrypting file failed, Please refresh and try again');
 
         }
 
     } else {
 
-        echo json_encode( [ 0, T('Delete request could not be processed. Please try again and if issue persists approach Support') ] );
+        EF('Delete request could not be processed. Please try again and if issue persists approach Support');
 
     }
 

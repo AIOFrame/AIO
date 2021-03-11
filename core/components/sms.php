@@ -36,6 +36,11 @@ class SMS {
      */
     function vonage( string $no, string $msg, string $key, string $sec ): string {
         if( file_exists( COREPATH . 'core/components/ext/vonage/autoload.php' ) ){
+            if( empty( $key ) ) {
+                $con = new DB();
+                $key = $con->get_option( 'vonage_key' );
+            }
+            $key = empty( $key ) ? get_config( 'vonage_key' ) : $key;
             include_once( COREPATH . 'core/components/ext/vonage/autoload.php' );
             $client = new Vonage\Client(new Vonage\Client\Credentials\Basic($key, $sec));
             $text = new \Vonage\SMS\Message\SMS(

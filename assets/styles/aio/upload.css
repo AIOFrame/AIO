@@ -31,7 +31,7 @@ body.d .file_modal, body.d .file_notify {
 }
 
 .file_notify.on {
-  display: block;
+  opacity: 1;
 }
 
 .file_modal.hover {
@@ -117,7 +117,7 @@ body.d .file_modal, body.d .file_notify {
   height: 40px;
   position: relative;
 }
-.file_modal .files_head .size {
+.file_modal .files_head .expand {
   background: url("../../icons/uploader/expand.svg") no-repeat center/40%;
 }
 .file_modal .files_head .close {

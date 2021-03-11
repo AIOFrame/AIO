@@ -1,3 +1,4 @@
+/* Tables */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -41,6 +42,16 @@ table td.c, table th.c, table td.c input {
 }
 table td.r, table th.r, table td.r input {
   text-align: right;
+}
+
+table.xs td {
+  padding: 6px;
+  font-size: 10px;
+}
+
+table.s td {
+  padding: 8px;
+  font-size: 13px;
 }
 
 table.m td {
@@ -103,24 +114,45 @@ table.r thead tr {
   border: 0;
 }
 table.r tr:first-child {
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-radius: 5px 5px 0 0;
 }
 table.r tr:first-child td:first-child, table.r tr:first-child th:first-child {
-  border-top-left-radius: 10px;
+  border-top-left-radius: 5px;
 }
 table.r tr:first-child td:last-child, table.r tr:first-child th:last-child {
-  border-top-right-radius: 10px;
+  border-top-right-radius: 5px;
 }
 table.r tr:last-child {
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-radius: 0 0 5px 5px;
 }
 table.r tr:last-child td:first-child, table.r tr:last-child th:first-child {
-  border-bottom-left-radius: 10px;
+  border-bottom-left-radius: 5px;
 }
 table.r tr:last-child td:last-child, table.r tr:last-child th:last-child {
-  border-bottom-right-radius: 10px;
+  border-bottom-right-radius: 5px;
+}
+
+[dir=rtl] table.r tr:first-child {
+  border-radius: 0 0 5px 5px;
+}
+[dir=rtl] table.r tr:first-child td:first-child, [dir=rtl] table.r tr:first-child th:first-child {
+  border-top-left-radius: 0;
+  border-bottom-right-radius: 5px;
+}
+[dir=rtl] table.r tr:first-child td:last-child, [dir=rtl] table.r tr:first-child th:last-child {
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 5px;
+}
+[dir=rtl] table.r tr:last-child {
+  border-radius: 5px 5px 0 0;
+}
+[dir=rtl] table.r tr:last-child td:first-child, [dir=rtl] table.r tr:last-child th:first-child {
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 5px;
+}
+[dir=rtl] table.r tr:last-child td:last-child, [dir=rtl] table.r tr:last-child th:last-child {
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 5px;
 }
 
 /*# sourceMappingURL=table.css.map */

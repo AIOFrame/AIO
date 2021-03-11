@@ -324,6 +324,9 @@ ul.select2-results__options .select2-results__option--selected {
 
 /* RESPONSIVE */
 /* DARK */
+body.d article {
+  border: 0;
+}
 body.d input, body.d button, body.d textarea {
   border: 0;
   border-bottom: 1px solid #666;

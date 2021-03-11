@@ -4,14 +4,19 @@ if( !defined( 'COREPATH' ) ) { exit(); }
 
 // Returns a readable <title> for Header
 
-function get_title() {
+function get_title( string $title = '', int $join_app_name = 1 ) {
+    $add = $join_app_name ? ' - '.T( APPNAME ) : '';
+    if( !empty( $title ) ) {
+        echo '<title>'.$title.$add.'</title>';
+        return;
+    }
     if( !empty( PAGE ) ) {
-        $p = PAGE == 'ROOT' ? 'Welcome' : PAGE;
+        $p = PAGE == 'index' ? 'Welcome' : PAGE;
         $pp = explode('/',PAGEPATH);
         $p = is_numeric( $p ) ? $pp[count($pp)-1] : $p;
-        echo T( ucwords( str_replace('-',' ', str_replace('_',' ', $p )) ) ) . ' - ' . T( APPNAME );
+        echo '<title>'.T( ucwords( str_replace('-',' ', str_replace('_',' ', $p )) ) ) .$add.'</title>';
     } else {
-        E( APPNAME );
+        echo '<title>'.T( APPNAME ).'</title>';
     }
 }
 
@@ -41,9 +46,12 @@ function elog( $log, $type = 'log', $line = '', $file = '', $target = '' ){
     $data .= $target !== '' ? '<AIO>' . $target : '';
 
     // Get dev users
-    $devs = get_config( 'dev' );
-    $devs = !empty( $dev ) ? explode( ',', $devs ) : [];
-    $debug = isset( $_SESSION['user_id'] ) && is_array( $devs ) && in_array( $_SESSION['user_id'], $devs ) ? 1 : 0;
+    $debug = 0;
+    if( defined( 'CONFIG' ) ) {
+        $devs = get_config('dev');
+        $devs = !empty($dev) ? explode(',', $devs) : [];
+        $debug = isset($_SESSION['user_id']) && is_array($devs) && in_array($_SESSION['user_id'], $devs) ? 1 : 0;
+    }
 
     // Log
     APPDEBUG || $debug ? error_log( $data . PHP_EOL ) : '';
@@ -77,8 +85,13 @@ function page_is( string $p ): bool {
  * @return bool
  */
 function page_of( string $p ): bool {
+    $results = [];
+    $page_ofs = explode( ',', $p );
     $pages = explode( '/', PAGEPATH );
-    return in_array( $p, $pages );
+    foreach( $page_ofs as $of ) {
+        $results[] = in_array( $of, $pages );
+    }
+    return in_array( true, $results );
 }
 
 

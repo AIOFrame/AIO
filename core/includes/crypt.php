@@ -20,12 +20,22 @@ class Crypto {
         return self::$instance;
     }
 
-    public function encrypt($data) {
+    /**
+     * Encrypt a text string
+     * @param string $data Text to Encrypt
+     * @return string
+     */
+    public function encrypt( string $data ): string {
         $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($this->method));
         return base64_encode(openssl_encrypt($data, $this->method, $this->key, 0, $iv) . $this->separator . base64_encode($iv));
     }
 
-    public function decrypt($dataAndVector) {
+    /**
+     * Decrypt an encrypted string
+     * @param string $dataAndVector Encrypted string
+     * @return string
+     */
+    public function decrypt( string $dataAndVector ): string {
         $parts = explode($this->separator, base64_decode($dataAndVector));
         return is_array($parts) && count($parts) > 1 ? openssl_decrypt($parts[0], $this->method, $this->key, 0, base64_decode($parts[1])) : false;
     }

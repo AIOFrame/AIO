@@ -1,9 +1,10 @@
+$ui: #00a99d;
 body, div, p, input, select, button {
   font-family: 'Lato', sans-serif;
 }
 body {
   max-height:calc(100vh - 40px);
-  max-width:calc(100vw - 40px);
+  //max-width:calc(100vw - 40px);
   position: relative;
   background:#fff;
 }
@@ -12,7 +13,7 @@ article {
   height:calc(100vh - 40px);
   max-width:calc(100vw - 40px);
   margin:20px 20px 20px 140px;
-  padding: 20px;
+  padding:80px 20px 20px;
   box-sizing: border-box;
   overflow-y: auto;
   border-radius:0 15px 15px 0;
@@ -77,13 +78,13 @@ header {
     transition:.6s;
   }
 }
-.title {
+/* .title {
   position: absolute;
   left: 0;
   width: 100%;
   text-align: center;
   top: 80px;
-}
+} */
 aside {
   position: fixed;
   width:400px;
@@ -94,7 +95,11 @@ aside {
   z-index:89;
   pointer-events: none;
   .scroll {
+    position: absolute;
+    left: 0;
+    top: 0;
     height:100%;
+    width: 100%;
     overflow-y:auto;
     background:rgba(255,255,255,.97);
     backdrop-filter: blur(10px) saturate(2);
@@ -127,16 +132,40 @@ i.tip {
   opacity: 0;
   pointer-events: none;
 }
+.page_head {
+  position: fixed;
+  left: 140px;
+  top: 20px;
+  width: calc(100% - 160px);
+  background:rgba(255,255,255,.85);
+  backdrop-filter: blur(10px) saturate(1);
+  -webkit-backdrop-filter: blur(10px) saturate(1);
+  padding: 15px 20px;
+  box-shadow:0 5px 15px rgba(0,0,0,.1);
+  border-radius:0 15px 0 0;
+  height: 60px;
+  overflow: hidden;
+  z-index: 10;
+  .title {
+    color:$ui;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 24px;
+  }
+}
 .languages {
   .list {
     height:calc(100% - 82px);
     overflow-y: auto;
   }
 }
-[data-lang] {
-  padding:20px;
-  border-bottom: 1px solid #eee;
-  cursor:pointer;
+.list {
+  > div, > a {
+    display: block;
+    padding:20px;
+    border-bottom: 1px solid #eee;
+    cursor:pointer;
+  }
 }
 [type=search] {
   margin: 15px;
@@ -146,7 +175,6 @@ i.tip {
   width:calc(100% - 30px);
   border:0 !important;
   font-size: 18px;
-  letter-spacing: 1px;
 }
 [type=search]:active {
   background:#eee;
@@ -174,6 +202,87 @@ header select {
   box-shadow:none;
   color:#fff;
   background:#000;
+}
+button {
+  border-radius:6px;
+  box-shadow:0 5px 25px rgba(0,0,0,.15);
+  cursor:pointer;
+  transition:.6s;
+  text-transform: uppercase;
+  color:$ui;
+  font-weight: normal;
+}
+button.main {
+  background:$ui;
+  color:#fff;
+}
+button:hover {
+  transform:translateY(-2px);
+}
+
+/* Overview */
+
+.widget {
+  border-radius:8px;
+  box-shadow:0 0 25px rgba(0,0,0,.1);
+  background:#fff;
+  overflow:hidden;
+  .title {
+    padding: 12px 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background:#fff;
+    border-bottom:1px solid #f2f2f2;
+  }
+  .body {
+    padding: 20px;
+  }
+}
+
+/* Config */
+
+.config {
+  h3 {
+    text-transform: uppercase;
+    font-size: 15px;
+    margin:0 0 20px;
+    font-weight: bold;
+  }
+  label {
+    font-size: 14px;
+    margin-bottom: 10px;
+    display: block;
+    font-weight: lighter;
+    .link {
+      color:#aaa;
+    }
+  }
+  [type=radio] + label, [type=checkbox] + label {
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: lighter;
+    margin: 0;
+  }
+  input[type=text], select, .select2-selection {
+    margin: 0 0 15px;
+    border:0;
+    box-shadow:none;
+    background-color:#f1f1f1;
+    border-radius:6px;
+  }
+  .select2-selection--multiple {
+    margin-bottom: 0;
+  }
+  .break {
+    margin:20px 0;
+    border-top:1px solid #f1f1f1;
+  }
+  .select2-container {
+    margin-bottom: 15px;
+    .select2-selection--single {
+      margin: 0;
+    }
+  }
 }
 
 /* BLOCKS */
@@ -266,6 +375,9 @@ body.d .b .ft>div {
 
 /* ICONS */
 
+.ico.nav {
+  background:url('../../icons/menu.svg') no-repeat center / 50px;
+}
 .ico.lang {
   background:url('../../icons/lang.svg') no-repeat center / 50px;
 }
@@ -307,8 +419,10 @@ body.d {
   [type=search], input[data-color-picker] {
     background-color:#212121;
   }
-  [data-lang] {
-    border-bottom: 1px solid #222;
+  .list {
+    > div, > a {
+      border-bottom: 1px solid #222;
+    }
   }
   label {
     color:#ddd;
@@ -321,6 +435,9 @@ body.d {
   }
 
   /* DARK ICONS */
+  .ico.nav {
+    background:url('../../icons/w/menu.svg') no-repeat center / 50px;
+  }
   .ico.lang {
     background:url('../../icons/w/lang.svg') no-repeat center / 50px;
   }

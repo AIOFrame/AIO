@@ -5,14 +5,15 @@ $l = isset( $_SESSION['lang'] ) ? $_SESSION['lang'] : 'en';
 if( defined( 'BASELANG' ) && $l !== BASELANG ){
 
     global $untranslated;
+    $db = new DB();
 
     if( is_array( $untranslated ) ) {
 
         foreach( $untranslated as $u => $p ){
 
-            $t = select( 'translations', 't_base', 't_base = "'.$u.'"' );
+            $t = $db->select( 'translations', 't_base', 't_base = "'.$u.'"' );
             if( !$t ) {
-                insert('translations', ['t_base', 't_page'], [$u, $p]);
+                $db->insert('translations', ['t_base', 't_page'], [$u, $p]);
             }
 
         }

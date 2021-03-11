@@ -103,70 +103,17 @@ function array_by_key( $array, $key ){
 // TODO: Returns Multi array of only two sub arrays values into associative key and value
 
 function array_into_assoc( $array = [] ) {
-
     if( !empty( $array ) ){
-
         $data = [];
-
         foreach( $array as $a ){
-
             if( count( $a ) == 2 && is_array( $a ) ){
-
                 $data[$a[0]] = [];
-
                 foreach( $a as $k => $v ){
-
                     $sub_data[$v] = '';
-
                 }
-
-            }
-
-        }
-
-    }
-
-}
-
-// Prepares an array of only keys from a given array or post
-
-function prepare_keys( $array = '', $pre = '', $remove_empty = 1 ) {
-    $keys = [];
-    $array = is_array( $array ) ? $array : $_POST;
-    unset( $array['action'] );
-    if( is_array( $array ) && !empty( $array ) ){
-        foreach( $array as $k => $v ){
-            if( $remove_empty ){
-                if($v !== '' ){
-                    $keys[] = $pre.$k;
-                }
-            } else {
-                $keys[] = $pre.$k;
             }
         }
     }
-    return $keys;
-}
-
-// Prepares an array of only values from a given array or post
-
-function prepare_values( $array = '', $pre = '', $remove_empty = 1 ) {
-    $values = [];
-    $array = is_array( $array ) ? $array : $_POST;
-    unset( $array['action'] );
-    if( is_array( $array ) && !empty( $array ) ){
-        foreach( $array as $k => $v ){
-            $v = is_array( $v ) ? serialize( $v ) : $v;
-            if( $remove_empty ){
-                if( $v !== '' ){
-                    $values[] = $pre.$v;
-                }
-            } else {
-                $values[] = $pre.$v;
-            }
-        }
-    }
-    return $values;
 }
 
 // Prepares an array of values of particular key from a given array or post

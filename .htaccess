@@ -1,13 +1,10 @@
 <IfModule mod_rewrite.c>
-# Options +FollowSymLinks -MultiViews
-# Turn mod_rewrite on
 RewriteEngine On
 RewriteBase /
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)/$ /$1 [L,R]
-#RewriteRule ^(.*)/$ /$1 [L,R]
 
 RewriteRule ^(.*)/$ index.php [QSA,L]
 RewriteRule ^([a-zA-Z0-9-z\-\_]+)$ index.php?a=$1 [L,QSA]
@@ -24,8 +21,8 @@ RewriteRule ^([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-
 RewriteRule ^([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/$ index.php?a=$1&b=$2&c=$3&d=$4&e=$5&f=$6 [L,QSA]
 RewriteRule ^([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)$ index.php?a=$1&b=$2&c=$3&d=$4&e=$5&f=$6&g=$7 [L,QSA]
 RewriteRule ^([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/$ index.php?a=$1&b=$2&c=$3&d=$4&e=$5&f=$6&g=$7 [L,QSA]
-#RewriteRule ^([a-zA-Z0-9_-]+)$ index.php?page=$1 [QSA,L]
-#RewriteRule ^([a-zA-Z0-9_-]+)/$ index.php?page=$1 [QSA,L]
-#RewriteRule ^admin/([a-zA-Z0-9_-]+)$ index.php?admin=$1 [QSA,L]
-#RewriteRule ^admin/([a-zA-Z0-9_-]+)/$ index.php?admin=$1 [QSA,L]
+RewriteRule ^([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)$ index.php?a=$1&b=$2&c=$3&d=$4&e=$5&f=$6&g=$7&h=$8 [L,QSA]
+RewriteRule ^([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/$ index.php?a=$1&b=$2&c=$3&d=$4&e=$5&f=$6&g=$7&h=$8 [L,QSA]
+RewriteRule ^([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)$ index.php?a=$1&b=$2&c=$3&d=$4&e=$5&f=$6&g=$7&h=$8&i=$9 [L,QSA]
+RewriteRule ^([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/([a-zA-Z0-9-z\-\_]+)/$ index.php?a=$1&b=$2&c=$3&d=$4&e=$5&f=$6&g=$7&h=$8&i=$9 [L,QSA]
 </IfModule>

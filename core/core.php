@@ -1,32 +1,12 @@
 <?php
+!defined( 'COREPATH' ) ? exit() : '';
 
-// Function to check if site is accessed thru root index
-function sc() {
-    !defined( 'COREPATH' ) ? exit() : '';
-}
-
-sc();
-
-// Function to check sub domain
-function is_sub_domain() {
-    $dex = explode( '.', $_SERVER['HTTP_HOST'] );
-    if(count($dex) > 2) {
-        if(count($dex) > 3){
-            return true;
-        } else if(count($dex) == 3) {
-            if($dex[0] !== 'www' && $dex[0] !== 'http://www' && $dex[0] !== 'https://www'){
-                return true;
-            } else {
-                return false;
-            }
-        }
-    } else {
-        return false;
-    }
-}
-
-// Function to get domain or sub domain
-function get_domain( $t = 'main' ){
+/**
+ * Get domain or sub domain
+ * @param string $t
+ * @return string
+ */
+function get_domain( string $t = 'main' ): string {
     $dex = explode( '.', rtrim($_SERVER['HTTP_HOST'],'/') );
     if(count($dex) > 3){
         if( $t == 'sub' ){
@@ -59,82 +39,129 @@ function get_domain( $t = 'main' ){
     }
 }
 
-function sub_domain() {
+/**
+ * Get sub domain if
+ * @return string
+ */
+function sub_domain(): string {
     return get_domain('sub');
 }
 
-// Load Application Settings
-function app_loader() {
-
-    // Set Locale
-
-    $app = !empty( sub_domain() ) ? sub_domain() : get_domain();
-    if( file_exists( COREPATH . 'map.php' ) ){ // Checking if app mapping in defined // !file_exists( COREPATH . 'apps/' . $app ) &&
-        include( COREPATH . 'map.php' );
-        if( !empty( $map ) && !empty( $map[ $app ] ) ){ $app = $map[ $app ]; }
-        if( !file_exists( COREPATH . 'apps/' . $app ) ) {
-            if (isset($default) && file_exists(COREPATH . 'apps/' . $default)) {
-                $app = $default;
-            }
+/**
+ * Reads App Mapping
+ * Will check map.php and set domain to app link
+ */
+$app = !empty( sub_domain() ) ? sub_domain() : get_domain();
+if( file_exists( COREPATH . 'map.php' ) ){
+    include COREPATH . 'map.php';
+    if( !empty( $map ) && !empty( $map[ $app ] ) ){ $app = $map[ $app ]; }
+    if( !file_exists( COREPATH . 'apps/' . $app ) ) {
+        if (isset($default) && file_exists(COREPATH . 'apps/' . $default)) {
+            $app = $default;
         }
-    }
-    if( !empty( $app ) && file_exists( COREPATH . 'apps/' . $app ) ) { // if app exists and config exists
-
-        if( file_exists( COREPATH . 'apps/' . $app . '/config.php' ) ) { // If app has config file
-            $c = include( COREPATH . 'apps/' . $app . '/config.php' );// load config
-        };
-
-        !defined( 'APPDIR' ) ? define( 'APPDIR', $app ) : ''; // Defines the Application Directory Ex: ecommerce
-
-        !defined( 'APPPATH' ) ? define( 'APPPATH', COREPATH . 'apps/' . $app . '/' ) : ''; // Defines Application Path Ex: /users/root/www/application/apps/ecommerce/
-
-        !defined( 'APPURI' ) ? define( 'APPURI', APPURL . 'apps/' . $app . '/' ) : ''; // Defined Application URI Ex: https://ecommerce.mainapp.com/apps/ecommerce
-
-        //$c = !empty( $config ) ? $config : '';
-        isset( $c['timezone'] ) && !empty( $c['timezone'] ) ? date_default_timezone_set( $c['timezone'] ) : ''; // Defines Timezone
-
-        isset( $c['ssl'] ) && $c['ssl'] && !isset( $_SERVER['HTTPS'] ) ? header('Location: https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ) : ''; // Forces SSL
-
-        $appname = isset( $c['name'] ) && !empty( $c['name'] ) ? $c['name'] : ucwords( $app ); // Defines the Application Name Ex: Amazing App
-        !defined( 'APPNAME' ) ? define( 'APPNAME', $appname ) : '';
-
-        $debug = isset( $c['debug'] ) && !empty( $c['debug'] ) ? $c['debug'] : false; // Defines if the Application is under development mode
-        !defined( 'APPDEBUG' ) ? define( 'APPDEBUG', $debug ) : '';
-        if( APPDEBUG ) {
-            error_reporting(E_ALL);
-            ini_set('display_errors', 1);
-            $str_dir = APPPATH . 'storage';
-            $log_dir = $str_dir . '/log';
-            $elog = $log_dir . '/error_log.log';
-            if( !file_exists($str_dir  ) ) {
-                mkdir( $str_dir, 0700 );
-            }
-            if( !file_exists( $log_dir )){
-                mkdir( $log_dir, 0700 );
-            }
-            if( !file_exists( $elog )) {
-                $file = fopen($elog, 'w');
-                fwrite($file, '');
-                fclose($file);
-            }
-            ini_set( 'error_log', APPPATH . 'storage/log/error_log.log' );
-        } else {
-            error_reporting(0);
-        }
-
-        $ekey = isset( $c['key'] ) && !empty( $c['key'] ) ? $c['key'] : str_replace(' ','_',defined('APPNAME') ); // Defines the Application Encryption Key
-        !defined( 'EKEY' ) ? define( 'EKEY', $ekey ) : '';
-
-        require( COREPATH . 'core/includes/connect/connect.php' ); // Loads authorization files
-        require( COREPATH . 'core/access.php' ); // Loads authorization files
-        require( COREPATH . 'core/includes/routes.php' ); // Loads Routes PHP File
-        require( COREPATH . 'core/includes.php' ); // Loads all PHP files from Includes
-        defined( 'PAGELOAD' ) ? include( PAGELOAD ) : '';
-        require( COREPATH . 'core/includes/exit.php' ); // Loads closing PHP file
-    } else {
-        $error = '00';
-        include( COREPATH . 'core/pages/error.php');
     }
 }
 
-app_loader();
+/**
+ * Defines the Application Directory
+ * Ex: ecommerce
+ */
+!defined( 'APPDIR' ) ? define( 'APPDIR', $app ) : '';
+
+/**
+ * Defines Application Path
+ * Ex: /users/root/www/application/apps/ecommerce/
+ */
+!defined( 'APPPATH' ) ? define( 'APPPATH', COREPATH . 'apps/' . $app . '/' ) : '';
+
+/**
+ * Defines Application URI
+ * Ex: https://ecommerce.mainapp.com/apps/ecommerce
+ */
+!defined( 'APPURI' ) ? define( 'APPURI', APPURL . 'apps/' . $app . '/' ) : '';
+
+/**
+ * Load Error page if web app not found
+ */
+if( empty( $app ) || !file_exists( COREPATH . 'apps/' . $app ) ) {
+    $error = '00';
+    define('APPDEBUG',1);
+    include COREPATH . 'core/pages/error.php';
+    return;
+}
+
+/**
+ * Loads config file if exists
+ */
+if( file_exists( COREPATH . 'apps/' . $app . '/config.php' ) ) {
+    $c = include COREPATH . 'apps/' . $app . '/config.php';
+    !defined( 'CONFIG' ) ? define( 'CONFIG', json_encode( $c ) ) : '';
+}
+
+/**
+ * Defines Timezone if set in config
+ */
+isset( $c['timezone'] ) && !empty( $c['timezone'] ) ? date_default_timezone_set( $c['timezone'] ) : '';
+
+/**
+ * Forces SSL if set in config
+ */
+isset( $c['ssl'] ) && $c['ssl'] && !isset( $_SERVER['HTTPS'] ) ? header('Location: https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ) : ''; //
+
+/**
+ * Defines App Name if set in config
+ * Ex: Amazing App
+ */
+isset( $c['name'] ) && !empty( $c['name'] ) && !defined( 'APPNAME' ) ? define( 'APPNAME', $c['name'] ) : '';
+!defined( 'APPNAME' ) ? define( 'APPNAME', ucwords( $app ) ) : '';
+
+/**
+ * Sets Debug settings if set in config
+ */
+$debug = isset( $c['debug'] ) && !empty( $c['debug'] ) ? $c['debug'] : false; // Defines if the Application is under development mode
+!defined( 'APPDEBUG' ) ? define( 'APPDEBUG', $debug ) : '';
+
+//if( APPDEBUG ) {
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+    $log = APPPATH . 'storage/log/error_log.log';
+    !file_exists( APPPATH . 'storage/log' ) ? mkdir( APPPATH . 'storage/log', 0700, 1 ) : '';
+    if( !file_exists( $log ) ) {
+        $file = fopen($log, 'w');
+        fwrite($file, '');
+        fclose($file);
+    }
+    ini_set( 'error_log', $log );
+//} else {
+//    error_reporting(0);
+//}
+
+/**
+ * Loads Database connection
+ */
+require COREPATH . 'core/includes/connect/connect.php';
+
+/**
+ * Loads User Access
+ */
+require COREPATH . 'core/access.php';
+
+/**
+ * Sets AIO page routing
+ */
+require COREPATH . 'core/routes.php';
+
+/**
+ * Loads includes, which in-turn loads dependencies
+ */
+require COREPATH . 'core/includes.php';
+
+/**
+ * Load Page
+ */
+defined( 'PAGELOAD' ) ? require PAGELOAD : '';
+
+/**
+ * Loads exit files, that run at the end
+ */
+require COREPATH . 'core/includes/exit.php';

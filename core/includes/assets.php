@@ -20,25 +20,45 @@ $universal_assets = [ 'styles' => [], 'scripts' => [] ];
 function reset_styles( $font = '', $weight = 'normal', $scrollbar = 5 ) {
     $cache = get_config( 'cache' );
     $v = $cache ? '&v=' . round( time() / ( $cache * 60 ) ) : '';
-    echo '<link rel="stylesheet" href="'.APPURL.'assets/styles/aio/reset.php?font='.str_replace(' ','$',$font).'&weight='.$weight.'&scrollbar='.$scrollbar.'">';
+    global $universal_assets;
+    $universal_assets = empty( $universal_assets ) ? [] : $universal_assets;
+    if( !in_array( 'reset', $universal_assets['styles'] ) ) {
+        echo '<link rel="stylesheet" href="'.APPURL.'assets/styles/aio/reset.php?font='.str_replace(' ','$',$font).'&weight='.$weight.'&scrollbar='.$scrollbar.'">';
+        $universal_assets['styles'][] = 'reset';
+    }
 }
 
 /**
  * Fetches AIO Art style modules
+ * @param array|string $arts art modules separated by commas
  * @param string $color1 color code hex for first color
  * @param string $color2 color code hex for second color
- * @param string $arts art modules separated by commas
  * @author Shaikh <hey@shaikh.dev>
  */
-function art( $color1 = '222', $color2 = '000', $arts = '' ) {
+function art( $arts, string $color1 = '222', string $color2 = '000' ) {
     $cache = get_config( 'cache' );
     $v = $cache ? '&v=' . round( time() / ( $cache * 60 ) ) : '';
-    $arts = is_array( $arts ) ? implode( ',', $arts ) : $arts;
+    $arts = !is_array( $arts ) ? explode( ',', $arts ) : $arts;
+
     global $universal_assets;
-    if( !in_array( 'art', $universal_assets['styles'] )) {
-        $universal['styles'][] = 'art';
-        echo '<link rel="stylesheet" href="'.APPURL.'assets/art.php?fc='.$color1.'&sc='.$color2.'&arts='.$arts. $v . '">';
+
+    // Loop for Art Styles and Scripts
+    $art_ui = $art_ux = '';
+    $ui_dir = COREPATH . 'assets/styles/aio/art/';
+    $ux_dir = COREPATH . 'assets/scripts/aio/art/';
+    foreach( $arts as $a ) {
+        if( file_exists( $ui_dir . $a . '.css' ) && ( !isset( $universal_assets['styles']['art'] ) || !in_array( $a, $universal_assets['styles']['art'] ) ) ) {
+            $universal_assets['styles']['art'][] = $a;
+            $art_ui .= $a.',';
+        }
+        if( file_exists( $ux_dir . $a . '.js' ) && ( !isset( $universal_assets['scripts']['art'] ) || !in_array( $a, $universal_assets['scripts']['art'] ) ) ) {
+            $universal_assets['scripts']['art'][] = $a;
+            $art_ux .= $a.',';
+        }
     }
+    echo '<link rel="stylesheet" href="'.APPURL.'assets/art.php?arts='.rtrim($art_ui,',').'&fc='.$color1.'&sc='.$color2. $v . '">';
+    echo '<script src="'.APPURL.'assets/art.php?type=ux&arts='.rtrim($art_ux,',').$v.'"></script>';
+
 }
 
 /**
@@ -192,8 +212,8 @@ function asset_exists( $paths = [], $f = '', $ext = '' ): string {
             $url = $link . '.' . $ext;
         else if( strpos( $f, 'http') !== false )
             $url = $f;
-        else
-            elog( $f, 'error' );
+        //else
+            //elog( $f, 'error' );
     }
     return $url;
 }
@@ -238,9 +258,9 @@ function icons() {
  * Checks if php file exists in comp dir
  * @param string $n Name of the comp
  * @param string $dir Name of directory
- * @return string
+ * @return bool|string
  */
-function comp_exists( string $n, string $dir ) {
+function comp_exists( string $n, string $dir ): bool|string {
     $ns = explode('/',str_replace('.php','',$n));
     $x = 1;
     $fl = APPPATH . '/' . $dir . '/';
@@ -268,7 +288,8 @@ function get_comp( string $n ){
  * @param string $n Modal file name excluding .php
  */
 function get_modal( string $n ){
-    comp_exists( $n, 'modals' ) ? include( comp_exists( $n, 'modals' ) ) : '';
+    $n = comp_exists( $n, 'modals' );
+    $n ? include_once( $n ) : '';
 }
 
 /**
@@ -300,8 +321,108 @@ function UI( $ui, $array = [] ) {
             global $ui_params;
             $ui_params = $array;
         }
-        include( $f );
+        include $f ;
 
     }
 
+}
+
+/**
+ * Renders a <link rel="icon"> from icon file name
+ * @param string $icon
+ */
+function favicon( string $icon ){
+    if( file_exists( APPPATH . 'assets/images/' . $icon . '.png' ) ) {
+        $link = APPURL . 'apps/' . APPDIR . '/assets/images/'.$icon.'.png';
+        echo '<link rel="shortcut icon" href="'.$link.'">';
+        if (is_mobile()) {
+            echo file_exists( APPPATH . 'assets/images/' . $icon . '.png' ) ? '<link rel="apple-touch-icon" href="'.$link.'"/>' : '';
+            $sizes = [144,114,72,57];
+            foreach( $sizes as $s ){
+                echo file_exists( APPPATH . 'assets/images/' . $icon . '-' . $s . '.png' ) ? '<link rel="apple-touch-icon" href="'.APPURL . 'apps/' . APPDIR . 'assets/images/'.$icon.'-'.$s.'.png"/>' : '';
+            }
+        }
+    } else {
+        echo '<link rel="shortcut icon" href="'.$icon.'">';
+    }
+}
+
+/**
+ * Renders attributes and class for <html> start tag
+ * @param string $class
+ * @param bool $extras
+ */
+function html_class( string $class = '', bool $extras = true ) {
+    // Is Debug
+    $dc = APPDEBUG ? 'debug ' : '';
+
+    // Is RTL
+    $dir = isset( $_SESSION['lang'] ) && in_array( $_SESSION['lang'], ['ar','iw','ku','fa','ur'] ) ? 'dir="rtl" lang="'.$_SESSION['lang'].'"' : '';
+
+    // Custom class
+    $ec = !empty( $class ) ? 'class="'.$class.' '.$dc.'"' : '';
+
+    $ex = '';
+    if( $extras ) {
+        global $access;
+        // Get Browser
+        $browser = ''; //$access::get_user_browser();
+        $ex = 'browser="'.str_replace(' ','_',strtolower($browser)).'"';
+
+        // Get OS
+        $os = ''; //$access::get_user_os();
+        $ex .= ' client="'.str_replace(' ','_',strtolower($os)).'"';
+    }
+
+    // Final Output
+    echo $dir.' '.$ec.' '.$ex;
+}
+
+/**
+ * Renders attributes and class for <body> start tag
+ * @param string $class
+ */
+function body_class( $class = '' ) {
+
+    // Is Debug
+    $dc = APPDEBUG ? 'debug ' : '';
+
+    // Page path
+    $pc = str_replace('/',' ',PAGEPATH);
+
+    // Custom class
+    $ec = !empty( $class ) ? ' '.$class : '';
+
+    // Dark mode
+    $dm = isset($_SESSION['dark_mode']) && $_SESSION['dark_mode'] == 'true';
+    $dm = !empty( $dm ) ? ' d' : '';
+
+    // Get Client Info
+    $client = new CLIENT();
+    $dev = strtolower(str_replace(' ','_',$client->get_device_type()));
+    $os = strtolower(str_replace(' ','_',$client->get_os()));
+    $brow = strtolower(str_replace(' ','_',$client->get_browser()));
+
+    $dd = 'data-device="'.$dev.'" data-os="'.$os.'" data-browser="'.$brow.'"';
+
+    // Final output
+    echo 'class="'.$dc.$pc.$ec.$dm.'" '.$dd;
+}
+
+/* LOG */
+
+/**
+ * Clears Log File
+ */
+function clear_log_viewer() {
+    $file = isset( $_POST['file'] ) ? $_POST['file'] : ini_get('error_log');
+    if( $file = fopen( $file, 'w' ) ) {
+        $clear = fwrite( $file, '' );
+        if( $clear == '' ) {
+            ES('Log Cleared!');
+        } else {
+            EF('Log could not be cleared');
+        }
+        fclose( $file );
+    }
 }

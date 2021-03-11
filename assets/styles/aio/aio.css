@@ -4,7 +4,6 @@ body, div, p, input, select, button {
 
 body {
   max-height: calc(100vh - 40px);
-  max-width: calc(100vw - 40px);
   position: relative;
   background: #fff;
 }
@@ -14,7 +13,7 @@ article {
   height: calc(100vh - 40px);
   max-width: calc(100vw - 40px);
   margin: 20px 20px 20px 140px;
-  padding: 20px;
+  padding: 80px 20px 20px;
   box-sizing: border-box;
   overflow-y: auto;
   border-radius: 0 15px 15px 0;
@@ -79,14 +78,13 @@ header .drop {
   transition: 0.6s;
 }
 
-.title {
+/* .title {
   position: absolute;
   left: 0;
   width: 100%;
   text-align: center;
   top: 80px;
-}
-
+} */
 aside {
   position: fixed;
   width: 400px;
@@ -97,7 +95,11 @@ aside {
   pointer-events: none;
 }
 aside .scroll {
+  position: absolute;
+  left: 0;
+  top: 0;
   height: 100%;
+  width: 100%;
   overflow-y: auto;
   background: rgba(255, 255, 255, 0.97);
   backdrop-filter: blur(10px) saturate(2);
@@ -132,12 +134,35 @@ i.tip {
   pointer-events: none;
 }
 
+.page_head {
+  position: fixed;
+  left: 140px;
+  top: 20px;
+  width: calc(100% - 160px);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px) saturate(1);
+  -webkit-backdrop-filter: blur(10px) saturate(1);
+  padding: 15px 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 0 15px 0 0;
+  height: 60px;
+  overflow: hidden;
+  z-index: 10;
+}
+.page_head .title {
+  color: #00a99d;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 24px;
+}
+
 .languages .list {
   height: calc(100% - 82px);
   overflow-y: auto;
 }
 
-[data-lang] {
+.list > div, .list > a {
+  display: block;
   padding: 20px;
   border-bottom: 1px solid #eee;
   cursor: pointer;
@@ -151,7 +176,6 @@ i.tip {
   width: calc(100% - 30px);
   border: 0 !important;
   font-size: 18px;
-  letter-spacing: 1px;
 }
 
 [type=search]:active {
@@ -184,6 +208,86 @@ header select {
   box-shadow: none;
   color: #fff;
   background: #000;
+}
+
+button {
+  border-radius: 6px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: 0.6s;
+  text-transform: uppercase;
+  color: #00a99d;
+  font-weight: normal;
+}
+
+button.main {
+  background: #00a99d;
+  color: #fff;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+/* Overview */
+.widget {
+  border-radius: 8px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  overflow: hidden;
+}
+.widget .title {
+  padding: 12px 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: #fff;
+  border-bottom: 1px solid #f2f2f2;
+}
+.widget .body {
+  padding: 20px;
+}
+
+/* Config */
+.config h3 {
+  text-transform: uppercase;
+  font-size: 15px;
+  margin: 0 0 20px;
+  font-weight: bold;
+}
+.config label {
+  font-size: 14px;
+  margin-bottom: 10px;
+  display: block;
+  font-weight: lighter;
+}
+.config label .link {
+  color: #aaa;
+}
+.config [type=radio] + label, .config [type=checkbox] + label {
+  display: inline-block;
+  vertical-align: middle;
+  font-weight: lighter;
+  margin: 0;
+}
+.config input[type=text], .config select, .config .select2-selection {
+  margin: 0 0 15px;
+  border: 0;
+  box-shadow: none;
+  background-color: #f1f1f1;
+  border-radius: 6px;
+}
+.config .select2-selection--multiple {
+  margin-bottom: 0;
+}
+.config .break {
+  margin: 20px 0;
+  border-top: 1px solid #f1f1f1;
+}
+.config .select2-container {
+  margin-bottom: 15px;
+}
+.config .select2-container .select2-selection--single {
+  margin: 0;
 }
 
 /* BLOCKS */
@@ -288,6 +392,10 @@ body.d .b .ft > div {
 }
 
 /* ICONS */
+.ico.nav {
+  background: url("../../icons/menu.svg") no-repeat center/50px;
+}
+
 .ico.lang {
   background: url("../../icons/lang.svg") no-repeat center/50px;
 }
@@ -334,7 +442,7 @@ body.d aside .scroll {
 body.d [type=search], body.d input[data-color-picker] {
   background-color: #212121;
 }
-body.d [data-lang] {
+body.d .list > div, body.d .list > a {
   border-bottom: 1px solid #222;
 }
 body.d label {
@@ -345,6 +453,9 @@ body.d .logo {
 }
 body.d [type=text], body.d [type=search], body.d [type=password], body.d [type=number], body.d textarea {
   color: #fff;
+}
+body.d .ico.nav {
+  background: url("../../icons/w/menu.svg") no-repeat center/50px;
 }
 body.d .ico.lang {
   background: url("../../icons/w/lang.svg") no-repeat center/50px;

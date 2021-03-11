@@ -1,15 +1,17 @@
 <?php get_style( 'translations' ); get_scripts(['clipboard','select2','core','translations']);
 
+$con = new DB();
+$form = new FORM();
 $ln = isset( $_POST['ln'] ) && !empty( $_POST['ln'] ) ? $_POST['ln'] : '';
 
 if( isset( $_POST['set_languages'] ) && !empty( $_POST['set_languages'] ) ) {
-    $set_langs = update_option( 'app_languages', serialize( $_POST['set_languages'] ) );
+    $set_langs = $con->update_option( 'app_languages', serialize( $_POST['set_languages'] ) );
     echo $set_langs ? '<script>notify("Languages Set!");</script>' : '';
 }
 
 $lfs = get_language_files();
 
-$langs = get_option( 'app_languages' );
+$langs = $con->get_option( 'app_languages' );
 $langs = !empty( $langs ) ? unserialize( $langs ) : '';
 //skel( $langs );
 if( isset( $_POST['ln'] ) ) {
@@ -21,7 +23,7 @@ if( isset( $_POST['ln'] ) ) {
             <td>ENGLISH - DEFAULT</td>
             <td><form method='post'><select name="ln" id="ln" onchange="this.form.submit()">
                     <option selected disabled>Select Language</option>
-                    <?php select_options( $lfs, $ln ); ?>
+                    <?php $form->select_options( $lfs, $ln ); ?>
                 </select></form></td>
             <td></td>
         </tr>
@@ -29,11 +31,11 @@ if( isset( $_POST['ln'] ) ) {
         <tbody>
         <?php
 
-        $db_translation_strings = get_option( 'translation_strings' );
+        $db_translation_strings = $con->get_option( 'translation_strings' );
 
         $tstrings = !empty( $db_translation_strings ) && $db_translation_strings !== '' ? unserialize( $db_translation_strings ) : [];
 
-        $trans = select( 'translations', '', 'trans_ln = "'.$ln.'"' );
+        $trans = $con->select( 'translations', '', 'trans_ln = "'.$ln.'"' );
         if( is_array( $trans ) ){
             $data = [];
             foreach( $trans as $tran ){
@@ -94,7 +96,7 @@ if( isset( $_POST['ln'] ) ) {
     <form method='post' style="position:relative; width:300px;">
         <label for="language_selector">Select Languages for Application</label>
         <select name="set_languages[]" id="language_selector" class="select2" multiple>
-            <?php select_options( get_languages(), $langs ); ?>
+            <?php $form->select_options( get_languages(), $langs ); ?>
         </select>
         <button id="set_languages"><?php E('SET LANGUAGES'); ?></button>
     </form>
@@ -102,6 +104,6 @@ if( isset( $_POST['ln'] ) ) {
 <?php } else { ?>
 <form method='post'><select name="ln" id="ln" onchange="this.form.submit()">
         <option selected disabled>Select Language</option>
-        <?php select_options( $lfs, $ln ); ?>
+        <?php $form->select_options( $lfs, $ln ); ?>
     </select></form>
 <?php }

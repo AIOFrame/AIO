@@ -1,30 +1,24 @@
-header select {
-  width:180px;
-}
-select, input, textarea, div {
-  font-family:'Lato',sans-serif;
-}
-#translations > div {
+#aio_translations > div {
   display: flex;
   flex-wrap:wrap;
-  margin-bottom: 18px;
   background:#fff;
   border-bottom: 2px solid #f3f3f3;
   border-radius: 10px;
+  cursor:pointer;
   > div {
-    padding: 15px;
+    padding:12px;
     flex:0 0 33.3333%;
+    font-size: 15px;
+  }
+  > div:nth-child(3) {
+    flex:0 0 calc(33.3333% - 50px);
+  }
+  i {
+    width: 42px;
+    height: 42px;
   }
 }
-.row {
-  display: flex;
-  width: 100%;
-}
-.col {
-  flex:0 0 auto;
-  flex-grow: 1;
-}
-#editor {
+#aio_lang_editor {
   position: fixed;
   bottom:-60px;
   left:15px;
@@ -44,17 +38,14 @@ select, input, textarea, div {
     text-align: right;
   }
   .close {
-    background:url('../../images/close.svg') no-repeat center / 70%;
+    background:url('../../icons/close.svg') no-repeat center / 70%;
     position: absolute;
     right:10px;
     top:5px;
     width:35px;
     height:35px;
     cursor: pointer;
-  }
-  .col:nth-child(3) {
-    flex:0 0 100px;
-    max-width:100px;
+    z-index: 2;
   }
   button:hover {
     opacity:.8
@@ -78,7 +69,7 @@ select, input, textarea, div {
 #data {
   margin-bottom: 100px;
 }
-#editor.on {
+#aio_lang_editor.on {
   bottom:0;
   opacity:1;
   pointer-events: all
@@ -86,27 +77,15 @@ select, input, textarea, div {
 #string {
   border-bottom-left-radius: 10px;
 }
-label {
-  text-transform: uppercase;
-  font-size: 11px;
-  letter-spacing: 1px;
-  color:royalblue;
-}
-textarea {
-  box-shadow:0 0 20px rgba(0,0,0,.1) inset;
-  resize:none;
-  margin: 0;
-}
 #save {
   padding: 22px 0;
-  margin: 22px 0 0 20px;
-  width: calc(100% - 20px);
+  margin: 22px 0 0 0;
+  width: 100%;
   background: #000;
   color: #fff;
-  border-bottom-right-radius: 10px;
   cursor: pointer;
 }
-#editor .actions button, #set_languages {
+#aio_lang_editor .actions button, #set_languages {
   margin: 0 0 0 15px;
   background: darkslategrey;
   text-transform: uppercase;
@@ -125,53 +104,41 @@ textarea {
 #language_selector+span {
   max-width:300px;
 }
-#notification {
-  position: fixed;
-  left:50%;
-  top:-30vh;
-  min-width:60vw;
-  max-width:calc(100vw - 120px);
-  box-shadow:0 0 30px rgba(0,0,0,.1);
-  transform:translateX(-50%);
-  z-index:100;
-  border-radius:6px;
-  /*box-shadow:0 0 0 rgba(0,0,0,.1);*/
-  padding: 40px;
-  background:rgba(255,255,255,.97);
-  transition:.6s;
-  opacity:0;
-}
-#notification div {
-  font-size:20px;
-}
-#notification.on {
-  box-shadow:0 0 50px rgba(0,0,0,.2);
-  top:20px;
-  opacity:1;
-}
-.ico {
-  width:25px;
-  height:25px;
-  display: inline-block;
-  vertical-align: top;
-  margin: 0 !important;
-}
 .ico.trash {
-  background:url('../../../core/components/icons/trash.svg') no-repeat center;
+  background:url('../../../core/components/icons/trash.svg') no-repeat center / 24px;
+}
+
+// Select2
+#lang_select + .select2-container, #lang_page + .select2-container {
+  display: block;
+  width: 100%;
+  .select2-selection--single {
+    border:0;
+    background:#ddd;
+    border-radius:10px;
+    height: auto;
+    outline:0;
+  }
+  .select2-selection__rendered {
+    line-height: normal;
+  }
+  .select2-selection__arrow {
+    height: 100%;
+  }
 }
 
 @media only screen and (max-width:600px) {
-  #editor {
+  #aio_lang_editor {
     padding: 20px;
   }
-  #editor.on {
+  #aio_lang_editor.on {
     top:auto;
     bottom: 0;
   }
-  #editor .row {
+  #aio_lang_editor .row {
     flex-wrap:wrap;
   }
-  #editor .col, #editor .col:nth-child(3) {
+  #aio_lang_editor .col, #aio_lang_editor .col:nth-child(3) {
     flex:0 0 100%;
     margin: 0;
     max-width:none;
@@ -183,13 +150,13 @@ textarea {
     border-radius:5px;
     text-transform: uppercase;
   }
-  #editor textarea {
+  #aio_lang_editor textarea {
     border-radius:5px;
   }
-  #editor .close {
+  #aio_lang_editor .close {
     top: 10px;
   }
-  #translations {
+  #aio_translations {
     > div {
       padding: 15px;
       > div {

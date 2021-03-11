@@ -4,16 +4,14 @@ class FUP {
 
     function file_uploader() {
         $cry = Crypto::initiate();
-        global $universal;
-        !in_array('jquery',$universal['scripts']) ? get_script('jquery') : '';
         get_style('upload');
-        get_script('upload');
+        get_scripts(['jquery','upload']);
         ?>
         <div id="aio_up" class="file_modal" data-dir="<?php echo APPURL.'apps/'.APPDIR; ?>">
             <div class="files_head">
                 <h3><?php E('File Uploader'); ?></h3>
                 <div class="acts">
-                    <div class="size"></div>
+                    <div class="expand"></div>
                     <div class="close"></div>
                 </div>
                 <input type="file" id="file_input">
@@ -22,8 +20,8 @@ class FUP {
                 <input type="search" placeholder="<?php E('Search'); ?>" class="search">
                 <div class="uploaded_files">
                     <?php
-                    global $db;
-                    $fs = $db ? ( !empty( $_SESSION ) ? select( 'storage', '*', 'file_scope = "'.$_SESSION['user_id'].'" OR file_scope = "0"', '40', 0, '', '', 'file_id', 'desc' ) : select( 'storage', '*', 'file_scope = "0"', '40', 0, '', '', 'file_id', 'desc' ) ) : '';
+                    $db = new DB();
+                    $fs = $db ? ( !empty( $_SESSION ) && isset( $_SESSION['user_id'] ) ? $db->select( 'storage', '*', 'file_scope = "'.$_SESSION['user_id'].'" OR file_scope = "0"', '40', 0, '', '', 'file_id', 'desc' ) : $db->select( 'storage', '*', 'file_scope = "0"', '40', 0, '', '', 'file_id', 'desc' ) ) : '';
                     if( !empty($fs) ){ foreach( $fs as $f ){
                         $bg = in_array($f['file_type'],['svg','jpg','png','jpeg']) ? 'style="background-image:url(\''.storage_url($f['file_url']).'\')"' : '';
                         $size = $f['file_size'] > 1024 ? number_format((float)($f['file_size'] / 1024), 2, '.', '') . ' MB' : $f['file_size'].' KB';

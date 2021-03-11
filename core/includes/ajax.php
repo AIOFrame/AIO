@@ -1,5 +1,7 @@
 <?php
 
+//print_r(CONFIG);
+
 if( isset( $_POST['action'] ) && !empty( $_POST['action'] ) ){
     if( function_exists( $_POST['action'] ) ){
         $process_ajax = $_POST['action'];

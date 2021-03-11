@@ -1,7 +1,7 @@
 <?php
 
 $map = [
-    'localhost' => 'wifispot',
+    'localhost' => 'sample',
 ];
 
 //$default = 'wifispot';

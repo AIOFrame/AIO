@@ -328,6 +328,9 @@ ul.select2-results__options {
 /* DARK */
 
 body.d {
+  article {
+    border: 0;
+  }
   input, button, textarea {
     border:0;
     border-bottom:1px solid #666;

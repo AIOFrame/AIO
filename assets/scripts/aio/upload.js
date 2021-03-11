@@ -50,7 +50,7 @@ $(document).ready(function(){
     })
 
     // Resize Uploader
-    .on('click','.size',function(){
+    .on('click','.expand',function(){
         $('.file_modal').toggleClass('max');
     })
 

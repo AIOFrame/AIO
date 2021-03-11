@@ -27,7 +27,7 @@ body.d .file_modal, body.d .file_notify {
   padding: 20px 40px;
 }
 .file_notify.on {
-  display: block;
+  opacity:1;
 }
 .file_modal.hover {
   opacity:.7;
@@ -112,7 +112,7 @@ body.d .file_modal, body.d .file_notify {
         position: relative;
       }
     }
-    .size {
+    .expand {
       background:url('../../icons/uploader/expand.svg') no-repeat center / 40%;
     }
     .close {

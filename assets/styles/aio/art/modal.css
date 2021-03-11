@@ -37,6 +37,14 @@
   cursor: pointer;
 }
 
+.modal.r5 {
+  border-radius: 5px;
+}
+
+.modal.r10 {
+  border-radius: 10px;
+}
+
 .modal.load [onclick=process_data] {
   pointer-events: none;
 }
@@ -102,6 +110,10 @@
   width: calc(100vw - 60px);
 }
 
+[dir=rtl] .modal .close {
+  right: auto;
+  left: 10px;
+}
 [dir=rtl] .modal .t, [dir=rtl] .modal .title {
   letter-spacing: 0;
 }
