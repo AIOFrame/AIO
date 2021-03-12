@@ -6,7 +6,6 @@ $db = defined('DB_TYPE') ? DB_TYPE : '';
 
 $initials = [
     'assets',                           // Lets you easily add styles and scripts related assets
-    'functions',                        // Most commonly used functions - Will be deprecated soon into individual identities
     'crypt',                            // Most powerful encryption functions
     'device',                           // Client device info functions
     'form',                             // Input element rendering functions

@@ -554,3 +554,17 @@ if( user_logged_in() ) {
         }
     }
 }
+
+function dev_sessions( $logged_in = true ) {
+    if( APPDEBUG && $logged_in ) {
+        $_SESSION['username'] = 'Developer Name';
+        $_SESSION['user_name'] = 'Developer Name';
+        $_SESSION['user_pic'] = 'Developer Name';
+        $_SESSION['user_id'] = '856';
+        $_SESSION['user_login'] = 'developer';
+        if (!isset($_SESSION)) {
+            session_set_cookie_params(0, '/', str_replace(' ', '_', APPNAME), false, false);
+            @session_regenerate_id(true);
+        }
+    }
+}

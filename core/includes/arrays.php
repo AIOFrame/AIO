@@ -28,6 +28,40 @@ function is_assoc( $a ) {
     return is_array( $a ) ? array_keys( $a ) !== range(0, count( $a ) - 1) : false;
 }
 
+/**
+ * Remove content in HTML Elements
+ * @param string $html
+ * @param string $start
+ * @param string $end
+ * @return string
+ */
+function remove_elements( string $html, string $start, string $end ): string {
+    $exist = 1;
+    do {
+        $si = strpos( $html, $start );
+        $ei = strpos( $html, $end )+strlen( $end );
+        $html = str_replace( PHP_EOL, '', str_replace( substr( $html, $si, $ei - $si ), '', $html) );
+        $exist = strpos( $html, $start ) > 0 ? 1 : 0;
+    } while ( $exist > 0 );
+    return $html;
+}
+
+/**
+ * Gets content between a string
+ * @param string $string
+ * @param string $start
+ * @param string $end
+ * @return string
+ */
+function get_string_between( string $string, string $start, string $end ): string {
+    $string = ' ' . $string;
+    $ini = strpos($string, $start);
+    if ($ini == 0) return '';
+    $ini += strlen($start);
+    $len = strpos($string, $end, $ini) - $ini;
+    return substr($string, $ini, $len);
+}
+
 // Restructures an array grouped by a common of key value
 
 function array_group_by( $array, $key ) {

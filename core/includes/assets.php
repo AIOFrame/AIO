@@ -409,6 +409,169 @@ function body_class( $class = '' ) {
     echo 'class="'.$dc.$pc.$ec.$dm.'" '.$dd;
 }
 
+/**
+ * Renders easily readable <title> tag with title
+ * @param string $title
+ * @param bool $join_app_name
+ */
+function get_title( string $title = '', bool $join_app_name = true ) {
+    $add = $join_app_name ? ' - '.T( APPNAME ) : '';
+    if( !empty( $title ) ) {
+        echo '<title>'.$title.$add.'</title>';
+        return;
+    }
+    if( !empty( PAGE ) ) {
+        $p = PAGE == 'index' ? 'Welcome' : PAGE;
+        $pp = explode('/',PAGEPATH);
+        $p = is_numeric( $p ) ? $pp[count($pp)-1] : $p;
+        echo '<title>'.T( ucwords( str_replace('-',' ', str_replace('_',' ', $p )) ) ) .$add.'</title>';
+    } else {
+        echo '<title>'.T( APPNAME ).'</title>';
+    }
+}
+
+/**
+ * Sets a title thru jQuery, Not SEO friendly
+ * @param $title
+ */
+function set_title( $title ){
+    echo '<script>$(document).ready(function() { document.title = "' . $title . ' - ' . APPNAME . '"; });</script>';
+}
+
+/**
+ * Renders APP URL from a string
+ * @param string $link
+ */
+function APPURL( string $link ) {
+    echo APPURL.$link;
+}
+
+/**
+ * Renders a back link relative to current page
+ * @param string $url
+ * @param string $title
+ */
+function back_link( string $url = './', string $title = '' ) {
+    echo '<a id="back" class="nico" href="'.$url.'">'.$title.'</a>';
+}
+
+/**
+ * Check if current page is given page name
+ * @param string $p page name
+ * @return bool
+ */
+function page_is( string $p ): bool {
+    return is_array( $p ) ? in_array(PAGEPATH,$p) : PAGEPATH == $p;
+}
+
+/**
+ * Check if current page is or child of given page name
+ * @param string $p page name
+ * @return bool
+ */
+function page_of( string $p ): bool {
+    $results = [];
+    $page_ofs = explode( ',', $p );
+    $pages = explode( '/', PAGEPATH );
+    foreach( $page_ofs as $of ) {
+        $results[] = in_array( $of, $pages );
+    }
+    return in_array( true, $results );
+}
+
+/**
+ * Renders menu html from array
+ * @param array|string $array
+ * @param string $prefix
+ */
+function render_menu( array|string $array, string $prefix = '' ) {
+    $array = is_array( $array ) ? $array : explode(',',$array);
+    echo '<ul>';
+    foreach( $array as $first_row ){
+
+        $title = !empty( $first_row[1] ) && !is_array( $first_row[1] ) ? $first_row[1] : ucwords( $first_row[0] );
+
+        $url = explode( '/', PAGEPATH );
+        $page_class = strtolower(str_replace(' ','_',$title));
+        $first_row_class = PAGEPATH == $first_row[0] ? 'class="on '.$page_class.'"' : 'class="'.$page_class.'"';
+        $first_li_class = $url[0] == $first_row[0] ? 'class="open"' : '';
+
+        $sec_rows = '';
+        if( !empty( $first_row[2] ) && is_array( $first_row[2] ) ){
+            $sec_rows = $first_row[2];
+        } else if( !empty( $first_row[1] ) && is_array( $first_row[1] ) ) {
+            $sec_rows = $first_row[1];
+        }
+
+        $sec = '';
+        if( !empty( $sec_rows ) && is_array( $sec_rows ) ){
+            $sec .= '<i></i><ul>';
+            foreach( $sec_rows as $sec_row ){
+                $sec_title = !empty( $sec_row[1] ) && !is_array( $sec_row[1] ) ? $sec_row[1] : ucwords( $sec_row[0] );
+                $sec_row_class = $url[count($url)-1] == $sec_row[0] ? 'class="on '.strtolower(str_replace(' ','_',$sec_title)).'"' : '';
+                if( $sec_row[0] == '' && $url[count($url)-1] == $url[0] ){
+                    $sec_row_class = 'class="on '.strtolower(str_replace(' ','_',$sec_title)).'"';
+                }
+                $sec .= '<li><a href="'.APPURL.$prefix.$first_row[0].'/'.$prefix.$sec_row[0].'" '.$sec_row_class.'>'.T($sec_title).'</a></li>';
+            }
+            $sec .= '</ul>';
+        }
+        echo '<li '.$first_li_class.'><a href="'.APPURL.$prefix.$first_row[0].'" '.$first_row_class.'>'.T($title).'</a>'.$sec.'</li>';
+        /*    $title = ucfirst( $l );
+            $sls .= '<ul>';
+            foreach( $t as $sl => $st ){
+                $link = APPURL.$l.'/'.$prefix.$sl;
+                if( PAGEPATH == $sl ) { $sc = 'class="on"'; $c = 'on'; } else { $sc = ''; }
+                $sls .= '<li><a href="'.$link.'" '.$sc.'>'.$st.'</a></li>';
+            }
+            $sls .= '</ul>';
+        }
+        $s = !empty($sls) ? $c.' sub' : $c.'';
+        echo '<li><a href="'.APPURL.$prefix.$l.'" class="'.$c.'">'.$title.'</a>'.$sls.'</li>'; */
+    }
+    echo '</ul>';
+
+    !empty( $title ) && !defined( 'PAGET' ) ? define( 'PAGET', $title ) : '';
+}
+
+/**
+ * Create jQuery Notification
+ * @param string $message
+ */
+function notify( string $message ) {
+    echo '<script>$(document).ready(function(){ notify("' . $message . '"); });</script>';
+}
+
+/**
+ * AIO Error Log
+ * @param string $log Log message
+ * @param string $type Log type 'log', 'error'
+ * @param string $line The link where the log is logged
+ * @param string $file The file path which initiates the log
+ * @param string $target Target
+ * @author Shaikh <hey@shaikh.dev>
+ */
+function elog( string $log, string $type = 'log', string $line = '', string $file = '', string $target = '' ){
+    $log = is_array( $log ) ? json_encode( $log ) : $log;
+    $log = is_object( $log ) ? var_dump( $log ) : $log;
+
+    $data = $log . '<AIO>' . $type;
+    $data .= $line !== '' ? '<AIO>' . $line : '';
+    $data .= $file !== '' ? '<AIO>' . $file : '';
+    $data .= $target !== '' ? '<AIO>' . $target : '';
+
+    // Get dev users
+    $debug = 0;
+    if( defined( 'CONFIG' ) ) {
+        $devs = get_config('dev');
+        $devs = !empty($dev) ? explode(',', $devs) : [];
+        $debug = isset($_SESSION['user_id']) && is_array($devs) && in_array($_SESSION['user_id'], $devs) ? 1 : 0;
+    }
+
+    // Log
+    APPDEBUG || $debug ? error_log( $data . PHP_EOL ) : '';
+}
+
 /* LOG */
 
 /**
