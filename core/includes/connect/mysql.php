@@ -2,15 +2,22 @@
 
 class DB {
 
-    function connect(): mysqli {
-        $connect = @mysqli_connect( DB_HOST, DB_USER, DB_PASS, DB_BASE );
+    function connect() {
+        /* $connect = @mysqli_connect( DB_HOST, DB_USER, DB_PASS, DB_BASE );
         if ( $connect ) {
             mysqli_query($connect, "SET NAMES 'utf8'");
             mysqli_query($connect, 'SET CHARACTER SET utf8');
         } else {
             die( mysqli_connect_error() );
+        } */
+        try {
+            $c = new PDO('mysql:host='.DB_HOST.';dbname='.DB_BASE.';charset=utf8mb4', DB_USER, DB_PASS);
+            $c->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            return $c;
+        } catch(PDOException $e) {
+            elog( $e->getMessage() );
+            return $e->getMessage();
         }
-        return $connect;
     }
 
     // TABLE FUNCTIONS
@@ -26,11 +33,11 @@ class DB {
             // Table Exist Check
             $db = $this->connect();
             $check = "SHOW TABLES LIKE '".$table[0]."'";
-            $target = $table[0];
 
-            $exist = mysqli_query( $db, $check );
+            $exist = $db->query( $check );
+            //echo $check.' - '.$exist.'<br/>';
 
-            if( $exist->num_rows > 0 ) {
+            if( $exist->rowCount() > 0 ) {
 
                 if ( is_array( $table[2] ) ) {
                     foreach ( $table[2] as $col ) {
@@ -78,10 +85,10 @@ class DB {
                 elog( $query, 'log', $df[0]['line'], $df[0]['file'], $target );
 
                 if (!empty($query)) {
-                    if (mysqli_query($db, $query) == 1) {
+                    if ( $db->query($query) == 1) {
                         return true;
                     } else {
-                        elog( mysqli_error($db), 'error', $df[0]['line'], $df[0]['file'], $target );
+                        elog( $query, 'error', $df[0]['line'], $df[0]['file'], $target );
                         return false;
                     }
                 } else {
@@ -132,13 +139,13 @@ class DB {
 
         $df = debug_backtrace();
         $db = $this->connect();
-        $e = mysqli_query( $db, $exist );
-        if( $e && $e->fetch_assoc()['COUNT(*)'] == 0 ){
-            if( mysqli_query( $db, $query ) ){
+        $e = $db->query( $exist );
+        if( $e && $e->fetchAll() == 0 ){
+            if( $db->query( $query ) ){
                 return true;
             } else {
                 elog( $query, 'column', $df[0]['line'], $df[0]['file'], $table . '-' . $column );
-                elog( $column.' '.mysqli_error($db), 'error', $df[0]['line'], $df[0]['file'], $table . '-' . $column );
+                //elog( $column.' '.mysqli_error($db), 'error', $df[0]['line'], $df[0]['file'], $table . '-' . $column );
                 return false;
             }
         } else {
@@ -176,11 +183,11 @@ class DB {
 
                     elog( $q, 'insert', $df[0]['line'], $df[0]['file'], $table );
                     //return $q;
-                    $query = $db ? mysqli_query($db, $q) : '';
-                    if ($query) {
-                        return mysqli_insert_id($db);
+                    $query = $db ? $db->prepare( $q ) : '';
+                    if( $query->execute() ) {
+                        return $db->lastInsertId();
                     } else {
-                        elog( mysqli_error($db), 'error', $df[0]['line'], $df[0]['file'], $table );
+                        elog( $q, 'error', $df[0]['line'], $df[0]['file'], $table );
                         return 0;
                     }
                 } else {
@@ -230,26 +237,26 @@ class DB {
 
             elog( $o, 'select', $df[0]['line'], $df[0]['file'], $target );
 
-            $q = $db ? mysqli_query($db, $o) : '';
+            $q = $db ? $db->query( $o ) : '';
 
             if ($q) {
                 $data = [];
-                while ($row = $q->fetch_assoc()) {
+                while ($row = $q->fetchAll()) {
                     $data[] = $row;
                 }
                 if ($count && !empty($data)) {
                     return end($data[0]);
                 } else if (!empty($data)) {
                     if ($limit == 1) {
-                        return $data[0];
+                        return $data[0][0];
                     } else {
-                        return $data;
+                        return $data[0];
                     }
                 } else {
                     return [];
                 }
             } else {
-                elog( mysqli_error( $db ), 'error', $df[0]['line'], $df[0]['file'], $target );
+                elog( $o, 'error', $df[0]['line'], $df[0]['file'], $target );
                 return [];
             }
         } else {
@@ -287,11 +294,11 @@ class DB {
 
         elog( $q, 'update', $df[0]['line'], $df[0]['file'], $table );
 
-        $dq = $db->query($q);
-        if ( $dq === TRUE && $db->affected_rows > 0 ){
+        $dq = $db->prepare( $q );
+        if ( $dq->execute() && $dq->rowCount() > 0 ){
             return true;
         } else {
-            elog( mysqli_error( $db ), 'error', $df[0]['line'], $df[0]['file'], $table );
+            elog( $q, 'error', $df[0]['line'], $df[0]['file'], $table );
             return false;
         }
     }
@@ -314,14 +321,14 @@ class DB {
 
         elog( $q, 'delete', $df[0]['line'], $df[0]['file'], $table );
 
-        $del = mysqli_query( $db, $q );
+        $del = $db->prepare( $q );
 
-        if( mysqli_error( $db ) ) {
-            elog( mysqli_error($db), 'delete', $df[0]['line'], $df[0]['file'], $table );
-            return 0;
-        } else {
-            $rows = mysqli_affected_rows( $db );
+        if( $del->execute() ) {
+            $rows = $del->rowCount();
             return $rows > 0 ? $rows : 0;
+        } else {
+            elog( $q, 'delete', $df[0]['line'], $df[0]['file'], $table );
+            return 0;
         }
     }
 
@@ -346,7 +353,7 @@ class DB {
      */
     function query( string $query ): mixed {
         $db = $this->connect();
-        $e = mysqli_query( $db, $query );
+        $e = $db->query( $query );
         return $e;
     }
 
@@ -548,7 +555,7 @@ class DB {
 
             $query = $query . $l;
             if ($endWith == ';') {
-                mysqli_query( $db, $query ) or die('Problem in executing the SQL query <b>' . $query. '</b>');
+                $db->query( $query ) or die('Problem in executing the SQL query <b>' . $query. '</b>');
                 $query= '';
             }
         }

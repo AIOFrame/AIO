@@ -40,38 +40,23 @@ class FORM {
      * @param array $options Indexed or Associative Array of options
      * @param mixed $selected Selected option or options separated by comma
      * @param string $placeholder Placeholder text
+     * @param bool $keyed Yes if option value should be array key
      * @param bool $translate Translate the option text or not
      */
-    function select_options( array $options = [], mixed $selected = '', string $placeholder = '', bool $translate = true ) {
+    function select_options( array $options = [], mixed $selected = '', string $placeholder = '', bool $keyed = false, bool $translate = true ) {
         $d = $options;
         $s = $selected;
         $placeholder = $translate ? T($placeholder) : $placeholder;
         if( $placeholder !== '' ){
             echo empty($s) ? '<option disabled selected>'.$placeholder.'</option>' : '<option disabled>'.$placeholder.'</option>';
         }
-        if( is_array($d) ){
-            // TODO: The following logic can be simplified
-            if (is_assoc($d)) {
-                foreach ($d as $k => $t) {
-                    $t = $translate ? T($t) : $t;
-                    if( is_array( $s ) && in_array( $k, $s ) ) { $sel = 'selected'; } else if( $k == $s ) { $sel = 'selected'; } else { $sel = ''; }
-                    echo '<option value="' . $k . '" ' . $sel . '>' . $t . '</option>';
-                }
-                !empty($sel) ? elog($s) : '';
-            } else {
-                foreach ($d as $t) {
-                    $t = $translate ? T($t) : $t;
-                    if( is_array( $s ) && in_array( $t, $s ) ) { $sel = 'selected'; } else if( $t == $s ) { $sel = 'selected'; } else { $sel = ''; }
-                    echo '<option value="' . $t . '" ' . $sel . '>' . $t . '</option>';
-                }
-
-            }
-        } else if( is_numeric( $d ) ){
-            for($x=0;$x<=$d;$x++){
-                $t = $translate ? T($x) : $x;
-                echo '<option value="' . $x . '" ' . ($x == $s ? "selected" : "") . '>' . $t . '</option>';
-            }
+        foreach ($d as $k => $t) {
+            $t = $translate ? T($t) : $t;
+            $k = $keyed ? $k : $t;
+            if( is_array( $s ) && in_array( $k, $s ) ) { $sel = 'selected'; } else if( $k == $s ) { $sel = 'selected'; } else { $sel = ''; }
+            echo '<option value="' . $k . '" ' . $sel . '>' . $t . '</option>';
         }
+        //!empty($sel) ? elog($s) : '';
     }
 
     /**
@@ -84,9 +69,10 @@ class FORM {
      * @param string $attr Attributes like class or data tags
      * @param string $pre String to add before <select>. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post String to add after </select>
+     * @param bool $keyed Yes if option value should be array key
      * @param bool $translate Translate the option text or not
      */
-    function select( string $id = '', string $label = '', string $placeholder = '', array $options = [], mixed $selected = '', string $attr = '', string $pre = '', string $post = '', bool $translate = true ) {
+    function select( string $id = '', string $label = '', string $placeholder = '', array $options = [], mixed $selected = '', string $attr = '', string $pre = '', string $post = '', bool $keyed = false, bool $translate = true ) {
         if( is_numeric( $pre ) ){
             $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
             $post = '</select></div>';
@@ -102,7 +88,7 @@ class FORM {
             array_unshift( $options, '' );
         }
         //$placeholder = strpos( $attr, 'select2') !== false ? '' : $placeholder;
-        $this->select_options( $options, $selected, $placeholder, $translate );
+        $this->select_options( $options, $selected, $placeholder, $keyed, $translate );
         echo $post;
     }
 

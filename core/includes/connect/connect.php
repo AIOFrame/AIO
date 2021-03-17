@@ -44,7 +44,15 @@ if( defined( 'CONFIG' ) && !empty( CONFIG ) ) {
         global $db;
         switch( $type ) {
             case 'mysql':
-                $db = @mysqli_connect( $host, $user, $pass, $base );
+                try {
+                    $c = new PDO("mysql:host=$host;dbname=$base;charset=utf8mb4", $user, $pass);
+                    $c->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                    !defined( 'APPCON' ) ? define( 'APPCON', 1 ) : '';
+                    !defined( 'DB_TYPE' ) ? define( 'DB_TYPE', 'mysql' ) : '';
+                } catch(PDOException $e) {
+                    elog( $e->getMessage() );
+                }
+                /*$db = @mysqli_connect( $host, $user, $pass, $base );
                 if ( $db ) {
                     mysqli_query( $db, "SET NAMES 'utf8'");
                     mysqli_query( $db, 'SET CHARACTER SET utf8' );
@@ -52,10 +60,9 @@ if( defined( 'CONFIG' ) && !empty( CONFIG ) ) {
                     !defined( 'DB_TYPE' ) ? define( 'DB_TYPE', 'mysql' ) : '';
                 } else {
                     die( mysqli_connect_error() );
-                }
+                }*/
                 break;
         }
-
     }
 
 }

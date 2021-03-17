@@ -121,7 +121,7 @@ isset( $c['name'] ) && !empty( $c['name'] ) && !defined( 'APPNAME' ) ? define( '
 $debug = isset( $c['debug'] ) && !empty( $c['debug'] ) ? $c['debug'] : false; // Defines if the Application is under development mode
 !defined( 'APPDEBUG' ) ? define( 'APPDEBUG', $debug ) : '';
 
-//if( APPDEBUG ) {
+if( APPDEBUG ) {
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
     $log = APPPATH . 'storage/log/error_log.log';
@@ -132,19 +132,14 @@ $debug = isset( $c['debug'] ) && !empty( $c['debug'] ) ? $c['debug'] : false; //
         fclose($file);
     }
     ini_set( 'error_log', $log );
-//} else {
-//    error_reporting(0);
-//}
+} else {
+    error_reporting(0);
+}
 
 /**
  * Loads Database connection
  */
 require COREPATH . 'core/includes/connect/connect.php';
-
-/**
- * Loads User Access
- */
-require COREPATH . 'core/access.php';
 
 /**
  * Sets AIO page routing

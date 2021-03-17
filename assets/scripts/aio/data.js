@@ -74,6 +74,8 @@ function edit_data( e, modal ) {
             } else {
                 $('#'+i).val(d).change();
             }
+            elog('#'+i);
+            elog(d);
         }
     });
 

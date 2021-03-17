@@ -26,6 +26,7 @@ if( defined( 'DB_TYPE' ) ) {
     array_push(
         $initials,
         'connect/'.DB_TYPE,             // Database connection functions
+        'access',                       // User access functions like login, register
         'structure',                    // Basic database structure tables
         'alerts',                       // Notifications to users
         'data',                         // Common used data - Will be deprecated or improved
