@@ -139,8 +139,8 @@ if( is_array( $feats ) ) {
     if( in_array( 'data', $feats ) || in_array( 'countries', $feats ) || in_array( 'world', $feats ) ) {
         // Check if world data exists
         $db = new DB();
-        $countries = $db->select( 'countries', '1', '', 1 );
-        if( empty( $countries ) ) {
+        $table_exist = $db->table_exists( 'countries' );
+        if( !$table_exist ) {
             $db->import( COREPATH . 'core/components/data/world.sql' );
         }
     }

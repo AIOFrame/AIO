@@ -42,27 +42,31 @@ if( defined( 'CONFIG' ) && !empty( CONFIG ) ) {
         !defined( 'DB_PASS' ) ? define( 'DB_PASS', $pass ) : '';
 
         global $db;
+
+        // Setup Connection String
+        $connection_string = '';
         switch( $type ) {
             case 'mysql':
-                try {
-                    $c = new PDO("mysql:host=$host;dbname=$base;charset=utf8mb4", $user, $pass);
-                    $c->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                    !defined( 'APPCON' ) ? define( 'APPCON', 1 ) : '';
-                    !defined( 'DB_TYPE' ) ? define( 'DB_TYPE', 'mysql' ) : '';
-                } catch(PDOException $e) {
-                    elog( $e->getMessage() );
-                }
-                /*$db = @mysqli_connect( $host, $user, $pass, $base );
-                if ( $db ) {
-                    mysqli_query( $db, "SET NAMES 'utf8'");
-                    mysqli_query( $db, 'SET CHARACTER SET utf8' );
-                    !defined( 'APPCON' ) ? define( 'APPCON', 1 ) : '';
-                    !defined( 'DB_TYPE' ) ? define( 'DB_TYPE', 'mysql' ) : '';
-                } else {
-                    die( mysqli_connect_error() );
-                }*/
+                $connection_string = "mysql:host=$host;dbname=$base;charset=utf8mb4";
                 break;
+            // TODO: Add additional database types
         }
+
+        // Connect to Database
+        if( !empty( $connection_string ) ) {
+            try {
+                $connection = new PDO($connection_string, $user, $pass);
+                $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                !defined( 'APPCON' ) ? define( 'APPCON', 1 ) : '';
+                !defined( 'DB_TYPE' ) ? define( 'DB_TYPE', 'mysql' ) : '';
+            } catch(PDOException $e) {
+                echo 'Connecting to database failed: '.$e->getMessage();
+                elog( $e->getMessage() );
+            }
+        } else {
+            elog( 'Database type is not set! Please check database config!!' );
+        }
+
     }
 
 }

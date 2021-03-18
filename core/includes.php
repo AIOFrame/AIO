@@ -15,13 +15,6 @@ $initials = [
     'translation/strings',              // Translation functions
 ];
 
-if( defined( 'CONFIG' ) ) {
-    array_push(
-        $initials,
-        'config'                        // Config functions
-    );
-}
-
 if( defined( 'DB_TYPE' ) ) {
     array_push(
         $initials,

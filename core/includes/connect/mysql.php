@@ -153,6 +153,15 @@ class DB {
         }
     }
 
+    /**
+     * @param string $table
+     * @return bool
+     */
+    function table_exists( string $table ): bool {
+        $result = $this->query( 'SELECT 1 FROM '.$table.' LIMIT 1' );
+        return $result !== FALSE;
+    }
+
     // DATA FUNCTIONS
 
     /**
@@ -237,7 +246,14 @@ class DB {
 
             elog( $o, 'select', $df[0]['line'], $df[0]['file'], $target );
 
-            $q = $db ? $db->query( $o ) : '';
+            if( $db ) {
+                try {
+                    $q = $db->query( $o );
+                } catch ( PDOException $e ) {
+                    elog( $e, 'error' );
+                    return [];
+                }
+            }
 
             if ($q) {
                 $data = [];
@@ -353,8 +369,11 @@ class DB {
      */
     function query( string $query ): mixed {
         $db = $this->connect();
-        $e = $db->query( $query );
-        return $e;
+        try {
+            return $db->query( $query );
+        } catch ( PDOException $e ) {
+            return $e;
+        }
     }
 
     // AIO AJAX DATA FUNCTIONS
