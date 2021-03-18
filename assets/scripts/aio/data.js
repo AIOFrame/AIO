@@ -35,13 +35,13 @@ function process_data( e ){
         }
     });
 
-    elog(d);
+    //elog(d);
     post( d.action, d, p.data('notify'), p.data('reload'), p.data('redirect'), 0, p.data('callback'), p.data('reset') );
 
 }
 
 function process_finish( r ) {
-    elog( r );
+    //elog( r );
     //$(e).attr('disabled',false);
 }
 
@@ -56,7 +56,7 @@ function edit_data( e, modal ) {
 
     $('article').addClass('fade');
     $(modal).find('[data-add]').hide();
-    $(modal).find('[data-update]').show();
+    $(modal).find('[data-update],[data-edit]').show();
 
     $.each( data, function(i,d){
         if( i === 'id' ){
@@ -74,6 +74,8 @@ function edit_data( e, modal ) {
             } else {
                 $('#'+i).val(d).change();
             }
+            //elog('#'+i);
+            //elog(d);
         }
     });
 
@@ -83,7 +85,7 @@ function edit_data( e, modal ) {
 
 function trash_data( q ) {
     var d = { 'action':'trash_data', 'query':q };
-    elog(d);
+    //elog(d);
     if( confirm('Are you sure to delete ?') ){
         post( 'trash_data', { 'query': q }, 2, 2 )
     }

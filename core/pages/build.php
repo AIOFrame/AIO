@@ -1,5 +1,5 @@
 <?php
-$includes = ['arrays','functions','crypt','language','data','elements','setup'];
+$includes = ['arrays','crypt','form','translation/strings','data','setup'];
 foreach( $includes as $inc )
     include_once( COREPATH . 'core/includes/' . $inc . '.php' );
 ?>
@@ -16,7 +16,8 @@ foreach( $includes as $inc )
     favicon( APPURL.'assets/images/aio.png' );
     fonts([['Lato','100,300']]);
     get_styles(['select2','aio']);
-    art('00A99D','047267',['inputs']);
+    get_script('jquery');
+    art('inputs,tabs','00A99D','047267');
     get_styles(['setup','micro']);
     ?>
 </head>
@@ -25,6 +26,7 @@ foreach( $includes as $inc )
 $appdir = !empty( get_domain('sub') ) ? get_domain( 'sub' ) : get_domain();
 $p = $_POST;
 $cry = Crypto::initiate();
+$form = new FORM();
 ?>
     <header>
         <div class="logo"></div>
@@ -131,8 +133,8 @@ $cry = Crypto::initiate();
                                     </select>
                                 </div>
                                 <?php
-                                text('color_1','Primary Gradient Start','','','data-color-picker',4);
-                                text('color_2','Primary Gradient End','','','data-color-picker',4);
+                                $form->text('color_1','Primary Gradient Start','','','data-color-picker',4);
+                                $form->text('color_2','Primary Gradient End','','','data-color-picker',4);
                                 ?>
                             </div>
                         </div>
@@ -247,7 +249,7 @@ $cry = Crypto::initiate();
                                     'oracle'=>'Oracle',
                                     'pg_sql'=>'Post-gre SQL',
                                 ];
-                                render_radios('type',$bases,'','',0,4);
+                                $form->radios('type',$bases,'','',0,4);
                                 ?>
                             </div>
                         </div>
@@ -270,7 +272,7 @@ $cry = Crypto::initiate();
                                     <input type="text" id="user" name="user" placeholder="Ex: <?php echo $appdir; ?>, admin etc.">
                                 </div>
                                 <div class="col-6">
-                                    <?php text('pass','Password'); ?>
+                                    <?php $form->text('pass','Password'); ?>
                                 </div>
                             </div>
                         </div>
@@ -308,7 +310,7 @@ $cry = Crypto::initiate();
                                     'cms'=>'AIO Content Management System',
                                     'commerce'=>'AIO Commerce',
                                 ];
-                                render_checkboxs( 'feats', $feats, '', 'data-one', 0, 6 );
+                                $form->checkboxes( 'feats', $feats, '', 'data-one', 0, 6 );
                                 ?>
                             </div>
                         </div>
@@ -485,5 +487,5 @@ return [
         echo '<p>Setup Complete :)</p><br/><form method="post"><button>Reload</button></form>';*/
     ?>
 </body>
-<?php get_scripts(['jquery','select2','smooth-scrollbar','iro','core','aio','setup']); ?>
+<?php get_scripts(['select2','smooth-scrollbar','iro','core','aio','setup']); ?>
 </html>

@@ -48,6 +48,36 @@ function sub_domain(): string {
 }
 
 /**
+ * AIO Error Log
+ * @param string $log Log message
+ * @param string $type Log type 'log', 'error'
+ * @param string $line The link where the log is logged
+ * @param string $file The file path which initiates the log
+ * @param string $target Target
+ * @author Shaikh <hey@shaikh.dev>
+ */
+function elog( string $log, string $type = 'log', string $line = '', string $file = '', string $target = '' ){
+    $log = is_array( $log ) ? json_encode( $log ) : $log;
+    $log = is_object( $log ) ? var_dump( $log ) : $log;
+
+    $data = $log . '<AIO>' . $type;
+    $data .= $line !== '' ? '<AIO>' . $line : '';
+    $data .= $file !== '' ? '<AIO>' . $file : '';
+    $data .= $target !== '' ? '<AIO>' . $target : '';
+
+    // Get dev users
+    $debug = 0;
+    if( defined( 'CONFIG' ) ) {
+        $devs = get_config('dev');
+        $devs = !empty($dev) ? explode(',', $devs) : [];
+        $debug = isset($_SESSION['user_id']) && is_array($devs) && in_array($_SESSION['user_id'], $devs) ? 1 : 0;
+    }
+
+    // Log
+    APPDEBUG || $debug ? error_log( $data . PHP_EOL ) : '';
+}
+
+/**
  * Reads App Mapping
  * Will check map.php and set domain to app link
  */
@@ -121,7 +151,7 @@ isset( $c['name'] ) && !empty( $c['name'] ) && !defined( 'APPNAME' ) ? define( '
 $debug = isset( $c['debug'] ) && !empty( $c['debug'] ) ? $c['debug'] : false; // Defines if the Application is under development mode
 !defined( 'APPDEBUG' ) ? define( 'APPDEBUG', $debug ) : '';
 
-//if( APPDEBUG ) {
+if( APPDEBUG ) {
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
     $log = APPPATH . 'storage/log/error_log.log';
@@ -132,19 +162,21 @@ $debug = isset( $c['debug'] ) && !empty( $c['debug'] ) ? $c['debug'] : false; //
         fclose($file);
     }
     ini_set( 'error_log', $log );
-//} else {
-//    error_reporting(0);
-//}
+} else {
+    error_reporting(0);
+}
+
+/**
+ * Loads Basic Necessary Functions
+ */
+if( defined( 'CONFIG' ) ) {
+    require_once COREPATH . 'core/includes/config.php';
+}
 
 /**
  * Loads Database connection
  */
 require COREPATH . 'core/includes/connect/connect.php';
-
-/**
- * Loads User Access
- */
-require COREPATH . 'core/access.php';
 
 /**
  * Sets AIO page routing

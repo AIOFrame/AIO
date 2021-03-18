@@ -11,7 +11,7 @@ $(document).ready(function(){
         $(this).addClass('on');
         $($(this).data('t')).parent().children().hide();
         $($(this).data('t')).show();
-        if( $(this).parent().data('store-tab') !== undefined ){
+        if( $(this).parent().data('store') !== undefined || $(this).parent().data('save') !== undefined ){
             localStorage[ pagepath + '_tab' ] = $(this).data('t');
         }
     });

@@ -15,17 +15,11 @@ $initials = [
     'translation/strings',              // Translation functions
 ];
 
-if( defined( 'CONFIG' ) ) {
-    array_push(
-        $initials,
-        'config'                        // Config functions
-    );
-}
-
 if( defined( 'DB_TYPE' ) ) {
     array_push(
         $initials,
-        'connect/'.DB_TYPE,             // Database connection functions
+        'connect/queries',             // Database query functions
+        'access',                       // User access functions like login, register
         'structure',                    // Basic database structure tables
         'alerts',                       // Notifications to users
         'data',                         // Common used data - Will be deprecated or improved
