@@ -38,11 +38,11 @@ class FORM {
     /**
      * Renders <select> options
      * @param array $options Indexed or Associative Array of options
-     * @param mixed $selected Selected option or options separated by comma
+     * @param string $selected Selected option or options separated by comma
      * @param string $placeholder Placeholder text
      * @param bool $translate Translate the option text or not
      */
-    function select_options( array $options = [], mixed $selected = '', string $placeholder = '', bool $translate = true ) {
+    function select_options( array $options = [], string $selected = '', string $placeholder = '', bool $translate = true ) {
         $d = $options;
         $s = $selected;
         $placeholder = $translate ? T($placeholder) : $placeholder;
@@ -80,13 +80,13 @@ class FORM {
      * @param string $label Label for the <label>
      * @param string $placeholder Placeholder text
      * @param array $options Indexed or Associative Array of options
-     * @param mixed $selected Selected option or options separated by comma
+     * @param string $selected Selected option or options separated by comma
      * @param string $attr Attributes like class or data tags
      * @param string $pre String to add before <select>. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post String to add after </select>
      * @param bool $translate Translate the option text or not
      */
-    function select( string $id = '', string $label = '', string $placeholder = '', array $options = [], mixed $selected = '', string $attr = '', string $pre = '', string $post = '', bool $translate = true ) {
+    function select( string $id = '', string $label = '', string $placeholder = '', array $options = [], string $selected = '', string $attr = '', string $pre = '', string $post = '', bool $translate = true ) {
         if( is_numeric( $pre ) ){
             $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
             $post = '</select></div>';

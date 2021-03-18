@@ -15,4 +15,4 @@ $(document).ready(function(){
             localStorage[ pagepath + '_tab' ] = $(this).data('t');
         }
     });
-})
+});

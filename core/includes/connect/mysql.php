@@ -445,12 +445,12 @@ class DB {
 
     /**
      * Get multiple options by keys as array
-     * @param mixed $opn Option Names ['theme_color','dark_mode']
+     * @param array $opn Option Names ['theme_color','dark_mode']
      * @param int $user_id User ID optional
      * @param string $key Get option by 'name' or 'id'
-     * @return mixed
+     * @return array
      */
-    function get_options( mixed $opn, int $user_id = 0, string $key = 'name' ): mixed {
+    function get_options( array $opn, int $user_id = 0, string $key = 'name' ): array {
         $q = '';
         if( is_array( $opn ) ){
             foreach( $opn as $op ){

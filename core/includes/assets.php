@@ -258,9 +258,9 @@ function icons() {
  * Checks if php file exists in comp dir
  * @param string $n Name of the comp
  * @param string $dir Name of directory
- * @return bool|string
+ * @return string
  */
-function comp_exists( string $n, string $dir ): bool|string {
+function comp_exists( string $n, string $dir ): string {
     $ns = explode('/',str_replace('.php','',$n));
     $x = 1;
     $fl = APPPATH . '/' . $dir . '/';
@@ -272,7 +272,7 @@ function comp_exists( string $n, string $dir ): bool|string {
         }
         $x++;
     }
-    return file_exists( $fl ) ? $fl : false;
+    return file_exists( $fl ) ? $fl : '';
 }
 
 /**
@@ -481,11 +481,11 @@ function page_of( string $p ): bool {
 
 /**
  * Renders menu html from array
- * @param array|string $array
+ * @param array $array
  * @param string $prefix
  */
-function render_menu( array|string $array, string $prefix = '' ) {
-    $array = is_array( $array ) ? $array : explode(',',$array);
+function render_menu( array $array, string $prefix = '' ) {
+    //$array = is_array( $array ) ? $array : explode(',',$array);
     echo '<ul>';
     foreach( $array as $first_row ){
 
