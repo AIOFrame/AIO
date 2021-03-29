@@ -3,19 +3,7 @@ let b = $('body');
 $(document).ready(function(){
     let b = $('body');
     // MANIPULATOR
-    // TODO: Change resetsrc and resetinput to reset
-    $(document).on('click', '[data-action], [data-show], [data-on], [data-off], [data-hide], [data-slide], [data-remove], [data-toggle], [data-resetsrc], [data-resetinput], [data-click], [data-href],[data-force-on]', function (e) {
-        if ($(this).data('togglescroll') === true) {
-            scroll_lock();
-        }
-        if ($(this).data('blur') === true) {
-            blurred();
-        }
-        if ($(this).data('targettoggleclass')) {
-            $($(this).data('hide')).toggleClass($(this).data('targettoggleclass'));
-            $($(this).data('action')).toggleClass($(this).data('targettoggleclass'));
-            $($(this).data('show')).toggleClass($(this).data('targettoggleclass'));
-        }
+    $(document).on('click', '[data-action], [data-show], [data-on], [data-off], [data-hide], [data-slide], [data-remove], [data-toggle], [data-click], [data-href], [data-force-on]', function (e) {
         $($(this).data('off')).removeClass('on');
         $($(this).data('force-on')).addClass('on');
         $($(this).data('on')).toggleClass('on');
@@ -24,8 +12,6 @@ $(document).ready(function(){
         $($(this).data('show')).show();
         $($(this).data('toggle')).toggle();
         $($(this).data('slide')).slideToggle();
-        $($(this).data('resetsrc')).attr('src', '');
-        $($(this).data('resetinput')).val('');
         $($(this).data('click')).click();
         if($($(this).data('show')).hasClass('modal') && $($(this).data('show')).data('fade') === undefined ){
             $('article').addClass('fade');
@@ -34,7 +20,6 @@ $(document).ready(function(){
             $('article').addClass('fade');
         }
         if($(this).data('href')){
-            //elog($(e.target).data('prevent-default'));
             if( $(e.target).data('prevent-default') === undefined ){
                 location.href = $(this).data('href');
             }

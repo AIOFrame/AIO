@@ -2,381 +2,141 @@
 
 class ACCESS {
 
-    function __construct() {
+    function create_session() {
 
         // Initiate Session
         ob_start();
-        session_name(str_replace(' ','',APPNAME));
+        session_name( str_replace( ' ', '', APPNAME ) );
 
-        $secure = false;
-        $httponly = true;
-        //$domain = isset($domain) ? $domain : isset($_SERVER['SERVER_NAME']);
-        //$https = isset($secure) ? $secure : isset($_SERVER['HTTPS']);
+        $secure = isset( $_SERVER['HTTPS'] );
+        session_set_cookie_params( 14400, '/', APPURL, $secure, 1 );
 
-        // Check if session cannot be set
-        if (ini_set('session.use_only_cookies', 1) === FALSE) {
-            header("Location: ../404");
-            echo 'Could not initiate a safe session';
-            exit();
+        @session_start() or die();
+
+        $now = time();
+
+        $_SESSION['time'] = $now;
+
+        $agent = new CLIENT();
+        $useragent_hash = hash('sha256', $agent->get_device() );
+        $ip = $_SERVER['REMOTE_ADDR'];
+
+        if( !isset( $_SESSION['canary'] ) ) {
+            session_regenerate_id( true );
+            $_SESSION['canary'] = [
+                'birth' => time(),
+                'ip' => $ip,
+                'useragent_hash' => $useragent_hash
+            ];
         }
 
-        $cookieParams = session_get_cookie_params();
-
-        if ($cookieParams["lifetime"] == 0) {
-            $cookieParams["lifetime"] = 28000;
+        if( $_SESSION['canary']['birth'] < $now - 300 ) {
+            session_regenerate_id( true );
+            $_SESSION['canary']['birth'] = $now;
         }
-        //$lifetime=60 * 60 * 24 * 365;
 
-        session_start();
-        //session_regenerate_id(true);
+        // If user is logged in, log out user if IP or Useragent is changed (this is intentional, I know users behind load-balancers etc will have issues)
+        if( isset( $_SESSION['username'] ) && ( $_SESSION['canary']['ip'] !== $ip OR $_SESSION['canary']['useragent_hash'] !== $useragent_hash )) {
+            // Destroy cookie
+            setcookie( session_name(), "", time() - 3600, '/', APPURL, $secure, true );
+
+            // Destroy session
+            session_unset();
+            session_destroy();
+
+            // Redirect (avoid loop by checcking ip_browser_changed)
+            /* if( ! isset($_GET['ip_browser_changed']))
+            {
+                header('Location: '.URL.'login/?ip_browser_changed');
+                exit('IP Address or Browser has been changed, please login again!');
+            } */
+        }
+        ob_end_clean();
     }
 
-    function register_user( $user_login, $password, $columns = [], $d = []) {
+    /**
+     * Registers a user for AIO
+     * @param string $login User Login
+     * @param string $pass User Password
+     * @param array $columns User meta to be stored in independent columns, columns must exist
+     * @param array $data User meta to be stored in user_data column
+     * @param array $perms User Permissions, Custom array with permission name key and boolean value
+     * @return array
+     */
+    function register( string $login, string $pass, array $columns = [], array $data = [], array $perms = [] ): array {
+        // User login restrictions
+        $login = strtolower( $login );
+        if( strlen( $login ) <= 7 ) {
+            return [ 0, T('User login must be at least 8 characters in length!') ];
+        }
+        if( preg_match( '/[^a-z\d ]/i', $login ) ) {
+            return [ 0, T('User login cannot contain special characters!') ];
+        }
+
+        $db = new DB();
+        $email = !empty( $data['email'] ) ? $data['email'] : '';
+        $name = !empty( $data['name'] ) ? $data['name'] : ucwords( str_replace( '_', ' ', $login ) );
+        $pic = !empty( $data['pic'] ) ? $data['pic'] : '';
+        $perms = empty( $perms ) && !empty( $data['perms'] ) ? $data['perms'] : $perms;
+        $perms = empty( $perms ) && !empty( $data['permissions'] ) ? $data['permissions'] : $perms;
 
         // Checks if user with same login name or email exists
-        $email = !empty($d['email']) ? $d['email'] : $user_login;
-        $uq = select( 'users', 'user_id', 'user_login = "' . $user_login . '" OR user_email = "' . $email . '"' );
-        if ( $uq ) { return [false, 'The User with same username or email address already exist in database']; die(); }
+        $exist = $db->select( 'users', 'user_id', 'user_login = "' . $login . '" OR user_email = "' . $email . '"' );
+        if( $exist ){ return [ 0, T('The User with same username or email address already exist in database') ]; }
 
         // Prepares data to insert into users table
         $dt = date('Y-m-d H-i-s');
-        $n = !empty( $columns['name'] ) ? $columns['name'] : ucwords( str_replace( '_', ' ', $user_login ) );
-        if( !empty( $columns['name'] ) ) {
-            unset( $columns['name'] );
-        }
-        elog( $d );
+        $keys = [ 'user_login', 'user_name', 'user_email', 'user_pic', 'user_since', 'user_data', 'user_perms' ];
+        $values = [ $login, $name, $email, $pic, $dt, serialize( $data ), serialize( $perms ) ];
 
-        // Creates new user
-        $user_keys = [ 'user_login', 'user_name', 'user_since', 'user_data' ];
-        $user_vals = [ $user_login, $n, $dt, serialize($d) ];
-        if( !empty( $columns ) && is_assoc( $columns ) ){
-            foreach( $columns as $k => $v ){
+        // Parsing columns
+        if( !empty( $columns ) && is_assoc( $columns ) ) {
+            foreach( $columns as $k => $v ) {
                 if( !isset( $user_keys[$k] ) ) {
-                    $user_keys[] = $k;
-                    $user_vals[] = $v;
+                    $keys[] = $k;
+                    $values[] = $v;
                 }
             }
         }
-        $nu = insert( 'users', $user_keys, $user_vals );
-        if ( $nu ) {
+
+        // Add user to users table
+        $add_user = $db->insert( 'users', $keys, $values );
+        if( $add_user ) {
             // Sets the user's access data
-            $um = insert( 'access', ['access_uid', 'access_pass', 'access_status' ], [$nu, password_hash( $password, PASSWORD_BCRYPT, ['cost' => 12] ), 1 ] );
-            if( $um ) {
-                return [true, $nu];
+            $access = $db->insert( 'access',
+                ['access_uid', 'access_pass', 'access_status' ],
+                [ $add_user, password_hash( $pass, PASSWORD_DEFAULT, [ 'cost' => 12 ] ), 1 ]
+            );
+            if( $access ) {
+                return [ $add_user, T('Successfully registered user!') ];
             } else {
-                delete( 'users', 'user_id = "'.$nu.'"' );
-                return [false, 'A new User could not be created'];
+                $db->delete( 'users', 'user_id = \'$add_user\'' );
+                return [ 0, T('Failed to create new user!') ];
             }
         } else {
-            return [false, 'Issue when creating a new User'];
+            return [ 0, T('Failed to create new user!') ];
         }
     }
 
-    function update_user( $user_login, $password = '', $columns = [], $d = [], $logout = false ) {
+    /**
+     * Updates user password or data
+     * @param string $login
+     * @param string $pass
+     * @param array $data
+     * @param array $perms
+     * @return array
+     */
+    function update( string $login, string $pass = '', array $data = [], array $perms = [] ): array {
 
-        // Checks if user with same login name or email exists
-        $email = !empty($d['email']) ? $d['email'] : $user_login;
+        $db = new DB();
+        $user = $db->select( 'users', 'user_id', 'user_login = \''.$login.'\'', 1 );
 
-        if( !is_numeric( $user_login ) ) {
-            $uq = select( 'users', 'user_id', 'user_login = "' . $user_login . '" OR user_email = "' . $email . '"', 1 );
-        } else {
-            $uq['user_id'] = $user_login;
-        }
+        return $user;
 
-        if ( is_array( $uq ) ) {
-
-            $uq = $uq['user_id'];
-            $n = !empty($d['name']) ? $d['name'] : ucwords(str_replace('_', ' ', $user_login));
-            if( !is_numeric( $user_login ) ) {
-                $user_keys = ['user_login', 'user_name', 'user_data'];
-                $user_vals = [$user_login, $n, serialize($d)];
-                if (!empty($columns) && is_assoc($columns)) {
-                    foreach ($columns as $k => $v) {
-                        $user_keys[] = $k;
-                        $user_vals[] = $v;
-                    }
-                }
-                $nu = update( 'users', $user_keys, $user_vals, 'user_id = "'.$uq.'"' );
-            } else {
-                $nu = 1;
-            }
-            if( !empty( $password ) && $password !== '' ){
-                if ( $nu ) {
-                    // Sets the user's access data
-                    $um = update( 'access', ['access_pass'], [ password_hash( $password, PASSWORD_BCRYPT, ['cost' => 12] )], 'access_uid = "'.$uq.'"' );
-                    $um && $logout ? delete( 'sessions', 'ss_uid = "'.$uq.'"' ) : '';
-                    return $um ? [true, $nu] : [0, 'Update Successful'];
-                } else {
-                    return [1, 'Failed to update'];
-                }
-            } else {
-                if( $nu ){
-                    return [1, $nu];
-                } else {
-                    return [0, 'Failed to update'];
-                }
-            }
-        } else {
-            return [false, 'The User with same username or email address does not exist in database']; die();
-        }
-    }
-
-    function user_login($un, $ps) {
-        //$gu = select('users', false, 'user_login = "' . $un . '" OR user_email = "' . $un . '"');
-        $gu = select('users', '*', 'user_login = "' . $un . '" OR user_email = "' . $un . '"', 1);
-        if ($gu) {
-            $uid = $gu['user_id'];
-            $gp = select('access', '*', "access_uid = $uid" , 1);
-            //error_log(print_r($gp, true));
-            if($gp['access_status'] === '1') {
-                if ($gp) {
-                    if (password_verify($ps, $gp['access_pass'])) {
-                        $_SESSION['user_id'] = preg_replace("/[^0-9]+/", "", $uid);
-                        /*$_SESSION['user_level'] = !empty( $gu['user_level'] ) ? $gu['user_level'] : '';
-                        $_SESSION['user_name'] = !empty( $gu['user_name'] ) ? $gu['user_name'] : '';
-                        $_SESSION['user_pic'] = !empty( $gu['user_pic'] ) ? $gu['user_pic'] : '';
-                        $_SESSION['user_login'] = preg_replace("/[^a-zA-Z0-9_\-]+/", "", $un);*/
-                        $_SESSION = $gu;
-                        !empty($gu['user_data']) ? $_SESSION['user_data'] = unserialize($gu['user_data']) : '';
-                        $_SESSION['login_string'] = hash('sha512', $gp['access_pass'] . $this->get_user_browser());
-                        $ssid = insert( 'sessions', ['ss_uid','ss_time','ss_ip','ss_os','ss_client','ss_status'],[$uid,date("Y-m-d H:i:s"),$this->get_user_ip(),$this->get_user_os(),self::get_user_browser(),1] );
-                        $_SESSION['id'] = $ssid;
-                        if (!isset($_SESSION)) {
-                            session_set_cookie_params(0, '/', str_replace(' ', '_', APPNAME), false, false);
-                            @session_regenerate_id(true);
-                        }
-                        return [true, $gu];
-                    } else {
-                        return [0, 'Password incorrect'];
-                    }
-                } else {
-                    return [0, 'No Password was set for this user'];
-                }
-            }
-            else{
-                return [0, 'User status is not active'];
-            }
-        } else {
-            return [0, 'User not found'];
-        }
-    }
-
-    function reset_password( $u, $url ) {
-        $user = select( 'users', 'user_id,user_email', 'user_login = "'.$u.'" OR user_email = "'.$u.'"', 1 );
-        //skell( $user );
-        if( $user ) {
-            // Generate Code
-            $code = self::generate_password(6);
-            // Store in user_reset_pass
-            $up = update( 'users', ['user_reset_pass'], [$code], 'user_id = "'.$user['user_id'].'"' );
-            if( $up ) {
-                // Encrypt Code and Username
-                $cry = Crypto::initiate();
-                $enc = $cry->encrypt($user['user_id'] . '|' . $code);
-                // Send Email
-                email($user['user_email'], T('Password Reset Email from ' . APPNAME), 'You requested for password reset, <a href="' . $url . '/?r=' . $enc . '">Please click here to reset password.</a>', 'server@email.com');
-                return [1, T('Password reset link has been emailed')];
-            }
-        } else {
-            return [0, T('User / Email not found to reset password')];
-        }
-    }
-
-    function update_password( $code, $password ) {
-        // Url to decode Code and Username
-        $cry = Crypto::initiate();
-        $code = $cry->decrypt( $code );
-        $c = explode( '|', $code );
-
-        if( is_array( $c ) ) {
-            // If username and code match, let set new password
-            $user = select('users', 'user_login,user_reset_pass', 'user_id = "' . $c[0] . '"', 1);
-            if( $user['user_reset_pass'] === $c[1] ) {
-                // Update User Password
-                $update = $this->update_user( $user['user_login'], $password, [ 'user_reset_pass' => NULL ] );
-                if( $update ) {
-                    return [1, T('Your password has been updated successfully')];
-                } else {
-                    return [0, T('Your password was not updated, please contact support!')];
-                }
-            } else {
-                return [0, T('Your reset link doesn\'t match our records for this user! Please try the process again or contact support!')];
-            }
-        } else {
-            return [0, T('Your reset link seems to be corrupted, please try resetting again or contact support!')];
-        }
-    }
-
-    function get_users() {
-        $us = select( 'users', '', '', '', '', '', '', 'ID' );
-        $users = [];
-        if( is_array( $us ) ) {
-            foreach($us as $u) {
-                $users[] = ['ID' => $u['ID'], 'user_login' => $u['user_login'], 'user_email' => $u['user_email'], 'user_fullname' => $u['user_fullname'], 'register_date' => $u['register_date'], 'user_pic' => $u['user_pic'], 'user_status' => $u['user_status']];
-            }
-        }
-        return $users;
-    }
-
-    public static function get_user_os() {
-        $user_agent = $_SERVER['HTTP_USER_AGENT'];
-        $os_platform = "Unknown OS Platform";
-        $os_array = [
-            '/windows nt 10/i' => 'Windows 10',
-            '/windows nt 6.3/i' => 'Windows 8.1',
-            '/windows nt 6.2/i' => 'Windows 8',
-            '/windows nt 6.1/i' => 'Windows 7',
-            '/windows nt 6.0/i' => 'Windows Vista',
-            '/windows nt 5.2/i' => 'Windows Server 2003/XP x64',
-            '/windows nt 5.1/i' => 'Windows XP',
-            '/windows xp/i' => 'Windows XP',
-            '/windows nt 5.0/i' => 'Windows 2000',
-            '/windows me/i' => 'Windows ME',
-            '/win98/i' => 'Windows 98',
-            '/win95/i' => 'Windows 95',
-            '/win16/i' => 'Windows 3.11',
-            '/macintosh|mac os x/i' => 'Mac OS X',
-            '/mac_powerpc/i' => 'Mac OS 9',
-            '/linux/i' => 'Linux',
-            '/ubuntu/i' => 'Ubuntu',
-            '/iphone/i' => 'iOS',
-            '/ipod/i' => 'iOS',
-            '/ipad/i' => 'PadOS',
-            '/android/i' => 'Android',
-            '/blackberry/i' => 'BlackBerry',
-            '/webos/i' => 'webOS'
-        ];
-        foreach ($os_array as $regex => $value) {
-            if (preg_match($regex, $user_agent)) {
-                $os_platform = $value;
-            }
-        }
-        return $os_platform;
-    }
-
-    public static function get_user_device() {
-        return $_SERVER["HTTP_USER_AGENT"];
-    }
-
-    public static function get_user_browser() {
-        $user_agent = $_SERVER['HTTP_USER_AGENT'];
-        $browser = "Unknown Browser";
-        $browser_array = [
-            '/msie/i' => 'Internet Explorer',
-            '/firefox/i' => 'Firefox',
-            '/safari/i' => 'Safari',
-            '/chrome/i' => 'Chrome',
-            '/edge/i' => 'Edge',
-            '/opera/i' => 'Opera',
-            '/netscape/i' => 'Netscape',
-            '/maxthon/i' => 'Maxthon',
-            '/konqueror/i' => 'Konqueror',
-            '/mobile/i' => 'Handheld Browser'
-        ];
-        foreach ($browser_array as $regex => $value) {
-            if (preg_match($regex, $user_agent)) {
-                $browser = $value;
-            }
-        }
-        return $browser;
-    }
-
-    public static function get_user_ip() {
-        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-            $ip = $_SERVER['HTTP_CLIENT_IP'];
-        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        } else {
-            $ip = $_SERVER['REMOTE_ADDR'];
-        }
-        return $ip == '::1' ? '127.0.0.1' : $ip;
-    }
-
-    public static function generate_password( $chars = 11 ) {
-        $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
-        $pass = array(); //remember to declare $pass as an array
-        $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
-        for ($i = 0; $i < $chars; $i++) {
-            $n = rand(0, $alphaLength);
-            $pass[] = $alphabet[$n];
-        }
-        return implode($pass); //turn the array into a string
     }
 }
 
-function set_login() {
-    $uns = ['username','user','uid','first','id','name','un'];
-    $pss = ['password','pass','secure','key','gateway','passy','ps','as'];
-    $uname = $pass = '';
-    foreach( $uns as $un ){
-        if( !empty( $_POST[$un] ) && $uname == '' ){
-            $uname = $_POST[$un];
-        }
-    }
-    foreach( $pss as $ps ){
-        if( !empty( $_POST[$ps] ) && $pass == '' ){
-            $pass = $_POST[$ps];
-        }
-    }
-    unset($_POST['action']);
-    $uname = $uname == '' && !empty( $POST[0] ) ? $_POST[0] : $uname;
-    $pass = $pass == '' && !empty( $POST[1] ) ? $_POST[1] : $pass;
-    if( $uname !== '' && $pass !== '' ){
-        global $access;
-        $r = $access->user_login( $uname, $pass );
-        echo $r[0] ? json_encode([1,$r[1]]) : json_encode([0,$r[1]]);
-    } else {
-        echo json_encode([0,'Fields seem to empty']);
-    }
-}
-
-function reset_pass( $u = '', $url = '' ) {
-    if( !user_logged_in() ) {
-        if ( is_array( $u ) ) {
-            unset( $_POST['action'] );
-            $u = $_POST['u'];
-            $url = $_POST['url'];
-        }
-        if ( $u !== '' ) {
-            global $access;
-            echo json_encode($access->reset_password( $u, $url ));
-        }
-    }
-}
-
-function update_pass( $code = '', $password = '' ) {
-    if( !user_logged_in() ) {
-        if ( is_array( $code ) ) {
-            unset( $_POST['action'] );
-            $code = $_POST['code'];
-            $password = $_POST['password'];
-        }
-        if ( $code !== '' ) {
-            global $access;
-            echo json_encode($access->update_password( $code, $password ));
-        }
-    }
-}
-
-function get_current_user_id() {
-    if (user_logged_in()) {
-        return $_SESSION['user_id'];
-    }
-}
-
-function get_user_level( $u = '' ) {
-    if (user_logged_in()) {
-        if (!empty($u)) {
-            return select('access', false, 'user_id = "' . $u . '"')['user_level'];
-        } else {
-            return select('access', false, 'user_id = "' . get_current_user_id() . '"')['user_level'];
-        }
-    } else {
-        return false;
-    }
-}
-
-function login_check() {
+/* function login_check() {
     if( !user_logged_in() ){
         header( "Location:" .APPURL. "login" );
         die();
@@ -527,7 +287,7 @@ if( isset( $_GET['logout'] ) ) {
             $params["domain"],
             $params["secure"],
             $params["httponly"]);
-        session_destroy(); */
+        session_destroy();
     }
 }
 
@@ -544,7 +304,7 @@ function get_os() {
 
 /**
  * Set autoload user options as session
- */
+
 if( user_logged_in() ) {
     $db = new DB();
     $options = $db->select('options', 'option_name,option_value', 'option_scope = "' . $_SESSION['user_id'] . '" AND option_load = 1');
@@ -568,3 +328,4 @@ function dev_sessions( $logged_in = true ) {
         }
     }
 }
+*/

@@ -66,12 +66,15 @@ function define_path( $title, $parent = 0 ){
         unset($array[count($array)-1]);
         $title = implode('/',$array);
     }
-    !defined( 'PAGEPATH' ) ? define( 'PAGEPATH', str_replace(' ','', $title) ) : '';
+
+    !defined( 'PAGENAME' ) ? define( 'PAGENAME', str_replace(' ','', $title) ) : '';
     //echo PAGEPATH;
 }
 function define_page( $page ) {
     !defined( 'PAGELOAD' ) ? define( 'PAGELOAD', $page ) : '';
 }
+
+!defined( 'PAGEPATH' ) ? define( 'PAGEPATH', str_replace( APPPATH.'pages/', '', str_replace( '.php', '', $page_link ) ) ) : '';
 
 // This the CORE ROUTING logic
 

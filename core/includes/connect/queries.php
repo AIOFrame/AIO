@@ -3,20 +3,26 @@
 class DB {
 
     function connect() {
-        /* $connect = @mysqli_connect( DB_HOST, DB_USER, DB_PASS, DB_BASE );
-        if ( $connect ) {
-            mysqli_query($connect, "SET NAMES 'utf8'");
-            mysqli_query($connect, 'SET CHARACTER SET utf8');
-        } else {
-            die( mysqli_connect_error() );
-        } */
-        try {
-            $c = new PDO('mysql:host='.DB_HOST.';dbname='.DB_BASE.';charset=utf8mb4', DB_USER, DB_PASS);
-            $c->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            return $c;
-        } catch(PDOException $e) {
-            elog( $e->getMessage() );
-            return $e->getMessage();
+
+        $connection_string = '';
+        switch( DB_TYPE ) {
+            case 'mysql':
+                $connection_string = "mysql:host=".DB_HOST.";dbname=".DB_BASE.";charset=utf8mb4";
+                break;
+            case 'mssql':
+                $connection_string = "sqlsrv:Server=".DB_HOST.";Database=".DB_BASE;
+                break;
+        }
+
+        if( !empty( $connection_string ) ) {
+            try {
+                $c = new PDO( $connection_string, DB_USER, DB_PASS );
+                $c->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                return $c;
+            } catch (PDOException $e) {
+                elog($e->getMessage());
+                return $e->getMessage();
+            }
         }
     }
 
@@ -24,79 +30,78 @@ class DB {
 
     /**
      * Create Table
-     * @param array $table [ string 'table_name', string 'pre', [ [ string 'col_name', string 'type', int 'length', bool 'not null', string 'default' ] ] ]
-     * @return bool
+     * @param string $name Name of the table
+     * @param array $columns [ [ string 'col_name', string 'type', int 'length', bool 'not null', string 'default' ], ... ]
+     * @param string $pre String to append to title of column names Ex: user_
+     * @param bool $auto_id Automatically creates first column of id Ex: user_id
+     * @return array
      */
-    function create_table( array $table ): bool {
-        if( is_array( $table ) && defined('APPCON') && APPCON ){
+    function create_table( string $name, array $columns, string $pre = '', bool $auto_id = true ): array {
+        if( is_array( $columns ) && defined('APPCON') && APPCON ){
 
-            // Table Exist Check
+            // Prerequisites
+            $debug = debug_backtrace();
             $db = $this->connect();
-            $check = "SHOW TABLES LIKE '".$table[0]."'";
+            $pre = !empty( $pre ) ? $pre . '_' : '';
+            $columns_query = $auto_id ? ( DB_TYPE == 'mssql' ? $pre . 'id INT NOT NULL IDENTITY(1, 1)' : $pre . 'id INT AUTO_INCREMENT PRIMARY KEY' ) : '';
 
-            $exist = $db->query( $check );
-            //echo $check.' - '.$exist.'<br/>';
-
-            if( $exist->rowCount() > 0 ) {
-
-                if ( is_array( $table[2] ) ) {
-                    foreach ( $table[2] as $col ) {
-                        if ( !empty($col[0]) && !empty($col[1]) ) {
-                            $col[2] = !empty($col[2]) ? $col[2] : '13';
-                            $col[3] = $col[3] == 0 ? 'NULL' : 'NOT NULL';
-                            $col[4] = isset( $col[4] ) && !empty($col[4] ) ? $col[4] : '';
-                            //if (in_array($col[1], ['BOOLEAN', 'DATETIME', 'DATE', 'TIME', 'TINYTEXT'])) {
-                            $this->create_column( $table[0], $table[1].'_'.$col[0], $col[1], $col[2], $col[3], $col[4] );
-                            //$query .= ',' . $table[1] . '_' . $col[0] . ' ' . $col[1] . ' ' . $col[3];
-                            //} else {
-                            //create_column( $table[0], $col[0], $col[1], $col[2], $col[3] );
-                            //$query .= ',' . $table[1] . '_' . $col[0] . ' ' . $col[1] . '(' . $col[2] . ') ' . $col[3];
-                            //}
-                        }
+            // Structure Columns
+            foreach( $columns as $col ) {
+                if ( is_array( $col ) && count( $col ) > 2 ) {
+                    $col[2] = !empty( $col[2] ) ? '(' . $col[2] . ')' : '';
+                    $col[3] = $col[3] == 0 ? ' NULL' : ' NOT NULL';
+                    $col[4] = isset( $col[4] ) && !empty( $col[4] ) ? ' DEFAULT \'' . $col[4] . '\'' : '';
+                    // Changes for MS SQL
+                    if( DB_TYPE == 'mssql' ) {
+                        $col[1] == 'INT' ? $col[2] = '' : '';
+                        $col[1] = $col[1] == 'BOOLEAN' ? 'BIT' : $col[1];
+                        //$col[1] = $col[1] == 'VARCHAR' ? 'NVARCHAR' : $col[1];
                     }
-                    return 1;
-                } else {
-                    return 0;
-                }
-
-            } else {
-
-                $target = $table[0];
-
-                $query = 'CREATE TABLE IF NOT EXISTS ' . $table[0] . ' (' . $table[1] . '_id INT(13) AUTO_INCREMENT PRIMARY KEY';
-                if (is_array($table[2])) {
-                    foreach ($table[2] as $col) {
-                        if (!empty($col[0]) && !empty($col[1])) {
-                            $col[2] = !empty($col[2]) ? $col[2] : '13';
-                            $col[3] = $col[3] == 0 ? 'NULL' : 'NOT NULL';
-                            if (in_array($col[1], ['BOOLEAN', 'DATETIME', 'DATE', 'TIME', 'TINYTEXT', 'DOUBLE'])) {
-                                $query .= ',' . $table[1] . '_' . $col[0] . ' ' . $col[1] . ' ' . $col[3];
-                            } else {
-                                $query .= ',' . $table[1] . '_' . $col[0] . ' ' . $col[1] . '(' . $col[2] . ') ' . $col[3];
-                            }
-                        }
-                    }
-                }
-                $query .= ") DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
-
-                $df = debug_backtrace();
-
-                //elog('|TABLE| ' . $query . ' ' . $df . PHP_EOL . PHP_EOL);
-                elog( $query, 'log', $df[0]['line'], $df[0]['file'], $target );
-
-                if (!empty($query)) {
-                    if ( $db->query($query) == 1) {
-                        return true;
-                    } else {
-                        elog( $query, 'error', $df[0]['line'], $df[0]['file'], $target );
-                        return false;
-                    }
-                } else {
-                    return 0;
+                    $columns_query .= ', ' . $pre . $col[0] . ' ' . $col[1] . $col[2] . $col[3] . $col[4];
                 }
             }
+
+            // Create Table
+            if( DB_TYPE == 'mssql' ) {
+                $query = 'IF NOT EXISTS (  SELECT [name] FROM sys.tables WHERE [name] = \''.$name.'\' ) CREATE TABLE ' . $name . ' ( ' . $columns_query . ' ) ';
+            } else {
+                $query = 'CREATE TABLE IF NOT EXISTS ' . $name . ' ( ' . $columns_query . ' ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
+            }
+            elog( $query, 'log', $debug[0]['line'], $debug[0]['file'], $name );
+
+            // Executing Query
+            $execute = $db->query( $query );
+            if ( !empty( $execute ) ) {
+                return [ 1, 'Successfully executed create table query!' ];
+                /* if ( $db->query($query) == 1) {
+                    return true;
+                } else {
+                    elog( $query, 'error', $df[0]['line'], $df[0]['file'], $name );
+                    return false;
+                } */
+            } else {
+                return [ 0, 'Failed to execute create table query, Please refer log!' ];
+            }
+
+            // Create Columns
+            /* if( $exist->rowCount() > 0 ) {
+                foreach ( $columns as $col ) {
+                    if ( !empty($col[0]) && !empty($col[1]) ) {
+                        $col[2] = !empty($col[2]) ? $col[2] : '13';
+                        $col[3] = $col[3] == 0 ? 'NULL' : 'NOT NULL';
+                        $col[4] = isset( $col[4] ) && !empty($col[4] ) ? $col[4] : '';
+                        //if (in_array($col[1], ['BOOLEAN', 'DATETIME', 'DATE', 'TIME', 'TINYTEXT'])) {
+                        $this->create_column( $name, $pre.$col[0], $col[1], $col[2], $col[3], $col[4] );
+                        //$query .= ',' . $table[1] . '_' . $col[0] . ' ' . $col[1] . ' ' . $col[3];
+                        //} else {
+                        //create_column( $table[0], $col[0], $col[1], $col[2], $col[3] );
+                        //$query .= ',' . $table[1] . '_' . $col[0] . ' ' . $col[1] . '(' . $col[2] . ') ' . $col[3];
+                        //}
+                    }
+                }
+            } */
         } else {
-            return 0;
+            return [0,'The columns are supposed to be array!'];
         }
     }
 
@@ -110,7 +115,7 @@ class DB {
         if( is_array( $tables ) ){
             $query = '';
             foreach( $tables as $table ){
-                $tables_created[] = $this->create_table( $table );
+                $tables_created[] = $this->create_table( $table[0], $table[1], $table[2], $table[3] );
             }
         } else {
             $tables_created[] = 0;
@@ -168,9 +173,9 @@ class DB {
      * @param string $table Table Name
      * @param array $names Names of columns
      * @param array $values Data to insert
-     * @return bool
+     * @return int
      */
-    function insert( string $table, array $names, array $values ): bool {
+    function insert( string $table, array $names, array $values ): int {
         $db = $this->connect();
         if( $db ) {
             $names = is_array( $names ) ? $names : explode(',',$names);
@@ -190,8 +195,8 @@ class DB {
                     $q = "INSERT INTO $table ($names) VALUES ($fv)";
 
                     elog( $q, 'insert', $df[0]['line'], $df[0]['file'], $table );
-                    //return $q;
-                    $query = $db ? $db->prepare( $q ) : '';
+
+                    $query = $db->prepare( $q );
                     if( $query->execute() ) {
                         return $db->lastInsertId();
                     } else {
@@ -227,19 +232,20 @@ class DB {
         $db = $this->connect();
         if( $db ) {
             $cols = $cols == "" ? "*" : $cols;
-            if (!is_array($table)) {
+            if ( !is_array( $table ) ) {
                 $o = $count ? "SELECT COUNT('" . $cols . "') FROM $table " : "SELECT " . $cols . " FROM $table ";
                 $target = $table;
             } else {
                 $o = "SELECT " . $cols . " FROM $table[1] $table[0] $table[2] ON $table[1].$table[3] = $table[2].$table[4] ";
                 $target = $table[1];
             }
+            DB_TYPE == 'mssql' ? $where = str_replace( '"', "'", $where ) : '';
             $o .= !empty($where) && $where !== '' ? ' WHERE ' . $where : '';
             $o .= !empty($group) ? "GROUP BY " . $group : "";
             $o .= !empty($order_by) && $order_by !== '' ? ' ORDER BY ' . $order_by : '';
             $o .= !empty($sort) && $sort !== '' && !empty($order_by) && $order_by !== '' ? ' ' . $sort : '';
-            $o .= $limit >= 1 ? ' LIMIT ' . $limit : '';
-            $o .= $offset > 1 ? ' OFFSET ' . $offset : '';
+            $o .= $limit >= 1 ? ( DB_TYPE == 'mssql' ? '' : ' LIMIT ' . $limit ) : '';
+            $o .= $offset > 1 ? ( DB_TYPE == 'mssql' ? ' OFFSET ' . $offset . ' ROWS' : ' OFFSET ' . $offset ) : '';
 
             $df = debug_backtrace();
 
@@ -253,27 +259,24 @@ class DB {
                     return [];
                 }
             }
-
-            if ($q) {
-                $data = [];
-                while ($row = $q->fetchAll()) {
+            $data = [];
+            if( $q ) {
+                //return $q->fetchAll();
+                while ( $row = $q->fetchAll() ) {
                     $data[] = $row;
                 }
-                if ($count && !empty($data)) {
-                    return end($data[0]);
+                if ( $count && !empty($data) ) {
+                    return end( $data[0] );
                 } else if (!empty($data)) {
                     if ($limit == 1) {
                         return $data[0][0];
                     } else {
                         return $data[0];
                     }
-                } else {
-                    return [];
                 }
-            } else {
-                elog( $o, 'error', $df[0]['line'], $df[0]['file'], $target );
-                return [];
             }
+            return $data;
+            //elog( $o, 'error', $df[0]['line'], $df[0]['file'], $target );
         } else {
             return [];
         }
@@ -403,9 +406,9 @@ class DB {
      */
     function update_option( string $name, string $value, int $user_id = 0, int $autoload = 0 ): bool {
         if( $name !== '' && $value !== '' ){
-            $c = $this->select( 'options', '*', 'option_name = "'.$name.'" AND option_scope = "'.$user_id.'"', 1 );
+            $c = $this->select( 'options', '*', 'option_name = \''.$name.'\' AND option_scope = \''.$user_id.'\'', 1 );
             if( $c ) {
-                return $this->update( 'options', ['option_value', 'option_scope', 'option_load' ], [ $value, $user_id, $autoload ], 'option_name = "'.$name.'"' );
+                return $this->update( 'options', ['option_value', 'option_scope', 'option_load' ], [ $value, $user_id, $autoload ], 'option_name = \''.$name.'\'' );
             } else {
                 return $this->insert( 'options', [ 'option_name', 'option_value', 'option_scope', 'option_load' ], [ $name, $value, $user_id, $autoload ] );
             }
@@ -429,18 +432,18 @@ class DB {
                 if ( array_key_exists('unique', $value) ) {
                     $r = $this->update_option($key, $value['unique'], get_current_user_id());
                 } else
-                // Encrypt value
-                if ( array_key_exists('encrypt', $value) ) {
-                    $cry = Crypto::initiate();
-                    $r = $this->update_option($key, $cry->encrypt( $value['encrypt'] ) );
-                } else
-                // Encrypt value + Unique for current logged in user
-                if ( array_key_exists('encrypt,unique', $value) ) {
-                    $cry = Crypto::initiate();
-                    $r = $this->update_option($key, $cry->encrypt( $value['encrypt'] ), get_current_user_id());
-                } else {
-                    $r = $this->update_option( $key, serialize( $value ) );
-                }
+                    // Encrypt value
+                    if ( array_key_exists('encrypt', $value) ) {
+                        $cry = Crypto::initiate();
+                        $r = $this->update_option($key, $cry->encrypt( $value['encrypt'] ) );
+                    } else
+                        // Encrypt value + Unique for current logged in user
+                        if ( array_key_exists('encrypt,unique', $value) ) {
+                            $cry = Crypto::initiate();
+                            $r = $this->update_option($key, $cry->encrypt( $value['encrypt'] ), get_current_user_id());
+                        } else {
+                            $r = $this->update_option( $key, serialize( $value ) );
+                        }
             } else {
                 $r = $this->update_option( $key, $value );
             }
@@ -459,8 +462,8 @@ class DB {
         $db = $this->connect();
         $r = '';
         if( $db ) {
-            $q = $key == 'name' ? 'option_name = "'.$name.'"' : 'option_id = "'.$name.'"';
-            $query = $user_id !== 0 ? $q . ' AND option_scope = "'.$user_id.'"' : $q;
+            $q = $key == 'name' ? 'option_name = \''.$name.'\'' : 'option_id = \''.$name.'\'';
+            $query = $user_id !== 0 ? $q . ' AND option_scope = \''.$user_id.'\'' : $q;
             $o = $this->select( 'options', 'option_value', $query, 1 );
             $r = $o ? $o['option_value'] : '';
         }
@@ -479,20 +482,20 @@ class DB {
         if( is_array( $opn ) ){
             foreach( $opn as $op ){
                 if( $key == 'id' ){
-                    $q .= 'option_id = "'.$op.'" OR ';
+                    $q .= 'option_id = \''.$op.'\' OR ';
                 } else {
-                    $q .= 'option_name = "'.$op.'" OR ';
+                    $q .= 'option_name = \''.$op.'\' OR ';
                 }
             }
         } else {
             if( $key == 'id' ){
-                $q .= 'option_id = "'.$opn.'" OR ';
+                $q .= 'option_id = \''.$opn.'\' OR ';
             } else {
-                $q .= 'option_name = "'.$opn.'" OR ';
+                $q .= 'option_name = \''.$opn.'\' OR ';
             }
         }
         $q = !empty( $q ) ? substr($q, 0, -3) : $q;
-        $query = $user_id ? '('. $q . ') AND option_scope = "'.$user_id.'"' : $q;
+        $query = $user_id ? '('. $q . ') AND option_scope = \''.$user_id.'\'' : $q;
         $o = $this->select( 'options', 'option_name, option_value', $query );
         $d = [];
         if( is_array( $o ) ){
@@ -534,8 +537,8 @@ class DB {
      */
     function remove_option( string $opn, int $user_id = 0, $key = 'name' ): bool {
         $q = '';
-        $q .= $key == 'id' ? 'option_name = "'.$opn.'" ' : 'option_id = "'.$opn.'" ';
-        $query = $user_id !== 0 ? $q . ' AND option_scope = "'.$user_id.'"' : $q;
+        $q .= $key == 'id' ? 'option_name = \''.$opn.'\' ' : 'option_id = \''.$opn.'\' ';
+        $query = $user_id !== 0 ? $q . ' AND option_scope = \''.$user_id.'\'' : $q;
         $o = $this->delete( 'options', $query );
         return $o ? true : false;
     }
@@ -546,7 +549,7 @@ class DB {
      * @return bool
      */
     function remove_user_options( int $user_id ): bool {
-        $o = $this->delete( 'options', 'option_scope = "'.$user_id.'"' );
+        $o = $this->delete( 'options', 'option_scope = \''.$user_id.'\'' );
         return $o ? true : false;
     }
 
@@ -683,7 +686,7 @@ function process_data() {
         $keys = prepare_keys( $a, '', 0 );
         $values = prepare_values( $a, '', 0 );
 
-        $query = !empty( $id ) ? $db->update( $table, $keys, $values, $pre.'_id = "'.$id.'"' ) : $query = $db->insert( $table, $keys, $values );
+        $query = !empty( $id ) ? $db->update( $table, $keys, $values, $pre.'_id = \''.$id.'\'' ) : $query = $db->insert( $table, $keys, $values );
 
         if( !empty( $id ) ) {
             $query ? es('Updated Successfully') : ef('Not updated, data sent maybe unchanged / empty');

@@ -36,6 +36,7 @@ if( defined( 'CONFIG' ) && !empty( CONFIG ) ) {
     if( !empty( $type ) && !empty( $host ) && !empty( $base ) ) {
 
         // Define Database Config
+        !defined( 'DB_TYPE' ) ? define( 'DB_TYPE', $type ) : '';
         !defined( 'DB_HOST' ) ? define( 'DB_HOST', $host ) : '';
         !defined( 'DB_BASE' ) ? define( 'DB_BASE', $base ) : '';
         !defined( 'DB_USER' ) ? define( 'DB_USER', $user ) : '';
@@ -50,7 +51,8 @@ if( defined( 'CONFIG' ) && !empty( CONFIG ) ) {
                 $connection_string = "mysql:host=$host;dbname=$base;charset=utf8mb4";
                 break;
             case 'mssql':
-                $connection_string = "sqlsrv:Server=($host);Database=$base";
+                //$connection_string = "sqlsrv:Server=($host);Database=$base";
+                $connection_string = "sqlsrv:Server=".$host.";Database=".$base;
                 //$connection_string = "odbc: Driver = {SQL Server}; Server=$host; null; null";
                 break;
             // TODO: Add additional database types

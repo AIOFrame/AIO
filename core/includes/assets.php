@@ -17,7 +17,7 @@ $universal_assets = [ 'styles' => [], 'scripts' => [] ];
  * @param int $scrollbar Default scrollbar width
  * @author Shaikh <hey@shaikh.dev>
  */
-function reset_styles( $font = '', $weight = 'normal', $scrollbar = 5 ) {
+function reset_styles( $font = 'Lato', $weight = 'normal', $scrollbar = 5 ) {
     $cache = get_config( 'cache' );
     $v = $cache ? '&v=' . round( time() / ( $cache * 60 ) ) : '';
     global $universal_assets;

@@ -1,16 +1,14 @@
 <?php
 
-elog('Load structure');
-
 /**
  * Creates options Table to save App settings, not optional
  */
-$tables[] = [ 'options', 'option', [
+$tables[] = [ 'options', [
     [ 'name', 'VARCHAR', 200, 1 ],
-    [ 'value', 'VARCHAR', 9999, 1 ],
+    [ 'value', 'VARCHAR', 4999, 1 ],
     [ 'scope', 'INT', 13, 0 ],
     [ 'load', 'BOOLEAN', '', 0 ],
-] ];
+], 'option', 1 ];
 $db = new DB();
 $db->create_tables( $tables );
 
@@ -19,50 +17,51 @@ $db->create_tables( $tables );
  * 'features' => ['users'] or ['auth'] or ['authentication']
  */
 function user_tables() {
-    $tables[] = [ 'users', 'user', [
+    $tables[] = [ 'users', [
         [ 'login', 'VARCHAR', 15, 1 ],
         [ 'email', 'VARCHAR', 45, 0 ],
         [ 'name', 'VARCHAR', 45, 1 ],
         [ 'since', 'DATETIME', '', 1 ],
         //[ 'role', 'VARCHAR', 45, 0 ],
         //[ 'eid', 'VARCHAR', 10, 0 ],
-        [ 'phone', 'VARCHAR', 20, 0 ],
+        // [ 'phone', 'VARCHAR', 20, 0 ],
         [ 'pic', 'VARCHAR', 255, 0 ],
-        [ 'data', 'VARCHAR', 9999, 0 ],
-        [ 'perms', 'VARCHAR', 9999, 0 ],
-        [ 'reset_pass', 'VARCHAR', 11, 0 ],
-    ] ];
+        [ 'data', 'VARCHAR', 4999, 0 ],
+        [ 'perms', 'VARCHAR', 4999, 0 ],
+    ], 'user', 1 ];
 
-    $tables[] = [ 'access', 'access', [
+    $tables[] = [ 'access', [
         [ 'uid', 'INT', 13, 1 ],
         [ 'pass', 'VARCHAR', 155, 1 ],
         [ 'status', 'BOOLEAN', '', 1 ],
-    ] ];
+        [ 'recent', 'DATETIME', '', 0 ],
+        [ 'reset', 'VARCHAR', 11, 0 ],
+    ], 'access', 1 ];
 
-    $tables[] = [ 'sessions', 'ss', [
+    $tables[] = [ 'sessions', [
         [ 'uid', 'INT', 13, 1 ],
         [ 'time', 'DATETIME', '', 1 ],
-        [ 'ip', 'TINYTEXT', '', 1 ],
-        [ 'os', 'TINYTEXT', '', 1 ],
-        [ 'client', 'TINYTEXT', '', 1 ],
+        [ 'ip', 'VARCHAR', 50, 1 ],
+        [ 'os', 'VARCHAR', 50, 1 ],
+        [ 'client', 'VARCHAR', 50, 1 ],
         [ 'status', 'BOOLEAN', '', 1 ],
-    ] ];
+    ], 'session', 1 ];
 
-    $tables[] = [ 'levels', 'lv', [
+    $tables[] = [ 'levels', [
         [ 'name', 'VARCHAR', 55, 1 ],
         [ 'status', 'BOOLEAN', '', 0 ],
-    ] ];
+    ], 'level', 1 ];
 
-    $tables[] = [ 'alerts', 'al', [
+    $tables[] = [ 'alerts', [
         [ 'from', 'INT', 13, 0 ],
         [ 'user', 'INT', 13, 1 ],
         [ 'name', 'VARCHAR', 15, 1 ],
         [ 'note', 'VARCHAR', 155, 0 ],
-        [ 'type', 'TINYTEXT', 15, 0 ],
+        [ 'type', 'VARCHAR', 15, 0 ],
         [ 'link', 'VARCHAR', 55, 0 ],
         [ 'seen', 'BOOLEAN', '', 0 ],
         [ 'time', 'DATETIME', '', 0 ],
-    ]];
+    ], 'alert', 1 ];
 
     $db = new DB();
     $db->create_tables( $tables );
@@ -76,10 +75,10 @@ function language_tables() {
     $db = new DB();
 
     $tables = [];
-    $trans = [ 'translations', 't', [
-        [ 'base', 'TEXT', 9999, 1 ],
+    $trans = [ 'translations', [
+        [ 'base', 'VARCHAR', 4999, 1 ],
         [ 'page', 'VARCHAR', 255, 0 ],
-    ]];
+    ], 't', 1 ];
 
 
     $ln = $db->get_option( 'languages' );
@@ -87,7 +86,7 @@ function language_tables() {
     if( is_array( $ln ) && !empty( $ln ) ) {
         foreach( $ln as $l ) {
             if( $l !== 'en' )
-                $trans[2][] = [ $l, 'TEXT', 9999, 0 ];
+                $trans[2][] = [ $l, 'VARCHAR', 4999, 0 ];
         }
     }
     $tables[] = $trans;
@@ -100,16 +99,16 @@ function language_tables() {
  * 'features' => ['uploads'] or ['storage']
  */
 function storage_tables() {
-    $tables[] = [ 'storage', 'file', [
+    $tables[] = [ 'storage', [
         [ 'name', 'VARCHAR', 255, 1 ],
         [ 'url', 'VARCHAR', 255, 1 ],
         [ 'scope', 'INT', 13, 0 ],
-        [ 'type', 'TINYTEXT', '', 1 ],
-        [ 'size', 'MEDIUMINT', 30, 1 ],
+        [ 'type', 'VARCHAR', 30, 1 ],
+        [ 'size', 'INT', 30, 1 ],
         [ 'small', 'VARCHAR', 255, 0 ],
         [ 'medium', 'VARCHAR', 255, 0 ],
-        [ 'delete', 'BOOLEAN', 1, 0 ],
-    ] ];
+        [ 'delete', 'BOOLEAN', '', 0 ],
+    ], 'file', 1 ];
     $db = new DB();
     $db->create_tables( $tables );
 }
