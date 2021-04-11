@@ -59,7 +59,6 @@ $(document).ready(function(){
         file_upload(e.target);
     })
 
-
     // Standard File Chosen to Upload
     .on('change','#file_input',function(){
         var fs = this.files;
@@ -124,6 +123,7 @@ $(document).ready(function(){
         //elog(s);
         setTimeout(function(){ var m = s.length > 0 ? $('#aio_up .file_select').html() : $('#aio_up .no_file_select').html() ; $('.file_notify').html(m).addClass('on') }, 500);
         setTimeout(function(){ $('.file_notify').removeClass('on') },1600);
+        close_uploader();
     })
 
     // Delete File from Multiple Files UI
@@ -317,29 +317,30 @@ function file_upload(e){
 }
 
 function process_upload(fs) {
+    let au = $('#aio_up');
     for (var i = 0, f; f = fs[i]; i++) {
         //elog(i);
         //elog(f);
-        var exts = $('#aio_up').data('exts');
+        let exts = au.data('exts');
         if( exts ){
             exts = exts.split(',');
-            var ext = f.name.split('.')[1];
+            let ext = f.name.split('.')[1];
             if(exts.indexOf(ext) < 0){
                 var msg = $('#aio_up .extension_limit').html();
                 uploader_notify(msg + ' <strong>' + exts + '</strong>');
                 return [ false, 'Extension Restricted', 'The file should be one of the extensions ' + exts ];
             }
         }
-        var d = new FormData();
+        let d = new FormData();
         d.append(i, f);
-        d.append('action', 'file_process');
-        if( $('#aio_up').data('path') !== '' && $('#aio_up').data('path') !== undefined ){
+        d.append('action',au.data('action'));
+        if( au.data('path') !== '' && au.data('path') !== undefined ){
             d.append('path',$('#aio_up').data('path'));
         }
-        if( $('#aio_up').data('scope') !== '' && $('#aio_up').data('scope') !== undefined ){
+        if( au.data('scope') !== '' && au.data('scope') !== undefined ){
             d.append('scope',$('#aio_up').data('scope'));
         }
-        if( $('#aio_up').data('delete') !== '' && $('#aio_up').data('delete') !== undefined && $('#aio_up').data('delete') ){
+        if( au.data('delete') !== '' && au.data('delete') !== undefined && au.data('delete') ){
             d.append('delete','true');
         } else {
             d.append('delete','false');

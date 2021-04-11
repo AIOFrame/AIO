@@ -2,6 +2,12 @@ var debug = !!$('body').hasClass('debug');
 
 $(document).ready(function(){
 
+    // Changes checkbox value to 1 or 0
+    $(document).on('change','[data-check],[data-bool],[data-boolean]',function(){
+        var v = $(this).is(':checked') ? '1' : '0';
+        $($(this).data('check')).val(v);
+    })
+
     // Initiate Clipboard JS
     if( typeof ClipboardJS === 'function' ){
         var clipboard = new ClipboardJS('[data-clipboard-target],[data-clipboard-text]');
@@ -11,8 +17,8 @@ $(document).ready(function(){
         });
 
         clipboard.on('error', function(e) {
-            elog('Action:', e.action);
-            elog('Trigger:', e.trigger);
+            console.log('Action:', e.action);
+            console.log('Trigger:', e.trigger);
         });
     }
 
@@ -59,7 +65,7 @@ function _is_empty( e, d ) {
             if( b !== undefined && $(b).val() !== null && $(b).val() !== "" ){
                 r.push(false);
             } else {
-                elog( b );
+                console.log( b );
                 r.push(true);
             }
         });
@@ -243,17 +249,25 @@ function get_values( e, s, pre ) {
             v = $(this).val().join(", ");
 
         } else if( $(this).data('array') !== undefined ) {
+            let arr = $(this).data('array');
             k = $(this).val() !== '' ? $(this).attr('name') : '';
             k = k === '' ? $(this).attr('id') : k;
             let key = $(this).data('key') !== undefined ? $(this).data('key') : k;
-            data[key] = data[key] === undefined ? Array() : data[key];
-            $(this).val() !== '' ? data[ key ][ k ] = v : '';
+            data[arr] = data[arr] === undefined ? {} : data[arr];
+            $(this).val() !== '' ? data[ arr ][ key ] = v : '';
             return true;
         }
 
         // Finally push the value
         data[ pk ] = v;
 
+    });
+    $.each(data,function(a,b){
+        if( typeof b === 'object' && b !== null ) {
+            console.log( b );
+            console.log( JSON.stringify(b) );
+            data[a] = JSON.stringify(b);
+        }
     });
     //elog(data);
     return data;

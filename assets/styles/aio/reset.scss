@@ -35,7 +35,7 @@ input:disabled, button:disabled, select:disabled, textarea:disabled {
   background:#eee;
   cursor:not-allowed;
   box-shadow:none;
-  border:1px solid #eee;
+  //border:1px solid #eee;
 }
 select {
   background:url('../../images/select.svg') no-repeat calc(100% - 6px) / 20px;

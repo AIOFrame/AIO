@@ -3,8 +3,11 @@
 class CLIENT {
 
     function __construct() {
-        if( file_exists( COREPATH . 'core/components/ext/whichbrowser/autoload.php' ) )
-            require COREPATH . 'core/components/ext/whichbrowser/autoload.php';
+        if( session_status() === PHP_SESSION_NONE ) {
+            session_start();
+        }
+        if( file_exists( ROOTPATH . 'core/components/ext/whichbrowser/autoload.php' ) )
+            require ROOTPATH . 'core/components/ext/whichbrowser/autoload.php';
     }
 
     /**

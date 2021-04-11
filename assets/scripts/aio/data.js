@@ -1,16 +1,14 @@
 function process_data( e ){
-
     //$(e).attr('disabled',true);
-
-    var p = $(e).parents('[data-t]');
+    let p = $(e).parents('[data-t]');
 
     p.addClass('load');
     var title = $(p).data('title');
     var pre = $(p).data('pre');
 
     // Check for empty values
-    if( $(p).data('sempty') !== '' && $(p).data('sempty') !== undefined ) {
-        if( sempty( p, $(p).data('sempty') ) ) {
+    if( $(p).data('empty') !== '' && $(p).data('empty') !== undefined ) {
+        if( is_empty( p, $(p).data('empty') ) ) {
             $(p).removeClass('load');
             $(e).attr('disabled',false);
             notify('Input fields seem to be empty! Please fill and try again!!');
@@ -23,7 +21,7 @@ function process_data( e ){
         $(p).find('[onclick="process_data(this)"]').attr('disabled',true);
     }
     var d = get_values( p, pre, pre );
-    d.action = $(e).data('action') !== undefined && $(e).data('action') !== '' ? $(e).data('action') : 'process_data';
+    d.action = $(e).data('action');
     d.target = $(p).data('t');
     d.pre = pre;
 
@@ -34,8 +32,7 @@ function process_data( e ){
             d[a] = $(p).data(a);
         }
     });
-
-    //elog(d);
+    console.log(d);
     post( d.action, d, p.data('notify'), p.data('reload'), p.data('redirect'), 0, p.data('callback'), p.data('reset') );
 
 }
@@ -93,7 +90,7 @@ function trash_data( q ) {
 
 function post( action, data, notify_time, reload_time, redirect, redirect_time, callback, reset ) {
     //elog(callback);
-    var d = $.extend({}, {'action':action}, data);
+    let d = $.extend({}, { 'action' : action }, data);
     $.post( location.origin, d, function(r) {
         //elog(r);
         try {

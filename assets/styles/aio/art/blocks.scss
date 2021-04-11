@@ -46,6 +46,7 @@
     background-size:80px;
   }
   .title {
+    display: block;
     text-align: center;
     text-transform: uppercase;
   }
@@ -65,11 +66,11 @@
   .title.r {
     text-align: right;
   }
-  .block .desc>div, .block .desc>p {
+  .desc > div, .desc > p {
     font-size: 14px;
     margin:10px 0;
   }
-  .block .desc>div:last-child {
+  .desc > div:last-child, .desc > p:last-child {
     margin-bottom: 0;
   }
   .desc .ico {
@@ -82,6 +83,7 @@
     opacity:.3;
     transition:.6s;
     z-index:5;
+    display: flex;
   }
   .actions.l {
     right: auto;
@@ -89,6 +91,8 @@
   }
   .actions>i, .actions>div {
     margin:0 5px;
+    width: 20px;
+    height: 20px;
   }
   .status {
     position: absolute;
@@ -113,6 +117,12 @@
   .status.red {
     color:firebrick;
     border:1px solid firebrick
+  }
+  .edit {
+    background:url('./icons/edit.svg') no-repeat center / 20px;
+  }
+  .trash {
+    background:url('./icons/trash.svg') no-repeat center / 20px;
   }
 }
 .block.off, .block.disabled, .plate.off, .plate.disabled {

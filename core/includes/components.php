@@ -15,7 +15,7 @@ function get_vue( $type = '' ) {
 // Include SMS Module and Send SMS
 
 function send_sms( $number, $message, $gateway, $key = '', $secret = '' ) {
-    include_once( COREPATH . 'core/components/sms.php' );
+    include_once( ROOTPATH . 'core/components/sms.php' );
     global $sms_loaded;
     if( !$sms_loaded ){
         $sms = new SMS;
@@ -34,7 +34,7 @@ function nsms( $no, $msg ) {
 // Include Google Maps Module and Render Map
 
 function render_maps() {
-    include_once( COREPATH . 'core/components/google_maps.php' );
+    include_once( ROOTPATH . 'core/components/google_maps.php' );
     global $google_maps_loaded;
     if( !$google_maps_loaded ){
         $gmaps = new GMaps();
@@ -46,7 +46,7 @@ function render_maps() {
 // Include and Render various BarCode
 
 function barcode( $text, $width = '100', $height = '36', $textShow = 0, $bgColor = '#ffffff', $lineColor = '#000000', $textAlign = 'center', $textPosition = 'bottom', $textMargin = '0', $format = 'CODE128' ) {
-    include_once( COREPATH . 'core/components/barcode.php' );
+    include_once( ROOTPATH . 'core/components/barcode.php' );
     global $barcode_loaded;
     if( !$barcode_loaded ) {
         $brcd = new BRCD;
@@ -58,7 +58,7 @@ function barcode( $text, $width = '100', $height = '36', $textShow = 0, $bgColor
 // File Uploader and Stored URL Processor
 
 function file_upload() {
-    include_once( COREPATH . 'core/components/file_uploader.php' );
+    include_once( ROOTPATH . 'core/components/file_uploader.php' );
     global $file_upload_loaded;
     if( !$file_upload_loaded ){
         $file = new FUP();
@@ -82,7 +82,7 @@ function file_url( $url ) {
 // Emailer by Modules
 
 function email( $to, $subject, $content, $from, $cc = '' ){
-    include_once( COREPATH . 'core/components/email.php' );
+    include_once( ROOTPATH . 'core/components/email.php' );
     $mail = new MAIL();
     return $mail->send( $to, $subject, $content, $from, $cc );
 }
@@ -93,7 +93,7 @@ function language_editor(){
     language_editor();
 }
 function manage_translations() {
-    include_once( COREPATH . 'core/components/translations.php' );
+    include_once( ROOTPATH . 'core/components/translations.php' );
 }
 
 class Excel {
@@ -108,7 +108,7 @@ class Excel {
     }
 
     private function __construct() {
-        require_once COREPATH . 'core/components/ext/phpspreadsheet/autoload.php';
+        require_once ROOTPATH . 'core/components/ext/phpspreadsheet/autoload.php';
     }
 
     // Export single spreadsheet

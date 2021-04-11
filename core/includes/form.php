@@ -310,6 +310,6 @@ class FORM {
         $cry = Crypto::initiate();
         $pat = $path !== '' ? ' data-path="'.$cry->encrypt( $path ).'"' : '';
         $type = $multiple ? 'files' : 'file';
-        echo $pre.'<label for="#'.$id.'">'.T($label).'</label><input id="'.$id.'" name="'.$id.'" type="text" data-'.$type.' value="'.$value.'" '.$attrs.'><button type="button" class="'.$button_class.'" data-url="#'.$id.'" onclick="file_upload(this)" '.$sh.$ext.$del.$pat.'>'.T($button_label).'</button>'.$post;
+        echo $pre.'<label for="'.$id.'">'.T($label).'</label><button type="button" class="'.$button_class.'" data-url="#'.$id.'" onclick="file_upload(this)" '.$sh.$ext.$del.$pat.'>'.T($button_label).'</button><input id="'.$id.'" name="'.$id.'" type="text" data-'.$type.' value="'.$value.'" '.$attrs.'>'.$post;
     }
 }

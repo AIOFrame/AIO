@@ -10,7 +10,7 @@ if( APPDEBUG && file_exists( APPPATH . 'assets/styles/icons.css' ) ) {
 function _icon( $name, $size = 25, $thickness = 15, $color = '#000000', $stroke = true ) {
     global $icons;
     if( is_array( $name ) ){
-        if( file_exists( COREPATH . 'core/components/icons/'. $name[0] . '.svg' ) || file_exists( APPPATH . 'assets/images/icons/' .$name[0] . '.svg' ) ) {
+        if( file_exists( ROOTPATH . 'core/components/icons/'. $name[0] . '.svg' ) || file_exists( APPPATH . 'assets/images/icons/' .$name[0] . '.svg' ) ) {
             $name = $name[0];
         } else {
             icon( $name[1], $size, $thickness, $color, $stroke );
@@ -18,11 +18,11 @@ function _icon( $name, $size = 25, $thickness = 15, $color = '#000000', $stroke 
         }
     }
     //$icon_css = fopen(APPPATH.'assets/icons.php','w') or die();
-    if( file_exists( COREPATH . 'core/components/icons/'. $name . '.svg' ) || file_exists( APPPATH . 'assets/images/icons/' .$name . '.svg' ) ) {
+    if( file_exists( ROOTPATH . 'core/components/icons/'. $name . '.svg' ) || file_exists( APPPATH . 'assets/images/icons/' .$name . '.svg' ) ) {
         $icons[] = $name;
         $stroke = $stroke ? 'none' : $color;
         $data = '<div class="ico '.str_replace(' ','_',$name).'" style="width:' . $size . 'px;height:' . $size . 'px;stroke-width:' . $thickness . ' !important;stroke:' . $color . ' !important;fill:' . $stroke . ' !important">';
-        $f = file_exists( COREPATH . 'core/components/icons/'. $name . '.svg' ) ? file_get_contents( COREPATH . 'core/components/icons/' . $name . '.svg') : file_get_contents( APPPATH . 'assets/images/icons/' . $name . '.svg');
+        $f = file_exists( ROOTPATH . 'core/components/icons/'. $name . '.svg' ) ? file_get_contents( ROOTPATH . 'core/components/icons/' . $name . '.svg') : file_get_contents( APPPATH . 'assets/images/icons/' . $name . '.svg');
         $f = remove_elements( $f, '<style', '</style>' );
         $f = remove_elements( $f, '<?xml', '?>' );
         $f = remove_elements( $f, '<!-- Generator', ')  -->' );
@@ -32,7 +32,7 @@ function _icon( $name, $size = 25, $thickness = 15, $color = '#000000', $stroke 
         $data .= $f;
         $data .= '</div>';
         /* if( APPDEBUG && !empty( $icons ) ){
-            $f = file_get_contents( COREPATH . 'core/components/icons/' . $name . '.svg');
+            $f = file_get_contents( ROOTPATH . 'core/components/icons/' . $name . '.svg');
             $f = remove_elements( $f, '<style', '</style>' );
             $f = remove_elements( $f, '<?xml', '?>' );
             $f = remove_elements( $f, '<!-- Generator', ')  -->' );

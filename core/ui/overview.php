@@ -38,7 +38,7 @@ art('table');
                         </tr>
                         <tr>
                             <td><?php E('AIO Version'); ?></td>
-                            <td><?php $aio_v = include COREPATH . 'version.php'; echo $aio_v; ?></td>
+                            <td><?php $aio_v = include ROOTPATH . 'version.php'; echo $aio_v; ?></td>
                         </tr>
                         <tr>
                             <td><?php E('Server OS'); ?></td>

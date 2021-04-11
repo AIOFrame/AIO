@@ -1,7 +1,7 @@
 Licensed under GNU GPL v3.0
 
 #### Default Defines
-COREPATH
+ROOTPATH
 Main Application Server ROOT Directory Path
 (Generated automatically based on pointed root folder)
 Ex: /users/root/www/application

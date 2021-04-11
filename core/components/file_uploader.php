@@ -7,7 +7,7 @@ class FUP {
         get_style('upload');
         get_scripts(['jquery','upload']);
         ?>
-        <div id="aio_up" class="file_modal" data-dir="<?php echo APPURL.'apps/'.APPDIR; ?>">
+        <div id="aio_up" class="file_modal" data-dir="<?php echo APPURL.'apps/'.APPDIR; ?>" data-action="<?php echo $cry->encrypt('file_process_ajax'); ?>">
             <div class="files_head">
                 <h3><?php E('File Uploader'); ?></h3>
                 <div class="acts">

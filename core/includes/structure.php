@@ -21,19 +21,16 @@ function user_tables() {
         [ 'login', 'VARCHAR', 15, 1 ],
         [ 'email', 'VARCHAR', 45, 0 ],
         [ 'name', 'VARCHAR', 45, 1 ],
-        [ 'since', 'DATETIME', '', 1 ],
-        //[ 'role', 'VARCHAR', 45, 0 ],
-        //[ 'eid', 'VARCHAR', 10, 0 ],
-        // [ 'phone', 'VARCHAR', 20, 0 ],
-        [ 'pic', 'VARCHAR', 255, 0 ],
+        [ 'picture', 'VARCHAR', 255, 0 ],
         [ 'data', 'VARCHAR', 4999, 0 ],
-        [ 'perms', 'VARCHAR', 4999, 0 ],
+        [ 'access', 'VARCHAR', 4999, 0 ],
+        [ 'status', 'BOOLEAN', '', 1 ],
+        [ 'since', 'DATETIME', '', 1 ],
     ], 'user', 1 ];
 
     $tables[] = [ 'access', [
         [ 'uid', 'INT', 13, 1 ],
         [ 'pass', 'VARCHAR', 155, 1 ],
-        [ 'status', 'BOOLEAN', '', 1 ],
         [ 'recent', 'DATETIME', '', 0 ],
         [ 'reset', 'VARCHAR', 11, 0 ],
     ], 'access', 1 ];
@@ -41,7 +38,7 @@ function user_tables() {
     $tables[] = [ 'sessions', [
         [ 'uid', 'INT', 13, 1 ],
         [ 'time', 'DATETIME', '', 1 ],
-        [ 'ip', 'VARCHAR', 50, 1 ],
+        [ 'code', 'VARCHAR', 255, 1 ],
         [ 'os', 'VARCHAR', 50, 1 ],
         [ 'client', 'VARCHAR', 50, 1 ],
         [ 'status', 'BOOLEAN', '', 1 ],
@@ -64,7 +61,7 @@ function user_tables() {
     ], 'alert', 1 ];
 
     $db = new DB();
-    $db->create_tables( $tables );
+    $db->automate_tables( $tables );
 }
 
 /**
@@ -91,7 +88,7 @@ function language_tables() {
     }
     $tables[] = $trans;
 
-    $db->create_tables( $tables );
+    $db->automate_tables( $tables );
 }
 
 /**
@@ -110,7 +107,7 @@ function storage_tables() {
         [ 'delete', 'BOOLEAN', '', 0 ],
     ], 'file', 1 ];
     $db = new DB();
-    $db->create_tables( $tables );
+    $db->automate_tables( $tables );
 }
 
 /**
@@ -137,10 +134,11 @@ if( is_array( $feats ) ) {
     // Create Countries and Currencies data
     if( in_array( 'data', $feats ) || in_array( 'countries', $feats ) || in_array( 'world', $feats ) ) {
         // Check if world data exists
+        // TODO: Convert this table sql to json
         $db = new DB();
         $table_exist = $db->table_exists( 'countries' );
         if( !$table_exist ) {
-            $db->import( COREPATH . 'core/components/data/world.sql' );
+            $db->import( ROOTPATH . 'core/components/data/world.sql' );
         }
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-!defined( 'COREPATH' ) ? exit() : '';
+!defined( 'ROOTPATH' ) ? exit() : '';
 
 /**
  * Processes routing based on URL hierarchy
@@ -119,11 +119,11 @@ if( !isset( $_POST['action'] ) ) { // Checks if AJAX Action Request is sent so c
     /**
      * Loads 404 page if exists
      */
-    if( file_exists( COREPATH . 'apps/' . $t . '/pages/404.php' ) ) { // Doesn't exist on sub domain or defaults, so check if 404 page exists
+    if( file_exists( ROOTPATH . 'apps/' . $t . '/pages/404.php' ) ) { // Doesn't exist on sub domain or defaults, so check if 404 page exists
         define_path( '404' );
-        define_page( COREPATH . 'apps/' . $t . '/pages/404.php'); // Exists so load 404
+        define_page( ROOTPATH . 'apps/' . $t . '/pages/404.php'); // Exists so load 404
     } else {
         $error = '404';
-        include_once( COREPATH . 'core/pages/error.php'); // Loads super 404
+        include_once( ROOTPATH . 'core/pages/error.php'); // Loads super 404
     }
 }

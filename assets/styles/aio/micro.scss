@@ -80,10 +80,15 @@ select.tar { text-align-last: right; }
 
 /* Text Appearance */
 
-.fz0 { font-size: 0; }
 .fz20 {  font-size: 20px }
+.fz18 {  font-size: 18px }
+.fz16 {  font-size: 16px }
 .fz15 {  font-size: 15px }
+.fz14 {  font-size: 14px }
 .fz12 {  font-size: 12px }
+.fz10 {  font-size: 10px }
+.fz8 {  font-size: 8px }
+.fz0 { font-size: 0; }
 
 .fl, .fwl { font-weight: lighter }
 .fb, .fwb { font-weight: bold }
@@ -98,6 +103,8 @@ select.tar { text-align-last: right; }
 .bsn { box-shadow:none }
 .ttu, .uc { text-transform: uppercase }
 .ttn, .nc { text-transform: none }
+.tdu { text-decoration:underline }
+.tdn { text-decoration:none }
 
 /* Margins */
 

@@ -58,7 +58,11 @@ class RANGE {
 class WORLD_DATA {
 
     function __construct() {
-        // TODO: Check if world data table is imported else import
+        $db = new DB();
+        if( !$db->table_exists( 'countries' ) && DB_TYPE == 'mysql' ) {
+            echo 'here';
+            $db->import( ROOTPATH . 'core/components/data/world.sql.zip' );
+        }
     }
 
     /**
@@ -269,7 +273,7 @@ function pre( $text ) {
 // Returns Languages
 
 function get_languages( $lang_keys = [] ): array {
-    $file = COREPATH . 'core/components/data/languages.php';
+    $file = ROOTPATH . 'core/components/data/languages.php';
     $lang = file_exists( $file ) ? include $file : [];
     if( !empty( $lang_keys ) ) {
         $final = [];

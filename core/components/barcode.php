@@ -21,7 +21,7 @@ class BARCODE {
      */
     function generate( string $text, int $width, int $height, string $bgColor, string $lineColor, string $textShow, string $textAlign, string $textPosition, int $textMargin, string $format ) {
         if( !defined( 'BARCODE_INCLUDED' ) ) {
-            if (file_exists(COREPATH . 'core/components/ext/barcode/' . strtolower($format) . '.min.js')) {
+            if (file_exists(ROOTPATH . 'core/components/ext/barcode/' . strtolower($format) . '.min.js')) {
                 echo '<script src="' . APPURL . '/core/components/ext/barcode/' . strtolower($format) . '.min.js" type="text/javascript"></script>';
                 define( 'BARCODE_INCLUDED', true );
             }

@@ -14,10 +14,10 @@ $appdir = !empty( get_domain('sub') ) ? get_domain( 'sub' ) : get_domain();
 if( $id == '00' && ( isset( $_POST['setup'] ) ) ) {
     $deps = [ 'assets', 'config', 'functions', 'inputs' ];
     foreach($deps as $dep){
-        $f = COREPATH . 'core/includes/' . $dep . '.php';
+        $f = ROOTPATH . 'core/includes/' . $dep . '.php';
         file_exists( $f ) ? include_once( $f ) : '';
     }
-    include_once(COREPATH . 'core/pages/build.php');
+    include_once(ROOTPATH . 'core/pages/build.php');
     return;
 }
 ?>

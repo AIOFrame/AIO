@@ -4,7 +4,7 @@
  * Defines the Path of AIO Core
  * Ex: /home/user/public_html/
  */
-!defined( 'COREPATH' ) ? define( 'COREPATH', dirname( __FILE__ ) . '/' ) : '';
+!defined( 'ROOTPATH' ) ? define( 'ROOTPATH', dirname( __FILE__ ) . '/' ) : '';
 !defined( 'ROOTPATH' ) ? define( 'ROOTPATH', __DIR__ . '/' ) : '';
 
 $pre = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on" ? "https://" : "http://";
@@ -18,7 +18,7 @@ $pre = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on" ? "https://" : "htt
 /**
  * Checks and creates AIO htaccess
  */
-if( !file_exists( COREPATH . '.htaccess' ) ){
+if( !file_exists( ROOTPATH . '.htaccess' ) ){
     $htaccess = '<IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteBase /
@@ -50,7 +50,7 @@ RewriteRule ^(.*)/$ index.php [QSA,L]
         $x++;
     }
     $htaccess .= '</IfModule>';
-    if( $htaccess_file = fopen( COREPATH . '.htaccess', 'w' ) ){
+    if( $htaccess_file = fopen( ROOTPATH . '.htaccess', 'w' ) ){
         fwrite( $htaccess_file, $htaccess );
         fclose( $htaccess_file );
     }
@@ -59,4 +59,4 @@ RewriteRule ^(.*)/$ index.php [QSA,L]
 /**
  * Loads AIO Core Logics
  */
-require COREPATH . '/core/core.php';
+require ROOTPATH . '/core/core.php';

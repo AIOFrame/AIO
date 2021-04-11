@@ -1,6 +1,6 @@
 <?php
 
-if( !defined( 'COREPATH' ) ) { exit(); }
+if( !defined( 'ROOTPATH' ) ) { exit(); }
 
 /**
  * Global assets array, logs assets to prevent repeated assets being used!
@@ -44,8 +44,8 @@ function art( $arts, string $color1 = '222', string $color2 = '000' ) {
 
     // Loop for Art Styles and Scripts
     $art_ui = $art_ux = '';
-    $ui_dir = COREPATH . 'assets/styles/aio/art/';
-    $ux_dir = COREPATH . 'assets/scripts/aio/art/';
+    $ui_dir = ROOTPATH . 'assets/styles/aio/art/';
+    $ux_dir = ROOTPATH . 'assets/scripts/aio/art/';
     foreach( $arts as $a ) {
         if( file_exists( $ui_dir . $a . '.css' ) && ( !isset( $universal_assets['styles']['art'] ) || !in_array( $a, $universal_assets['styles']['art'] ) ) ) {
             $universal_assets['styles']['art'][] = $a;
@@ -92,8 +92,8 @@ function get_style(string $f, $params = [], $page_of = '') {
         $universal_assets['styles'][] = $f;
         $style_paths = [
             APPPATH . 'assets/styles/' . $f => APPURL . 'apps/' . APPDIR . '/assets/styles/' . $f,
-            COREPATH . 'assets/styles/ext/'. $f . '/' . $f => APPURL . 'assets/styles/ext/' . $f . '/' . $f,
-            COREPATH . 'assets/styles/aio/' . $f => APPURL . 'assets/styles/aio/' . $f,
+            ROOTPATH . 'assets/styles/ext/'. $f . '/' . $f => APPURL . 'assets/styles/ext/' . $f . '/' . $f,
+            ROOTPATH . 'assets/styles/aio/' . $f => APPURL . 'assets/styles/aio/' . $f,
         ];
         $url = asset_exists( $style_paths, $f, 'css' );
         if ( $page_of !== '' ) {
@@ -153,8 +153,8 @@ function get_script(string $f, $params = [], $page_of = '') {
         $universal_assets['scripts'][] = $f;
         $script_paths = [
             APPPATH . 'assets/scripts/' . $f => APPURL . 'apps/' . APPDIR . '/assets/scripts/' . $f,
-            COREPATH . 'assets/scripts/ext/' . $f . '/' . $f => APPURL . 'assets/scripts/ext/' . $f . '/' . $f,
-            COREPATH . 'assets/scripts/aio/' . $f => APPURL . 'assets/scripts/aio/' . $f,
+            ROOTPATH . 'assets/scripts/ext/' . $f . '/' . $f => APPURL . 'assets/scripts/ext/' . $f . '/' . $f,
+            ROOTPATH . 'assets/scripts/aio/' . $f => APPURL . 'assets/scripts/aio/' . $f,
         ];
         $url = asset_exists( $script_paths, $f, 'js' );
 
@@ -313,7 +313,7 @@ function get_page( string $n ){
 
 function UI( $ui, $array = [] ) {
 
-    $f = COREPATH . 'core/ui/' . $ui . '.php';
+    $f = ROOTPATH . 'core/ui/' . $ui . '.php';
 
     if( file_exists( $f ) ) {
 

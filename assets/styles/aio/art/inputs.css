@@ -1,3 +1,7 @@
+label.beta {
+  color: #111;
+}
+
 [type=radio], [type=checkbox] {
   cursor: pointer;
   margin: 8px 8px 8px 0;

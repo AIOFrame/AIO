@@ -1,14 +1,7 @@
 /* Tabs */
 
-.tabs {
-  > div:first-child {
-    display: flex;
-  }
-}
-.tabs:not(.material):not(.float) {
-  > div:last-child {
-    border-top: 2px solid #111;
-  }
+.tab_heads {
+  display: flex;
 }
 .tab {
   display: block;

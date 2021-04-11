@@ -2,30 +2,26 @@
 
 class ACCESS {
 
-    function create_session() {
+    function __construct() {
 
         // Initiate Session
         ob_start();
         session_name( str_replace( ' ', '', APPNAME ) );
-
         $secure = isset( $_SERVER['HTTPS'] );
         session_set_cookie_params( 14400, '/', APPURL, $secure, 1 );
-
-        @session_start() or die();
-
+        if( session_status() === PHP_SESSION_NONE ) {
+            session_start();
+        }
         $now = time();
-
         $_SESSION['time'] = $now;
 
         $agent = new CLIENT();
         $useragent_hash = hash('sha256', $agent->get_device() );
-        $ip = $_SERVER['REMOTE_ADDR'];
 
         if( !isset( $_SESSION['canary'] ) ) {
             session_regenerate_id( true );
             $_SESSION['canary'] = [
                 'birth' => time(),
-                'ip' => $ip,
                 'useragent_hash' => $useragent_hash
             ];
         }
@@ -35,35 +31,60 @@ class ACCESS {
             $_SESSION['canary']['birth'] = $now;
         }
 
-        // If user is logged in, log out user if IP or Useragent is changed (this is intentional, I know users behind load-balancers etc will have issues)
-        if( isset( $_SESSION['username'] ) && ( $_SESSION['canary']['ip'] !== $ip OR $_SESSION['canary']['useragent_hash'] !== $useragent_hash )) {
+        // Destroy session if user device is changed
+        if( isset( $_SESSION['user']['login'] ) && ( $_SESSION['canary']['useragent_hash'] !== $useragent_hash )) {
             // Destroy cookie
             setcookie( session_name(), "", time() - 3600, '/', APPURL, $secure, true );
 
             // Destroy session
             session_unset();
             session_destroy();
-
-            // Redirect (avoid loop by checcking ip_browser_changed)
-            /* if( ! isset($_GET['ip_browser_changed']))
-            {
-                header('Location: '.URL.'login/?ip_browser_changed');
-                exit('IP Address or Browser has been changed, please login again!');
-            } */
         }
         ob_end_clean();
+    }
+
+    /**
+     * Clears the current login session of the current logged in user
+     * @return array
+     */
+    function clear_session(): array {
+        if( !empty( $_SESSION['user']['id'] ) && is_numeric( $_SESSION['user']['id'] ) ) {
+            $db = new DB();
+            $deleted = $db->delete( 'sessions', 'ss_uid = \''.$_SESSION['user_id'].'\'' );
+            return $deleted ? [ 1, T('Successfully cleared all sessions!') ] : [ 0, T('Failed to clear sessions!') ];
+        } else {
+            return [];
+        }
+    }
+
+    /**
+     * Clears all login session logs of current logged in user
+     * @return array
+     */
+    function clear_all_sessions(): array {
+        if( !empty( $_SESSION['user_id'] ) && is_numeric( $_SESSION['user_id'] ) ) {
+            $db = new DB();
+            $deleted = $db->delete( 'sessions', 'ss_uid = \''.$_SESSION['user_id'].'\'' );
+            return $deleted ? [ 1, T('Successfully cleared all sessions!') ] : [ 0, T('Failed to clear sessions!') ];
+        } else {
+            return [];
+        }
     }
 
     /**
      * Registers a user for AIO
      * @param string $login User Login
      * @param string $pass User Password
+     * @param string $email User Email
+     * @param string $name User Full Name
+     * @param string $picture User Picture
      * @param array $columns User meta to be stored in independent columns, columns must exist
      * @param array $data User meta to be stored in user_data column
-     * @param array $perms User Permissions, Custom array with permission name key and boolean value
+     * @param array $access User Permissions, Custom array with permission name key and boolean value
+     * @param string $status User status, 1 for active and 0 for inactive, default 1
      * @return array
      */
-    function register( string $login, string $pass, array $columns = [], array $data = [], array $perms = [] ): array {
+    function register( string $login, string $pass, string $email = '', string $name = '', string $picture = '', array $columns = [], array $data = [], array $access = [], string $status = '1' ) : array {
         // User login restrictions
         $login = strtolower( $login );
         if( strlen( $login ) <= 7 ) {
@@ -74,38 +95,36 @@ class ACCESS {
         }
 
         $db = new DB();
-        $email = !empty( $data['email'] ) ? $data['email'] : '';
-        $name = !empty( $data['name'] ) ? $data['name'] : ucwords( str_replace( '_', ' ', $login ) );
-        $pic = !empty( $data['pic'] ) ? $data['pic'] : '';
-        $perms = empty( $perms ) && !empty( $data['perms'] ) ? $data['perms'] : $perms;
-        $perms = empty( $perms ) && !empty( $data['permissions'] ) ? $data['permissions'] : $perms;
+        $name = empty( $name ) && !empty( $data['name'] ) ? $data['name'] : ucwords( str_replace( '_', ' ', $login ) );
 
         // Checks if user with same login name or email exists
-        $exist = $db->select( 'users', 'user_id', 'user_login = "' . $login . '" OR user_email = "' . $email . '"' );
+        $user_query = 'user_login = "' . $login . '"';
+        $user_query .= !empty( $email ) ? ' OR user_email = "' . $email . '"' : '';
+        $exist = $db->select( 'users', 'user_id', $user_query );
         if( $exist ){ return [ 0, T('The User with same username or email address already exist in database') ]; }
 
         // Prepares data to insert into users table
-        $dt = date('Y-m-d H-i-s');
-        $keys = [ 'user_login', 'user_name', 'user_email', 'user_pic', 'user_since', 'user_data', 'user_perms' ];
-        $values = [ $login, $name, $email, $pic, $dt, serialize( $data ), serialize( $perms ) ];
+        $keys = [ 'user_login', 'user_email', 'user_name', 'user_picture', 'user_data', 'user_access', 'user_since', 'user_status' ];
+        $values = [ $login, $email, $name, $picture, serialize( $data ), serialize( $access ), date('Y-m-d H-i-s'), $status ];
 
         // Parsing columns
         if( !empty( $columns ) && is_assoc( $columns ) ) {
             foreach( $columns as $k => $v ) {
-                if( !isset( $user_keys[$k] ) ) {
+                elog( $v );
+                if( !isset( $keys[ $k ] ) ) {
                     $keys[] = $k;
                     $values[] = $v;
                 }
             }
         }
-
         // Add user to users table
         $add_user = $db->insert( 'users', $keys, $values );
         if( $add_user ) {
+            elog( $add_user );
             // Sets the user's access data
             $access = $db->insert( 'access',
-                ['access_uid', 'access_pass', 'access_status' ],
-                [ $add_user, password_hash( $pass, PASSWORD_DEFAULT, [ 'cost' => 12 ] ), 1 ]
+                ['access_uid', 'access_pass' ],
+                [ $add_user, password_hash( $pass, PASSWORD_DEFAULT, [ 'cost' => 12 ] ) ]
             );
             if( $access ) {
                 return [ $add_user, T('Successfully registered user!') ];
@@ -119,31 +138,251 @@ class ACCESS {
     }
 
     /**
-     * Updates user password or data
+     * Verifies and logs in user!
      * @param string $login
      * @param string $pass
+     * @return array
+     */
+    function login( string $login, string $pass ): array {
+        $db = new DB();
+
+        // Checks if user with same login name or email exists
+        $user = $db->select( 'users', '', '(user_login = \'' . $login . '\' OR user_email = \'' . $login . '\') AND user_status = \'1\'', 1 );
+        if( empty( $user ) || empty( $user['user_id'] ) ){
+            return [ 0, T('The login or email address does not exist or disabled!') ];
+        }
+
+        // Fetch stored and encrypted password
+        $hash = $db->select( 'access', 'access_pass', 'access_uid = \''.$user['user_id'].'\'', 1 );
+        if( empty( $hash ) || empty( $hash['access_pass'] ) ){
+            return [ 0, T('User account disabled!') ];
+        }
+
+        // Verify password
+        if( password_verify( $pass, $hash['access_pass'] ) ) {
+            // Set sessions
+            foreach( $user as $k => $v ) {
+                if( !is_numeric( $k ) ) {
+                    $_SESSION['user'][ str_replace( 'user_', '', $k ) ] = $v;
+                }
+            }
+            return [ 1, T('Logged in successfully!') ];
+        } else {
+            return [ 0, T('User login failed!') ];
+        }
+    }
+
+    /**
+     * Updates user password or data
+     * @param string $login User Login
+     * @param string $old_pass User old password
+     * @param string $new_pass User new password
+     * @return array
+     */
+    function update_password( string $login, string $old_pass, string $new_pass ): array {
+        $db = new DB();
+        $user = $db->select( 'users', 'user_id', 'user_login = \''.$login.'\'', 1 );
+        if( !empty( $user['user_id'] ) ) {
+            $access = $db->select( 'access', 'access_pass', 'access_uid = \''.$user['user_id'].'\'', 1 );
+            if( !empty( $access['access_pass'] ) && password_verify( $old_pass, $access['access_pass'] ) ) {
+                $update = $db->update( 'access', [ 'access_pass' ], [ password_hash( $new_pass, PASSWORD_DEFAULT, [ 'cost' => 12 ] ) ], 'access_uid = \''.$user['user_id'].'\'' );
+                return $update ? [ 1, T('Password updated successfully!') ] : [ 0, T('Failed to update password, please try again later') ];
+            } else {
+                return [ 0, T('The password do not match registered user password!') ];
+            }
+        } else {
+            return [ 0, T('User not found!') ];
+        }
+    }
+
+    /**
+     * Updates user data
+     * @param string $login_or_id
+     * @param array $columns
      * @param array $data
+     * @return array
+     */
+    function update( string $login_or_id, array $columns = [], array $data = [] ): array {
+        $db = new DB();
+        $user = is_numeric( $login_or_id ) ? $db->select( 'users', 'user_id', 'user_id = \''.$login_or_id.'\'', 1 ) : $db->select( 'users', 'user_id', 'user_login = \''.$login_or_id.'\'', 1 );
+        if( !empty( $user['user_id'] ) && !empty( $perms ) ) {
+            $keys = $values = [];
+            // Columns
+            if( !empty( $columns ) ) {
+                foreach( $columns as $ck => $cv ) {
+                    $keys[] = $ck;
+                    $values[] = $cv;
+                }
+            }
+            // Data
+            if( !empty( $data ) ) {
+                $keys[] = 'user_data';
+                $values[] = serialize( $data );
+            }
+            $update = $db->update( 'users', $keys, $values, 'user_id = \''.$user['user_id'].'\'' );
+            return $update ? [ 1, T('Successfully updated user information!') ] : [ 0, T('Failed to update user information, please check log!') ];
+        } else {
+            return [ 0, T('User not found!') ];
+        }
+    }
+
+    /**
+     * Updates user permissions
+     * @param string $login_or_id
      * @param array $perms
      * @return array
      */
-    function update( string $login, string $pass = '', array $data = [], array $perms = [] ): array {
-
+    function update_permissions( string $login_or_id, array $perms = [] ): array {
         $db = new DB();
-        $user = $db->select( 'users', 'user_id', 'user_login = \''.$login.'\'', 1 );
-
-        return $user;
-
+        $user = is_numeric( $login_or_id ) ? $db->select( 'users', 'user_id', 'user_id = \''.$login_or_id.'\'', 1 ) : $db->select( 'users', 'user_id', 'user_login = \''.$login_or_id.'\'', 1 );
+        if( !empty( $user['user_id'] ) && !empty( $perms ) ) {
+            $update = $db->update( 'users', [ 'user_perms' ], [ serialize( $perms ) ], 'user_id = \''.$user['user_id'].'\'' );
+            return $update ? [ 1, T('Successfully updated user permissions!') ] : [ 0, T('Failed to update user permissions, please check log!') ];
+        } else {
+            return [ 0, T('User not found!') ];
+        }
     }
 }
 
-/* function login_check() {
+function process_login_ajax() {
+    $login = isset( $_POST['login_username'] ) && !empty( $_POST['login_username'] ) ? $_POST['login_username'] : '';
+    $pass = isset( $_POST['login_password'] ) && !empty( $_POST['login_password'] ) ? $_POST['login_password'] : '';
+
+    if( !empty( $login ) && !empty( $pass ) ) {
+        $a = new ACCESS();
+        $login = $a->login($login, $pass);
+        echo json_encode( $login );
+    } else {
+        ef('Missing user login or password!');
+    }
+}
+
+function process_register_ajax() {
+    $login = isset( $_POST['register_username'] ) && !empty( $_POST['register_username'] ) ? $_POST['register_username'] : '';
+    $pass = isset( $_POST['register_password'] ) && !empty( $_POST['register_password'] ) ? $_POST['register_password'] : '';
+    $email = isset( $_POST['register_email'] ) && !empty( $_POST['register_email'] ) ? $_POST['register_email'] : '';
+    $name = isset( $_POST['register_name'] ) && !empty( $_POST['register_name'] ) ? $_POST['register_name'] : '';
+    $picture = isset( $_POST['register_picture'] ) && !empty( $_POST['register_picture'] ) ? $_POST['register_picture'] : '';
+    $columns = isset( $_POST['register_columns'] ) && !empty( $_POST['register_columns'] ) ? json_decode( $_POST['register_columns'], 1 ) : [];
+    $data = isset( $_POST['register_data'] ) && !empty( $_POST['register_data'] ) ? $_POST['register_data'] : [];
+    $access = isset( $_POST['register_access'] ) && !empty( $_POST['register_access'] ) ? $_POST['register_access'] : [];
+    $status = isset( $_POST['register_status'] ) && !empty( $_POST['register_status'] ) ? $_POST['register_status'] : 1;
+
+    if( !empty( $login ) && !empty( $pass ) ) {
+        $a = new ACCESS();
+        $register = $a->register( $login, $pass, $email, $name, $picture, $columns, $data, $access, $status );
+        echo json_encode( $register );
+    } else {
+        ef('Missing user login or password!');
+    }
+}
+
+/**
+ * Renders frontend code for user login
+ * @param string $login_title Replacement text for default "Username" title
+ * @param string $pass_title Replacement text for default "Password" title
+ */
+function login_html( string $login_title = 'Username or Email', string $pass_title = 'Password' ) {
+    if( user_logged_in() ) {
+        return;
+    }
+    $rand = rand( 0, 9999 );
+    $cry = Crypto::initiate();
+    ?>
+    <div class="login_wrap" data-t data-pre="login" data-notify="3" data-reload="3" data-reset="login">
+        <div class="inputs">
+            <label for="login_name_<?php echo $rand; ?>"><?php E( $login_title ); ?></label>
+            <input type="text" id="login_name_<?php echo $rand; ?>" data-key="username" placeholder="<?php E($login_title); ?>" data-login>
+            <label for="login_pass_<?php echo $rand; ?>"><?php E( $pass_title ); ?></label>
+            <input type="password" id="login_pass_<?php echo $rand; ?>" data-key="password" placeholder="<?php E($pass_title); ?>" data-login>
+        </div>
+        <button onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'process_login_ajax' ); ?>"><?php E('Login'); ?></button>
+    </div>
+    <?php
+}
+
+/**
+ * Renders frontend code for user registration
+ * @param array $columns Additional user columns as assoc array
+ * @param bool $columns_before Show columns before (true) or after (false), default true
+ * @param array $data User data as json array
+ * @param array $access User access permissions as json array
+ * @param array $hide Fields to now render
+ * @param array $compulsory Fields that are compulsory to submit
+ */
+function register_html( array $columns = [], bool $columns_before = true, array $data = [], array $access = [], array $hide = [], array $compulsory = [] ) {
+    if( user_logged_in() ) {
+        return;
+    }
+    $rand = rand( 0, 9999 );
+    $cry = Crypto::initiate();
+    $f = new FORM();
+    ?>
+    <div class="register_wrap" data-t data-pre="register" data-notify="5" data-empty="register" data-reset="register">
+        <div class="inputs">
+            <?php
+            $columns_html = '';
+            foreach( $columns as $ck => $cv ) {
+                $empty_logic = in_array( $ck, $compulsory ) ? 'data-empty' : '';
+                $columns_html .= '<label for="'.$ck.'_'.$rand.'">'.T( $cv ).'</label>';
+                $columns_html .= '<input type="text" id="'.$ck.'_'.$rand.'" data-key="'.$ck.'" data-array="register_columns" placeholder="'.T( $cv ).'" data-register '.$empty_logic.'>';
+            }
+            echo $columns_before ? $columns_html : '';
+            $f->text('username','Username','Username','','data-register data-empty');
+            $f->input('password','password','Password','Password','','data-register data-empty');
+            $empty_logic = in_array( 'email', $compulsory ) ? 'data-empty' : '';
+            $f->input('email','email','Email','Email','','data-register '.$empty_logic);
+            $defs = [ 'name' => 'Name', 'picture' => 'Picture' ];
+            foreach( $defs as $dk => $dv ) {
+                if( !in_array( $dk, $hide ) ) {
+                    $empty_logic = in_array( $dk, $compulsory ) ? 'data-empty' : '';
+                    echo '<label for="register_'.$dk.'_'.$rand.'">'.T( $dv ).'</label>';
+                    echo '<input type="text" class="'.$dk.'" name="'.$dk.'" id="register_'.$dk.'_'.$rand.'" data-key="'.$dk.'" placeholder="'.$dv.'" '.$empty_logic.'>';
+                }
+            }
+            if( !empty( $data ) ) {
+                echo '<input type="text" id="register_data_'.$rand.'" data-key="data" value="'.$cry->encrypt( json_encode( $data ) ).'" data-register>';
+            }
+            if( !empty( $permissions ) ) {
+                echo '<input type="text" id="register_access_'.$rand.'" data-key="access" value="'.$cry->encrypt( json_encode( $access ) ).'" data-register>';
+            }
+            echo !$columns_before ? $columns_html : '';
+            ?>
+        </div>
+        <button onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'process_register_ajax' ); ?>"><?php E('Register'); ?></button>
+    </div>
+    <?php
+}
+
+/**
+ * Gets user id if logged in
+ * @return string
+ */
+function get_user_id(): string {
+    return user_logged_in() ? $_SESSION['user']['id'] : '';
+}
+
+/**
+ * Redirects user to certain url if not logged in
+ * @param string $url URL to redirect to
+ */
+function login_redirect( $url = 'login' ) {
     if( !user_logged_in() ){
-        header( "Location:" .APPURL. "login" );
+        header( "Location:" .APPURL.$url );
         die();
     }
 }
 
-function user_logged_in() {
+/**
+ * Checks if user is logged in
+ * @return bool
+ */
+function user_logged_in(): bool {
+    return ( isset( $_SESSION['user']['login'] ) && isset( $_SESSION['user']['id'] ) );
+}
+
+
+function verify_user_logged_in() {
     // TODO: Change define to global vars
     if( !defined('LOGGED_IN') ){
         if ( isset($_SESSION['user_login']) && isset($_SESSION['user_id']) && isset($_SESSION['login_string']) ) {
@@ -174,137 +413,32 @@ function user_logged_in() {
     }
 }
 
-function ajax_user_logged_in() {
-    if (isset($_SESSION['username']) && isset($_SESSION['user_id']) && isset($_SESSION['login_string'])) {
-        $pw = select('access', false, 'user_id = "' . $_SESSION['user_id'] . '"')['user_pass'];
-        if (hash_equals(hash('sha512', $pw . access::get_user_browser()), $_SESSION['login_string'])) {
-            echo 'All Set';
-        } else {
-            //return false;
-            echo 'Hash Error';
-        }
-    } else {
-        echo 'Session not available';
-        //return false;
-    }
-}
-
-function ajax_google_sign() {
-    if (!empty($_POST['data'])) {
-        $d = $_POST['data'];
-        $vd = get_option('google_domain');
-        global $access;
-        if (!empty($vd)) {
-            $gd = explode(',', str_replace(' ', '', $vd));
-            if (in_array(str_replace('@', '', strstr($d['email'], '@')), $gd)) {
-                echo json_encode($access->user_login($d['email'], $d['ID']));
-            } else {
-                echo json_encode(array('error', 'Domain not approved', 'Login is restricted only to users from ' . $gd));
-            }
-        } else {
-            echo json_encode($access->user_login($d['email'], $d['ID']));
-        }
-    }
-}
-
-function register_user() {
-    $c = get_config();
-    $feats = is_array($c) && isset($c['access']) ? $c['access'] : [];
-
-    if( in_array( 'register', $feats ) ) {
-        $d = $_POST;
-        $pass = isset( $_POST['pass'] ) && !empty( $_POST['pass'] ) ? $_POST['pass'] : ( isset( $_POST['password'] ) && !empty( $_POST['password'] ) ? $_POST['password'] : '' );
-        $data = isset( $_POST['data'] ) && !empty( $_POST['data'] ) ? $_POST['data'] : '';
-        if( !empty( $d['login'] ) && !empty( $pass ) ) {
-
-            // Encrypt Password
-            $pass = password_hash($pass, PASSWORD_BCRYPT, ['cost' => 12]);
-
-            // Process user columns
-            $fields = ['email','role','eid','phone','pic'];
-            $columns = [];
-            foreach( $fields as $f ) {
-                $columns[ 'user_' . $f ] = isset( $d[$f] ) && !empty( $d[$f] ) ? $d[$f] : '';
-            }
-
-            // Add user
-            global $access;
-            $add_user = $access->register_user( $d['login'], $pass, $columns, $data );
-            is_array($add_user) && $add_user[0] == 1 ? es('Successfully added user!') : ef('Failed to add user!');
-        } else {
-            ef('Login and Pass Fields are required!');
-        }
-    } else {
-        ef('Registrations are not permitted in config, please contact developer');
-    }
-}
-
-function ajax_google_reg() {
-    if (!empty($_POST['data'])) {
-        $d = $_POST['data'];
-        $gd = explode(',', str_replace(' ', '', get_option('google_domain')));
-        global $access;
-        if (!empty($gd)) {
-            if (in_array(str_replace('@', '', strstr($d['email'], '@')), $gd)) {
-                echo json_encode($access->register_user($d['email'], $d['ID'], $d['email'], ucfirst(substr($d['email'], 0, strpos($d['email'], "@"))), $d['pic'], $d['level'], true));
-            } else {
-                ef('Domain not approved - Login is restricted only to users from ' . $gd);
-            }
-        } else {
-            echo json_encode($access->register_user($d['email'], $d['ID'], $d['email'], $d['email'], $d['pic'], $d['level'], true));
-        }
-    }
-}
-
-// TODO: Add config to check if registrations are open, then process the following
-if (isset($_POST['ru_name']) && isset($_POST['ru_pass']) && isset($_POST['ru_email']) && isset($_POST['ru_fn']) && isset($_POST['ru_ln'])) {
-    $access->register_user($_POST['ru_name'], $_POST['ru_pass'], $_POST['ru_email'], $_POST['ru_fn'], $_POST['ru_ln']);
-}
-
 function logout() {
-    $cry = Crypto::initiate();
-    $id = !empty($_POST['session_id']) ? $cry->decrypt($_POST['session_id']) : $_SESSION['id'];
-    echo $id;
-    $ss = delete( 'sessions', 'ss_id = "'.$id.'"' );
-    if( empty($_POST['session_id']) ){
+    setcookie( session_name(), "", time() - 3600, '/', APPURL, '', true );
+    session_unset();
+    session_destroy();
+    /* $cry = Crypto::initiate();
+    $id = !empty( $_POST['session_id'] ) ? $cry->decrypt( $_POST['session_id'] ) : $_SESSION['id'];
+    $db = new DB();
+    $ss = $db->delete( 'sessions', 'ss_id = "'.$id.'"' );
+    if( empty( $_POST['session_id'] ) ){
         $_SESSION = array();
         session_destroy();
         echo 1;
     } else {
         echo 0;
-    }
-    //echo 1;
+    } */
 }
 
 if( isset( $_GET['logout'] ) ) {
-    if( $_GET['logout'] == 'true' ) {
+    if ($_GET['logout'] == 'true') {
         logout();
-        /* $_SESSION = array();
-        $params = session_get_cookie_params();
-        setcookie(session_name(),
-            '', 0,
-            $params["path"],
-            $params["domain"],
-            $params["secure"],
-            $params["httponly"]);
-        session_destroy();
     }
-}
-
-function logout_all() {
-    $ss = delete( 'sessions', 'ss_uid = "'.$_SESSION['user_id'].'"' );
-    $_SESSION = array();
-    session_destroy();
-    echo 1;
-}
-
-function get_os() {
-    return ACCESS::get_user_os();
 }
 
 /**
  * Set autoload user options as session
-
+ */
 if( user_logged_in() ) {
     $db = new DB();
     $options = $db->select('options', 'option_name,option_value', 'option_scope = "' . $_SESSION['user_id'] . '" AND option_load = 1');
@@ -317,10 +451,10 @@ if( user_logged_in() ) {
 
 function dev_sessions( $logged_in = true ) {
     if( APPDEBUG && $logged_in ) {
-        $_SESSION['username'] = 'Developer Name';
-        $_SESSION['user_name'] = 'Developer Name';
-        $_SESSION['user_pic'] = 'Developer Name';
-        $_SESSION['user_id'] = '856';
+        $_SESSION['username'] = 'Developer Guy';
+        $_SESSION['user_name'] = 'Developer Guy';
+        $_SESSION['user_pic'] = 'https://thispersondoesnotexist.com/image';
+        $_SESSION['user_id'] = '1110';
         $_SESSION['user_login'] = 'developer';
         if (!isset($_SESSION)) {
             session_set_cookie_params(0, '/', str_replace(' ', '_', APPNAME), false, false);
@@ -328,4 +462,3 @@ function dev_sessions( $logged_in = true ) {
         }
     }
 }
-*/

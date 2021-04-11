@@ -256,20 +256,40 @@ select.tar {
 }
 
 /* Text Appearance */
-.fz0 {
-  font-size: 0;
-}
-
 .fz20 {
   font-size: 20px;
+}
+
+.fz18 {
+  font-size: 18px;
+}
+
+.fz16 {
+  font-size: 16px;
 }
 
 .fz15 {
   font-size: 15px;
 }
 
+.fz14 {
+  font-size: 14px;
+}
+
 .fz12 {
   font-size: 12px;
+}
+
+.fz10 {
+  font-size: 10px;
+}
+
+.fz8 {
+  font-size: 8px;
+}
+
+.fz0 {
+  font-size: 0;
 }
 
 .fl, .fwl {
@@ -314,6 +334,14 @@ select.tar {
 
 .ttn, .nc {
   text-transform: none;
+}
+
+.tdu {
+  text-decoration: underline;
+}
+
+.tdn {
+  text-decoration: none;
 }
 
 /* Margins */

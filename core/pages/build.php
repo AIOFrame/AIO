@@ -1,7 +1,7 @@
 <?php
 $includes = ['arrays','crypt','form','translation/strings','data','setup'];
 foreach( $includes as $inc )
-    include_once( COREPATH . 'core/includes/' . $inc . '.php' );
+    include_once( ROOTPATH . 'core/includes/' . $inc . '.php' );
 ?>
 <!doctype html>
 <html lang="en">
@@ -143,12 +143,12 @@ $form = new FORM();
                             <select name="fonts" id="fonts" class="select2" multiple data-close="false">
                                 <?php
                                 $weights = [ 'Hairline' => 100, 'Thin' => 100, 'ExtraLight' => 200, 'Light' => 300, 'Regular' => 400, 'Medium' => 500, 'SemiBold' => 600, 'Bold' => 700, 'Heavy' => 700, 'ExtraBold' => 800, 'Black' => 900 ];
-                                foreach( glob( COREPATH . '/assets/fonts/*', GLOB_ONLYDIR ) as $f ){
-                                    $fn = str_replace( COREPATH . '/assets/fonts/', '', $f );
+                                foreach( glob( ROOTPATH . '/assets/fonts/*', GLOB_ONLYDIR ) as $f ){
+                                    $fn = str_replace( ROOTPATH . '/assets/fonts/', '', $f );
                                     echo '<optgroup label="'.$fn.'">';
                                     $ws = [];
                                     foreach( glob( $f . '/*.ttf' ) as $fw ){
-                                        $fwn = str_replace( COREPATH . '/assets/fonts/' . $fn . '/', '', $fw );
+                                        $fwn = str_replace( ROOTPATH . '/assets/fonts/' . $fn . '/', '', $fw );
                                         $fwn = str_replace( $fn . '-', '', $fwn );
                                         $fwn = str_replace( '.ttf', '', $fwn );
                                         echo '<option value="'.$fn.'_'.$weights[$fwn].'">'.$fwn.'</option>';
@@ -366,17 +366,17 @@ return [
         $c .= '];';
 
         // Make App directory
-        !file_exists( COREPATH . 'apps/' . $appdir ) ? mkdir( COREPATH . 'apps/' . $appdir, 0777, true ) : '';
+        !file_exists( ROOTPATH . 'apps/' . $appdir ) ? mkdir( ROOTPATH . 'apps/' . $appdir, 0777, true ) : '';
 
         // Make internal directories
         $dirs = [ 'assets' => [ 'icons', 'images', 'scripts', 'styles' ], 'components', 'functions', 'modals', 'pages', 'storage' ];
         foreach( $dirs as $dk => $dv ) {
             if( is_array( $dv ) ) {
                 foreach( $dv as $d ) {
-                    !file_exists( COREPATH . 'apps/' . $appdir . '/' . $dk . '/' . $d ) ? mkdir( COREPATH . 'apps/' . $appdir . '/' . $dk . '/' . $d, 0777, true ) : '';
+                    !file_exists( ROOTPATH . 'apps/' . $appdir . '/' . $dk . '/' . $d ) ? mkdir( ROOTPATH . 'apps/' . $appdir . '/' . $dk . '/' . $d, 0777, true ) : '';
                 }
             } else {
-                !file_exists( COREPATH . 'apps/' . $appdir . '/' . $dv ) ? mkdir( COREPATH . 'apps/' . $appdir . '/' . $dv, 0777, true ) : '';
+                !file_exists( ROOTPATH . 'apps/' . $appdir . '/' . $dv ) ? mkdir( ROOTPATH . 'apps/' . $appdir . '/' . $dv, 0777, true ) : '';
             }
         }
 
@@ -393,7 +393,7 @@ return [
             $style_files = explode( ',', $p['styles'] );
             $style_files = is_array( $style_files ) ? $style_files : [];
             foreach( $style_files as $sf ) {
-                $style_file = fopen( COREPATH . 'apps/' . $appdir . '/assets/styles/' . $sf . '.css', 'w' );
+                $style_file = fopen( ROOTPATH . 'apps/' . $appdir . '/assets/styles/' . $sf . '.css', 'w' );
                 fclose( $style_file );
                 $uix[] = 'ui_'.$sf;
             }
@@ -402,7 +402,7 @@ return [
             $script_files = explode( ',', $p['scripts'] );
             $script_files = is_array( $script_files ) ? $script_files : [];
             foreach( $script_files as $sf ) {
-                $script_file = fopen( COREPATH . 'apps/' . $appdir . '/assets/scripts/' . $sf . '.js', 'w' );
+                $script_file = fopen( ROOTPATH . 'apps/' . $appdir . '/assets/scripts/' . $sf . '.js', 'w' );
                 fclose( $script_file );
                 $uix[] = 'ux_'.$sf;
             }
@@ -434,14 +434,14 @@ return [
         $html .= $header_func;
         $html .= '?>'.PHP_EOL.'</head>'.PHP_EOL.'<body <?php body_class(); ?>>'.$nl.'<header>'.$nl.$nl.'</header>';
 
-        $head = fopen( COREPATH . 'apps/' . $appdir . "/components/head.php", "w");
+        $head = fopen( ROOTPATH . 'apps/' . $appdir . "/components/head.php", "w");
         if( $head ) {
             fwrite( $head, $html );
             fclose( $head );
         }
 
         // Make footer component
-        $foot = fopen( COREPATH . 'apps/' . $appdir . "/components/foot.php", "w");
+        $foot = fopen( ROOTPATH . 'apps/' . $appdir . "/components/foot.php", "w");
         if( $foot ) {
             $scripts = !empty( $scripts ) ? '    <?php get_scripts(['.$scripts.'PAGEPATH]); ?>' . $nl : '';
             fwrite( $foot, $scripts.'</body>'.PHP_EOL.'</html>' );
@@ -456,14 +456,14 @@ return [
         if( is_array( $pages ) ) {
             foreach( $pages as $p ) {
                 if( isset( $p->script_3 ) && $p->script_3 == 1 ) {
-                    $script_file = fopen( COREPATH . 'apps/' . $appdir . '/assets/scripts/' . $p->page_1 . '.js', 'w' );
+                    $script_file = fopen( ROOTPATH . 'apps/' . $appdir . '/assets/scripts/' . $p->page_1 . '.js', 'w' );
                     fclose( $script_file );
                 }
                 if( isset( $p->style_4 ) && $p->style_4 == 1 ) {
-                    $style_file = fopen( COREPATH . 'apps/' . $appdir . '/assets/styles/' . $p->page_1 . '.css', 'w' );
+                    $style_file = fopen( ROOTPATH . 'apps/' . $appdir . '/assets/styles/' . $p->page_1 . '.css', 'w' );
                     fclose( $style_file );
                 }
-                $page_file = fopen( COREPATH . 'apps/' . $appdir . '/pages/' . $p->page_1 . '.php', 'w' );
+                $page_file = fopen( ROOTPATH . 'apps/' . $appdir . '/pages/' . $p->page_1 . '.php', 'w' );
                 fwrite( $page_file, $page_html_pre . $p->page_1 . $page_html_post );
                 fclose( $page_file );
             }
@@ -472,14 +472,14 @@ return [
         // Create function
         if( is_array( $funs ) ) {
             foreach( $funs as $f ) {
-                $func_file = fopen( COREPATH . 'apps/' . $appdir . '/functions/' . $f . '.php', 'w' );
+                $func_file = fopen( ROOTPATH . 'apps/' . $appdir . '/functions/' . $f . '.php', 'w' );
                 fwrite( $func_file, '<?php'.PHP_EOL.$nl );
                 fclose( $func_file );
             }
         }
 
         // Make config file
-        $con = fopen( COREPATH . 'apps/' . $appdir . "/config.php", "w");
+        $con = fopen( ROOTPATH . 'apps/' . $appdir . "/config.php", "w");
         if( $con && !empty( $c ) ) {
             fwrite( $con, $c );
             fclose( $con );

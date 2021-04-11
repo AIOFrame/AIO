@@ -1,6 +1,6 @@
 <?php
 
-if( !defined( 'COREPATH' ) ) { exit(); }
+if( !defined( 'ROOTPATH' ) ) { exit(); }
 
 $db = defined('DB_TYPE') ? DB_TYPE : '';
 

@@ -2,28 +2,36 @@
 
 // This is the backend function that processes file upload
 
-function file_process() {
+function file_process_ajax() {
+    elog( 'test' );
     $cry = Crypto::initiate();
     $db = new DB();
     //echo $cry->decrypt( $_POST['scope'] );
     //return;
+    elog( json_encode( $_POST ) );
 
     // Sets the scope of uploaded file (If empty then the file is private)
+    $scope = 0;
     if( isset( $_POST['scope'] ) && !is_numeric( $_POST['scope'] ) ) {
         $scope = $cry->decrypt( $_POST['scope'] );
     } else if( user_logged_in() ) {
-        $scope = get_current_user_id();
-    } else {
-        $scope = 0;
+        $scope = $_SESSION['user']['id'];
     }
-    $scope = empty( $scope ) ? 0 : $scope;
 
     // Sets the file is deletable or not
     $delete = !empty($_POST['delete']) && $_POST['delete'] == 'true' ? 1 : 0;
 
     // Sets the path of the uploaded file (If empty then file is uploaded to user directory/y-m)
-    $path = !empty($_POST['path']) ? $cry->decrypt($_POST['path']) : '/'.get_current_user_id().'/'.date('Y-m');
-    if( empty($path) ){ echo json_encode(T('Location Accessibility Failure'), false); return; }
+    $path = '';
+    if( !empty( $_POST['path'] ) ) {
+        $path = $cry->decrypt( $_POST['path'] );
+    } else if( user_logged_in() ) {
+        $path = '/'.$_SESSION['user']['id'].'/'.date('Y-m');
+    }
+    /* if( empty( $path ) ){
+        echo json_encode( T('Location Accessibility Failure'), true );
+        return;
+    } */
     foreach( $_FILES as $file ){
         $fn = $file['name'];
         if ( !is_dir( APPPATH.'/storage/'.$path )) {
@@ -115,7 +123,7 @@ function get_image_data() {
 
 // Delete an uploaded document
 
-function file_delete() {
+function file_delete_ajax() {
 
     if( isset( $_POST['id'] ) && $_POST['id'] !== '' ) {
 
@@ -125,7 +133,7 @@ function file_delete() {
 
         if( is_numeric( $id ) ){
 
-            $user_id = get_current_user_id();
+            $user_id = get_user_id();
 
             $file = $db->select( 'storage', 'file_url', 'file_id = "'.$id.'" AND file_scope = "'.$user_id.'" AND file_delete = "1"', 1 );
 
@@ -168,7 +176,7 @@ function download_url( $urls, $class = 'file', $element = 'a' ) {
     }
 }
 
-function upload( $url_element, $text = 'Upload', $extensions = '', $deletable = 0, $path = '', $size_limit = '', $attr = '' ) {
+/*function upload( $url_element, $text = 'Upload', $extensions = '', $deletable = 0, $path = '', $size_limit = '', $attr = '' ) {
     $cry = Crypto::initiate();
     $extras = '';
     $extras .= !empty( $extensions ) ? 'data-exts="'.$extensions.'" ' : '';
@@ -177,4 +185,4 @@ function upload( $url_element, $text = 'Upload', $extensions = '', $deletable = 
     $extras .= !empty( $size_limit ) ? 'data-size="'.$cry->encrypt($path).'" ' : '';
     echo '<button data-upload data-url="'.$url_element.'" '.$extras.' '.$attr.'>'.T($text);
     echo '</button>';
-}
+}*/

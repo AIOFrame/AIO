@@ -1,5 +1,5 @@
 <?php
-!defined( 'COREPATH' ) ? exit() : '';
+!defined( 'ROOTPATH' ) ? exit() : '';
 
 /**
  * Get domain or sub domain
@@ -82,11 +82,11 @@ function elog( string $log, string $type = 'log', string $line = '', string $fil
  * Will check map.php and set domain to app link
  */
 $app = !empty( sub_domain() ) ? sub_domain() : get_domain();
-if( file_exists( COREPATH . 'map.php' ) ){
-    include COREPATH . 'map.php';
+if( file_exists( ROOTPATH . 'map.php' ) ){
+    include ROOTPATH . 'map.php';
     if( !empty( $map ) && !empty( $map[ $app ] ) ){ $app = $map[ $app ]; }
-    if( !file_exists( COREPATH . 'apps/' . $app ) ) {
-        if (isset($default) && file_exists(COREPATH . 'apps/' . $default)) {
+    if( !file_exists( ROOTPATH . 'apps/' . $app ) ) {
+        if (isset($default) && file_exists(ROOTPATH . 'apps/' . $default)) {
             $app = $default;
         }
     }
@@ -102,7 +102,7 @@ if( file_exists( COREPATH . 'map.php' ) ){
  * Defines Application Path
  * Ex: /users/root/www/application/apps/ecommerce/
  */
-!defined( 'APPPATH' ) ? define( 'APPPATH', COREPATH . 'apps/' . $app . '/' ) : '';
+!defined( 'APPPATH' ) ? define( 'APPPATH', ROOTPATH . 'apps/' . $app . '/' ) : '';
 
 /**
  * Defines Application URI
@@ -113,18 +113,18 @@ if( file_exists( COREPATH . 'map.php' ) ){
 /**
  * Load Error page if web app not found
  */
-if( empty( $app ) || !file_exists( COREPATH . 'apps/' . $app ) ) {
+if( empty( $app ) || !file_exists( ROOTPATH . 'apps/' . $app ) ) {
     $error = '00';
     define('APPDEBUG',1);
-    include COREPATH . 'core/pages/error.php';
+    include ROOTPATH . 'core/pages/error.php';
     return;
 }
 
 /**
  * Loads config file if exists
  */
-if( file_exists( COREPATH . 'apps/' . $app . '/config.php' ) ) {
-    $c = include COREPATH . 'apps/' . $app . '/config.php';
+if( file_exists( ROOTPATH . 'apps/' . $app . '/config.php' ) ) {
+    $c = include ROOTPATH . 'apps/' . $app . '/config.php';
     !defined( 'CONFIG' ) ? define( 'CONFIG', json_encode( $c ) ) : '';
 }
 
@@ -172,23 +172,23 @@ if( APPDEBUG ) {
  * Loads Basic Necessary Functions
  */
 if( defined( 'CONFIG' ) ) {
-    require_once COREPATH . 'core/includes/config.php';
+    require_once ROOTPATH . 'core/includes/config.php';
 }
 
 /**
  * Loads Database connection
  */
-require COREPATH . 'core/includes/connect/connect.php';
+require ROOTPATH . 'core/includes/connect/connect.php';
 
 /**
  * Sets AIO page routing
  */
-require COREPATH . 'core/routes.php';
+require ROOTPATH . 'core/routes.php';
 
 /**
  * Loads includes, which in-turn loads dependencies
  */
-require COREPATH . 'core/includes.php';
+require ROOTPATH . 'core/includes.php';
 
 /**
  * Load Page
@@ -198,4 +198,4 @@ defined( 'PAGELOAD' ) ? require PAGELOAD : '';
 /**
  * Loads exit files, that run at the end
  */
-require COREPATH . 'core/includes/exit.php';
+require ROOTPATH . 'core/includes/exit.php';

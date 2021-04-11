@@ -124,6 +124,34 @@ class DB {
     }
 
     /**
+     * Automatically saves calling file md5 to not repeat create table requests
+     * @param $tables
+     */
+    function automate_tables( $tables ) {
+        $table_names = '';
+        foreach( $tables as $tb ) {
+            $table_names .= $tb[0].'_';
+        }
+
+        $db = new DB();
+        $trace = debug_backtrace();
+        $file_path = isset( $trace[0]['file'] ) ? $trace[0]['file'] : '';
+        if( !empty( $file_path ) ) {
+
+            // Get file properties
+            $file = str_replace( '/', '_', $file_path ) . '_' . substr($table_names, 0, -1);
+            $md5 = md5_file( $file_path );
+
+            // Get database option and verify if md5 is same
+            $exist = $db->get_option( $file . '_md5' );
+            if( empty( $exist ) || $exist !== $md5 ) {
+                $db->update_option( $file . '_md5', $md5 );
+                return $this->create_tables( $tables );
+            }
+        }
+    }
+
+    /**
      * Create Column
      * @param string $table Table Name
      * @param string $column Column Name
@@ -159,11 +187,17 @@ class DB {
     }
 
     /**
+     * Checks if table exists
      * @param string $table
      */
     function table_exists( string $table ) {
-        $result = $this->query( 'SELECT 1 FROM '.$table.' LIMIT 1' );
-        return $result !== FALSE;
+        if( DB_TYPE == 'mssql' ) {
+            $query = "IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = N'".$table."') BEGIN PRINT '1' END ELSE BEGIN PRINT '0' End";
+        } else {
+            $query = 'SELECT 1 FROM '.$table.' LIMIT 1';
+        }
+        $result = $this->query( $query );
+        return $result;
     }
 
     // DATA FUNCTIONS
@@ -197,10 +231,12 @@ class DB {
                     elog( $q, 'insert', $df[0]['line'], $df[0]['file'], $table );
 
                     $query = $db->prepare( $q );
-                    if( $query->execute() ) {
+                    try {
+                        $query->execute();
                         return $db->lastInsertId();
-                    } else {
+                    } catch ( PDOException $e ) {
                         elog( $q, 'error', $df[0]['line'], $df[0]['file'], $table );
+                        elog( json_encode( $e ), 'error', $df[0]['line'], $df[0]['file'], $table );
                         return 0;
                     }
                 } else {
@@ -305,7 +341,7 @@ class DB {
         $logic = substr( $logic, 0, -2 );
 
         $df = debug_backtrace();
-        //$df = !empty($df) && is_array($df) && isset($df[0]['file']) && isset($df[0]['line']) ? '<<'.$df[0]['line'].'>> {'.str_replace(COREPATH,'',$df[0]['file']).'}' : '';
+        //$df = !empty($df) && is_array($df) && isset($df[0]['file']) && isset($df[0]['line']) ? '<<'.$df[0]['line'].'>> {'.str_replace(ROOTPATH,'',$df[0]['file']).'}' : '';
 
         $db = $this->connect();
         $q = "UPDATE $table SET ". $logic . " where ". $where;
@@ -365,16 +401,29 @@ class DB {
     }
 
     /**
-     * Runs custom MySQL Query
+     * Queries PDO statement
      * @param string $query Query
+     * @return Exception|false|PDOException|PDOStatement
      */
     function query( string $query ) {
         $db = $this->connect();
         try {
-            return $db->query( $query );
+            $e = $db->query( $query );
+            return $e->fetchAll();
         } catch ( PDOException $e ) {
-            return $e;
+            return $db->errorInfo();
         }
+    }
+
+    /**
+     * Prepares PDO statement
+     * @param string $query
+     * @return Exception|false|PDOException|PDOStatement
+     */
+    function prepare( string $query ) {
+        $db = $this->connect();
+        $result = $db->prepare( $query );
+        return $result ? $result : $db->errorInfo();
     }
 
     // AIO AJAX DATA FUNCTIONS
@@ -633,7 +682,7 @@ function prepare_values( $array = '', $pre = '', bool $remove_empty = true ): ar
     return $values;
 }
 
-function process_data() {
+function process_data_ajax() {
     $a = $_POST;
     if( !empty( $a['target'] ) ){
         $cry = Crypto::initiate();
