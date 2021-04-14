@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
-    var pagepath = location.href.replace(location.origin+'/','').replace('/','_');
-    var tab = localStorage[ pagepath + '_tab'];
+    let page_path = location.href.replace(location.origin+'/','').replace('/','_');
+    let tab = localStorage[ page_path + '_tab'];
     if( tab !== undefined ){
         setTimeout(function(){ $('[data-t="' + tab + '"]').click(); },200);
     }
@@ -12,7 +12,7 @@ $(document).ready(function(){
         $($(this).data('t')).parent().children().hide();
         $($(this).data('t')).show();
         if( $(this).parent().data('store') !== undefined || $(this).parent().data('save') !== undefined ){
-            localStorage[ pagepath + '_tab' ] = $(this).data('t');
+            localStorage[ page_path + '_tab' ] = $(this).data('t');
         }
     });
 });

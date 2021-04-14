@@ -3,8 +3,7 @@ function process_data( e ){
     let p = $(e).parents('[data-t]');
 
     p.addClass('load');
-    var title = $(p).data('title');
-    var pre = $(p).data('pre');
+    let pre = $(p).data('pre');
 
     // Check for empty values
     if( $(p).data('empty') !== '' && $(p).data('empty') !== undefined ) {
@@ -20,12 +19,16 @@ function process_data( e ){
     if( $(p).data('reload') !== undefined && $(p).data('reload') !== null && parseInt( $(p).data('reload') ) > 0 ) {
         $(p).find('[onclick="process_data(this)"]').attr('disabled',true);
     }
-    var d = get_values( p, pre, pre );
+    let d = get_values( p, pre, pre );
+    let action = $(e).data('action');
     d.action = $(e).data('action');
-    d.target = $(p).data('t');
+    d.t = $(p).data('t');
     d.pre = pre;
+    if( d.action === undefined || d.action === null ) {
+        console.log('Action not set!');
+    }
 
-    var types = Array('id','by','action','h','d','dt');
+    let types = Array('id','by','action','h','d','dt');
 
     $.each(types,function(x,a){
         if( $(p).data(a) !== undefined && $(p).data(a) !== '' ){
@@ -80,11 +83,10 @@ function edit_data( e, modal ) {
     typeof file_ui === 'function' ? file_ui() : '';
 }
 
-function trash_data( q ) {
-    var d = { 'action':'trash_data', 'query':q };
-    //elog(d);
+function trash_data( a, t, l ) {
+    let d = { 'action': a, 't': t, 'l': l };
     if( confirm('Are you sure to delete ?') ){
-        post( 'trash_data', { 'query': q }, 2, 2 )
+        post( a, d, 2, 2 );
     }
 }
 
@@ -92,7 +94,7 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
     //elog(callback);
     let d = $.extend({}, { 'action' : action }, data);
     $.post( location.origin, d, function(r) {
-        //elog(r);
+        console.log(r);
         try {
             r = JSON.parse( r );
             //elog(r);

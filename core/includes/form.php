@@ -3,39 +3,6 @@
 class FORM {
 
     /**
-     * Returns array into JSON string
-     * @param array $data Database rows as array
-     * @param string $remove If needed to remove, provide keys separated by ,
-     * @return string
-     * @author Shaikh <hey@shaikh.dev>
-     */
-    function _editable_data( $data = [], $remove = '' ): string {
-        // TODO: Check the issue with encrypting array without db_
-        $final = [];
-        $remove = explode( ',', $remove );
-        foreach( $data as $k => $v ){
-            $k = strpos( $k, '_') !== false ? ltrim( strstr($k,'_'), '_' ) : $k;
-            if( $k == 'id' ) {
-                $cry = CRYPTO::initiate();
-                $final[ $k ] = $cry->encrypt( $v );
-            } else if( !in_array( $k, $remove ) ){
-                $final[ $k ] = $v;
-            }
-        }
-        return json_encode( $final );
-    }
-
-    /**
-     * Echo array into JSON string
-     * @param array $data Database rows as array
-     * @param string $remove If needed to remove, provide keys separated by ,
-     * @author Shaikh <hey@shaikh.dev>
-     */
-    function editable_data( $data = [], $remove = '' ) {
-        echo $this->_editable_data( $data, $remove );
-    }
-
-    /**
      * Renders <select> options
      * @param array $options Indexed or Associative Array of options
      * @param string $selected Selected option or options separated by comma
@@ -43,18 +10,17 @@ class FORM {
      * @param bool $keyed Yes if option value should be array key
      * @param bool $translate Translate the option text or not
      */
-
     function select_options( array $options = [], string $selected = '', string $placeholder = '', bool $keyed = false, bool $translate = true ) {
-        $d = $options;
         $s = $selected;
         $placeholder = $translate ? T($placeholder) : $placeholder;
         if( $placeholder !== '' ){
             echo empty($s) ? '<option disabled selected>'.$placeholder.'</option>' : '<option disabled>'.$placeholder.'</option>';
         }
-        foreach ($d as $k => $t) {
+        foreach ( $options as $k => $t ) {
             $t = $translate ? T($t) : $t;
             $k = $keyed ? $k : $t;
             if( is_array( $s ) && in_array( $k, $s ) ) { $sel = 'selected'; } else if( $k == $s ) { $sel = 'selected'; } else { $sel = ''; }
+            if( $t == 'select2_placeholder' ) { echo '<option></option>'; continue; }
             echo '<option value="' . $k . '" ' . $sel . '>' . $t . '</option>';
         }
         //!empty($sel) ? elog($s) : '';
@@ -87,7 +53,7 @@ class FORM {
         echo '<select name="'.$id.'" id="'.$id.'"'.$at.$ph.'">';
         if( str_contains( $attr, 'select2' ) ) {
             $placeholder = '';
-            array_unshift( $options, '' );
+            array_unshift( $options, 'select2_placeholder' );
         }
         //$placeholder = strpos( $attr, 'select2') !== false ? '' : $placeholder;
         $this->select_options( $options, $selected, $placeholder, $keyed, $translate );
@@ -142,7 +108,7 @@ class FORM {
     /**
      * Renders multiple <input> elements
      * @param string $type Input type, Ex: 'text','radio','checkbox','textarea'
-     * @param array $array Array of array of ['id','label','placeholder','value','attr'] of inputs
+     * @param array $array Array of array of ['id','label','placeholder','value','attr','pre','post'] of inputs
      * @param string $attrs Attributes like class or data applicable to all
      * @param string $pre String to wrap before start of <input>. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post End string to wrap after />
@@ -155,7 +121,9 @@ class FORM {
                 $place = isset($id[2]) && $id[2] !== '' ? $id[2] : '';
                 $value = isset($id[3]) && $id[3] !== '' ? $id[3] : '';
                 $attr = isset($id[4]) && $id[4] !== '' ? $id[4] : '';
-                $this->input( $type, $slug, $label, $place, $value, $attr.' '.$attrs, $pre, $post );
+                $ipre = isset($id[5]) && $id[5] !== '' ? $id[5] : $pre;
+                $ipost = isset( $id[6] ) && $id[6] !== '' ? $id[6] : $post;
+                $this->input( $type, $slug, $label, $place, $value, $attr.' '.$attrs, $ipre, $ipost );
             }
         }
     }
@@ -310,6 +278,55 @@ class FORM {
         $cry = Crypto::initiate();
         $pat = $path !== '' ? ' data-path="'.$cry->encrypt( $path ).'"' : '';
         $type = $multiple ? 'files' : 'file';
-        echo $pre.'<label for="'.$id.'">'.T($label).'</label><button type="button" class="'.$button_class.'" data-url="#'.$id.'" onclick="file_upload(this)" '.$sh.$ext.$del.$pat.'>'.T($button_label).'</button><input id="'.$id.'" name="'.$id.'" type="text" data-'.$type.' value="'.$value.'" '.$attrs.'>'.$post;
+        echo $pre.'<label for="'.$id.'">'.T($label).'</label><button type="button" class="aio_upload '.$button_class.'" data-url="#'.$id.'" onclick="file_upload(this)" '.$sh.$ext.$del.$pat.'>'.T($button_label).'</button><input id="'.$id.'" name="'.$id.'" type="text" data-'.$type.' value="'.$value.'" '.$attrs.'>'.$post;
+    }
+
+    /**
+     * Returns array into JSON string
+     * @param array $data Database rows as array
+     * @param string $remove If needed to remove, provide keys separated by ,
+     * @return string
+     * @author Shaikh <hey@shaikh.dev>
+     */
+    function _editable_data( $data = [], $remove = '' ): string {
+        // TODO: Check the issue with encrypting array without db_
+        $final = [];
+        $remove = explode( ',', $remove );
+        foreach( $data as $k => $v ){
+            $k = strpos( $k, '_') !== false ? ltrim( strstr($k,'_'), '_' ) : $k;
+            if( $k == 'id' ) {
+                $cry = CRYPTO::initiate();
+                $final[ $k ] = $cry->encrypt( $v );
+            } else if( !in_array( $k, $remove ) ){
+                $final[ $k ] = $v;
+            }
+        }
+        return json_encode( $final );
+    }
+
+    /**
+     * Echo array into JSON string
+     * @param array $data Database rows as array
+     * @param string $remove If needed to remove, provide keys separated by ,
+     * @author Shaikh <hey@shaikh.dev>
+     */
+    function editable_data( $data = [], $remove = '' ) {
+        echo $this->_editable_data( $data, $remove );
+    }
+
+    function delete_data( string $table, string $logic ) {
+        $c = Crypto::initiate();
+        echo ' onclick="trash_data(\''.$c->encrypt('trash_data_ajax').'\',\''.$c->encrypt( $table ).'\',\''.$c->encrypt( $logic ).'\')"';
+    }
+
+    /**
+     * Renders HTML to process data
+     * @param string $text Button text
+     * @param string $class Button class
+     * @param string $attr Additional attributes to button
+     */
+    function process_data_html( string $text = '', string $class = '', string $attr = '' ) {
+        $c = Crypto::initiate();
+        echo '<button onclick="process_data(this)" data-action="'.$c->encrypt('process_data_ajax').'" class="'.$class.'" '.$attr.'>'.T( $text ).'</button>';
     }
 }

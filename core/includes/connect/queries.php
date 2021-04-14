@@ -684,11 +684,11 @@ function prepare_values( $array = '', $pre = '', bool $remove_empty = true ): ar
 
 function process_data_ajax() {
     $a = $_POST;
-    if( !empty( $a['target'] ) ){
+    if( !empty( $a['t'] ) ){
         $cry = Crypto::initiate();
         $db = new DB();
-        $table = $cry->decrypt($a['target']);
-        unset($a['target']);
+        $table = $cry->decrypt( $a['t'] );
+        unset( $a['t'] );
 
         if( !empty( $a['id'] ) ){
             $id = $cry->decrypt( $a['id'] );
@@ -697,45 +697,47 @@ function process_data_ajax() {
 
         if( !empty( $a['pre'] ) ){
             $pre = $a['pre'];
-            unset($a['pre']);
+            unset( $a['pre'] );
         } else {
             $pre = '';
         }
 
         if( !empty( $a['d'] ) ){
             $a[$pre.'_'.$a['d']] = date('Y-m-d');
-            unset($a['d']);
+            unset( $a['d'] );
         }
 
         if( !empty( $a['dt'] ) ){
             $a[$pre.'_'.$a['dt']] = date('Y-m-d H:i:s');
-            unset($a['dt']);
+            unset( $a['dt'] );
         }
 
         if( !empty( $a['by'] ) ){
             $auths = explode(',',str_replace(' ','',$a['by']));
             if( is_array( $auths ) ){
                 foreach( $auths as $auth ){
-                    $a[$pre.'_'.$auth] = get_current_user_id();
+                    $a[$pre.'_'.$auth] = get_user_id();
                 }
             }
             unset($a['by']);
         }
         if( !empty( $a['h'] ) ){
             $cry = Crypto::initiate();
-            $hs = unserialize($cry->decrypt($a['h']));
+            $dec = $cry->decrypt( $a['h'] );
+            $hs = !empty( $dec ) ? json_decode( $dec, 1 ) : [];
             if( is_array( $hs ) ){
+                elog( 'Hidden is array' );
                 foreach( $hs as $k => $v ){
-                    $a[$pre.'_'.$k] = $v;
+                    $a[ $pre.'_'.$k ] = $v;
                 }
             }
-            unset($a['h']);
+            unset( $a['h'] );
         }
 
         $keys = prepare_keys( $a, '', 0 );
         $values = prepare_values( $a, '', 0 );
 
-        $query = !empty( $id ) ? $db->update( $table, $keys, $values, $pre.'_id = \''.$id.'\'' ) : $query = $db->insert( $table, $keys, $values );
+        $query = !empty( $id ) ? $db->update( $table, $keys, $values, $pre.'_id = \''.$id.'\'' ) : $db->insert( $table, $keys, $values );
 
         if( !empty( $id ) ) {
             $query ? es('Updated Successfully') : ef('Not updated, data sent maybe unchanged / empty');
@@ -747,19 +749,20 @@ function process_data_ajax() {
     }
 }
 
-function trash_data() {
-    unset($_POST['action']);
-    $cry = Crypto::initiate();
-    $d = $cry->decrypt( $_POST['query'] );
-    $db = new DB();
-    if( $d = explode('|',$d) ){
-        $t = $db->delete( $d[0], $d[1].' = '.$d[2] );
-        if( $t ){
-            ES('Data deleted successfully');
+function trash_data_ajax() {
+    unset( $_POST['action'] );
+    $c = Crypto::initiate();
+    $l = isset( $_POST['l'] ) && !empty( $_POST['l'] ) ? $c->decrypt( $_POST['l'] ) : '';
+    $t = isset( $_POST['t'] ) && !empty( $_POST['t'] ) ? $c->decrypt( $_POST['t'] ) : '';
+    if( !empty( $t ) && !empty( $l ) ){
+        $db = new DB();
+        $r = $db->delete( $t, $l );
+        if( $r ){
+            ES('Deleted successfully');
         } else {
-            EF('Delete data failed due to query misinterpret, please contact support');
+            EF('Delete failed due to query misinterpret, please contact support');
         }
     } else {
-        EF('Delete data failed due to query misinterpret, please contact support');
+        EF('Delete failed due to query misinterpret, please contact support');
     }
 }

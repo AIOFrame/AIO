@@ -31,6 +31,24 @@ class Crypto {
     }
 
     /**
+     * Encrypt an array
+     * @param array $data Array to Encrypt
+     * @return string
+     */
+    public function encrypt_array( array $data ): string {
+        return $this->encrypt( json_encode( $data ) );
+    }
+
+    /**
+     * Decrypt an array
+     * @param string $data Array to Decrypt
+     * @return array
+     */
+    public function decrypt_array( string $data ): array {
+        return json_decode( $this->decrypt( $data ) );
+    }
+
+    /**
      * Decrypt an encrypted string
      * @param string $dataAndVector Encrypted string
      * @return string
@@ -56,12 +74,28 @@ class Crypto {
         }
     }
 
-    public function enc( $data ){
+    /**
+     * Echo a plain string to decrypted string
+     * @param string $data String to be encrypted
+     */
+    public function enc( string $data ){
         echo $this->encrypt( $data );
     }
 
-    public function dec( $data ){
+    /**
+     * Echo a string after decryption
+     * @param string $data Encrypted string to be decrypted
+     */
+    public function dec( string $data ){
         echo $this->decrypt( $data );
+    }
+
+    /**
+     * Echo array as encrypted string
+     * @param array $data Array to be Encrypted
+     */
+    public function enc_array( array $data ) {
+        $this->enc( json_encode( $data ) );
     }
 
     public function random( $length = 8 ) {

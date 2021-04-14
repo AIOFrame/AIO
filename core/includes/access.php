@@ -289,14 +289,14 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
     $rand = rand( 0, 9999 );
     $cry = Crypto::initiate();
     ?>
-    <div class="login_wrap" data-t data-pre="login" data-notify="3" data-reload="3" data-reset="login">
+    <div class="login_wrap" data-t data-pre="login" data-notify="3" data-reload="3" data-empty="login" data-reset="login">
         <div class="inputs">
             <label for="login_name_<?php echo $rand; ?>"><?php E( $login_title ); ?></label>
             <input type="text" id="login_name_<?php echo $rand; ?>" data-key="username" placeholder="<?php E($login_title); ?>" data-login>
             <label for="login_pass_<?php echo $rand; ?>"><?php E( $pass_title ); ?></label>
             <input type="password" id="login_pass_<?php echo $rand; ?>" data-key="password" placeholder="<?php E($pass_title); ?>" data-login>
         </div>
-        <button onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'process_login_ajax' ); ?>"><?php E('Login'); ?></button>
+        <button id="aio_init_login" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'process_login_ajax' ); ?>"><?php E('Login'); ?></button>
     </div>
     <?php
 }
