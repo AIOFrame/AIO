@@ -241,7 +241,7 @@ class FORM {
      * Renders <input type="checkbox"> elements
      * @param string $name Name of the input elements
      * @param array $values Array of values
-     * @param string $checked Checked value or values separated by (,) comma
+     * @param array|string $checked Checked value or values separated by (,) comma
      * @param string $attr Attributes like class or data tags
      * @param bool $label_first If label should be before input element
      * @param string $pre String to wrap before start of <input>. Tip: 6 will wrap with bootstrap col-lg-6
@@ -289,10 +289,11 @@ class FORM {
      * @author Shaikh <hey@shaikh.dev>
      */
     function _editable_data( $data = [], $remove = '' ): string {
-        // TODO: Check the issue with encrypting array without db_
         $final = [];
         $remove = explode( ',', $remove );
         foreach( $data as $k => $v ){
+            if( is_numeric( $k ) )
+                continue;
             $k = strpos( $k, '_') !== false ? ltrim( strstr($k,'_'), '_' ) : $k;
             if( $k == 'id' ) {
                 $cry = CRYPTO::initiate();

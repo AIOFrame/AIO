@@ -67,12 +67,12 @@ class WORLD_DATA {
 
     /**
      * Returns array of countries
-     * @param string $value Choose value 'id','name','iso2'-AE,'iso3'-UAE,'phonecode','capital','currency','symbol','currency_name'
      * @param string $key Choose key 'id','name','iso2'-AE,'iso3'-UAE,'phonecode','currency'
+     * @param string $value Choose value 'id','name','iso2'-AE,'iso3'-UAE,'phonecode','capital','currency','symbol','currency_name'
      * @param string $country_code
      * @return array
      */
-    function countries( string $value = 'name', string $key = 'iso2', $country_code = '' ): array {
+    function countries( string $key = 'iso2', string $value = 'name', $country_code = '' ): array {
 
         $db = new DB();
         $q = $country_code && $country_code !== '' ? 'iso2 = "'.$country_code.'"' : '';

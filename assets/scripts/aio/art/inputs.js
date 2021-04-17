@@ -204,10 +204,10 @@ function get_values( e, s, pre ) {
     $(e).find(":input"+s+":not(:button)","select"+s,"textarea"+s).each(function () {
 
         // Define Pre and Key
-        var pk;
-        var n = $(this).attr('name');
-        var k = $(this).data('key');
-        var id = $(this).attr('id');
+        let pk;
+        let n = $(this).attr('name');
+        let k = $(this).data('key');
+        let id = $(this).attr('id');
         if( k !== undefined ){
             pk = pre + k;
         } else if( id !== undefined ){
@@ -224,12 +224,14 @@ function get_values( e, s, pre ) {
         v = $(this).hasClass('fn') ? ufn( $(this).val() ) : $(this).val(); // Un Format Number
 
         if( $(this).attr('type') === 'checkbox' ){
-
             let t = $(this).is(':checked');
-
-            if( m.length > 1 ) {
-                v = $('[name=' + $(this).attr('name') + ']').map(function(){
-                    if( $(this).is(':checked') )
+            let arr = $(this).data('array');
+            if ( arr !== undefined ) {
+                data[arr] = data[arr] === undefined ? [] : data[arr];
+                t ? data[ arr ].push( $(this).val() ) : '';
+            } else if (m.length > 1) {
+                v = $( '[name=' + $(this).attr('name') + ']' ).map(function () {
+                    if ($(this).is(':checked'))
                         return $(this).val();
                 }).toArray();
             } else {

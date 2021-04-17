@@ -1,7 +1,6 @@
 var domain;
 let b = $('body');
 $(document).ready(function(){
-    let b = $('body');
     // MANIPULATOR
     $(document).on('click', '[data-action], [data-show], [data-on], [data-off], [data-hide], [data-slide], [data-remove], [data-toggle], [data-click], [data-href], [data-force-on]', function (e) {
         $($(this).data('off')).removeClass('on');
@@ -33,7 +32,7 @@ $(document).ready(function(){
     })
 
     // Load Dark Mode
-    var dark = localStorage.getItem('dark_mode');
+    let dark = localStorage.getItem('dark_mode');
     dark === 'true' ? b.addClass('d') : b.removeClass('d');
 
     // Scroll Save

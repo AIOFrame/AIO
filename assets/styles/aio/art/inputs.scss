@@ -39,6 +39,8 @@ label.beta {
   font-weight: lighter;
   cursor:pointer;
   color:#000;
+  display: inline-block;
+  vertical-align: middle;
 }
 input.load, input.loading {
   background:url('../../images/load.svg') no-repeat center;

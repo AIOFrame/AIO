@@ -66,16 +66,23 @@ function file_upload() {
         $file_upload_loaded = 1;
     }
 }
-function storage_url( $url = '' ) {
+
+function render_image( string $logo = '', string $name = '', string $class = '' ) {
+    $logo = !empty( $logo ) ? ' style="background-image:url(\''. storage_url( $logo ) .'\')"' : '';
+    $name = empty( $logo ) && !empty( $name ) ? $name[0] : '';
+    echo '<div class="image '.$class.'"'.$logo.'>'.$name.'</div>';
+}
+
+function storage_url( $url = '' ): string {
     elog(mb_substr( $url, 1, 7));
     return mb_substr( $url, 1, 7) == 'storage' || mb_substr( $url, 1, 6) == 'assets' ? APPURL . 'apps/' . APPDIR . $url : $url;
 }
 
-function asset_url( $url = '' ) {
+function asset_url( $url = '' ): string {
     return $url !== '' ? APPURL . 'apps/' . APPDIR . '/assets/' . $url : '';
 }
 
-function file_url( $url ) {
+function file_url( $url ): string {
     return $url !== '' ? APPPATH . $url : '';
 }
 

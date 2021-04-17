@@ -95,7 +95,8 @@ class ACCESS {
         }
 
         $db = new DB();
-        $name = empty( $name ) && !empty( $data['name'] ) ? $data['name'] : ucwords( str_replace( '_', ' ', $login ) );
+        if( empty( $name ) )
+            $name = !empty( $data['name'] ) ? $data['name'] : ucwords( str_replace( '_', ' ', $login ) );
 
         // Checks if user with same login name or email exists
         $user_query = 'user_login = "' . $login . '"';
@@ -112,7 +113,7 @@ class ACCESS {
             foreach( $columns as $k => $v ) {
                 elog( $v );
                 if( !isset( $keys[ $k ] ) ) {
-                    $keys[] = $k;
+                    $keys[] = 'user_'.$k;
                     $values[] = $v;
                 }
             }

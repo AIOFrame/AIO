@@ -134,6 +134,23 @@ function array_by_key( $array, $key ){
     return $new_array;
 }
 
+/**
+ * Converts array from database into array with chosen key and value
+ * @param array $array Array from database
+ * @param string $key Key
+ * @param string $value Value
+ * @return array
+ */
+function select_to_assoc( array $array = [], string $key = '', string $value = '' ): array {
+    $r = [];
+    foreach( $array as $a ) {
+        if( isset(  $a[ $key ] ) && isset( $a[ $value ] ) ) {
+            $r[ $a[ $key ] ] = $a[ $value ];
+        }
+    }
+    return $r;
+}
+
 // TODO: Returns Multi array of only two sub arrays values into associative key and value
 
 function array_into_assoc( $array = [] ) {

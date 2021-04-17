@@ -37,6 +37,7 @@ class DB {
      * @return array
      */
     function create_table( string $name, array $columns, string $pre = '', bool $auto_id = true ): array {
+        $result = [];
         if( is_array( $columns ) && defined('APPCON') && APPCON ){
 
             // Prerequisites
@@ -44,22 +45,6 @@ class DB {
             $db = $this->connect();
             $pre = !empty( $pre ) ? $pre . '_' : '';
             $columns_query = $auto_id ? ( DB_TYPE == 'mssql' ? $pre . 'id INT NOT NULL IDENTITY(1, 1)' : $pre . 'id INT AUTO_INCREMENT PRIMARY KEY' ) : '';
-
-            // Structure Columns
-            foreach( $columns as $col ) {
-                if ( is_array( $col ) && count( $col ) > 2 ) {
-                    $col[2] = !empty( $col[2] ) ? '(' . $col[2] . ')' : '';
-                    $col[3] = $col[3] == 0 ? ' NULL' : ' NOT NULL';
-                    $col[4] = isset( $col[4] ) && !empty( $col[4] ) ? ' DEFAULT \'' . $col[4] . '\'' : '';
-                    // Changes for MS SQL
-                    if( DB_TYPE == 'mssql' ) {
-                        $col[1] == 'INT' ? $col[2] = '' : '';
-                        $col[1] = $col[1] == 'BOOLEAN' ? 'BIT' : $col[1];
-                        //$col[1] = $col[1] == 'VARCHAR' ? 'NVARCHAR' : $col[1];
-                    }
-                    $columns_query .= ', ' . $pre . $col[0] . ' ' . $col[1] . $col[2] . $col[3] . $col[4];
-                }
-            }
 
             // Create Table
             if( DB_TYPE == 'mssql' ) {
@@ -70,39 +55,31 @@ class DB {
             elog( $query, 'log', $debug[0]['line'], $debug[0]['file'], $name );
 
             // Executing Query
-            $execute = $db->query( $query );
-            if ( !empty( $execute ) ) {
-                return [ 1, 'Successfully executed create table query!' ];
-                /* if ( $db->query($query) == 1) {
-                    return true;
-                } else {
-                    elog( $query, 'error', $df[0]['line'], $df[0]['file'], $name );
-                    return false;
-                } */
-            } else {
-                return [ 0, 'Failed to execute create table query, Please refer log!' ];
+            try {
+                $execute = $db->query( $query );
+                $result = !empty( $execute ) ? [ 1, 'Successfully executed create table query!' ] : [ 0, 'Failed to execute create table query, Please refer log!' ];
+            } catch( PDOException $e ) {
+                elog( $e, 'error', $debug[1]['line'], $debug[1]['file'], $name );
             }
 
             // Create Columns
-            /* if( $exist->rowCount() > 0 ) {
-                foreach ( $columns as $col ) {
-                    if ( !empty($col[0]) && !empty($col[1]) ) {
-                        $col[2] = !empty($col[2]) ? $col[2] : '13';
-                        $col[3] = $col[3] == 0 ? 'NULL' : 'NOT NULL';
-                        $col[4] = isset( $col[4] ) && !empty($col[4] ) ? $col[4] : '';
-                        //if (in_array($col[1], ['BOOLEAN', 'DATETIME', 'DATE', 'TIME', 'TINYTEXT'])) {
-                        $this->create_column( $name, $pre.$col[0], $col[1], $col[2], $col[3], $col[4] );
-                        //$query .= ',' . $table[1] . '_' . $col[0] . ' ' . $col[1] . ' ' . $col[3];
-                        //} else {
-                        //create_column( $table[0], $col[0], $col[1], $col[2], $col[3] );
-                        //$query .= ',' . $table[1] . '_' . $col[0] . ' ' . $col[1] . '(' . $col[2] . ') ' . $col[3];
-                        //}
+            foreach( $columns as $col ) {
+                if ( is_array( $col ) && count( $col ) > 2 ) {
+                    $col[2] = !empty( $col[2] ) ? $col[2] : '';
+                    $col[4] = isset( $col[4] ) && !empty( $col[4] ) ? ' DEFAULT \'' . $col[4] . '\'' : '';
+                    // Changes for MS SQL
+                    if( DB_TYPE == 'mssql' ) {
+                        $col[1] == 'INT' ? $col[2] = '' : '';
+                        $col[1] = $col[1] == 'BOOLEAN' ? 'BIT' : $col[1];
+                        //$col[1] = $col[1] == 'VARCHAR' ? 'NVARCHAR' : $col[1];
                     }
+                    $this->create_column( $name, $pre.$col[0], $col[1], $col[2], $col[3], $col[4] );
                 }
-            } */
+            }
         } else {
-            return [0,'The columns are supposed to be array!'];
+            $result = [ 0,'The columns are supposed to be array!' ];
         }
+        return $result;
     }
 
     /**
@@ -126,13 +103,14 @@ class DB {
     /**
      * Automatically saves calling file md5 to not repeat create table requests
      * @param $tables
+     * @return array
      */
-    function automate_tables( $tables ) {
+    function automate_tables( $tables ): array {
         $table_names = '';
         foreach( $tables as $tb ) {
             $table_names .= $tb[0].'_';
         }
-
+        $result = [];
         $db = new DB();
         $trace = debug_backtrace();
         $file_path = isset( $trace[0]['file'] ) ? $trace[0]['file'] : '';
@@ -146,9 +124,10 @@ class DB {
             $exist = $db->get_option( $file . '_md5' );
             if( empty( $exist ) || $exist !== $md5 ) {
                 $db->update_option( $file . '_md5', $md5 );
-                return $this->create_tables( $tables );
+                $result = $this->create_tables( $tables );
             }
         }
+        return $result;
     }
 
     /**
@@ -164,20 +143,21 @@ class DB {
     function create_column( string $table, string $column, $type = 'TEXT', $length = '13', $null = true, $default = ''): bool {
         $type == 'BOOLEAN' ? $type = 'TINYINT' : '';
         $length = in_array($type, ['BOOLEAN', 'DATETIME', 'DATE', 'TIME', 'TINYTEXT','DOUBLE']) ? '' : $length;
-        $null = $null ? 'NULL' : 'NOT NULL';
+        $null = $null ? 'NOT NULL' : 'NULL';
         $length = !empty($length) ? '('.$length.')' : '';
-        $exist = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$column'";
-        $query = "ALTER TABLE $table ADD $column $type$length $null";
+        //$exist = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$column'";
+        $query = "ALTER TABLE $table ADD COLUMN $column $type$length $null";
         $query .= !empty($default) ? ' default "'.$default.'"' : '';
 
         $df = debug_backtrace();
-        $db = $this->connect();
-        $e = $db->query( $exist );
-        if( $e && $e->fetchAll() == 0 ){
-            if( $db->query( $query ) ){
-                return true;
-            } else {
-                elog( $query, 'column', $df[0]['line'], $df[0]['file'], $table . '-' . $column );
+        $exist = $this->table_exists( $table );
+        if( $exist ){
+            $db = $this->connect();
+            try {
+                $r = $db->query( $query );
+                return 1;
+            } catch ( PDOException $e ) {
+                elog( json_encode( $e ) . ' - ' . $query, 'column', $df[0]['line'], $df[0]['file'], $table . '-' . $column );
                 //elog( $column.' '.mysqli_error($db), 'error', $df[0]['line'], $df[0]['file'], $table . '-' . $column );
                 return false;
             }
@@ -189,15 +169,17 @@ class DB {
     /**
      * Checks if table exists
      * @param string $table
+     * @return bool
      */
-    function table_exists( string $table ) {
-        if( DB_TYPE == 'mssql' ) {
-            $query = "IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = N'".$table."') BEGIN PRINT '1' END ELSE BEGIN PRINT '0' End";
-        } else {
-            $query = 'SELECT 1 FROM '.$table.' LIMIT 1';
+    function table_exists( string $table ): bool {
+        try {
+            $db = $this->connect();
+            $r = gettype( $db->exec("SELECT count(*) FROM $table")) == 'integer';
+        } catch ( PDOException $e ) {
+            elog( json_encode( $e ) );
+            $r = 0;
         }
-        $result = $this->query( $query );
-        return $result;
+        return $r;
     }
 
     // DATA FUNCTIONS
