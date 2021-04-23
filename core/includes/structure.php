@@ -41,6 +41,7 @@ function user_tables() {
         [ 'code', 'VARCHAR', 255, 1 ],
         [ 'os', 'VARCHAR', 50, 1 ],
         [ 'client', 'VARCHAR', 50, 1 ],
+        [ 'device', 'VARCHAR', 50, 1 ],
         [ 'status', 'BOOLEAN', '', 1 ],
     ], 'session', 1 ];
 

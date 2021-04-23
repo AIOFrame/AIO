@@ -1,5 +1,21 @@
 <?php
 
+/*
+// Verify existing sessions
+if( isset( $_SESSION['user'] ) && isset( $_SESSION['db_session'] ) ) {
+    $db = new DB();
+    $id = $cry->decrypt( $_SESSION['db_session'] );
+    $session = $db->select( 'sessions', 'session_code', 'session_id = \''.$id.'\'' );
+    skel( $session );
+    if( empty( $session ) || $session['session_code'] !== session_id() ) {
+        $a = new ACCESS();
+        //$a->clear_current_sessions();
+    }
+} else {
+    $a = new ACCESS();
+    //$a->clear_current_sessions();
+} */
+
 class ACCESS {
 
     function __construct() {
@@ -41,6 +57,28 @@ class ACCESS {
             session_destroy();
         }
         ob_end_clean();
+    }
+
+    function clear_local_sessions() {
+        // Destroy cookie
+        //setcookie( session_name(), "", time() - 3600, '/', APPURL, '', true );
+        // Destroy session
+        //session_unset();
+        //session_destroy();
+    }
+
+    function clear_live_sessions() {
+        $db = new DB();
+        $cry = Crypto::initiate();
+        $session_id = isset( $_SESSION['db_session'] ) ? $cry->decrypt( $_SESSION['db_session'] ) : '';
+        if( !empty( $session_id ) && is_numeric( $session_id ) ) {
+            $db->delete( 'sessions', 'session_id = \''.$session_id.'\'' );
+        }
+    }
+
+    function clear_current_sessions() {
+        $this->clear_live_sessions();
+        $this->clear_local_sessions();
     }
 
     /**
@@ -161,13 +199,32 @@ class ACCESS {
 
         // Verify password
         if( password_verify( $pass, $hash['access_pass'] ) ) {
-            // Set sessions
-            foreach( $user as $k => $v ) {
-                if( !is_numeric( $k ) ) {
-                    $_SESSION['user'][ str_replace( 'user_', '', $k ) ] = $v;
+            $db->update( 'access', [ 'access_recent' ], [ date('Y-m-d H-i-s') ], 'access_uid = \''.$user['user_id'].'\'' );
+            // Set database sessions
+            $agent = new CLIENT();
+            $cry = Crypto::initiate();
+            $session_data = [
+                'uid' => $user['user_id'],
+                'time' => date('Y-m-d H-i-s'),
+                'code' => session_id(),
+                'os' => $agent->get_os(),
+                'client' => $agent->get_browser(),
+                'device' => $agent->get_device_type(),
+                'status' => 1
+            ];
+            $session = $db->insert( 'sessions', prepare_keys( $session_data, 'session_' ), prepare_values( $session_data ) );
+            if( $session ) {
+                // Set browser sessions
+                foreach( $user as $k => $v ) {
+                    if( !is_numeric( $k ) ) {
+                        $_SESSION['user'][ str_replace( 'user_', '', $k ) ] = $v;
+                    }
                 }
+                $_SESSION['db_session'] = $cry->encrypt( $session );
+                return [ 1, T('Logged in successfully!') ];
+            } else {
+                return [ 0, T('User login failed!') ];
             }
-            return [ 1, T('Logged in successfully!') ];
         } else {
             return [ 0, T('User login failed!') ];
         }
@@ -182,8 +239,9 @@ class ACCESS {
      */
     function update_password( string $login, string $old_pass, string $new_pass ): array {
         $db = new DB();
-        $user = $db->select( 'users', 'user_id', 'user_login = \''.$login.'\'', 1 );
-        if( !empty( $user['user_id'] ) ) {
+        $uq = is_numeric( $login ) ? 'user_id = \''.$login.'\'' : 'user_login = \''.$login.'\'';
+        $user = $db->select( 'users', 'user_id', $uq, 1 );
+        if( isset( $user['user_id'] ) && !empty( $user['user_id'] ) ) {
             $access = $db->select( 'access', 'access_pass', 'access_uid = \''.$user['user_id'].'\'', 1 );
             if( !empty( $access['access_pass'] ) && password_verify( $old_pass, $access['access_pass'] ) ) {
                 $update = $db->update( 'access', [ 'access_pass' ], [ password_hash( $new_pass, PASSWORD_DEFAULT, [ 'cost' => 12 ] ) ], 'access_uid = \''.$user['user_id'].'\'' );
@@ -191,6 +249,17 @@ class ACCESS {
             } else {
                 return [ 0, T('The password do not match registered user password!') ];
             }
+        } else {
+            return [ 0, T('User not found!') ];
+        }
+    }
+
+    function overwrite_password( string $login, string $new_pass ): array {
+        $db = new DB();
+        $user = $db->select( 'users', 'user_id', 'user_login = \''.$login.'\'', 1 );
+        if( isset( $user['user_id'] ) && !empty( $user['user_id'] ) ) {
+            $update = $db->update( 'access', [ 'access_pass' ], [ password_hash( $new_pass, PASSWORD_DEFAULT, [ 'cost' => 12 ] ) ], 'access_uid = \''.$user['user_id'].'\'' );
+            return $update ? [ 1, T('Password updated successfully!') ] : [ 0, T('Failed to update password, please try again later') ];
         } else {
             return [ 0, T('User not found!') ];
         }
@@ -206,7 +275,7 @@ class ACCESS {
     function update( string $login_or_id, array $columns = [], array $data = [] ): array {
         $db = new DB();
         $user = is_numeric( $login_or_id ) ? $db->select( 'users', 'user_id', 'user_id = \''.$login_or_id.'\'', 1 ) : $db->select( 'users', 'user_id', 'user_login = \''.$login_or_id.'\'', 1 );
-        if( !empty( $user['user_id'] ) && !empty( $perms ) ) {
+        if( isset( $user['user_id'] ) && !empty( $user['user_id'] ) ) {
             $keys = $values = [];
             // Columns
             if( !empty( $columns ) ) {
@@ -233,14 +302,38 @@ class ACCESS {
      * @param array $perms
      * @return array
      */
-    function update_permissions( string $login_or_id, array $perms = [] ): array {
+    function update_access( string $login_or_id, array $perms = [] ): array {
         $db = new DB();
         $user = is_numeric( $login_or_id ) ? $db->select( 'users', 'user_id', 'user_id = \''.$login_or_id.'\'', 1 ) : $db->select( 'users', 'user_id', 'user_login = \''.$login_or_id.'\'', 1 );
         if( !empty( $user['user_id'] ) && !empty( $perms ) ) {
-            $update = $db->update( 'users', [ 'user_perms' ], [ serialize( $perms ) ], 'user_id = \''.$user['user_id'].'\'' );
+            $update = $db->update( 'users', [ 'user_access' ], [ serialize( $perms ) ], 'user_id = \''.$user['user_id'].'\'' );
             return $update ? [ 1, T('Successfully updated user permissions!') ] : [ 0, T('Failed to update user permissions, please check log!') ];
         } else {
             return [ 0, T('User not found!') ];
+        }
+    }
+
+    /**
+     * Add default users from config
+     */
+    function config_users() {
+        if( defined('CONFIG') && APPDEBUG ) {
+            $c = json_decode( CONFIG, 1 );
+            if( isset( $c['users'] ) && is_array( $c['users'] ) ) {
+                foreach ( $c['users'] as $u ) {
+                    if (isset($u[0]) && isset($u[1])) {
+                        $u[3] = isset($u[3]) ? $u[3] : '';
+                        $u[4] = isset($u[4]) ? $u[4] : '';
+                        $u[5] = isset($u[5]) ? $u[5] : [];
+                        $u[6] = isset($u[6]) ? $u[6] : [];
+                        $u[7] = isset($u[7]) ? $u[7] : [];
+                        $u[8] = isset($u[8]) ? $u[8] : 1;
+                        $a = new ACCESS();
+                        $this->register($u[0], $u[1], $u[2], $u[3], $u[4], $u[5], $u[6], $u[7], $u[8]);
+                    }
+                }
+            }
+            //set_config( 'users_added', 1 );
         }
     }
 }
@@ -278,6 +371,22 @@ function process_register_ajax() {
     }
 }
 
+function process_reset_password_ajax() {
+
+}
+
+function process_change_password_ajax() {
+    $p = $_POST;
+    if( isset( $p['old'] ) && isset( $p['new'] ) ) {
+        $u = isset( $p['login'] ) ? $p['login'] : get_user_id();
+        $a = new ACCESS();
+        $r = $a->update_password( $u, $p['old'], $p['new'] );
+        echo json_encode( $r );
+    } else {
+        ef( 'Empty data received!' );
+    }
+}
+
 /**
  * Renders frontend code for user login
  * @param string $login_title Replacement text for default "Username" title
@@ -290,12 +399,12 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
     $rand = rand( 0, 9999 );
     $cry = Crypto::initiate();
     ?>
-    <div class="login_wrap" data-t data-pre="login" data-notify="3" data-reload="3" data-empty="login" data-reset="login">
+    <div class="login_wrap" data-t data-pre="login_" data-data="log" data-notify="3" data-reload="3" data-empty="login" data-reset="login">
         <div class="inputs">
             <label for="login_name_<?php echo $rand; ?>"><?php E( $login_title ); ?></label>
-            <input type="text" id="login_name_<?php echo $rand; ?>" data-key="username" placeholder="<?php E($login_title); ?>" data-login>
+            <input type="text" id="login_name_<?php echo $rand; ?>" data-key="username" placeholder="<?php E($login_title); ?>" data-log>
             <label for="login_pass_<?php echo $rand; ?>"><?php E( $pass_title ); ?></label>
-            <input type="password" id="login_pass_<?php echo $rand; ?>" data-key="password" placeholder="<?php E($pass_title); ?>" data-login>
+            <input type="password" id="login_pass_<?php echo $rand; ?>" data-key="password" placeholder="<?php E($pass_title); ?>" data-log>
         </div>
         <button id="aio_init_login" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'process_login_ajax' ); ?>"><?php E('Login'); ?></button>
     </div>
@@ -319,26 +428,26 @@ function register_html( array $columns = [], bool $columns_before = true, array 
     $cry = Crypto::initiate();
     $f = new FORM();
     ?>
-    <div class="register_wrap" data-t data-pre="register" data-notify="5" data-empty="register" data-reset="register">
+    <div class="register_wrap" data-t data-pre="register_" data-data="reg" data-notify="5" data-empty="register" data-reset="register">
         <div class="inputs">
             <?php
             $columns_html = '';
             foreach( $columns as $ck => $cv ) {
                 $empty_logic = in_array( $ck, $compulsory ) ? 'data-empty' : '';
                 $columns_html .= '<label for="'.$ck.'_'.$rand.'">'.T( $cv ).'</label>';
-                $columns_html .= '<input type="text" id="'.$ck.'_'.$rand.'" data-key="'.$ck.'" data-array="register_columns" placeholder="'.T( $cv ).'" data-register '.$empty_logic.'>';
+                $columns_html .= '<input type="text" id="'.$ck.'_'.$rand.'" data-key="'.$ck.'" data-array="register_columns" placeholder="'.T( $cv ).'" data-reg '.$empty_logic.'>';
             }
             echo $columns_before ? $columns_html : '';
-            $f->text('username','Username','Username','','data-register data-empty');
-            $f->input('password','password','Password','Password','','data-register data-empty');
+            $f->text('username','Username','Username','','data-reg data-empty');
+            $f->input('password','password','Password','Password','','data-reg data-empty');
             $empty_logic = in_array( 'email', $compulsory ) ? 'data-empty' : '';
-            $f->input('email','email','Email','Email','','data-register '.$empty_logic);
+            $f->input('email','email','Email','Email','','data-reg '.$empty_logic);
             $defs = [ 'name' => 'Name', 'picture' => 'Picture' ];
             foreach( $defs as $dk => $dv ) {
                 if( !in_array( $dk, $hide ) ) {
                     $empty_logic = in_array( $dk, $compulsory ) ? 'data-empty' : '';
                     echo '<label for="register_'.$dk.'_'.$rand.'">'.T( $dv ).'</label>';
-                    echo '<input type="text" class="'.$dk.'" name="'.$dk.'" id="register_'.$dk.'_'.$rand.'" data-key="'.$dk.'" placeholder="'.$dv.'" '.$empty_logic.'>';
+                    echo '<input type="text" class="'.$dk.'" data-reg name="'.$dk.'" id="register_'.$dk.'_'.$rand.'" data-key="'.$dk.'" placeholder="'.$dv.'" '.$empty_logic.'>';
                 }
             }
             if( !empty( $data ) ) {
@@ -415,20 +524,8 @@ function verify_user_logged_in() {
 }
 
 function logout() {
-    setcookie( session_name(), "", time() - 3600, '/', APPURL, '', true );
-    session_unset();
-    session_destroy();
-    /* $cry = Crypto::initiate();
-    $id = !empty( $_POST['session_id'] ) ? $cry->decrypt( $_POST['session_id'] ) : $_SESSION['id'];
-    $db = new DB();
-    $ss = $db->delete( 'sessions', 'ss_id = "'.$id.'"' );
-    if( empty( $_POST['session_id'] ) ){
-        $_SESSION = array();
-        session_destroy();
-        echo 1;
-    } else {
-        echo 0;
-    } */
+    $a = new ACCESS();
+    $a->clear_current_sessions();
 }
 
 if( isset( $_GET['logout'] ) ) {
@@ -442,24 +539,10 @@ if( isset( $_GET['logout'] ) ) {
  */
 if( user_logged_in() ) {
     $db = new DB();
-    $options = $db->select('options', 'option_name,option_value', 'option_scope = "' . $_SESSION['user_id'] . '" AND option_load = 1');
+    $options = $db->select('options', 'option_name,option_value', 'option_scope = "' . $_SESSION['user']['id'] . '" AND option_load = 1');
     if (is_array($options)) {
         foreach ($options as $opt) {
             $_SESSION[$opt['option_name']] = $opt['option_value'];
-        }
-    }
-}
-
-function dev_sessions( $logged_in = true ) {
-    if( APPDEBUG && $logged_in ) {
-        $_SESSION['username'] = 'Developer Guy';
-        $_SESSION['user_name'] = 'Developer Guy';
-        $_SESSION['user_pic'] = 'https://thispersondoesnotexist.com/image';
-        $_SESSION['user_id'] = '1110';
-        $_SESSION['user_login'] = 'developer';
-        if (!isset($_SESSION)) {
-            session_set_cookie_params(0, '/', str_replace(' ', '_', APPNAME), false, false);
-            @session_regenerate_id(true);
         }
     }
 }

@@ -69,7 +69,7 @@ function file_upload() {
 
 function render_image( string $logo = '', string $name = '', string $class = '' ) {
     $logo = !empty( $logo ) ? ' style="background-image:url(\''. storage_url( $logo ) .'\')"' : '';
-    $name = empty( $logo ) && !empty( $name ) ? $name[0] : '';
+    $name = empty( $logo ) && !empty( $name ) ? '<span>'.$name[0].'</span>' : '';
     echo '<div class="image '.$class.'"'.$logo.'>'.$name.'</div>';
 }
 

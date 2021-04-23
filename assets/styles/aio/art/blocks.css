@@ -142,7 +142,7 @@
 } */
 .block:not(.no-float):hover {
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.05);
-  transform: translateY(-3px);
+  transform: translateY(-2px);
 }
 .block:not(.no-float):hover .actions {
   opacity: 1;
