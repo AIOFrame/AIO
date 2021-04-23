@@ -215,7 +215,7 @@ function clear( e, d ){
 function process_data( e ){
     //$(e).attr('disabled',true);
     let p = $(e).parents('[data-t]');
-    p = p !== undefined ? p : $(e).parents('[data-data]');
+    p = p.tagName === 'DIV' ? p : $(e).parents('[data-data]');
 
     p.addClass('load');
     let pre = $(p).data('pre');

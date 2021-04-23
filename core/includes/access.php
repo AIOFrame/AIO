@@ -280,8 +280,10 @@ class ACCESS {
             // Columns
             if( !empty( $columns ) ) {
                 foreach( $columns as $ck => $cv ) {
-                    $keys[] = $ck;
-                    $values[] = $cv;
+                    if( !empty( $cv ) ) {
+                        $keys[] = $ck;
+                        $values[] = $cv;
+                    }
                 }
             }
             // Data
@@ -338,7 +340,7 @@ class ACCESS {
     }
 }
 
-function process_login_ajax() {
+function access_login_ajax() {
     $login = isset( $_POST['login_username'] ) && !empty( $_POST['login_username'] ) ? $_POST['login_username'] : '';
     $pass = isset( $_POST['login_password'] ) && !empty( $_POST['login_password'] ) ? $_POST['login_password'] : '';
 
@@ -351,7 +353,7 @@ function process_login_ajax() {
     }
 }
 
-function process_register_ajax() {
+function access_register_ajax() {
     $login = isset( $_POST['register_username'] ) && !empty( $_POST['register_username'] ) ? $_POST['register_username'] : '';
     $pass = isset( $_POST['register_password'] ) && !empty( $_POST['register_password'] ) ? $_POST['register_password'] : '';
     $email = isset( $_POST['register_email'] ) && !empty( $_POST['register_email'] ) ? $_POST['register_email'] : '';
@@ -371,11 +373,24 @@ function process_register_ajax() {
     }
 }
 
-function process_reset_password_ajax() {
+function access_update_ajax() {
+    if( isset( $_POST ) && is_array( $_POST ) ) {
+        $cry = Crypto::initiate();
+        $id = isset( $_POST['login'] ) && !empty( $_POST['login'] ) ? $cry->decrypt( $_POST['login'] ) : get_user_id();
+        unset( $_POST['pre'] );
+        unset( $_POST['t'] );
+        $a = new ACCESS();
+        echo json_encode( $a->update( $id, $_POST ) );
+    } else {
+        ef('Incomplete data received!');
+    }
+}
+
+function access_reset_ajax() {
 
 }
 
-function process_change_password_ajax() {
+function user_change_ajax() {
     $p = $_POST;
     if( isset( $p['old'] ) && isset( $p['new'] ) ) {
         $u = isset( $p['login'] ) ? $p['login'] : get_user_id();
@@ -406,7 +421,7 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
             <label for="login_pass_<?php echo $rand; ?>"><?php E( $pass_title ); ?></label>
             <input type="password" id="login_pass_<?php echo $rand; ?>" data-key="password" placeholder="<?php E($pass_title); ?>" data-log>
         </div>
-        <button id="aio_init_login" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'process_login_ajax' ); ?>"><?php E('Login'); ?></button>
+        <button id="aio_init_login" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_login_ajax' ); ?>"><?php E('Login'); ?></button>
     </div>
     <?php
 }
@@ -459,7 +474,7 @@ function register_html( array $columns = [], bool $columns_before = true, array 
             echo !$columns_before ? $columns_html : '';
             ?>
         </div>
-        <button onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'process_register_ajax' ); ?>"><?php E('Register'); ?></button>
+        <button onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_register_ajax' ); ?>"><?php E('Register'); ?></button>
     </div>
     <?php
 }
