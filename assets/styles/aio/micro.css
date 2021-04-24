@@ -340,6 +340,10 @@ select.tar {
   text-decoration: underline;
 }
 
+.tdl {
+  text-decoration: line-through;
+}
+
 .tdn {
   text-decoration: none;
 }
