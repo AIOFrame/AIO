@@ -1,6 +1,6 @@
 /* Alerts */
 
-.notices {
+[data-alerts] {
   position: fixed;
   max-width:40vw;
   z-index:9999;
@@ -9,7 +9,7 @@
     transform:translateY(20px);
     pointer-events: none;
   }
-  .notify {
+  .alert {
     position:relative;
     border-radius:10px;
     background:rgba(255,255,255,.97);
@@ -48,7 +48,7 @@
       transition:.2s;
     }
   }
-  .notify.out {
+  .alert.out {
     opacity: 0;
     transform:translateY(-20px);
     pointer-events: none;
@@ -60,23 +60,29 @@
       opacity: 0;
     }
   }
-  .notify:hover {
+  .alert:hover {
     box-shadow:0 10px 50px rgba(0,0,0,.3);
   }
 }
-.notices.t {
+[data-alerts].t {
   top:20px;
 }
-.notices.b {
+[data-alerts].b {
   bottom: 20px;
-  .notify {
+  .alert {
     margin-bottom: 0;
     margin-top: 20px;
   }
 }
-.notices.r {
+[data-alerts].r {
   right:20px;
 }
-.notices.l {
+[data-alerts].l {
   left: 20px;
+}
+
+@media all and (min-width: 0px) and (max-width: 800px) {
+  [data-alerts] {
+    max-width:calc(100vw - 40px);
+  }
 }

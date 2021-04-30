@@ -1,15 +1,15 @@
 /* Alerts */
-.notices {
+[data-alerts] {
   position: fixed;
   max-width: 40vw;
   z-index: 9999;
 }
-.notices .notify.in {
+[data-alerts] .notify.in {
   opacity: 0;
   transform: translateY(20px);
   pointer-events: none;
 }
-.notices .notify {
+[data-alerts] .alert {
   position: relative;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.97);
@@ -24,12 +24,12 @@
   pointer-events: all;
   transform: none;
 }
-.notices .notify .data {
+[data-alerts] .alert .data {
   transition: 0.6s;
   position: relative;
   padding: 12px 30px 20px 12px;
 }
-.notices .notify .close {
+[data-alerts] .alert .close {
   position: absolute;
   right: 5px;
   top: 5px;
@@ -37,7 +37,7 @@
   height: 25px;
   background: url("../../../assets/icons/tiny_close.svg") no-repeat center/18px;
 }
-.notices .notify .time {
+[data-alerts] .alert .time {
   position: absolute;
   left: 10px;
   bottom: 5px;
@@ -48,7 +48,7 @@
   opacity: 0.3;
   transition: 0.2s;
 }
-.notices .notify.out {
+[data-alerts] .alert.out {
   opacity: 0;
   transform: translateY(-20px);
   pointer-events: none;
@@ -56,32 +56,38 @@
   border: 0;
   margin: 0;
 }
-.notices .notify.out .data {
+[data-alerts] .alert.out .data {
   padding: 0 30px 0 12px;
   opacity: 0;
 }
-.notices .notify:hover {
+[data-alerts] .alert:hover {
   box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
 }
 
-.notices.t {
+[data-alerts].t {
   top: 20px;
 }
 
-.notices.b {
+[data-alerts].b {
   bottom: 20px;
 }
-.notices.b .notify {
+[data-alerts].b .alert {
   margin-bottom: 0;
   margin-top: 20px;
 }
 
-.notices.r {
+[data-alerts].r {
   right: 20px;
 }
 
-.notices.l {
+[data-alerts].l {
   left: 20px;
+}
+
+@media all and (min-width: 0px) and (max-width: 800px) {
+  [data-alerts] {
+    max-width: calc(100vw - 40px);
+  }
 }
 
 /*# sourceMappingURL=alerts.css.map */

@@ -1,5 +1,7 @@
 <?php
-
+if( session_status() === PHP_SESSION_NONE ) {
+    session_start();
+}
 /*
 // Verify existing sessions
 if( isset( $_SESSION['user'] ) && isset( $_SESSION['db_session'] ) ) {
@@ -15,56 +17,66 @@ if( isset( $_SESSION['user'] ) && isset( $_SESSION['db_session'] ) ) {
     $a = new ACCESS();
     //$a->clear_current_sessions();
 } */
+//session_start();
+// Reload User Sessions
+if( user_logged_in() ) {
+    //skel( 'logged in' );
+} else {
+    //skel( 'logged out' );
+}
 
 class ACCESS {
 
     function __construct() {
-
-        // Initiate Session
         ob_start();
-        session_name( str_replace( ' ', '', APPNAME ) );
-        $secure = isset( $_SERVER['HTTPS'] );
-        session_set_cookie_params( 14400, '/', APPURL, $secure, 1 );
+        $now = time();
+        $agent = new CLIENT();
+        $device = $agent->get_device();
+        $device_type = $agent->get_device_type();
+        $os = $agent->get_os();
+        $browser = $agent->get_browser();
         if( session_status() === PHP_SESSION_NONE ) {
+            session_name(str_replace(' ', '', APPNAME));
+            $secure = isset($_SERVER['HTTPS']);
+            session_set_cookie_params(14400, '/', APPURL, $secure, 1);
             session_start();
         }
-        $now = time();
-        $_SESSION['time'] = $now;
 
-        $agent = new CLIENT();
-        $useragent_hash = hash('sha256', $agent->get_device() );
-
-        if( !isset( $_SESSION['canary'] ) ) {
-            session_regenerate_id( true );
-            $_SESSION['canary'] = [
-                'birth' => time(),
-                'useragent_hash' => $useragent_hash
+        if (!isset($_SESSION['agent'])) {
+            session_regenerate_id(true);
+            $_SESSION['agent'] = [
+                'birth' => $now,
+                'device' => $device,
+                'device_type' => $device_type,
+                'os' => $os,
+                'browser' => $browser,
             ];
         }
-
-        if( $_SESSION['canary']['birth'] < $now - 300 ) {
+        if( $_SESSION['agent']['birth'] < $now - 300 ) {
             session_regenerate_id( true );
-            $_SESSION['canary']['birth'] = $now;
+            $_SESSION['agent']['birth'] = $now;
         }
 
         // Destroy session if user device is changed
-        if( isset( $_SESSION['user']['login'] ) && ( $_SESSION['canary']['useragent_hash'] !== $useragent_hash )) {
-            // Destroy cookie
-            setcookie( session_name(), "", time() - 3600, '/', APPURL, $secure, true );
-
-            // Destroy session
-            session_unset();
-            session_destroy();
+        if( isset( $_SESSION['agent'] ) && is_array( $_SESSION['agent'] ) ) {
+            $device_check = $_SESSION['agent']['device'] == $device;
+            $device_type_check = $_SESSION['agent']['device_type'] == $device_type;
+            $os_check = $_SESSION['agent']['os'] == $os;
+            $browser_check = $_SESSION['agent']['browser'] == $browser;
+            if( !$device_check || !$device_type_check || !$os_check || !$browser_check ) {
+                setcookie( session_name(), "", time() - 3600, '/', APPURL, $secure, true );
+                session_unset();
+                session_destroy();
+            }
         }
         ob_end_clean();
     }
 
+
     function clear_local_sessions() {
-        // Destroy cookie
-        //setcookie( session_name(), "", time() - 3600, '/', APPURL, '', true );
-        // Destroy session
-        //session_unset();
-        //session_destroy();
+        setcookie( session_name(), "", time() - 3600, '/', APPURL, '', true );
+        session_unset();
+        session_destroy();
     }
 
     function clear_live_sessions() {
@@ -125,8 +137,11 @@ class ACCESS {
     function register( string $login, string $pass, string $email = '', string $name = '', string $picture = '', array $columns = [], array $data = [], array $access = [], string $status = '1' ) : array {
         // User login restrictions
         $login = strtolower( $login );
-        if( strlen( $login ) <= 7 ) {
+        if( strlen( $login ) <= 6 ) {
             return [ 0, T('User login must be at least 8 characters in length!') ];
+        }
+        if( strlen( $pass ) <= 8 ) {
+            return [ 0, T('User password must be at least 8 characters in length!') ];
         }
         if( preg_match( '/[^a-z\d ]/i', $login ) ) {
             return [ 0, T('User login cannot contain special characters!') ];
@@ -144,7 +159,7 @@ class ACCESS {
 
         // Prepares data to insert into users table
         $keys = [ 'user_login', 'user_email', 'user_name', 'user_picture', 'user_data', 'user_access', 'user_since', 'user_status' ];
-        $values = [ $login, $email, $name, $picture, serialize( $data ), serialize( $access ), date('Y-m-d H-i-s'), $status ];
+        $values = [ $login, $email, $name, $picture, json_encode( $data ), json_encode( $access ), date('Y-m-d H-i-s'), $status ];
 
         // Parsing columns
         if( !empty( $columns ) && is_assoc( $columns ) ) {
@@ -226,7 +241,7 @@ class ACCESS {
                 return [ 0, T('User login failed!') ];
             }
         } else {
-            return [ 0, T('User login failed!') ];
+            return [ 0, T('User login failed due to wrong password!') ];
         }
     }
 
@@ -538,20 +553,23 @@ function verify_user_logged_in() {
     }
 }
 
-function logout() {
+function logout_ajax() {
     $a = new ACCESS();
     $a->clear_current_sessions();
-}
-
-if( isset( $_GET['logout'] ) ) {
-    if ($_GET['logout'] == 'true') {
-        logout();
+    if( !isset( $_SESSION['user'] ) ) {
+        es('Logged out Successfully!');
+    } else {
+        ef('Failed to logout!');
     }
 }
 
-/**
- * Set autoload user options as session
- */
+if( isset( $_GET['logout'] ) ) {
+    if ( $_GET['logout'] == 'true' ) {
+        logout_ajax();
+    }
+}
+
+// Set autoload user options as session
 if( user_logged_in() ) {
     $db = new DB();
     $options = $db->select('options', 'option_name,option_value', 'option_scope = "' . $_SESSION['user']['id'] . '" AND option_load = 1');

@@ -18,7 +18,7 @@ $initials = [
 if( defined( 'DB_TYPE' ) ) {
     array_push(
         $initials,
-        'connect/queries',             // Database query functions
+        'connect/queries',              // Database query functions
         'access',                       // User access functions like login, register
         'structure',                    // Basic database structure tables
         'alerts',                       // Notifications to users

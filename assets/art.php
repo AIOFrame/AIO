@@ -49,6 +49,13 @@ if( $type == 'ui' ) {
 
     // Get script code
     foreach( $arts as $a ) {
+        // Load variables
+        include_once( __DIR__ . '/../core/includes/crypt.php' );
+        $cry = Crypto::initiate();
+        if( $a == 'alerts' ) {
+            $art .= 'let get_alerts = \''.$cry->encrypt('get_alerts_ajax').'\';';
+        }
+        // Load script content
         if( file_exists( $ux_dir . $a . '.min.js' ) ){
             $art .= file_get_contents( $ux_dir . $a . '.min.js' );
         } else if( file_exists( $ux_dir . $a . '.js' ) ) {

@@ -37,23 +37,30 @@ foreach( glob( dirname( __FILE__ ) . '/fonts/*', GLOB_ONLYDIR ) as $f ){
     foreach( $fonts as $font ){
         if( strtolower( $fn ) == strtolower( $font[0] ) ){
             $ws = !empty( $font[1] ) ? explode( ',', $font[1] ) : [ 400 ];
+            $css_pre = $css_post = '';
             foreach( $ws as $w ){
+                $fonts_exist = [];
                 $weight = is_numeric( $w ) ? $weights[ $w ] : $w;
                 $fp = '/' . $fn . '-' . $weight;
-                echo '@font-face{font-family:\'' . $fn . '\';';
+                $css_pre .= '@font-face{font-family:\'' . $fn . '\';';
+                $fonts_css = '';
                 if( file_exists( $f . $fp.'.eot' ) ) {
-                    echo file_exists($f . $fp . '.eot') ? 'src:url(\'fonts/' . $fn . $fp . '.eot\');src:' : 'src:';
-                    echo file_exists($f . $fp . '.eot') ? 'url(\'fonts/' . $fn . $fp . '.eot?#iefix\') format(\'embeded-opentype\')' : '';
+                    $fonts_exist[] = 'eot';
+                    $fonts_css .= file_exists($f . $fp . '.eot') ? 'src:url(\'fonts/' . $fn . $fp . '.eot\'),' : '';
+                    $fonts_css .= file_exists($f . $fp . '.eot') ? 'url(\'fonts/' . $fn . $fp . '.eot?#iefix\') format(\'embeded-opentype\')' : '';
                 }
                 if( file_exists( $f . $fp.'.woff2' ) ) {
-                    echo file_exists($f . $fp. '.woff2') ? ',url(\'fonts/'.$fn . $fp . '.woff2\') format(\'woff2\')' : '';
+                    $fonts_exist[] = 'woff2';
+                    $fonts_css .= file_exists($f . $fp. '.woff2') ? ',url(\'fonts/'.$fn . $fp . '.woff2\') format(\'woff2\')' : '';
                 }
                 if( file_exists( $f . $fp.'.woff' ) ) {
-                    echo file_exists($f . $fp. '.woff') ? ',url(\'fonts/'.$fn . $fp . '.woff\') format(\'woff\')' : '';
+                    $fonts_exist[] = 'woff';
+                    $fonts_css .= file_exists($f . $fp. '.woff') ? ',url(\'fonts/'.$fn . $fp . '.woff\') format(\'woff\')' : '';
                 }
-                echo ';font-weight:' . $w . ';';
-                echo 'font-style:normal';
-                echo '}';
+                $css_post .= 'font-weight:' . $w . ';font-style:normal;}';
+                if( !empty( $fonts_css ) ) {
+                    echo $css_pre.$fonts_css.';'.$css_post;
+                }
             }
         }
     }

@@ -60,6 +60,16 @@ function alert_seen( $alert_id = '' ) {
     }
 }
 
+function get_alerts_ajax() {
+    $r = [];
+    if( user_logged_in() ) {
+        $db = new DB();
+        $as = $db->select( 'alerts', '', 'al_user = \''.get_user_id().'\'' );
+        $r = is_array( $as ) ? $as : [ 1, 'test' ];
+    }
+    echo json_encode( $r );
+}
+
 /*
 
 GUIDE FOR ACTIONS

@@ -685,12 +685,12 @@ function process_data_ajax() {
         }
 
         if( !empty( $a['d'] ) ){
-            $a[$pre.'_'.$a['d']] = date('Y-m-d');
+            $a[$pre.$a['d']] = date('Y-m-d');
             unset( $a['d'] );
         }
 
         if( !empty( $a['dt'] ) ){
-            $a[$pre.'_'.$a['dt']] = date('Y-m-d H:i:s');
+            $a[$pre.$a['dt']] = date('Y-m-d H:i:s');
             unset( $a['dt'] );
         }
 
@@ -698,7 +698,7 @@ function process_data_ajax() {
             $auths = explode(',',str_replace(' ','',$a['by']));
             if( is_array( $auths ) ){
                 foreach( $auths as $auth ){
-                    $a[$pre.'_'.$auth] = get_user_id();
+                    $a[$pre.$auth] = get_user_id();
                 }
             }
             unset($a['by']);
@@ -710,7 +710,7 @@ function process_data_ajax() {
             if( is_array( $hs ) ){
                 elog( 'Hidden is array' );
                 foreach( $hs as $k => $v ){
-                    $a[ $pre.'_'.$k ] = $v;
+                    $a[ $pre.$k ] = $v;
                 }
             }
             unset( $a['h'] );
@@ -719,7 +719,7 @@ function process_data_ajax() {
         $keys = prepare_keys( $a, '', 0 );
         $values = prepare_values( $a, '', 0 );
 
-        $query = !empty( $id ) ? $db->update( $table, $keys, $values, $pre.'_id = \''.$id.'\'' ) : $db->insert( $table, $keys, $values );
+        $query = !empty( $id ) ? $db->update( $table, $keys, $values, $pre.'id = \''.$id.'\'' ) : $db->insert( $table, $keys, $values );
 
         if( !empty( $id ) ) {
             $query ? es('Updated Successfully') : ef('Not updated, data sent maybe unchanged / empty');
