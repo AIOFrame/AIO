@@ -375,6 +375,14 @@ body.d .files_actions {
     margin:6px auto;
   }
 }
+[disabled] + .aio_fsp {
+  > .w {
+    margin-right: 0;
+  }
+  .trash {
+    display: none;
+  }
+}
 .empty + .aio_fsp {
   box-shadow: 0 0 1px 1px firebrick inset;
 }

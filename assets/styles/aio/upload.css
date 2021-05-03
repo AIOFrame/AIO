@@ -423,6 +423,13 @@ body.d .files_actions div, body.d .files_actions label {
   margin: 6px auto;
 }
 
+[disabled] + .aio_fsp > .w {
+  margin-right: 0;
+}
+[disabled] + .aio_fsp .trash {
+  display: none;
+}
+
 .empty + .aio_fsp {
   box-shadow: 0 0 1px 1px firebrick inset;
 }

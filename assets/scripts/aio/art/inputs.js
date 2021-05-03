@@ -49,6 +49,40 @@ $(document).ready(function(){
         }
     });
 
+    // Date Picker
+    if( $.fn.datepicker !== undefined ){
+        $.fn.datepicker.language['en'] = {
+            days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+            daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            daysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+            months: ['January','February','March','April','May','June', 'July','August','September','October','November','December'],
+            monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            today: 'Today',
+            clear: 'Clear',
+            dateFormat: 'yyyy-mm-dd',
+            timeFormat: 'hh:ii aa',
+            firstDay: 0
+        };
+        $('.dater').datepicker({
+            language: 'en',
+            position: $(this).data('position'),
+            autoClose: true,
+            onSelect: function(fD, d, e) {
+                $(e.el).trigger('change');
+            }
+        }).each(function(a,b){
+            if( $(b).data('min') !== undefined && $(this).data('min') !== '' ){
+                $(b).datepicker({ minDate: new Date($(b).data('min')) })
+            }
+            if( $(b).data('max') !== undefined && $(this).data('max') !== '' ){
+                $(b).datepicker({ maxDate: new Date($(b).data('max')) })
+            }
+            if( $(b).attr('value') !== undefined && $(b).attr('value') !== '' ) {
+                $(b).datepicker().data('datepicker').selectDate(  new Date( $(b).attr('value') ) );
+            }
+        });
+    }
+
 });
 
 function format_number(a){

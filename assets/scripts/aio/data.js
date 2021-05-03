@@ -141,7 +141,7 @@ function is_empty( e, d ) {
     let result;
     if( $(e)[0] && ( $(e)[0].localName === 'div' || $(e)[0].localName === 'tr' || $(e)[0].localName === 'form' ) ){
         let r = [];
-        $.each($(e).find('input'+d+',select'+d),function(a,b){
+        $.each($(e).find('input'+d+',select'+d+',textarea'+d),function(a,b){
             if( b !== undefined && $(b).val() !== null && $(b).val() !== "" ){
                 $(b).removeClass('empty');
                 r.push(false);
@@ -181,7 +181,7 @@ function _is_empty( e, d ) {
     d = d === undefined || d === '' ? '' : '[data-'+d+']';
     if( $(e)[0] && ( $(e)[0].localName === 'div' || $(e)[0].localName === 'tr' || $(e)[0].localName === 'form' ) ) {
         let r = [];
-        $.each($(e).find('input'+d+',select'+d),function(a,b){
+        $.each($(e).find('input'+d+',select'+d+',textarea'+d),function(a,b){
             if( b !== undefined && $(b).val() !== null && $(b).val() !== "" ){
                 r.push(false);
             } else {
@@ -215,7 +215,7 @@ function clear( e, d ){
 function process_data( e ){
     //$(e).attr('disabled',true);
     let p = $(e).parents('[data-t]');
-    p = p.tagName === 'DIV' ? p : $(e).parents('[data-data]');
+    p = p[0].tagName === 'DIV' ? p : $(e).parents('[data-data]');
 
     p.addClass('load');
     let pre = $(p).data('pre');

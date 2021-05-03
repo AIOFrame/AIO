@@ -262,23 +262,26 @@ class FORM {
      * @param string $button_class Class for upload button
      * @param string $attrs Attributes like class or data tags
      * @param string $extensions Permitted file upload extensions separated by (,) comma Ex: jpg,svg
+     * @param string $size Permitted file size in Mb Ex: 10
      * @param bool $deletable Uploaded files are deletable or not
      * @param string $path Path to upload, will be encrypted on render
      * @param string $pre String to wrap before start
      * @param string $post End string to wrap after />
      */
-    function upload( string $id, string $label, string $button_label = 'Upload', string $value = '', bool $multiple = false, bool $show_history = false, string $button_class = '', string $attrs = '', string $extensions = '', bool $deletable = false, string $path = '', string $pre = '', string $post = '' ) {
+    function upload( string $id, string $label, string $button_label = 'Upload', string $value = '', bool $multiple = false, bool $show_history = false, string $button_class = '', string $attrs = '', string $extensions = '', string $size = '', bool $deletable = false, string $path = '', string $pre = '', string $post = '' ) {
         if( is_numeric( $pre ) ){
             $pre = $pre == 0 ? '<div class="upload_set col">' : '<div class="upload_set col-12 col-lg-'.$pre.'">';
             $post = '</div>';
         }
         $sh = $show_history !== '' ? ' data-history' : '';
         $ext = $extensions !== '' ? ' data-exts="'.$extensions.'"' : '';
+        $sz = $size !== '' ? ' data-size="'.$size.'"' : '';
         $del = $deletable !== '' ? ' data-delete' : '';
         $cry = Crypto::initiate();
         $pat = $path !== '' ? ' data-path="'.$cry->encrypt( $path ).'"' : '';
         $type = $multiple ? 'files' : 'file';
-        echo $pre.'<label for="'.$id.'">'.T($label).'</label><button type="button" class="aio_upload '.$button_class.'" data-url="#'.$id.'" onclick="file_upload(this)" '.$sh.$ext.$del.$pat.'>'.T($button_label).'</button><input id="'.$id.'" name="'.$id.'" type="text" data-'.$type.' value="'.$value.'" '.$attrs.'>'.$post;
+        $mul = $multiple ? 'data-files' : 'data-file';
+        echo $pre.'<label for="'.$id.'">'.T($label).'</label><button type="button" class="aio_upload '.$button_class.'" data-url="#'.$id.'" onclick="file_upload(this)" '.$sh.$ext.$sz.$mul.$del.$pat.'>'.T($button_label).'</button><input id="'.$id.'" name="'.$id.'" type="text" data-'.$type.' value="'.$value.'" '.$attrs.'>'.$post;
     }
 
     /**

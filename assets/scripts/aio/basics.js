@@ -1,4 +1,4 @@
-var domain;
+let domain;
 let b = $('body');
 $(document).ready(function(){
     // MANIPULATOR
@@ -46,13 +46,13 @@ $(document).ready(function(){
     // Fetch States
 
     /* $(b).on('change','select[data-states]',function(){
-        var t = $($(this).data('states'));
+        let t = $($(this).data('states'));
         if( $(this).data('states') !== '' ){
             $.post( location.origin, { 'action':'states', 'id': $(this).val() }, function(r){
                 if( r = JSON.parse( r ) ){
                     if( $.isArray( r ) ){
                         elog(r);
-                        var o = '';
+                        let o = '';
                         $.each( r, function(i,s){
                             o += '<option value="' + s + '">' + s + '</option>';
                         });
@@ -75,13 +75,13 @@ $(document).ready(function(){
 
 
     // $('input.fn').each(function(i,e){
-    //     var a = format_number($(e).val());
+    //     let a = format_number($(e).val());
     //     $(this).val(a);
     // });
 
 
 
-    var debug = !!$('body').hasClass('debug');
+    let debug = !!$('body').hasClass('debug');
 });
 
 
@@ -98,13 +98,13 @@ function scroll_to( element, parent, speed ) {
 }
 
 function store_scroll() {
-    var scrollTimer;
+    let scrollTimer;
     $('[data-save-scroll]').on( 'scroll', function(e){
 
         clearTimeout(scrollTimer);
         scrollTimer = setTimeout(function() {
 
-            var id = $($(e)[0].target).attr('id');
+            let id = $($(e)[0].target).attr('id');
             if (id !== undefined) {
 
                 localStorage[id + '_scroll'] = $($(e)[0].target).scrollTop();
@@ -121,7 +121,7 @@ function restore_scroll() {
 
         if( $(b).attr('id') !== undefined ) {
 
-            var scroll_pos = localStorage[ $(b).attr('id') + '_scroll' ];
+            let scroll_pos = localStorage[ $(b).attr('id') + '_scroll' ];
             $(b).scrollTop(scroll_pos);
 
         }
@@ -130,7 +130,7 @@ function restore_scroll() {
 }
 
 function slength( e, l ){
-    var r = $(e).val().length >= l;
+    let r = $(e).val().length >= l;
     r ? $(e).removeClass('empty') : $(e).addClass('empty');
     if( !r && $(e).data('length-notify') !== undefined && $(e).data('length-notify') !== '' ) {
         notify( $(e).data('length-notify') );
@@ -138,7 +138,7 @@ function slength( e, l ){
     return !r;
 }
 
-var debug = !!$('body').hasClass('debug');
+let debug = !!$('body').hasClass('debug');
 
 function elog( d ) {
     if( debug ) {

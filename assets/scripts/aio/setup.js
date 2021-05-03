@@ -5,7 +5,7 @@ $(document).ready(function () {
     });
 
     // Navigation
-    var Scrollbar = window.Scrollbar;
+    let Scrollbar = window.Scrollbar;
     Scrollbar.init(document.querySelector('.setup.on .data'));
     $('.n').on('click',function(){
         if( $(this).parents('.setup').hasClass('one') ) {

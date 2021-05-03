@@ -4,15 +4,15 @@
         $(this).children(':nth-child('+(1)+')').addClass('active');
 
         // On scroll detect direction and animate
-        var SD = true;
+        let SD = true;
         $(this).on('mousewheel DOMMouseScroll touchMove',function(e){
             //elog(e);
             //elog(e.target);
             if( SD && $(e.target).data('no-fps') === undefined ){
                 e.preventDefault();
-                var scroll_amount = e.originalEvent.wheelDelta;
-                var height = $(this).height();
-                var active = $(this).children('.active').index() + 1;
+                let scroll_amount = e.originalEvent.wheelDelta;
+                let height = $(this).height();
+                let active = $(this).children('.active').index() + 1;
                 SD = false;
                 if( scroll_amount > 0 && active > 1 ) {
                     $(this).children().removeClass('active');
@@ -35,7 +35,7 @@
 
     $.fn.moveUp =  $.fn.slideUp = function() {
 
-        var i = $(this).children('.active').index() - 1;
+        let i = $(this).children('.active').index() - 1;
         if( i >= 0 ) {
             $(this).children().removeClass('active');
             $(this).children(':nth-child(' + (i + 1) + ')').addClass('active');
@@ -45,7 +45,7 @@
 
     $.fn.moveDown =  $.fn.slideDown = function() {
 
-        var i = $(this).children('.active').index() + 1;
+        let i = $(this).children('.active').index() + 1;
         if( i < $(this).children().length ) {
             $(this).children().removeClass('active');
             $(this).children(':nth-child(' + (i + 1) + ')').addClass('active');
