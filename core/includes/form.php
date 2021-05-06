@@ -333,4 +333,22 @@ class FORM {
         $c = Crypto::initiate();
         echo '<button onclick="process_data(this)" data-action="'.$c->encrypt('process_data_ajax').'" class="'.$class.'" '.$attr.'>'.T( $text ).'</button>';
     }
+
+    /**
+     * String validator
+     * @param string $type Type of validation. email
+     * @param string $string
+     * @param string $logic
+     * @return bool
+     */
+    // TODO: Build this into an advanced validator
+    function validate( string $type = 'email', string $string = '', string $logic = '' ): bool {
+        if( $type = 'email' ) {
+            $at = strpos($string, '@');
+            $dot = strpos($string, '.');
+            return ($at !== false && $dot !== false && $at > $dot);
+        } else {
+            return 0;
+        }
+    }
 }

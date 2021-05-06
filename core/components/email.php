@@ -34,7 +34,7 @@ class MAIL {
 
         if( !empty( $key ) ) {
 
-            require ROOTPATH . 'core/components/ext/sendgrid/autoload.php';
+            require ROOTPATH . 'core/modules/vendor/autoload.php';
 
             $email = new \SendGrid\Mail\Mail();
             $email->setFrom( $from );
@@ -73,7 +73,7 @@ class MAIL {
         $key = empty( $key ) ? get_config( 'mailersend_key' ) : $key;
 
         if( !empty( $key ) ) {
-            require ROOTPATH . 'core/components/ext/guzzle/autoload.php';
+            require ROOTPATH . 'core/modules/vendor/autoload.php';
             $client = new GuzzleHttp\Client(['base_uri' => 'https://api.mailersend.com/v1/']);
             $options = [
                 'headers' => [

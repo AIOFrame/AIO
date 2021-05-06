@@ -398,7 +398,7 @@ function body_class( $class = '' ) {
     $dm = !empty( $dm ) ? ' d' : '';
 
     // Get Client Info
-    $client = new CLIENT();
+    $client = new AGENT();
     $dev = strtolower(str_replace(' ','_',$client->get_device_type()));
     $os = strtolower(str_replace(' ','_',$client->get_os()));
     $brow = strtolower(str_replace(' ','_',$client->get_browser()));
