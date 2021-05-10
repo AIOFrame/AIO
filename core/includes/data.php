@@ -1,5 +1,7 @@
 <?php
 
+require_once( ROOTPATH . 'core/modules/world.php' );
+
 class RANGE {
 
     /**

@@ -32,20 +32,11 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'ba0ebfe053b901971210081e37a4016d742b7fe6',
+    'reference' => '44fdf0c2b2f394f866184c14c28f05f6b7c6edd8',
     'name' => '__root__',
   ),
   'versions' => 
   array (
-    '2checkout/2checkout-php' => 
-    array (
-      'pretty_version' => 'v0.4.0',
-      'version' => '0.4.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '78b10608af816b79ec19dad6879a5f956bf9b5f0',
-    ),
     '__root__' => 
     array (
       'pretty_version' => 'dev-master',
@@ -53,7 +44,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'ba0ebfe053b901971210081e37a4016d742b7fe6',
+      'reference' => '44fdf0c2b2f394f866184c14c28f05f6b7c6edd8',
     ),
     'composer/package-versions-deprecated' => 
     array (

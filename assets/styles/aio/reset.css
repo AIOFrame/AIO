@@ -3,13 +3,14 @@ html, body, div, span, applet, object, iframe, p, button, blockquote, pre, a, ab
   margin: 0;
   padding: 0;
   font-style: normal;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   font-family: sans-serif;
   font-weight: normal;
 }
 
 pre {
-  font-family: "Courier New", monospace;
+  font-family: 'Courier New',monospace;
   font-weight: bold;
 }
 
@@ -49,7 +50,8 @@ h6 {
 input, button, select, textarea {
   width: 100%;
   padding: 12px;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   border: 0;
   outline: none;
   font-size: 14px;
@@ -62,7 +64,8 @@ input, button, select, textarea {
 input:disabled, button:disabled, select:disabled, textarea:disabled {
   background: #eee;
   cursor: not-allowed;
-  box-shadow: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 
 select {
@@ -72,7 +75,8 @@ select {
 
 button {
   width: auto;
-  box-shadow: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
   border: 0;
   margin: 20px 0;
 }
@@ -86,7 +90,8 @@ label {
 
 [type=checkbox], [type=radio] {
   width: auto;
-  box-shadow: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 
 [type=radio], [type=checkbox] {
@@ -155,5 +160,4 @@ fieldset {
   padding-right: 12px;
   padding-left: 30px;
 }
-
 /*# sourceMappingURL=reset.css.map */

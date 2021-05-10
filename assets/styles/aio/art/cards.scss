@@ -1,8 +1,7 @@
-/* Blocks */
+/* cards */
 
-.block {
+.card {
   background:#fff;
-  border-radius:10px;
   padding: 15px;
   position: relative;
   cursor:pointer;
@@ -125,7 +124,7 @@
     background:url('./icons/trash.svg') no-repeat center / 20px;
   }
 }
-.block.off, .block.disabled, .plate.off, .plate.disabled {
+.card.off, .card.disabled, .plate.off, .plate.disabled {
   opacity:.5;
 }
 /* .plate .head {
@@ -139,7 +138,7 @@
 .plate .body {
   padding: 15px;
 } */
-.block:not(.no-float):hover {
+.card:not(.no-float):hover {
   box-shadow:0 0 30px rgba(0,0,0,.2), 0 10px 30px rgba(0,0,0,.05);
   transform:translateY(-2px);
   .actions {

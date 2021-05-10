@@ -30,11 +30,11 @@ class ACCESS {
     function __construct() {
         ob_start();
         $now = time();
-        $agent = new CLIENT();
-        $device = $agent->get_device();
-        $device_type = $agent->get_device_type();
-        $os = $agent->get_os();
-        $browser = $agent->get_browser();
+
+        $device = get_user_device();
+        $device_type = get_user_device_type();
+        $os = get_user_os();
+        $browser = get_user_browser();
         if( session_status() === PHP_SESSION_NONE ) {
             session_name(str_replace(' ', '', APPNAME));
             $secure = isset($_SERVER['HTTPS']);
@@ -216,15 +216,14 @@ class ACCESS {
         if( password_verify( $pass, $hash['access_pass'] ) ) {
             $db->update( 'access', [ 'access_recent' ], [ date('Y-m-d H-i-s') ], 'access_uid = \''.$user['user_id'].'\'' );
             // Set database sessions
-            $agent = new CLIENT();
             $cry = Crypto::initiate();
             $session_data = [
                 'uid' => $user['user_id'],
                 'time' => date('Y-m-d H-i-s'),
                 'code' => session_id(),
-                'os' => $agent->get_os(),
-                'client' => $agent->get_browser(),
-                'device' => $agent->get_device_type(),
+                'os' => get_user_os(),
+                'client' => get_user_browser(),
+                'device' => get_user_device_type(),
                 'status' => 1
             ];
             $session = $db->insert( 'sessions', prepare_keys( $session_data, 'session_' ), prepare_values( $session_data ) );

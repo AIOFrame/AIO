@@ -114,6 +114,32 @@ function asset_id_to_url( $fid ): array {
     } */
 }
 
+/**
+ * Renders visual download
+ * @param string $urls URLs to render download
+ * @param string $pre Class to wrap around each download
+ */
+function render_downloads( string $urls = '', string $pre = '' ) {
+    if( !empty( $urls ) ) {
+        $files = explode( '|', $urls );
+        $pre = is_numeric( $pre ) ? 'col-12 col-lg-'.$pre : $pre;
+        $db = new DB();
+        foreach( $files as $f ) {
+            $file = $db->select( 'storage', '', 'file_url = \''.$f.'\'', 1 );
+            $ext = $file['file_type'] ?? '';
+            $name = $file['file_name'] ?? '';
+            $size = $file['file_size'] ?? 0;
+            $size = $size > 1024 ? round( $file['file_size'] / 1024, 2 ).' Mb' : $file['file_size'].' Kb';
+            echo '<div class="'.$pre.'">';
+            echo '<a class="aio_df" href="'.storage_url($f).'" download>';
+            echo '<i class="ico '.$ext.'"><span>'.$ext.'</span></i>';
+            echo '<div class="name">'.$name.'</div>';
+            echo '<div class="size">'.$size.'</div>';
+            echo '</a></div>';
+        }
+    }
+}
+
 // Previous function as echoed
 
 function get_image_data() {

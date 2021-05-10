@@ -9,7 +9,7 @@ function get_module( $mod = '' ) {
 // Include SMS Module and Send SMS
 
 function send_sms( $number, $message, $gateway, $key = '', $secret = '' ) {
-    include_once( ROOTPATH . 'core/components/sms.php' );
+    include_once( ROOTPATH . 'core/modules/sms.php' );
     global $sms_loaded;
     if( !$sms_loaded ){
         $sms = new SMS;
@@ -28,7 +28,7 @@ function nsms( $no, $msg ) {
 // Include Google Maps Module and Render Map
 
 function render_maps() {
-    include_once( ROOTPATH . 'core/components/google_maps.php' );
+    include_once( ROOTPATH . 'core/modules/google_maps.php' );
     global $google_maps_loaded;
     if( !$google_maps_loaded ){
         $gmaps = new GMaps();
@@ -40,7 +40,7 @@ function render_maps() {
 // Include and Render various BarCode
 
 function barcode( $text, $width = '100', $height = '36', $textShow = 0, $bgColor = '#ffffff', $lineColor = '#000000', $textAlign = 'center', $textPosition = 'bottom', $textMargin = '0', $format = 'CODE128' ) {
-    include_once( ROOTPATH . 'core/components/external/JsBarcode/barcode.php' );
+    include_once( ROOTPATH . 'core/modules/external/JsBarcode/barcode.php' );
     global $barcode_loaded;
     if( !$barcode_loaded ) {
         $barcode = new BARCODE();
@@ -52,7 +52,7 @@ function barcode( $text, $width = '100', $height = '36', $textShow = 0, $bgColor
 // File Uploader and Stored URL Processor
 
 function file_upload() {
-    include_once( ROOTPATH . 'core/components/file_uploader.php' );
+    include_once( ROOTPATH . 'core/modules/file_uploader.php' );
     global $file_upload_loaded;
     if( !$file_upload_loaded ){
         $file = new FUP();
@@ -83,7 +83,7 @@ function file_url( $url ): string {
 // Emailer by Modules
 
 function email( $to, $subject, $content, $from, $cc = '' ){
-    include_once( ROOTPATH . 'core/components/email.php' );
+    include_once( ROOTPATH . 'core/modules/email.php' );
     $mail = new MAIL();
     return $mail->send( $to, $subject, $content, $from, $cc );
 }
@@ -94,6 +94,6 @@ function language_editor(){
     language_editor();
 }
 function manage_translations() {
-    include_once( ROOTPATH . 'core/components/translations.php' );
+    include_once( ROOTPATH . 'core/modules/translations.php' );
 }
 

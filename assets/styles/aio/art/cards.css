@@ -1,43 +1,52 @@
-/* Blocks */
-.block {
+/* cards */
+.card {
   background: #fff;
-  border-radius: 10px;
   padding: 15px;
   position: relative;
   cursor: pointer;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.04);
-  transition: 0.6s;
+  -webkit-box-shadow: 0 0 30px rgba(0, 0, 0, 0.04);
+          box-shadow: 0 0 30px rgba(0, 0, 0, 0.04);
+  -webkit-transition: .6s;
+  transition: .6s;
   display: block;
   margin-bottom: 20px;
 }
-.block .image, .block .pic {
+
+.card .image, .card .pic {
   width: 80px;
   height: 80px;
   margin: 10px auto;
   font-size: 30px;
   padding: 20px 0;
   text-align: center;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
 }
-.block .image.b, .block .pic.b {
+
+.card .image.b, .card .pic.b {
   border: 1px solid lightgrey;
 }
-.block .pic {
+
+.card .pic {
   border-radius: 25px;
 }
-.block .image.nb {
+
+.card .image.nb {
   border: none;
 }
-.block .image.r {
+
+.card .image.r {
   margin: 10px 0 10px auto;
 }
-.block .image.l {
+
+.card .image.l {
   margin: 10px auto 10px 0;
 }
-.block .image.bg {
+
+.card .image.bg {
   width: 100%;
   border: 0;
   border-radius: 0;
@@ -45,56 +54,72 @@
   background-repeat: no-repeat;
   background-size: 80px;
 }
-.block .title {
+
+.card .title {
   display: block;
   text-align: center;
   text-transform: uppercase;
 }
-.block .color1 {
+
+.card .color1 {
   color: #111;
 }
-.block .color2 {
+
+.card .color2 {
   color: #222;
 }
-.block .title.s {
+
+.card .title.s {
   white-space: nowrap;
   overflow: hidden;
 }
-.block .title.l {
+
+.card .title.l {
   text-align: left;
 }
-.block .title.r {
+
+.card .title.r {
   text-align: right;
 }
-.block .desc > div, .block .desc > p {
+
+.card .desc > div, .card .desc > p {
   font-size: 14px;
   margin: 10px 0;
 }
-.block .desc > div:last-child, .block .desc > p:last-child {
+
+.card .desc > div:last-child, .card .desc > p:last-child {
   margin-bottom: 0;
 }
-.block .desc .ico {
+
+.card .desc .ico {
   margin-right: 5px;
 }
-.block .actions {
+
+.card .actions {
   position: absolute;
   top: 10px;
   right: 10px;
-  opacity: 0.3;
-  transition: 0.6s;
+  opacity: .3;
+  -webkit-transition: .6s;
+  transition: .6s;
   z-index: 5;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
-.block .actions.l {
+
+.card .actions.l {
   right: auto;
   left: 10px;
 }
-.block .actions > i, .block .actions > div {
+
+.card .actions > i, .card .actions > div {
   margin: 0 5px;
   width: 20px;
   height: 20px;
 }
-.block .status {
+
+.card .status {
   position: absolute;
   left: 10px;
   top: 10px;
@@ -106,27 +131,32 @@
   letter-spacing: 1px;
   color: grey;
 }
-.block .status.r {
+
+.card .status.r {
   left: auto;
   right: 10px;
 }
-.block .status.green {
+
+.card .status.green {
   color: darkolivegreen;
   border: 1px solid darkolivegreen;
 }
-.block .status.red {
+
+.card .status.red {
   color: firebrick;
   border: 1px solid firebrick;
 }
-.block .edit {
+
+.card .edit {
   background: url("./icons/edit.svg") no-repeat center/20px;
 }
-.block .trash {
+
+.card .trash {
   background: url("./icons/trash.svg") no-repeat center/20px;
 }
 
-.block.off, .block.disabled, .plate.off, .plate.disabled {
-  opacity: 0.5;
+.card.off, .card.disabled, .plate.off, .plate.disabled {
+  opacity: .5;
 }
 
 /* .plate .head {
@@ -140,12 +170,14 @@
 .plate .body {
   padding: 15px;
 } */
-.block:not(.no-float):hover {
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.05);
-  transform: translateY(-2px);
-}
-.block:not(.no-float):hover .actions {
-  opacity: 1;
+.card:not(.no-float):hover {
+  -webkit-box-shadow: 0 0 30px rgba(0, 0, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.05);
+          box-shadow: 0 0 30px rgba(0, 0, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.05);
+  -webkit-transform: translateY(-2px);
+          transform: translateY(-2px);
 }
 
-/*# sourceMappingURL=blocks.css.map */
+.card:not(.no-float):hover .actions {
+  opacity: 1;
+}
+/*# sourceMappingURL=cards.css.map */

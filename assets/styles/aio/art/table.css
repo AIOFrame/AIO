@@ -2,44 +2,58 @@
 table {
   width: 100%;
   border-collapse: collapse;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
   border-spacing: 0;
 }
+
 table thead {
+  background: -webkit-gradient(linear, right top, left top, from(#222), to(#111));
   background: linear-gradient(-90deg, #222 0%, #111 100%);
 }
+
 table thead tr {
   z-index: 10;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.05);
+  -webkit-box-shadow: 0 0 25px rgba(0, 0, 0, 0.05);
+          box-shadow: 0 0 25px rgba(0, 0, 0, 0.05);
 }
+
 table thead th {
   padding: 12px 8px;
   font-weight: normal;
 }
+
 table tbody {
   background: #fff;
 }
+
 table tr {
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
 }
+
 table td {
   padding: 10px;
   position: relative;
 }
+
 table td input, table td textarea, table td select {
   margin: 0;
   width: auto;
 }
+
 table td.p0 {
   padding: 0 !important;
 }
+
 table td.l, table th.l, table td.l input {
   text-align: left;
 }
+
 table td.c, table th.c, table td.c input {
   text-align: center;
 }
+
 table td.r, table th.r, table td.r input {
   text-align: right;
 }
@@ -63,8 +77,9 @@ table.l tr {
   position: relative;
   border: 0;
 }
+
 table.l tr:after {
-  content: "";
+  content: '';
   width: calc(100% - 80px);
   left: 20px;
   height: 1px;
@@ -72,27 +87,33 @@ table.l tr:after {
   display: block;
   position: absolute;
 }
+
 table.l td {
   padding: 20px 40px;
   font-size: 16px;
 }
 
 table.xls thead tr {
-  box-shadow: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
+
 table.xls td {
   padding: 8px 10px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   min-height: 40px;
   cursor: pointer;
 }
+
 table.xls tbody td, table.xls tfoot td {
   padding: 0;
 }
+
 table.xls td input {
   margin: 0;
   border-radius: 0;
-  box-shadow: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
   border: 0;
 }
 
@@ -101,11 +122,14 @@ table.plain {
   border-collapse: collapse;
   border-radius: 0;
 }
+
 table.plain thead, table.plain tbody, table.plain tfoot, table.plain tr, table.plain td, table.plain th {
-  box-shadow: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
   background: #fff;
   color: #000;
 }
+
 table.plain tr:after {
   display: none;
 }
@@ -113,21 +137,27 @@ table.plain tr:after {
 table.r thead tr {
   border: 0;
 }
+
 table.r tr:first-child {
   border-radius: 5px 5px 0 0;
 }
+
 table.r tr:first-child td:first-child, table.r tr:first-child th:first-child {
   border-top-left-radius: 5px;
 }
+
 table.r tr:first-child td:last-child, table.r tr:first-child th:last-child {
   border-top-right-radius: 5px;
 }
+
 table.r tr:last-child {
   border-radius: 0 0 5px 5px;
 }
+
 table.r tr:last-child td:first-child, table.r tr:last-child th:first-child {
   border-bottom-left-radius: 5px;
 }
+
 table.r tr:last-child td:last-child, table.r tr:last-child th:last-child {
   border-bottom-right-radius: 5px;
 }
@@ -135,24 +165,28 @@ table.r tr:last-child td:last-child, table.r tr:last-child th:last-child {
 [dir=rtl] table.r tr:first-child {
   border-radius: 0 0 5px 5px;
 }
+
 [dir=rtl] table.r tr:first-child td:first-child, [dir=rtl] table.r tr:first-child th:first-child {
   border-top-left-radius: 0;
   border-bottom-right-radius: 5px;
 }
+
 [dir=rtl] table.r tr:first-child td:last-child, [dir=rtl] table.r tr:first-child th:last-child {
   border-top-right-radius: 0;
   border-bottom-left-radius: 5px;
 }
+
 [dir=rtl] table.r tr:last-child {
   border-radius: 5px 5px 0 0;
 }
+
 [dir=rtl] table.r tr:last-child td:first-child, [dir=rtl] table.r tr:last-child th:first-child {
   border-bottom-left-radius: 0;
   border-top-right-radius: 5px;
 }
+
 [dir=rtl] table.r tr:last-child td:last-child, [dir=rtl] table.r tr:last-child th:last-child {
   border-bottom-right-radius: 0;
   border-top-left-radius: 5px;
 }
-
 /*# sourceMappingURL=table.css.map */

@@ -292,13 +292,6 @@ class ComposerStaticInitf36cec08384430c36c4813b76fb6fa5a
     );
 
     public static $prefixesPsr0 = array (
-        'T' => 
-        array (
-            'Twocheckout' => 
-            array (
-                0 => __DIR__ . '/..' . '/2checkout/2checkout-php/lib',
-            ),
-        ),
         'H' => 
         array (
             'HTMLPurifier' => 

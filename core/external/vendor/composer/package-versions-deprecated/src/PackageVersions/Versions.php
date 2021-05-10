@@ -33,7 +33,6 @@ final class Versions
      * @internal
      */
     const VERSIONS          = array (
-  '2checkout/2checkout-php' => 'v0.4.0@78b10608af816b79ec19dad6879a5f956bf9b5f0',
   'composer/package-versions-deprecated' => '1.11.99.1@7413f0b55a051e89485c5cb9f765fe24bb02a7b6',
   'ezyang/htmlpurifier' => 'v4.13.0@08e27c97e4c6ed02f37c5b2b20488046c8d90d75',
   'guzzlehttp/guzzle' => '7.3.0@7008573787b430c1c1f650e3722d9bba59967628',
@@ -67,7 +66,7 @@ final class Versions
   'vonage/client-core' => '2.9.2@2b734ff7d86d4b6f169df49aed3aefcdac7a40d0',
   'vonage/nexmo-bridge' => '0.1.0@62653b1165f4401580ca8d2b859f59c968de3711',
   'whichbrowser/parser' => 'v2.1.1@da24adc4f4f26002673d236e69b91a10f2fd594c',
-  '__root__' => 'dev-master@ba0ebfe053b901971210081e37a4016d742b7fe6',
+  '__root__' => 'dev-master@44fdf0c2b2f394f866184c14c28f05f6b7c6edd8',
 );
 
     private function __construct()

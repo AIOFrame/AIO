@@ -255,11 +255,12 @@ function process_data( e ){
         }
     });
     console.log(d);
-    post( d.action, d, p.data('notify'), p.data('reload'), p.data('redirect'), 0, p.data('callback'), p.data('reset') );
+    post( d.action, d, p.data('notify'), p.data('reload'), p.data('redirect'), 0, p.data('callback'), p.data('reset'), p );
 
 }
 
-function process_finish( r ) {
+function process_finish( p, r ) {
+    $(p).find('[onclick="process_data(this)"]').attr('disabled',false);
     //elog( r );
     //$(e).attr('disabled',false);
 }
@@ -309,7 +310,7 @@ function trash_data( a, t, l ) {
     }
 }
 
-function post( action, data, notify_time, reload_time, redirect, redirect_time, callback, reset ) {
+function post( action, data, notify_time, reload_time, redirect, redirect_time, callback, reset, p ) {
     //elog(callback);
     let d = $.extend({}, { 'action' : action }, data);
     $.post( location.origin, d, function(r) {
@@ -342,6 +343,7 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
                     }, redirect_time * 1000)
                 }
             }
+            process_finish( p, r );
             //this[callback](r);
         }
         catch( rat ) {
@@ -352,7 +354,7 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
 
 function reload( time_seconds ){
 
-    var t = time_seconds !== undefined && time_seconds !== '' ? time_seconds * 1000 : 5000;
+    let t = time_seconds !== undefined && time_seconds !== '' ? time_seconds * 1000 : 5000;
     setTimeout(function(){ location.reload() },t);
 
 }
