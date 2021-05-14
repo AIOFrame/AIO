@@ -173,7 +173,7 @@ class FORM {
      * @param string $pre String to wrap before start of <input>. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post End string to wrap after />
      */
-    function render_options( $type = 'radio', $name = '', $values = [], $checked = '', $attr = '', bool $label_first = false, string $pre = '', string $post = '' ) {
+    function render_options( string $type = 'radio', string $name = '', array $values = [], string $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '' ) {
         if( is_array( $values ) ) {
             $type = $type == 'radio' ? 'type="radio"' : 'type="checkbox"';
             $valued = is_assoc( $values ); $x = 0;
@@ -181,6 +181,8 @@ class FORM {
                 $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
                 $post = '</div>';
             }
+            if( strpos( $attr, 'data-array') !== false )
+                $name = $name . '[]';
             $uq = rand(1,999);
             if( is_assoc( $values ) ) {
                 foreach ($values as $val => $title) {

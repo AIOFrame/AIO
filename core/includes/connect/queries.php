@@ -541,7 +541,9 @@ class DB {
     function save_post_option( $option, $user = false ){
         $db = new DB();
         if( isset( $_POST[$option] ) ){
-            $o = $db->update_option( $option, $_POST[$option], $user ? $_SESSION['user_id'] : 0 );
+            $v = $_POST[$option];
+            $v = is_array( $v ) ? json_encode( $v ) : $v;
+            $o = $db->update_option( $option, $v, $user ? $_SESSION['user_id'] : 0 );
         }
     }
 
@@ -552,6 +554,7 @@ class DB {
         foreach( $options as $op ){
             if( is_array( $op ) ){
                 $u = isset( $op[1] ) && $op[1] ? 1 : 0;
+                //$u = is_array( $u ) ? json_encode( $u ) : $u;
                 $db->save_post_option( $op[0], $u );
             } else {
                 $db->save_post_option( $op );
