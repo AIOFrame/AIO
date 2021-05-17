@@ -254,9 +254,25 @@ textarea {
   opacity:1;
   pointer-events:all
 }
-
 .next, .prev {
   margin: 0;
+}
+
+/* Auto Filters */
+
+.auto_filters {
+  label {
+    margin-bottom: 8px;
+  }
+  input, textarea, select {
+    margin-bottom: 0;
+    padding:0 12px;
+    border:0;
+  }
+  button {
+    width: 100%;
+    margin: 0;
+  }
 }
 
 [dir=rtl] {

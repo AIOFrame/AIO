@@ -96,6 +96,9 @@ class FORM {
                 $ch = $value == 'true' || $value == '1' ? 'checked' : '';
                 $input .= '<input type="checkbox" data-check="#'.$id.'" class="slide m" '.$ch.'></div>';
                 break;
+            case 'select':
+                $this->select($id,$label,$placeholder,[],$value,$attrs,$pre,$post,0,1);
+                break;
             default:
                 $input = '<input type="'.$type.'" autocapitalize="none" id="'.$id.'" name="'.$n.'" '.$at.$ph.$va.'>';
                 break;
@@ -352,5 +355,28 @@ class FORM {
         } else {
             return 0;
         }
+    }
+
+    function filters( array $filters = [] ) {
+        echo '<form class="row">';
+        foreach( $filters as $f ) {
+            $type = $f[0] ??= 'text';
+            $id = $f[1] ??= '';
+            $label = $f[2] ??= '';
+            $place = $f[3] ??= $f['2'];
+            $val = isset( $_POST[$id] ) ? $_POST[$id] : ( isset( $f[4] ) ? $f[4] : '');
+            $attrs = $f[5] ??= '';
+            $pre = $f[6] ??= '';
+            if( $type == 'select' ) {
+                $options = $f[4] ??= [];
+                $value = $_POST[ $id ] ??= '';
+                $this->select( $id, $label, $place, $options, $value, $attrs, $pre );
+            } else {
+                $this->input( $type, $id, $label, $place, $val, $attrs, $pre );
+            }
+        }
+        echo '<div class="col"><button class="filter">'.T('Filter').'</button></div>';
+        echo '<div class="col"><button name="clear" value="clear" class="clear">'.T('Clear').'</button></div>';
+        echo '</form>';
     }
 }
