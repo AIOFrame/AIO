@@ -176,7 +176,7 @@ class FORM {
      * @param string $pre String to wrap before start of <input>. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post End string to wrap after />
      */
-    function render_options( string $type = 'radio', string $name = '', array $values = [], string $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '' ) {
+    function render_options( string $type = 'radio', string $label = '', string $name = '', array $values = [], string $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '' ) {
         if( is_array( $values ) ) {
             $type = $type == 'radio' ? 'type="radio"' : 'type="checkbox"';
             $valued = is_assoc( $values ); $x = 0;
@@ -187,6 +187,7 @@ class FORM {
             if( strpos( $attr, 'data-array') !== false )
                 $name = $name . '[]';
             $uq = rand(1,999);
+            echo !empty($label) ? '<label class="db">'.T($label).'</label>' : '';
             if( is_assoc( $values ) ) {
                 foreach ($values as $val => $title) {
                     $k = $valued ? $val . $x . '_' . $uq : str_replace(' ', '', $name) . $x;
@@ -238,8 +239,8 @@ class FORM {
      * @param string $pre String to wrap before start of <input>. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post End string to wrap after />
      */
-    function radios( string $name, array $values = [], string $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '' ){
-        $this->render_options( 'radio', $name, $values, $checked, $attr, $label_first, $pre, $post );
+    function radios( string $name, string $label = '', array $values = [], string $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '' ){
+        $this->render_options( 'radio', $label, $name, $values, $checked, $attr, $label_first, $pre, $post );
     }
 
     /**
@@ -252,8 +253,8 @@ class FORM {
      * @param string $pre String to wrap before start of <input>. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post End string to wrap after />
      */
-    function checkboxes( string $name, array $values = [], string $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '' ){
-        $this->render_options( 'checkbox', $name, $values, $checked, $attr, $label_first, $pre, $post );
+    function checkboxes( string $name, string $label = '', array $values = [], string $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '' ){
+        $this->render_options( 'checkbox', $label, $name, $values, $checked, $attr, $label_first, $pre, $post );
     }
 
     /**
