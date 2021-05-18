@@ -373,7 +373,7 @@ class FORM {
     }
 
     function filters( array $filters = [] ) {
-        echo '<form class="row">';
+        echo '<div class="auto_filters"><form class="row">';
         foreach( $filters as $f ) {
             $type = $f[0] ??= 'text';
             $id = $f[1] ??= '';
@@ -392,6 +392,6 @@ class FORM {
         }
         echo '<div class="col"><button class="filter">'.T('Filter').'</button></div>';
         echo '<div class="col"><button name="clear" value="clear" class="clear">'.T('Clear').'</button></div>';
-        echo '</form>';
+        echo '</form></div>';
     }
 }
