@@ -3,14 +3,13 @@ html, body, div, span, applet, object, iframe, p, button, blockquote, pre, a, ab
   margin: 0;
   padding: 0;
   font-style: normal;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   font-family: sans-serif;
   font-weight: normal;
 }
 
 pre {
-  font-family: 'Courier New',monospace;
+  font-family: "Courier New", monospace;
   font-weight: bold;
 }
 
@@ -50,8 +49,7 @@ h6 {
 input, button, select, textarea {
   width: 100%;
   padding: 12px;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   border: 0;
   outline: none;
   font-size: 14px;
@@ -61,11 +59,14 @@ input, button, select, textarea {
   border-radius: 0;
 }
 
+select, button {
+  cursor: pointer;
+}
+
 input:disabled, button:disabled, select:disabled, textarea:disabled {
   background: #eee;
   cursor: not-allowed;
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
 }
 
 select {
@@ -75,8 +76,7 @@ select {
 
 button {
   width: auto;
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
   border: 0;
   margin: 20px 0;
 }
@@ -90,8 +90,7 @@ label {
 
 [type=checkbox], [type=radio] {
   width: auto;
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
 }
 
 [type=radio], [type=checkbox] {
@@ -160,4 +159,5 @@ fieldset {
   padding-right: 12px;
   padding-left: 30px;
 }
+
 /*# sourceMappingURL=reset.css.map */
