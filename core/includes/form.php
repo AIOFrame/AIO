@@ -51,7 +51,8 @@ class FORM {
         echo !empty( $label ) ? '<label for="'.$id.'">'.T($label).'</label>' : '';
         $ph = !empty( $placeholder ) ? ' placeholder="'.$placeholder.'" data-placeholder="'.$placeholder.'"' : '';
         echo '<select name="'.$id.'" id="'.$id.'"'.$at.$ph.'">';
-        if( str_contains( $attr, 'select2' ) ) {
+        //if( str_contains( $attr, 'select2' ) ) {
+        if( strpos( $attr, 'select2' ) !== false ) {
             $placeholder = '';
             array_unshift( $options, 'select2_placeholder' );
         }
@@ -176,7 +177,7 @@ class FORM {
      * @param string $pre String to wrap before start of <input>. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post End string to wrap after />
      */
-    function render_options( string $type = 'radio', string $label = '', string $name = '', array $values = [], string $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '' ) {
+    function render_options( string $type = 'radio', string $label = '', string $name = '', array $values = [], string $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ) {
         if( is_array( $values ) ) {
             $type = $type == 'radio' ? 'type="radio"' : 'type="checkbox"';
             $valued = is_assoc( $values ); $x = 0;
@@ -184,10 +185,20 @@ class FORM {
                 $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
                 $post = '</div>';
             }
+            $wrap_inputs_pre = !empty( $inputs_wrap ) ? '<div class="'.$inputs_wrap.'">' : '';
+            $wrap_inputs_post = !empty( $inputs_wrap ) ? '</div>' : '';
+            if( is_numeric( $inputs_pre ) ) {
+                $inputs_pre = $inputs_pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$inputs_pre.'">';
+                $inputs_post = '</div>';
+                $wrap_inputs_pre = '<div class="row '.$inputs_wrap.'">';
+                $wrap_inputs_post = '</div>';
+            }
             if( strpos( $attr, 'data-array') !== false )
                 $name = $name . '[]';
             $uq = rand(1,999);
+            echo $pre;
             echo !empty($label) ? '<label class="db">'.T($label).'</label>' : '';
+            echo $wrap_inputs_pre;
             if( is_assoc( $values ) ) {
                 foreach ($values as $val => $title) {
                     $k = $valued ? $val . $x . '_' . $uq : str_replace(' ', '', $name) . $x;
@@ -195,9 +206,9 @@ class FORM {
                     $checked = is_array( $checked ) ? $checked : explode(',',$checked);
                     $c = in_array( $value, $checked ) ? 'checked' : '';
                     if ($label_first) {
-                        echo $pre . '<label for="' . $k . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' name="' . $name . '" data-key="'.$name.'" id="' . $k . '" value="' . $value . '" '. $c .' >' . $post;
+                        echo $inputs_pre . '<label for="' . $k . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' name="' . $name . '" data-key="'.$name.'" id="' . $k . '" value="' . $value . '" '. $c .' >' . $inputs_post;
                     } else {
-                        echo $pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" data-key="'.$name.'" id="' . $k . '" value="' . $value . '" '. $c .' ><label for="' . $k . '">' . $title . '</label>' . $post;
+                        echo $inputs_pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" data-key="'.$name.'" id="' . $k . '" value="' . $value . '" '. $c .' ><label for="' . $k . '">' . $title . '</label>' . $inputs_post;
                     }
                     $x++;
                 }
@@ -209,14 +220,17 @@ class FORM {
                     $data = is_array($val) && !empty($val[2]) ? $val[2] : '';
                     $checked = is_array( $checked ) ? $checked : explode(',',$checked);
                     $c = in_array( $value, $checked ) ? 'checked' : '';
+
                     if ($label_first) {
-                        echo $pre . '<label for="' . $k . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' ' . $data . ' data-key="'.$name.'" name="' . $name . '" id="' . $k . '" value="' . $value . '" '.$c.'>' . $post;
+                        echo $inputs_pre . '<label for="' . $k . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' ' . $data . ' data-key="'.$name.'" name="' . $name . '" id="' . $k . '" value="' . $value . '" '.$c.'>' . $inputs_post;
                     } else {
-                        echo $pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" data-key="'.$name.'" id="' . $k . '" value="' . $value . '" ' . $data . ' '.$c.'><label for="' . $k . '">' . $title . '</label>' . $post;
+                        echo $inputs_pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" data-key="'.$name.'" id="' . $k . '" value="' . $value . '" ' . $data . ' '.$c.'><label for="' . $k . '">' . $title . '</label>' . $inputs_post;
                     }
                     $x++;
                 }
             }
+            echo $wrap_inputs_post;
+            echo $post;
             /* if (is_assoc( $d )) {
                 foreach ($d as $k => $t) {
                     echo $before . '<label for="cb_' . $k . '" ><input ' . $attrs . '  id="cb_' . $k . '" type="' . $tp . '" value="' . $k . '" ' . (in_array($k, $s) ? "checked" : "") . '>' . $t . '</label>' . $after;
@@ -239,8 +253,8 @@ class FORM {
      * @param string $pre String to wrap before start of <input>. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post End string to wrap after />
      */
-    function radios( string $name, string $label = '', array $values = [], string $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '' ){
-        $this->render_options( 'radio', $label, $name, $values, $checked, $attr, $label_first, $pre, $post );
+    function radios( string $name, string $label = '', array $values = [], string $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ){
+        $this->render_options( 'radio', $label, $name, $values, $checked, $attr, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post );
     }
 
     /**
@@ -253,8 +267,8 @@ class FORM {
      * @param string $pre String to wrap before start of <input>. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post End string to wrap after />
      */
-    function checkboxes( string $name, string $label = '', array $values = [], string $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '' ){
-        $this->render_options( 'checkbox', $label, $name, $values, $checked, $attr, $label_first, $pre, $post );
+    function checkboxes( string $name, string $label = '', array $values = [], string $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ){
+        $this->render_options( 'checkbox', $label, $name, $values, $checked, $attr, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post );
     }
 
     /**
