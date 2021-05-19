@@ -16,8 +16,10 @@ class AGENT {
             return $_SESSION['client']['device']['model'];
         } else {
             $result = new WhichBrowser\Parser(getallheaders());
-            $_SESSION['client']['device']['model'] = $result->device->model;
-            return $result->device->model;
+            $device = $result->device->model;
+            $device = !empty( $device ) ? $device : 'unknown';
+            $_SESSION['client']['device']['model'] = $device;
+            return $device;
         }
     }
 
