@@ -1,17 +1,14 @@
-/* cards */
+/* Cards */
 .card {
   background: #fff;
   padding: 15px;
   position: relative;
   cursor: pointer;
-  -webkit-box-shadow: 0 0 30px rgba(0, 0, 0, 0.04);
-          box-shadow: 0 0 30px rgba(0, 0, 0, 0.04);
-  -webkit-transition: .6s;
-  transition: .6s;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.04);
+  transition: 0.6s;
   display: block;
   margin-bottom: 20px;
 }
-
 .card .image, .card .pic {
   width: 80px;
   height: 80px;
@@ -19,33 +16,26 @@
   font-size: 30px;
   padding: 20px 0;
   text-align: center;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
 }
-
 .card .image.b, .card .pic.b {
   border: 1px solid lightgrey;
 }
-
 .card .pic {
   border-radius: 25px;
 }
-
 .card .image.nb {
   border: none;
 }
-
 .card .image.r {
   margin: 10px 0 10px auto;
 }
-
 .card .image.l {
   margin: 10px auto 10px 0;
 }
-
 .card .image.bg {
   width: 100%;
   border: 0;
@@ -54,71 +44,55 @@
   background-repeat: no-repeat;
   background-size: 80px;
 }
-
 .card .title {
   display: block;
   text-align: center;
   text-transform: uppercase;
 }
-
 .card .color1 {
   color: #111;
 }
-
 .card .color2 {
   color: #222;
 }
-
 .card .title.s {
   white-space: nowrap;
   overflow: hidden;
 }
-
 .card .title.l {
   text-align: left;
 }
-
 .card .title.r {
   text-align: right;
 }
-
 .card .desc > div, .card .desc > p {
   font-size: 14px;
   margin: 10px 0;
 }
-
 .card .desc > div:last-child, .card .desc > p:last-child {
   margin-bottom: 0;
 }
-
 .card .desc .ico {
   margin-right: 5px;
 }
-
 .card .actions {
   position: absolute;
   top: 10px;
   right: 10px;
-  opacity: .3;
-  -webkit-transition: .6s;
-  transition: .6s;
+  opacity: 0.3;
+  transition: 0.6s;
   z-index: 5;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 }
-
 .card .actions.l {
   right: auto;
   left: 10px;
 }
-
 .card .actions > i, .card .actions > div {
   margin: 0 5px;
   width: 20px;
   height: 20px;
 }
-
 .card .status {
   position: absolute;
   left: 10px;
@@ -131,32 +105,27 @@
   letter-spacing: 1px;
   color: grey;
 }
-
 .card .status.r {
   left: auto;
   right: 10px;
 }
-
 .card .status.green {
   color: darkolivegreen;
   border: 1px solid darkolivegreen;
 }
-
 .card .status.red {
   color: firebrick;
   border: 1px solid firebrick;
 }
-
 .card .edit {
   background: url("./icons/edit.svg") no-repeat center/20px;
 }
-
 .card .trash {
   background: url("./icons/trash.svg") no-repeat center/20px;
 }
 
 .card.off, .card.disabled, .plate.off, .plate.disabled {
-  opacity: .5;
+  opacity: 0.5;
 }
 
 /* .plate .head {
@@ -171,13 +140,11 @@
   padding: 15px;
 } */
 .card:not(.no-float):hover {
-  -webkit-box-shadow: 0 0 30px rgba(0, 0, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.05);
-          box-shadow: 0 0 30px rgba(0, 0, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.05);
-  -webkit-transform: translateY(-2px);
-          transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
 }
-
 .card:not(.no-float):hover .actions {
   opacity: 1;
 }
+
 /*# sourceMappingURL=cards.css.map */

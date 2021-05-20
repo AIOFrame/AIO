@@ -1,7 +1,6 @@
 .dynamics {
   position: relative;
 }
-
 .dynamics .add {
   position: absolute;
   right: 0;
@@ -12,35 +11,28 @@
   padding: 5px 14px;
   margin: 0;
 }
-
 .dynamics .fields {
   margin-right: 40px;
   padding: 0 15px 0 0;
 }
-
 .dynamics .field_set {
   margin-bottom: 15px;
   border: 1px solid #ddd;
   padding: 15px;
   position: relative;
 }
-
 .dynamics .field_set:last-child {
   margin-bottom: 0;
 }
-
 .dynamics input {
   margin-bottom: 6px;
 }
-
 .dynamics .set:last-child input {
   margin-bottom: 0;
 }
-
 .dynamics [type=checkbox], .dynamics [type=radio] {
   margin-right: 15px;
 }
-
 .dynamics label {
   font-size: 9px;
   text-transform: uppercase;
@@ -48,7 +40,6 @@
   letter-spacing: 2px;
   font-weight: normal;
 }
-
 .dynamics input + label {
   text-transform: none;
   letter-spacing: normal;
@@ -56,7 +47,6 @@
   font-weight: inherit;
   vertical-align: initial;
 }
-
 .dynamics .trash {
   position: absolute;
   right: 0;
@@ -67,4 +57,5 @@
   background: url("../../images/close.svg") no-repeat center/25px;
   cursor: pointer;
 }
+
 /*# sourceMappingURL=dynamics.css.map */

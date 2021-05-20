@@ -262,7 +262,6 @@ function process_data( e ){
 function process_finish( p, r ) {
     $(p).find('[onclick="process_data(this)"]').attr('disabled',false);
     //elog( r );
-    //$(e).attr('disabled',false);
 }
 
 function edit_data( e, modal ) {
@@ -343,7 +342,6 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
                     }, redirect_time * 1000)
                 }
             }
-            process_finish( p, r );
             //this[callback](r);
         }
         catch( rat ) {
@@ -353,8 +351,6 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
 }
 
 function reload( time_seconds ){
-
     let t = time_seconds !== undefined && time_seconds !== '' ? time_seconds * 1000 : 5000;
     setTimeout(function(){ location.reload() },t);
-
 }

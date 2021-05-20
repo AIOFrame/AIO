@@ -35,14 +35,14 @@ input, button, select, textarea {
   background: transparent;
   border-radius: 0;
 }
-select, button {
-  cursor: pointer;
-}
 input:disabled, button:disabled, select:disabled, textarea:disabled {
   background:#eee;
   cursor:not-allowed;
   box-shadow:none;
   //border:1px solid #eee;
+}
+select, button {
+  cursor: pointer;
 }
 select {
   background:url('../../images/select.svg') no-repeat calc(100% - 6px) / 20px;

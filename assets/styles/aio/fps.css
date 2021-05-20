@@ -6,7 +6,6 @@
   position: relative;
   padding: 0 !important;
 }
-
 .fps > article, .fps > section, .fps > div {
   position: relative;
   height: 100vh !important;
@@ -24,4 +23,5 @@
     height: auto !important;
   }
 }
+
 /*# sourceMappingURL=fps.css.map */

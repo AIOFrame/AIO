@@ -62,6 +62,7 @@ input.load, input.loading {
   vertical-align: middle;
   padding: 0;
   position: relative;
+  appearance:none;
 }
 [type=checkbox].slide.s, [type=radio].slide.s {
   height:15px;
@@ -254,6 +255,7 @@ textarea {
   opacity:1;
   pointer-events:all
 }
+
 .next, .prev {
   margin: 0;
 }

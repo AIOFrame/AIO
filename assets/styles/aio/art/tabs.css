@@ -1,7 +1,5 @@
 /* Tabs */
 .tab_heads {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 }
 
@@ -16,15 +14,11 @@
   outline: none;
   line-height: 15px;
   width: auto;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   text-transform: uppercase;
-  -webkit-transition: .3s;
-  transition: .3s;
-  -webkit-box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
-          box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
+  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
 }
-
 .tab .alert {
   position: absolute;
   top: -10px;
@@ -68,20 +62,17 @@
   width: 100%;
   display: block;
 }
-
 .tabs.material .tab {
   background: none;
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
   padding: 10px 20px;
   line-height: normal;
   height: auto;
   color: #000;
   position: relative;
 }
-
 .tabs.material .tab.on:after {
-  content: '';
+  content: "";
   position: absolute;
   width: calc(100% - 40px);
   height: 2px;
@@ -93,7 +84,6 @@
 .tabs.two .tab {
   margin-right: 5px;
 }
-
 .tabs.two .tab:not(.on) {
   padding: 10px 15px;
   height: 36px;
@@ -106,19 +96,18 @@
 }
 
 body.d .tab {
-  -webkit-box-shadow: 5px 0 45px #000;
-          box-shadow: 5px 0 45px #000;
+  box-shadow: 5px 0 45px #000;
 }
 
 @media all and (min-width: 0px) and (max-width: 800px) {
   .tabs > div:first-child {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
     overflow-x: auto;
   }
+
   .tab {
     white-space: nowrap;
   }
 }
+
 /*# sourceMappingURL=tabs.css.map */

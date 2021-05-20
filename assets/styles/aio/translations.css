@@ -1,29 +1,19 @@
 #aio_translations > div {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
   background: #fff;
   border-bottom: 2px solid #f3f3f3;
   border-radius: 10px;
   cursor: pointer;
 }
-
 #aio_translations > div > div {
   padding: 12px;
-  -webkit-box-flex: 0;
-      -ms-flex: 0 0 33.3333%;
-          flex: 0 0 33.3333%;
+  flex: 0 0 33.3333%;
   font-size: 15px;
 }
-
 #aio_translations > div > div:nth-child(3) {
-  -webkit-box-flex: 0;
-      -ms-flex: 0 0 calc(33.3333% - 50px);
-          flex: 0 0 calc(33.3333% - 50px);
+  flex: 0 0 calc(33.3333% - 50px);
 }
-
 #aio_translations > div i {
   width: 42px;
   height: 42px;
@@ -34,26 +24,21 @@
   bottom: -60px;
   left: 15px;
   width: calc(100vw - 30px);
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   padding: 20px;
-  -webkit-box-shadow: 0 0 60px rgba(0, 0, 0, 0.4);
-          box-shadow: 0 0 60px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.4);
   z-index: 1;
   background: rgba(255, 255, 255, 0.95);
-  -webkit-transition: .6s;
-  transition: .6s;
+  transition: 0.6s;
   opacity: 0;
   pointer-events: none;
   border-radius: 20px 20px 0 0;
   backdrop-filter: blur(10px) saturate(2);
   -webkit-backdrop-filter: blur(10px) saturate(2);
 }
-
 #aio_lang_editor .actions {
   text-align: right;
 }
-
 #aio_lang_editor .close {
   background: url("../../icons/close.svg") no-repeat center/70%;
   position: absolute;
@@ -64,15 +49,12 @@
   cursor: pointer;
   z-index: 2;
 }
-
 #aio_lang_editor button:hover {
-  opacity: .8;
+  opacity: 0.8;
 }
-
 #aio_lang_editor .actions .right button {
   margin: 0 0 0 15px;
 }
-
 #aio_lang_editor button.small {
   font-size: 10px;
   letter-spacing: 1px;
@@ -83,8 +65,7 @@
   margin: 0 0 0 15px;
   border-radius: 0;
   border-bottom: 0;
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
 }
 
 #data {
@@ -117,8 +98,7 @@
   border-radius: 5px;
   padding: 10px 25px;
   cursor: pointer;
-  -webkit-transition: .6s;
-  transition: .6s;
+  transition: 0.6s;
   color: #fff;
   display: inline-block;
 }
@@ -141,7 +121,6 @@
   display: block;
   width: 100%;
 }
-
 #lang_select + .select2-container .select2-selection--single, #lang_page + .select2-container .select2-selection--single {
   border: 0;
   background: #ddd;
@@ -149,11 +128,9 @@
   height: auto;
   outline: 0;
 }
-
 #lang_select + .select2-container .select2-selection__rendered, #lang_page + .select2-container .select2-selection__rendered {
   line-height: normal;
 }
-
 #lang_select + .select2-container .select2-selection__arrow, #lang_page + .select2-container .select2-selection__arrow {
   height: 100%;
 }
@@ -162,21 +139,22 @@
   #aio_lang_editor {
     padding: 20px;
   }
+
   #aio_lang_editor.on {
     top: auto;
     bottom: 0;
   }
+
   #aio_lang_editor .row {
-    -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
+    flex-wrap: wrap;
   }
+
   #aio_lang_editor .col, #aio_lang_editor .col:nth-child(3) {
-    -webkit-box-flex: 0;
-        -ms-flex: 0 0 100%;
-            flex: 0 0 100%;
+    flex: 0 0 100%;
     margin: 0;
     max-width: none;
   }
+
   #save {
     margin: 15px 0 0;
     padding: 10px 15px;
@@ -184,19 +162,20 @@
     border-radius: 5px;
     text-transform: uppercase;
   }
+
   #aio_lang_editor textarea {
     border-radius: 5px;
   }
+
   #aio_lang_editor .close {
     top: 10px;
   }
+
   #aio_translations > div {
     padding: 15px;
   }
   #aio_translations > div > div {
-    -webkit-box-flex: 0;
-        -ms-flex: 0 0 100%;
-            flex: 0 0 100%;
+    flex: 0 0 100%;
     padding: 15px 0;
   }
   #aio_translations > div > div:nth-child(1) {
@@ -209,16 +188,18 @@
     border-radius: 5px;
     font-weight: lighter;
   }
+
   .search input {
     width: 100%;
   }
+
   #notification {
     min-width: auto;
     max-width: none;
     width: calc(100vw - 30px);
     left: 15px;
-    -webkit-transform: none;
-            transform: none;
+    transform: none;
   }
 }
+
 /*# sourceMappingURL=translations.css.map */

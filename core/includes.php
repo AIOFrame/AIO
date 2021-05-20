@@ -80,6 +80,10 @@ if( defined( 'CONFIG' ) ) {
             }
         }
     }
+} else {
+    foreach( glob( APPPATH . '/functions/*.php' ) as $fun ) {
+        include_once( $fun );
+    }
 }
 
 include_once( dirname( __FILE__ ) . '/includes/ajax.php' );

@@ -3,11 +3,9 @@
   position: fixed;
   left: 50%;
   top: calc(50% + 10vh);
-  -webkit-transform: translate(-50%, calc(-50% - 5vh));
-          transform: translate(-50%, calc(-50% - 5vh));
+  transform: translate(-50%, calc(-50% - 5vh));
   background: rgba(255, 255, 255, 0.92);
-  -webkit-box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
   padding: 20px;
   width: auto;
   height: auto;
@@ -15,25 +13,20 @@
   opacity: 0;
   z-index: -1;
   margin-top: 20px;
-  -webkit-transition: .6s;
-  transition: .6s;
+  transition: 0.6s;
   backdrop-filter: blur(8px) saturate(2);
   -webkit-backdrop-filter: blur(8px) saturate(2);
 }
-
 .modal .t, .modal .title {
   margin: 0 auto 15px;
   letter-spacing: 1px;
 }
-
 .modal .t.c, .modal .title.c {
   color: #111;
 }
-
 .modal .modal {
   z-index: 15;
 }
-
 .modal .close {
   background: url("../assets/icons/close.svg") no-repeat center/70%;
   position: absolute;
@@ -121,8 +114,8 @@
   right: auto;
   left: 10px;
 }
-
 [dir=rtl] .modal .t, [dir=rtl] .modal .title {
   letter-spacing: 0;
 }
+
 /*# sourceMappingURL=modal.css.map */

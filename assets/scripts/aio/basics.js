@@ -1,3 +1,4 @@
+let domain;
 let b = $('body');
 $(document).ready(function(){
     // MANIPULATOR
@@ -78,7 +79,6 @@ $(document).ready(function(){
     //     $(this).val(a);
     // });
 
-
     if( debug === undefined )
         let debug = !!$('body').hasClass('debug');
 });
@@ -137,8 +137,7 @@ function slength( e, l ){
     return !r;
 }
 
-if( debug === undefined )
-    debug = !!$('body').hasClass('debug');
+let debug = !!$('body').hasClass('debug');
 
 function elog( d ) {
     if( debug ) {

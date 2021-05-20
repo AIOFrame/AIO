@@ -4,13 +4,11 @@ button, .btn {
   background: linear-gradient(160deg, #111 0%, #222 100%);
   color: #fff;
   letter-spacing: 1px;
-  -webkit-transition: .6s;
-  transition: .6s;
+  transition: 0.6s;
   border-radius: 2px;
   font-weight: 300;
   text-transform: uppercase;
-  -webkit-box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   margin: 15px 0;
   padding: 8px 15px;
   cursor: pointer;
@@ -18,8 +16,7 @@ button, .btn {
 }
 
 button:hover, .btn:hover {
-  -webkit-transform: translateY(-2px);
-          transform: translateY(-2px);
+  transform: translateY(-2px);
 }
 
 .btn {
@@ -111,18 +108,15 @@ button.w, .btn.w, .bw button, .bw .btn {
 button.red, .btn.red, .red button, .red .btn, .gr_red {
   background: #990101;
   background: linear-gradient(160deg, #990101 0%, #770018 100%);
-  -webkit-box-shadow: 0 0 20px rgba(153, 1, 1, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 0 20px rgba(153, 1, 1, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(153, 1, 1, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 button.red:hover, .btn.red:hover, .red button:hover, .red .btn:hover {
-  -webkit-box-shadow: 0 0 30px rgba(153, 1, 1, 0.3), 0 10px 30px rgba(153, 1, 1, 0.3);
-          box-shadow: 0 0 30px rgba(153, 1, 1, 0.3), 0 10px 30px rgba(153, 1, 1, 0.3);
+  box-shadow: 0 0 30px rgba(153, 1, 1, 0.3), 0 10px 30px rgba(153, 1, 1, 0.3);
 }
 
 button.red:active, .btn.red:active, .red button:active, .red .btn:active {
-  -webkit-box-shadow: 0 0 20px rgba(153, 1, 1, 0.3), 0 0 10px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 0 20px rgba(153, 1, 1, 0.3), 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(153, 1, 1, 0.3), 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 button.b.red, .btn.b.red, .red.b button, .red.b .btn {
@@ -133,18 +127,15 @@ button.b.red, .btn.b.red, .red.b button, .red.b .btn {
 button.blue, .btn.blue, .blue button, .blue .btn, .gr_blue {
   background: #007dcc;
   background: linear-gradient(160deg, #007dcc 0%, #014d7a 100%);
-  -webkit-box-shadow: 0 0 20px rgba(0, 125, 204, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 0 20px rgba(0, 125, 204, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(0, 125, 204, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 button.blue:hover, .btn.blue:hover, .blue button:hover, .blue .btn:hover {
-  -webkit-box-shadow: 0 0 30px rgba(0, 125, 204, 0.3), 0 10px 30px rgba(0, 125, 204, 0.3);
-          box-shadow: 0 0 30px rgba(0, 125, 204, 0.3), 0 10px 30px rgba(0, 125, 204, 0.3);
+  box-shadow: 0 0 30px rgba(0, 125, 204, 0.3), 0 10px 30px rgba(0, 125, 204, 0.3);
 }
 
 button.blue:active, .btn.blue:active, .blue button:active, .blue .btn:active {
-  -webkit-box-shadow: 0 0 20px rgba(0, 125, 204, 0.3), 0 0 10px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 0 20px rgba(0, 125, 204, 0.3), 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(0, 125, 204, 0.3), 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 button.b.blue, .btn.b.blue, .blue.b button, .blue.b .btn {
@@ -155,49 +146,41 @@ button.b.blue, .btn.b.blue, .blue.b button, .blue.b .btn {
 button.skyblue, .btn.skyblue, .skyblue button, .skyblue .btn {
   background: #55c9ff;
   background: linear-gradient(160deg, #55c9ff 0%, #00a1d9 100%);
-  -webkit-box-shadow: 0 0 20px rgba(2, 107, 146, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 0 20px rgba(2, 107, 146, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(2, 107, 146, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 button.skyblue:hover, .btn.skyblue:hover, .skyblue button:hover, .skyblue .btn:hover {
-  -webkit-box-shadow: 0 0 30px rgba(0, 125, 204, 0.3), 0 10px 30px rgba(0, 125, 204, 0.3);
-          box-shadow: 0 0 30px rgba(0, 125, 204, 0.3), 0 10px 30px rgba(0, 125, 204, 0.3);
+  box-shadow: 0 0 30px rgba(0, 125, 204, 0.3), 0 10px 30px rgba(0, 125, 204, 0.3);
 }
 
 button.skyblue:active, .btn.skyblue:active, .skyblue button:active, .skyblue .btn:active {
-  -webkit-box-shadow: 0 0 20px rgba(0, 125, 204, 0.3), 0 0 10px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 0 20px rgba(0, 125, 204, 0.3), 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(0, 125, 204, 0.3), 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 button.ocean, .btn.ocean, .ocean button, .ocean .btn {
   background: #8ea096;
   background: linear-gradient(160deg, #8ea096 0, #8eb59f 100%);
-  -webkit-box-shadow: 0 0 20px rgba(142, 160, 150, 0.3), 0 10px 30px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 0 20px rgba(142, 160, 150, 0.3), 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(142, 160, 150, 0.3), 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 button.silver, .btn.silver, .silver button, .silver .btn {
   background: #7099b3;
   background: linear-gradient(160deg, #7099b3 0, #4a7b9a 100%);
-  -webkit-box-shadow: 0 0 20px rgba(74, 123, 154, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 0 20px rgba(74, 123, 154, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(74, 123, 154, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 button.teal, .btn.teal, .teal button, .teal .btn {
   background: #00b1c1;
   background: linear-gradient(160deg, #00d5e0 0%, #00b1c1 100%);
-  -webkit-box-shadow: 0 0 20px rgba(0, 213, 224, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 0 20px rgba(0, 213, 224, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(0, 213, 224, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 button.teal:hover, .btn.teal:hover, .teal button:hover, .teal .btn:hover {
-  -webkit-box-shadow: 0 0 30px rgba(0, 177, 193, 0.3), 0 10px 30px rgba(0, 177, 193, 0.3);
-          box-shadow: 0 0 30px rgba(0, 177, 193, 0.3), 0 10px 30px rgba(0, 177, 193, 0.3);
+  box-shadow: 0 0 30px rgba(0, 177, 193, 0.3), 0 10px 30px rgba(0, 177, 193, 0.3);
 }
 
 button.teal:active, .btn.teal:active, .teal button:active, .teal .btn:active {
-  -webkit-box-shadow: 0 0 20px rgba(0, 213, 224, 0.3), 0 0 10px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 0 20px rgba(0, 213, 224, 0.3), 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(0, 213, 224, 0.3), 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 button.b.teal, .btn.b.teal, .teal.b button, .teal.b .btn {
@@ -208,18 +191,15 @@ button.b.teal, .btn.b.teal, .teal.b button, .teal.b .btn {
 button.green, .btn.green, .green button, .green .btn {
   background: #007f00;
   background: linear-gradient(160deg, #26a300 0%, #007f00 100%);
-  -webkit-box-shadow: 0 0 20px rgba(38, 163, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 0 20px rgba(38, 163, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(38, 163, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 button.green:hover, .btn.green:hover, .green button:hover, .green .btn:hover {
-  -webkit-box-shadow: 0 0 30px rgba(38, 163, 0, 0.3), 0 10px 30px rgba(38, 163, 0, 0.3);
-          box-shadow: 0 0 30px rgba(38, 163, 0, 0.3), 0 10px 30px rgba(38, 163, 0, 0.3);
+  box-shadow: 0 0 30px rgba(38, 163, 0, 0.3), 0 10px 30px rgba(38, 163, 0, 0.3);
 }
 
 button.green:active, .btn.green:active, .green button:active, .green .btn:active {
-  -webkit-box-shadow: 0 0 20px rgba(38, 163, 0, 0.3), 0 0 30px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 0 20px rgba(38, 163, 0, 0.3), 0 0 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(38, 163, 0, 0.3), 0 0 30px rgba(0, 0, 0, 0.2);
 }
 
 button.b.green, .btn.b.green, .green.b button, .green.b .btn {
@@ -230,18 +210,15 @@ button.b.green, .btn.b.green, .green.b button, .green.b .btn {
 button.gold, .btn.gold, .gold button, .gold .btn {
   background: #ad9572;
   background: linear-gradient(160deg, #d3bb8b 0%, #ad9572 100%);
-  -webkit-box-shadow: 0 0 20px rgba(211, 187, 139, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 0 20px rgba(211, 187, 139, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(211, 187, 139, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 button.gold:hover, .btn.gold:hover, .gold button:hover, .gold .btn:hover {
-  -webkit-box-shadow: 0 0 30px rgba(211, 187, 139, 0.3), 0 10px 30px rgba(211, 187, 139, 0.5);
-          box-shadow: 0 0 30px rgba(211, 187, 139, 0.3), 0 10px 30px rgba(211, 187, 139, 0.5);
+  box-shadow: 0 0 30px rgba(211, 187, 139, 0.3), 0 10px 30px rgba(211, 187, 139, 0.5);
 }
 
 button.gold:active, .btn.gold:active, .gold button:active, .gold .btn:active {
-  -webkit-box-shadow: 0 0 20px rgba(211, 187, 139, 0.3), 0 0 30px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 0 20px rgba(211, 187, 139, 0.3), 0 0 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(211, 187, 139, 0.3), 0 0 30px rgba(0, 0, 0, 0.2);
 }
 
 button.b.gold, .btn.b.gold, .gold.b button, .gold.b .btn {
@@ -252,13 +229,11 @@ button.b.gold, .btn.b.gold, .gold.b button, .gold.b .btn {
 button.grey, .btn.grey, .grey button, .grey .btn {
   background: #adadad;
   background: linear-gradient(160deg, #c4c4c4 0%, #adadad 100%);
-  -webkit-box-shadow: 0 0 20px rgba(196, 196, 196, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 0 20px rgba(196, 196, 196, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(196, 196, 196, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 button.grey:hover, .btn.grey:hover, .grey button:hover, .grey .btn:hover {
-  -webkit-box-shadow: 0 0 30px rgba(196, 196, 196, 0.3), 0 10px 30px rgba(0, 0, 0, 0.1);
-          box-shadow: 0 0 30px rgba(196, 196, 196, 0.3), 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 30px rgba(196, 196, 196, 0.3), 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 button.b.grey, .btn.b.grey, .grey.b button, .grey.b .btn {
@@ -269,25 +244,21 @@ button.b.grey, .btn.b.grey, .grey.b button, .grey.b .btn {
 button.darkgrey, .btn.darkgrey, .darkgrey button, .darkgrey .btn {
   background: #5a5a5a;
   background: linear-gradient(160deg, #5a5a5a 0%, #3c3c3c 100%);
-  -webkit-box-shadow: 0 0 20px rgba(50, 50, 50, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 0 20px rgba(50, 50, 50, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(50, 50, 50, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 button.black, .btn.black, .black button, .black .btn {
   background: black;
   background: linear-gradient(160deg, #323232 0%, black 100%);
-  -webkit-box-shadow: 0 0 20px rgba(91, 91, 91, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 0 20px rgba(91, 91, 91, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(91, 91, 91, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 button.black:hover, .btn.black:hover, .black button:hover, .black .btn:hover {
-  -webkit-box-shadow: 0 0 30px rgba(91, 91, 91, 0.3), 0 10px 30px rgba(0, 0, 0, 0.3);
-          box-shadow: 0 0 30px rgba(91, 91, 91, 0.3), 0 10px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 30px rgba(91, 91, 91, 0.3), 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 button.black:active, .btn.black:active, .black button:active, .black .btn:active {
-  -webkit-box-shadow: 0 0 20px rgba(91, 91, 91, 0.3), 0 0 30px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 0 20px rgba(91, 91, 91, 0.3), 0 0 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(91, 91, 91, 0.3), 0 0 30px rgba(0, 0, 0, 0.2);
 }
 
 button.b.black, .btn.b.black, .black.b button, .black.b .btn {
@@ -298,18 +269,15 @@ button.b.black, .btn.b.black, .black.b button, .black.b .btn {
 button.violet, .btn.violet, .violet button, .violet .btn {
   background: #6200db;
   background: linear-gradient(160deg, #9a2afc 0%, #6200db 100%);
-  -webkit-box-shadow: 0 0 20px rgba(154, 42, 252, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 0 20px rgba(154, 42, 252, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(154, 42, 252, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 button.violet:hover, .btn.violet:hover, .violet button:hover, .violet .btn:hover {
-  -webkit-box-shadow: 0 0 30px rgba(154, 42, 252, 0.3), 0 10px 30px rgba(154, 42, 252, 0.2);
-          box-shadow: 0 0 30px rgba(154, 42, 252, 0.3), 0 10px 30px rgba(154, 42, 252, 0.2);
+  box-shadow: 0 0 30px rgba(154, 42, 252, 0.3), 0 10px 30px rgba(154, 42, 252, 0.2);
 }
 
 button.violet:active, .btn.violet:active, .violet button:active, .violet .btn:active {
-  -webkit-box-shadow: 0 0 20px rgba(154, 42, 252, 0.3), 0 0 30px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 0 20px rgba(154, 42, 252, 0.3), 0 0 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(154, 42, 252, 0.3), 0 0 30px rgba(0, 0, 0, 0.2);
 }
 
 button.b.violet, .btn.b.violet, .violet.b button, .violet.b .btn {
@@ -320,18 +288,15 @@ button.b.violet, .btn.b.violet, .violet.b button, .violet.b .btn {
 button.orange, .btn.orange, .orange button, .orange .btn {
   background: #d07000;
   background: linear-gradient(160deg, #ff8400 0%, #d07000 100%);
-  -webkit-box-shadow: 0 0 20px rgba(255, 157, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 0 20px rgba(255, 157, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(255, 157, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 button.orange:hover, .btn.orange:hover, .orange button:hover, .orange .btn:hover {
-  -webkit-box-shadow: 0 0 30px rgba(156, 98, 0, 0.3), 0 10px 30px rgba(156, 98, 0, 0.49);
-          box-shadow: 0 0 30px rgba(156, 98, 0, 0.3), 0 10px 30px rgba(156, 98, 0, 0.49);
+  box-shadow: 0 0 30px rgba(156, 98, 0, 0.3), 0 10px 30px rgba(156, 98, 0, 0.49);
 }
 
 button.orange:active, .btn.orange:active, .orange button:active, .orange .btn:active {
-  -webkit-box-shadow: 0 0 20px rgba(156, 98, 0, 0.3), 0 0 30px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 0 20px rgba(156, 98, 0, 0.3), 0 0 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(156, 98, 0, 0.3), 0 0 30px rgba(0, 0, 0, 0.2);
 }
 
 button.b.orange, .btn.b.orange, .orange.b button, .orange.b .btn {
@@ -345,14 +310,11 @@ button.b, .btn.b, .b button, .b .btn {
 }
 
 button.bsn, .btn.bsn, button.bsn:hover, .btn.bsn:hover, button.ns, .btn.ns, .bsn button, .bsn .btn, .ns button, .ns .btn {
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
 }
 
 .sl.wide > div {
-  -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
+  flex-grow: 1;
 }
 
 .sl button, .sl .btn {
@@ -372,4 +334,5 @@ button.bsn, .btn.bsn, button.bsn:hover, .btn.bsn:hover, button.ns, .btn.ns, .bsn
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
 }
+
 /*# sourceMappingURL=buttons.css.map */

@@ -69,6 +69,7 @@ input.load, input.loading {
   vertical-align: middle;
   padding: 0;
   position: relative;
+  appearance: none;
 }
 
 [type=checkbox].slide.s, [type=radio].slide.s {

@@ -84,26 +84,19 @@
 }
 
 .df {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 }
 
 .df.wr {
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 
 .dfi {
-  display: -webkit-box !important;
-  display: -ms-flexbox !important;
   display: flex !important;
 }
 
 .df.fg > div {
-  -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
+  flex-grow: 1;
 }
 
 .vat {
@@ -146,19 +139,19 @@
 }
 
 .op2 {
-  opacity: .2;
+  opacity: 0.2;
 }
 
 .op3 {
-  opacity: .3;
+  opacity: 0.3;
 }
 
 .op5 {
-  opacity: .5;
+  opacity: 0.5;
 }
 
 .op9 {
-  opacity: .9;
+  opacity: 0.9;
 }
 
 .op1 {
@@ -231,39 +224,27 @@
 }
 
 .jcs {
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
+  justify-content: flex-start;
 }
 
 .jcc {
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  justify-content: center;
 }
 
 .jce {
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
+  justify-content: flex-end;
 }
 
 .df.l {
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
+  justify-content: flex-start;
 }
 
 .df.c {
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  justify-content: center;
 }
 
 .df.r {
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
+  justify-content: flex-end;
 }
 
 select.tar {
@@ -356,13 +337,11 @@ select.tar {
 }
 
 .bxs, .bsh {
-  -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.06);
-          box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.06);
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.06);
 }
 
 .bsn {
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
 }
 
 .ttu, .uc {
@@ -831,7 +810,7 @@ select.tar {
   margin-right: 0;
 }
 
-.row.ng > .col, .row.ng > [class*="col-"] {
+.row.ng > .col, .row.ng > [class*=col-] {
   padding-left: 0;
   padding-right: 0;
 }
@@ -844,36 +823,23 @@ select.tar {
 [dir=rtl] .tal {
   text-align: right;
 }
-
 [dir=rtl] .tar {
   text-align: left;
 }
-
 [dir=rtl] .jcs {
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
+  justify-content: flex-end;
 }
-
 [dir=rtl] .jce {
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
+  justify-content: flex-start;
 }
-
 [dir=rtl] .df.l {
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
+  justify-content: flex-end;
 }
-
 [dir=rtl] .df.r {
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
+  justify-content: flex-start;
 }
-
 [dir=rtl] select.tar {
   text-align-last: left;
 }
+
 /*# sourceMappingURL=micro.css.map */
