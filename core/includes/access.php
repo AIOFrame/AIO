@@ -431,12 +431,19 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
     <div class="login_wrap" data-t data-pre="login_" data-data="log" data-notify="3" data-reload="3" data-empty="login" data-reset="login">
         <div class="inputs">
             <label for="login_name_<?php echo $rand; ?>"><?php E( $login_title ); ?></label>
-            <input type="text" id="login_name_<?php echo $rand; ?>" data-key="username" placeholder="<?php E($login_title); ?>" data-log>
+            <input type="text" id="login_name_<?php echo $rand; ?>" onkeyup="login_init(event)" data-key="username" placeholder="<?php E($login_title); ?>" data-log>
             <label for="login_pass_<?php echo $rand; ?>"><?php E( $pass_title ); ?></label>
-            <input type="password" id="login_pass_<?php echo $rand; ?>" data-key="password" placeholder="<?php E($pass_title); ?>" data-log>
+            <input type="password" id="login_pass_<?php echo $rand; ?>" onkeyup="login_init(event)" data-key="password" placeholder="<?php E($pass_title); ?>" data-log>
         </div>
-        <button id="aio_init_login" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_login_ajax' ); ?>"><?php E('Login'); ?></button>
+        <button id="aio_login_init" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_login_ajax' ); ?>"><?php E('Login'); ?></button>
     </div>
+    <script>
+        function login_init(e) {
+            if( e.keyCode === 13 ) {
+                process_data(document.getElementById('aio_login_init'));
+            }
+        }
+    </script>
     <?php
 }
 
