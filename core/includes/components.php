@@ -62,9 +62,10 @@ function file_upload() {
 }
 
 function render_image( string $logo = '', string $name = '', string $class = '' ) {
-    $logo = !empty( $logo ) ? ' style="background-image:url(\''. storage_url( $logo ) .'\')"' : '';
-    $name = empty( $logo ) && !empty( $name ) ? '<span>'.$name[0].'</span>' : '';
-    echo '<div class="image '.$class.'"'.$logo.'>'.$name.'</div>';
+    //skel( !file_exists( APPPATH . $logo ) );
+    $n = !file_exists( APPPATH . $logo ) && !empty( $name ) ? '<span>'.$name[0].'</span>' : '';
+    $logo = !empty( $logo ) ? ' style="background-image:url(\''.storage_url( $logo ).'\')"' : '';
+    echo '<div class="image '.$class.'"'.$logo.'>'.$n.'</div>';
 }
 
 function storage_url( $url = '' ): string {
