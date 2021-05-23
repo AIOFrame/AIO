@@ -2,22 +2,34 @@ let domain;
 let b = $('body');
 $(document).ready(function(){
     // MANIPULATOR
-    $(document).on('click', '[data-action], [data-show], [data-on], [data-off], [data-hide], [data-slide], [data-remove], [data-toggle], [data-click], [data-href], [data-force-on]', function (e) {
-        $($(this).data('off')).removeClass('on');
-        $($(this).data('force-on')).addClass('on');
-        $($(this).data('on')).toggleClass('on');
-        $($(this).data('remove')).remove();
-        $($(this).data('hide')).hide();
-        $($(this).data('show')).show();
-        $($(this).data('toggle')).toggle();
-        $($(this).data('slide')).slideToggle();
+    $(document).on('click', '[data-toggle-on],[data-on],[data-off],[data-show],[data-hide],[data-toggle],[data-slide],[data-remove],[data-action],[data-click],[data-href]', function (e) {
+        // Toggle class on
+        $(this).data('toggle-on') === '' ? $(this).toggleClass('on') : $($(this).data('toggle-on')).toggleClass('on');
+        // Adds class on
+        $(this).data('on') === '' ? $(this).addClass('on') : $($(this).data('on')).addClass('on');
+        // Removes class on
+        $(this).data('off') === '' ? $(this).removeClass('on') : $($(this).data('off')).removeClass('on');
+        // Show element
+        $(this).data('show') === '' ? $(this).show() : $($(this).data('show')).show();
+        // Hide element
+        $(this).data('hide') === '' ? $(this).hide() : $($(this).data('hide')).hide();
+        // Toggle Element
+        $(this).data('toggle') === '' ? $(this).toggle() : $($(this).data('toggle')).toggle();
+        // Slide Toggle Element
+        $(this).data('slide') === '' ? $(this).slideToggle() : $($(this).data('slide')).slideToggle();
+        // Removes element
+        $(this).data('remove') === '' ? $(this).remove() : $($(this).data('remove')).remove();
+        // Simulates click
         $($(this).data('click')).click();
-        if($($(this).data('show')).hasClass('modal') && $($(this).data('show')).data('fade') === undefined ){
+        // Fade Modal on show
+        if($($(this).data('show')).hasClass('modal') && $($(this).data('on')).data('fade') === undefined ){
             $('article').addClass('fade');
         }
+        // Fade Modal on toggle class on
         if($($(this).data('on')).hasClass('modal') && $($(this).data('on')).data('fade') === undefined ){
             $('article').addClass('fade');
         }
+        // Prevent default
         if($(this).data('href')){
             if( $(e.target).data('prevent-default') === undefined ){
                 location.href = $(this).data('href');
@@ -137,10 +149,8 @@ function slength( e, l ){
     return !r;
 }
 
-let debug = !!$('body').hasClass('debug');
-
 function elog( d ) {
-    if( debug ) {
+    if( $('body').hasClass('debug') ) {
         if (window.console) {
             if (Function.prototype.bind) {
                 elog = Function.prototype.bind.call(console.log, console);
@@ -153,6 +163,20 @@ function elog( d ) {
             elog.apply(this, arguments);
         }
     }
+}
+
+function in_viewport(e) {
+    let rect     = e.getBoundingClientRect(),
+        vWidth   = window.innerWidth || document.documentElement.clientWidth,
+        vHeight  = window.innerHeight || document.documentElement.clientHeight,
+        efp      = function (x, y) { return document.elementFromPoint(x, y) };
+
+    // Return false if it's not in the viewport
+    if (rect.right < 0 || rect.bottom < 0 || rect.left > vWidth || rect.top > vHeight)
+        return false;
+
+    // Return true if any of its four corners are visible
+    return ( e.contains(efp(rect.left,  rect.top)) ||  e.contains(efp(rect.right, rect.top)) ||  e.contains(efp(rect.right, rect.bottom)) ||  e.contains(efp(rect.left,  rect.bottom)) );
 }
 
 function getParam( param ) {
