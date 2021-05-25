@@ -312,19 +312,14 @@ function get_page( string $n ){
 }
 
 function UI( $ui, $array = [] ) {
-
     $f = ROOTPATH . 'core/ui/' . $ui . '.php';
-
     if( file_exists( $f ) ) {
-
         if( !empty( $array ) ) {
-            global $ui_params;
-            $ui_params = $array;
+            global $params;
+            $params = $array;
         }
         include $f ;
-
     }
-
 }
 
 /**

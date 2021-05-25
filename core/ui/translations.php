@@ -2,6 +2,7 @@
 
 $db = new DB();
 $form = new FORM();
+$w = new WORLD();
 
 $base = defined( 'BASELANG' ) ? BASELANG : 'en';
 
@@ -13,11 +14,14 @@ $all_languages = get_languages();
 $all_languages = is_array( $all_languages ) ? $all_languages : [];
 
 $app_langs = $db->get_option( 'languages' );
-$app_langs = !empty( $app_langs ) ? unserialize( $app_langs ) : [];
+//$app_langs = !empty( $app_langs ) ? unserialize( $app_langs ) : '';
 
 $app_languages = [];
-foreach( $app_langs as $al ) {
-    $app_languages[ $al ] = $al !== BASELANG && isset( $all_languages[ $al ] ) ? $all_languages[ $al ] : $al;
+if( !empty( $app_langs ) ) {
+    $array_langs = !empty( $app_langs ) ? unserialize( $app_langs ) : [];
+    foreach( $array_langs as $al ) {
+        $app_languages[ $al ] = $al !== BASELANG && isset( $all_languages[ $al ] ) ? $all_languages[ $al ] : $al;
+    }
 }
 
 $lang = isset( $_POST['lang_select'] ) ? $_POST['lang_select'] : '';
@@ -40,7 +44,7 @@ font(['Lato','300,500']);
         <form method="post">
             <label for="lang_select"><?php E('Select Language'); ?></label>
             <select name="lang_select" id="lang_select" onchange="this.form.submit()">
-                <?php $form->select_options( array_merge( ['add'=>'Add Language'], $app_languages ), $lang, 'Select Language' ); ?>
+                <?php $form->select_options( array_merge( ['' => '', 'add'=>'Add Language'], $app_languages ), $lang, 'Select Language', 1 ); ?>
             </select>
         </form>
     </div>

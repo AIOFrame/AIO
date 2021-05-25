@@ -104,8 +104,8 @@ function pre( $text ) {
 // Returns Languages
 
 function get_languages( $lang_keys = [] ): array {
-    $file = ROOTPATH . 'core/components/data/languages.php';
-    $lang = file_exists( $file ) ? include $file : [];
+    $w = new WORLD();
+    $lang = $w->languages();
     if( !empty( $lang_keys ) ) {
         $final = [];
         foreach( $lang_keys as $l ) {

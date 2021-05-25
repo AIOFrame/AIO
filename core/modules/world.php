@@ -3,13 +3,20 @@
 class WORLD {
 
     public array $countries = [];
+    public array $languages = [];
 
     function __construct() {
-        $json = ROOTPATH . 'core/external/countries.json';
-        if( file_exists( $json ) ) {
-            $data = file_get_contents( $json );
+        $c_json = ROOTPATH . 'core/external/countries.json';
+        if( file_exists( $c_json ) ) {
+            $data = file_get_contents( $c_json );
             if( !empty( $data ) )
                 $this->countries = json_decode( $data, 1 );
+        }
+        $l_json = ROOTPATH . 'core/external/languages.json';
+        if( file_exists( $l_json ) ) {
+            $data = file_get_contents( $l_json );
+            if( !empty( $data ) )
+                $this->languages = json_decode( $data, 1 );
         }
     }
 
@@ -32,6 +39,18 @@ class WORLD {
                 if( !empty( $k ) && !empty( $v ) )
                     $r[ $k ] = $v;
                     $x++;
+            }
+        }
+        return $r;
+    }
+
+
+    function languages(): array {
+        $r = [];
+        $data = $this->languages;
+        if( !empty( $data ) && is_array( $data ) ){
+            foreach( $data as $l ){
+                $r[ $l['code'] ] = $l['name'];
             }
         }
         return $r;
