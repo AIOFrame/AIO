@@ -342,10 +342,10 @@ class DB {
     /**
      * Delete rows from table
      * @param string $table Table Name
-     * @param mixed $logic Logic ['user_id',12] or 'user_id = 12'
+     * @param string $logic Logic ['user_id',12] or 'user_id = 12'
      * @return int
      */
-    function delete( string $table, mixed $logic ): int {
+    function delete( string $table, string $logic ): int {
         $db = $this->connect();
         if( is_array( $logic ) ) {
             $q = "DELETE FROM $table WHERE $logic[0] = $logic[1]";
