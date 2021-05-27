@@ -10,13 +10,34 @@ class MAIL {
      * @param string $cc Carbon-copy email address
      * @param string $gate Email gateway (sendgrid,mandrill,default php)
      * @param string $key Email gateway API key
+     * @param bool $auto_template Auto wrap in Template
      * @return bool
      */
-    function send( string $to, string $subject, string $content, string $from, string $cc = '', string $gate = '', string $key = '' ) {
+    function send( string $to, string $subject, string $content, string $from, string $cc = '', string $gate = '', string $key = '', bool $auto_template = true ): bool {
+        if( $auto_template ) {
+            $head = $this->get_template('head');
+            $foot = $this->get_template('foot');
+            $content = $head . $content . $foot;
+        }
         if( $gate == 'sendgrid' ) {
             return $this->sendgrid($to, $subject, $content, $from, $cc, $key);
         } else if( $gate == 'mailersend' ) {
             return $this->mailersend($to, $subject, $content, $from, $cc, $key);
+        } else if( class_exists( 'DB' ) ) {
+            $db = new DB();
+            $key = $db->get_option('sendgrid_key');
+            if( !empty( $key ) ) {
+                $this->sendgrid( $to, $subject, $content, $from, $cc, $key );
+            } else {
+                $key = $db->get_option('mailersend_key');
+                if( !empty( $key ) ) {
+                    $this->mailersend( $to, $subject, $content, $from, $cc, $key );
+                } else {
+                    $headers = "MIME-Version: 1.0" . "\r\n" . "Content-type:text/html;charset=UTF-8" . "\r\n" . "From: " . $from . "\r\n" . "Reply-To: " . $from;
+                    $headers .= !empty($c) ? "\r\n" . "CC: " . $cc : '';
+                    return mail($to, $subject, $content, $headers);
+                }
+            }
         } else {
             $headers = "MIME-Version: 1.0" . "\r\n" . "Content-type:text/html;charset=UTF-8" . "\r\n" . "From: " . $from . "\r\n" . "Reply-To: " . $from;
             $headers .= !empty($c) ? "\r\n" . "CC: " . $cc : '';
@@ -34,7 +55,7 @@ class MAIL {
 
         if( !empty( $key ) ) {
 
-            require ROOTPATH . 'core/modules/vendor/autoload.php';
+            require ROOTPATH . 'core/external/vendor/autoload.php';
 
             $email = new \SendGrid\Mail\Mail();
             $email->setFrom( $from );
@@ -73,7 +94,7 @@ class MAIL {
         $key = empty( $key ) ? get_config( 'mailersend_key' ) : $key;
 
         if( !empty( $key ) ) {
-            require ROOTPATH . 'core/modules/vendor/autoload.php';
+            require ROOTPATH . 'core/external/vendor/autoload.php';
             $client = new GuzzleHttp\Client(['base_uri' => 'https://api.mailersend.com/v1/']);
             $options = [
                 'headers' => [
@@ -100,4 +121,32 @@ class MAIL {
         }
     }
 
+    /**
+     * Creates email template
+     * @param string $type
+     * @param string $content
+     */
+    function set_template( string $type = 'head', string $content = '' ) {
+
+        // Create dir if not exists
+        $template_path = APPPATH . 'storage/mail_templates/';
+        if ( !file_exists( $template_path ) ) {
+            mkdir( $template_path, 0777, true);
+        }
+
+        // Create template HTML file
+        $file = fopen( $template_path . $type . '.html' , 'w' ) or die( 'Unable to open file!' );
+        fwrite( $file, $content );
+        fclose( $file );
+    }
+
+    /**
+     * Fetches template content
+     * @param string $template
+     * @return string
+     */
+    function get_template( string $template = 'head' ): string {
+        $template_path = APPPATH . 'storage/mail_templates/';
+        return file_exists( $template_path . $template . '.html' ) ? file_get_contents( $template_path . $template . '.html' ) : '';
+    }
 }

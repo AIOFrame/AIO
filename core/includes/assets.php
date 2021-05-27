@@ -131,7 +131,7 @@ function get_styles( $ar = '', $page_of = '' ) {
  * @param string $page_of loads the stylesheet only if you are on this page
  * @author Shaikh <hey@shaikh.dev>
  */
-function get_script(string $f, $params = [], $page_of = '') {
+function get_script(string $f, array $params = [], string $page_of = '') {
 
     // Gets cache config
     $cache = get_config( 'cache' );

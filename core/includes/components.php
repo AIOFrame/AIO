@@ -3,7 +3,8 @@
 // THIS FILE FETCHES THIRD PARTY DEPENDENCIES THAT ARE OPTIONAL
 
 function get_module( $mod = '' ) {
-    include_once( ROOTPATH . 'core/modules/'. $mod . '.php' );
+    if( file_exists( ROOTPATH . 'core/modules/'. $mod . '.php' ) )
+        include_once( ROOTPATH . 'core/modules/'. $mod . '.php' );
 }
 
 // Include SMS Module and Send SMS

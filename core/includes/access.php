@@ -137,15 +137,12 @@ class ACCESS {
     function register( string $login, string $pass, string $email = '', string $name = '', string $picture = '', array $columns = [], array $data = [], array $access = [], string $status = '1' ) : array {
         // User login restrictions
         $login = strtolower( $login );
-        if( strlen( $login ) <= 6 ) {
-            return [ 0, T('User login must be at least 8 characters in length!') ];
-        }
-        if( strlen( $pass ) <= 8 ) {
-            return [ 0, T('User password must be at least 8 characters in length!') ];
-        }
-        if( preg_match( '/[^a-z\d ]/i', $login ) ) {
-            return [ 0, T('User login cannot contain special characters!') ];
-        }
+        $valid_name = $this->valid_name( $login );
+        if( !empty( $valid_name ) )
+            return [ 0, $valid_name ];
+        $valid_pass = $this->valid_pass( $pass );
+        if( !empty( $valid_pass ) )
+            return [ 0, $valid_pass ];
 
         $db = new DB();
         if( empty( $name ) )
@@ -181,6 +178,9 @@ class ACCESS {
                 [ $add_user, password_hash( $pass, PASSWORD_DEFAULT, [ 'cost' => 12 ] ) ]
             );
             if( $access ) {
+                // Email user to notify registration
+                $content = T('Your have successfully registered with ').APPNAME.'.<br/><br/>' . T('You can login with your new account.');
+                $this->mail( $email, 'Your password has been updated!', $content );
                 return [ $add_user, T('Successfully registered user!') ];
             } else {
                 $db->delete( 'users', 'user_id = \'$add_user\'' );
@@ -245,6 +245,36 @@ class ACCESS {
     }
 
     /**
+     * Initiates Reset Password
+     * @param string $login
+     * @return array
+     */
+    function forgot ( string $login ): array {
+        $db = new DB();
+
+        // Checks if user with same login name or email exists
+        $user = $db->select( 'users', '', '(user_login = \'' . $login . '\' OR user_email = \'' . $login . '\') AND user_status = \'1\'', 1 );
+        if( empty( $user ) || empty( $user['user_id'] ) ){
+            return [ 0, T('The login or email address does not exist or disabled!') ];
+        }
+
+        // Generate and update password
+        $cry = Crypto::initiate();
+        $pass = $cry->random(8);
+        $update = $db->update( 'access', [ 'access_pass' ], [ password_hash( $pass, PASSWORD_DEFAULT, [ 'cost' => 12 ] ) ], 'access_uid = \''.$user['user_id'].'\'' );
+
+        if( $update ) {
+            elog( 'Access updated ' . $pass );
+            // Email that password to user
+            $content = T('Your have successfully reset your password, your new password is ').'<span style="font-weight:bold">' . $pass . '</span><br/><br/>' . T('You can login with your new password and change to a new password from profile.');
+            $this->mail($user['user_email'], 'Your password has been Reset!', $content);
+            return [ 1, T('Password successfully reset! Please check your registered email.') ];
+        } else {
+            return [ 0, T('Failed to reset user password!') ];
+        }
+    }
+
+    /**
      * Updates user password or data
      * @param string $login User Login
      * @param string $old_pass User old password
@@ -252,13 +282,18 @@ class ACCESS {
      * @return array
      */
     function update_password( string $login, string $old_pass, string $new_pass ): array {
+        if( strlen( $new_pass ) <= 8 ) {
+            return [ 0, T('User password must be at least 8 characters in length!') ];
+        }
         $db = new DB();
         $uq = is_numeric( $login ) ? 'user_id = \''.$login.'\'' : 'user_login = \''.$login.'\'';
-        $user = $db->select( 'users', 'user_id', $uq, 1 );
+        $user = $db->select( 'users', 'user_id,user_email', $uq, 1 );
         if( isset( $user['user_id'] ) && !empty( $user['user_id'] ) ) {
             $access = $db->select( 'access', 'access_pass', 'access_uid = \''.$user['user_id'].'\'', 1 );
             if( !empty( $access['access_pass'] ) && password_verify( $old_pass, $access['access_pass'] ) ) {
                 $update = $db->update( 'access', [ 'access_pass' ], [ password_hash( $new_pass, PASSWORD_DEFAULT, [ 'cost' => 12 ] ) ], 'access_uid = \''.$user['user_id'].'\'' );
+                $content = T('Your have successfully updated your password on').date('d M, Y H:i').'.<br/><br/>' . T('You can login with your new password.');
+                $this->mail($user['user_email'], 'Your password has been updated!', $content);
                 return $update ? [ 1, T('Password updated successfully!') ] : [ 0, T('Failed to update password, please try again later') ];
             } else {
                 return [ 0, T('The password do not match registered user password!') ];
@@ -266,6 +301,23 @@ class ACCESS {
         } else {
             return [ 0, T('User not found!') ];
         }
+    }
+
+    /**
+     * @param string $email Receiver's email address
+     * @param string $subject Subject for the email
+     * @param string $content HTML content for the email
+     */
+    function mail( string $email, string $subject, string $content ) {
+        // Email the user
+        //get_module( 'email' );
+        if( class_exists( 'MAIL' ) ) {
+            $e = new MAIL();
+            $from = 'no-reply@'.str_replace( 'http:', '', str_replace( 'https:', '', str_replace( 'www.', '', str_replace( '/', '', APPURL ) ) ) );
+            $subject = '<div style="text-align:center">'.$content.'</div>';
+            $e->send( $email, T('Your password has been Reset!'), $subject, $from );
+        }
+
     }
 
     function overwrite_password( string $login, string $new_pass ): array {
@@ -352,6 +404,41 @@ class ACCESS {
             //set_config( 'users_added', 1 );
         }
     }
+
+    /**
+     * Validates password string
+     * @param string $pass Password string
+     * @return string
+     */
+    function valid_pass( string $pass = '' ): string {
+        if( strlen( $pass ) <= 8 ) {
+            return T('User password must be at least 8 characters in length!');
+        }
+    }
+
+    /**
+     * Validates username
+     * @param string $name Username string
+     * @return string
+     */
+    function valid_name( string $name = '' ): string {
+        if( strlen( $name ) <= 6 ) {
+            return T('User login must be at least 8 characters in length!');
+        } else if( preg_match( '/[^a-z\d ]/i', $name ) ) {
+            return T('User login cannot contain special characters!');
+        } else {
+            return '';
+        }
+    }
+
+    /**
+     * Validates email string
+     * @param string $email Email string
+     * @return string
+     */
+    function valid_email( string $email = '' ): string {
+
+    }
 }
 
 function access_login_ajax() {
@@ -363,7 +450,17 @@ function access_login_ajax() {
         $login = $a->login($login, $pass);
         echo json_encode( $login );
     } else {
-        ef('Missing user login or password!');
+        ef('User login or password is empty!');
+    }
+}
+
+function access_forgot_ajax() {
+    if( !empty( $_POST['forgot_username'] ) ) {
+        $a = new ACCESS();
+        $forgot = $a->forgot( $_POST['forgot_username'] );
+        echo json_encode( $forgot );
+    } else {
+        ef('User login is empty!');
     }
 }
 
@@ -400,11 +497,7 @@ function access_update_ajax() {
     }
 }
 
-function access_reset_ajax() {
-
-}
-
-function user_change_ajax() {
+function access_change_ajax() {
     $p = $_POST;
     if( isset( $p['old'] ) && isset( $p['new'] ) ) {
         $u = isset( $p['login'] ) ? $p['login'] : get_user_id();
@@ -427,24 +520,29 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
     }
     $rand = rand( 0, 9999 );
     $cry = Crypto::initiate();
+    $f = new FORM();
     ?>
-    <div class="login_wrap" data-t data-pre="login_" data-data="log" data-notify="3" data-reload="3" data-empty="login" data-reset="login">
+    <div class="login_wrap" data-t data-pre="login_" data-data="log" data-notify="3" data-reload="3" data-empty="log" data-reset="log">
         <div class="inputs">
-            <label for="login_name_<?php echo $rand; ?>"><?php E( $login_title ); ?></label>
-            <input type="text" id="login_name_<?php echo $rand; ?>" onkeyup="login_init(event)" data-key="username" placeholder="<?php E($login_title); ?>" data-log>
-            <label for="login_pass_<?php echo $rand; ?>"><?php E( $pass_title ); ?></label>
-            <input type="password" id="login_pass_<?php echo $rand; ?>" onkeyup="login_init(event)" data-key="password" placeholder="<?php E($pass_title); ?>" data-log>
+            <?php
+            $f->text('login_name_'.$rand,$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-key="username" data-log');
+            $f->input('password','login_pass_'.$rand,$pass_title,$pass_title,'','onkeyup="aio_login_init(event)" data-key="password" data-log');
+            ?>
         </div>
         <button id="aio_login_init" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_login_ajax' ); ?>"><?php E('Login'); ?></button>
+        <div class="more" onclick="aio_forgot_view()"><?php E('Forgot Password?'); ?></div>
     </div>
-    <script>
-        function login_init(e) {
-            if( e.keyCode === 13 ) {
-                process_data(document.getElementById('aio_login_init'));
-            }
-        }
-    </script>
+    <div class="forgot_wrap" data-t data-pre="forgot_" data-data="forg" data-notify="3" data-reload="3" data-empty="forg" data-reset="forg" style="display:none;">
+        <div class="inputs">
+            <?php
+            $f->text('forgot_name_'.$rand,$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-key="username" data-forg');
+            ?>
+        </div>
+        <button id="aio_forgot_init" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_forgot_ajax' ); ?>"><?php E('Reset my Password'); ?></button>
+        <div class="more" onclick="aio_login_view()"><?php E('Back to Login'); ?></div>
+    </div>
     <?php
+    get_script('access');
 }
 
 /**
