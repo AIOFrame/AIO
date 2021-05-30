@@ -267,7 +267,8 @@ class ACCESS {
             elog( 'Access updated ' . $pass );
             // Email that password to user
             $content = T('Your have successfully reset your password, your new password is ').'<span style="font-weight:bold">' . $pass . '</span><br/><br/>' . T('You can login with your new password and change to a new password from profile.');
-            $this->mail($user['user_email'], 'Your password has been Reset!', $content);
+            $mail = $this->mail($user['user_email'], 'Your password has been Reset!', $content);
+            elog( $mail );
             return [ 1, T('Password successfully reset! Please check your registered email.') ];
         } else {
             return [ 0, T('Failed to reset user password!') ];
@@ -411,9 +412,7 @@ class ACCESS {
      * @return string
      */
     function valid_pass( string $pass = '' ): string {
-        if( strlen( $pass ) <= 8 ) {
-            return T('User password must be at least 8 characters in length!');
-        }
+        return ( strlen( $pass ) <= 8 ) ? T('User password must be at least 8 characters in length!') : '';
     }
 
     /**
@@ -562,7 +561,7 @@ function register_html( array $columns = [], bool $columns_before = true, array 
     $cry = Crypto::initiate();
     $f = new FORM();
     ?>
-    <div class="register_wrap" data-t data-pre="register_" data-data="reg" data-notify="5" data-empty="register" data-reset="register">
+    <div class="register_wrap" data-t data-pre="register_" data-data="reg" data-notify="3" data-reload="3" data-empty="register" data-reset="register">
         <div class="inputs">
             <?php
             $columns_html = '';

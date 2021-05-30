@@ -80,6 +80,13 @@ if( defined( 'CONFIG' ) ) {
             }
         }
     }
+
+    // Auto load modules
+    if( isset( $c['modules'] ) && is_array( $c['modules'] ) ) {
+        foreach( $c['modules'] as $m ) {
+            get_module( $m );
+        }
+    }
 } else {
     foreach( glob( APPPATH . '/functions/*.php' ) as $fun ) {
         include_once( $fun );

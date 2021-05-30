@@ -349,7 +349,7 @@ class FORM {
      * @param string $class Button class
      * @param string $attr Additional attributes to button
      */
-    function process_data_html( string $text = '', string $class = '', string $attr = '' ) {
+    function process_data_button_html( string $text = '', string $class = '', string $attr = '' ) {
         $c = Crypto::initiate();
         echo '<button onclick="process_data(this)" data-action="'.$c->encrypt('process_data_ajax').'" class="'.$class.'" '.$attr.'>'.T( $text ).'</button>';
     }

@@ -78,7 +78,20 @@ $(document).ready(function(){
                 $(b).datepicker({ maxDate: new Date($(b).data('max')) })
             }
             if( $(b).attr('value') !== undefined && $(b).attr('value') !== '' ) {
-                $(b).datepicker().data('datepicker').selectDate(  new Date( $(b).attr('value') ) );
+                if( $(b).data('multiple-dates') !== undefined ) {
+                    let dates = $(b).attr('value').split(',');
+                    $.each( dates, function( index, value ) {
+                        $(b).datepicker().data('datepicker').selectDate( new Date( value ) );
+                    });
+                } else {
+                    $(b).datepicker().data('datepicker').selectDate(  new Date( $(b).attr('value') ) );
+                }
+            }
+            if( $(b).attr('off') !== undefined && $(b).attr('off') !== '' ) {
+                let dates = $(b).attr('value').split(',');
+                $.each( dates, function( index, value ) {
+                    $(b).datepicker().data('datepicker').disabled( new Date( value ) );
+                });
             }
         });
     }

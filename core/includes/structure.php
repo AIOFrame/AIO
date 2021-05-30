@@ -53,10 +53,10 @@ function user_tables() {
     $tables[] = [ 'alerts', [
         [ 'from', 'INT', 13, 0 ],
         [ 'user', 'INT', 13, 1 ],
-        [ 'name', 'VARCHAR', 15, 1 ],
-        [ 'note', 'VARCHAR', 155, 0 ],
+        [ 'name', 'VARCHAR', 55, 1 ],
+        [ 'note', 'VARCHAR', 255, 0 ],
         [ 'type', 'VARCHAR', 15, 0 ],
-        [ 'link', 'VARCHAR', 55, 0 ],
+        [ 'link', 'VARCHAR', 255, 0 ],
         [ 'seen', 'BOOLEAN', '', 0 ],
         [ 'time', 'DATETIME', '', 0 ],
     ], 'alert', 1 ];
