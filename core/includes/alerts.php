@@ -20,8 +20,8 @@ class ALERTS {
     function count(): int {
         $c = 0;
         $db = new DB();
-        $count = $db->select( 'alerts', '', 'alert_user = \''.get_user_id().'\' && alert_seen = \'0\'', '', '', '', 1 );
-        return is_array( $count ) ? $count[0] : 0;
+        $count = $db->select( 'alerts', '', 'alert_user = \''.get_user_id().'\' && alert_seen = \'0\'', 0, 0, '', 1 );
+        return !empty( $count ) && is_array( $count ) ? $count[0] : 0;
     }
 
     /**

@@ -246,7 +246,7 @@ class DB {
      * @param string $sort
      * @return array
      */
-    function select( string $table, $cols = '*', $where = '', $limit = 0, $offset = 0 , $group = '', $count = 0 , $order_by = '', $sort = ''): array {
+    function select( string $table, string $cols = '*', string $where = '', int $limit = 0, int $offset = 0 , string $group = '', bool $count = false, string $order_by = '', string $sort = '' ): array {
         $db = $this->connect();
         if( $db ) {
             $cols = $cols == "" ? "*" : $cols;
@@ -260,8 +260,8 @@ class DB {
             DB_TYPE == 'mssql' ? $where = str_replace( '"', "'", $where ) : '';
             $o .= !empty($where) && $where !== '' ? ' WHERE ' . $where : '';
             $o .= !empty($group) ? "GROUP BY " . $group : "";
-            $o .= !empty($order_by) && $order_by !== '' ? ' ORDER BY ' . $order_by : '';
-            $o .= !empty($sort) && $sort !== '' && !empty($order_by) && $order_by !== '' ? ' ' . $sort : '';
+            //$o .= !empty($order_by) && $order_by !== '' ?  $order_by : '';
+            $o .= !empty($sort) && $sort !== '' && !empty($order_by) && $order_by !== '' ? ' ORDER BY ' . $sort . ' ' . $order_by : '';
             $o .= $limit >= 1 ? ( DB_TYPE == 'mssql' ? '' : ' LIMIT ' . $limit ) : '';
             $o .= $offset > 1 ? ( DB_TYPE == 'mssql' ? ' OFFSET ' . $offset . ' ROWS' : ' OFFSET ' . $offset ) : '';
 

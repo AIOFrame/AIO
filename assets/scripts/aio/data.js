@@ -287,7 +287,8 @@ function edit_data( e, modal ) {
 
     $.each( data, function(i,d){
         if( i === 'id' ){
-            t.addClass('on').data('id',d);
+            t.data('id',d).find('[data-t]').data('id',d);
+            $(t).hasClass('modal') ? t.addClass('on') : '';
         } else {
             if( $('#'+i).attr('type') === 'checkbox' ){
 

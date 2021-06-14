@@ -348,10 +348,11 @@ class FORM {
      * @param string $text Button text
      * @param string $class Button class
      * @param string $attr Additional attributes to button
+     * @param string $action Default AJAX Action
      */
-    function process_data_button_html( string $text = '', string $class = '', string $attr = '' ) {
+    function process_button_html( string $text = '', string $class = '', string $attr = '', string $action = 'process_data_ajax' ) {
         $c = Crypto::initiate();
-        echo '<button onclick="process_data(this)" data-action="'.$c->encrypt('process_data_ajax').'" class="'.$class.'" '.$attr.'>'.T( $text ).'</button>';
+        echo '<button onclick="process_data(this)" data-action="'.$c->encrypt($action).'" class="'.$class.'" '.$attr.'>'.T( $text ).'</button>';
     }
 
     /**
@@ -372,7 +373,13 @@ class FORM {
         }
     }
 
-    function filters( array $filters = [] ) {
+    /**
+     * Renders Filters HTML
+     * @param array $filters
+     * @param string $clear_url Page path excluding APPURL Ex: user/payments
+     */
+    function filters( array $filters = [], string $clear_url = '' ) {
+        $clear_url = APPURL . $clear_url;
         echo '<div class="auto_filters"><form class="row">';
         foreach( $filters as $f ) {
             $type = $f[0] ??= 'text';
@@ -385,13 +392,15 @@ class FORM {
             if( $type == 'select' ) {
                 $options = $f[4] ??= [];
                 $value = $_POST[ $id ] ??= '';
-                $this->select( $id, $label, $place, $options, $value, $attrs, $pre );
+                $post = $f[7] ??= '';
+                $keyed = $f[8] ??= '';
+                $this->select( $id, $label, $place, $options, $value, $attrs, $pre, $post, $keyed );
             } else {
                 $this->input( $type, $id, $label, $place, $val, $attrs, $pre );
             }
         }
-        echo '<div class="col"><button class="filter">'.T('Filter').'</button></div>';
-        echo '<div class="col"><button name="clear" value="clear" class="clear">'.T('Clear').'</button></div>';
+        echo '<div class="col"><button type="submit" class="filter">'.T('Filter').'</button></div>';
+        echo '<div class="col"><a href="'.$clear_url.'" class="clear">'.T('Clear').'</a></div>';
         echo '</form></div>';
     }
 }

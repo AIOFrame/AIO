@@ -148,4 +148,10 @@
   opacity: 1;
 }
 
+/* RTL */
+[dir=rtl] .card .actions {
+  right: auto;
+  left: 10px;
+}
+
 /*# sourceMappingURL=cards.css.map */
