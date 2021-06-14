@@ -193,8 +193,10 @@ class FORM {
                 $wrap_inputs_pre = '<div class="row '.$inputs_wrap.'">';
                 $wrap_inputs_post = '</div>';
             }
-            if( strpos( $attr, 'data-array') !== false )
+            if( strpos( $attr, 'data-array') !== false ) {
+                $key = $name;
                 $name = $name . '[]';
+            }
             $uq = rand(1,999);
             echo $pre;
             echo !empty($label) ? '<label class="db">'.T($label).'</label>' : '';
@@ -206,9 +208,9 @@ class FORM {
                     $checked = is_array( $checked ) ? $checked : explode(',',$checked);
                     $c = in_array( $value, $checked ) ? 'checked' : '';
                     if ($label_first) {
-                        echo $inputs_pre . '<label for="' . $k . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' name="' . $name . '" data-key="'.$name.'" id="' . $k . '" value="' . $value . '" '. $c .' >' . $inputs_post;
+                        echo $inputs_pre . '<label for="' . $k . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' name="' . $name . '" data-key="'.$key.'" id="' . $k . '" value="' . $value . '" '. $c .' >' . $inputs_post;
                     } else {
-                        echo $inputs_pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" data-key="'.$name.'" id="' . $k . '" value="' . $value . '" '. $c .' ><label for="' . $k . '">' . $title . '</label>' . $inputs_post;
+                        echo $inputs_pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" data-key="'.$key.'" id="' . $k . '" value="' . $value . '" '. $c .' ><label for="' . $k . '">' . $title . '</label>' . $inputs_post;
                     }
                     $x++;
                 }

@@ -90,9 +90,6 @@ $(document).ready(function(){
     //     let a = format_number($(e).val());
     //     $(this).val(a);
     // });
-
-    if( debug === undefined )
-        let debug = !!$('body').hasClass('debug');
 });
 
 
