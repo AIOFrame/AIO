@@ -57,6 +57,15 @@ function is_mobile(): string {
 }
 
 /**
+ * Checks if user device is using tablet
+ * @return string
+ */
+function is_tablet(): string {
+    $client = new AGENT();
+    return $client->is_tablet();
+}
+
+/**
  * If client is using iOS device
  * @return boolean
  * @author Shaikh <hey@shaikh.dev>

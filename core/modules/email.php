@@ -27,11 +27,11 @@ class MAIL {
             $db = new DB();
             $key = $db->get_option('sendgrid_key');
             if( !empty( $key ) ) {
-                $this->sendgrid( $to, $subject, $content, $from, $cc, $key );
+                return $this->sendgrid( $to, $subject, $content, $from, $cc, $key );
             } else {
                 $key = $db->get_option('mailersend_key');
                 if( !empty( $key ) ) {
-                    $this->mailersend( $to, $subject, $content, $from, $cc, $key );
+                    return $this->mailersend( $to, $subject, $content, $from, $cc, $key );
                 } else {
                     $headers = "MIME-Version: 1.0" . "\r\n" . "Content-type:text/html;charset=UTF-8" . "\r\n" . "From: " . $from . "\r\n" . "Reply-To: " . $from;
                     $headers .= !empty($c) ? "\r\n" . "CC: " . $cc : '';
@@ -45,7 +45,18 @@ class MAIL {
         }
     }
 
-    function sendgrid( $to, $subject, $content, $from, $cc = '', $key = '' ): bool {
+    /**
+     * Sends email thru SendGrid API
+     * @param string $to Receiver's email addresses separated by ,
+     * @param string $subject Subject of the email
+     * @param string $content HTML content of the email
+     * @param string $from Sender's email address
+     * @param string $cc Carbon copy receivers addresses separated by ,
+     * @param string $key SendGrid API Key (optional)
+     * @return bool
+     * @throws \SendGrid\Mail\TypeException
+     */
+    function sendgrid( string $to, string $subject, string $content, string $from = '', string $cc = '', string $key = '' ): bool {
 
         if( empty( $key ) ) {
             $con = new DB();
@@ -61,12 +72,9 @@ class MAIL {
             $email->setFrom( $from );
             $email->setSubject( $subject );
 
-            if( is_array( $to ) ){
-                foreach( $to as $k => $v ){
-                    $email->addTo($v, $k);
-                }
-            } else {
-                $email->addTo($to);
+            $to = explode( ',', $to );
+            foreach( $to as $t ){
+                $email->addTo( $t );
             }
 
             $email->addContent("text/html", $content);

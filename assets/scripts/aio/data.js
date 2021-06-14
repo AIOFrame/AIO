@@ -243,6 +243,14 @@ function process_data( e ){
     d.action = $(e).data('action');
     d.t = $(p).data('t');
     d.pre = pre;
+    let a = $(p).data('a');
+    if( a !== undefined && a !== null ) {
+        d.a = a;
+    }
+    let pos = $(p).data('post');
+    if( pos !== undefined && pos !== null ) {
+        d.post = pos;
+    }
     if( d.action === undefined || d.action === null ) {
         console.log('Action not set!');
     }
@@ -279,7 +287,8 @@ function edit_data( e, modal ) {
 
     $.each( data, function(i,d){
         if( i === 'id' ){
-            t.addClass('on').data('id',d);
+            t.data('id',d).find('[data-t]').data('id',d);
+            $(t).hasClass('modal') ? t.addClass('on') : '';
         } else {
             if( $('#'+i).attr('type') === 'checkbox' ){
 
@@ -313,7 +322,7 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
     //elog(callback);
     let d = $.extend({}, { 'action' : action }, data);
     $.post( location.origin, d, function(r) {
-        console.log(r);
+        //console.log(r);
         try {
             r = JSON.parse( r );
             //elog(r);
@@ -329,9 +338,7 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
             if( callback !== undefined && callback !== '' ) {
                 callback = callback.split(',');
                 $.each( callback, function(i,call){
-                    if( call !== 'recaptcha' ) {
-                        eval( call + '(' + JSON.stringify( r ) + ')' );
-                    }
+                    eval( call + '(' + JSON.stringify( r ) + ')' );
                 });
             }
             if( redirect !== undefined && redirect !== '' ) {

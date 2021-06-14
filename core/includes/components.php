@@ -29,10 +29,10 @@ function nsms( $no, $msg ) {
 // Include Google Maps Module and Render Map
 
 function render_maps() {
-    include_once( ROOTPATH . 'core/modules/google_maps.php' );
+    include_once( ROOTPATH . 'core/modules/maps.php' );
     global $google_maps_loaded;
     if( !$google_maps_loaded ){
-        $gmaps = new GMaps();
+        $gmaps = new Maps();
         $gmaps->google_maps();
         $google_maps_loaded = 1;
     }

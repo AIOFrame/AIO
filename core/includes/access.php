@@ -267,7 +267,8 @@ class ACCESS {
             elog( 'Access updated ' . $pass );
             // Email that password to user
             $content = T('Your have successfully reset your password, your new password is ').'<span style="font-weight:bold">' . $pass . '</span><br/><br/>' . T('You can login with your new password and change to a new password from profile.');
-            $this->mail($user['user_email'], 'Your password has been Reset!', $content);
+            $mail = $this->mail($user['user_email'], 'Your password has been Reset!', $content);
+            elog( $mail );
             return [ 1, T('Password successfully reset! Please check your registered email.') ];
         } else {
             return [ 0, T('Failed to reset user password!') ];
@@ -389,19 +390,12 @@ class ACCESS {
             $c = json_decode( CONFIG, 1 );
             if( isset( $c['users'] ) && is_array( $c['users'] ) ) {
                 foreach ( $c['users'] as $u ) {
-                    if (isset($u[0]) && isset($u[1])) {
-                        $u[3] = isset($u[3]) ? $u[3] : '';
-                        $u[4] = isset($u[4]) ? $u[4] : '';
-                        $u[5] = isset($u[5]) ? $u[5] : [];
-                        $u[6] = isset($u[6]) ? $u[6] : [];
-                        $u[7] = isset($u[7]) ? $u[7] : [];
-                        $u[8] = isset($u[8]) ? $u[8] : 1;
-                        $a = new ACCESS();
-                        $this->register($u[0], $u[1], $u[2], $u[3], $u[4], $u[5], $u[6], $u[7], $u[8]);
+                    if ( isset( $u['login'] ) && isset( $u['password'] ) ) {
+                        $r = $this->register( $u['login'], $u['password'], $u['email'], $u['name'], $u['picture'], $u['columns'], $u['data'], $u['access'], $u['status'] );
+                        elog( json_encode( $r ) );
                     }
                 }
             }
-            //set_config( 'users_added', 1 );
         }
     }
 
@@ -411,9 +405,7 @@ class ACCESS {
      * @return string
      */
     function valid_pass( string $pass = '' ): string {
-        if( strlen( $pass ) <= 8 ) {
-            return T('User password must be at least 8 characters in length!');
-        }
+        return ( strlen( $pass ) <= 8 ) ? T('User password must be at least 8 characters in length!') : '';
     }
 
     /**
@@ -513,8 +505,10 @@ function access_change_ajax() {
  * Renders frontend code for user login
  * @param string $login_title Replacement text for default "Username" title
  * @param string $pass_title Replacement text for default "Password" title
+ * @param string $forgot_title Replacement text for default "Forgot Password?" title
+ * @param string $back_title Replacement text for default "Back to Login" title
  */
-function login_html( string $login_title = 'Username or Email', string $pass_title = 'Password' ) {
+function login_html( string $login_title = 'Username or Email', string $pass_title = 'Password', string $forgot_title = 'Forgot Password?', string $back_title = 'Back to Login' ) {
     if( user_logged_in() ) {
         return;
     }
@@ -530,7 +524,7 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
             ?>
         </div>
         <button id="aio_login_init" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_login_ajax' ); ?>"><?php E('Login'); ?></button>
-        <div class="more" onclick="aio_forgot_view()"><?php E('Forgot Password?'); ?></div>
+        <div class="more" onclick="aio_forgot_view()"><?php E($forgot_title); ?></div>
     </div>
     <div class="forgot_wrap" data-t data-pre="forgot_" data-data="forg" data-notify="3" data-reload="3" data-empty="forg" data-reset="forg" style="display:none;">
         <div class="inputs">
@@ -539,7 +533,7 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
             ?>
         </div>
         <button id="aio_forgot_init" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_forgot_ajax' ); ?>"><?php E('Reset my Password'); ?></button>
-        <div class="more" onclick="aio_login_view()"><?php E('Back to Login'); ?></div>
+        <div class="more" onclick="aio_login_view()"><?php E($back_title); ?></div>
     </div>
     <?php
     get_script('access');
@@ -562,7 +556,7 @@ function register_html( array $columns = [], bool $columns_before = true, array 
     $cry = Crypto::initiate();
     $f = new FORM();
     ?>
-    <div class="register_wrap" data-t data-pre="register_" data-data="reg" data-notify="5" data-empty="register" data-reset="register">
+    <div class="register_wrap" data-t data-pre="register_" data-data="reg" data-notify="3" data-reload="3" data-empty="register" data-reset="register">
         <div class="inputs">
             <?php
             $columns_html = '';
