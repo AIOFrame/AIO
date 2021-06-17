@@ -37,6 +37,33 @@
   .image.l {
     margin:10px auto 10px 0;
   }
+  .image.xs {
+    width: 20px;
+    height: 20px;
+  }
+  .image.s {
+    width: 40px;
+    height: 40px;
+  }
+  .image.m {
+    width: 60px;
+    height: 60px;
+  }
+  .image.l {
+    width: 100px;
+    height: 100px;
+  }
+  .image.xl {
+    width: 120px;
+    height: 120px;
+  }
+  .image.xxl {
+    width: 140px;
+    height: 140px;
+  }
+  .image.wide {
+    width: 100%;
+  }
   .image.bg {
     width: 100%;
     border:0;
@@ -44,6 +71,15 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size:80px;
+  }
+  .image.cover {
+    background-size:cover;
+  }
+  .image.contain {
+    background-size:cover;
+  }
+  .image.center {
+    background-position: center;
   }
   .title {
     display: block;

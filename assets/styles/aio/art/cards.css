@@ -37,6 +37,33 @@
 .card .image.l {
   margin: 10px auto 10px 0;
 }
+.card .image.xs {
+  width: 20px;
+  height: 20px;
+}
+.card .image.s {
+  width: 40px;
+  height: 40px;
+}
+.card .image.m {
+  width: 60px;
+  height: 60px;
+}
+.card .image.l {
+  width: 100px;
+  height: 100px;
+}
+.card .image.xl {
+  width: 120px;
+  height: 120px;
+}
+.card .image.xxl {
+  width: 140px;
+  height: 140px;
+}
+.card .image.wide {
+  width: 100%;
+}
 .card .image.bg {
   width: 100%;
   border: 0;
@@ -44,6 +71,15 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: 80px;
+}
+.card .image.cover {
+  background-size: cover;
+}
+.card .image.contain {
+  background-size: cover;
+}
+.card .image.center {
+  background-position: center;
 }
 .card .title {
   display: block;
