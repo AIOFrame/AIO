@@ -290,12 +290,19 @@ function edit_data( e, modal ) {
             t.data('id',d).find('[data-t]').data('id',d);
             $(t).hasClass('modal') ? t.addClass('on') : '';
         } else {
-            if( $('#'+i).attr('type') === 'checkbox' ){
-
-                d === '1' || d === true ? $('#'+i).prop('checked',true) : $('#'+i).prop('checked',false);
-
-            } if( $('#'+i).prop('type') == 'select-multiple' ) {
-                var d = $.map(d.split(','), function(value){
+            let el = $('[data-key='+i+']');
+            if( el.attr('type') === 'checkbox' ){
+                let s = $('[data-key='+i+'][value='+d+']');
+                d === '1' || d === true || d.length > 0 ? s.prop('checked',true) : s.prop('checked',false);
+            } else if( el.attr('type') === 'radio' ) {
+                let s = $('[data-key='+i+'][value='+d+']');
+                //console.log( el );
+                //console.log( '[data-key='+i+'][value='+d+']' );
+                console.log( s );
+                console.log( d );
+                d === '1' || d === true || d.length > 0 ? s.prop('checked',true) : s.prop('checked',false);
+            } else if( el.prop('type') === 'select-multiple' ) {
+                let d = $.map(d.split(','), function(value){
                     return parseInt(value);
                 });
                 $('#'+i).val(d).change();

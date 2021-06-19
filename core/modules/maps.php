@@ -5,7 +5,7 @@ class MAPS {
     function google_maps() {
         $db = new DB();
         $k = $db->get_option( 'google_maps_key' );
-        $k = empty( $k ) ? get_config('google_maps_key') : '';
+        $k = empty( $k ) ? get_config('google_maps_key') : $k;
         if( !empty( $k ) ) {
             echo '<script async defer src="//maps.googleapis.com/maps/api/js?key=' . $k . '" type="text/javascript"></script>';
         }
