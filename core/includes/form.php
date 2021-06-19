@@ -67,13 +67,13 @@ class FORM {
      * @param string $id ID and name of the element
      * @param string $label Label for the <label>
      * @param string $placeholder Placeholder text
-     * @param string $value Value of the input if any
+     * @param string|null $value Value of the input if any
      * @param string $attrs Attributes like class or data tags
      * @param string $pre String to wrap before start of <input>. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post End string to wrap after />
      * @param string $name Optional if different name is needed
      */
-    function input( string $type, string $id, string $label, string $placeholder = '', string $value = '', string $attrs = '', string $pre = '', string $post = '', string $name = '' ){
+    function input( string $type, string $id, string $label, string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '', string $name = '' ){
         $type = $type == '' ? 'text' : $type;
         if( is_numeric( $pre ) ){
             $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
@@ -138,12 +138,12 @@ class FORM {
      * @param string $id ID and name of the element
      * @param string $label Label for the <label>
      * @param string $placeholder Placeholder text
-     * @param string $value Value of the input if any
+     * @param string|null $value Value of the input if any
      * @param string $attrs Attributes like class or data tags
      * @param string $pre String to wrap before start of <input>. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post End string to wrap after />
      */
-    function text( string $id, string $label, string $placeholder = '', string $value = '', string $attrs = '', string $pre = '', string $post = '' ) {
+    function text( string $id, string $label, string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '' ) {
         $this->input( 'text', $id, $label, $placeholder, $value, $attrs, $pre, $post );
     }
 
@@ -193,11 +193,9 @@ class FORM {
                 $wrap_inputs_pre = '<div class="row '.$inputs_wrap.'">';
                 $wrap_inputs_post = '</div>';
             }
+            $key = 'data-key="'.$name.'"';
             if( strpos( $attr, 'data-array') !== false ) {
-                $key = 'data-key="'.$name.'"';
                 $name = $name . '[]';
-            } else {
-                $key = 'data-key="'.$name.'"';
             }
             $uq = rand(1,999);
             echo $pre;
