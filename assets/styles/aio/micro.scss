@@ -129,19 +129,34 @@ select.tar { text-align-last: right; }
 .m120 { margin:120px }
 .m140 { margin:140px }
 
-.mh0 { margin-left: 0; margin-right: 0; }
-.mh10 { margin-left: 10px; margin-right: 10px; }
-.mh20 { margin-left: 20px; margin-right: 20px; }
-.mh30 { margin-left: 30px; margin-right: 30px; }
-.mh40 { margin-left: 40px; margin-right: 40px; }
-.mh50 { margin-left: 50px; margin-right: 50px; }
-.mh60 { margin-left: 60px; margin-right: 60px; }
-.mh70 { margin-left: 70px; margin-right: 70px; }
-.mh80 { margin-left: 80px; margin-right: 80px; }
-.mh90 { margin-left: 90px; margin-right: 90px; }
-.mh100 { margin-left: 100px; margin-right: 100px; }
-.mh120 { margin-left: 120px; margin-right: 130px; }
-.mh140 { margin-left: 140px; margin-right: 140px; }
+.mx0, .mh0 { margin-left: 0; margin-right: 0; }
+.mx10, .mh10 { margin-left: 10px; margin-right: 10px; }
+.mx-10, .mh-10 { margin-left: -10px; margin-right: -10px; }
+.mx20, .mh20 { margin-left: 20px; margin-right: 20px; }
+.mx30, .mh30 { margin-left: 30px; margin-right: 30px; }
+.mx40, .mh40 { margin-left: 40px; margin-right: 40px; }
+.mx50, .mh50 { margin-left: 50px; margin-right: 50px; }
+.mx60, .mh60 { margin-left: 60px; margin-right: 60px; }
+.mx70, .mh70 { margin-left: 70px; margin-right: 70px; }
+.mx80, .mh80 { margin-left: 80px; margin-right: 80px; }
+.mx90, .mh90 { margin-left: 90px; margin-right: 90px; }
+.mx100, .mh100 { margin-left: 100px; margin-right: 100px; }
+.mx120, .mh120 { margin-left: 120px; margin-right: 130px; }
+.mx140, .mh140 { margin-left: 140px; margin-right: 140px; }
+
+.my0, .mv0 { margin-top: 0; margin-bottom: 0; }
+.my10, .mv10 { margin-top: 10px; margin-bottom: 10px; }
+.my20, .mv20 { margin-top: 20px; margin-bottom: 20px; }
+.my30, .mv30 { margin-top: 30px; margin-bottom: 30px; }
+.my40, .mv40 { margin-top: 40px; margin-bottom: 40px; }
+.my50, .mv50 { margin-top: 50px; margin-bottom: 50px; }
+.my60, .mv60 { margin-top: 60px; margin-bottom: 60px; }
+.my70, .mv70 { margin-top: 70px; margin-bottom: 70px; }
+.my80, .mv80 { margin-top: 80px; margin-bottom: 80px; }
+.my90, .mv90 { margin-top: 90px; margin-bottom: 90px; }
+.my100, .mv100 { margin-top: 100px; margin-bottom: 100px; }
+.my120, .mv120 { margin-top: 120px; margin-bottom: 130px; }
+.my140, .mv140 { margin-top: 140px; margin-bottom: 140px; }
 
 .mr0 { margin-right: 0 !important; }
 .mr5 { margin-right: 5px; }
@@ -224,6 +239,34 @@ select.tar { text-align-last: right; }
 .pt60 { padding-top: 60px; }
 .pt80 { padding-top: 80px; }
 .pt100 { padding-top: 100px; }
+
+.px0, .ph0 { padding-left: 0; padding-right: 0; }
+.px10, .ph10 { padding-left: 10px; padding-right: 10px; }
+.px20, .ph20 { padding-left: 20px; padding-right: 20px; }
+.px30, .ph30 { padding-left: 30px; padding-right: 30px; }
+.px40, .ph40 { padding-left: 40px; padding-right: 40px; }
+.px50, .ph50 { padding-left: 50px; padding-right: 50px; }
+.px60, .ph60 { padding-left: 60px; padding-right: 60px; }
+.px70, .ph70 { padding-left: 70px; padding-right: 70px; }
+.px80, .ph80 { padding-left: 80px; padding-right: 80px; }
+.px90, .ph90 { padding-left: 90px; padding-right: 90px; }
+.px100, .ph100 { padding-left: 100px; padding-right: 100px; }
+.px120, .ph120 { padding-left: 120px; padding-right: 130px; }
+.px140, .ph140 { padding-left: 140px; padding-right: 140px; }
+
+.py0, .pv0 { padding-top: 0; padding-bottom: 0; }
+.py10, .pv10 { padding-top: 10px; padding-bottom: 10px; }
+.py20, .pv20 { padding-top: 20px; padding-bottom: 20px; }
+.py30, .pv30 { padding-top: 30px; padding-bottom: 30px; }
+.py40, .pv40 { padding-top: 40px; padding-bottom: 40px; }
+.py50, .pv50 { padding-top: 50px; padding-bottom: 50px; }
+.py60, .pv60 { padding-top: 60px; padding-bottom: 60px; }
+.py70, .pv70 { padding-top: 70px; padding-bottom: 70px; }
+.py80, .pv80 { padding-top: 80px; padding-bottom: 80px; }
+.py90, .pv90 { padding-top: 90px; padding-bottom: 90px; }
+.py100, .pv100 { padding-top: 100px; padding-bottom: 100px; }
+.py120, .pv120 { padding-top: 120px; padding-bottom: 130px; }
+.py140, .pv140 { padding-top: 140px; padding-bottom: 140px; }
 
 /* Bootstrap Columns */
 

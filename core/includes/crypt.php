@@ -45,7 +45,7 @@ class Crypto {
      * @return array
      */
     public function decrypt_array( string $data ): array {
-        return json_decode( $this->decrypt( $data ) );
+        return json_decode( $this->decrypt( $data ), 1 );
     }
 
     /**

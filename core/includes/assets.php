@@ -92,6 +92,7 @@ function get_style(string $f, $params = [], $page_of = '') {
         $universal_assets['styles'][] = $f;
         $style_paths = [
             APPPATH . 'assets/styles/' . $f => APPURL . 'apps/' . APPDIR . '/assets/styles/' . $f,
+            ROOTPATH . 'assets/styles/ext/'. $f => APPURL . 'assets/styles/ext/' . $f,
             ROOTPATH . 'assets/styles/ext/'. $f . '/' . $f => APPURL . 'assets/styles/ext/' . $f . '/' . $f,
             ROOTPATH . 'assets/styles/aio/' . $f => APPURL . 'assets/styles/aio/' . $f,
         ];
@@ -145,7 +146,7 @@ function get_script(string $f, array $params = [], string $page_of = '') {
         }
     }
 
-    // Sets version of stylesheet
+    // Sets version of script
     $v = !empty( $v ) ? $v . $p : $p;
 
     global $universal_assets;
@@ -153,6 +154,7 @@ function get_script(string $f, array $params = [], string $page_of = '') {
         $universal_assets['scripts'][] = $f;
         $script_paths = [
             APPPATH . 'assets/scripts/' . $f => APPURL . 'apps/' . APPDIR . '/assets/scripts/' . $f,
+            ROOTPATH . 'assets/scripts/ext/' . $f => APPURL . 'assets/scripts/ext/' . $f,
             ROOTPATH . 'assets/scripts/ext/' . $f . '/' . $f => APPURL . 'assets/scripts/ext/' . $f . '/' . $f,
             ROOTPATH . 'assets/scripts/aio/' . $f => APPURL . 'assets/scripts/aio/' . $f,
         ];
@@ -206,7 +208,9 @@ function get_scripts( $ar = '', $page_of = '' ) {
 function asset_exists( $paths = [], $f = '', $ext = '' ): string {
     $url = '';
     foreach( $paths as $path => $link ) {
-        if( file_exists( $path . '.min.' . $ext ) )
+        if( file_exists( $path . '.php' ) )
+            $url = $link . '.php';
+        else if( file_exists( $path . '.min.' . $ext ) )
             $url = $link . '.min.' . $ext;
         else if( file_exists( $path . '.' . $ext ) )
             $url = $link . '.' . $ext;
