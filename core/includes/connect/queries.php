@@ -240,7 +240,7 @@ class DB {
      * @param string $where Where logic, Ex: 'user_id = 12'
      * @param int $limit Limit quantity of rows
      * @param int $offset Offset rows
-     * @param string $group Group data rows
+     * @param string $group Group data rows by column key
      * @param bool $count Only get count of data rows
      * @param string $order_by Order data by
      * @param string $sort
@@ -261,7 +261,7 @@ class DB {
             $o .= !empty($where) && $where !== '' ? ' WHERE ' . $where : '';
             $o .= !empty($group) ? "GROUP BY " . $group : "";
             //$o .= !empty($order_by) && $order_by !== '' ?  $order_by : '';
-            $o .= !empty($sort) && $sort !== '' && !empty($order_by) && $order_by !== '' ? ' ORDER BY ' . $sort . ' ' . $order_by : '';
+            $o .= !empty( $sort ) && $sort !== '' && !empty( $order_by ) && $order_by !== '' ? ' ORDER BY ' . $order_by . ' ' . $sort : '';
             $o .= $limit >= 1 ? ( DB_TYPE == 'mssql' ? '' : ' LIMIT ' . $limit ) : '';
             $o .= $offset > 1 ? ( DB_TYPE == 'mssql' ? ' OFFSET ' . $offset . ' ROWS' : ' OFFSET ' . $offset ) : '';
 
