@@ -54,7 +54,8 @@ class FORM {
         //if( str_contains( $attr, 'select2' ) ) {
         if( strpos( $attr, 'select2' ) !== false ) {
             $placeholder = '';
-            array_unshift( $options, 'select2_placeholder' );
+            $options = [ '' => 'select2_placeholder' ] + $options;
+            //array_unshift( $options, 'select2_placeholder' );
         }
         //$placeholder = strpos( $attr, 'select2') !== false ? '' : $placeholder;
         $this->select_options( $options, $selected, $placeholder, $keyed, $translate );
