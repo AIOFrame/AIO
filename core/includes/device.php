@@ -48,7 +48,7 @@ function get_user_browser_version(): string {
 }
 
 /**
- * Checks if user device is using mobile
+ * Checks if user device is mobile
  * @return string
  */
 function is_mobile(): string {
@@ -57,12 +57,21 @@ function is_mobile(): string {
 }
 
 /**
- * Checks if user device is using tablet
+ * Checks if user device is tablet
  * @return string
  */
 function is_tablet(): string {
     $client = new AGENT();
     return $client->is_tablet();
+}
+
+/**
+ * Checks if user device is desktop
+ * @return string
+ */
+function is_desktop(): string {
+    $client = new AGENT();
+    return $client->is_desktop();
 }
 
 /**

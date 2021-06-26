@@ -292,12 +292,19 @@ function edit_data( e, modal ) {
         } else {
             let el = $('[data-key='+i+']');
             if( el.attr('type') === 'checkbox' ){
-                let s = $('[data-key='+i+'][value='+d+']');
-                d === '1' || d === true || d.length > 0 ? s.prop('checked',true) : s.prop('checked',false);
+                if( el.data('key') !== undefined ) {
+                    d = JSON.parse(d);
+                    $(d).each(function(a,b){
+                        let s = $('[data-key='+i+'][value='+b+']');
+                        d === '1' || d === true || d.length > 0 ? s.prop('checked',true) : s.prop('checked',false);
+                    })
+                    //console.log( d );
+                } else {
+                    let s = $('[data-key='+i+'][value='+d+']');
+                    d === '1' || d === true || d.length > 0 ? s.prop('checked',true) : s.prop('checked',false);
+                }
             } else if( el.attr('type') === 'radio' ) {
                 let s = $('[data-key='+i+'][value='+d+']');
-                //console.log( el );
-                //console.log( '[data-key='+i+'][value='+d+']' );
                 console.log( s );
                 console.log( d );
                 d === '1' || d === true || d.length > 0 ? s.prop('checked',true) : s.prop('checked',false);

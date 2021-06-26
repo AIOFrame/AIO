@@ -359,6 +359,19 @@ class FORM {
     }
 
     /**
+     * Renders HTML to open modal to edit data
+     * @param string $element Modal element to open
+     * @param array $array Data JSON array
+     * @param string $text Button text
+     * @param string $class Button or Icon class
+     * @param string $attr Additional attributes to button
+     */
+    function edit_button_html( string $element = '.modal', array $array = [], string $html = 'div', string $text = '', string $class = '', string $attr = '' ) {
+        $c = Crypto::initiate();
+        echo '<'.$html.' onclick="edit_data(this,\''.$element.'\')" data-data=\''.$this->_editable_data($array).'\' class="'.$class.'" '.$attr.'>'.T( $text ).'</'.$html.'>';
+    }
+
+    /**
      * String validator
      * @param string $type Type of validation. email
      * @param string $string
