@@ -261,7 +261,7 @@ class DB {
             $o .= !empty($where) && $where !== '' ? ' WHERE ' . $where : '';
             $o .= !empty($group) ? "GROUP BY " . $group : "";
             //$o .= !empty($order_by) && $order_by !== '' ?  $order_by : '';
-            $o .= !empty( $sort ) && $sort !== '' && !empty( $order_by ) && $order_by !== '' ? ' ORDER BY ' . $order_by . ' ' . $sort : '';
+            $o .= !empty( $sort ) && $sort !== '' && !empty( $order_by ) && $order_by !== '' ? ' ORDER BY ' . $sort . ' ' . $order_by : '';
             $o .= $limit >= 1 ? ( DB_TYPE == 'mssql' ? '' : ' LIMIT ' . $limit ) : '';
             $o .= $offset > 1 ? ( DB_TYPE == 'mssql' ? ' OFFSET ' . $offset . ' ROWS' : ' OFFSET ' . $offset ) : '';
 
