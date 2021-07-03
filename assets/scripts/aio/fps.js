@@ -33,7 +33,7 @@
 
     };
 
-    $.fn.moveUp =  $.fn.slideUp = function() {
+    $.fn.moveUp =  $.fn.slideUp = $.fn.scrollUp = function() {
 
         let i = $(this).children('.active').index() - 1;
         if( i >= 0 ) {
@@ -43,7 +43,7 @@
         }
     };
 
-    $.fn.moveDown =  $.fn.slideDown = function() {
+    $.fn.moveDown =  $.fn.slideDown = $.fn.scrollDown = function() {
 
         let i = $(this).children('.active').index() + 1;
         if( i < $(this).children().length ) {
@@ -53,7 +53,7 @@
         }
     };
 
-    $.fn.moveTo =  $.fn.slideTo = function(i) {
+    $.fn.moveTo =  $.fn.slideTo = $.fn.scrollTo = function(i) {
 
         i = i - 1;
         if( i >= 0 && i < $(this).children().length ) {
