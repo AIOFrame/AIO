@@ -94,6 +94,18 @@
   width: calc(100vw - 60px);
 }
 
+/* Responsive */
+
+@media only screen and (max-width: 1024px) {
+  .modal {
+    left: 0;
+    top: 50%;
+    width: 100%;
+    max-width:100%;
+    transform:translateY(-50%);
+  }
+}
+
 // RTL
 [dir=rtl] .modal {
   .close {
