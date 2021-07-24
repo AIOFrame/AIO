@@ -348,7 +348,7 @@ class ACCESS {
             if( !empty( $columns ) ) {
                 foreach( $columns as $ck => $cv ) {
                     if( !empty( $cv ) ) {
-                        $keys[] = $ck;
+                        $keys[] = 'user_'.$ck;
                         $values[] = $cv;
                     }
                 }
@@ -675,5 +675,17 @@ if( user_logged_in() ) {
         foreach ($options as $opt) {
             $_SESSION[$opt['option_name']] = $opt['option_value'];
         }
+    }
+}
+
+function user_can( $perm ): bool {
+    $uid = isset( $_SESSION['user'] ) && isset( $_SESSION['user']['id'] ) ? $_SESSION['user']['id'] : 0;
+    if( is_numeric( $uid ) && $uid > 0 ) {
+        $db = new DB();
+        $ua = $db->select( 'users', 'user_access', 'user_id = \''.$uid.'\'', 1 );
+        $access = is_array( $ua ) && isset( $ua['user_access'] ) ? json_decode( $ua['user_access'] ) : [];
+        return in_array( $perm, $access );
+    } else {
+        return 0;
     }
 }

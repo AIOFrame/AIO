@@ -84,7 +84,7 @@ function language_tables() {
     if( is_array( $ln ) && !empty( $ln ) ) {
         foreach( $ln as $l ) {
             if( $l !== 'en' )
-                $trans[2][] = [ $l, 'VARCHAR', 4999, 0 ];
+                $trans[1][] = [ $l, 'VARCHAR', 4999, 0 ];
         }
     }
     $tables[] = $trans;

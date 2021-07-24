@@ -11,19 +11,19 @@ $(document).ready(function(){
     // Modal Close Logics
     .on('click','.modal .close',function(){
         $(this).parents('.modal').removeClass('on');
-        var removeFade = true;
+        let removeFade = true;
         $('.modal').each(function(a,b){
             if( $(b).hasClass('on') ) {
                 removeFade = false;
             }
         });
         if( removeFade ) { $('article').removeClass('fade'); }
-        reset_modal($(this));
+        reset_modal(this);
     });
 })
 
 function reset_modal(e) {
-    var m = $(e).parents('[data-modal]');
+    let m = $(e).parents('.modal');
     $(m).find('[data-add]').show();
     $(m).find('[data-update],[data-edit]').hide();
 

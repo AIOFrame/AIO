@@ -355,7 +355,8 @@ class FORM {
      */
     function process_button_html( string $text = '', string $class = '', string $attr = '', string $action = 'process_data_ajax' ) {
         $c = Crypto::initiate();
-        echo '<button onclick="process_data(this)" data-action="'.$c->encrypt($action).'" class="'.$class.'" '.$attr.'>'.T( $text ).'</button>';
+        $a = !empty( $action ) ? 'data-action="'.$c->encrypt($action).'"' : '';
+        echo '<button onclick="process_data(this)" '.$a.' class="'.$class.'" '.$attr.'>'.T( $text ).'</button>';
     }
 
     /**
