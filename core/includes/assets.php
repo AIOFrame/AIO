@@ -267,7 +267,7 @@ function icons() {
 function comp_exists( string $n, string $dir ): string {
     $ns = explode('/',str_replace('.php','',$n));
     $x = 1;
-    $fl = APPPATH . '/' . $dir . '/';
+    $fl = APPPATH . $dir . '/';
     foreach($ns as $n){
         if($x == count($ns)){
             $fl .= $n . '.php';
@@ -286,7 +286,7 @@ function comp_exists( string $n, string $dir ): string {
 function get_comp( string $n ){
     $app_file = comp_exists( $n, 'components' );
     if( $app_file ) {
-        include_once($app_file);
+        include($app_file);
     } else if( file_exists( ROOTPATH . 'core/components/' . $n . '.php' ) ) {
         include_once(ROOTPATH . 'core/components/' . $n . '.php');
     }
