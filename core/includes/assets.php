@@ -284,7 +284,12 @@ function comp_exists( string $n, string $dir ): string {
  * @param string $n Comp file name excluding .php
  */
 function get_comp( string $n ){
-    comp_exists( $n, 'components' ) ? include( comp_exists( $n, 'components' ) ) : '';
+    $app_file = comp_exists( $n, 'components' );
+    if( $app_file ) {
+        include_once($app_file);
+    } else if( file_exists( ROOTPATH . 'core/components/' . $n . '.php' ) ) {
+        include_once(ROOTPATH . 'core/components/' . $n . '.php');
+    }
 }
 
 /**

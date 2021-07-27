@@ -61,9 +61,11 @@ header .options .ico {
   transition: 0.6s;
   position: relative;
   cursor: pointer;
+  box-shadow: none;
 }
 header .options .ico:hover {
   background-color: rgba(0, 0, 0, 0.05);
+  transform: none;
 }
 header .options .ico:hover .tip {
   opacity: 1;

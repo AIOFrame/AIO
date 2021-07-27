@@ -11,7 +11,7 @@ $initials = [
     'form',                             // Input element rendering functions
     'arrays',                           // Advanced array functions
     'icons',                            // Individual icon renderer - Will be deprecated or improved
-    'components',                       // Improves or Includes most of the third-party components
+    'dependencies',                     // Improves or Includes most of the third-party dependencies
     'translation/strings',              // Translation functions
 ];
 
@@ -23,8 +23,9 @@ if( defined( 'DB_TYPE' ) ) {
         'structure',                    // Basic database structure tables
         'alerts',                       // Notifications to users
         'data',                         // Common used data - Will be deprecated or improved
-        'files',                        // File uploader functions
+        'files',                         // File uploader functions
         'translation/functions',        // Translation functions
+        'components',                   // AIO Components
         'backup'                        // Database backup / restore functions
     );
 }

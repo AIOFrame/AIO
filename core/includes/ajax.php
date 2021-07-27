@@ -1,7 +1,7 @@
 <?php
 
-elog( json_encode( $_POST ) );
-elog( json_encode( $_SERVER ) );
+// elog( json_encode( $_POST ) );
+// elog( json_encode( $_SERVER ) );
 
 if( session_status() === PHP_SESSION_NONE ) {
     session_start();

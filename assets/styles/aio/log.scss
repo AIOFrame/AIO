@@ -1,9 +1,33 @@
+article {
+  overflow:hidden;
+  padding: 0;
+  .events_log {
+    padding: 20px;
+    height:calc(100% - 75px);
+    overflow-y:auto;
+  }
+}
+
 /* FILTERS */
 
+.filters_wrap {
+  padding: 10px 20px;
+}
+[type=search] {
+  margin: 0 0 10px;
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 16px;
+}
+.filters input {
+  margin-top: 0;
+  margin-bottom: 0;
+}
 [name=type] + label {
   text-transform: uppercase;
   font-size: 15px;
   letter-spacing: 1px;
+  margin: 0;
 }
 
 /* Log */
@@ -32,8 +56,14 @@
     overflow: hidden;
   }
 }
-.b:hover .dt {
-  background:#aaa;
+.b:hover {
+  transform: none;
+  .b {
+    box-shadow: none;
+  }
+  .dt {
+    background:#aaa;
+  }
 }
 .b.s .s {
   background:forestgreen;

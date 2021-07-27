@@ -71,25 +71,6 @@ $(document).ready( function(){
 
     });
 
-    // Clear button
-    $('.clear').on( 'click', function() {
-
-        $.post( location.origin, { 'action': 'clear_log_viewer' }, function(r) {
-
-            if( r = JSON.parse(r) ){
-
-                notify( r[1] );
-                $('.error_log').html('');
-                /* if( r[0] === 1 ){
-                    setTimeout(function(){ location.reload() },4000);
-                } */
-
-            }
-
-        })
-
-    })
-
 });
 
 function stack_search( s ) {

@@ -60,9 +60,11 @@ header {
       transition:.6s;
       position: relative;
       cursor:pointer;
+      box-shadow:none;
     }
     .ico:hover {
       background-color: rgba(0,0,0,.05);
+      transform: none;
       .tip {
         opacity: 1;
       }
