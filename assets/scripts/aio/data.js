@@ -263,7 +263,7 @@ function process_data( e ){
         }
     });
     console.log(d);
-    post( d.action, d, p.data('notify'), p.data('reload'), p.data('redirect'), 0, p.data('callback'), p.data('reset'), p );
+    post( d.action, d, p.data('notify'), p.data('reload'), p.data('redirect'), 0, 'process_finish,' + p.data('callback'), p.data('reset'), p );
 
 }
 
@@ -293,15 +293,19 @@ function edit_data( e, modal ) {
             let el = $('[data-key='+i+']');
             if( el.attr('type') === 'checkbox' ){
                 if( el.data('key') !== undefined ) {
-                    d = JSON.parse(d);
-                    $(d).each(function(a,b){
-                        let s = $('[data-key='+i+'][value='+b+']');
-                        d === '1' || d === true || d.length > 0 ? s.prop('checked',true) : s.prop('checked',false);
-                    })
-                    //console.log( d );
+                    d = !$.isArray(d) ? JSON.parse(d) : [d];
+                    if( $.isArray(d) ) {
+                        $(d).each(function(a,b){
+                            let s = $('[data-key='+i+'][value='+b+']');
+                            d === 1 || d === '1' || d === true || d.length > 0 ? s.prop('checked',true) : s.prop('checked',false);
+                        })
+                    } else {
+                        d === 1 || d === '1' || d === true || d.length > 0 ? el.prop('checked',true) : el.prop('checked',false);
+                    }
                 } else {
+                    console.log( d );
                     let s = $('[data-key='+i+'][value='+d+']');
-                    d === '1' || d === true || d.length > 0 ? s.prop('checked',true) : s.prop('checked',false);
+                    d === 1 || d === '1' || d === true || d.length > 0 ? s.prop('checked',true) : s.prop('checked',false);
                 }
             } else if( el.attr('type') === 'radio' ) {
                 let s = $('[data-key='+i+'][value='+d+']');
