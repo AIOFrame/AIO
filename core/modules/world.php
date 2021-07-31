@@ -73,7 +73,7 @@ class WORLD {
         else if( $p == 'calling_code')
             $r = $c['callingCodes'][0] ?? '';
         else if( $p == 'currency' || $p == 'currency_name' )
-            $r = $c['currencies'][array_key_first($c['currencies'])]['name'];
+            $r = isset($c['currencies'][array_key_first($c['currencies'])]['name']) ? $c['currencies'][array_key_first($c['currencies'])]['name'] : '';
         else if( $p == 'currency_code')
             $r = array_key_first($c['currencies']);
         else if( $p == 'currency_symbol')
@@ -113,14 +113,14 @@ class WORLD {
      * @param string $country Name
      * @return array
      */
-    function currencies( string $key = 'code', string $value = 'name', string $country = '' ): array {
+    function currencies( string $key = 'symbol', string $value = 'name', string $country = '' ): array {
         $key = !empty( $key ) ? 'currency_'.$key : $key;
         $value = !empty( $value ) ? 'currency_'.$value : $value;
 
         $r = [];
-        $data = $this->countries;
-        if( !empty( $data ) && is_array( $data ) ){
-            foreach( $data as $c ){
+        $countries_data = $this->countries;
+        if( !empty( $countries_data ) && is_array( $countries_data ) ){
+            foreach( $countries_data as $c ){
                 $k = $this->get_property( $c, $key );
                 $v = $this->get_property( $c, $value );
                 if( !empty( $k ) && !empty( $v ) )

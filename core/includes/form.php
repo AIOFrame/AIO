@@ -28,7 +28,7 @@ class FORM {
 
     /**
      * Renders <select> element and <option>s inside
-     * @param string $id ID and name of the element
+     * @param string|array $identity ID and name of the element or array of [id, name]
      * @param string $label Label for the <label>
      * @param string $placeholder Placeholder text
      * @param array $options Indexed or Associative Array of options
@@ -40,17 +40,19 @@ class FORM {
      * @param bool $translate Translate the option text or not
      */
 
-    function select( string $id = '', string $label = '', string $placeholder = '', array $options = [], string $selected = '', string $attr = '', string $pre = '', string $post = '', bool $keyed = false, bool $translate = true ) {
+    function select( string|array $identity = '', string $label = '', string $placeholder = '', array $options = [], string $selected = '', string $attr = '', string $pre = '', string $post = '', bool $keyed = false, bool $translate = true ) {
         if( is_numeric( $pre ) ){
             $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
             $post = '</select></div>';
         }
         $post = empty( $post ) ? '</select>' : $post;
         $at = $attr !== '' ? ' '.$attr : '';
+        $id = is_array($identity) ? $identity[0] : $identity;
+        $name = is_array($identity) ? $identity[1] : $identity;
         echo $pre;
         echo !empty( $label ) ? '<label for="'.$id.'">'.T($label).'</label>' : '';
         $ph = !empty( $placeholder ) ? ' placeholder="'.$placeholder.'" data-placeholder="'.$placeholder.'"' : '';
-        echo '<select name="'.$id.'" id="'.$id.'"'.$at.$ph.'">';
+        echo '<select name="'.$name.'" id="'.$id.'"'.$at.$ph.'">';
         //if( str_contains( $attr, 'select2' ) ) {
         if( strpos( $attr, 'select2' ) !== false ) {
             $placeholder = '';
@@ -65,7 +67,7 @@ class FORM {
     /**
      * Renders an <input> Element
      * @param string $type Input type, Ex: 'text','radio','checkbox','textarea'
-     * @param string $id ID and name of the element
+     * @param string|array $identity ID and name of the element
      * @param string $label Label for the <label>
      * @param string $placeholder Placeholder text
      * @param string|null $value Value of the input if any
@@ -74,7 +76,7 @@ class FORM {
      * @param string $post End string to wrap after />
      * @param string $name Optional if different name is needed
      */
-    function input( string $type, string $id, string $label, string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '', string $name = '' ){
+    function input( string $type, string|array $identity, string $label, string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '', string $name = '' ){
         $type = $type == '' ? 'text' : $type;
         if( is_numeric( $pre ) ){
             $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
@@ -82,6 +84,8 @@ class FORM {
         }
         $ph = $placeholder !== '' ? ' placeholder="'.$placeholder.'"' : '';
         $at = $attrs !== '' ? ' '.$attrs : '';
+        $id = is_array($identity) ? $identity[0] : $identity;
+        $name = is_array($identity) ? $identity[1] : $identity;
         if( $type == 'textarea' ) {
             $va = $value !== '' ? $value : '';
         } else {
@@ -136,7 +140,7 @@ class FORM {
     /**
      * Renders <input type="text"> element
      * Basically the text input function with $type = 'text' param
-     * @param string $id ID and name of the element
+     * @param string|array $id ID and name of the element
      * @param string $label Label for the <label>
      * @param string $placeholder Placeholder text
      * @param string|null $value Value of the input if any
@@ -144,7 +148,7 @@ class FORM {
      * @param string $pre String to wrap before start of <input>. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post End string to wrap after />
      */
-    function text( string $id, string $label, string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '' ) {
+    function text( string|array $id, string $label, string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '' ) {
         $this->input( 'text', $id, $label, $placeholder, $value, $attrs, $pre, $post );
     }
 

@@ -116,3 +116,13 @@ function get_languages( $lang_keys = [] ): array {
         return $lang;
     }
 }
+
+function get_countries( string $key = 'id', string $value = 'name' ): array {
+    $w = new WORLD();
+    return $w->countries( $key, $value );
+}
+
+function get_currencies( string $key = 'code', string $value = 'name' ): array {
+    $w = new WORLD();
+    return $w->currencies( $key, $value );
+}

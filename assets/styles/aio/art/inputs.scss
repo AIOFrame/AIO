@@ -129,6 +129,9 @@ textarea {
     height: auto;
   }
 }
+select.mb0 + .select2-container {
+  margin-bottom: 0;
+}
 .select2-dropdown {
   border: 1px solid #f1f1f1;
   border-radius:0 0 10px 10px;
