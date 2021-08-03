@@ -519,8 +519,8 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
     <div class="login_wrap" data-t data-pre="login_" data-data="log" data-notify="3" data-reload="3" data-reset="log">
         <div class="inputs">
             <?php
-            $f->text('login_name_'.$rand,$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-key="username" data-log required="true"');
-            $f->input('password','login_pass_'.$rand,$pass_title,$pass_title,'','onkeyup="aio_login_init(event)" data-key="password" data-log required="true"');
+            $f->text('login_name_'.$rand,$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-key="username" data-log required="true"','<div>','</div>');
+            $f->input('password','login_pass_'.$rand,$pass_title,$pass_title,'','onkeyup="aio_login_init(event)" data-key="password" data-log required="true"','<div>','</div>');
             ?>
         </div>
         <button id="aio_login_init" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_login_ajax' ); ?>"><?php E('Login'); ?></button>
@@ -529,7 +529,7 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
     <div class="forgot_wrap" data-t data-pre="forgot_" data-data="forg" data-notify="3" data-reload="3" data-reset="forg" style="display:none;">
         <div class="inputs">
             <?php
-            $f->text('forgot_name_'.$rand,$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"');
+            $f->text('forgot_name_'.$rand,$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"','<div>','</div>');
             ?>
         </div>
         <button id="aio_forgot_init" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_forgot_ajax' ); ?>"><?php E('Reset my Password'); ?></button>
@@ -566,16 +566,17 @@ function register_html( array $columns = [], bool $columns_before = true, array 
                 $columns_html .= '<input type="text" id="'.$ck.'_'.$rand.'" data-key="'.$ck.'" data-array="register_columns" placeholder="'.T( $cv ).'" data-reg '.$empty_logic.'>';
             }
             echo $columns_before ? $columns_html : '';
-            $f->text('username','Username','Username','','data-reg required="true"');
-            $f->input('password','password','Password','Password','','data-reg required="true"');
+            $min_string = T('Minimum Characters');
+            $f->text('reg_name_'.$rand,'Username','Username','','data-reg data-key="username" maxlength="12" minlength="8" data-minlength="'.$min_string.'" data-help required','<div>','</div>');
+            $f->input('password','reg_pass_'.$rand,'Password','Password','','data-reg data-key="password" minlength="8" data-minlength="'.$min_string.'" data-help required','<div>','</div>');
             $empty_logic = in_array( 'email', $compulsory ) ? 'required="true"' : '';
-            $f->input('email','email','Email','Email','','data-reg '.$empty_logic);
+            $f->input('email','reg_email_'.$rand,'Email','Email','','data-reg data-key="email" required'.$empty_logic,'<div>','</div>');
             $defs = [ 'name' => 'Name', 'picture' => 'Picture' ];
             foreach( $defs as $dk => $dv ) {
                 if( !in_array( $dk, $hide ) ) {
                     $empty_logic = in_array( $dk, $compulsory ) ? 'required="true"' : '';
-                    echo '<label for="register_'.$dk.'_'.$rand.'">'.T( $dv ).'</label>';
-                    echo '<input type="text" class="'.$dk.'" data-reg name="'.$dk.'" id="register_'.$dk.'_'.$rand.'" data-key="'.$dk.'" placeholder="'.$dv.'" '.$empty_logic.'>';
+                    echo '<div><label for="register_'.$dk.'_'.$rand.'">'.T( $dv ).'</label>';
+                    echo '<input type="text" class="'.$dk.'" data-reg name="'.$dk.'" id="register_'.$dk.'_'.$rand.'" data-key="'.$dk.'" placeholder="'.$dv.'" '.$empty_logic.'></div>';
                 }
             }
             if( !empty( $data ) ) {

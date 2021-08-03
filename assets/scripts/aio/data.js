@@ -1,4 +1,62 @@
 // Fields and Validation
+$(document).ready(function(){
+    $(document).on('keyup','[data-help]',function(){
+        // Validate Minimum Length
+        if( $(this).attr('minlength') !== undefined ) {
+            // Check if validation wrapper exist
+            if( !$(this).next('.valid').length ) {
+                $(this).parent().append('<div class="valid on"></div>');
+            }
+            // Check if message exist
+            let minDiv = $(this).next('.valid').find('.min');
+            if( !minDiv.length ) {
+                let string = $(this).data('minlength') !== undefined ? $(this).data('minlength') : 'Minimum Characters';
+                $(this).next('.valid').append('<div class="min"><span class="title">'+string+'</span><span class="value">'+$(this).attr('minlength')+'</span></div>')
+            }
+            // Color code based on validation
+            if( $(this).val().length >= parseInt( $(this).attr('minlength') ) ) {
+                //$(this).next('.valid').removeClass('on');
+                minDiv.addClass('green').removeClass('red');
+            } else {
+                //$(this).next('.valid').addClass('on');
+                minDiv.addClass('red').removeClass('green');
+            }
+        }
+        // Validate Maximum Length
+        if( $(this).attr('maxlength') !== undefined ) {
+            // Check if validation wrapper exist
+            if( !$(this).next('.valid').length ) {
+                $(this).parent().append('<div class="valid on"></div>');
+            }
+            // Check if message exist
+            let minDiv = $(this).next('.valid').find('.max');
+            if( !minDiv.length ) {
+                let string = $(this).data('maxlength') !== undefined ? $(this).data('maxlength') : 'Maximum Characters';
+                $(this).next('.valid').append('<div class="max"><span class="title">'+string+'</span><span class="value">'+$(this).attr('maxlength')+'</span></div>')
+            }
+            // Color code based on validation
+            if( $(this).val().length <= parseInt( $(this).attr('maxlength') ) ) {
+                //$(this).next('.valid').removeClass('on');
+                minDiv.addClass('green').removeClass('red');
+            } else {
+                //$(this).next('.valid').addClass('on');
+                minDiv.addClass('red').removeClass('green');
+            }
+        }
+    })
+    .on('focus','[data-help]',function(){
+        console.log('focus');
+        if( $(this).next('.valid').length ) {
+            $(this).next('.valid').addClass('on');
+        }
+    })
+    .on('focusout','[data-help]',function(){
+        console.log('focus out');
+        if( $(this).next('.valid').length ) {
+            $(this).next('.valid').removeClass('on');
+        }
+    })
+})
 
 /**
  * Gets values of all inputs of specific data attribute within an element
@@ -226,8 +284,8 @@ function process_data( e ){
     data = data !== undefined ? data : '';
 
     // Check for empty values
-    if( $(p).data('empty') !== '' && $(p).data('empty') !== undefined ) {
-        if( is_empty( p, $(p).data('empty') ) ) {
+    if( $(p).attr('required') !== undefined ) {
+        if( is_empty( p, $(p).attr('required') ) ) {
             $(p).removeClass('load');
             $(e).attr('disabled',false);
             notify('Input fields seem to be empty! Please fill and try again!!');
