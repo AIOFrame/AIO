@@ -516,20 +516,20 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
     $cry = Crypto::initiate();
     $f = new FORM();
     ?>
-    <div class="login_wrap" data-t data-pre="login_" data-data="log" data-notify="3" data-reload="3" data-empty="log" data-reset="log">
+    <div class="login_wrap" data-t data-pre="login_" data-data="log" data-notify="3" data-reload="3" data-reset="log">
         <div class="inputs">
             <?php
-            $f->text('login_name_'.$rand,$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-key="username" data-log');
-            $f->input('password','login_pass_'.$rand,$pass_title,$pass_title,'','onkeyup="aio_login_init(event)" data-key="password" data-log');
+            $f->text('login_name_'.$rand,$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-key="username" data-log required="true"');
+            $f->input('password','login_pass_'.$rand,$pass_title,$pass_title,'','onkeyup="aio_login_init(event)" data-key="password" data-log required="true"');
             ?>
         </div>
         <button id="aio_login_init" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_login_ajax' ); ?>"><?php E('Login'); ?></button>
         <div class="more" onclick="aio_forgot_view()"><?php E($forgot_title); ?></div>
     </div>
-    <div class="forgot_wrap" data-t data-pre="forgot_" data-data="forg" data-notify="3" data-reload="3" data-empty="forg" data-reset="forg" style="display:none;">
+    <div class="forgot_wrap" data-t data-pre="forgot_" data-data="forg" data-notify="3" data-reload="3" data-reset="forg" style="display:none;">
         <div class="inputs">
             <?php
-            $f->text('forgot_name_'.$rand,$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-key="username" data-forg');
+            $f->text('forgot_name_'.$rand,$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"');
             ?>
         </div>
         <button id="aio_forgot_init" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_forgot_ajax' ); ?>"><?php E('Reset my Password'); ?></button>
@@ -556,33 +556,33 @@ function register_html( array $columns = [], bool $columns_before = true, array 
     $cry = Crypto::initiate();
     $f = new FORM();
     ?>
-    <div class="register_wrap" data-t data-pre="register_" data-data="reg" data-notify="3" data-reload="3" data-empty="register" data-reset="register">
+    <div class="register_wrap" data-t data-pre="register_" data-data="reg" data-notify="3" data-reload="3" data-reset="register">
         <div class="inputs">
             <?php
             $columns_html = '';
             foreach( $columns as $ck => $cv ) {
-                $empty_logic = in_array( $ck, $compulsory ) ? 'data-empty' : '';
+                $empty_logic = in_array( $ck, $compulsory ) ? 'required="true"' : '';
                 $columns_html .= '<label for="'.$ck.'_'.$rand.'">'.T( $cv ).'</label>';
                 $columns_html .= '<input type="text" id="'.$ck.'_'.$rand.'" data-key="'.$ck.'" data-array="register_columns" placeholder="'.T( $cv ).'" data-reg '.$empty_logic.'>';
             }
             echo $columns_before ? $columns_html : '';
-            $f->text('username','Username','Username','','data-reg data-empty');
-            $f->input('password','password','Password','Password','','data-reg data-empty');
-            $empty_logic = in_array( 'email', $compulsory ) ? 'data-empty' : '';
+            $f->text('username','Username','Username','','data-reg required="true"');
+            $f->input('password','password','Password','Password','','data-reg required="true"');
+            $empty_logic = in_array( 'email', $compulsory ) ? 'required="true"' : '';
             $f->input('email','email','Email','Email','','data-reg '.$empty_logic);
             $defs = [ 'name' => 'Name', 'picture' => 'Picture' ];
             foreach( $defs as $dk => $dv ) {
                 if( !in_array( $dk, $hide ) ) {
-                    $empty_logic = in_array( $dk, $compulsory ) ? 'data-empty' : '';
+                    $empty_logic = in_array( $dk, $compulsory ) ? 'required="true"' : '';
                     echo '<label for="register_'.$dk.'_'.$rand.'">'.T( $dv ).'</label>';
                     echo '<input type="text" class="'.$dk.'" data-reg name="'.$dk.'" id="register_'.$dk.'_'.$rand.'" data-key="'.$dk.'" placeholder="'.$dv.'" '.$empty_logic.'>';
                 }
             }
             if( !empty( $data ) ) {
-                echo '<input type="text" id="register_data_'.$rand.'" data-key="data" value="'.$cry->encrypt( json_encode( $data ) ).'" data-register>';
+                echo '<input type="text" id="register_data_'.$rand.'" data-key="data" value="'.$cry->encrypt( json_encode( $data ) ).'" data-register required="true">';
             }
             if( !empty( $permissions ) ) {
-                echo '<input type="text" id="register_access_'.$rand.'" data-key="access" value="'.$cry->encrypt( json_encode( $access ) ).'" data-register>';
+                echo '<input type="text" id="register_access_'.$rand.'" data-key="access" value="'.$cry->encrypt( json_encode( $access ) ).'" data-register required="true">';
             }
             echo !$columns_before ? $columns_html : '';
             ?>

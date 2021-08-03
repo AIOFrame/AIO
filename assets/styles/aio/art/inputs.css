@@ -136,7 +136,7 @@ textarea {
   margin-bottom: 20px;
 }
 .select2-container .select2-selection {
-  background: #f1f1f1 url("../../assets/icons/select.svg") no-repeat calc(100% - 10px) center/18px;
+  background: url("../../assets/icons/select.svg") no-repeat calc(100% - 10px) center/18px;
 }
 .select2-container .select2-selection--single {
   height: auto;

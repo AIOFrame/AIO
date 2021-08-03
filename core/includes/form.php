@@ -52,7 +52,7 @@ class FORM {
         echo $pre;
         echo !empty( $label ) ? '<label for="'.$id.'">'.T($label).'</label>' : '';
         $ph = !empty( $placeholder ) ? ' placeholder="'.$placeholder.'" data-placeholder="'.$placeholder.'"' : '';
-        echo '<select name="'.$name.'" id="'.$id.'"'.$at.$ph.'">';
+        echo '<select name="'.$name.'" id="'.$id.'"'.$at.$ph.'>';
         //if( str_contains( $attr, 'select2' ) ) {
         if( strpos( $attr, 'select2' ) !== false ) {
             $placeholder = '';

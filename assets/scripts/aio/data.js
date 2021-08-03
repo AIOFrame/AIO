@@ -21,6 +21,7 @@ function get_values( parent, attribute, prepend ) {
         // Define Pre and Key
         let pre_key;
         let name = $(this).attr('name');
+        name = name !== undefined ? name.replace('[]',''): undefined;
         let key = $(this).data('key');
         let id = $(this).attr('id');
         if( key !== undefined )
@@ -235,9 +236,12 @@ function process_data( e ){
     }
 
     // Disable Send Button
-    if( $(p).data('reload') !== undefined && $(p).data('reload') !== null && parseInt( $(p).data('reload') ) > 0 ) {
+    //if( $(p).data('reload') !== undefined && $(p).data('reload') !== null && parseInt( $(p).data('reload') ) > 0 ) {
         $(p).find('[onclick="process_data(this)"]').attr('disabled',true);
-    }
+    //}
+    setTimeout(function(){
+        $(p).find('[onclick="process_data(this)"]').attr('disabled',false);
+    },4000);
     let d = get_values( p, data, pre );
     let action = $(e).data('action');
     d.action = $(e).data('action');

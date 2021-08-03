@@ -126,3 +126,8 @@ function get_currencies( string $key = 'code', string $value = 'name' ): array {
     $w = new WORLD();
     return $w->currencies( $key, $value );
 }
+
+function get_calling_codes( string $key = 'calling_code', string $value = 'calling_code' ): array {
+    $w = new WORLD();
+    return $w->calling_codes( $key, $value );
+}

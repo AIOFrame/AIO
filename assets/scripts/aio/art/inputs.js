@@ -24,7 +24,9 @@ $(document).ready(function(){
 
     // Select2
     if( $.fn.select2 !== undefined ){
-        $('select.easy, select.select2').select2({ width:'100%' });
+        $('select.easy, select.select2').each(function (a,b) {
+            $(b).select2({ width:'100%' });
+        });
     }
 
     // Format Numbers

@@ -130,6 +130,28 @@ class WORLD {
         return $r;
     }
 
+    /**
+     * Returns array of calling codes
+     * @param string $key Choose key 'calling_code','flag'
+     * @param string $value Choose value 'calling_code','flag'
+     * @param string $country Name
+     * @return array
+     */
+    function calling_codes( string $key = 'calling_code', string $value = 'calling_code', string $country = '' ): array {
+
+        $r = [];
+        $countries_data = $this->countries;
+        if( !empty( $countries_data ) && is_array( $countries_data ) ){
+            foreach( $countries_data as $c ){
+                $k = $this->get_property( $c, $key );
+                $v = $this->get_property( $c, $value );
+                if( !empty( $k ) && !empty( $v ) )
+                    $r[ $k ] = $v;
+            }
+        }
+        return $r;
+    }
+
     function get_country( string $country = '' ): array {
         $logic = explode( '=', $country );
         if( count( $logic ) > 1 ) {
