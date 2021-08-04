@@ -570,7 +570,7 @@ function register_html( array $columns = [], bool $columns_before = true, array 
             $f->text('reg_name_'.$rand,'Username','Username','','data-reg data-key="username" maxlength="12" minlength="8" data-minlength="'.$min_string.'" data-help required','<div>','</div>');
             $f->input('password','reg_pass_'.$rand,'Password','Password','','data-reg data-key="password" minlength="8" data-minlength="'.$min_string.'" data-help required','<div>','</div>');
             $empty_logic = in_array( 'email', $compulsory ) ? 'required="true"' : '';
-            $f->input('email','reg_email_'.$rand,'Email','Email','','data-reg data-key="email" required'.$empty_logic,'<div>','</div>');
+            $f->input('email','reg_email_'.$rand,'Email','Email','','data-reg data-key="email" data-help required'.$empty_logic,'<div>','</div>');
             $defs = [ 'name' => 'Name', 'picture' => 'Picture' ];
             foreach( $defs as $dk => $dv ) {
                 if( !in_array( $dk, $hide ) ) {
