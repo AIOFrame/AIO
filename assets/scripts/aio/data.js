@@ -58,22 +58,38 @@ $(document).ready(function(){
             // Color code based on validation
             const ve = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             if( $(this).val().length > 0 && ve.test($(this).val().toLowerCase()) ) {
-                //$(this).next('.valid').removeClass('on');
                 mailDiv.addClass('green').removeClass('red');
             } else {
-                //$(this).next('.valid').addClass('on');
                 mailDiv.addClass('red').removeClass('green');
+            }
+        }
+        // Validate Password
+        if( $(this).attr('type') === 'password' ) {
+            // Check if validation wrapper exist
+            if( !$(this).next('.valid').length ) {
+                $(this).parent().append('<div class="valid on"></div>');
+            }
+            // Check if message exist
+            let passDiv = $(this).next('.valid').find('.pass');
+            if( !passDiv.length ) {
+                let string = $(this).data('password') !== undefined ? $(this).data('password') : 'Password must have 1 number & 1 special character';
+                $(this).next('.valid').append('<div class="pass"><span class="value">'+string+'</span></div>')
+            }
+            // Color code based on validation
+            const vp = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+            if( $(this).val().length > 0 && vp.test($(this).val()) ) {
+                passDiv.addClass('green').removeClass('red');
+            } else {
+                passDiv.addClass('red').removeClass('green');
             }
         }
     })
     .on('focus','[data-help]',function(){
-        console.log('focus');
         if( $(this).next('.valid').length ) {
             $(this).next('.valid:not(.green)').addClass('on');
         }
     })
     .on('focusout','[data-help]',function(){
-        console.log('focus out');
         if( $(this).next('.valid').length ) {
             $(this).next('.valid').removeClass('on');
         }
