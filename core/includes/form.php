@@ -94,11 +94,11 @@ class FORM {
         $n = $name !== '' ? $name : $id;
         switch( $type ){
             case 'textarea':
-                $input = '<textarea id="'.$id.'" name="'.$n.'" '.$ph.$at.'>'.$va.'</textarea>';
+                $input = '<textarea id="'.$id.'" data-key="'.$n.'" name="'.$n.'" '.$ph.$at.'>'.$va.'</textarea>';
                 break;
             case 'slide':
             case 'toggle':
-                $input = '<div><input type="hidden" id="'.$id.'" name="'.$n.'" '.$at.$ph.$va.'>';
+                $input = '<div><input type="hidden" id="'.$id.'" data-key="'.$n.'" name="'.$n.'" '.$at.$ph.$va.'>';
                 $ch = $value == 'true' || $value == '1' ? 'checked' : '';
                 $input .= '<input type="checkbox" data-check="#'.$id.'" class="slide m" '.$ch.'></div>';
                 break;
@@ -106,7 +106,7 @@ class FORM {
                 $this->select($id,$label,$placeholder,[],$value,$attrs,$pre,$post,0,1);
                 break;
             default:
-                $input = '<input type="'.$type.'" autocapitalize="none" id="'.$id.'" name="'.$n.'" '.$at.$ph.$va.'>';
+                $input = '<input type="'.$type.'" autocapitalize="none" id="'.$id.'" data-key="'.$n.'" name="'.$n.'" '.$at.$ph.$va.'>';
                 break;
         }
         echo $pre;
@@ -174,7 +174,7 @@ class FORM {
     /**
      * Renders <input type="radio"> or <input type="checkbox"> elements of same name
      * @param string $type Type either 'radio' or 'checkbox'
-     * @param string $name Name of the input elements
+     * @param string|array $identity Name of the input elements
      * @param array $values Array of values
      * @param string $checked Checked value or values separated by (,) comma
      * @param string $attr Attributes like class or data tags
@@ -182,9 +182,11 @@ class FORM {
      * @param string $pre String to wrap before start of <input>. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post End string to wrap after />
      */
-    function render_options( string $type = 'radio', string $label = '', string $name = '', array $values = [], string $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ) {
+    function render_options( string $type = 'radio', string $label = '', string|array $identity = '', array $values = [], string $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ) {
         if( is_array( $values ) ) {
             $type = $type == 'radio' ? 'type="radio"' : 'type="checkbox"';
+            $id = is_array($identity) ? $identity[0] : $identity;
+            $name = is_array($identity) ? $identity[1] : $identity;
             $valued = is_assoc( $values ); $x = 0;
             if( is_numeric( $pre ) ){
                 $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
@@ -252,7 +254,7 @@ class FORM {
 
     /**
      * Renders <input type="radio"> elements
-     * @param string $name Name of the input elements
+     * @param string|array $name Name of the input elements
      * @param array $values Array of values
      * @param string $checked Checked value or values separated by (,) comma
      * @param string $attr Attributes like class or data tags
@@ -260,13 +262,13 @@ class FORM {
      * @param string $pre String to wrap before start of <input>. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post End string to wrap after />
      */
-    function radios( string $name, string $label = '', array $values = [], string $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ){
+    function radios( string|array $name, string $label = '', array $values = [], string $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ){
         $this->render_options( 'radio', $label, $name, $values, $checked, $attr, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post );
     }
 
     /**
      * Renders <input type="checkbox"> elements
-     * @param string $name Name of the input elements
+     * @param string|array $name Name of the input elements
      * @param array $values Array of values
      * @param array|string $checked Checked value or values separated by (,) comma
      * @param string $attr Attributes like class or data tags
@@ -274,13 +276,13 @@ class FORM {
      * @param string $pre String to wrap before start of <input>. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post End string to wrap after />
      */
-    function checkboxes( string $name, string $label = '', array $values = [], string $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ){
+    function checkboxes( string|array $name, string $label = '', array $values = [], string|array $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ){
         $this->render_options( 'checkbox', $label, $name, $values, $checked, $attr, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post );
     }
 
     /**
      * Renders File Uploading Elements
-     * @param string $id ID and name of the element
+     * @param string|array $id ID and name of the element
      * @param string $label Text for the <label>
      * @param string $button_label Text for the <button>
      * @param string $value Value of the input if any
@@ -295,7 +297,9 @@ class FORM {
      * @param string $pre String to wrap before start
      * @param string $post End string to wrap after />
      */
-    function upload( string $id, string $label, string $button_label = 'Upload', string $value = '', bool $multiple = false, bool $show_history = false, string $button_class = '', string $attrs = '', string $extensions = '', string $size = '', bool $deletable = false, string $path = '', string $pre = '', string $post = '' ) {
+    function upload( string|array $identity, string $label, string $button_label = 'Upload', string $value = '', bool $multiple = false, bool $show_history = false, string $button_class = '', string $attrs = '', string $extensions = '', string $size = '', bool $deletable = false, string $path = '', string $pre = '', string $post = '' ) {
+        $id = is_array($identity) ? $identity[0] : $identity;
+        $name = is_array($identity) ? $identity[1] : $identity;
         if( is_numeric( $pre ) ){
             $pre = $pre == 0 ? '<div class="upload_set col">' : '<div class="upload_set col-12 col-lg-'.$pre.'">';
             $post = '</div>';
@@ -308,7 +312,7 @@ class FORM {
         $pat = $path !== '' ? ' data-path="'.$cry->encrypt( $path ).'"' : '';
         $type = $multiple ? 'files' : 'file';
         $mul = $multiple ? 'data-files' : 'data-file';
-        echo $pre.'<label for="'.$id.'">'.T($label).'</label><button type="button" class="aio_upload '.$button_class.'" data-url="#'.$id.'" onclick="file_upload(this)" '.$sh.$ext.$sz.$mul.$del.$pat.'>'.T($button_label).'</button><input id="'.$id.'" name="'.$id.'" type="text" data-'.$type.' value="'.$value.'" '.$attrs.'>'.$post;
+        echo $pre.'<label for="'.$id.'">'.T($label).'</label><button type="button" class="aio_upload '.$button_class.'" data-url="#'.$id.'" onclick="file_upload(this)" '.$sh.$ext.$sz.$mul.$del.$pat.'>'.T($button_label).'</button><input id="'.$id.'" name="'.$name.'" data-key="'.$name.'" type="text" data-'.$type.' value="'.$value.'" '.$attrs.'>'.$post;
     }
 
     /**
