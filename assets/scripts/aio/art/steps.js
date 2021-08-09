@@ -5,14 +5,14 @@ $(document).ready(function(){
         $(this).addClass('on');
         $($(this).data('step')).parent().children().hide();
         $($(this).data('step')).show();
-    });
+    })
 
     // Next Step
-    $('.steps .next').on('click', function () {
+    .on('click', '.steps .next', function () {
         $($(this).parents('.steps')).find('[data-t].on').next().click();
-    });
+    })
     // Previous Step
-    $('.steps .prev').on('click', function () {
+    .on('click', '.steps .prev', function () {
         $($(this).parents('.steps')).find('[data-t].on').prev().click();
     });
 

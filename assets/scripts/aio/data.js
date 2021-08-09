@@ -129,7 +129,7 @@ function get_values( parent, attribute, prepend ) {
         else
             pre_key = pre + $(this).attr('class');
 
-        let m = $( '[name=' + name + ']' );
+        let m = $(parent).find( '[name=' + name + ']' );
         let value;
         value = $(this).hasClass('fn') ? ufn( $(this).val() ) : $(this).val(); // Un Format Number
 
@@ -137,14 +137,17 @@ function get_values( parent, attribute, prepend ) {
             let t = $(this).is(':checked');
             let arr = $(this).data('array');
             if ( arr !== undefined ) {
+                console.log(1);
                 data[arr] = data[arr] === undefined ? [] : data[arr];
                 t ? data[ arr ].push( $(this).val() ) : '';
             } else if (m.length > 1) {
+                console.log(2);
                 value = $( '[name=' + $(this).attr('name') + ']' ).map(function () {
                     if ($(this).is(':checked'))
                         return $(this).val();
                 }).toArray();
             } else {
+                console.log(3);
                 value = t === true ? 1 : 0;
             }
 
@@ -416,9 +419,19 @@ function edit_data( e, modal ) {
                 let d = $.map(d.split(','), function(value){
                     return parseInt(value);
                 });
-                $('#'+i).val(d).change();
+                let tar = '#'+i;
+                if( $(tar).length ) {
+                    $(tar).val(d).change();
+                } else {
+                    $('[data-key="'+i+'"]').val(d).change();
+                }
             } else {
-                $('#'+i).val(d).change();
+                let tar = '#'+i;
+                if( $(tar).length ) {
+                    $(tar).val(d).change();
+                } else {
+                    $('[data-key="'+i+'"]').val(d).change();
+                }
             }
             //elog('#'+i);
             //elog(d);
