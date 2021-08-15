@@ -762,14 +762,16 @@ function process_data_ajax() {
     }
 }
 
+/**
+ * Trashes data
+ */
 function trash_data_ajax() {
-    unset( $_POST['action'] );
     $c = Crypto::initiate();
-    $l = isset( $_POST['l'] ) && !empty( $_POST['l'] ) ? $c->decrypt( $_POST['l'] ) : '';
-    $t = isset( $_POST['t'] ) && !empty( $_POST['t'] ) ? $c->decrypt( $_POST['t'] ) : '';
-    if( !empty( $t ) && !empty( $l ) ){
+    $target = ''; //isset( $_POST['target'] ) && !empty( $_POST['target'] ) ? $c->decrypt( $_POST['target'] ) : '';
+    $logic = ''; //isset( $_POST['logic'] ) && !empty( $_POST['logic'] ) ? $c->decrypt_array( $_POST['logic'] ) : '';
+    if( !empty( $target ) && !empty( $logic ) ){
         $db = new DB();
-        $r = $db->delete( $t, $l );
+        $r = $db->delete( $target, $logic[0].' = '.$logic[1] );
         if( $r ){
             ES('Deleted successfully');
         } else {

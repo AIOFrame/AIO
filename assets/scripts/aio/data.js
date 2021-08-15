@@ -442,10 +442,10 @@ function edit_data( e, modal ) {
     typeof file_ui === 'function' ? file_ui() : '';
 }
 
-function trash_data( a, t, l ) {
-    let d = { 'action': a, 't': t, 'l': l };
+function trash_data( action, target, logic ) {
+    let data = { 'action': action, target, logic };
     if( confirm('Are you sure to delete ?') ){
-        post( a, d, 2, 2 );
+        post( action, data, 2, 2 );
     }
 }
 

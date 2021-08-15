@@ -371,13 +371,29 @@ class FORM {
      * Renders HTML to open modal to edit data
      * @param string $element Modal element to open
      * @param array $array Data JSON array
-     * @param string $text Button text
-     * @param string $class Button or Icon class
-     * @param string $attr Additional attributes to button
+     * @param string $html HTML either button or div or i
+     * @param string $text Text to display
+     * @param string $class Class
+     * @param string $attr Additional attributes
      */
     function edit_button_html( string $element = '.modal', array $array = [], string $html = 'div', string $text = '', string $class = '', string $attr = '' ) {
         $c = Crypto::initiate();
         echo '<'.$html.' onclick="edit_data(this,\''.$element.'\')" data-data=\''.$this->_editable_data($array).'\' class="'.$class.'" '.$attr.'>'.T( $text ).'</'.$html.'>';
+    }
+
+    /**
+     * Renders HTML to delete record from database
+     * @param string $table Table name
+     * @param string $column Column name
+     * @param string $value Where column value equals to
+     * @param string $html HTML either button or div or i
+     * @param string $text Text to display
+     * @param string $class Class
+     * @param string $attr Additional attributes
+     */
+    function trash_button_html( string $table, string $column, string $value = '0', string $html = 'div', string $text = '', string $class = '', string $attr = '' ) {
+        $c = Crypto::initiate();
+        echo '<'.$html.' onclick="trash_data(\''.$c->encrypt('trash_data_ajax').','.$c->encrypt($table).','.$c->encrypt_array([$column,$value]).'\')" class="'.$class.'" '.$attr.'>'.T( $text ).'</'.$html.'>';
     }
 
     /**
