@@ -136,11 +136,11 @@ if( is_array( $feats ) ) {
     if( in_array( 'data', $feats ) || in_array( 'countries', $feats ) || in_array( 'world', $feats ) ) {
         // Check if world data exists
         // TODO: Convert this table sql to json
-        $db = new DB();
+        /* $db = new DB();
         $table_exist = $db->table_exists( 'countries' );
         if( !$table_exist ) {
             $db->import( ROOTPATH . 'core/components/data/world.sql' );
-        }
+        } */
     }
 
 }
