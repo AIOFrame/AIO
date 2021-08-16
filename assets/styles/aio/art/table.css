@@ -100,6 +100,7 @@ table.plain {
   background: none;
   border-collapse: collapse;
   border-radius: 0;
+  box-shadow: none;
 }
 table.plain thead, table.plain tbody, table.plain tfoot, table.plain tr, table.plain td, table.plain th {
   box-shadow: none;

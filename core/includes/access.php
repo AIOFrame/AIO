@@ -514,12 +514,13 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
     }
     $cry = Crypto::initiate();
     $f = new FORM();
+    $rand = rand(0,9999);
     ?>
     <div class="login_wrap" data-t data-pre="login_" data-data="log" data-notify="3" data-reload="3" data-reset="log">
         <div class="inputs">
             <?php
-            $f->text('username',$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-log required="true"','<div>','</div>');
-            $f->input('password','password',$pass_title,$pass_title,'','onkeyup="aio_login_init(event)" data-log required="true"','<div>','</div>');
+            $f->text(['username_'.$rand,'username'],$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-log required="true"','<div>','</div>');
+            $f->input('password',['password_'.$rand,'password'],$pass_title,$pass_title,'','onkeyup="aio_login_init(event)" data-log required="true"','<div>','</div>');
             ?>
         </div>
         <button id="aio_login_init" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_login_ajax' ); ?>"><?php E('Login'); ?></button>
@@ -528,7 +529,8 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
     <div class="forgot_wrap" data-t data-pre="forgot_" data-data="forg" data-notify="3" data-reload="3" data-reset="forg" style="display:none;">
         <div class="inputs">
             <?php
-            $f->text('username',$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"','<div>','</div>');
+            $rand = rand(0,9999);
+            $f->text(['username_'.$rand,'username'],$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"','<div>','</div>');
             ?>
         </div>
         <button id="aio_forgot_init" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_forgot_ajax' ); ?>"><?php E('Reset my Password'); ?></button>

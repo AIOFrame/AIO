@@ -14,5 +14,13 @@ $(document).ready(function(){
         if( $(this).parent().data('store') !== undefined || $(this).parent().data('save') !== undefined ){
             localStorage[ page_path + '_tab' ] = $(this).data('t');
         }
+    })
+    // Next Step
+    .on('click', '.tabs .next', function () {
+        $($(this).parents('.tabs')).find('[data-t].on').next().click();
+    })
+    // Previous Step
+    .on('click', '.tabs .prev', function () {
+        $($(this).parents('.tabs')).find('[data-t].on').prev().click();
     });
 });
