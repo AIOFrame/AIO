@@ -109,13 +109,8 @@ class Crypto {
     }
 }
 
-// HOW TO USE
-
-// Fetch the class
-// $cry = Crypto::initiate();
-
-// TO ENCRYPT
-// $my_secret = $cry->encrypt("Test String");
-
-// TO DECRYPT
-//$cry->decrypt( $my_secret );
+/* GUIDE
+$cry = Crypto::initiate();
+$encrypted_text = $cry->encrypt( "Test String" );
+$decrypted_text = $cry->decrypt( $encrypted_text );
+*/

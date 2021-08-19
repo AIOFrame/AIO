@@ -415,11 +415,11 @@ class DB {
     /**
      * Store setting by key and value
      * @param string $name Option Name / Key
-     * @param string $value Option Value
+     * @param string|array $value Option Value
      * @param int $user_id User ID to store for specific user
      * @return mixed
      */
-    function add_option( string $name, string $value, $user_id = 0 ): mixed {
+    function add_option( string $name, string|array $value, int $user_id = 0 ): mixed {
         if( !empty( $name ) && !empty( $value )){
             return $this->insert( 'options', [ 'option_name', 'option_value', 'option_scope' ], [ $name, $value, $user_id ] );
         } else {
@@ -430,13 +430,13 @@ class DB {
     /**
      * Update setting by key and value
      * @param string $name Option Name / Key
-     * @param string $value Option Value
+     * @param string|array $value Option Value
      * @param int $user_id User ID to store for specific user
      * @param int $autoload Auto load values to session
      * @return bool
      */
-    function update_option( string $name, string $value, int $user_id = 0, int $autoload = 0 ): bool {
-        if( $name !== '' && $value !== '' ){
+    function update_option( string $name, string|array $value, int $user_id = 0, int $autoload = 0 ): bool {
+        if( $name !== '' && !empty( $value ) ){
             $c = $this->select( 'options', '*', 'option_name = \''.$name.'\' AND option_scope = \''.$user_id.'\'', 1 );
             if( $c ) {
                 return $this->update( 'options', ['option_value', 'option_scope', 'option_load' ], [ $value, $user_id, $autoload ], 'option_name = \''.$name.'\'' );

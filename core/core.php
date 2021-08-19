@@ -49,14 +49,14 @@ function sub_domain(): string {
 
 /**
  * AIO Error Log
- * @param string $log Log message
+ * @param string|array $log Log message
  * @param string $type Log type 'log', 'error'
  * @param string $line The link where the log is logged
  * @param string $file The file path which initiates the log
  * @param string $target Target
  * @author Shaikh <hey@shaikh.dev>
  */
-function elog( string $log, string $type = 'log', string $line = '', string $file = '', string $target = '' ){
+function elog( string|array $log, string $type = 'log', string $line = '', string $file = '', string $target = '' ){
     $log = is_array( $log ) ? json_encode( $log ) : $log;
     $log = is_object( $log ) ? var_dump( $log ) : $log;
 

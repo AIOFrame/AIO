@@ -5,12 +5,12 @@ class FORM {
     /**
      * Renders <select> options
      * @param array $options Indexed or Associative Array of options
-     * @param string $selected Selected option or options separated by comma
+     * @param string|null $selected Selected option or options separated by comma
      * @param string $placeholder Placeholder text
      * @param bool $keyed Yes if option value should be array key
      * @param bool $translate Translate the option text or not
      */
-    function select_options( array $options = [], string $selected = '', string $placeholder = '', bool $keyed = false, bool $translate = true ) {
+    function select_options( array $options = [], string|null $selected = '', string $placeholder = '', bool $keyed = false, bool $translate = true ) {
         $s = $selected;
         $placeholder = $translate ? T($placeholder) : $placeholder;
         if( $placeholder !== '' ){
@@ -32,7 +32,7 @@ class FORM {
      * @param string $label Label for the <label>
      * @param string $placeholder Placeholder text
      * @param array $options Indexed or Associative Array of options
-     * @param string $selected Selected option or options separated by comma
+     * @param string|null $selected Selected option or options separated by comma
      * @param string $attr Attributes like class or data tags
      * @param string $pre String to add before <select>. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post String to add after </select>
@@ -40,7 +40,7 @@ class FORM {
      * @param bool $translate Translate the option text or not
      */
 
-    function select( string|array $identity = '', string $label = '', string $placeholder = '', array $options = [], string $selected = '', string $attr = '', string $pre = '', string $post = '', bool $keyed = false, bool $translate = true ) {
+    function select( string|array $identity = '', string $label = '', string $placeholder = '', array $options = [], string|null $selected = '', string $attr = '', string $pre = '', string $post = '', bool $keyed = false, bool $translate = true ) {
         if( is_numeric( $pre ) ){
             $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
             $post = '</select></div>';

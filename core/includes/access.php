@@ -180,7 +180,7 @@ class ACCESS {
             if( $access ) {
                 // Email user to notify registration
                 $content = T('Your have successfully registered with ').APPNAME.'.<br/><br/>' . T('You can login with your new account.');
-                $this->mail( $email, 'Your password has been updated!', $content );
+                $this->mail( $email, 'Your account has been created with '.APPNAME, $content );
                 return [ $add_user, T('Successfully registered user!') ];
             } else {
                 $db->delete( 'users', 'user_id = \'$add_user\'' );
