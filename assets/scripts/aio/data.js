@@ -325,14 +325,14 @@ function process_data( e ){
     data = data !== undefined ? data : '';
 
     // Check for empty values
-    if( $(p).attr('required') !== undefined ) {
+    // if( $(p).attr('required') !== undefined ) {
         if( is_empty( p, $(p).attr('required') ) ) {
             $(p).removeClass('load');
             $(e).attr('disabled',false);
             notify('Input fields seem to be empty! Please fill and try again!!');
             return;
         }
-    }
+    // }
 
     // Disable Send Button
     //if( $(p).data('reload') !== undefined && $(p).data('reload') !== null && parseInt( $(p).data('reload') ) > 0 ) {
@@ -387,7 +387,7 @@ function edit_data( e, modal ) {
     $('article').addClass('fade');
     $(modal).find('[data-add]').hide();
     $(modal).find('[data-update],[data-edit]').show();
-
+    console.log(data);
     $.each( data, function(i,d){
         if( i === 'id' ){
             t.data('id',d).find('[data-t]').data('id',d);
@@ -406,7 +406,6 @@ function edit_data( e, modal ) {
                         d === 1 || d === '1' || d === true || d.length > 0 ? el.prop('checked',true) : el.prop('checked',false);
                     }
                 } else {
-                    console.log( d );
                     let s = $('[data-key='+i+'][value='+d+']');
                     d === 1 || d === '1' || d === true || d.length > 0 ? s.prop('checked',true) : s.prop('checked',false);
                 }
@@ -416,6 +415,7 @@ function edit_data( e, modal ) {
                 console.log( d );
                 d === '1' || d === true || d.length > 0 ? s.prop('checked',true) : s.prop('checked',false);
             } else if( el.prop('type') === 'select-multiple' ) {
+                console.log(d);
                 let d = $.map(d.split(','), function(value){
                     return parseInt(value);
                 });
@@ -443,7 +443,7 @@ function edit_data( e, modal ) {
 }
 
 function trash_data( action, target, logic ) {
-    let data = { 'action': action, target, logic };
+    let data = { 'action': action, target: target, logic: logic };
     if( confirm('Are you sure to delete ?') ){
         post( action, data, 2, 2 );
     }

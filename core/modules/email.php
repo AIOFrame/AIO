@@ -13,12 +13,14 @@ class MAIL {
      * @param bool $auto_template Auto wrap in Template
      * @return bool
      */
-    function send( string $to, string $subject, string $content, string $from, string $cc = '', string $gate = '', string $key = '', bool $auto_template = true ): bool {
+    function send( string $to, string $subject, string $content, string $from = '', string $cc = '', string $gate = '', string $key = '', bool $auto_template = true ): bool {
         if( $auto_template ) {
             $head = $this->get_template('head');
             $foot = $this->get_template('foot');
             $content = $head . $content . $foot;
         }
+        $from = !empty( $from ) ? $from : 'no-reply@'.parse_url(APPURL, PHP_URL_HOST);
+        elog( 'To: '.$to.', From: '.$from.', Sub: '.$subject.', Sender: '.$gate );
         if( $gate == 'sendgrid' ) {
             return $this->sendgrid($to, $subject, $content, $from, $cc, $key);
         } else if( $gate == 'mailersend' ) {
@@ -81,7 +83,11 @@ class MAIL {
             $sendgrid = new \SendGrid(getenv($key));
             try {
                 $response = $sendgrid->send($email);
-                elog( $response->statusCode() );
+                //elog( $response );
+                //$code = $response->statusCode();
+                //$error = is_numeric( $code ) && isset( $errors[$code] ) ? $errors[$code] : $code;
+                elog( $response->headers(), 'log', '88', __FILE__ );
+                elog( $response->body(), 'log', '88', __FILE__ );
                 return 1;
             } catch (Exception $e) {
                 elog( $e->getMessage() );

@@ -149,8 +149,18 @@
   color: darkolivegreen;
   border: 1px solid darkolivegreen;
 }
+.card .status.bg.green {
+  color: #fff;
+  background: darkolivegreen;
+  border: 1px solid darkolivegreen;
+}
 .card .status.red {
   color: firebrick;
+  border: 1px solid firebrick;
+}
+.card .status.bg.red {
+  color: #fff;
+  background: firebrick;
   border: 1px solid firebrick;
 }
 .card .edit {

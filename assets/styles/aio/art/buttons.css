@@ -97,6 +97,15 @@ button.b.xs, .btn.b.xs {
   padding: 4px 8px;
 }
 
+button.xxs, .btn.xxs, .bxxs button, .bxxs .btn {
+  font-size: 8px;
+  padding: 3px 6px;
+}
+
+button.b.xxs, .btn.b.xxs {
+  padding: 2px 6px;
+}
+
 button.w, .btn.w, .bw button, .bw .btn {
   width: 100%;
 }

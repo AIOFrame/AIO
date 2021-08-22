@@ -314,9 +314,8 @@ class ACCESS {
         //get_module( 'email' );
         if( class_exists( 'MAIL' ) ) {
             $e = new MAIL();
-            $from = 'no-reply@'.str_replace( 'http:', '', str_replace( 'https:', '', str_replace( 'www.', '', str_replace( '/', '', APPURL ) ) ) );
-            $subject = '<div style="text-align:center">'.$content.'</div>';
-            $e->send( $email, T('Your password has been Reset!'), $subject, $from );
+            $content = '<div style="text-align:center">'.$content.'</div>';
+            $e->send( $email, T('Your password has been Reset!'), $content );
         }
 
     }

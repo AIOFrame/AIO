@@ -282,7 +282,7 @@ class FORM {
 
     /**
      * Renders File Uploading Elements
-     * @param string|array $id ID and name of the element
+     * @param string|array $identity ID and name of the element
      * @param string $label Text for the <label>
      * @param string $button_label Text for the <button>
      * @param string $value Value of the input if any
@@ -361,10 +361,16 @@ class FORM {
      * @param string $attr Additional attributes to button
      * @param string $action Default AJAX Action
      */
-    function process_button_html( string $text = '', string $class = '', string $attr = '', string $action = 'process_data_ajax' ) {
+    function process_button_html( string $text = '', string $class = '', string $attr = '', string $action = 'process_data_ajax', $pre = '', $post = '' ) {
+        if( is_numeric( $pre ) ){
+            $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
+        } else {
+            $pre = !empty( $pre ) ? '<div class="'.$pre.'">' : '';
+        }
+        $post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
         $c = Crypto::initiate();
         $a = !empty( $action ) ? 'data-action="'.$c->encrypt($action).'"' : '';
-        echo '<button onclick="process_data(this)" '.$a.' class="'.$class.'" '.$attr.'>'.T( $text ).'</button>';
+        echo $pre.'<button onclick="process_data(this)" '.$a.' class="'.$class.'" '.$attr.'>'.T( $text ).'</button>'.$post;
     }
 
     /**
