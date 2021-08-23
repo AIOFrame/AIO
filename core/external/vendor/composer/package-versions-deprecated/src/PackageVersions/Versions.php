@@ -33,21 +33,21 @@ final class Versions
      * @internal
      */
     const VERSIONS          = array (
-  'composer/package-versions-deprecated' => '1.11.99.1@7413f0b55a051e89485c5cb9f765fe24bb02a7b6',
+  'composer/package-versions-deprecated' => '1.11.99.2@c6522afe5540d5fc46675043d3ed5a45a740b27c',
   'ezyang/htmlpurifier' => 'v4.13.0@08e27c97e4c6ed02f37c5b2b20488046c8d90d75',
   'guzzlehttp/guzzle' => '7.3.0@7008573787b430c1c1f650e3722d9bba59967628',
   'guzzlehttp/promises' => '1.4.1@8e7d04f1f6450fef59366c399cfad4b9383aa30d',
-  'guzzlehttp/psr7' => '1.8.2@dc960a912984efb74d0a90222870c72c87f10c91',
+  'guzzlehttp/psr7' => '2.0.0@1dc8d9cba3897165e16d12bb13d813afb1eb3fe7',
   'knplabs/knp-snappy' => 'v1.2.1@7bac60fb729147b7ccd8532c07df3f52a4afa8a4',
-  'laminas/laminas-diactoros' => '2.5.1@53df7b7cd66e0905e6133970a4b90392a7a08075',
-  'laminas/laminas-zendframework-bridge' => '1.2.0@6cccbddfcfc742eb02158d6137ca5687d92cee32',
+  'laminas/laminas-diactoros' => '2.6.0@7d2034110ae18afe05050b796a3ee4b3fe177876',
+  'laminas/laminas-zendframework-bridge' => '1.3.0@13af2502d9bb6f7d33be2de4b51fb68c6cdb476e',
   'lcobucci/clock' => '2.0.0@353d83fe2e6ae95745b16b3d911813df6a05bfb3',
   'lcobucci/jwt' => '4.1.4@71cf170102c8371ccd933fa4df6252086d144de6',
   'maennchen/zipstream-php' => '2.1.0@c4c5803cc1f93df3d2448478ef79394a5981cc58',
-  'markbaker/complex' => '2.0.0@9999f1432fae467bc93c53f357105b4c31bb994c',
-  'markbaker/matrix' => '2.1.2@361c0f545c3172ee26c3d596a0aa03f0cef65e6a',
-  'myclabs/php-enum' => '1.8.0@46cf3d8498b095bd33727b13fd5707263af99421',
-  'phpoffice/phpspreadsheet' => '1.17.1@c55269cb06911575a126dc225a05c0e4626e5fb4',
+  'markbaker/complex' => '2.0.3@6f724d7e04606fd8adaa4e3bb381c3e9db09c946',
+  'markbaker/matrix' => '2.1.3@174395a901b5ba0925f1d790fa91bab531074b61',
+  'myclabs/php-enum' => '1.8.3@b942d263c641ddb5190929ff840c68f78713e937',
+  'phpoffice/phpspreadsheet' => '1.18.0@418cd304e8e6b417ea79c3b29126a25dc4b1170c',
   'psr/cache' => '1.0.1@d11b50ad223250cf17b86e38383413f5a6764bf8',
   'psr/container' => '1.1.1@8622567409010282b7aeebe4bb841fe98b58dcaf',
   'psr/http-client' => '1.0.1@2dfb5f6c5eff0e91e20e913f8c5452ed95b86621',
@@ -58,15 +58,16 @@ final class Versions
   'ralouphie/getallheaders' => '3.0.3@120b605dfeb996808c31b6477290a714d356e822',
   'sendgrid/php-http-client' => '3.14.0@7880d5aecc53856802130ba83af1dfcf942e9767',
   'sendgrid/sendgrid' => '7.9.2@ab0023a6233f39e408b5eb8c4299f20790f5f5a7',
-  'starkbank/ecdsa' => '0.0.4@9369d35ed9019321adb4eb9fd3be21357d527c74',
-  'symfony/polyfill-mbstring' => 'v1.22.1@5232de97ee3b75b0360528dae24e73db49566ab1',
-  'symfony/polyfill-php80' => 'v1.22.1@dc3063ba22c2a1fd2f45ed856374d79114998f91',
-  'symfony/process' => 'v5.2.7@98cb8eeb72e55d4196dd1e36f1f16e7b3a9a088e',
+  'starkbank/ecdsa' => '0.0.5@484bedac47bac4012dc73df91da221f0a66845cb',
+  'stripe/stripe-php' => 'v7.94.0@03cd6b5c1c4fc9087ddd1dd046457bff274294d6',
+  'symfony/polyfill-mbstring' => 'v1.23.1@9174a3d80210dca8daa7f31fec659150bbeabfc6',
+  'symfony/polyfill-php80' => 'v1.23.1@1100343ed1a92e3a38f9ae122fc0eb21602547be',
+  'symfony/process' => 'v5.3.4@d16634ee55b895bd85ec714dadc58e4428ecf030',
   'vonage/client' => '2.4.0@29f23e317d658ec1c3e55cf778992353492741d7',
   'vonage/client-core' => '2.9.2@2b734ff7d86d4b6f169df49aed3aefcdac7a40d0',
   'vonage/nexmo-bridge' => '0.1.0@62653b1165f4401580ca8d2b859f59c968de3711',
-  'whichbrowser/parser' => 'v2.1.1@da24adc4f4f26002673d236e69b91a10f2fd594c',
-  '__root__' => 'dev-master@44fdf0c2b2f394f866184c14c28f05f6b7c6edd8',
+  'whichbrowser/parser' => 'v2.1.2@bcf642a1891032de16a5ab976fd352753dd7f9a0',
+  '__root__' => 'dev-master@e9cda88adf743ba0f5920e7299ab6ae6fd23f853',
 );
 
     private function __construct()
@@ -81,7 +82,7 @@ final class Versions
      */
     public static function rootPackageName() : string
     {
-        if (!class_exists(InstalledVersions::class, false) || !InstalledVersions::getRawData()) {
+        if (!class_exists(InstalledVersions::class, false) || !(method_exists(InstalledVersions::class, 'getAllRawData') ? InstalledVersions::getAllRawData() : InstalledVersions::getRawData())) {
             return self::ROOT_PACKAGE_NAME;
         }
 
@@ -99,7 +100,7 @@ final class Versions
      */
     public static function getVersion(string $packageName): string
     {
-        if (class_exists(InstalledVersions::class, false) && InstalledVersions::getRawData()) {
+        if (class_exists(InstalledVersions::class, false) && (method_exists(InstalledVersions::class, 'getAllRawData') ? InstalledVersions::getAllRawData() : InstalledVersions::getRawData())) {
             return InstalledVersions::getPrettyVersion($packageName)
                 . '@' . InstalledVersions::getReference($packageName);
         }

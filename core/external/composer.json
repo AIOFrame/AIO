@@ -5,6 +5,7 @@
         "sendgrid/sendgrid": "^7.9",
         "knplabs/knp-snappy": "^1.2",
         "vonage/client": "^2.4",
-        "whichbrowser/parser": "^2.1"
+        "whichbrowser/parser": "^2.1",
+        "stripe/stripe-php": "^7.94"
     }
 }

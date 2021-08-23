@@ -32,7 +32,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '44fdf0c2b2f394f866184c14c28f05f6b7c6edd8',
+    'reference' => 'e9cda88adf743ba0f5920e7299ab6ae6fd23f853',
     'name' => '__root__',
   ),
   'versions' => 
@@ -44,16 +44,16 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '44fdf0c2b2f394f866184c14c28f05f6b7c6edd8',
+      'reference' => 'e9cda88adf743ba0f5920e7299ab6ae6fd23f853',
     ),
     'composer/package-versions-deprecated' => 
     array (
-      'pretty_version' => '1.11.99.1',
-      'version' => '1.11.99.1',
+      'pretty_version' => '1.11.99.2',
+      'version' => '1.11.99.2',
       'aliases' => 
       array (
       ),
-      'reference' => '7413f0b55a051e89485c5cb9f765fe24bb02a7b6',
+      'reference' => 'c6522afe5540d5fc46675043d3ed5a45a740b27c',
     ),
     'ezyang/htmlpurifier' => 
     array (
@@ -84,12 +84,12 @@ private static $installed = array (
     ),
     'guzzlehttp/psr7' => 
     array (
-      'pretty_version' => '1.8.2',
-      'version' => '1.8.2.0',
+      'pretty_version' => '2.0.0',
+      'version' => '2.0.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'dc960a912984efb74d0a90222870c72c87f10c91',
+      'reference' => '1dc8d9cba3897165e16d12bb13d813afb1eb3fe7',
     ),
     'knplabs/knp-snappy' => 
     array (
@@ -102,21 +102,21 @@ private static $installed = array (
     ),
     'laminas/laminas-diactoros' => 
     array (
-      'pretty_version' => '2.5.1',
-      'version' => '2.5.1.0',
+      'pretty_version' => '2.6.0',
+      'version' => '2.6.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '53df7b7cd66e0905e6133970a4b90392a7a08075',
+      'reference' => '7d2034110ae18afe05050b796a3ee4b3fe177876',
     ),
     'laminas/laminas-zendframework-bridge' => 
     array (
-      'pretty_version' => '1.2.0',
-      'version' => '1.2.0.0',
+      'pretty_version' => '1.3.0',
+      'version' => '1.3.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '6cccbddfcfc742eb02158d6137ca5687d92cee32',
+      'reference' => '13af2502d9bb6f7d33be2de4b51fb68c6cdb476e',
     ),
     'lcobucci/clock' => 
     array (
@@ -147,30 +147,30 @@ private static $installed = array (
     ),
     'markbaker/complex' => 
     array (
-      'pretty_version' => '2.0.0',
-      'version' => '2.0.0.0',
+      'pretty_version' => '2.0.3',
+      'version' => '2.0.3.0',
       'aliases' => 
       array (
       ),
-      'reference' => '9999f1432fae467bc93c53f357105b4c31bb994c',
+      'reference' => '6f724d7e04606fd8adaa4e3bb381c3e9db09c946',
     ),
     'markbaker/matrix' => 
     array (
-      'pretty_version' => '2.1.2',
-      'version' => '2.1.2.0',
+      'pretty_version' => '2.1.3',
+      'version' => '2.1.3.0',
       'aliases' => 
       array (
       ),
-      'reference' => '361c0f545c3172ee26c3d596a0aa03f0cef65e6a',
+      'reference' => '174395a901b5ba0925f1d790fa91bab531074b61',
     ),
     'myclabs/php-enum' => 
     array (
-      'pretty_version' => '1.8.0',
-      'version' => '1.8.0.0',
+      'pretty_version' => '1.8.3',
+      'version' => '1.8.3.0',
       'aliases' => 
       array (
       ),
-      'reference' => '46cf3d8498b095bd33727b13fd5707263af99421',
+      'reference' => 'b942d263c641ddb5190929ff840c68f78713e937',
     ),
     'ocramius/package-versions' => 
     array (
@@ -181,12 +181,12 @@ private static $installed = array (
     ),
     'phpoffice/phpspreadsheet' => 
     array (
-      'pretty_version' => '1.17.1',
-      'version' => '1.17.1.0',
+      'pretty_version' => '1.18.0',
+      'version' => '1.18.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'c55269cb06911575a126dc225a05c0e4626e5fb4',
+      'reference' => '418cd304e8e6b417ea79c3b29126a25dc4b1170c',
     ),
     'psr/cache' => 
     array (
@@ -308,39 +308,48 @@ private static $installed = array (
     ),
     'starkbank/ecdsa' => 
     array (
-      'pretty_version' => '0.0.4',
-      'version' => '0.0.4.0',
+      'pretty_version' => '0.0.5',
+      'version' => '0.0.5.0',
       'aliases' => 
       array (
       ),
-      'reference' => '9369d35ed9019321adb4eb9fd3be21357d527c74',
+      'reference' => '484bedac47bac4012dc73df91da221f0a66845cb',
+    ),
+    'stripe/stripe-php' => 
+    array (
+      'pretty_version' => 'v7.94.0',
+      'version' => '7.94.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '03cd6b5c1c4fc9087ddd1dd046457bff274294d6',
     ),
     'symfony/polyfill-mbstring' => 
     array (
-      'pretty_version' => 'v1.22.1',
-      'version' => '1.22.1.0',
+      'pretty_version' => 'v1.23.1',
+      'version' => '1.23.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '5232de97ee3b75b0360528dae24e73db49566ab1',
+      'reference' => '9174a3d80210dca8daa7f31fec659150bbeabfc6',
     ),
     'symfony/polyfill-php80' => 
     array (
-      'pretty_version' => 'v1.22.1',
-      'version' => '1.22.1.0',
+      'pretty_version' => 'v1.23.1',
+      'version' => '1.23.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'dc3063ba22c2a1fd2f45ed856374d79114998f91',
+      'reference' => '1100343ed1a92e3a38f9ae122fc0eb21602547be',
     ),
     'symfony/process' => 
     array (
-      'pretty_version' => 'v5.2.7',
-      'version' => '5.2.7.0',
+      'pretty_version' => 'v5.3.4',
+      'version' => '5.3.4.0',
       'aliases' => 
       array (
       ),
-      'reference' => '98cb8eeb72e55d4196dd1e36f1f16e7b3a9a088e',
+      'reference' => 'd16634ee55b895bd85ec714dadc58e4428ecf030',
     ),
     'vonage/client' => 
     array (
@@ -371,12 +380,12 @@ private static $installed = array (
     ),
     'whichbrowser/parser' => 
     array (
-      'pretty_version' => 'v2.1.1',
-      'version' => '2.1.1.0',
+      'pretty_version' => 'v2.1.2',
+      'version' => '2.1.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'da24adc4f4f26002673d236e69b91a10f2fd594c',
+      'reference' => 'bcf642a1891032de16a5ab976fd352753dd7f9a0',
     ),
     'zendframework/zend-diactoros' => 
     array (
