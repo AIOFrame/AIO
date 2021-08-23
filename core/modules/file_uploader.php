@@ -22,7 +22,7 @@ class FUP {
                 <div class="uploaded_files">
                     <?php
                     $db = new DB();
-                    $fs = $db ? ( !empty( $_SESSION ) && isset( $_SESSION['user_id'] ) ? $db->select( 'storage', '*', 'file_scope = "'.$_SESSION['user_id'].'" OR file_scope = "0"', '40', 0, '', '', 'file_id', 'DESC' ) : $db->select( 'storage', '*', 'file_scope = "0"', '40', 0, '', '', 'file_id', 'desc' ) ) : '';
+                    $fs = $db ? ( !empty( $_SESSION ) && isset( $_SESSION['user_id'] ) ? $db->select( 'storage', '*', 'file_scope = "'.$_SESSION['user_id'].'" OR file_scope = "0"', '40', 0, '', '', 'DESC', 'file_id' ) : $db->select( 'storage', '*', 'file_scope = "0"', '40', 0, '', '', 'DESC', 'file_id' ) ) : '';
                     if( !empty($fs) ){ foreach( $fs as $f ){
                         $bg = in_array($f['file_type'],['svg','jpg','png','jpeg']) ? 'style="background-image:url(\''.storage_url($f['file_url']).'\')"' : '';
                         $size = $f['file_size'] > 1024 ? number_format((float)($f['file_size'] / 1024), 2, '.', '') . ' MB' : $f['file_size'].' KB';

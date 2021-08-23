@@ -237,7 +237,7 @@ function _email_valid( id ) {
  * @returns {boolean}
  */
 function is_empty( e, d ) {
-    d = d === undefined || d === '' ? '' : '[data-'+d+']';
+    d = d === undefined || d === '' ? '' : '['+d+']';
     let result;
     if( $(e)[0] && ( $(e)[0].localName === 'div' || $(e)[0].localName === 'tr' || $(e)[0].localName === 'form' ) ){
         let r = [];
