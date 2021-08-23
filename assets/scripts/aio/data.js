@@ -325,14 +325,14 @@ function process_data( e ){
     data = data !== undefined ? data : '';
 
     // Check for empty values
-    // if( $(p).attr('required') !== undefined ) {
-        if( is_empty( p, $(p).attr('required') ) ) {
+    //if( $(p).attr('required') !== undefined ) {
+        if( is_empty( p, 'required' ) ) {
             $(p).removeClass('load');
             $(e).attr('disabled',false);
             notify('Input fields seem to be empty! Please fill and try again!!');
             return;
         }
-    // }
+    //}
 
     // Disable Send Button
     //if( $(p).data('reload') !== undefined && $(p).data('reload') !== null && parseInt( $(p).data('reload') ) > 0 ) {
