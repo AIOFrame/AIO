@@ -32,7 +32,7 @@ $(document).ready(function(){
             let maxDiv = $(this).next('.valid').find('.max');
             if( !maxDiv.length ) {
                 let string = $(this).data('maxlength') !== undefined ? $(this).data('maxlength') : 'Maximum Characters';
-                $(this).next('.valid').append('<div class="max"><span class="title">'+string+'</span><span class="value">'+$(this).attr('maxlength')+'</span></div>')
+                $(this).next('.valid').append('<div class="max"><span class="title">'+string+'</span><span class="value"><i class="live">'+$(this).val().length+'</i> of '+$(this).attr('maxlength')+'</span></div>')
             }
             // Color code based on validation
             if( $(this).val().length <= parseInt( $(this).attr('maxlength') ) ) {
@@ -42,6 +42,7 @@ $(document).ready(function(){
                 //$(this).next('.valid').addClass('on');
                 maxDiv.addClass('red').removeClass('green');
             }
+            $(this).next().find('.live').html( $(this).val().length );
         }
         // Validate Email
         if( $(this).attr('type') === 'email' ) {

@@ -286,6 +286,12 @@ select.mb0 + .select2-container {
   height: 0;
   overflow: hidden;
 }
+[type=text] + .valid > div, [type=email] + .valid > div, [type=password] + .valid > div, select + .valid > div, textarea + .valid > div {
+  display: flex;
+}
+[type=text] + .valid .value, [type=email] + .valid .value, [type=password] + .valid .value, select + .valid .value, textarea + .valid .value {
+  margin-left: 10px;
+}
 [type=text] + .valid .green, [type=email] + .valid .green, [type=password] + .valid .green, select + .valid .green, textarea + .valid .green {
   color: forestgreen;
 }

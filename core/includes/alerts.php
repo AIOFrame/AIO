@@ -61,8 +61,8 @@ class ALERTS {
      * @return bool
      */
     function create( string $title, string $note = '', string $type = 'done', string $link = '', int $user = 0, int $from = 0 ): bool {
-        $user = $user == 0 ? get_user_id() : $user;
-        $from = !empty( $from ) ? $from : 0;
+        // $user = $user == 0 ? get_user_id() : $user;
+        // $from = !empty( $from ) ? $from : 0;
         $keys = [ 'from', 'user', 'name', 'note', 'type', 'link', 'seen', 'time' ];
         $values = [ $from, $user, $title, $note, $type, $link, 0, date("Y-m-d H:i:s")];
         $db = new DB();

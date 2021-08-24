@@ -270,6 +270,12 @@ select.mb0 + .select2-container {
   pointer-events: none;
   height: 0;
   overflow: hidden;
+  > div {
+    display: flex;
+  }
+  .value {
+    margin-left: 10px;
+  }
   .green {
     color:forestgreen;
   }

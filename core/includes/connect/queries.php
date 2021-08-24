@@ -746,13 +746,14 @@ function process_data_ajax() {
         // Send alerts
         if( isset( $alerts ) && is_array( $alerts ) && $query ) {
             foreach( $alerts as $al ) {
+                elog($al);
                 if( !empty( $al->title ) ) {
                     $ac = new ALERTS();
-                    $title = isset( $al->title ) && !empty( $al->title ) ? $al->title : 'Alert';
+                    $title = $al->title;
                     $note = isset( $al->note ) && !empty( $al->note ) ? $al->note : '';
                     $type = isset( $al->type ) && !empty( $al->type ) ? $al->type : 'alert';
                     $link = isset( $al->link ) && !empty( $al->link ) ? $al->link : '';
-                    $user = isset( $al->user ) && !empty( $al->user ) ? $al->user : get_user_id();
+                    $user = isset( $al->user ) && !empty( $al->user ) ? $al->user : '';
                     $sent_alerts[] = $ac->create( $title, $note, $type, $link, $user );
                 }
             }
