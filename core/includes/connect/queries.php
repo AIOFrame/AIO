@@ -113,11 +113,11 @@ class DB {
         $result = [];
         $db = new DB();
         $trace = debug_backtrace();
-        $file_path = isset( $trace[0]['file'] ) ? $trace[0]['file'] : '';
+        $file_path = $trace[0]['file'] ?? '';
         if( !empty( $file_path ) ) {
 
             // Get file properties
-            $file = str_replace( '/', '_', $file_path ) . '_' . substr($table_names, 0, -1);
+            $file = str_replace( '/', '_', $file_path );
             $md5 = md5_file( $file_path );
 
             // Get database option and verify if md5 is same
@@ -437,12 +437,12 @@ class DB {
      */
     function update_option( string $name, string|array $value, int $user_id = 0, int $autoload = 0 ): bool {
         if( $name !== '' && !empty( $value ) ){
-            $c = $this->select( 'options', '*', 'option_name = \''.$name.'\' AND option_scope = \''.$user_id.'\'', 1 );
-            if( $c ) {
-                return $this->update( 'options', ['option_value', 'option_scope', 'option_load' ], [ $value, $user_id, $autoload ], 'option_name = \''.$name.'\'' );
-            } else {
-                return $this->insert( 'options', [ 'option_name', 'option_value', 'option_scope', 'option_load' ], [ $name, $value, $user_id, $autoload ] );
+            // $c = $this->select( 'options', '*', 'option_name = \''.$name.'\' AND option_scope = \''.$user_id.'\'', 1 );
+            $c = $this->update( 'options', ['option_value', 'option_scope', 'option_load' ], [ $value, $user_id, $autoload ], 'option_name = \''.$name.'\'' );
+            if( !$c ) {
+                $c = $this->insert( 'options', [ 'option_name', 'option_value', 'option_scope', 'option_load' ], [ $name, $value, $user_id, $autoload ] );
             }
+            return $c;
         } else {
             return false;
         }
