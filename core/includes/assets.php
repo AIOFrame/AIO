@@ -321,7 +321,7 @@ function get_page( string $n ){
 }
 
 function UI( $ui, $array = [] ) {
-    $f = ROOTPATH . 'core/ui/' . $ui . '.php';
+    $f = ROOTPATH . 'core/components/' . $ui . '.php';
     if( file_exists( $f ) ) {
         if( !empty( $array ) ) {
             global $params;
