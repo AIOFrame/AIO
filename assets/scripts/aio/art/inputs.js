@@ -40,17 +40,6 @@ $(document).ready(function(){
         $(this).html(a);
     });
 
-    // No blanks in input
-    $("input[data-no-space]").on({
-        keydown: function(e) {
-            if (e.which === 32)
-                return false;
-        },
-        change: function() {
-            this.value = this.value.replace(/\s/g,'');
-        }
-    });
-
     // Date Picker
     if( $.fn.datepicker !== undefined ){
         $.fn.datepicker.language['en'] = {

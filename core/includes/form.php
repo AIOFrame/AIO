@@ -176,13 +176,13 @@ class FORM {
      * @param string $type Type either 'radio' or 'checkbox'
      * @param string|array $identity Name of the input elements
      * @param array $values Array of values
-     * @param string $checked Checked value or values separated by (,) comma
+     * @param string|array $checked Checked value or values separated by (,) comma
      * @param string $attr Attributes like class or data tags
      * @param bool $label_first If label should be before input element
      * @param string $pre String to wrap before start of <input>. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post End string to wrap after />
      */
-    function render_options( string $type = 'radio', string $label = '', string|array $identity = '', array $values = [], string $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ) {
+    function render_options( string $type = 'radio', string $label = '', string|array $identity = '', array $values = [], string|array $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ) {
         if( is_array( $values ) ) {
             $type = $type == 'radio' ? 'type="radio"' : 'type="checkbox"';
             $id = is_array($identity) ? $identity[0] : $identity;
@@ -304,10 +304,10 @@ class FORM {
             $pre = $pre == 0 ? '<div class="upload_set col">' : '<div class="upload_set col-12 col-lg-'.$pre.'">';
             $post = '</div>';
         }
-        $sh = $show_history !== '' ? ' data-history' : '';
+        $sh = $show_history ? ' data-history' : '';
         $ext = $extensions !== '' ? ' data-exts="'.$extensions.'"' : '';
         $sz = $size !== '' ? ' data-size="'.$size.'"' : '';
-        $del = $deletable !== '' ? ' data-delete' : '';
+        $del = $deletable ? ' data-delete' : '';
         $cry = Crypto::initiate();
         $pat = $path !== '' ? ' data-path="'.$cry->encrypt( $path ).'"' : '';
         $type = $multiple ? 'files' : 'file';
