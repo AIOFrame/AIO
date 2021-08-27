@@ -768,11 +768,11 @@ function process_data_ajax() {
  */
 function trash_data_ajax() {
     $c = Crypto::initiate();
-    $target = ''; //isset( $_POST['target'] ) && !empty( $_POST['target'] ) ? $c->decrypt( $_POST['target'] ) : '';
-    $logic = ''; //isset( $_POST['logic'] ) && !empty( $_POST['logic'] ) ? $c->decrypt_array( $_POST['logic'] ) : '';
+    $target = isset( $_POST['target'] ) && !empty( $_POST['target'] ) ? $c->decrypt( $_POST['target'] ) : '';
+    $logic = isset( $_POST['logic'] ) && !empty( $_POST['logic'] ) ? $c->decrypt( $_POST['logic'] ) : '';
     if( !empty( $target ) && !empty( $logic ) ){
         $db = new DB();
-        $r = $db->delete( $target, $logic[0].' = '.$logic[1] );
+        $r = $db->delete( $target, $logic );
         if( $r ){
             ES('Deleted successfully');
         } else {

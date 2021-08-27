@@ -390,16 +390,15 @@ class FORM {
     /**
      * Renders HTML to delete record from database
      * @param string $table Table name
-     * @param string $column Column name
-     * @param string $value Where column value equals to
+     * @param string $logic Where column value equals to
      * @param string $html HTML either button or div or i
      * @param string $text Text to display
      * @param string $class Class
      * @param string $attr Additional attributes
      */
-    function trash_button_html( string $table, string $column, string $value = '0', string $html = 'div', string $text = '', string $class = '', string $attr = '' ) {
+    function trash_html( string $table, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '' ) {
         $c = Crypto::initiate();
-        echo '<'.$html.' onclick="trash_data(\''.$c->encrypt('trash_data_ajax').','.$c->encrypt($table).','.$c->encrypt_array([$column,$value]).'\')" class="'.$class.'" '.$attr.'>'.T( $text ).'</'.$html.'>';
+        echo '<'.$html.' onclick="trash_data(\''.$c->encrypt('trash_data_ajax').'\',\''.$c->encrypt($table).'\',\''.$c->encrypt($logic).'\')" class="'.$class.'" '.$attr.'>'.T( $text ).'</'.$html.'>';
     }
 
     /**
