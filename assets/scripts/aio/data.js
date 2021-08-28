@@ -216,10 +216,23 @@ function clear( e, d ){
 
 function process_data( e ){
     //$(e).attr('disabled',true);
-    let p = $(e).parents('[data-t]');
+    let p;
+    if( $(e).data('action') !== undefined && $(e).data('action') !== null ) {
+        p =  $(e);
+        $(p).attr('disabled',true);
+        setTimeout(function(){
+            $(p).attr('disabled',false);
+        },4000);
+    } else {
+        p =  $(e).parents('[data-t]');
+        $(p).find('[onclick="process_data(this)"]').attr('disabled',true);
+        setTimeout(function(){
+            $(p).find('[onclick="process_data(this)"]').attr('disabled',false);
+        },4000);
+    }
     p = ( p.length !== 0 && p[0].tagName === 'DIV' ) ? p : $(e).parents('[data-data]');
-
     p.addClass('load');
+
     let pre = $(p).data('pre');
     pre = pre !== undefined ? pre : '';
 
@@ -238,13 +251,9 @@ function process_data( e ){
 
     // Disable Send Button
     //if( $(p).data('reload') !== undefined && $(p).data('reload') !== null && parseInt( $(p).data('reload') ) > 0 ) {
-        $(p).find('[onclick="process_data(this)"]').attr('disabled',true);
     //}
-    setTimeout(function(){
-        $(p).find('[onclick="process_data(this)"]').attr('disabled',false);
-    },4000);
+
     let d = get_values( p, data, pre );
-    let action = $(e).data('action');
     d.action = $(e).data('action');
     d.t = $(p).data('t');
     d.pre = pre;

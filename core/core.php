@@ -60,10 +60,17 @@ function elog( string|array $log, string $type = 'log', string $line = '', strin
     $log = is_array( $log ) ? json_encode( $log ) : $log;
     $log = is_object( $log ) ? var_dump( $log ) : $log;
 
-    $data = $log . '<AIO>' . $type;
-    $data .= $line !== '' ? '<AIO>' . $line : '';
-    $data .= $file !== '' ? '<AIO>' . $file : '';
-    $data .= $target !== '' ? '<AIO>' . $target : '';
+    $data = '';
+
+    /* if( $log === 'storage' ) {
+        $db = debug_backtrace();
+        $data .= json_encode( $db );
+    } */
+
+    $data .= $log . '<AIO>' . $type;
+    $data .= !empty( $line ) ? '<AIO>' . $line : '';
+    $data .= !empty( $file ) ? '<AIO>' . $file : '';
+    $data .= !empty( $target ) ? '<AIO>' . $target : '';
 
     // Get dev users
     $debug = 0;

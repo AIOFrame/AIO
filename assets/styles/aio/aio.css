@@ -13,12 +13,13 @@ article {
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
   height: calc(100vh - 40px);
   max-width: calc(100vw - 40px);
-  margin: 20px 20px 20px 140px;
+  margin: 20px 20px 20px 100px;
   padding: 80px 20px 20px;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   overflow-y: auto;
   border-radius: 0 15px 15px 0;
+  border: 1px solid #fff;
 }
 
 /* HEADER */
@@ -27,7 +28,7 @@ header {
   height: calc( 100vh - 40px );
   top: 20px;
   left: 20px;
-  width: 120px;
+  width: 80px;
   background: rgba(255, 255, 255, 0.98);
   -webkit-box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
@@ -38,10 +39,17 @@ header .logo {
   position: absolute;
   left: 0;
   top: 0;
-  height: 80px;
-  background: url("../../images/aio.svg") no-repeat center/85px;
+  height: 60px;
+  background: url("../../images/aio.svg") no-repeat center/65px;
   width: 100%;
   cursor: pointer;
+}
+header .title {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  text-align: center;
 }
 header .options {
   position: absolute;
@@ -49,13 +57,13 @@ header .options {
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
   width: 100%;
-  padding: 0 20px;
+  padding: 0 10px;
 }
 header .options .ico {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   display: block;
-  margin: 5px 0;
+  margin: 8px 0;
   border-radius: 15px;
   -webkit-transition: 0.6s;
   transition: 0.6s;
@@ -307,6 +315,7 @@ button:hover {
   transition: 0.6s;
   position: relative;
   box-sizing: border-box;
+  border: 1px solid #fff;
 }
 
 .b:hover {
@@ -329,7 +338,7 @@ body.d .b {
   white-space: pre-wrap;
 }
 
-.b .a, .b .b {
+.b .a, .b .c {
   position: absolute;
   top: 15px;
   left: 15px;
@@ -338,7 +347,7 @@ body.d .b {
   padding: 0;
 }
 
-.b .b {
+.b .c {
   left: auto;
   right: 15px;
   border-radius: 0;
@@ -354,7 +363,7 @@ body.d .b {
   font-weight: lighter;
 }
 
-.b .b > div, .b .b > button {
+.b .c > div, .b .c > button {
   font-weight: lighter;
   font-size: 13px;
   border-radius: 6px;
@@ -364,13 +373,13 @@ body.d .b {
   color: #fff;
 }
 
-.b .b > div, .b .b > button {
+.b .c > div, .b .c > button {
   border: 1px solid #5691b0;
   color: #5691b0;
   margin-left: 15px;
 }
 
-.b .b > div:hover, .b .b > button:hover {
+.b .c > div:hover, .b .c > button:hover {
   background: #5691b0;
   color: #fff;
 }
@@ -390,7 +399,7 @@ body.d .b {
   border-top: 1px solid #ebebeb;
 }
 
-body.d .b .ft > div {
+body.d .c .ft > div {
   border-top: 1px solid #232323;
 }
 
@@ -400,31 +409,31 @@ body.d .b .ft > div {
 
 /* ICONS */
 .ico.nav {
-  background: url("../../icons/menu.svg") no-repeat center/50px;
+  background: url("../../icons/menu.svg") no-repeat center/30px;
 }
 
 .ico.lang {
-  background: url("../../icons/lang.svg") no-repeat center/50px;
+  background: url("../../icons/lang.svg") no-repeat center/30px;
 }
 
 .ico.filter {
-  background: url("../../icons/filter.svg") no-repeat center/50px;
+  background: url("../../icons/filter.svg") no-repeat center/30px;
 }
 
 .ico.dark {
-  background: url("../../icons/moon.svg") no-repeat center/50px;
+  background: url("../../icons/moon.svg") no-repeat center/30px;
 }
 
 .ico.reload {
-  background: url("../../icons/reload.svg") no-repeat center/50px;
+  background: url("../../icons/reload.svg") no-repeat center/30px;
 }
 
 .ico.delete {
-  background: url("../../icons/trash.svg") no-repeat center/50px;
+  background: url("../../icons/trash.svg") no-repeat center/30px;
 }
 
 .ico.back {
-  background: url("../../icons/back.svg") no-repeat center/50px;
+  background: url("../../icons/back.svg") no-repeat center/30px;
 }
 
 /* DARK MODE */
@@ -456,31 +465,31 @@ body.d label {
   color: #ddd;
 }
 body.d .logo {
-  background: url("../../images/aio_white.svg") no-repeat center/85px;
+  background: url("../../images/aio_white.svg") no-repeat center/65px;
 }
 body.d [type=text], body.d [type=search], body.d [type=password], body.d [type=number], body.d textarea {
   color: #fff;
 }
 body.d .ico.nav {
-  background: url("../../icons/w/menu.svg") no-repeat center/50px;
+  background: url("../../icons/w/menu.svg") no-repeat center/30px;
 }
 body.d .ico.lang {
-  background: url("../../icons/w/lang.svg") no-repeat center/50px;
+  background: url("../../icons/w/lang.svg") no-repeat center/30px;
 }
 body.d .ico.filter {
-  background: url("../../icons/w/filter.svg") no-repeat center/50px;
+  background: url("../../icons/w/filter.svg") no-repeat center/30px;
 }
 body.d .ico.dark {
-  background: url("../../icons/w/moon.svg") no-repeat center/50px;
+  background: url("../../icons/w/moon.svg") no-repeat center/30px;
 }
 body.d .ico.reload {
-  background: url("../../icons/w/reload.svg") no-repeat center/50px;
+  background: url("../../icons/w/reload.svg") no-repeat center/30px;
 }
 body.d .ico.delete {
-  background: url("../../icons/w/trash.svg") no-repeat center/50px;
+  background: url("../../icons/w/trash.svg") no-repeat center/30px;
 }
 body.d .ico.back {
-  background: url("../../icons/w/back.svg") no-repeat center/50px;
+  background: url("../../icons/w/back.svg") no-repeat center/30px;
 }
 
 /* RESPONSIVE */

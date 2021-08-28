@@ -13,12 +13,13 @@ article {
   box-shadow:0 0 30px rgba(0,0,0,.1);
   height:calc(100vh - 40px);
   max-width:calc(100vw - 40px);
-  margin:20px 20px 20px 140px;
+  margin:20px 20px 20px 100px;
   padding:80px 20px 20px;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   overflow-y: auto;
   border-radius:0 15px 15px 0;
+  border:1px solid #fff;
 }
 
 /* HEADER */
@@ -28,7 +29,7 @@ header {
   height:calc( 100vh - 40px );
   top:20px;
   left:20px;
-  width:120px;
+  width:80px;
   background:rgba(255,255,255,.98);
   -webkit-box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
   box-shadow:0 0 25px rgba(0,0,0,.1);
@@ -38,10 +39,17 @@ header {
     position: absolute;
     left: 0;
     top: 0;
-    height:80px;
-    background:url('../../images/aio.svg') no-repeat center / 85px;
+    height:60px;
+    background:url('../../images/aio.svg') no-repeat center / 65px;
     width:100%;
     cursor:pointer;
+  }
+  .title {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    text-align: center;
   }
   .options {
     position: absolute;
@@ -49,12 +57,12 @@ header {
     -webkit-transform: translateY(-50%);
     transform:translateY(-50%);
     width: 100%;
-    padding:0 20px;
+    padding:0 10px;
     .ico {
-      width:80px;
-      height:80px;
+      width:60px;
+      height:60px;
       display: block;
-      margin:5px 0;
+      margin:8px 0;
       border-radius:15px;
       -webkit-transition: .6s;
       transition:.6s;
@@ -303,6 +311,7 @@ button:hover {
   transition:.6s;
   position: relative;
   box-sizing: border-box;
+  border: 1px solid #fff;
 }
 .b:hover {
   box-shadow:0 10px 30px rgba(0,0,0,.15);
@@ -320,7 +329,7 @@ body.d .b {
   word-break: break-word;
   white-space: pre-wrap;
 }
-.b .a, .b .b {
+.b .a, .b .c {
   position: absolute;
   top:15px;
   left: 15px;
@@ -328,7 +337,7 @@ body.d .b {
   display: flex;
   padding: 0;
 }
-.b .b {
+.b .c {
   left:auto;
   right: 15px;
   border-radius:0;
@@ -342,7 +351,7 @@ body.d .b {
   color:#fff;
   font-weight: lighter;
 }
-.b .b>div, .b .b>button {
+.b .c>div, .b .c>button {
   font-weight: lighter;
   font-size: 13px;
   border-radius:6px;
@@ -351,12 +360,12 @@ body.d .b {
   cursor: pointer;
   color:#fff;
 }
-.b .b>div, .b .b>button {
+.b .c>div, .b .c>button {
   border:1px solid #5691b0;
   color:#5691b0;
   margin-left: 15px;
 }
-.b .b>div:hover, .b .b>button:hover {
+.b .c>div:hover, .b .c>button:hover {
   background:#5691b0;
   color:#fff;
 }
@@ -373,7 +382,7 @@ body.d .b {
   font-weight: lighter;
   border-top: 1px solid #ebebeb;
 }
-body.d .b .ft>div {
+body.d .c .ft>div {
   border-top:1px solid rgb(35,35,35);
 }
 .b .ft>div:last-child {
@@ -383,25 +392,25 @@ body.d .b .ft>div {
 /* ICONS */
 
 .ico.nav {
-  background:url('../../icons/menu.svg') no-repeat center / 50px;
+  background:url('../../icons/menu.svg') no-repeat center / 30px;
 }
 .ico.lang {
-  background:url('../../icons/lang.svg') no-repeat center / 50px;
+  background:url('../../icons/lang.svg') no-repeat center / 30px;
 }
 .ico.filter {
-  background:url('../../icons/filter.svg') no-repeat center / 50px;
+  background:url('../../icons/filter.svg') no-repeat center / 30px;
 }
 .ico.dark {
-  background:url('../../icons/moon.svg') no-repeat center / 50px;
+  background:url('../../icons/moon.svg') no-repeat center / 30px;
 }
 .ico.reload {
-  background:url('../../icons/reload.svg') no-repeat center / 50px;
+  background:url('../../icons/reload.svg') no-repeat center / 30px;
 }
 .ico.delete {
-  background:url('../../icons/trash.svg') no-repeat center / 50px;
+  background:url('../../icons/trash.svg') no-repeat center / 30px;
 }
 .ico.back {
-  background:url('../../icons/back.svg') no-repeat center / 50px;
+  background:url('../../icons/back.svg') no-repeat center / 30px;
 }
 
 /* DARK MODE */
@@ -435,7 +444,7 @@ body.d {
     color:#ddd;
   }
   .logo {
-    background:url("../../images/aio_white.svg") no-repeat center/85px;
+    background:url("../../images/aio_white.svg") no-repeat center/ 65px;
   }
   [type=text], [type=search], [type=password], [type=number], textarea {
     color:#fff;
@@ -443,25 +452,25 @@ body.d {
 
   /* DARK ICONS */
   .ico.nav {
-    background:url('../../icons/w/menu.svg') no-repeat center / 50px;
+    background:url('../../icons/w/menu.svg') no-repeat center / 30px;
   }
   .ico.lang {
-    background:url('../../icons/w/lang.svg') no-repeat center / 50px;
+    background:url('../../icons/w/lang.svg') no-repeat center / 30px;
   }
   .ico.filter {
-    background:url('../../icons/w/filter.svg') no-repeat center / 50px;
+    background:url('../../icons/w/filter.svg') no-repeat center / 30px;
   }
   .ico.dark {
-    background:url('../../icons/w/moon.svg') no-repeat center / 50px;
+    background:url('../../icons/w/moon.svg') no-repeat center / 30px;
   }
   .ico.reload {
-    background:url('../../icons/w/reload.svg') no-repeat center / 50px;
+    background:url('../../icons/w/reload.svg') no-repeat center / 30px;
   }
   .ico.delete {
-    background:url('../../icons/w/trash.svg') no-repeat center / 50px;
+    background:url('../../icons/w/trash.svg') no-repeat center / 30px;
   }
   .ico.back {
-    background:url('../../icons/w/back.svg') no-repeat center / 50px;
+    background:url('../../icons/w/back.svg') no-repeat center / 30px;
   }
 }
 

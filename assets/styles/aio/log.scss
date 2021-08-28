@@ -1,3 +1,4 @@
+$ui: #00A99D;
 article {
   overflow:hidden;
   padding: 0;
@@ -10,24 +11,39 @@ article {
 
 /* FILTERS */
 
-.filters_wrap {
+.controls {
   padding: 10px 20px;
+  display: flex;
+  label {
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+}
+.search_wrap {
+  flex-grow:1;
+  min-width:40%;
+}
+.filters {
+  margin-right: 20px;
+  i {
+    flex-grow:1;
+    padding: 12px;
+    cursor: pointer;
+    text-transform: uppercase;
+    opacity: .6;
+    font-weight: bold;
+  }
+  i.on {
+    color:$ui;
+  }
 }
 [type=search] {
-  margin: 0 0 10px;
-  width: 100%;
-  padding: 10px 15px;
-  font-size: 16px;
-}
-.filters input {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-[name=type] + label {
-  text-transform: uppercase;
-  font-size: 15px;
-  letter-spacing: 1px;
   margin: 0;
+  font-size: 20px;
+  width: 100%;
+}
+[type=search]:focus {
+  border-bottom: 1px solid #ccc;
 }
 
 /* Log */

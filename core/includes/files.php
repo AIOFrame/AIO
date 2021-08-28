@@ -3,7 +3,6 @@
 // This is the backend function that processes file upload
 
 function file_process_ajax() {
-    elog( 'test' );
     $cry = Crypto::initiate();
     $db = new DB();
     //echo $cry->decrypt( $_POST['scope'] );
@@ -39,9 +38,7 @@ function file_process_ajax() {
         }
         $fe = pathinfo($fn, PATHINFO_EXTENSION);
         $fnc = explode('.',$fn); //[0].'_'.date('d_h_s').'.'.explode('.',$fn)[1];
-        elog($fn);
         $fn = str_replace(' ','_',str_replace('.'.$fnc[count($fnc) - 1],'_'.date('y_h_s').'.'.$fnc[count($fnc) - 1],$fn));
-        elog($fn);
         if( move_uploaded_file( $file['tmp_name'], APPPATH.'/storage/'.$path.'/'.$fn ) ) {
             $loc = '/storage'.$path.'/'.$fn;
             $fz = round( $file['size'] / 1024 );

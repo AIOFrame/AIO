@@ -260,12 +260,12 @@ function icons() {
 
 /**
  * Checks if php file exists in comp dir
- * @param string $n Name of the comp
+ * @param string $component Name of the comp
  * @param string $dir Name of directory
  * @return string
  */
-function comp_exists( string $n, string $dir ): string {
-    $ns = explode('/',str_replace('.php','',$n));
+function comp_exists( string $component, string $dir ): string {
+    $ns = explode( '/', str_replace( '.php', '', $component ) );
     $x = 1;
     $fl = APPPATH . $dir . '/';
     foreach($ns as $n){
@@ -320,14 +320,14 @@ function get_page( string $n ){
     file_exists( $fl ) ? include( $fl ) : '';
 }
 
-function UI( $ui, $array = [] ) {
-    $f = ROOTPATH . 'core/components/' . $ui . '.php';
-    if( file_exists( $f ) ) {
+function aio_page( $ui, $array = [] ) {
+    $page = ROOTPATH . 'core/pages/' . $ui . '.php';
+    if( file_exists( $page ) ) {
         if( !empty( $array ) ) {
             global $params;
             $params = $array;
         }
-        include $f ;
+        include $page;
     }
 }
 
@@ -386,7 +386,7 @@ function html_class( string $class = '', bool $extras = true ) {
  * Renders attributes and class for <body> start tag
  * @param string $class
  */
-function body_class( $class = '' ) {
+function body_class(string $class = '' ) {
 
     // Is Debug
     $dc = APPDEBUG ? 'debug ' : '';

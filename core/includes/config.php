@@ -4,7 +4,7 @@
  * Gets config setting value
  * @param string $name App config setting name
  */
-function get_config( $name = '' ) {
+function get_config(string $name = '' ) {
     $v = '';
     if( defined('APPPATH') && file_exists( APPPATH . 'config.php' ) ) {
         $c = include( APPPATH . 'config.php' );

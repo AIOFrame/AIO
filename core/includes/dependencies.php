@@ -70,7 +70,6 @@ function render_image( string $logo = '', string $name = '', string $class = '' 
 }
 
 function storage_url( $url = '' ): string {
-    elog(mb_substr( $url, 1, 7));
     return mb_substr( $url, 1, 7) == 'storage' || mb_substr( $url, 1, 6) == 'assets' ? APPURL . 'apps/' . APPDIR . $url : $url;
 }
 

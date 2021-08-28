@@ -1,81 +1,38 @@
 $(document).ready( function(){
 
     // Filter
-    $('#type').on('change',function(){
-
-        var fv = $('#type').val();
-
-        var b = $('.b');
-
-        if (fv === 'a') {
-
+    let filters = $('.filters i');
+    let b = $('.b');
+    filters.on('click',function(){
+        filters.removeClass('on');
+        $(this).addClass('on');
+        let type = $(this).data('type');
+        if( type === 'a' ){
             b.show();
-
         } else {
-
             b.hide();
-            $('.b.'+fv).show();
-
+            $('.b.'+type).show();
         }
-
     });
 
-    // Google Search Button
-    $('.go').on('click',function(){
-
-        var s = $(this).parent().next('.l').html();
-
+    // Search Button
+    $('.go,.so').on('click',function() {
+        let s = $(this).parent().next('.l').find('pre').html();
         s = s.replace(/ /g,'+');
-        window.open('https://google.com/search?q=' + s,'_blank');
-
-    });
-
-    // Stack Overflow Search Button
-    $('.so').on('click',function(){
-
-        var s = $(this).parent().next('.l').html();
-
-        stack_search( s );
-
+        $(this).hasClass('go') ? window.open('https://google.com/search?q=' + s,'_blank') : window.open('https://stackoverflow.com/search?q=' + s,'_blank');
     });
 
     // Type in Search
-    $('.search input').on('keyup',function(e){
-
-        //if( e.key === 'Enter' ) {
-
-            var sv = $(this).val();
-            //elog(sv);
-
-            $.each($('.error_log>.b'),function(a,b){
-
-
-                if( $(b).find('.l').html().indexOf(sv) >= 0 || $(b).find('.t').html().indexOf(sv) >= 0 ) {
-                    $(b).show();
-                } else {
-                    $(b).hide();
-                }
-
-            })
-
-        //}
-
-    });
-
-    // Stack Overflow Search
-    $('.search button').on('click',function(){
-
-        var s = $('.search input').val();
-
-        stack_search( s );
-
+    $('[type=search]').on('keyup',function(e){
+        let sv = $(this).val();
+        console.log(sv);
+        $.each($('.error_log>.b'),function(a,b){
+            if( $(b).find('.l').html().indexOf(sv) >= 0 || $(b).find('.t').html().indexOf(sv) >= 0 ) {
+                $(b).show();
+            } else {
+                $(b).hide();
+            }
+        })
     });
 
 });
-
-function stack_search( s ) {
-
-    s = s.replace(/ /g,'+');
-    window.open('https://stackoverflow.com/search?q=' + s,'_blank');
-
-}
