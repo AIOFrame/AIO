@@ -217,17 +217,17 @@ function clear( e, d ){
 function process_data( e ){
     //$(e).attr('disabled',true);
     let p;
-    if( $(e).data('action') !== undefined && $(e).data('action') !== null ) {
-        p =  $(e);
-        $(p).attr('disabled',true);
-        setTimeout(function(){
-            $(p).attr('disabled',false);
-        },4000);
-    } else {
+    if( $(e).parents('[data-t]') !== undefined && $(e).parents('[data-t]') !== null ) {
         p =  $(e).parents('[data-t]');
         $(p).find('[onclick="process_data(this)"]').attr('disabled',true);
         setTimeout(function(){
             $(p).find('[onclick="process_data(this)"]').attr('disabled',false);
+        },4000);
+    } else {
+        p =  $(e);
+        $(p).attr('disabled',true);
+        setTimeout(function(){
+            $(p).attr('disabled',false);
         },4000);
     }
     p = ( p.length !== 0 && p[0].tagName === 'DIV' ) ? p : $(e).parents('[data-data]');
