@@ -322,20 +322,21 @@ function edit_data( e, modal ) {
                 }
             } else if( el.attr('type') === 'radio' ) {
                 let s = $('[data-key='+i+'][value='+d+']');
-                console.log( s );
-                console.log( d );
                 d === '1' || d === true || d.length > 0 ? s.prop('checked',true) : s.prop('checked',false);
             } else if( el.prop('type') === 'select-multiple' ) {
-                console.log(d);
-                let d = $.map(d.split(','), function(value){
+                $.each(d.split(','), function(v){
+                    $(el).find('option[value="' + v + '"]').prop('selected', true);
+                });
+                $(el).change();
+                /* $.map(d.split(','), function(value){
                     return parseInt(value);
                 });
-                let tar = '#'+i;
+                /* let tar = '#'+i;
                 if( $(tar).length ) {
                     $(tar).val(d).change();
                 } else {
                     $('[data-key="'+i+'"]').val(d).change();
-                }
+                }*/
             } else {
                 let tar = '#'+i;
                 if( $(tar).length ) {
