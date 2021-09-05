@@ -76,7 +76,7 @@ class FORM {
      * @param string $post End string to wrap after />
      * @param string $name Optional if different name is needed
      */
-    function input( string $type, string|array $identity, string $label, string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '', string $name = '' ){
+    function input( string $type, string|array $identity, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '', string $name = '' ){
         $type = $type == '' ? 'text' : $type;
         if( is_numeric( $pre ) ){
             $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
@@ -148,7 +148,7 @@ class FORM {
      * @param string $pre String to wrap before start of <input>. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post End string to wrap after />
      */
-    function text( string|array $id, string $label, string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '' ) {
+    function text( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '' ) {
         $this->input( 'text', $id, $label, $placeholder, $value, $attrs, $pre, $post );
     }
 

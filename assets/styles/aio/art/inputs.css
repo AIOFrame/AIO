@@ -192,8 +192,8 @@ select.mb0 + .select2-container {
   background-color: #111;
 }
 
-.select2-container--default.select2-container--focus .select2-selection--multiple {
-  border: 0;
+.select2-container--default .select2-selection--multiple, .select2-container--default.select2-container--focus .select2-selection--multiple {
+  border: 1px solid #ddd;
 }
 
 .select2-selection__rendered {
