@@ -324,13 +324,13 @@ function edit_data( e, modal ) {
                 let s = $('[data-key='+i+'][value='+d+']');
                 d === '1' || d === true || d.length > 0 ? s.prop('checked',true) : s.prop('checked',false);
             } else if( el.prop('type') === 'select-multiple' ) {
-                $.each(d.split(','), function(v){
-                    $(el).find('option[value="' + v + '"]').prop('selected', true);
-                });
-                $(el).change();
+                $(el).val(d.split(', ')).trigger('change'); //.find('option[value="' + v + '"]').prop('selected', true);
+                /* $.each(d.split(', '), function(ix,v){
+                    console.log($(el).find('option[value="' + v + '"]'));
+                }); */
                 /* $.map(d.split(','), function(value){
                     return parseInt(value);
-                });
+                });*/
                 /* let tar = '#'+i;
                 if( $(tar).length ) {
                     $(tar).val(d).change();
@@ -340,9 +340,9 @@ function edit_data( e, modal ) {
             } else {
                 let tar = '#'+i;
                 if( $(tar).length ) {
-                    $(tar).val(d).change();
+                    $(tar).val(d).trigger('change');
                 } else {
-                    $('[data-key="'+i+'"]').val(d).change();
+                    $('[data-key="'+i+'"]').val(d).trigger('change');
                 }
             }
             //elog('#'+i);
