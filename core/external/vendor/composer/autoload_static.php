@@ -10,7 +10,6 @@ class ComposerStaticInitf36cec08384430c36c4813b76fb6fa5a
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
-        '7e9bd612cc444b3eed788ebbe46263a0' => __DIR__ . '/..' . '/laminas/laminas-zendframework-bridge/src/autoload.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '07d7f1a47144818725fd8d91a907ac57' => __DIR__ . '/..' . '/laminas/laminas-diactoros/src/functions/create_uploaded_file.php',
         'da94ac5d3ca7d2dbab84ce561ce72bfd' => __DIR__ . '/..' . '/laminas/laminas-diactoros/src/functions/marshal_headers_from_sapi.php',
@@ -139,7 +138,6 @@ class ComposerStaticInitf36cec08384430c36c4813b76fb6fa5a
         array (
             'Lcobucci\\JWT\\' => 13,
             'Lcobucci\\Clock\\' => 15,
-            'Laminas\\ZendFrameworkBridge\\' => 28,
             'Laminas\\Diactoros\\' => 18,
         ),
         'K' => 
@@ -264,10 +262,6 @@ class ComposerStaticInitf36cec08384430c36c4813b76fb6fa5a
         'Lcobucci\\Clock\\' => 
         array (
             0 => __DIR__ . '/..' . '/lcobucci/clock/src',
-        ),
-        'Laminas\\ZendFrameworkBridge\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/laminas/laminas-zendframework-bridge/src',
         ),
         'Laminas\\Diactoros\\' => 
         array (

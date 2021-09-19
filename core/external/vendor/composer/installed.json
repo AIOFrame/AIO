@@ -2,17 +2,17 @@
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
-            "version": "1.11.99.2",
-            "version_normalized": "1.11.99.2",
+            "version": "1.11.99.4",
+            "version_normalized": "1.11.99.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/package-versions-deprecated.git",
-                "reference": "c6522afe5540d5fc46675043d3ed5a45a740b27c"
+                "reference": "b174585d1fe49ceed21928a945138948cb394600"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/package-versions-deprecated/zipball/c6522afe5540d5fc46675043d3ed5a45a740b27c",
-                "reference": "c6522afe5540d5fc46675043d3ed5a45a740b27c",
+                "url": "https://api.github.com/repos/composer/package-versions-deprecated/zipball/b174585d1fe49ceed21928a945138948cb394600",
+                "reference": "b174585d1fe49ceed21928a945138948cb394600",
                 "shasum": ""
             },
             "require": {
@@ -27,7 +27,7 @@
                 "ext-zip": "^1.13",
                 "phpunit/phpunit": "^6.5 || ^7"
             },
-            "time": "2021-05-24T07:46:03+00:00",
+            "time": "2021-09-13T08:41:34+00:00",
             "type": "composer-plugin",
             "extra": {
                 "class": "PackageVersions\\Installer",
@@ -58,7 +58,7 @@
             "description": "Composer plugin that provides efficient querying for installed package versions (no runtime IO)",
             "support": {
                 "issues": "https://github.com/composer/package-versions-deprecated/issues",
-                "source": "https://github.com/composer/package-versions-deprecated/tree/1.11.99.2"
+                "source": "https://github.com/composer/package-versions-deprecated/tree/1.11.99.4"
             },
             "funding": [
                 {
@@ -455,34 +455,31 @@
         },
         {
             "name": "laminas/laminas-diactoros",
-            "version": "2.6.0",
-            "version_normalized": "2.6.0.0",
+            "version": "2.7.0",
+            "version_normalized": "2.7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-diactoros.git",
-                "reference": "7d2034110ae18afe05050b796a3ee4b3fe177876"
+                "reference": "8b5792b7c81465efb14780c2d4787f158bd96183"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-diactoros/zipball/7d2034110ae18afe05050b796a3ee4b3fe177876",
-                "reference": "7d2034110ae18afe05050b796a3ee4b3fe177876",
+                "url": "https://api.github.com/repos/laminas/laminas-diactoros/zipball/8b5792b7c81465efb14780c2d4787f158bd96183",
+                "reference": "8b5792b7c81465efb14780c2d4787f158bd96183",
                 "shasum": ""
             },
             "require": {
-                "laminas/laminas-zendframework-bridge": "^1.0",
-                "php": "^7.3 || ~8.0.0",
+                "php": "^7.3 || ~8.0.0 || ~8.1.0",
                 "psr/http-factory": "^1.0",
                 "psr/http-message": "^1.0"
             },
             "conflict": {
-                "phpspec/prophecy": "<1.9.0"
+                "phpspec/prophecy": "<1.9.0",
+                "zendframework/zend-diactoros": "*"
             },
             "provide": {
                 "psr/http-factory-implementation": "1.0",
                 "psr/http-message-implementation": "1.0"
-            },
-            "replace": {
-                "zendframework/zend-diactoros": "^2.2.1"
             },
             "require-dev": {
                 "ext-curl": "*",
@@ -497,7 +494,7 @@
                 "psalm/plugin-phpunit": "^0.14.0",
                 "vimeo/psalm": "^4.3"
             },
-            "time": "2021-05-18T14:41:54+00:00",
+            "time": "2021-09-15T08:41:12+00:00",
             "type": "library",
             "extra": {
                 "laminas": {
@@ -557,71 +554,6 @@
                 }
             ],
             "install-path": "../laminas/laminas-diactoros"
-        },
-        {
-            "name": "laminas/laminas-zendframework-bridge",
-            "version": "1.3.0",
-            "version_normalized": "1.3.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laminas/laminas-zendframework-bridge.git",
-                "reference": "13af2502d9bb6f7d33be2de4b51fb68c6cdb476e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/13af2502d9bb6f7d33be2de4b51fb68c6cdb476e",
-                "reference": "13af2502d9bb6f7d33be2de4b51fb68c6cdb476e",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.3 || ^8.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^5.7 || ^6.5 || ^7.5 || ^8.1 || ^9.3",
-                "psalm/plugin-phpunit": "^0.15.1",
-                "squizlabs/php_codesniffer": "^3.5",
-                "vimeo/psalm": "^4.6"
-            },
-            "time": "2021-06-24T12:49:22+00:00",
-            "type": "library",
-            "extra": {
-                "laminas": {
-                    "module": "Laminas\\ZendFrameworkBridge"
-                }
-            },
-            "installation-source": "dist",
-            "autoload": {
-                "files": [
-                    "src/autoload.php"
-                ],
-                "psr-4": {
-                    "Laminas\\ZendFrameworkBridge\\": "src//"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "Alias legacy ZF class names to Laminas Project equivalents.",
-            "keywords": [
-                "ZendFramework",
-                "autoloading",
-                "laminas",
-                "zf"
-            ],
-            "support": {
-                "forum": "https://discourse.laminas.dev/",
-                "issues": "https://github.com/laminas/laminas-zendframework-bridge/issues",
-                "rss": "https://github.com/laminas/laminas-zendframework-bridge/releases.atom",
-                "source": "https://github.com/laminas/laminas-zendframework-bridge"
-            },
-            "funding": [
-                {
-                    "url": "https://funding.communitybridge.org/projects/laminas-project",
-                    "type": "community_bridge"
-                }
-            ],
-            "install-path": "../laminas/laminas-zendframework-bridge"
         },
         {
             "name": "lcobucci/clock",
@@ -1792,17 +1724,17 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v7.94.0",
-            "version_normalized": "7.94.0.0",
+            "version": "v7.97.0",
+            "version_normalized": "7.97.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "03cd6b5c1c4fc9087ddd1dd046457bff274294d6"
+                "reference": "ae41c309ce113362706f8d5f19cf0cf2c730bc4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/03cd6b5c1c4fc9087ddd1dd046457bff274294d6",
-                "reference": "03cd6b5c1c4fc9087ddd1dd046457bff274294d6",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/ae41c309ce113362706f8d5f19cf0cf2c730bc4a",
+                "reference": "ae41c309ce113362706f8d5f19cf0cf2c730bc4a",
                 "shasum": ""
             },
             "require": {
@@ -1818,7 +1750,7 @@
                 "squizlabs/php_codesniffer": "^3.3",
                 "symfony/process": "~3.4"
             },
-            "time": "2021-08-19T14:15:27+00:00",
+            "time": "2021-09-16T21:28:33+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1850,7 +1782,7 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v7.94.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v7.97.0"
             },
             "install-path": "../stripe/stripe-php"
         },
@@ -2025,24 +1957,24 @@
         },
         {
             "name": "symfony/process",
-            "version": "v5.3.4",
-            "version_normalized": "5.3.4.0",
+            "version": "v5.3.7",
+            "version_normalized": "5.3.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "d16634ee55b895bd85ec714dadc58e4428ecf030"
+                "reference": "38f26c7d6ed535217ea393e05634cb0b244a1967"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/d16634ee55b895bd85ec714dadc58e4428ecf030",
-                "reference": "d16634ee55b895bd85ec714dadc58e4428ecf030",
+                "url": "https://api.github.com/repos/symfony/process/zipball/38f26c7d6ed535217ea393e05634cb0b244a1967",
+                "reference": "38f26c7d6ed535217ea393e05634cb0b244a1967",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.2.5",
                 "symfony/polyfill-php80": "^1.16"
             },
-            "time": "2021-07-23T15:54:19+00:00",
+            "time": "2021-08-04T21:20:46+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -2070,7 +2002,7 @@
             "description": "Executes commands in sub-processes",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/process/tree/v5.3.4"
+                "source": "https://github.com/symfony/process/tree/v5.3.7"
             },
             "funding": [
                 {

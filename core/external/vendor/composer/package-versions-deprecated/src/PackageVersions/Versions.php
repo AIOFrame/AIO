@@ -33,14 +33,13 @@ final class Versions
      * @internal
      */
     const VERSIONS          = array (
-  'composer/package-versions-deprecated' => '1.11.99.2@c6522afe5540d5fc46675043d3ed5a45a740b27c',
+  'composer/package-versions-deprecated' => '1.11.99.4@b174585d1fe49ceed21928a945138948cb394600',
   'ezyang/htmlpurifier' => 'v4.13.0@08e27c97e4c6ed02f37c5b2b20488046c8d90d75',
   'guzzlehttp/guzzle' => '7.3.0@7008573787b430c1c1f650e3722d9bba59967628',
   'guzzlehttp/promises' => '1.4.1@8e7d04f1f6450fef59366c399cfad4b9383aa30d',
   'guzzlehttp/psr7' => '2.0.0@1dc8d9cba3897165e16d12bb13d813afb1eb3fe7',
   'knplabs/knp-snappy' => 'v1.2.1@7bac60fb729147b7ccd8532c07df3f52a4afa8a4',
-  'laminas/laminas-diactoros' => '2.6.0@7d2034110ae18afe05050b796a3ee4b3fe177876',
-  'laminas/laminas-zendframework-bridge' => '1.3.0@13af2502d9bb6f7d33be2de4b51fb68c6cdb476e',
+  'laminas/laminas-diactoros' => '2.7.0@8b5792b7c81465efb14780c2d4787f158bd96183',
   'lcobucci/clock' => '2.0.0@353d83fe2e6ae95745b16b3d911813df6a05bfb3',
   'lcobucci/jwt' => '4.1.4@71cf170102c8371ccd933fa4df6252086d144de6',
   'maennchen/zipstream-php' => '2.1.0@c4c5803cc1f93df3d2448478ef79394a5981cc58',
@@ -59,15 +58,15 @@ final class Versions
   'sendgrid/php-http-client' => '3.14.0@7880d5aecc53856802130ba83af1dfcf942e9767',
   'sendgrid/sendgrid' => '7.9.2@ab0023a6233f39e408b5eb8c4299f20790f5f5a7',
   'starkbank/ecdsa' => '0.0.5@484bedac47bac4012dc73df91da221f0a66845cb',
-  'stripe/stripe-php' => 'v7.94.0@03cd6b5c1c4fc9087ddd1dd046457bff274294d6',
+  'stripe/stripe-php' => 'v7.97.0@ae41c309ce113362706f8d5f19cf0cf2c730bc4a',
   'symfony/polyfill-mbstring' => 'v1.23.1@9174a3d80210dca8daa7f31fec659150bbeabfc6',
   'symfony/polyfill-php80' => 'v1.23.1@1100343ed1a92e3a38f9ae122fc0eb21602547be',
-  'symfony/process' => 'v5.3.4@d16634ee55b895bd85ec714dadc58e4428ecf030',
+  'symfony/process' => 'v5.3.7@38f26c7d6ed535217ea393e05634cb0b244a1967',
   'vonage/client' => '2.4.0@29f23e317d658ec1c3e55cf778992353492741d7',
   'vonage/client-core' => '2.9.2@2b734ff7d86d4b6f169df49aed3aefcdac7a40d0',
   'vonage/nexmo-bridge' => '0.1.0@62653b1165f4401580ca8d2b859f59c968de3711',
   'whichbrowser/parser' => 'v2.1.2@bcf642a1891032de16a5ab976fd352753dd7f9a0',
-  '__root__' => 'dev-master@e9cda88adf743ba0f5920e7299ab6ae6fd23f853',
+  '__root__' => 'dev-master@9cbff1dc03fb51dcd47eb970624ab84611a29c12',
 );
 
     private function __construct()
@@ -82,7 +81,7 @@ final class Versions
      */
     public static function rootPackageName() : string
     {
-        if (!class_exists(InstalledVersions::class, false) || !(method_exists(InstalledVersions::class, 'getAllRawData') ? InstalledVersions::getAllRawData() : InstalledVersions::getRawData())) {
+        if (!self::composer2ApiUsable()) {
             return self::ROOT_PACKAGE_NAME;
         }
 
@@ -100,7 +99,7 @@ final class Versions
      */
     public static function getVersion(string $packageName): string
     {
-        if (class_exists(InstalledVersions::class, false) && (method_exists(InstalledVersions::class, 'getAllRawData') ? InstalledVersions::getAllRawData() : InstalledVersions::getRawData())) {
+        if (self::composer2ApiUsable()) {
             return InstalledVersions::getPrettyVersion($packageName)
                 . '@' . InstalledVersions::getReference($packageName);
         }
@@ -112,5 +111,26 @@ final class Versions
         throw new OutOfBoundsException(
             'Required package "' . $packageName . '" is not installed: check your ./vendor/composer/installed.json and/or ./composer.lock files'
         );
+    }
+
+    private static function composer2ApiUsable(): bool
+    {
+        if (!class_exists(InstalledVersions::class, false)) {
+            return false;
+        }
+
+        if (method_exists(InstalledVersions::class, 'getAllRawData')) {
+            $rawData = InstalledVersions::getAllRawData();
+            if (count($rawData) === 1 && count($rawData[0]) === 0) {
+                return false;
+            }
+        } else {
+            $rawData = InstalledVersions::getRawData();
+            if ($rawData === null || $rawData === []) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

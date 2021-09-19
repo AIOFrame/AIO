@@ -32,7 +32,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'e9cda88adf743ba0f5920e7299ab6ae6fd23f853',
+    'reference' => '9cbff1dc03fb51dcd47eb970624ab84611a29c12',
     'name' => '__root__',
   ),
   'versions' => 
@@ -44,16 +44,16 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'e9cda88adf743ba0f5920e7299ab6ae6fd23f853',
+      'reference' => '9cbff1dc03fb51dcd47eb970624ab84611a29c12',
     ),
     'composer/package-versions-deprecated' => 
     array (
-      'pretty_version' => '1.11.99.2',
-      'version' => '1.11.99.2',
+      'pretty_version' => '1.11.99.4',
+      'version' => '1.11.99.4',
       'aliases' => 
       array (
       ),
-      'reference' => 'c6522afe5540d5fc46675043d3ed5a45a740b27c',
+      'reference' => 'b174585d1fe49ceed21928a945138948cb394600',
     ),
     'ezyang/htmlpurifier' => 
     array (
@@ -102,21 +102,12 @@ private static $installed = array (
     ),
     'laminas/laminas-diactoros' => 
     array (
-      'pretty_version' => '2.6.0',
-      'version' => '2.6.0.0',
+      'pretty_version' => '2.7.0',
+      'version' => '2.7.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '7d2034110ae18afe05050b796a3ee4b3fe177876',
-    ),
-    'laminas/laminas-zendframework-bridge' => 
-    array (
-      'pretty_version' => '1.3.0',
-      'version' => '1.3.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '13af2502d9bb6f7d33be2de4b51fb68c6cdb476e',
+      'reference' => '8b5792b7c81465efb14780c2d4787f158bd96183',
     ),
     'lcobucci/clock' => 
     array (
@@ -317,12 +308,12 @@ private static $installed = array (
     ),
     'stripe/stripe-php' => 
     array (
-      'pretty_version' => 'v7.94.0',
-      'version' => '7.94.0.0',
+      'pretty_version' => 'v7.97.0',
+      'version' => '7.97.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '03cd6b5c1c4fc9087ddd1dd046457bff274294d6',
+      'reference' => 'ae41c309ce113362706f8d5f19cf0cf2c730bc4a',
     ),
     'symfony/polyfill-mbstring' => 
     array (
@@ -344,12 +335,12 @@ private static $installed = array (
     ),
     'symfony/process' => 
     array (
-      'pretty_version' => 'v5.3.4',
-      'version' => '5.3.4.0',
+      'pretty_version' => 'v5.3.7',
+      'version' => '5.3.7.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'd16634ee55b895bd85ec714dadc58e4428ecf030',
+      'reference' => '38f26c7d6ed535217ea393e05634cb0b244a1967',
     ),
     'vonage/client' => 
     array (
@@ -386,13 +377,6 @@ private static $installed = array (
       array (
       ),
       'reference' => 'bcf642a1891032de16a5ab976fd352753dd7f9a0',
-    ),
-    'zendframework/zend-diactoros' => 
-    array (
-      'replaced' => 
-      array (
-        0 => '^2.2.1',
-      ),
     ),
   ),
 );

@@ -1,5 +1,19 @@
 # Changelog
 
+## 7.97.0 - 2021-09-16
+* [#1181](https://github.com/stripe/stripe-php/pull/1181) API Updates
+  * Add support for `full_name_aliases` on `Person`
+
+## 7.96.0 - 2021-09-15
+* [#1178](https://github.com/stripe/stripe-php/pull/1178) API Updates
+  * Add support for livemode on Reporting.ReportType
+  * Add support for new value `rst` on enum `TaxRate.tax_type`
+
+## 7.95.0 - 2021-09-01
+* [#1177](https://github.com/stripe/stripe-php/pull/1177) API Updates
+  * Add support for `future_requirements` on `Account`, `Capability`, and `Person`
+  * Add support for `after_expiration`, `consent`, `consent_collection`, `expires_at`, and `recovered_from` on `Checkout.Session`
+
 ## 7.94.0 - 2021-08-19
 * [#1173](https://github.com/stripe/stripe-php/pull/1173) API Updates
   * Add support for new value `fil` on enum `Checkout.Session.locale`

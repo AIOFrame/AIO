@@ -1,11 +1,11 @@
 {
     "require": {
-        "guzzlehttp/guzzle": "^7.0",
-        "phpoffice/phpspreadsheet": "^1.17",
-        "sendgrid/sendgrid": "^7.9",
-        "knplabs/knp-snappy": "^1.2",
+        "guzzlehttp/guzzle": "^7.3",
+        "phpoffice/phpspreadsheet": "^1.18",
+        "sendgrid/sendgrid": "^7.9.2",
+        "knplabs/knp-snappy": "^1.2.1",
         "vonage/client": "^2.4",
-        "whichbrowser/parser": "^2.1",
-        "stripe/stripe-php": "^7.94"
+        "whichbrowser/parser": "^2.1.2",
+        "stripe/stripe-php": "^7.97"
     }
 }

@@ -32,7 +32,6 @@ return array(
     'Matrix\\' => array($vendorDir . '/markbaker/matrix/classes/src'),
     'Lcobucci\\JWT\\' => array($vendorDir . '/lcobucci/jwt/src'),
     'Lcobucci\\Clock\\' => array($vendorDir . '/lcobucci/clock/src'),
-    'Laminas\\ZendFrameworkBridge\\' => array($vendorDir . '/laminas/laminas-zendframework-bridge/src'),
     'Laminas\\Diactoros\\' => array($vendorDir . '/laminas/laminas-diactoros/src'),
     'Knp\\Snappy\\' => array($vendorDir . '/knplabs/knp-snappy/src/Knp/Snappy'),
     'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
