@@ -881,7 +881,7 @@ class Xlsx extends BaseReader
                                     foreach ($commentsFile->commentList->comment as $comment) {
                                         $commentModel = $docSheet->getComment((string) $comment['ref']);
                                         if (!empty($comment['authorId'])) {
-                                            $commentModel->setAuthor($authors[$comment['authorId']]);
+                                            $commentModel->setAuthor($authors[(int) $comment['authorId']]);
                                         }
                                         $commentModel->setText($this->parseRichText($comment->text));
                                     }
