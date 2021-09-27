@@ -539,6 +539,27 @@ function render_menu( array $array, string $prefix = '' ) {
 }
 
 /**
+ * Renders pagination
+ * @param int $page Current page
+ * @param int $limit Maximum items limit per page
+ * @param int $records Number of records per page
+ * @param string $class Class for buttons
+ */
+function pagination( int $page, int $limit, int $records, string $class = 'btn' ) {
+    $url = APPURL . PAGEPATH;
+    ?>
+<div class="pagination row">
+    <div class="col-6 tal">
+        <?php echo $page > 1 ? '<a href="'.$url.'/'.($page/$limit - 1).'" class="'.$class.'">'.T('Previous').'</a>' : ''; ?>
+    </div>
+    <div class="col-6 tar">
+        <?php echo $records == $limit ? '<a href="'.$url.'/'.($page/$limit + 1).'" class="'.$class.'">'.T('Next').'</a>' : ''; ?>
+    </div>
+</div>
+    <?php
+}
+
+/**
  * Create jQuery Notification
  * @param string $message
  */

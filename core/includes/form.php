@@ -425,19 +425,19 @@ class FORM {
      * @param string $clear_url Page path excluding APPURL Ex: user/payments
      */
     function filters( array $filters = [], string $clear_url = '' ) {
-        $clear_url = APPURL . $clear_url;
+        $clear_url = !empty( $clear_url ) ? APPURL . $clear_url : APPURL . PAGEPATH;
         echo '<div class="auto_filters"><form class="row">';
         foreach( $filters as $f ) {
             $type = $f[0] ??= 'text';
             $id = $f[1] ??= '';
             $label = $f[2] ??= '';
-            $place = $f[3] ??= $f['2'];
-            $val = isset( $_POST[$id] ) ? $_POST[$id] : ( isset( $f[4] ) ? $f[4] : '');
+            $place = $f[3] ??= $f[2];
+            $val = $_POST[$id] ?? ($f[4] ?? '');
             $attrs = $f[5] ??= '';
             $pre = $f[6] ??= '';
             if( $type == 'select' ) {
                 $options = $f[4] ??= [];
-                $value = $_POST[ $id ] ??= '';
+                $value = $_POST[ $id ] ?? ($_GET[ $id ] ?? '');
                 $post = $f[7] ??= '';
                 $keyed = $f[8] ??= '';
                 $this->select( $id, $label, $place, $options, $value, $attrs, $pre, $post, $keyed );

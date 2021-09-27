@@ -300,6 +300,10 @@ function edit_data( e, modal ) {
     $(modal).find('[data-update],[data-edit]').show();
     console.log(data);
     $.each( data, function(i,d){
+        console.log(i);
+        if( d === null ) {
+            return;
+        }
         if( i === 'id' ){
             t.data('id',d).find('[data-t]').data('id',d);
             $(t).hasClass('modal') ? t.addClass('on') : '';
@@ -307,7 +311,9 @@ function edit_data( e, modal ) {
             let el = $('[data-key='+i+']');
             if( el.attr('type') === 'checkbox' ){
                 if( el.data('key') !== undefined ) {
+                    console.log(el);
                     d = !$.isArray(d) ? JSON.parse(d) : [d];
+                    console.log(d);
                     if( $.isArray(d) ) {
                         $(d).each(function(a,b){
                             let s = $('[data-key='+i+'][value='+b+']');
