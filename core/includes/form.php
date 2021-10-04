@@ -45,7 +45,7 @@ class FORM {
             $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
             $post = '</select></div>';
         }
-        $post = empty( $post ) ? '</select>' : $post;
+        $post = empty( $post ) ? '</select>' : '</select>' . $post;
         $at = $attr !== '' ? ' '.$attr : '';
         $id = is_array($identity) ? $identity[0] : $identity;
         $name = is_array($identity) ? $identity[1] : $identity;
