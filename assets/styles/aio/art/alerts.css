@@ -68,6 +68,11 @@
   top: 20px;
 }
 
+[data-alerts].c {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 [data-alerts].b {
   bottom: 20px;
 }
