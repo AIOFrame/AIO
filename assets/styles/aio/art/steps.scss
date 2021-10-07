@@ -78,6 +78,42 @@
 .step:nth-child(10), .tab:nth-child(10) {
   z-index: 1
 }
+.rounded {
+  .step_heads, .steps_head {
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+  .step {
+    border-radius:50px;
+    flex:0 0 50px;
+    max-width:50px;
+    height: 50px;
+    font-size: 20px;
+    margin:0 30px;
+    font-weight: bold;
+    padding: 15px;
+    span {
+      position: absolute;
+      font-size: 12px;
+      top: calc(100% + 4px);
+      color:#000;
+      left: 50%;
+      transform:translateX(-50%);
+      text-transform: none;
+      font-weight: 500;
+    }
+  }
+  .step:after {
+    position: absolute;
+    right: -60px;
+    width: 60px;
+    top: calc(50% - 1px);
+    height: 2px;
+    background:#eee;
+    z-index:-1;
+    border: 0;
+  }
+}
 
 [dir=rtl] {
   .step:after {
