@@ -460,6 +460,22 @@ function back_link( string $url = './', string $title = '' ) {
 }
 
 /**
+ * @param string $number Phone Number (with code)
+ * @param string $class Additional Class
+ */
+function call_link( string $number = '', string $class = '' ) {
+    echo '<a href="tel:'.$number.'" class="call_link '.$class.'">'.$number.'</a>';
+}
+
+/**
+ * @param string $email Email address
+ * @param string $class Additional Class
+ */
+function mail_link( string $email = '', string $class = '' ) {
+    echo '<a href="mailto:'.$email.'" class="mail_link '.$class.'">'.$email.'</a>';
+}
+
+/**
  * Check if current page is given page name
  * @param string $p page name
  * @return bool

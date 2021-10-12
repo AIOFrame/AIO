@@ -84,6 +84,8 @@ $(document).ready(function(){
                 passDiv.addClass('red').removeClass('green');
             }
         }
+        // TODO: Text suggestion
+        // TODO: Password strength meter
     })
     .on('keydown','[data-no-space]',function(e){
         if (e.which === 32)

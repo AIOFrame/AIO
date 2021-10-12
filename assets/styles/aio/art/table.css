@@ -7,6 +7,7 @@ table {
 }
 table thead {
   background: linear-gradient(-90deg, #222 0%, #111 100%);
+  color: #000;
 }
 table thead tr {
   z-index: 10;
@@ -15,6 +16,9 @@ table thead tr {
 table thead th {
   padding: 12px 8px;
   font-weight: normal;
+}
+table thead.w {
+  color: white;
 }
 table tbody {
   background: #fff;
@@ -42,6 +46,25 @@ table td.c, table th.c, table td.c input {
 }
 table td.r, table th.r, table td.r input {
   text-align: right;
+}
+table .acts {
+  display: flex;
+  justify-content: center;
+}
+table .acts > a, table .acts > div {
+  margin: 0 10px;
+  width: 45px;
+  height: 45px;
+  border-radius: 10px;
+  background: #eee;
+  cursor: pointer;
+}
+table .acts i {
+  width: 45px;
+  height: 45px;
+  display: block;
+  background: #aaa;
+  transition: 0.6s;
 }
 
 table.xs td {

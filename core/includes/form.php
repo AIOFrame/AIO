@@ -153,6 +153,21 @@ class FORM {
     }
 
     /**
+     * Renders <input type="textarea"> element
+     * Basically the text input function with $type = 'textarea' param
+     * @param string|array $id ID and name of the element
+     * @param string $label Label for the <label>
+     * @param string $placeholder Placeholder text
+     * @param string|null $value Value of the input if any
+     * @param string $attrs Attributes like class or data tags
+     * @param string $pre String to wrap before start of <input>. Tip: 6 will wrap with bootstrap col-lg-6
+     * @param string $post End string to wrap after />
+     */
+    function textarea( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '' ) {
+        $this->input( 'textarea', $id, $label, $placeholder, $value, $attrs, $pre, $post );
+    }
+
+    /**
      * Renders multiple <input type="text"> elements
      * @param array $array Array of array of ['id','label','placeholder','value','attr']
      * @param string $attrs Attributes like class or data applicable to all
