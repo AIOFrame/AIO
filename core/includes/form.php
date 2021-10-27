@@ -169,9 +169,9 @@ class FORM {
 
     /**
      * Renders multiple <input type="text"> elements
-     * @param array $array Array of array of ['id','label','placeholder','value','attr']
+     * @param array $array Array of an array of ['id','label','placeholder','value','attr']
      * @param string $attrs Attributes like class or data applicable to all
-     * @param string $pre String to wrap before start of <input>. Tip: 6 will wrap with bootstrap col-lg-6
+     * @param string $pre String to wrap before start of input. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post End string to wrap after />
      */
     function texts( array $array, string $attrs = '', string $pre = '', string $post = '' ){
@@ -230,9 +230,9 @@ class FORM {
                     $checked = is_array( $checked ) ? $checked : explode(',',$checked);
                     $c = in_array( $value, $checked ) ? 'checked' : '';
                     if ($label_first) {
-                        echo $inputs_pre . '<label for="' . $k . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' name="' . $name . '" '.$key.' id="' . $k . '" value="' . $value . '" '. $c .' >' . $inputs_post;
+                        echo $inputs_pre . '<label for="' . $k . '" class="' . $name . '_' . $value . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' name="' . $name . '" '.$key.' id="' . $k . '" value="' . $value . '" '. $c .' >' . $inputs_post;
                     } else {
-                        echo $inputs_pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" '.$key.' id="' . $k . '" value="' . $value . '" '. $c .' ><label for="' . $k . '">' . $title . '</label>' . $inputs_post;
+                        echo $inputs_pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" '.$key.' id="' . $k . '" value="' . $value . '" '. $c .' ><label for="' . $k . '" class="' . $name . '_' . $value . '">' . $title . '</label>' . $inputs_post;
                     }
                     $x++;
                 }
@@ -246,9 +246,9 @@ class FORM {
                     $c = in_array( $value, $checked ) ? 'checked' : '';
 
                     if ($label_first) {
-                        echo $inputs_pre . '<label for="' . $k . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' ' . $data . ' data-key="'.$name.'" name="' . $name . '" id="' . $k . '" value="' . $value . '" '.$c.'>' . $inputs_post;
+                        echo $inputs_pre . '<label for="' . $k . '" class="' . $name . '_' . $value . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' ' . $data . ' data-key="'.$name.'" name="' . $name . '" id="' . $k . '" value="' . $value . '" '.$c.'>' . $inputs_post;
                     } else {
-                        echo $inputs_pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" data-key="'.$name.'" id="' . $k . '" value="' . $value . '" ' . $data . ' '.$c.'><label for="' . $k . '">' . $title . '</label>' . $inputs_post;
+                        echo $inputs_pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" data-key="'.$name.'" id="' . $k . '" value="' . $value . '" ' . $data . ' '.$c.'><label for="' . $k . '" class="' . $name . '_' . $value . '">' . $title . '</label>' . $inputs_post;
                     }
                     $x++;
                 }
