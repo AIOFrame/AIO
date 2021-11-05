@@ -542,7 +542,7 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
 /**
  * Renders frontend code for user registration
  * @param array $columns Additional user columns as assoc array
- * @param bool $columns_before Show columns before (true) or after (false), default true
+ * @param bool $columns_before Show columns before (true) or after (false) default fields, default true
  * @param array $data User data as json array
  * @param array $access User access permissions as json array
  * @param array $hide Fields to now render
@@ -588,6 +588,29 @@ function register_html( array $columns = [], bool $columns_before = true, array 
             echo !$columns_before ? $columns_html : '';
             ?>
         </div>
+        <button onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_register_ajax' ); ?>"><?php E('Register'); ?></button>
+    </div>
+    <?php
+}
+
+/**
+ * Renders frontend pre-wrap html for user registration
+**/
+function register_html_pre() {
+    if( user_logged_in() ) {
+        return;
+    }
+    ?>
+    <div class="register_wrap" data-t data-pre="register_" data-data="reg" data-notify="3" data-reload="3" data-reset="register">
+    <?php
+}
+
+/**
+ * Renders frontend post-wrap html for user registration
+ **/
+function register_html_post() {
+    $cry = Crypto::initiate();
+    ?>
         <button onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_register_ajax' ); ?>"><?php E('Register'); ?></button>
     </div>
     <?php
