@@ -19,7 +19,11 @@ class MAIL {
             $foot = $this->get_template('foot');
             $content = $head . $content . $foot;
         }
-        $from = !empty( $from ) ? $from : 'no-reply@'.parse_url(APPURL, PHP_URL_HOST);
+        if( class_exists( 'DB' ) ) {
+            $db = new DB();
+            $from = !empty( $from ) ? $from : $db->get_option('from_email');
+        }
+        $from = !empty( $from ) ? $from : get_config('from_email');
         elog( 'To: '.$to.', From: '.$from.', Sub: '.$subject.', Sender: '.$gate );
         if( $gate == 'sendgrid' ) {
             return $this->sendgrid($to, $subject, $content, $from, $cc, $key);
