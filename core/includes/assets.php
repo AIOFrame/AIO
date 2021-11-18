@@ -557,11 +557,11 @@ function render_menu( array $array, string $prefix = '' ) {
 /**
  * Renders pagination
  * @param int $page Current page
+ * @param int $records Number of total records in database
  * @param int $limit Maximum items limit per page
- * @param int $records Number of records per page
  * @param string $class Class for buttons
  */
-function pagination( int $page, int $limit, int $records, string $class = 'btn' ) {
+function pagination( int $page, int $records, int $limit = 24, string $class = 'btn' ) {
     $url = APPURL . PAGEPATH;
     ?>
 <div class="pagination row">

@@ -225,14 +225,15 @@ class FORM {
             echo $wrap_inputs_pre;
             if( is_assoc( $values ) ) {
                 foreach ($values as $val => $title) {
+                    $tip = $title !== '' ? 'title="'.$title.'"' : '';
                     $k = $valued ? $val . $x . '_' . $uq : str_replace(' ', '', $name) . $x;
                     $value = $valued ? $val : $title;
                     $checked = is_array( $checked ) ? $checked : explode(',',$checked);
                     $c = in_array( $value, $checked ) ? 'checked' : '';
                     if ($label_first) {
-                        echo $inputs_pre . '<label for="' . $k . '" class="' . $name . '_' . $value . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' name="' . $name . '" '.$key.' id="' . $k . '" value="' . $value . '" '. $c .' >' . $inputs_post;
+                        echo $inputs_pre . '<label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' name="' . $name . '" '.$key.' id="' . $k . '" value="' . $value . '" '. $c .' >' . $inputs_post;
                     } else {
-                        echo $inputs_pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" '.$key.' id="' . $k . '" value="' . $value . '" '. $c .' ><label for="' . $k . '" class="' . $name . '_' . $value . '">' . $title . '</label>' . $inputs_post;
+                        echo $inputs_pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" '.$key.' id="' . $k . '" value="' . $value . '" '. $c .' ><label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . '</label>' . $inputs_post;
                     }
                     $x++;
                 }
@@ -240,15 +241,16 @@ class FORM {
                 foreach ($values as $val) {
                     $k = $valued ? $val . $x . '_' . $uq : str_replace(' ', '', $name) . $x;
                     $title = is_array($val) && !empty($val[1]) ? $val[1] : $val;
+                    $tip = $title !== '' ? 'title="'.$title.'"' : '';
                     $value = is_array($val) ? $val[0] : $val;
                     $data = is_array($val) && !empty($val[2]) ? $val[2] : '';
                     $checked = is_array( $checked ) ? $checked : explode(',',$checked);
                     $c = in_array( $value, $checked ) ? 'checked' : '';
 
                     if ($label_first) {
-                        echo $inputs_pre . '<label for="' . $k . '" class="' . $name . '_' . $value . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' ' . $data . ' data-key="'.$name.'" name="' . $name . '" id="' . $k . '" value="' . $value . '" '.$c.'>' . $inputs_post;
+                        echo $inputs_pre . '<label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' ' . $data . ' data-key="'.$name.'" name="' . $name . '" id="' . $k . '" value="' . $value . '" '.$c.'>' . $inputs_post;
                     } else {
-                        echo $inputs_pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" data-key="'.$name.'" id="' . $k . '" value="' . $value . '" ' . $data . ' '.$c.'><label for="' . $k . '" class="' . $name . '_' . $value . '">' . $title . '</label>' . $inputs_post;
+                        echo $inputs_pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" data-key="'.$name.'" id="' . $k . '" value="' . $value . '" ' . $data . ' '.$c.'><label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . '</label>' . $inputs_post;
                     }
                     $x++;
                 }
