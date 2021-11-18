@@ -31,17 +31,21 @@ class SMS {
      * @throws \Psr\Http\Client\ClientExceptionInterface
      * @throws \Vonage\Client\Exception\Exception
      */
-    function vonage( string $no, string $msg, string $key, string $sec ): string {
+    function vonage( string $no, string $msg, string $key = '', string $secret = '' ): string {
         if( file_exists( ROOTPATH . 'core/external/vendor/autoload.php' ) ){
+            $db = new DB();
             if( empty( $key ) ) {
-                $con = new DB();
-                $key = $con->get_option( 'vonage_key' );
+                $key = $db->get_option( 'vonage_key' );
+            }
+            if( empty( $secret ) ) {
+                $secret = $db->get_option( 'vonage_secret' );
             }
             $key = empty( $key ) ? get_config( 'vonage_key' ) : $key;
-            include_once( ROOTPATH . 'core/external/vonage/autoload.php' );
-            $client = new Vonage\Client(new Vonage\Client\Credentials\Basic($key, $sec));
+            $secret = empty( $secret ) ? get_config( 'vonage_secret' ) : $secret;
+            include_once( ROOTPATH . 'core/external/vendor/autoload.php' );
+            $client = new Vonage\Client(new Vonage\Client\Credentials\Basic($key, $secret));
             $text = new \Vonage\SMS\Message\SMS(
-                $no, // Receivers Number
+                str_replace( '+', '', $no), // Receivers Number
                 APPNAME, // Senders Name
                 $msg // Message
             );
@@ -56,9 +60,11 @@ class SMS {
                 $data = $response->current();
                 $bal += (int)$data->getRemainingBalance();
             }
-            return "Sent message to " . $data->getTo() . ". Balance is now " . $bal . PHP_EOL;
+            elog("Sent message to " . $data->getTo() . ". Balance is now " . $bal . PHP_EOL);
+            return 1;
         } else {
-            return 'API Missing';
+            elog('Vonage API Missing');
+            return 0;
         }
     }
 }
