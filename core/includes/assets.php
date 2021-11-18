@@ -566,10 +566,10 @@ function pagination( int $page, int $records, int $limit = 24, string $class = '
     ?>
 <div class="pagination row">
     <div class="col-6 tal">
-        <?php echo $page > 1 ? '<a href="'.$url.'/'.($page/$limit - 1).'" class="'.$class.'">'.T('Previous').'</a>' : ''; ?>
+        <?php echo $page > 1 ? '<a href="'.$url.'/'.round($page/$limit - 1).'" class="'.$class.'">'.T('Previous').'</a>' : ''; ?>
     </div>
     <div class="col-6 tar">
-        <?php echo $records == $limit ? '<a href="'.$url.'/'.($page/$limit + 1).'" class="'.$class.'">'.T('Next').'</a>' : ''; ?>
+        <?php echo $records == $limit ? '<a href="'.$url.'/'.round($page/$limit + 1).'" class="'.$class.'">'.T('Next').'</a>' : ''; ?>
     </div>
 </div>
     <?php
