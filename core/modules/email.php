@@ -22,23 +22,29 @@ class MAIL {
         if( class_exists( 'DB' ) ) {
             $db = new DB();
             $from = !empty( $from ) ? $from : $db->get_option('from_email');
+            $gate = !empty( $gate ) ? $gate : $db->get_option('mail_gateway');
         }
+        $gate = !empty( $gate ) ? $gate : get_config('mail_gateway');
         $from = !empty( $from ) ? $from : get_config('from_email');
-        elog( 'To: '.$to.', From: '.$from.', Sub: '.$subject.', Sender: '.$gate );
         if( $gate == 'sendgrid' ) {
+            elog( 'To: '.$to.', From: '.$from.', Sub: '.$subject.', Server: SendGrid' );
             return $this->sendgrid($to, $subject, $content, $from, $cc, $key);
         } else if( $gate == 'mailersend' ) {
+            elog( 'To: '.$to.', From: '.$from.', Sub: '.$subject.', Server: MailerSend' );
             return $this->mailersend($to, $subject, $content, $from, $cc, $key);
         } else if( class_exists( 'DB' ) ) {
             $db = new DB();
             $key = $db->get_option('sendgrid_key');
             if( !empty( $key ) ) {
+                elog( 'To: '.$to.', From: '.$from.', Sub: '.$subject.', Server: SendGrid' );
                 return $this->sendgrid( $to, $subject, $content, $from, $cc, $key );
             } else {
                 $key = $db->get_option('mailersend_key');
                 if( !empty( $key ) ) {
+                    elog( 'To: '.$to.', From: '.$from.', Sub: '.$subject.', Server: MailerSend' );
                     return $this->mailersend( $to, $subject, $content, $from, $cc, $key );
                 } else {
+                    elog( 'To: '.$to.', From: '.$from.', Sub: '.$subject.', Server: Default' );
                     $headers = "MIME-Version: 1.0" . "\r\n" . "Content-type:text/html;charset=UTF-8" . "\r\n" . "From: " . $from . "\r\n" . "Reply-To: " . $from;
                     $headers .= !empty($c) ? "\r\n" . "CC: " . $cc : '';
                     return mail($to, $subject, $content, $headers);
