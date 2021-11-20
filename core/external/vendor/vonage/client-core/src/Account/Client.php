@@ -283,15 +283,12 @@ class Client implements ClientAwareInterface, APIClient
     }
 
     /**
-     * @deprecated use the Vonage\Secrets\Client::list method
-     *
      * @throws ClientExceptionInterface
      * @throws ClientException\Exception
      * @throws InvalidResponseException
      */
     public function listSecrets(string $apiKey): SecretCollection
     {
-        trigger_error('Vonage\Account\Client::listSecrets is deprecated, please use the Vonage\Secrets\Client::list method', E_USER_DEPRECATED);
         $api = $this->getSecretsAPI();
 
         $data = $api->get($apiKey . '/secrets');
@@ -299,15 +296,12 @@ class Client implements ClientAwareInterface, APIClient
     }
 
     /**
-     * @deprecated use the Vonage\Secrets\Client::get method
-     *
      * @throws ClientExceptionInterface
      * @throws ClientException\Exception
      * @throws InvalidResponseException
      */
     public function getSecret(string $apiKey, string $secretId): Secret
     {
-        trigger_error('Vonage\Account\Client::getSecret is deprecated, please use the Vonage\Secrets\Client::get method', E_USER_DEPRECATED);
         $api = $this->getSecretsAPI();
 
         $data = $api->get($apiKey . '/secrets/' . $secretId);
@@ -317,8 +311,6 @@ class Client implements ClientAwareInterface, APIClient
     /**
      * Create a new account secret
      *
-     * @deprecated use the Vonage\Secrets\Client::create method
-     *
      * @throws ClientExceptionInterface
      * @throws ClientRequestException
      * @throws ClientException\Exception
@@ -327,7 +319,6 @@ class Client implements ClientAwareInterface, APIClient
      */
     public function createSecret(string $apiKey, string $newSecret): Secret
     {
-        trigger_error('Vonage\Account\Client::createSecret is deprecated, please use the Vonage\Secrets\Client::create method', E_USER_DEPRECATED);
         $api = $this->getSecretsAPI();
         $api->setBaseUri('/accounts/' . $apiKey . '/secrets');
 
@@ -354,14 +345,11 @@ class Client implements ClientAwareInterface, APIClient
     }
 
     /**
-     * @deprecated use the Vonage\Secrets\Client::revoke method
-     *
      * @throws ClientExceptionInterface
      * @throws ClientException\Exception
      */
     public function deleteSecret(string $apiKey, string $secretId): void
     {
-        trigger_error('Vonage\Account\Client::deleteSecret is deprecated, please use the Vonage\Secrets\Client::revoke method', E_USER_DEPRECATED);
         $api = $this->getSecretsAPI();
         $api->setBaseUri('/accounts/' . $apiKey . '/secrets');
         $api->delete($secretId);

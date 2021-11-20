@@ -18,9 +18,6 @@ use Vonage\InvalidResponseException;
 use function get_class;
 use function trigger_error;
 
-/**
- * @deprecated Use the Vonage\Secrets\Secret object instead
- */
 class Secret implements ArrayAccess
 {
     protected $data;

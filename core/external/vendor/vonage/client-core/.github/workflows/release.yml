@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Add Changelog
-        uses: nexmo/github-actions/nexmo-changelog@main
+        uses: nexmo/github-actions/nexmo-changelog@master
         env:
           CHANGELOG_AUTH_TOKEN: ${{ secrets.CHANGELOG_AUTH_TOKEN }}
           CHANGELOG_CATEGORY: Server SDK

@@ -6,6 +6,7 @@
         "knplabs/knp-snappy": "^1.2.1",
         "vonage/client": "^2.4",
         "whichbrowser/parser": "^2.1.2",
-        "stripe/stripe-php": "^7.97"
+        "stripe/stripe-php": "^7.97",
+        "phpmailer/phpmailer": "^6.5"
     }
 }

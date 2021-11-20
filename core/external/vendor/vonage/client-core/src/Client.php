@@ -22,8 +22,6 @@ use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Log\LoggerInterface;
-use Psr\Log\LogLevel;
 use RuntimeException;
 use Vonage\Account\ClientFactory;
 use Vonage\Application\ClientFactory as ApplicationClientFactory;
@@ -32,14 +30,6 @@ use Vonage\Client\APIResource;
 use Vonage\Client\Credentials\Basic;
 use Vonage\Client\Credentials\Container;
 use Vonage\Client\Credentials\CredentialsInterface;
-use Vonage\Client\Credentials\Handler\BasicHandler;
-use Vonage\Client\Credentials\Handler\KeypairHandler;
-use Vonage\Client\Credentials\Handler\SignatureBodyFormHandler;
-use Vonage\Client\Credentials\Handler\SignatureBodyHandler;
-use Vonage\Client\Credentials\Handler\SignatureQueryHandler;
-use Vonage\Client\Credentials\Handler\TokenBodyFormHandler;
-use Vonage\Client\Credentials\Handler\TokenBodyHandler;
-use Vonage\Client\Credentials\Handler\TokenQueryHandler;
 use Vonage\Client\Credentials\Keypair;
 use Vonage\Client\Credentials\OAuth;
 use Vonage\Client\Credentials\SignatureSecret;
@@ -47,16 +37,15 @@ use Vonage\Client\Exception\Exception as ClientException;
 use Vonage\Client\Factory\FactoryInterface;
 use Vonage\Client\Factory\MapFactory;
 use Vonage\Client\Signature;
-use Vonage\Conversations\ClientFactory as ConversationsClientFactory;
+use Vonage\Conversations\Collection as ConversationsCollection;
 use Vonage\Conversion\ClientFactory as ConversionClientFactory;
 use Vonage\Entity\EntityInterface;
 use Vonage\Insights\ClientFactory as InsightsClientFactory;
-use Vonage\Logger\LoggerAwareInterface;
 use Vonage\Message\Client as MessageClient;
 use Vonage\Numbers\ClientFactory as NumbersClientFactory;
 use Vonage\Redact\ClientFactory as RedactClientFactory;
-use Vonage\Secrets\ClientFactory as SecretsClientFactory;
 use Vonage\SMS\ClientFactory as SMSClientFactory;
+use Vonage\User\Collection as UserCollection;
 use Vonage\Verify\ClientFactory as VerifyClientFactory;
 use Vonage\Verify\Verification;
 use Vonage\Voice\ClientFactory as VoiceClientFactory;
@@ -65,6 +54,7 @@ use function array_key_exists;
 use function array_merge;
 use function base64_encode;
 use function call_user_func_array;
+use function class_exists;
 use function get_class;
 use function http_build_query;
 use function implode;
@@ -78,8 +68,6 @@ use function set_error_handler;
 use function str_replace;
 use function strpos;
 use function unserialize;
-use Vonage\Logger\LoggerTrait;
-use Vonage\User\ClientFactory as UserClientFactory;
 
 /**
  * Vonage API Client, allows access to the API from PHP.
@@ -91,21 +79,16 @@ use Vonage\User\ClientFactory as UserClientFactory;
  * @method Insights\Client insights()
  * @method Numbers\Client numbers()
  * @method Redact\Client redact()
- * @method Secrets\Client secrets()
  * @method SMS\Client sms()
  * @method Verify\Client  verify()
  * @method Voice\Client voice()
- * @method User\Collection user()
- * @method Conversation\Collection conversation()
  *
  * @property string restUrl
  * @property string apiUrl
  */
-class Client implements LoggerAwareInterface
+class Client
 {
-    use LoggerTrait;
-
-    public const VERSION = '2.9.2';
+    public const VERSION = '2.5.0';
     public const BASE_API = 'https://api.nexmo.com';
     public const BASE_REST = 'https://rest.nexmo.com';
 
@@ -124,24 +107,14 @@ class Client implements LoggerAwareInterface
     protected $client;
 
     /**
-     * @var bool
-     */
-    protected $debug = false;
-
-    /**
      * @var ContainerInterface
      */
     protected $factory;
 
     /**
-     * @var LoggerInterface
-     */
-    protected $logger;
-
-    /**
      * @var array
      */
-    protected $options = ['show_deprecations' => false, 'debug' => false];
+    protected $options = ['show_deprecations' => false];
 
     /**
      * Create a new API client using the provided credentials.
@@ -203,18 +176,14 @@ class Client implements LoggerAwareInterface
             $this->apiUrl = $options['base_api_url'];
         }
 
-        if (isset($options['debug'])) {
-            $this->debug = $options['debug'];
-        }
-
         $this->setFactory(
             new MapFactory(
                 [
                     // Legacy Namespaces
                     'message' => MessageClient::class,
                     'calls' => Collection::class,
-                    'conversation' => ConversationsClientFactory::class,
-                    'user' => UserClientFactory::class,
+                    'conversation' => ConversationsCollection::class,
+                    'user' => UserCollection::class,
 
                     // Registered Services by name
                     'account' => ClientFactory::class,
@@ -223,7 +192,6 @@ class Client implements LoggerAwareInterface
                     'insights' => InsightsClientFactory::class,
                     'numbers' => NumbersClientFactory::class,
                     'redact' => RedactClientFactory::class,
-                    'secrets' => SecretsClientFactory::class,
                     'sms' => SMSClientFactory::class,
                     'verify' => VerifyClientFactory::class,
                     'voice' => VoiceClientFactory::class,
@@ -305,17 +273,39 @@ class Client implements LoggerAwareInterface
     {
         switch ($request->getHeaderLine('content-type')) {
             case 'application/json':
-                $handler = new SignatureBodyHandler();
+                $body = $request->getBody();
+                $body->rewind();
+                $content = $body->getContents();
+                $params = json_decode($content, true);
+                $params['api_key'] = $credentials['api_key'];
+                $signature = new Signature($params, $credentials['signature_secret'], $credentials['signature_method']);
+                $body->rewind();
+                $body->write(json_encode($signature->getSignedParams()));
                 break;
             case 'application/x-www-form-urlencoded':
-                $handler = new SignatureBodyFormHandler();
+                $body = $request->getBody();
+                $body->rewind();
+                $content = $body->getContents();
+                $params = [];
+                parse_str($content, $params);
+                $params['api_key'] = $credentials['api_key'];
+                $signature = new Signature($params, $credentials['signature_secret'], $credentials['signature_method']);
+                $params = $signature->getSignedParams();
+                $body->rewind();
+                $body->write(http_build_query($params, '', '&'));
                 break;
             default:
-                $handler = new SignatureQueryHandler();
+                $query = [];
+                parse_str($request->getUri()->getQuery(), $query);
+                $query['api_key'] = $credentials['api_key'];
+                $signature = new Signature($query, $credentials['signature_secret'], $credentials['signature_method']);
+                $request = $request->withUri(
+                    $request->getUri()->withQuery(http_build_query($signature->getSignedParams()))
+                );
                 break;
         }
 
-        return $handler($request, $credentials);
+        return $request;
     }
 
     public static function authRequest(RequestInterface $request, Basic $credentials): RequestInterface
@@ -323,26 +313,57 @@ class Client implements LoggerAwareInterface
         switch ($request->getHeaderLine('content-type')) {
             case 'application/json':
                 if (static::requiresBasicAuth($request)) {
-                    $handler = new BasicHandler();
+                    $c = $credentials->asArray();
+                    $cx = base64_encode($c['api_key'] . ':' . $c['api_secret']);
+
+                    $request = $request->withHeader('Authorization', 'Basic ' . $cx);
                 } elseif (static::requiresAuthInUrlNotBody($request)) {
-                    $handler = new TokenQueryHandler();
+                    $query = [];
+                    parse_str($request->getUri()->getQuery(), $query);
+                    $query = array_merge($query, $credentials->asArray());
+
+                    $request = $request->withUri($request->getUri()->withQuery(http_build_query($query)));
                 } else {
-                    $handler = new TokenBodyHandler();
+                    $body = $request->getBody();
+                    $body->rewind();
+                    $content = $body->getContents();
+                    $params = json_decode($content, true);
+
+                    if (!$params) {
+                        $params = [];
+                    }
+
+                    $params = array_merge($params, $credentials->asArray());
+                    $body->rewind();
+                    $body->write(json_encode($params));
                 }
                 break;
             case 'application/x-www-form-urlencoded':
-                $handler = new TokenBodyFormHandler();
+                $body = $request->getBody();
+                $body->rewind();
+                $content = $body->getContents();
+                $params = [];
+                parse_str($content, $params);
+                $params = array_merge($params, $credentials->asArray());
+                $body->rewind();
+                $body->write(http_build_query($params, '', '&'));
                 break;
             default:
                 if (static::requiresBasicAuth($request)) {
-                    $handler = new BasicHandler();
+                    $c = $credentials->asArray();
+                    $cx = base64_encode($c['api_key'] . ':' . $c['api_secret']);
+
+                    $request = $request->withHeader('Authorization', 'Basic ' . $cx);
                 } else {
-                    $handler = new TokenQueryHandler();
+                    $query = [];
+                    parse_str($request->getUri()->getQuery(), $query);
+                    $query = array_merge($query, $credentials->asArray());
+                    $request = $request->withUri($request->getUri()->withQuery(http_build_query($query)));
                 }
                 break;
         }
 
-        return $handler($request, $credentials);
+        return $request;
     }
 
     /**
@@ -459,14 +480,16 @@ class Client implements LoggerAwareInterface
     {
         if ($this->credentials instanceof Container) {
             if ($this->needsKeypairAuthentication($request)) {
-                $handler = new KeypairHandler();
-                $request = $handler($request, $this->getCredentials());
+                $token = $this->credentials->get(Keypair::class)->generateJwt();
+
+                $request = $request->withHeader('Authorization', 'Bearer ' . $token->toString());
             } else {
                 $request = self::authRequest($request, $this->credentials->get(Basic::class));
             }
         } elseif ($this->credentials instanceof Keypair) {
-            $handler = new KeypairHandler();
-            $request = $handler($request, $this->getCredentials());
+            $token = $this->credentials->generateJwt();
+
+            $request = $request->withHeader('Authorization', 'Bearer ' . $token->toString());
         } elseif ($this->credentials instanceof SignatureSecret) {
             $request = self::signRequest($request, $this->credentials);
         } elseif ($this->credentials instanceof Basic) {
@@ -508,32 +531,6 @@ class Client implements LoggerAwareInterface
         $request = $request->withHeader('User-Agent', implode(' ', $userAgent));
         /** @noinspection PhpUnnecessaryLocalVariableInspection */
         $response = $this->client->sendRequest($request);
-
-        if ($this->debug) {
-            $id = uniqid();
-            $request->getBody()->rewind();
-            $response->getBody()->rewind();
-            $this->log(
-                LogLevel::DEBUG,
-                'Request ' . $id,
-                [
-                    'url' => $request->getUri()->__toString(),
-                    'headers' => $request->getHeaders(),
-                    'body' => explode("\n", $request->getBody()->__toString())
-                ]
-            );
-            $this->log(
-                LogLevel::DEBUG,
-                'Response ' . $id,
-                [
-                    'headers ' => $response->getHeaders(),
-                    'body' => explode("\n", $response->getBody()->__toString())
-                ]
-            );
-
-            $request->getBody()->rewind();
-            $response->getBody()->rewind();
-        }
 
         return $response;
     }
@@ -639,19 +636,5 @@ class Client implements LoggerAwareInterface
     protected function getVersion(): string
     {
         return Versions::getVersion('vonage/client-core');
-    }
-
-    public function getLogger(): ?LoggerInterface
-    {
-        if (!$this->logger && $this->getFactory()->has(LoggerInterface::class)) {
-            $this->setLogger($this->getFactory()->get(LoggerInterface::class));
-        }
-
-        return $this->logger;
-    }
-
-    public function getCredentials(): CredentialsInterface
-    {
-        return $this->credentials;
     }
 }

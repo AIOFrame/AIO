@@ -22,6 +22,4 @@ interface FactoryInterface
     public function hasApi(string $api): bool;
 
     public function getApi(string $api);
-
-    public function make(string $key);
 }

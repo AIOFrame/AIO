@@ -23,6 +23,7 @@ class MAIL {
             $db = new DB();
             $from = !empty( $from ) ? $from : $db->get_option('from_email');
             $gate = !empty( $gate ) ? $gate : $db->get_option('mail_gateway');
+            $smtp = !empty( $smtp ) ? $gate : $db->get_option('mail_gateway');
         }
         $gate = !empty( $gate ) ? $gate : get_config('mail_gateway');
         $from = !empty( $from ) ? $from : get_config('from_email');
@@ -55,6 +56,41 @@ class MAIL {
             $headers .= !empty($c) ? "\r\n" . "CC: " . $cc : '';
             return mail($to, $subject, $content, $headers);
         }
+    }
+
+    /**
+     * @param string $to Receivers email address
+     * @param string $subject Email subject
+     * @param string $content Email content
+     * @param array|string $smtp SMTP Server Details [ 'host', 'port' ] or 'google'|'yahoo'...
+     * @param string $username SMTP Username
+     * @param string $password SMTP Password
+     */
+    function smtp( string $to, string $subject, string $content, array|string $smtp = '', string $username = '', string $password = '' ) {
+        $def = [
+            'google' => [
+                'host' => 'smtp.gmail.com'
+            ],
+            'yahoo' => [
+                'host' => 'smtp.mail.yahoo.com'
+            ],
+            'hotmail' => [
+                'host' => 'smtp-mail.outlook.com'
+            ],
+            'outlook' => [
+                'host' => 'smtp-mail.outlook.com'
+            ],
+            'live' => [
+                'host' => 'smtp-mail.outlook.com'
+            ],
+        ];
+        $smtp = is_array( $smtp ) ? $smtp : ($def[$smtp] ?? []);
+        $smtp = !empty( $smtp ) ? $smtp : get_config('smtp');
+        if( class_exists( 'DB' ) && empty( $smtp ) ) {
+            $db = new DB();
+            $db->get_option('smtp');
+        }
+
     }
 
     /**

@@ -20,7 +20,10 @@ use SendGrid\Mail\Asm;
 use SendGrid\Mail\MailSettings;
 use SendGrid\Mail\BccSettings;
 use SendGrid\Mail\SandBoxMode;
+use SendGrid\Mail\BypassBounceManagement;
 use SendGrid\Mail\BypassListManagement;
+use SendGrid\Mail\BypassSpamManagement;
+use SendGrid\Mail\BypassUnsubscribeManagement;
 use SendGrid\Mail\Footer;
 use SendGrid\Mail\SpamCheck;
 use SendGrid\Mail\TrackingSettings;
@@ -34,7 +37,7 @@ use SendGrid\Mail\ReplyTo;
 function helloEmail()
 {
     try {
-        $from = new From("test@example.com");
+        $from = new From("test@example.com", "Twilio Sendgrid");
         $subject = "Hello World from the Twilio SendGrid PHP Library";
         $to = new To("test@example.com");
         $content = new Content("text/plain", "some text here");
@@ -42,6 +45,7 @@ function helloEmail()
 
         $personalization = new Personalization();
         $personalization->addTo(new To("test2@example.com"));
+        $personalization->addFrom(new From("test3@example.com", "Twilio Sendgrid"));
         $mail->addPersonalization($personalization);
 
         //echo json_encode($mail, JSON_PRETTY_PRINT), "\n";
@@ -65,10 +69,11 @@ function kitchenSink()
 
         $personalization0 = new Personalization();
         $personalization0->addTo(new To("test2@example.com", "Example User"));
-        $personalization0->addCc(new Cc("test3@example.com", "Example User"));
+        $personalization0->addFrom(new From("test3@example.com", "Twilio SendGrid"));
         $personalization0->addCc(new Cc("test4@example.com", "Example User"));
-        $personalization0->addBcc(new Bcc("test5@example.com", "Example User"));
+        $personalization0->addCc(new Cc("test5@example.com", "Example User"));
         $personalization0->addBcc(new Bcc("test6@example.com", "Example User"));
+        $personalization0->addBcc(new Bcc("test7@example.com", "Example User"));
         $personalization0->setSubject(new Subject("Hello World from the Twilio SendGrid PHP Library"));
         $personalization0->addHeader(new Header("X-Test", "test"));
         $personalization0->addHeader(new Header("X-Mock", "true"));
@@ -81,12 +86,13 @@ function kitchenSink()
         $mail->addPersonalization($personalization0);
 
         $personalization1 = new Personalization();
-        $personalization1->addTo(new To("test7@example.com", "Example User"));
         $personalization1->addTo(new To("test8@example.com", "Example User"));
-        $personalization1->addCc(new Cc("test9@example.com", "Example User"));
-        $personalization1->addCc(new Cc("test10@example.com", "Example User"));
-        $personalization1->addBcc(new Bcc("test11@example.com", "Example User"));
-        $personalization1->addBcc(new Bcc("test12@example.com", "Example User"));
+        $personalization1->addTo(new To("test9@example.com", "Example User"));
+        $personalization1->addFrom(new From("test10@example.com", "Twilio SendGrid"));
+        $personalization1->addCc(new Cc("test11@example.com", "Example User"));
+        $personalization1->addCc(new Cc("test12@example.com", "Example User"));
+        $personalization1->addBcc(new Bcc("test13@example.com", "Example User"));
+        $personalization1->addBcc(new Bcc("test14@example.com", "Example User"));
         $personalization1->setSubject(new Subject("Hello World from the Twilio SendGrid PHP Library"));
         $personalization1->addHeader(new Header("X-Test", "test"));
         $personalization1->addHeader(new Header("X-Mock", "true"));
@@ -99,8 +105,8 @@ function kitchenSink()
         $mail->addPersonalization($personalization1);
 
         // Examples of adding personalization by specifying personalization indexes
-        $mail->addCc("test13@example.com", "Example User", null, 0);
-        $mail->addBcc("test14@example.com", "Example User", null, 1);
+        $mail->addCc("test15@example.com", "Example User", null, 0);
+        $mail->addBcc("test16@example.com", "Example User", null, 1);
 
         $content = new Content("text/html", "<html><body>some text here</body></html>");
         $mail->addContent($content);
@@ -155,9 +161,20 @@ function kitchenSink()
         $sandbox_mode = new SandBoxMode();
         $sandbox_mode->setEnable(true);
         $mail_settings->setSandboxMode($sandbox_mode);
+        // Note: Bypass Spam, Bounce, and Unsubscribe management cannot
+        // be combined with Bypass List Management
+        $bypass_bounce_management = new BypassBounceManagement();
+        $bypass_bounce_management->setEnable(true);
+        $mail_settings->setBypassBounceManagement($bypass_bounce_management);
         $bypass_list_management = new BypassListManagement();
         $bypass_list_management->setEnable(true);
         $mail_settings->setBypassListManagement($bypass_list_management);
+        $bypass_spam_management = new BypassSpamManagement();
+        $bypass_spam_management->setEnable(true);
+        $mail_settings->setBypassSpamManagement($bypass_spam_management);
+        $bypass_unsubscribe_management = new BypassUnsubscribeManagement();
+        $bypass_unsubscribe_management->setEnable(true);
+        $mail_settings->setBypassUnsubscribeManagement($bypass_unsubscribe_management);
         $footer = new Footer();
         $footer->setEnable(true);
         $footer->setText("Footer Text");

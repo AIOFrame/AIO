@@ -7,8 +7,9 @@ namespace Stripe\Checkout;
 /**
  * A Checkout Session represents your customer's session as they pay for one-time
  * purchases or subscriptions through <a
- * href="https://stripe.com/docs/payments/checkout">Checkout</a>. We recommend
- * creating a new Session each time your customer attempts to pay.
+ * href="https://stripe.com/docs/payments/checkout">Checkout</a> or <a
+ * href="https://stripe.com/docs/payments/payment-links">Payment Links</a>. We
+ * recommend creating a new Session each time your customer attempts to pay.
  *
  * Once payment is successful, the Checkout Session will contain a reference to the
  * <a href="https://stripe.com/docs/api/customers">Customer</a>, and either the
@@ -48,10 +49,14 @@ namespace Stripe\Checkout;
  * @property null|\Stripe\StripeObject $payment_method_options Payment-method-specific configuration for the PaymentIntent or SetupIntent of this CheckoutSession.
  * @property string[] $payment_method_types A list of the types of payment methods (e.g. card) this Checkout Session is allowed to accept.
  * @property string $payment_status The payment status of the Checkout Session, one of <code>paid</code>, <code>unpaid</code>, or <code>no_payment_required</code>. You can use this value to decide when to fulfill your customer's order.
+ * @property \Stripe\StripeObject $phone_number_collection
  * @property null|string $recovered_from The ID of the original expired Checkout Session that triggered the recovery flow.
  * @property null|string|\Stripe\SetupIntent $setup_intent The ID of the SetupIntent for Checkout Sessions in <code>setup</code> mode.
  * @property null|\Stripe\StripeObject $shipping Shipping information for this Checkout Session.
  * @property null|\Stripe\StripeObject $shipping_address_collection When set, provides configuration for Checkout to collect a shipping address from a customer.
+ * @property \Stripe\StripeObject[] $shipping_options The shipping rate options applied to this Session.
+ * @property null|string|\Stripe\ShippingRate $shipping_rate The ID of the ShippingRate for Checkout Sessions in <code>payment</code> mode.
+ * @property null|string $status The status of the Checkout Session, one of <code>open</code>, <code>complete</code>, or <code>expired</code>.
  * @property null|string $submit_type Describes the type of transaction being performed by Checkout in order to customize relevant text on the page, such as the submit button. <code>submit_type</code> can only be specified on Checkout Sessions in <code>payment</code> mode, but not Checkout Sessions in <code>subscription</code> or <code>setup</code> mode.
  * @property null|string|\Stripe\Subscription $subscription The ID of the subscription for Checkout Sessions in <code>subscription</code> mode.
  * @property string $success_url The URL the customer will be directed to after the payment or subscription creation is successful.
@@ -79,10 +84,31 @@ class Session extends \Stripe\ApiResource
     const PAYMENT_STATUS_PAID = 'paid';
     const PAYMENT_STATUS_UNPAID = 'unpaid';
 
+    const STATUS_COMPLETE = 'complete';
+    const STATUS_EXPIRED = 'expired';
+    const STATUS_OPEN = 'open';
+
     const SUBMIT_TYPE_AUTO = 'auto';
     const SUBMIT_TYPE_BOOK = 'book';
     const SUBMIT_TYPE_DONATE = 'donate';
     const SUBMIT_TYPE_PAY = 'pay';
+
+    /**
+     * @param null|array $params
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Session the expired session
+     */
+    public function expire($params = null, $opts = null)
+    {
+        $url = $this->instanceUrl() . '/expire';
+        list($response, $opts) = $this->_request('post', $url, $params, $opts);
+        $this->refreshFrom($response, $opts);
+
+        return $this;
+    }
 
     const PATH_LINE_ITEMS = '/line_items';
 
