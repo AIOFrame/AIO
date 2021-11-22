@@ -124,7 +124,7 @@ class MAIL {
 
         try {
             $mail->SMTPDebug = false;
-            $mail->isSMTP();
+            //$mail->isSMTP();
             $mail->Host       = $smtp['host'];
             $mail->SMTPAuth   = true;
             $mail->Username   = $username;
