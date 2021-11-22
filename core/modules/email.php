@@ -1,4 +1,6 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 class MAIL {
 
@@ -8,12 +10,12 @@ class MAIL {
      * @param string $content Email content
      * @param string $from From email address
      * @param string $cc Carbon-copy email address
-     * @param string $gate Email gateway (sendgrid,mandrill,default php)
+     * @param string|array $gate Email gateway or SMTP array (sendgrid,mandrill,default php) or (google,yahoo,live,outlook)
      * @param string $key Email gateway API key
      * @param bool $auto_template Auto wrap in Template
      * @return bool
      */
-    function send( string $to, string $subject, string $content, string $from = '', string $cc = '', string $gate = '', string $key = '', bool $auto_template = true ): bool {
+    function send( string $to, string $subject, string $content, string $from = '', string $cc = '', string|array $gate = '', string $key = '', bool $auto_template = true ): bool {
         if( $auto_template ) {
             $head = $this->get_template('head');
             $foot = $this->get_template('foot');
@@ -33,6 +35,8 @@ class MAIL {
         } else if( $gate == 'mailersend' ) {
             elog( 'To: '.$to.', From: '.$from.', Sub: '.$subject.', Server: MailerSend' );
             return $this->mailersend($to, $subject, $content, $from, $cc, $key);
+        } else if( is_array( $gate ) || $gate == 'google' || $gate == 'outlook' || $gate == 'yahoo' || $gate == 'live' ) {
+            return $this->smtp( $to, $subject, $content, $from, $gate, '', '', $cc, $auto_template );
         } else if( class_exists( 'DB' ) ) {
             $db = new DB();
             $key = $db->get_option('sendgrid_key');
@@ -59,17 +63,31 @@ class MAIL {
     }
 
     /**
-     * @param string $to Receivers email address
+     * @param string|array $to Receivers email address
      * @param string $subject Email subject
      * @param string $content Email content
+     * @param string $from From email address
      * @param array|string $smtp SMTP Server Details [ 'host', 'port' ] or 'google'|'yahoo'...
      * @param string $username SMTP Username
      * @param string $password SMTP Password
+     * @param string $cc Carbon-copy email addresses
+     * @param bool $auto_template Auto wrap in Template
+     * @return bool
      */
-    function smtp( string $to, string $subject, string $content, array|string $smtp = '', string $username = '', string $password = '' ) {
+    function smtp( string|array $to, string $subject, string $content, string $from = '', array|string $smtp = '', string $username = '', string $password = '', string $cc = '', bool $auto_template = true ): bool {
+        require ROOTPATH . 'core/external/vendor/autoload.php';
+        /* require 'path/to/PHPMailer/src/Exception.php';
+        require 'path/to/PHPMailer/src/PHPMailer.php';
+        require 'path/to/PHPMailer/src/SMTP.php'; */
+        if( $auto_template ) {
+            $head = $this->get_template('head');
+            $foot = $this->get_template('foot');
+            $content = $head . $content . $foot;
+        }
         $def = [
             'google' => [
-                'host' => 'smtp.gmail.com'
+                'host' => 'smtp.gmail.com',
+                'port' => 465
             ],
             'yahoo' => [
                 'host' => 'smtp.mail.yahoo.com'
@@ -86,11 +104,72 @@ class MAIL {
         ];
         $smtp = is_array( $smtp ) ? $smtp : ($def[$smtp] ?? []);
         $smtp = !empty( $smtp ) ? $smtp : get_config('smtp');
+        $username = !empty( $username ) ? $username : get_config('smtp_username');
+        $password = !empty( $password ) ? $password : get_config('smtp_password');
         if( class_exists( 'DB' ) && empty( $smtp ) ) {
             $db = new DB();
             $db->get_option('smtp');
+            $username = !empty( $username ) ? $username : $db->get_option('smtp_username');
+            $password = !empty( $password ) ? $password : $db->get_option('smtp_password');
+            $from = !empty( $from ) ? $from : $db->get_option('from_email');
         }
+        $smtp['port'] = !empty( $smtp['port'] ) ? $smtp['port'] : 465;
+        $mail = new PHPMailer(true);
 
+        $secure = $smtp['port'] == 587 ? PHPMailer::ENCRYPTION_STARTTLS : PHPMailer::ENCRYPTION_SMTPS;
+
+        try {
+            //Server settings
+            $mail->SMTPDebug = false; //SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+            $mail->isSMTP();                                            //Send using SMTP
+            $mail->Host       = $smtp['host'];                     //Set the SMTP server to send through
+            $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+            $mail->Username   = $username;                     //SMTP username
+            $mail->Password   = $password;                               //SMTP password
+            $mail->SMTPSecure = $secure;            //Enable implicit TLS encryption
+            $mail->Port       = $smtp['port'];                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+            //Recipients
+            if( is_array( $to ) ) {
+                foreach( $to as $t ) {
+                    is_array( $t ) ? $mail->addAddress( $t[0], $t[1] ) : $mail->addAddress( $t );;
+                }
+            } else {
+                $to = explode( ',', $to );
+                foreach( $to as $t ){
+                    $mail->addAddress( $t );
+                }
+            }
+            $mail->setFrom( $from, APPNAME );
+            $mail->addReplyTo( $from, APPNAME );
+
+            // Carbon-copy
+            if( is_array( $cc ) ) {
+                foreach( $cc as $c ) {
+                    is_array( $c ) ? $mail->addCC( $c[0], $c[1] ) : $mail->addCC( $c );;
+                }
+            } else if( !empty( $cc ) ) {
+                $cc = explode( ',', $cc );
+                foreach( $cc as $c ){
+                    $mail->addCC( $c );
+                }
+            }
+
+            //Attachments
+            //$mail->addAttachment('/var/tmp/file.tar.gz');
+            //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');
+
+            //Content
+            $mail->isHTML(true);
+            $mail->Subject = $subject;
+            $mail->Body    = $content;
+
+            $mail->send();
+            return 1;
+        } catch (Exception $e) {
+            elog( $mail->ErrorInfo );
+            return 0;
+        }
     }
 
     /**
