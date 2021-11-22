@@ -437,9 +437,10 @@ class DB {
      */
     function update_option( string $name, string|array $value, int $user_id = 0, int $autoload = 0 ): bool {
         if( $name !== '' && !empty( $value ) ){
-            // $c = $this->select( 'options', '*', 'option_name = \''.$name.'\' AND option_scope = \''.$user_id.'\'', 1 );
-            $c = $this->update( 'options', ['option_value', 'option_scope', 'option_load' ], [ $value, $user_id, $autoload ], 'option_name = \''.$name.'\'' );
-            if( !$c ) {
+            $exist = $this->select( 'options', '*', 'option_name = \''.$name.'\' AND option_scope = \''.$user_id.'\'', 1 );
+            if( $exist ) {
+                $c = $this->update('options', ['option_value', 'option_scope', 'option_load'], [$value, $user_id, $autoload], 'option_name = \'' . $name . '\'');
+            } else {
                 $c = $this->insert( 'options', [ 'option_name', 'option_value', 'option_scope', 'option_load' ], [ $name, $value, $user_id, $autoload ] );
             }
             return $c;
@@ -549,15 +550,25 @@ class DB {
 
     // Test and remove
     function save_post_options( $options ){
-        $db = new DB();
         $options = is_array( $options ) ? $options : explode( ',', $options );
+        elog( $options );
         foreach( $options as $op ){
             if( is_array( $op ) ){
                 $u = isset( $op[1] ) && $op[1] ? 1 : 0;
-                //$u = is_array( $u ) ? json_encode( $u ) : $u;
-                $db->save_post_option( $op[0], $u );
-            } else {
-                $db->save_post_option( $op );
+                $u = is_array( $u ) ? json_encode( $u ) : $u;
+                $this->save_post_option( $op[0], $u );
+            } else if ( isset( $_POST[ $op ] ) && !empty( $_POST[ $op ] ) ) {
+                elog( $op );
+                $v = $_POST[ $op ];
+                $v = is_array( $v ) ? json_encode( $v ) : $v;
+                $r = $this->select( 'options', 'option_value', 'option_name = \''.$op.'\'', 1 );
+                if( $r ) {
+                    $this->update('options', ['option_value'], [$v], 'option_name = \'' . $op . '\'');
+                } else {
+                    $this->insert( 'options', [ 'option_name', 'option_value' ], [ $op, $v ] );
+                }
+                //return $c;
+                //$db->save_post_option( $op );
             }
         }
     }
