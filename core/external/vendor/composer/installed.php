@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'cfbe3967d82b22e6e028bf14196418fd91397854',
+        'reference' => 'ee2160cb66d57fc1feef2cefd14a4ff1ee61bbb4',
         'name' => '__root__',
         'dev' => true,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'cfbe3967d82b22e6e028bf14196418fd91397854',
+            'reference' => 'ee2160cb66d57fc1feef2cefd14a4ff1ee61bbb4',
             'dev_requirement' => false,
         ),
         'composer/package-versions-deprecated' => array(
@@ -27,6 +27,18 @@
             'aliases' => array(),
             'reference' => 'b174585d1fe49ceed21928a945138948cb394600',
             'dev_requirement' => false,
+        ),
+        'cordoval/hamcrest-php' => array(
+            'dev_requirement' => false,
+            'replaced' => array(
+                0 => '*',
+            ),
+        ),
+        'davedevelopment/hamcrest-php' => array(
+            'dev_requirement' => false,
+            'replaced' => array(
+                0 => '*',
+            ),
         ),
         'ezyang/htmlpurifier' => array(
             'pretty_version' => 'v4.13.0',
@@ -64,6 +76,15 @@
             'reference' => '089edd38f5b8abba6cb01567c2a8aaa47cec4c72',
             'dev_requirement' => false,
         ),
+        'hamcrest/hamcrest-php' => array(
+            'pretty_version' => 'v2.0.1',
+            'version' => '2.0.1.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../hamcrest/hamcrest-php',
+            'aliases' => array(),
+            'reference' => '8c3d0a3f6af734494ad8f6fbbee0ba92422859f3',
+            'dev_requirement' => false,
+        ),
         'knplabs/knp-snappy' => array(
             'pretty_version' => 'v1.3.1',
             'version' => '1.3.1.0',
@@ -72,6 +93,12 @@
             'aliases' => array(),
             'reference' => '349c2e872bbeb15dff825a17dd92ea9c6ae4120e',
             'dev_requirement' => false,
+        ),
+        'kodova/hamcrest-php' => array(
+            'dev_requirement' => false,
+            'replaced' => array(
+                0 => '*',
+            ),
         ),
         'laminas/laminas-diactoros' => array(
             'pretty_version' => '2.8.0',
@@ -109,6 +136,15 @@
             'reference' => 'c4c5803cc1f93df3d2448478ef79394a5981cc58',
             'dev_requirement' => false,
         ),
+        'mailjet/mailjet-apiv3-php' => array(
+            'pretty_version' => 'v1.5.5',
+            'version' => '1.5.5.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../mailjet/mailjet-apiv3-php',
+            'aliases' => array(),
+            'reference' => 'c1c1931c76ebd1adb5cf2a76f60ddcaa61849aa2',
+            'dev_requirement' => false,
+        ),
         'markbaker/complex' => array(
             'pretty_version' => '3.0.1',
             'version' => '3.0.1.0',
@@ -125,6 +161,15 @@
             'install_path' => __DIR__ . '/../markbaker/matrix',
             'aliases' => array(),
             'reference' => 'c66aefcafb4f6c269510e9ac46b82619a904c576',
+            'dev_requirement' => false,
+        ),
+        'mockery/mockery' => array(
+            'pretty_version' => '1.4.4',
+            'version' => '1.4.4.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../mockery/mockery',
+            'aliases' => array(),
+            'reference' => 'e01123a0e847d52d186c5eb4b9bf58b0c6d00346',
             'dev_requirement' => false,
         ),
         'myclabs/php-enum' => array(

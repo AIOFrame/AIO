@@ -38,13 +38,16 @@ final class Versions
   'guzzlehttp/guzzle' => '7.4.0@868b3571a039f0ebc11ac8f344f4080babe2cb94',
   'guzzlehttp/promises' => '1.5.1@fe752aedc9fd8fcca3fe7ad05d419d32998a06da',
   'guzzlehttp/psr7' => '2.1.0@089edd38f5b8abba6cb01567c2a8aaa47cec4c72',
+  'hamcrest/hamcrest-php' => 'v2.0.1@8c3d0a3f6af734494ad8f6fbbee0ba92422859f3',
   'knplabs/knp-snappy' => 'v1.3.1@349c2e872bbeb15dff825a17dd92ea9c6ae4120e',
   'laminas/laminas-diactoros' => '2.8.0@0c26ef1d95b6d7e6e3943a243ba3dc0797227199',
   'lcobucci/clock' => '2.1.0@903513d28e85376a33385ebc601afd2ee69e5653',
   'lcobucci/jwt' => '4.1.5@fe2d89f2eaa7087af4aa166c6f480ef04e000582',
   'maennchen/zipstream-php' => '2.1.0@c4c5803cc1f93df3d2448478ef79394a5981cc58',
+  'mailjet/mailjet-apiv3-php' => 'v1.5.5@c1c1931c76ebd1adb5cf2a76f60ddcaa61849aa2',
   'markbaker/complex' => '3.0.1@ab8bc271e404909db09ff2d5ffa1e538085c0f22',
   'markbaker/matrix' => '3.0.0@c66aefcafb4f6c269510e9ac46b82619a904c576',
+  'mockery/mockery' => '1.4.4@e01123a0e847d52d186c5eb4b9bf58b0c6d00346',
   'myclabs/php-enum' => '1.8.3@b942d263c641ddb5190929ff840c68f78713e937',
   'phpmailer/phpmailer' => 'v6.5.1@dd803df5ad7492e1b40637f7ebd258fee5ca7355',
   'phpoffice/phpspreadsheet' => '1.19.0@a9ab55bfae02eecffb3df669a2e19ba0e2f04bbf',
@@ -68,7 +71,7 @@ final class Versions
   'vonage/client-core' => '2.7.1@c9bd01868339fc1c74e631d73d7333250b8eccbd',
   'vonage/nexmo-bridge' => '0.1.0@62653b1165f4401580ca8d2b859f59c968de3711',
   'whichbrowser/parser' => 'v2.1.2@bcf642a1891032de16a5ab976fd352753dd7f9a0',
-  '__root__' => 'dev-master@cfbe3967d82b22e6e028bf14196418fd91397854',
+  '__root__' => 'dev-master@ee2160cb66d57fc1feef2cefd14a4ff1ee61bbb4',
 );
 
     private function __construct()

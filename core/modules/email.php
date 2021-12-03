@@ -1,6 +1,7 @@
 <?php
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use \Mailjet\Resources;
 
 class MAIL {
 
@@ -49,16 +50,25 @@ class MAIL {
                     elog( 'To: '.$to.', From: '.$from.', Sub: '.$subject.', Server: MailerSend' );
                     return $this->mailersend( $to, $subject, $content, $from, $cc, $key );
                 } else {
-                    elog( 'To: '.$to.', From: '.$from.', Sub: '.$subject.', Server: Default' );
-                    $headers = "MIME-Version: 1.0" . "\r\n" . "Content-type:text/html;charset=UTF-8" . "\r\n" . "From: " . $from . "\r\n" . "Reply-To: " . $from;
-                    $headers .= !empty($c) ? "\r\n" . "CC: " . $cc : '';
-                    return mail($to, $subject, $content, $headers);
+                    $smtp = $this->smtp( $to, $subject, $content, $from );
+                    if( !$smtp ) {
+                        $headers = "MIME-Version: 1.0" . "\r\n" . "Content-type:text/html;charset=UTF-8" . "\r\n" . "From: " . $from . "\r\n" . "Reply-To: " . $from;
+                        $headers .= !empty($c) ? "\r\n" . "CC: " . $cc : '';
+                        return mail($to, $subject, $content, $headers);
+                    } else {
+                        return $smtp;
+                    }
                 }
             }
         } else {
-            $headers = "MIME-Version: 1.0" . "\r\n" . "Content-type:text/html;charset=UTF-8" . "\r\n" . "From: " . $from . "\r\n" . "Reply-To: " . $from;
-            $headers .= !empty($c) ? "\r\n" . "CC: " . $cc : '';
-            return mail($to, $subject, $content, $headers);
+            $smtp = $this->smtp( $to, $subject, $content, $from );
+            if( !$smtp ) {
+                $headers = "MIME-Version: 1.0" . "\r\n" . "Content-type:text/html;charset=UTF-8" . "\r\n" . "From: " . $from . "\r\n" . "Reply-To: " . $from;
+                $headers .= !empty($c) ? "\r\n" . "CC: " . $cc : '';
+                return mail($to, $subject, $content, $headers);
+            } else {
+                return $smtp;
+            }
         }
     }
 
@@ -101,12 +111,20 @@ class MAIL {
             'live' => [
                 'host' => 'smtp-mail.outlook.com'
             ],
+            'mailjet' => [
+                'host' => 'in-v3.mailjet.com',
+                'port' => 587
+            ],
+            'mailersend' => [
+                'host' => 'smtp.mailersend.net',
+                'port' => 587
+            ]
         ];
         $smtp = is_array( $smtp ) ? $smtp : ($def[$smtp] ?? []);
         $smtp = !empty( $smtp ) ? $smtp : get_config('smtp');
         $username = !empty( $username ) ? $username : get_config('smtp_username');
         $password = !empty( $password ) ? $password : get_config('smtp_password');
-        if( class_exists( 'DB' ) && empty( $smtp ) ) {
+        if( class_exists( 'DB' ) ) {
             $db = new DB();
             $db->get_option('smtp');
             $username = !empty( $username ) ? $username : $db->get_option('smtp_username');
@@ -117,6 +135,10 @@ class MAIL {
         $mail = new PHPMailer(true);
 
         $secure = $smtp['port'] == 587 ? PHPMailer::ENCRYPTION_STARTTLS : PHPMailer::ENCRYPTION_SMTPS;
+
+        elog( 'To: ' . json_encode( $to ) . ', From: ' . json_encode( $from ) . ', Sub: ' . json_encode( $subject ), 'log', 182, ROOTPATH . 'core/modules/email.php' );
+        elog( 'Server: ' . json_encode( $smtp ) );
+        elog( 'Username: ' . $username . ', Password: ' . $password );
 
         try {
             //Server settings
@@ -227,8 +249,8 @@ class MAIL {
     function mailersend( $to, $subject, $content, $from, $cc = '', $key = '' ): bool {
 
         if( empty( $key ) ) {
-            $con = new DB();
-            $key = $con->get_option( 'mailersend_key' );
+            $db = new DB();
+            $key = $db->get_option( 'mailersend_key' );
         }
         $key = empty( $key ) ? get_config( 'mailersend_key' ) : $key;
 
@@ -256,6 +278,60 @@ class MAIL {
             return $response->getStatusCode() == 202 ? 1 : 0;
         } else {
             elog('MailerSend Key is Empty! Please add key to config or option named "mailersend_key".','error');
+            return 0;
+        }
+    }
+
+    function mailjet( string $to, string $subject, string $content, string $from = '', string $public_key = '', string $private_key = '' ): bool {
+
+        if( empty( $public_key ) || empty( $private_key ) ) {
+            $db = new DB();
+            $public_key = !empty( $public_key ) ? $public_key : $db->get_option( 'mailjet_public_key' );
+            $private_key = !empty( $private_key ) ? $private_key : $db->get_option( 'mailjet_private_key' );
+        }
+        $public_key = !empty( $public_key ) ? $public_key : get_config( 'mailjet_public_key' );
+        $private_key = !empty( $private_key ) ? $private_key : get_config( 'mailjet_private_key' );
+        if( !empty( $public_key ) || !empty( $private_key ) ) {
+
+            require ROOTPATH . 'core/external/vendor/autoload.php';
+
+            // Use your saved credentials, specify that you are using Send API v3.1
+            $mj = new \Mailjet\Client(getenv( $public_key ), getenv( $private_key ), true, ['version' => 'v3.1']);
+
+            // Define your request body
+            $body = [
+                'Messages' => [
+                    [
+                        'From' => [
+                            'Email' => $from,
+                            //'Name' => "Me"
+                        ],
+                        'To' => [
+                            [
+                                'Email' => $to,
+                                //'Name' => "You"
+                            ]
+                        ],
+                        'Subject' => $subject,
+                        //'TextPart' => "Greetings from Mailjet!",
+                        'HTMLPart' => $content
+                    ]
+                ]
+            ];
+
+            // All resources are located in the Resources class
+            $response = $mj->post(Resources::$Email, ['body' => $body]);
+
+            // Read the response
+            elog( $response->getData() );
+            var_dump( $response->getData() );
+            if( $response->success() ) {
+                elog( $response->success() );
+                return 1;
+            } else {
+                return 0;
+            }
+        } else {
             return 0;
         }
     }

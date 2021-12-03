@@ -7,6 +7,7 @@
         "vonage/client": "^2.4",
         "whichbrowser/parser": "^2.1.2",
         "stripe/stripe-php": "^7.97",
-        "phpmailer/phpmailer": "^6.5"
+        "phpmailer/phpmailer": "^6.5",
+        "mailjet/mailjet-apiv3-php": "^1.5"
     }
 }
