@@ -37,7 +37,7 @@ class MAIL {
             elog( 'To: '.$to.', From: '.$from.', Sub: '.$subject.', Server: MailerSend' );
             return $this->mailersend($to, $subject, $content, $from, $cc, $key);
         } else if( is_array( $gate ) || $gate == 'google' || $gate == 'outlook' || $gate == 'yahoo' || $gate == 'live' ) {
-            return $this->smtp( $to, $subject, $content, $from, $gate, '', '', $cc, $auto_template );
+            return $this->smtp( $to, $subject, $content, $from, $gate, '', '', $cc, 0 );
         } else if( class_exists( 'DB' ) ) {
             $db = new DB();
             $key = $db->get_option('sendgrid_key');
@@ -120,17 +120,21 @@ class MAIL {
                 'port' => 587
             ]
         ];
-        $smtp = is_array( $smtp ) ? $smtp : ($def[$smtp] ?? []);
         $smtp = !empty( $smtp ) ? $smtp : get_config('smtp');
         $username = !empty( $username ) ? $username : get_config('smtp_username');
         $password = !empty( $password ) ? $password : get_config('smtp_password');
         if( class_exists( 'DB' ) ) {
             $db = new DB();
-            $db->get_option('smtp');
+            $smtp = !empty( $smtp ) ? $smtp : $db->get_option('smtp');
             $username = !empty( $username ) ? $username : $db->get_option('smtp_username');
+            elog( 'From add -> '. $username );
             $password = !empty( $password ) ? $password : $db->get_option('smtp_password');
             $from = !empty( $from ) ? $from : $db->get_option('from_email');
         }
+        $smtp = is_array( $smtp ) ? $smtp : ($def[$smtp] ?? []);
+        $from = !empty( $from ) ? $from : $username;
+        elog( 'From add -> '. $from );
+        elog( 'From add -> '. $username );
         $smtp['port'] = !empty( $smtp['port'] ) ? $smtp['port'] : 465;
         $mail = new PHPMailer(true);
 
@@ -141,15 +145,14 @@ class MAIL {
         elog( 'Username: ' . $username . ', Password: ' . $password );
 
         try {
-            //Server settings
-            $mail->SMTPDebug = false; //SMTP::DEBUG_SERVER;                      //Enable verbose debug output
-            $mail->isSMTP();                                            //Send using SMTP
-            $mail->Host       = $smtp['host'];                     //Set the SMTP server to send through
-            $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-            $mail->Username   = $username;                     //SMTP username
-            $mail->Password   = $password;                               //SMTP password
-            $mail->SMTPSecure = $secure;            //Enable implicit TLS encryption
-            $mail->Port       = $smtp['port'];                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+            $mail->SMTPDebug = false;
+            //$mail->isSMTP();
+            $mail->Host       = $smtp['host'];
+            $mail->SMTPAuth   = true;
+            $mail->Username   = $username;
+            $mail->Password   = $password;
+            $mail->SMTPSecure = $secure;
+            $mail->Port       = $smtp['port'];
 
             //Recipients
             if( is_array( $to ) ) {
@@ -189,7 +192,7 @@ class MAIL {
             $mail->send();
             return 1;
         } catch (Exception $e) {
-            elog( $mail->ErrorInfo );
+            elog( $mail->ErrorInfo, 'error', 170, ROOTPATH . 'core/modules/email.php' );
             return 0;
         }
     }
