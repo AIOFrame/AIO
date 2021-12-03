@@ -50,7 +50,7 @@ class MAIL {
                     elog( 'To: '.$to.', From: '.$from.', Sub: '.$subject.', Server: MailerSend' );
                     return $this->mailersend( $to, $subject, $content, $from, $cc, $key );
                 } else {
-                    $smtp = $this->smtp( $to, $subject, $content, $from );
+                    $smtp = $this->smtp( $to, $subject, $content, $from, '', '', '', '', 0 );
                     if( !$smtp ) {
                         $headers = "MIME-Version: 1.0" . "\r\n" . "Content-type:text/html;charset=UTF-8" . "\r\n" . "From: " . $from . "\r\n" . "Reply-To: " . $from;
                         $headers .= !empty($c) ? "\r\n" . "CC: " . $cc : '';
@@ -61,7 +61,7 @@ class MAIL {
                 }
             }
         } else {
-            $smtp = $this->smtp( $to, $subject, $content, $from );
+            $smtp = $this->smtp( $to, $subject, $content, $from, '', '', '', '', 0 );
             if( !$smtp ) {
                 $headers = "MIME-Version: 1.0" . "\r\n" . "Content-type:text/html;charset=UTF-8" . "\r\n" . "From: " . $from . "\r\n" . "Reply-To: " . $from;
                 $headers .= !empty($c) ? "\r\n" . "CC: " . $cc : '';
@@ -127,14 +127,13 @@ class MAIL {
             $db = new DB();
             $smtp = !empty( $smtp ) ? $smtp : $db->get_option('smtp');
             $username = !empty( $username ) ? $username : $db->get_option('smtp_username');
-            elog( 'From add -> '. $username );
             $password = !empty( $password ) ? $password : $db->get_option('smtp_password');
             $from = !empty( $from ) ? $from : $db->get_option('from_email');
         }
+        elog( 'SMTP -> '. $smtp );
         $smtp = is_array( $smtp ) ? $smtp : ($def[$smtp] ?? []);
+        elog( 'SMTP -> '. json_encode( $smtp ) );
         $from = !empty( $from ) ? $from : $username;
-        elog( 'From add -> '. $from );
-        elog( 'From add -> '. $username );
         $smtp['port'] = !empty( $smtp['port'] ) ? $smtp['port'] : 465;
         $mail = new PHPMailer(true);
 
