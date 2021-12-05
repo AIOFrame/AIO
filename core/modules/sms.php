@@ -10,8 +10,6 @@ class SMS {
      * @param string $key Primary API Key
      * @param string $sec Secondary (Secret) API Key
      * @return string
-     * @throws \Psr\Http\Client\ClientExceptionInterface
-     * @throws \Vonage\Client\Exception\Exception
      * @author Shaikh <hey@shaikh.dev>
      */
     function send( string $no, string $msg, string $gate, string $key, string $sec ): string {
@@ -23,35 +21,57 @@ class SMS {
     }
 
     /**
-     * @param string $no
-     * @param string $msg
+     * @param string $number
+     * @param string $message
      * @param string $key
-     * @param string $sec
+     * @param string $secret
      * @return string
-     * @throws \Psr\Http\Client\ClientExceptionInterface
-     * @throws \Vonage\Client\Exception\Exception
      */
-    function vonage( string $no, string $msg, string $key = '', string $secret = '' ): string {
-        if( file_exists( ROOTPATH . 'core/external/vendor/autoload.php' ) ){
+    function vonage( string $number, string $message, string $key = '', string $secret = '' ): string {
+
+        // Gathering API Key and API Secret
+        if( class_exists( 'DB' ) ) {
             $db = new DB();
-            if( empty( $key ) ) {
-                $key = $db->get_option( 'vonage_key' );
-            }
-            if( empty( $secret ) ) {
-                $secret = $db->get_option( 'vonage_secret' );
-            }
-            $key = empty( $key ) ? get_config( 'vonage_key' ) : $key;
-            $secret = empty( $secret ) ? get_config( 'vonage_secret' ) : $secret;
+            $key = !empty( $key ) ? $key : $db->get_option('vonage_key');
+            $secret = !empty( $secret ) ? $secret : $db->get_option('vonage_secret');
+        }
+        $key = !empty( $key ) ? $key : get_config('vonage_key');
+        $secret = !empty( $secret ) ? $secret : get_config('vonage_secret');
+
+        // Validations
+        $number = preg_replace('/[^0-9]/', '', $number);
+        if( !is_numeric( $number ) || $number < 4 ) {
+            elog('Phone number '.$number.' is very short!','error',44,ROOTPATH.'core/modules/sms.php');
+            return 0;
+        }
+        if( empty( $message ) ) {
+            elog('SMS Message is empty!','error',48,ROOTPATH.'core/modules/sms.php');
+        }
+
+        if( !empty( $key ) && !empty( $secret ) ) {
             include_once( ROOTPATH . 'core/external/vendor/autoload.php' );
-            $client = new Vonage\Client(new Vonage\Client\Credentials\Basic($key, $secret));
-            $text = new \Vonage\SMS\Message\SMS(
-                str_replace( '+', '', $no), // Receivers Number
-                APPNAME, // Senders Name
-                $msg // Message
+            $basic  = new \Vonage\Client\Credentials\Basic($key, $secret);
+            $client = new \Vonage\Client($basic);
+
+            // Trigger the SMS send request
+            $response = $client->sms()->send(
+                new \Vonage\SMS\Message\SMS(
+                    $number,
+                    APPNAME,
+                    $message
+                )
             );
-            $text->setClientRef('test-message');
-            $response = $client->sms()->send($text);
-            $bal = 0;
+            $message = $response->current();
+
+            if ($message->getStatus() == 0) {
+                elog('SMS Message sent to '.$number.' successfully!','log',67,ROOTPATH.'core/modules/sms.php');
+                return 1;
+            } else {
+                elog('Vonage Message failed to Deliver! '.$message->getStatus(),'error',48,ROOTPATH.'core/modules/sms.php');
+                return 0;
+            }
+
+            /*$bal = 0;
             if( is_array( $response ) ) {
                 foreach($response as $index => $data){
                     $bal += (int)$data->getRemainingBalance();
@@ -59,11 +79,10 @@ class SMS {
             } else {
                 $data = $response->current();
                 $bal += (int)$data->getRemainingBalance();
-            }
-            elog("Sent message to " . $data->getTo() . ". Balance is now " . $bal . PHP_EOL);
-            return 1;
+            }*/
+            //elog("Sent message to " . $data->getTo() . ". Balance is now " . $bal . PHP_EOL);
         } else {
-            elog('Vonage API Missing');
+            elog('Vonage API Credentials are missing','log',85,ROOTPATH.'core/modules/sms.php');
             return 0;
         }
     }

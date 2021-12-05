@@ -179,8 +179,11 @@ class ACCESS {
             );
             if( $access ) {
                 // Email user to notify registration
-                $content = T('Your have successfully registered with ').APPNAME.'.<br/><br/>' . T('You can login with your new account.');
-                $this->mail( $email, 'Your account has been created with '.APPNAME, $content );
+                $subject = $db->get_option('email_subject_new_user');
+                $content = $db->get_option('email_content_new_user');
+                $subject = !empty( $subject ) ? str_replace('{{username}}',$login,$subject) : 'Welcome to '.APPNAME;
+                $content = !empty( $content ) ? str_replace('{{username}}',$login,$content) : 'You are successfully registered with '.APPNAME.'. Your login username is '.$login.' and your recovery email is '.$email.'!';
+                $this->mail( $email, $subject, $content );
                 return [ $add_user, T('Successfully registered user!') ];
             } else {
                 $db->delete( 'users', 'user_id = \'$add_user\'' );
@@ -311,11 +314,10 @@ class ACCESS {
      */
     function mail( string $email, string $subject, string $content ) {
         // Email the user
-        //get_module( 'email' );
         if( class_exists( 'MAIL' ) ) {
             $e = new MAIL();
             $content = '<div style="text-align:center">'.$content.'</div>';
-            $e->send( $email, T('Your password has been Reset!'), $content );
+            $e->send( $email, $subject, $content );
         }
 
     }
@@ -506,16 +508,21 @@ function access_change_ajax() {
  * @param string $pass_title Replacement text for default "Password" title
  * @param string $forgot_title Replacement text for default "Forgot Password?" title
  * @param string $back_title Replacement text for default "Back to Login" title
+ * @param int|string $reload_in Seconds to Reload Page
+ * @param int|string $notify_for Seconds to Notify
+ * @param string $redirect_to Page to redirect to upon success
  */
-function login_html( string $login_title = 'Username or Email', string $pass_title = 'Password', string $forgot_title = 'Forgot Password?', string $back_title = 'Back to Login' ) {
+function login_html( string $login_title = 'Username or Email', string $pass_title = 'Password', string $forgot_title = 'Forgot Password?', string $back_title = 'Back to Login', int|string $reload_in = 3, int|string $notify_for = 3, string $redirect_to = '' ) {
     if( user_logged_in() ) {
         return;
     }
     $cry = Crypto::initiate();
     $f = new FORM();
     $rand = rand(0,9999);
+    $redirect = !empty( $redirect_to ) ? ' data-redirect="'.$redirect_to.'"' : '';
+    $callback = !empty( $callback ) ? ' data-redirect="'.$callback.'"' : '';
     ?>
-    <div class="login_wrap" data-t data-pre="login_" data-data="log" data-notify="3" data-reload="3" data-reset="log">
+    <div class="login_wrap" data-t data-pre="login_" data-data="log"<?php echo $redirect.$callback; ?> data-notify="<?php echo $notify_for; ?>" data-reload="<?php echo $reload_in; ?>" data-reset="log">
         <div class="inputs">
             <?php
             $f->text(['username_'.$rand,'username'],$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-log required="true"','<div>','</div>');
@@ -547,16 +554,21 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
  * @param array $access User access permissions as json array
  * @param array $hide Fields to now render
  * @param array $compulsory Fields that are compulsory to submit
+ * @param int|string $reload_in Seconds to Reload Page
+ * @param int|string $notify_for Seconds to Notify
+ * @param string $redirect_to Page to redirect to upon success
  */
-function register_html( array $columns = [], bool $columns_before = true, array $data = [], array $access = [], array $hide = [], array $compulsory = [] ) {
+function register_html( array $columns = [], bool $columns_before = true, array $data = [], array $access = [], array $hide = [], array $compulsory = [], int|string $reload_in = 3, int|string $notify_for = 3, string $redirect_to = '' ) {
     if( user_logged_in() ) {
         return;
     }
     $rand = rand( 0, 9999 );
     $cry = Crypto::initiate();
     $f = new FORM();
+    $redirect = !empty( $redirect_to ) ? ' data-redirect="'.$redirect_to.'"' : '';
+    $callback = !empty( $callback ) ? ' data-redirect="'.$callback.'"' : '';
     ?>
-    <div class="register_wrap" data-t data-pre="register_" data-data="reg" data-notify="3" data-reload="3" data-reset="register">
+    <div class="register_wrap" data-t data-pre="register_" data-data="reg"<?php echo $redirect.$callback; ?> data-notify="<?php echo $notify_for; ?>" data-reload="<?php echo $reload_in; ?>" data-reset="register">
         <div class="inputs">
             <?php
             $columns_html = '';
@@ -595,14 +607,19 @@ function register_html( array $columns = [], bool $columns_before = true, array 
 
 /**
  * Renders frontend pre-wrap html for user registration
-**/
-function register_html_pre() {
+ * @param int|string $reload_in Seconds to Reload Page
+ * @param int|string $notify_for Seconds to Notify
+ * @param string $redirect_to Page to redirect to upon success
+ * @param string $callback Callback a JS Function with response
+ * @return void
+ */
+function register_html_pre( int|string $reload_in = 3, int|string $notify_for = 3, string $redirect_to = '', string $callback = '' ) {
     if( user_logged_in() ) {
         return;
     }
-    ?>
-    <div class="register_wrap" data-t data-pre="register_" data-data="reg" data-notify="3" data-reload="3" data-reset="register">
-    <?php
+    $redirect = !empty( $redirect_to ) ? ' data-redirect="'.$redirect_to.'"' : '';
+    $callback = !empty( $callback ) ? ' data-redirect="'.$callback.'"' : '';
+    echo '<div class="register_wrap" data-t data-pre="register_" data-data="reg"'.$redirect.$callback.' data-notify="'.$notify_for.'" data-reload="'.$reload_in.'" data-reset="register">';
 }
 
 /**

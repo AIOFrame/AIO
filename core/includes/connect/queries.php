@@ -548,8 +548,12 @@ class DB {
         }
     }
 
-    // Test and remove
-    function save_post_options( $options ){
+    /**
+     * Saves POST data as options
+     * @param string|array $options
+     * @return void
+     */
+    function save_post_options( string|array $options ){
         $options = is_array( $options ) ? $options : explode( ',', $options );
         elog( $options );
         foreach( $options as $op ){

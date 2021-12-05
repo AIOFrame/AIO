@@ -120,9 +120,6 @@ class MAIL {
                 'port' => 587
             ]
         ];
-        $smtp = !empty( $smtp ) ? $smtp : get_config('smtp');
-        $username = !empty( $username ) ? $username : get_config('smtp_username');
-        $password = !empty( $password ) ? $password : get_config('smtp_password');
         if( class_exists( 'DB' ) ) {
             $db = new DB();
             $smtp = !empty( $smtp ) ? $smtp : $db->get_option('smtp');
@@ -130,6 +127,9 @@ class MAIL {
             $password = !empty( $password ) ? $password : $db->get_option('smtp_password');
             $from = !empty( $from ) ? $from : $db->get_option('from_email');
         }
+        $smtp = !empty( $smtp ) ? $smtp : get_config('smtp');
+        $username = !empty( $username ) ? $username : get_config('smtp_username');
+        $password = !empty( $password ) ? $password : get_config('smtp_password');
         elog( 'SMTP -> '. $smtp );
         $smtp = is_array( $smtp ) ? $smtp : ($def[$smtp] ?? []);
         elog( 'SMTP -> '. json_encode( $smtp ) );

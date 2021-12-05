@@ -244,7 +244,8 @@ function process_data( e ){
         if( is_empty( p, 'required' ) ) {
             $(p).removeClass('load');
             $(e).attr('disabled',false);
-            notify('Input fields seem to be empty! Please fill and try again!!');
+            let empty_note = $(p).data('empty') !== undefined ? $(p).data('empty') : 'Input fields seem to be empty! Please fill and try again!!';
+            notify( empty_note );
             return;
         }
     //}
@@ -277,7 +278,8 @@ function process_data( e ){
         }
     });
     console.log(d);
-    post( d.action, d, p.data('notify'), p.data('reload'), p.data('redirect'), 0, 'process_finish,' + p.data('callback'), p.data('reset'), p );
+    let cb = p.data('callback') !== '' && p.data('callback') !== undefined ? 'process_finish,' + p.data('callback') : 'process_finish';
+    post( d.action, d, p.data('notify'), p.data('reload'), p.data('redirect'), 0, cb, p.data('reset'), p );
 
 }
 
@@ -384,19 +386,19 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
             if( r[0] !== 0 && reset !== undefined && reset !== '' && reset !== '0' ) {
                 $('[data-'+reset+']').val('');
             }
-            if( callback !== undefined && callback !== '' ) {
-                callback = callback.split(',');
-                $.each( callback, function(i,call){
-                    eval( call + '(' + JSON.stringify( r ) + ')' );
-                });
-            }
             if( redirect !== undefined && redirect !== '' ) {
-                redirect_time = redirect_time !== undefined && redirect_time !== '' ? redirect_time : 0;
+                redirect_time = redirect_time !== undefined && redirect_time !== '' ? redirect_time : reload_time;
                 if( r[0] !== 0 ) {
                     setTimeout(function(){
                         location.href = redirect;
                     }, redirect_time * 1000)
                 }
+            }
+            if( callback !== undefined && callback !== '' ) {
+                callback = callback.split(',');
+                $.each( callback, function(i,call){
+                    eval( call + '(' + JSON.stringify( r ) + ')' );
+                });
             }
             //this[callback](r);
         }
@@ -404,6 +406,10 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
             //elog( rat );
         }
     });
+}
+
+function redirect( r ) {
+    console.log(r);
 }
 
 function reload( time_seconds ){
