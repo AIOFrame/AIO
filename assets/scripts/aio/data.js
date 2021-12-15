@@ -258,10 +258,10 @@ function process_data( e ){
     d.action = $(e).data('action');
     d.t = $(p).data('t');
     d.pre = pre;
-    let a = $(p).data('a');
+    /* let a = $(p).data('a');
     if( a !== undefined && a !== null ) {
         d.a = a;
-    }
+    } */
     let pos = $(p).data('post');
     if( pos !== undefined && pos !== null ) {
         d.post = pos;
@@ -270,7 +270,7 @@ function process_data( e ){
         console.log('Action not set!');
     }
 
-    let types = Array('id','by','action','h','d','dt');
+    let types = Array('id','by','action','h','d','dt','alerts','emails');
 
     $.each(types,function(x,a){
         if( $(p).data(a) !== undefined && $(p).data(a) !== '' ){

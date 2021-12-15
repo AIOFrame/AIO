@@ -734,9 +734,14 @@ function process_data_ajax() {
             unset( $a['h'] );
         }
 
-        if( !empty( $a['a'] ) ) {
-            $alerts = $cry->decrypt_array( $a['a'] );
-            unset( $a['a'] );
+        if( !empty( $a['alerts'] ) ) {
+            $alerts = $cry->decrypt_array( $a['alerts'] );
+            unset( $a['alerts'] );
+        }
+
+        if( !empty( $a['emails'] ) ) {
+            $emails = $cry->decrypt_array( $a['emails'] );
+            unset( $a['emails'] );
         }
 
         if( !empty( $a['post'] ) ) {
@@ -760,10 +765,10 @@ function process_data_ajax() {
 
         // Send alerts
         if( isset( $alerts ) && is_array( $alerts ) && $query ) {
+            $ac = new ALERTS();
             foreach( $alerts as $al ) {
                 elog($al);
                 if( !empty( $al->title ) ) {
-                    $ac = new ALERTS();
                     $title = $al->title;
                     $note = isset( $al->note ) && !empty( $al->note ) ? $al->note : '';
                     $type = isset( $al->type ) && !empty( $al->type ) ? $al->type : 'alert';
@@ -773,6 +778,19 @@ function process_data_ajax() {
                 }
             }
         }
+
+        // Send Emails
+        if( isset( $emails ) && is_array( $emails ) && $query ) {
+            $mail = new MAIL();
+            foreach( $emails as $e ) {
+                elog( $e );
+                if( !empty( $e->to ) ) {
+                    $mail->send( $e->to, $e->subject, $e->content );
+                }
+            }
+        }
+
+        die();
     } else {
         ef('Database not targeted properly, please contact support');
     }
