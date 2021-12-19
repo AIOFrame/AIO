@@ -95,7 +95,10 @@ function get_style(string $f, $params = [], $page_of = '') {
             ROOTPATH . 'assets/styles/ext/'. $f => APPURL . 'assets/styles/ext/' . $f,
             ROOTPATH . 'assets/styles/ext/'. $f . '/' . $f => APPURL . 'assets/styles/ext/' . $f . '/' . $f,
             ROOTPATH . 'assets/styles/aio/' . $f => APPURL . 'assets/styles/aio/' . $f,
+            ROOTPATH . 'assets/ext/' . $f => APPURL . 'assets/ext/' . $f,
+            ROOTPATH . 'assets/ext/' . $f .'/css/' . $f => APPURL . 'assets/ext/' . $f . '/css/' . $f,
         ];
+        //skel( ROOTPATH . 'assets/ext/' . $f .'css/' . $f );
         $url = asset_exists( $style_paths, $f, 'css' );
         if ( $page_of !== '' ) {
             echo page_of($page_of) && $url !== '' ? '<link rel="stylesheet" href="' . $url . $v . '">' : '';
@@ -157,6 +160,8 @@ function get_script(string $f, array $params = [], string $page_of = '') {
             ROOTPATH . 'assets/scripts/ext/' . $f => APPURL . 'assets/scripts/ext/' . $f,
             ROOTPATH . 'assets/scripts/ext/' . $f . '/' . $f => APPURL . 'assets/scripts/ext/' . $f . '/' . $f,
             ROOTPATH . 'assets/scripts/aio/' . $f => APPURL . 'assets/scripts/aio/' . $f,
+            ROOTPATH . 'assets/ext/' . $f => APPURL . 'assets/ext/' . $f,
+            ROOTPATH . 'assets/ext/' . $f . '/js/' . $f => APPURL . 'assets/ext/' . $f . '/js/' . $f,
         ];
         $url = asset_exists( $script_paths, $f, 'js' );
 
