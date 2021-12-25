@@ -17,6 +17,7 @@ class MAIL {
      * @return bool
      */
     function send( string $to, string $subject, string $content, string $from = '', string $cc = '', string|array $gate = '', string $key = '', bool $auto_template = true ): bool {
+        elog( 'To:' . $to . ', From: ' . $from . ', Sub: ' . $subject );
         if( $auto_template ) {
             $head = $this->get_template('head');
             $foot = $this->get_template('foot');
@@ -26,7 +27,6 @@ class MAIL {
             $db = new DB();
             $from = !empty( $from ) ? $from : $db->get_option('from_email');
             $gate = !empty( $gate ) ? $gate : $db->get_option('mail_gateway');
-            $smtp = !empty( $smtp ) ? $gate : $db->get_option('mail_gateway');
         }
         $gate = !empty( $gate ) ? $gate : get_config('mail_gateway');
         $from = !empty( $from ) ? $from : get_config('from_email');
@@ -85,6 +85,9 @@ class MAIL {
      * @return bool
      */
     function smtp( string|array $to, string $subject, string $content, string $from = '', array|string $smtp = '', string $username = '', string $password = '', string $cc = '', bool $auto_template = true ): bool {
+
+        elog('Email initiated thru SMTP');
+
         require ROOTPATH . 'core/external/vendor/autoload.php';
         /* require 'path/to/PHPMailer/src/Exception.php';
         require 'path/to/PHPMailer/src/PHPMailer.php';
@@ -142,6 +145,8 @@ class MAIL {
         elog( 'To: ' . json_encode( $to ) . ', From: ' . json_encode( $from ) . ', Sub: ' . json_encode( $subject ), 'log', 182, ROOTPATH . 'core/modules/email.php' );
         elog( 'Server: ' . json_encode( $smtp ) );
         elog( 'Username: ' . $username . ', Password: ' . $password );
+
+        elog('SMTP Host is '.$smtp['host']);
 
         try {
             $mail->SMTPDebug = false;
@@ -209,6 +214,8 @@ class MAIL {
      */
     function sendgrid( string $to, string $subject, string $content, string $from = '', string $cc = '', string $key = '' ): bool {
 
+        elog('Email initiated thru SendGrid');
+
         if( empty( $key ) ) {
             $con = new DB();
             $key = $con->get_option('sendgrid_key');
@@ -250,6 +257,8 @@ class MAIL {
 
     function mailersend( $to, $subject, $content, $from, $cc = '', $key = '' ): bool {
 
+        elog('Email initiated thru MailerSend');
+
         if( empty( $key ) ) {
             $db = new DB();
             $key = $db->get_option( 'mailersend_key' );
@@ -285,6 +294,8 @@ class MAIL {
     }
 
     function mailjet( string $to, string $subject, string $content, string $from = '', string $public_key = '', string $private_key = '' ): bool {
+
+        elog('Email initiated thru MailJet');
 
         if( empty( $public_key ) || empty( $private_key ) ) {
             $db = new DB();

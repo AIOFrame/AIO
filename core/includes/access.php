@@ -566,7 +566,7 @@ function register_html( array $columns = [], bool $columns_before = true, array 
     $cry = Crypto::initiate();
     $f = new FORM();
     $redirect = !empty( $redirect_to ) ? ' data-redirect="'.$redirect_to.'"' : '';
-    $callback = !empty( $callback ) ? ' data-redirect="'.$callback.'"' : '';
+    $callback = !empty( $callback ) ? ' data-callback="'.$callback.'"' : '';
     ?>
     <div class="register_wrap" data-t data-pre="register_" data-data="reg"<?php echo $redirect.$callback; ?> data-notify="<?php echo $notify_for; ?>" data-reload="<?php echo $reload_in; ?>" data-reset="register">
         <div class="inputs">

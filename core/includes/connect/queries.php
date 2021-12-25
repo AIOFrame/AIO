@@ -736,6 +736,7 @@ function process_data_ajax() {
 
         if( !empty( $a['alerts'] ) ) {
             $alerts = $cry->decrypt_array( $a['alerts'] );
+            elog($alerts);
             unset( $a['alerts'] );
         }
 
@@ -780,16 +781,17 @@ function process_data_ajax() {
         }
 
         // Send Emails
+        elog( $emails );
         if( isset( $emails ) && is_array( $emails ) && $query ) {
-            $mail = new MAIL();
+            elog('Isset Emails :)');
+            $mailer = new MAIL();
             foreach( $emails as $e ) {
-                elog( $e );
-                if( !empty( $e->to ) ) {
-                    $mail->send( $e->to, $e->subject, $e->content );
+                elog( 'Each Email' );
+                if( !empty( $e['to'] ) ) {
+                    $mailer->send( $e['to'], $e['subject'], $e['content'] );
                 }
             }
         }
-
         die();
     } else {
         ef('Database not targeted properly, please contact support');
