@@ -31,14 +31,15 @@ class WORLD {
         $r = [];
         //$logic = !empty( $logic ) ? explode( '=', $logic ) : [];
         $data = $this->countries;
-        if( !empty( $data ) && is_array( $data ) ){
+        if( !empty( $data ) ){
             $x = 0;
             foreach( $data as $c ){
                 $k = $key !== 'id' ? $this->get_property( $c, $key ) : $x;
                 $v = $this->get_property( $c, $value );
-                if( !empty( $k ) && !empty( $v ) )
-                    $r[ $k ] = $v;
+                if( !empty( $k ) && !empty( $v ) ) {
+                    $r[$k] = $v;
                     $x++;
+                }
             }
         }
         return $r;

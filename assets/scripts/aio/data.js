@@ -148,6 +148,7 @@ function is_empty( e, d ) {
                 $(b).removeClass('empty');
                 r.push(false);
             } else {
+                // TODO: Check if the input is inside a tab and activate that tab
                 $(b).addClass('empty');
                 r.push(true);
                 if( $(e).data('empty-notify') !== undefined && $(e).data('empty-notify') !== '' ) {
@@ -217,12 +218,13 @@ function clear( e, d ){
 function process_data( e ){
     //$(e).attr('disabled',true);
     let p;
-    if( $(e).parents('[data-t]') !== undefined && $(e).parents('[data-t]') !== null ) {
+    if( $(e).parents('[data-t]') !== undefined && $(e).parents('[data-t]') !== null && $(e).parents('[data-t]').length > 0 ) {
         p =  $(e).parents('[data-t]');
         $(p).find('[onclick="process_data(this)"]').attr('disabled',true);
         setTimeout(function(){
             $(p).find('[onclick="process_data(this)"]').attr('disabled',false);
         },4000);
+        console.log( $(e).parents('[data-t]') );
     } else {
         p =  $(e);
         $(p).attr('disabled',true);
@@ -230,6 +232,7 @@ function process_data( e ){
             $(p).attr('disabled',false);
         },4000);
     }
+    console.log(p);
     p = ( p.length !== 0 && p[0].tagName === 'DIV' ) ? p : $(e).parents('[data-data]');
     p.addClass('load');
 

@@ -35,7 +35,7 @@ final class Versions
     const VERSIONS          = array (
   'composer/package-versions-deprecated' => '1.11.99.4@b174585d1fe49ceed21928a945138948cb394600',
   'ezyang/htmlpurifier' => 'v4.13.0@08e27c97e4c6ed02f37c5b2b20488046c8d90d75',
-  'guzzlehttp/guzzle' => '7.4.0@868b3571a039f0ebc11ac8f344f4080babe2cb94',
+  'guzzlehttp/guzzle' => '7.4.1@ee0a041b1760e6a53d2a39c8c34115adc2af2c79',
   'guzzlehttp/promises' => '1.5.1@fe752aedc9fd8fcca3fe7ad05d419d32998a06da',
   'guzzlehttp/psr7' => '2.1.0@089edd38f5b8abba6cb01567c2a8aaa47cec4c72',
   'hamcrest/hamcrest-php' => 'v2.0.1@8c3d0a3f6af734494ad8f6fbbee0ba92422859f3',
@@ -60,10 +60,10 @@ final class Versions
   'psr/simple-cache' => '1.0.1@408d5eafb83c57f6365a3ca330ff23aa4a5fa39b',
   'ralouphie/getallheaders' => '3.0.3@120b605dfeb996808c31b6477290a714d356e822',
   'sendgrid/php-http-client' => '3.14.0@7880d5aecc53856802130ba83af1dfcf942e9767',
-  'sendgrid/sendgrid' => '7.11.0@3dcfc4db6583d5fa581248bb486418963804620d',
+  'sendgrid/sendgrid' => '7.11.1@071eac6de115e8c0ead18a7ebdad7c19043f07e4',
   'starkbank/ecdsa' => '0.0.5@484bedac47bac4012dc73df91da221f0a66845cb',
-  'stripe/stripe-php' => 'v7.104.0@6bfd895eaa3f6ebb49c10f9ab9ccc9e5baadded5',
-  'symfony/deprecation-contracts' => 'v2.5.0@6f981ee24cf69ee7ce9736146d1c57c2780598a8',
+  'stripe/stripe-php' => 'v7.108.0@81524a3087612f1b41846b9cd6deb80150af985b',
+  'symfony/deprecation-contracts' => 'v3.0.0@c726b64c1ccfe2896cb7df2e1331c357ad1c8ced',
   'symfony/polyfill-mbstring' => 'v1.23.1@9174a3d80210dca8daa7f31fec659150bbeabfc6',
   'symfony/polyfill-php80' => 'v1.23.1@1100343ed1a92e3a38f9ae122fc0eb21602547be',
   'symfony/process' => 'v5.4.0@5be20b3830f726e019162b26223110c8f47cf274',
@@ -71,7 +71,7 @@ final class Versions
   'vonage/client-core' => '2.7.1@c9bd01868339fc1c74e631d73d7333250b8eccbd',
   'vonage/nexmo-bridge' => '0.1.0@62653b1165f4401580ca8d2b859f59c968de3711',
   'whichbrowser/parser' => 'v2.1.2@bcf642a1891032de16a5ab976fd352753dd7f9a0',
-  '__root__' => 'dev-master@dd7b18cb2b79aaacdf650f62f6f608e4fa8cc6dd',
+  '__root__' => 'dev-master@58b9728914019162af7af72af31d4602cbb5f5c1',
 );
 
     private function __construct()
