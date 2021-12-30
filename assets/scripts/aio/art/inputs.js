@@ -4,8 +4,9 @@ $(document).ready(function(){
 
     // Changes checkbox value to 1 or 0
     $(document).on('change','[data-check],[data-bool],[data-boolean]',function(){
-        let v = $(this).is(':checked') ? '1' : '0';
-        $($(this).data('check')).val(v);
+        let v = $(this).is(':checked') ? '1' : '2';
+        $(this).val(v);
+        //$($(this).data('check')).val(v);
     })
 
     // Initiate Clipboard JS

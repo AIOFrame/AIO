@@ -220,17 +220,17 @@ function process_data( e ){
     let p;
     if( $(e).parents('[data-t]') !== undefined && $(e).parents('[data-t]') !== null && $(e).parents('[data-t]').length > 0 ) {
         p =  $(e).parents('[data-t]');
-        $(p).find('[onclick="process_data(this)"]').attr('disabled',true);
+        $(p).find('[onclick="process_data(this)"]').attr('disabled',true).addClass('load');
         setTimeout(function(){
-            $(p).find('[onclick="process_data(this)"]').attr('disabled',false);
-        },4000);
+            $(p).find('[onclick="process_data(this)"]').attr('disabled',false).removeClass('load');
+        },5000);
         console.log( $(e).parents('[data-t]') );
     } else {
         p =  $(e);
-        $(p).attr('disabled',true);
+        $(p).attr('disabled',true).addClass('load');
         setTimeout(function(){
-            $(p).attr('disabled',false);
-        },4000);
+            $(p).attr('disabled',false).removeClass('load');
+        },5000);
     }
     console.log(p);
     p = ( p.length !== 0 && p[0].tagName === 'DIV' ) ? p : $(e).parents('[data-data]');
