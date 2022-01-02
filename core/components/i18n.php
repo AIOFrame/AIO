@@ -1,7 +1,7 @@
 <?php
 
 $db = new DB();
-$form = new FORM();
+$f = new FORM();
 $w = new WORLD();
 
 $base = defined( 'BASELANG' ) ? BASELANG : 'en';
@@ -11,27 +11,26 @@ if( isset( $_POST['languages'] ) && is_array( $_POST['languages'] ) ) {
 }
 
 $all_languages = get_languages();
-$all_languages = is_array( $all_languages ) ? $all_languages : [];
+$all_languages = !empty( $all_languages ) ? $all_languages : [];
 
 $app_langs = $db->get_option( 'languages' );
 //$app_langs = !empty( $app_langs ) ? unserialize( $app_langs ) : '';
 
 $app_languages = [];
 if( !empty( $app_langs ) ) {
-    $array_langs = !empty( $app_langs ) ? unserialize( $app_langs ) : [];
+    $array_langs = $app_langs !== '' ? unserialize( $app_langs ) : [];
     foreach( $array_langs as $al ) {
         $app_languages[ $al ] = $al !== BASELANG && isset( $all_languages[ $al ] ) ? $all_languages[ $al ] : $al;
     }
 }
 
-$lang = isset( $_POST['lang_select'] ) ? $_POST['lang_select'] : '';
-$page = isset( $_POST['page'] ) ? $_POST['page'] : '';
+$lang = $_POST['lang_select'] ?? '';
+$page = $_POST['page'] ?? '';
 
-$ts = $db->select( 'translations' );
-$ts = !empty( $ts ) && is_array( $ts ) ? $ts : [];
+$strings = $db->select( 'translations' );
 
 $pages = [];
-foreach( $ts as $t ) {
+foreach( $strings as $t ) {
     !empty( $t['t_page'] ) ? $pages[] = $t['t_page'] : '';
 }
 $pages = array_unique( $pages );
@@ -39,40 +38,25 @@ reset_styles('Lato','300',5);
 get_styles( ['select2','bootstrap-grid','translations','micro'] );
 font(['Lato','300,500']);
 ?>
-<div class="row">
-    <div class="col-12 col-lg-4">
-        <form method="post">
-            <label for="lang_select"><?php E('Select Language'); ?></label>
-            <select name="lang_select" id="lang_select" onchange="this.form.submit()">
-                <?php $form->select_options( array_merge( ['' => '', 'add'=>'Add Language'], $app_languages ), $lang, 'Select Language', 1 ); ?>
-            </select>
-        </form>
-    </div>
-    <div class="col-12 col-lg-4 search">
-        <label for="lang_search"><?php E('Search strings...'); ?></label>
-        <input type="text" id="lang_search" name="lang_search" placeholder="Search...">
-    </div>
-    <div class="col-12 col-lg-4">
-        <form method="post">
-            <label for="lang_page"><?php E('Select page to translate'); ?></label>
-            <select name="lang_page" id="lang_page" onchange="this.form.submit()">
-                <?php $form->select_options( array_merge( ['All'] , $pages ), $page, 'Select Page' ); ?>
-            </select>
-        </form>
-    </div>
-</div>
+<form class="row" method="post">
+    <?php
+    $f->select( 'lang_select', 'Select Language', 'Select Language', array_merge( ['' => '', 'add'=>'Add Language'], $app_languages ), $lang, 'onchange="this.form.submit()" class="select2"', 4, '', 1, 0 );
+    $f->text( 'lang_search', 'Search Strings...', 'Search...', '', '', 4 );
+    $f->select( 'lang_page', 'Select Page...', 'Select Page...', array_merge( ['All'] , $pages ), $page, 'onchange="this.form.submit()" class="select2"', 4, '', 1, 0 );
+    ?>
+</form>
 <div id="trans" data-save-scroll>
     <?php
 
     //global $ui_params;
     //$path = !empty( $ui_params ) && isset( $ui_params['location'] ) ? $ui_params['location'] : APPPATH . 'storage/backups/*';
 
-    if( !empty( $ts ) && is_array( $ts ) && !empty( $lang ) && $lang !== 'add' ) {
+    if( !empty( $strings ) && is_array( $strings ) && !empty( $lang ) && $lang !== 'add' ) {
 
         $cry = Crypto::initiate();
-        echo '<div id="aio_translations" class="translations">';
+        echo '<div id="aio_translations" class="translations" data-update="'.$cry->encrypt('update_translation_ajax').'" data-remove="'.$cry->encrypt('remove_translation_ajax').'">';
 
-        foreach( $ts as $ts ){
+        foreach( $strings as $ts ){
 
             echo '<div>';
             if( !empty( $page ) && !in_array( $page, ['All','Global'] ) && $ts['t_page'] !== $page ) { continue; }
@@ -108,10 +92,14 @@ font(['Lato','300,500']);
         <form method="post">
             <div class="mb20">
                 <?php
-                $form->select( 'languages[]', 'Select Languages', 'Select Languages', $all_languages, $app_langs, 'multiple class="select2"' );
+                $set_lang = $app_langs !== '' ? implode( ',', unserialize( $app_langs ) ) : '';
+                //skel( $set_lang );
+                $f->select( 'languages[]', 'Select Languages', 'Select Languages', $all_languages, 'ar,hi', 'multiple class="select2"', '', '', 1 );
                 ?>
             </div>
-            <div class="tar"><button onchange="this.form.submit()">Set Languages</button></div>
+            <div class="tac">
+                <button onchange="this.form.submit()">Set Languages</button>
+            </div>
         </form>
     <?php } else { ?>
 <!--            <form method="post">-->

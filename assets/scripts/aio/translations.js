@@ -70,7 +70,7 @@ $(document).ready(function(){
     .on('click','.trash',function(){
         if( confirm( 'This string will not be available to translate anymore in all languages ?' ) ){
             let id = $(this).data('id');
-            post( 'remove_translation', { 'id': id }, 3, 3 );
+            post( $('#aio_translations').data('remove'), { 'id': id }, 3, 3 );
         }
     })
 });
@@ -107,22 +107,22 @@ function get_untranslations() {
 
 function add_row( string ) {
     string = string === undefined ? '' : string;
-    $('#translations tbody').append('<tr><td>'+string+'</td><td></td><td><i class="ico trash"></i></td></tr>').animate({ scrollTop: $('tbody')[0].scrollHeight }, 1000).find('tr:last-child td:first-child').click();
+    $('#aio_translations tbody').append('<tr><td>'+string+'</td><td></td><td><i class="ico trash"></i></td></tr>').animate({ scrollTop: $('tbody')[0].scrollHeight }, 1000).find('tr:last-child td:first-child').click();
 }
 
 function update_translation() {
     //if( $('#save').data('row') !== undefined && $('#save').data('row') !== '' ){
 
     // Update the Table
-    var r = $('#translations div.on');
+    let r = $('#aio_translations div.on');
     if( r.length > 0 ){
         $(r).data('edited',true).find('div:first-child').html($('#string').val());
         $(r).find('div:nth-child(2)').html($('#translation').val());
     }
 
     // Update Translations
-    var ln = $('#lang_select').val();
-    var d = { 'action': 'update_translation', 'language': ln, 'string': $('#string').val(), 'translation': $('#translation').val() };
+    let ln = $('#lang_select').val();
+    let d = { 'action': $('#aio_translations').data('update'), 'language': ln, 'string': $('#string').val(), 'translation': $('#translation').val() };
     elog(d);
 
     if( ln !== null ) {

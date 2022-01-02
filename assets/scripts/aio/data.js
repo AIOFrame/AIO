@@ -381,7 +381,13 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
             r = JSON.parse( r );
             //elog(r);
             if( notify_time !== undefined && notify_time !== '' ) {
-                notify( r[1], notify_time );
+                console.log(r);
+                console.log($(p).data('success'));
+                if( r[0] === 1 && $(p).data('success') !== undefined ) {
+                    notify( $(p).data('success'), notify_time );
+                } else {
+                    notify( r[1], notify_time );
+                }
             }
             if( r[0] !== 0 && reload_time !== undefined && reload_time !== '' && reload_time !== '0' ) {
                 $.isNumeric( reload_time ) ? setTimeout(function(){ location.reload() }, reload_time * 1000 ) : location.href = reload_time;

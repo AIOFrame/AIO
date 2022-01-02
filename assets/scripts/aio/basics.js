@@ -43,6 +43,20 @@ $(document).ready(function(){
         localStorage.setItem('dark_mode',$(b).hasClass('d'));
     })
 
+    // CHANGE LANGUAGE
+    .on('click','[data-lang]',function(){
+        //var cl = $('[data-lang].on').data('lang');
+        let nl = $(this).data('lang');
+        post( $(this).parent().data('language'),{'lang':nl},'',1);
+    })
+    .on('change','[data-languages]',function(){
+        let nl = $(this).val();
+        $.post(location.origin,{'action':'set_language','lang':nl},function(r){
+            notify('Language Changed!');
+            reload(3);
+        });
+    });
+
     // Load Dark Mode
     let dark = localStorage.getItem('dark_mode');
     dark === 'true' ? b.addClass('d') : b.removeClass('d');

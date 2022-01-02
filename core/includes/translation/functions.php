@@ -53,12 +53,12 @@ function save_untranslated( $string ){
     }
 }
 
-function update_translation( $string = '', $language = '', $translation = '', $page = '' ) {
+function update_translation_ajax( $string = '', $language = '', $translation = '', $page = '' ) {
 
-    $string = isset( $_POST['string'] ) ? $_POST['string'] : $string;
-    $language = isset( $_POST['language'] ) ? $_POST['language'] : $language;
-    $translation = isset( $_POST['translation'] ) ? $_POST['translation'] : $translation;
-    $page = isset( $_POST['page'] ) ? $_POST['page'] : $page;
+    $string = $_POST['string'] ?? $string;
+    $language = $_POST['language'] ?? $language;
+    $translation = $_POST['translation'] ?? $translation;
+    $page = $_POST['page'] ?? $page;
 
     $db = new DB();
     $exist = $db->select( 'translations', '', 'BINARY t_base = "'.$string.'"' );
@@ -91,8 +91,8 @@ function update_translation( $string = '', $language = '', $translation = '', $p
 
 }
 
-function remove_translation() {
-    $id = isset( $_POST['id'] ) ? $_POST['id'] : '';
+function remove_translation_ajax() {
+    $id = $_POST['id'] ?? '';
     if( $id !== '' ){
         $cry = Crypto::initiate();
         $db = new DB();
@@ -193,6 +193,16 @@ function set_language( $language = '' ) {
     if( !empty( $language ) && !is_array( $language ) ){
         $_SESSION['lang'] = $language;
     }
+    if( !empty( $_POST ) ) {
+        es('Successfully changed Language');
+    } else {
+        ef('Failed to change language!');
+    }
+}
+
+function set_language_ajax() {
+    $language = !empty( $_POST['lang'] ) && !is_array( $_POST['lang'] ) ? $_POST['lang'] : 'en';
+    $_SESSION['lang'] = $language;
     if( !empty( $_POST ) ) {
         es('Successfully changed Language');
     } else {

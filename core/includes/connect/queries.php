@@ -728,7 +728,7 @@ function process_data_ajax() {
             if( is_array( $hs ) ){
                 elog( 'Hidden is array' );
                 foreach( $hs as $k => $v ){
-                    $a[ $pre.$k ] = $v;
+                    $k == 'id' ? $id = $v : $a[ $pre.$k ] = $v;
                 }
             }
             unset( $a['h'] );
@@ -781,8 +781,8 @@ function process_data_ajax() {
         }
 
         // Send Emails
-        elog( $emails );
         if( isset( $emails ) && is_array( $emails ) && $query ) {
+            elog( $emails );
             elog('Isset Emails :)');
             $mailer = new MAIL();
             foreach( $emails as $e ) {

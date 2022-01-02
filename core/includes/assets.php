@@ -96,6 +96,7 @@ function get_style(string $f, $params = [], $page_of = '') {
             ROOTPATH . 'assets/styles/ext/'. $f . '/' . $f => APPURL . 'assets/styles/ext/' . $f . '/' . $f,
             ROOTPATH . 'assets/styles/aio/' . $f => APPURL . 'assets/styles/aio/' . $f,
             ROOTPATH . 'assets/ext/' . $f => APPURL . 'assets/ext/' . $f,
+            ROOTPATH . 'assets/ext/' . $f . '/' . $f => APPURL . 'assets/ext/' . $f . '/' . $f,
             ROOTPATH . 'assets/ext/' . $f .'/css/' . $f => APPURL . 'assets/ext/' . $f . '/css/' . $f,
         ];
         //skel( ROOTPATH . 'assets/ext/' . $f .'css/' . $f );
@@ -161,6 +162,7 @@ function get_script(string $f, array $params = [], string $page_of = '') {
             ROOTPATH . 'assets/scripts/ext/' . $f . '/' . $f => APPURL . 'assets/scripts/ext/' . $f . '/' . $f,
             ROOTPATH . 'assets/scripts/aio/' . $f => APPURL . 'assets/scripts/aio/' . $f,
             ROOTPATH . 'assets/ext/' . $f => APPURL . 'assets/ext/' . $f,
+            ROOTPATH . 'assets/ext/' . $f . '/' . $f => APPURL . 'assets/ext/' . $f . '/' . $f,
             ROOTPATH . 'assets/ext/' . $f . '/js/' . $f => APPURL . 'assets/ext/' . $f . '/js/' . $f,
         ];
         $url = asset_exists( $script_paths, $f, 'js' );
@@ -557,6 +559,18 @@ function render_menu( array $array, string $prefix = '' ) {
     echo '</ul>';
 
     !empty( $title ) && !defined( 'PAGET' ) ? define( 'PAGET', $title ) : '';
+}
+
+function language_picker() {
+    $db = new DB();
+    $c = Crypto::initiate();
+    $ls = $db->get_option('languages');
+    $ls = $ls !== '' ? array_merge( ['en'=>'English'], unserialize( $ls ) ) : ['en'=>'English'];
+    echo '<div class="languages" data-language="'.$c->encrypt('set_language_ajax').'">';
+    if( !empty( $ls ) )
+        foreach( $ls as $k => $v )
+            echo '<div data-lang="' . $v . '">' . $v . '</div>';
+    echo '</div>';
 }
 
 /**
