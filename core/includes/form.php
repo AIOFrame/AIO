@@ -372,13 +372,37 @@ class FORM {
     }
 
     /**
+     * Renders HTML
+     * @param string $target Database Name
+     * @param string $data Data attribute to fetch data
+     * @param string $pre Pre Wrap String for Tables
+     * @param int $notify Notification Time in Seconds
+     * @param int $reload Reload in Seconds
+     * @param array $hidden Hidden data for Database
+     * @param string $success_text Text to notify upon successfully storing data
+     */
+    function process_params( string $target = '', string $data = '', string $pre = '', int $notify = 0, int $reload = 0, array $hidden = [], string $success_text = '' ) {
+        $c = Crypto::initiate();
+        $t = !empty( $target ) ? ' data-t="'.$c->encrypt( $target ).'"' : '';
+        $nt = $notify > 0 ? ' data-notify="'.$notify.'"' : '';
+        $rl = $reload > 0 ? ' data-reload="'.$reload.'"' : '';
+        $d = !empty( $data ) ? ' data-data="'.$data.'"' : '';
+        $p = !empty( $pre ) ? ' data-pre="'.$pre.'"' : '';
+        $h = !empty( $hidden ) ? ' data-h="'.$c->encrypt_array( $hidden ).'"' : '';
+        $st = !empty( $success_text ) ? ' data-success="'.T($success_text).'"' : '';
+        echo $t.$nt.$rl.$d.$p.$h.$st;
+    }
+
+    /**
      * Renders HTML to process data
      * @param string $text Button text
      * @param string $class Button class
      * @param string $attr Additional attributes to button
      * @param string $action Default AJAX Action
+     * @param string|int $pre Pre Wrap HTML or Bootstrap Column
+     * @param string|int $post Post Wrap HTML
      */
-    function process_button_html( string $text = '', string $class = '', string $attr = '', string $action = 'process_data_ajax', $pre = '', $post = '' ) {
+    function process_button_html( string $text = '', string $class = '', string $attr = '', string $action = '', string|int $pre = '', int|string $post = '' ) {
         if( is_numeric( $pre ) ){
             $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
         } else {
@@ -386,7 +410,8 @@ class FORM {
         }
         $post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
         $c = Crypto::initiate();
-        $a = !empty( $action ) ? 'data-action="'.$c->encrypt($action).'"' : '';
+        $action = empty( $action ) ? 'process_data_ajax' : $action;
+        $a = 'data-action="'.$c->encrypt($action).'"';
         echo $pre.'<button onclick="process_data(this)" '.$a.' class="'.$class.'" '.$attr.'>'.T( $text ).'</button>'.$post;
     }
 
