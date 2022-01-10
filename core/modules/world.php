@@ -38,8 +38,8 @@ class WORLD {
                 $v = $this->get_property( $c, $value );
                 if( !empty( $k ) && !empty( $v ) ) {
                     $r[$k] = $v;
-                    $x++;
                 }
+                $x++;
             }
         }
         return $r;
@@ -120,7 +120,7 @@ class WORLD {
 
         $r = [];
         $countries_data = $this->countries;
-        if( !empty( $countries_data ) && is_array( $countries_data ) ){
+        if( !empty( $countries_data ) ){
             foreach( $countries_data as $c ){
                 $k = $this->get_property( $c, $key );
                 $v = $this->get_property( $c, $value );
@@ -142,7 +142,7 @@ class WORLD {
 
         $r = [];
         $countries_data = $this->countries;
-        if( !empty( $countries_data ) && is_array( $countries_data ) ){
+        if( !empty( $countries_data ) ){
             foreach( $countries_data as $c ){
                 $k = $this->get_property( $c, $key );
                 $v = $this->get_property( $c, $value );
@@ -172,7 +172,7 @@ class WORLD {
         }
         $r = [];
         $data = $this->countries;
-        if( !empty( $data ) && is_array( $data ) ){
+        if( !empty( $data ) ){
             foreach( $data as $c ){
                 if( $c[ $key ] == $val )
                     $r = $c;

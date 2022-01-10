@@ -564,12 +564,18 @@ function render_menu( array $array, string $prefix = '' ) {
 function language_picker() {
     $db = new DB();
     $c = Crypto::initiate();
-    $ls = $db->get_option('languages');
-    $ls = $ls !== '' ? array_merge( ['en'=>'English'], unserialize( $ls ) ) : ['en'=>'English'];
+    $os = $db->get_options(['base_language','languages']);
+    $i18ns = $os['languages'] ?? '';
+    $i18ns = !empty( $i18ns ) ? explode( ',', str_replace( ' ', '', $i18ns ) ) : [];
+    $base = $os['base_language'] ?? 'English';
+    $i18ns = array_merge( [ $base ], $i18ns );
     echo '<div class="languages" data-language="'.$c->encrypt('set_language_ajax').'">';
-    if( !empty( $ls ) )
-        foreach( $ls as $k => $v )
+    if( !empty( $i18ns ) ) {
+        $i18ns = array_unique($i18ns);
+        foreach ($i18ns as $v) {
             echo '<div data-lang="' . $v . '">' . $v . '</div>';
+        }
+    }
     echo '</div>';
 }
 

@@ -176,6 +176,14 @@ table.r {
   }
 }
 
+// Table without horizontal padding
+table.px0 {
+  td {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
 [dir=rtl] {
   table.r {
     tr:first-child {

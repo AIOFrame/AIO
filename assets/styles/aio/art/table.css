@@ -156,6 +156,11 @@ table.r tr:last-child td:last-child, table.r tr:last-child th:last-child {
   border-bottom-right-radius: 5px;
 }
 
+table.px0 td {
+  padding-left: 0;
+  padding-right: 0;
+}
+
 [dir=rtl] table.r tr:first-child {
   border-radius: 0 0 5px 5px;
 }

@@ -110,11 +110,16 @@ class DB {
         foreach( $tables as $tb ) {
             $table_names .= $tb[0].'_';
         }
+        elog('HEre 1');
+        elog($tables);
         $result = [];
         $db = new DB();
         $trace = debug_backtrace();
         $file_path = $trace[0]['file'] ?? '';
         if( !empty( $file_path ) ) {
+
+            elog('HEre 2');
+            elog($tables);
 
             // Get file properties
             $file = str_replace( '/', '_', $file_path );
@@ -125,6 +130,8 @@ class DB {
             if( empty( $exist ) || $exist !== $md5 ) {
                 $db->update_option( $file . '_md5', $md5 );
                 $result = $this->create_tables( $tables );
+                elog('HEre 3');
+                elog($tables);
             }
         }
         return $result;
@@ -795,6 +802,15 @@ function process_data_ajax() {
         die();
     } else {
         ef('Database not targeted properly, please contact support');
+    }
+}
+
+function process_options_ajax() {
+    es('test');
+    $p = $_POST;
+    if( !empty( $p ) && is_array( $p ) ) {
+        $db = new DB();
+        $db->update_options( $p );
     }
 }
 

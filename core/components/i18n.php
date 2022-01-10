@@ -4,25 +4,17 @@ $db = new DB();
 $f = new FORM();
 $w = new WORLD();
 
-$base = defined( 'BASELANG' ) ? BASELANG : 'en';
+$os = $db->get_options(['base_language','languages']);
+$i18ns = $os['languages'] ?? '';
+$base = $os['base_language'] ?? 'English';
 
-if( isset( $_POST['languages'] ) && is_array( $_POST['languages'] ) ) {
-    $save_langs = $db->update_option( 'languages', serialize( $_POST['languages'] ) );
-}
-
-$all_languages = get_languages();
-$all_languages = !empty( $all_languages ) ? $all_languages : [];
-
-$app_langs = $db->get_option( 'languages' );
-//$app_langs = !empty( $app_langs ) ? unserialize( $app_langs ) : '';
-
-$app_languages = [];
-if( !empty( $app_langs ) ) {
-    $array_langs = $app_langs !== '' ? unserialize( $app_langs ) : [];
+$app_languages = !empty( $i18ns ) ? explode( ',', str_replace( ' ', '', $i18ns ) ) : [];
+/* if( !empty( $i18ns ) ) {
+    $array_langs = $i18ns !== '' ? unserialize( $app_langs ) : [];
     foreach( $array_langs as $al ) {
         $app_languages[ $al ] = $al !== BASELANG && isset( $all_languages[ $al ] ) ? $all_languages[ $al ] : $al;
     }
-}
+} */
 
 $lang = $_POST['lang_select'] ?? '';
 $page = $_POST['page'] ?? '';
@@ -35,7 +27,7 @@ foreach( $strings as $t ) {
 }
 $pages = array_unique( $pages );
 reset_styles('Lato','300',5);
-get_styles( ['select2','bootstrap-grid','translations','micro'] );
+get_styles( ['bootstrap-grid','tagcomplete','i18n','micro'] );
 font(['Lato','300,500']);
 ?>
 <form class="row" method="post">
@@ -45,7 +37,7 @@ font(['Lato','300,500']);
     $f->select( 'lang_page', 'Select Page...', 'Select Page...', array_merge( ['All'] , $pages ), $page, 'onchange="this.form.submit()" class="select2"', 4, '', 1, 0 );
     ?>
 </form>
-<div id="trans" data-save-scroll>
+<div id="i18n_wrap" data-save-scroll>
     <?php
 
     //global $ui_params;
@@ -87,20 +79,18 @@ font(['Lato','300,500']);
             </div>
 
         <?php }*/
-    } else if( $lang == 'add' ) {
-        unset( $all_languages['en'] ); ?>
-        <form method="post">
-            <div class="mb20">
+    } else if( $lang == 'add' ) { ?>
+        <div <?php $f->process_params('','i18ns','',3,3,[],'Successfully updated Languages!'); ?>>
+            <?php
+            $f->text('base_language','Default Programmed Language', 'Ex: English', $base, 'data-i18ns', 12 );
+            $f->textarea( 'languages', 'Add Languages to be Translated (Separate by ,)', 'Ex: العربية, English, Español, 普通话 etc.', $i18ns, 'data-i18ns', 12 );
+            ?>
+            <div class="tac">
                 <?php
-                $set_lang = $app_langs !== '' ? implode( ',', unserialize( $app_langs ) ) : '';
-                //skel( $set_lang );
-                $f->select( 'languages[]', 'Select Languages', 'Select Languages', $all_languages, 'ar,hi', 'multiple class="select2"', '', '', 1 );
+                $f->process_button_html('Save Languages','save_i18ns','','process_options_ajax');
                 ?>
             </div>
-            <div class="tac">
-                <button onchange="this.form.submit()">Set Languages</button>
-            </div>
-        </form>
+        </div>
     <?php } else { ?>
 <!--            <form method="post">-->
 <!--                <h3>Please select a language to start managing translations</h3>-->
@@ -130,4 +120,4 @@ font(['Lato','300,500']);
     </div>
     <?php } ?>
 </div>
-<?php get_scripts(['jquery','clipboard','select2','aio','translations']); ?>
+<?php get_scripts(['jquery','clipboard','tagcomplete','aio','i18n']); ?>

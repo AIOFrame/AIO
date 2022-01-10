@@ -11,7 +11,7 @@ $(document).ready(function(){
     });
 
     if( jQuery.fn.select2 ){
-        $('#lang_select,#lang_page').select2({});
+        //$('#lang_select,#lang_page').select2({});
     }
 
     // Load Existing Translations

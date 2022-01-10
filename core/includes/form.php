@@ -3,7 +3,7 @@
 class FORM {
 
     /**
-     * Renders <select> options
+     * Renders &lt;select&gt; options
      * @param array $options Indexed or Associative Array of options
      * @param string|null $selected Selected option or options separated by comma
      * @param string $placeholder Placeholder text
@@ -27,15 +27,15 @@ class FORM {
     }
 
     /**
-     * Renders <select> element and <option>s inside
+     * Renders &lt;select&gt; element and <option>s inside
      * @param string|array $identity ID and name of the element or array of [id, name]
-     * @param string $label Label for the <label>
+     * @param string $label Label for the &lt;label&gt;
      * @param string $placeholder Placeholder text
      * @param array $options Indexed or Associative Array of options
      * @param string|null $selected Selected option or options separated by comma
      * @param string $attr Attributes like class or data tags
-     * @param string $pre String to add before <select>. Tip: 6 will wrap with bootstrap col-lg-6
-     * @param string $post String to add after </select>
+     * @param string $pre String to add before &lt;select&gt;. Tip: 6 will wrap with bootstrap col-lg-6
+     * @param string $post String to add after &lt;/select&gt;
      * @param bool $keyed Yes if option value should be array key
      * @param bool $translate Translate the option text or not
      */
@@ -65,15 +65,15 @@ class FORM {
     }
 
     /**
-     * Renders an <input> Element
+     * Renders an &lt;input&gt; Element
      * @param string $type Input type, Ex: 'text','radio','checkbox','textarea'
      * @param string|array $identity ID and name of the element
-     * @param string $label Label for the <label>
+     * @param string $label Label for the &lt;label&gt;
      * @param string $placeholder Placeholder text
      * @param string|null $value Value of the input if any
      * @param string $attrs Attributes like class or data tags
-     * @param string $pre String to wrap before start of <input>. Tip: 6 will wrap with bootstrap col-lg-6
-     * @param string $post End string to wrap after />
+     * @param string $pre String to wrap before start of &lt;input&gt;. Tip: 6 will wrap with bootstrap col-lg-6
+     * @param string $post End string to wrap after /&gt;
      * @param string $name Optional if different name is needed
      */
     function input( string $type, string|array $identity, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '', string $name = '' ){
@@ -115,12 +115,12 @@ class FORM {
     }
 
     /**
-     * Renders multiple <input> elements
+     * Renders multiple &lt;input&gt; elements
      * @param string $type Input type, Ex: 'text','radio','checkbox','textarea'
-     * @param array $array Array of array of ['id','label','placeholder','value','attr','pre','post'] of inputs
+     * @param array $array Array of sub array of ['id','label','placeholder','value','attr','pre','post'] of inputs
      * @param string $attrs Attributes like class or data applicable to all
-     * @param string $pre String to wrap before start of <input>. Tip: 6 will wrap with bootstrap col-lg-6
-     * @param string $post End string to wrap after />
+     * @param string $pre String to wrap before start of &lt;input&gt;. Tip: 6 will wrap with bootstrap col-lg-6
+     * @param string $post End string to wrap after /&gt;
      */
     function inputs( string $type = 'text', array $array = [], string $attrs = '', string $pre = '', string $post = '' ){
         if( !empty( $array ) && is_array( $array ) ){
@@ -138,41 +138,41 @@ class FORM {
     }
 
     /**
-     * Renders <input type="text"> element
+     * Renders &lt;input type="text"> element
      * Basically the text input function with $type = 'text' param
      * @param string|array $id ID and name of the element
-     * @param string $label Label for the <label>
+     * @param string $label Label for the &lt;label&gt;
      * @param string $placeholder Placeholder text
      * @param string|null $value Value of the input if any
      * @param string $attrs Attributes like class or data tags
-     * @param string $pre String to wrap before start of <input>. Tip: 6 will wrap with bootstrap col-lg-6
-     * @param string $post End string to wrap after />
+     * @param string $pre String to wrap before start of &lt;input&gt;. Tip: 6 will wrap with bootstrap col-lg-6
+     * @param string $post End string to wrap after /&gt;
      */
     function text( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '' ) {
         $this->input( 'text', $id, $label, $placeholder, $value, $attrs, $pre, $post );
     }
 
     /**
-     * Renders <input type="textarea"> element
+     * Renders &lt;input type="textarea"&gt; element
      * Basically the text input function with $type = 'textarea' param
      * @param string|array $id ID and name of the element
-     * @param string $label Label for the <label>
+     * @param string $label Label for the &lt;label&gt;
      * @param string $placeholder Placeholder text
      * @param string|null $value Value of the input if any
      * @param string $attrs Attributes like class or data tags
-     * @param string $pre String to wrap before start of <input>. Tip: 6 will wrap with bootstrap col-lg-6
-     * @param string $post End string to wrap after />
+     * @param string $pre String to wrap before start of &lt;input&gt;. Tip: 6 will wrap with bootstrap col-lg-6
+     * @param string $post End string to wrap after /&gt;
      */
     function textarea( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '' ) {
         $this->input( 'textarea', $id, $label, $placeholder, $value, $attrs, $pre, $post );
     }
 
     /**
-     * Renders multiple <input type="text"> elements
+     * Renders multiple &lt;input type="text"&gt; elements
      * @param array $array Array of an array of ['id','label','placeholder','value','attr']
      * @param string $attrs Attributes like class or data applicable to all
      * @param string $pre String to wrap before start of input. Tip: 6 will wrap with bootstrap col-lg-6
-     * @param string $post End string to wrap after />
+     * @param string $post End string to wrap after /&gt;
      */
     function texts( array $array, string $attrs = '', string $pre = '', string $post = '' ){
         if( is_array( $array ) ){
@@ -187,15 +187,15 @@ class FORM {
     }
 
     /**
-     * Renders <input type="radio"> or <input type="checkbox"> elements of same name
+     * Renders &lt;input type="radio"&gt; or &lt;input type="checkbox"&gt; elements of same name
      * @param string $type Type either 'radio' or 'checkbox'
      * @param string|array $identity Name of the input elements
      * @param array $values Array of values
      * @param string|array $checked Checked value or values separated by (,) comma
      * @param string $attr Attributes like class or data tags
      * @param bool $label_first If label should be before input element
-     * @param string $pre String to wrap before start of <input>. Tip: 6 will wrap with bootstrap col-lg-6
-     * @param string $post End string to wrap after />
+     * @param string $pre String to wrap before start of &lt;input&gt;. Tip: 6 will wrap with bootstrap col-lg-6
+     * @param string $post End string to wrap after /&gt;
      */
     function render_options( string $type = 'radio', string $label = '', string|array $identity = '', array $values = [], string|array $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ) {
         if( is_array( $values ) ) {
@@ -270,28 +270,28 @@ class FORM {
     }
 
     /**
-     * Renders <input type="radio"> elements
+     * Renders &lt;input type="radio"&gt; elements
      * @param string|array $name Name of the input elements
      * @param array $values Array of values
      * @param string $checked Checked value or values separated by (,) comma
      * @param string $attr Attributes like class or data tags
      * @param bool $label_first If label should be before input element
-     * @param string $pre String to wrap before start of <input>. Tip: 6 will wrap with bootstrap col-lg-6
-     * @param string $post End string to wrap after />
+     * @param string $pre String to wrap before start of &lt;input&gt;. Tip: 6 will wrap with bootstrap col-lg-6
+     * @param string $post End string to wrap after /&gt;
      */
     function radios( string|array $name, string $label = '', array $values = [], string $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ){
         $this->render_options( 'radio', $label, $name, $values, $checked, $attr, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post );
     }
 
     /**
-     * Renders <input type="checkbox"> elements
+     * Renders &lt;input type="checkbox"&gt; elements
      * @param string|array $name Name of the input elements
      * @param array $values Array of values
      * @param array|string $checked Checked value or values separated by (,) comma
      * @param string $attr Attributes like class or data tags
      * @param bool $label_first If label should be before input element
-     * @param string $pre String to wrap before start of <input>. Tip: 6 will wrap with bootstrap col-lg-6
-     * @param string $post End string to wrap after />
+     * @param string $pre String to wrap before start of &lt;input&gt;. Tip: 6 will wrap with bootstrap col-lg-6
+     * @param string $post End string to wrap after /&gt;
      */
     function checkboxes( string|array $name, string $label = '', array $values = [], string|array $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ){
         $this->render_options( 'checkbox', $label, $name, $values, $checked, $attr, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post );
@@ -300,8 +300,8 @@ class FORM {
     /**
      * Renders File Uploading Elements
      * @param string|array $identity ID and name of the element
-     * @param string $label Text for the <label>
-     * @param string $button_label Text for the <button>
+     * @param string $label Text for the &lt;label&gt;
+     * @param string $button_label Text for the &lt;button&gt;
      * @param string $value Value of the input if any
      * @param bool $multiple Upload single or multiple files
      * @param bool $show_history Show previously uploaded files
@@ -312,7 +312,7 @@ class FORM {
      * @param bool $deletable Uploaded files are deletable or not
      * @param string $path Path to upload, will be encrypted on render
      * @param string $pre String to wrap before start
-     * @param string $post End string to wrap after />
+     * @param string $post End string to wrap after /&gt;
      */
     function upload( string|array $identity, string $label, string $button_label = 'Upload', string $value = '', bool $multiple = false, bool $show_history = false, string $button_class = '', string $attrs = '', string $extensions = '', string $size = '', bool $deletable = false, string $path = '', string $pre = '', string $post = '' ) {
         $id = is_array($identity) ? $identity[0] : $identity;
