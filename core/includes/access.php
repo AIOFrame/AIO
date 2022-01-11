@@ -512,7 +512,7 @@ function access_change_ajax() {
  * @param int|string $notify_for Seconds to Notify
  * @param string $redirect_to Page to redirect to upon success
  */
-function login_html( string $login_title = 'Username or Email', string $pass_title = 'Password', string $forgot_title = 'Forgot Password?', string $back_title = 'Back to Login', int|string $reload_in = 3, int|string $notify_for = 3, string $redirect_to = '' ) {
+function login_html( string $login_title = 'Username or Email', string $pass_title = 'Password', string $forgot_title = 'Forgot Password?', string $back_title = 'Back to Login', int|string $reload_in = 1, int|string $notify_for = 1, string $redirect_to = '' ) {
     if( user_logged_in() ) {
         return;
     }
@@ -724,7 +724,7 @@ function user_can( $perm ): bool {
     if( is_numeric( $uid ) && $uid > 0 ) {
         $db = new DB();
         $ua = $db->select( 'users', 'user_access', 'user_id = \''.$uid.'\'', 1 );
-        $access = is_array( $ua ) && isset( $ua['user_access'] ) ? json_decode( $ua['user_access'] ) : [];
+        $access = !empty( $ua ) && isset( $ua['user_access'] ) ? json_decode( $ua['user_access'] ) : [];
         return in_array( $perm, $access );
     } else {
         return 0;
