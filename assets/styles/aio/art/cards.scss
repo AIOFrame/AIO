@@ -21,6 +21,13 @@
     background-position:center;
     background-repeat:no-repeat;
   }
+  .logo {
+    height: 60px;
+    width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
   .image.b, .pic.b {
     border: 1px solid lightgrey;
   }
@@ -175,6 +182,15 @@
     left:auto;
     right:10px;
   }
+  .status.blue {
+    color: #1b7dbb;
+    border:1px solid #1b7dbb;
+  }
+  .status.bg.blue {
+    color: #fff;
+    background: #1b7dbb;
+    border:1px solid #1b7dbb;
+  }
   .status.green {
     color:darkolivegreen;
     border:1px solid darkolivegreen;
@@ -219,6 +235,19 @@
   transform:translateY(-2px);
   .actions {
     opacity:1;
+  }
+}
+
+/* Pagination */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  a {
+    display: block;
+    margin: 0 10px;
+    padding: 12px;
   }
 }
 

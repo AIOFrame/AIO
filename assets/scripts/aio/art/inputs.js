@@ -30,6 +30,12 @@ $(document).ready(function(){
         });
     }
 
+    if( $.fn.tagComplete !== undefined ){
+        $('[data-tags]').each(function (a,b) {
+            $(b).tagComplete();
+        });
+    }
+
     // Format Numbers
     $('body').on('keyup','input.fn',function(){
         let a = format_number($(this).val());

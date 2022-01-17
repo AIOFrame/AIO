@@ -586,16 +586,26 @@ function language_picker() {
  * @param int $limit Maximum items limit per page
  * @param string $class Class for buttons
  */
-function pagination( int $page, int $records, int $limit = 24, string $class = 'btn' ) {
+function pagination( int $page, int $records, int $limit = 24, string $class = 'page_btn' ) {
     $url = APPURL . PAGEPATH;
     ?>
-<div class="pagination row">
-    <div class="col-6 tal">
-        <?php echo $page > 1 ? '<a href="'.$url.'/'.round($page/$limit - 1).'" class="'.$class.'">'.T('Previous').'</a>' : ''; ?>
-    </div>
-    <div class="col-6 tar">
-        <?php echo $records < $limit ? '<a href="'.$url.'/'.round($page/$limit + 1).'" class="'.$class.'">'.T('Next').'</a>' : ''; ?>
-    </div>
+<div class="pagination">
+    <?php
+    $total_pages = ($records/$limit);
+    // echo '<a href="'.$url.'/1" class="first '.$class.'"></a>';
+    echo $page > 3 ? '<a href="'.$url.'/1" class="first '.$class.'">1</a>' : '';
+    echo $page > 3 ? '<a  class="blank">...</a>' : '';
+    for( $x = ($page - 2); $x < $page; $x++ ) {
+        echo $x > 0 ? '<a href="'.$url.'/'.$x.'" class="pre '.$class.'">'.$x.'</a>' : '';
+    }
+    echo '<a href="'.$url.'/'.$page.'" class="on '.$class.'">'.$page.'</a>';
+    for( $y = ($page + 1); $y <= ($page + 2); $y++ ) {
+        echo $page < $total_pages ? '<a href="'.$url.'/'.$y.'" class="post '.$class.'">'.$y.'</a>' : '';
+    }
+    echo $page < ($total_pages - 3) ? '<a  class="blank">...</a>' : '';
+    echo $page < ($total_pages - 2) ? '<a href="'.$url.'/'.$total_pages.'" class="last '.$class.'">'.$total_pages.'</a>' : '';
+    // echo '<a href="'.$url.'/'.$total_pages.'" class="last '.$class.'"></a>';
+    ?>
 </div>
     <?php
 }
