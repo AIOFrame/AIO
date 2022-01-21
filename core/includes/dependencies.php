@@ -42,12 +42,12 @@ function render_maps() {
 
 function barcode( $text, $width = '100', $height = '36', $textShow = 0, $bgColor = '#ffffff', $lineColor = '#000000', $textAlign = 'center', $textPosition = 'bottom', $textMargin = '0', $format = 'CODE128' ) {
     include_once( ROOTPATH . 'core/modules/external/JsBarcode/barcode.php' );
-    global $barcode_loaded;
-    if( !$barcode_loaded ) {
+    //global $barcode_loaded;
+    //if( !$barcode_loaded ) {
         $barcode = new BARCODE();
         $barcode->generate($text, $width, $height, $bgColor, $lineColor, $textShow, $textAlign, $textPosition, $textMargin, $format);
         $barcode_loaded = 1;
-    }
+    //}
 }
 
 // File Uploader and Stored URL Processor

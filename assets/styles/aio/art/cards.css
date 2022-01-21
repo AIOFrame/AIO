@@ -20,6 +20,13 @@
   background-position: center;
   background-repeat: no-repeat;
 }
+.card .logo {
+  height: 60px;
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
 .card .image.b, .card .pic.b {
   border: 1px solid lightgrey;
 }
@@ -174,6 +181,15 @@
   left: auto;
   right: 10px;
 }
+.card .status.blue {
+  color: #1b7dbb;
+  border: 1px solid #1b7dbb;
+}
+.card .status.bg.blue {
+  color: #fff;
+  background: #1b7dbb;
+  border: 1px solid #1b7dbb;
+}
 .card .status.green {
   color: darkolivegreen;
   border: 1px solid darkolivegreen;
@@ -220,6 +236,18 @@
 }
 .card:not(.no-float):hover .actions {
   opacity: 1;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.pagination a {
+  display: block;
+  margin: 0 10px;
+  padding: 12px;
 }
 
 /* RTL */

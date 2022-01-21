@@ -3,17 +3,18 @@ $(document).ready(function(){
     $('body').on('click', '[data-step]', function () {
         $(this).parent().children().removeClass('on');
         $(this).addClass('on');
-        $($(this).data('step')).parent().children().hide();
-        $($(this).data('step')).show();
+        let el = $(this).data('step');
+        $(el).parent().children().addClass('dn');
+        $(el).removeClass();
     })
 
     // Next Step
-    .on('click', '.steps .next', function () {
-        $($(this).parents('.steps')).find('[data-t].on').next().click();
+    .on('click', '.steps [data-next]', function () {
+        $($(this).parents('.steps')).find('[data-step].on').next().click();
     })
     // Previous Step
-    .on('click', '.steps .prev', function () {
-        $($(this).parents('.steps')).find('[data-t].on').prev().click();
+    .on('click', '.steps [data-prev]', function () {
+        $($(this).parents('.steps')).find('[data-step].on').prev().click();
     });
 
 });
