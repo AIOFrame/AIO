@@ -87,6 +87,10 @@
   display: flex;
 }
 
+.fg {
+  flex-grow: 1;
+}
+
 .row.fww, .df.wr {
   flex-wrap: wrap;
 }
@@ -253,6 +257,18 @@
 
 select.tar {
   text-align-last: right;
+}
+
+.aic {
+  align-items: center;
+}
+
+.ait, .ais {
+  align-items: flex-start;
+}
+
+.aib, .aie {
+  align-items: flex-end;
 }
 
 .lh1 {
