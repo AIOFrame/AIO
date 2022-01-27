@@ -110,16 +110,16 @@ class DB {
         foreach( $tables as $tb ) {
             $table_names .= $tb[0].'_';
         }
-        elog('HEre 1');
-        elog($tables);
+        //elog('HEre 1');
+        //elog($tables);
         $result = [];
         $db = new DB();
         $trace = debug_backtrace();
         $file_path = $trace[0]['file'] ?? '';
         if( !empty( $file_path ) ) {
 
-            elog('HEre 2');
-            elog($tables);
+            //elog('HEre 2');
+            //elog($tables);
 
             // Get file properties
             $file = str_replace( '/', '_', $file_path );
@@ -130,8 +130,8 @@ class DB {
             if( empty( $exist ) || $exist !== $md5 ) {
                 $db->update_option( $file . '_md5', $md5 );
                 $result = $this->create_tables( $tables );
-                elog('HEre 3');
-                elog($tables);
+                //elog('HEre 3');
+                //elog($tables);
             }
         }
         return $result;
@@ -304,6 +304,21 @@ class DB {
             //elog( $o, 'error', $df[0]['line'], $df[0]['file'], $target );
         } else {
             return [];
+        }
+    }
+
+    function count( $table ) {
+        $db = $this->connect();
+        $q = "SELECT COUNT(*) FROM $table";
+
+        $data = $db->query( $q );
+        $count = $data->fetchColumn();
+        if ( $count ){
+            return $count;
+        } else {
+            $df = debug_backtrace();
+            elog( $q, 'error', $df[0]['line'], $df[0]['file'], $table );
+            return 0;
         }
     }
 

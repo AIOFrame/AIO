@@ -226,7 +226,7 @@ function process_data( e ){
             $(p).find('[onclick="process_data(this)"]').attr('disabled',false).removeClass('load');
         },5000);
         console.log( $(e).parents('[data-t]') );
-    } else { // TODO: Add logic to get all params from html button including parent from where inputs inside will be validated
+    } else { // TODO: Add logic to get all params from html button and parent element from where inputs inside will be validated
         p =  $(e);
         $(p).attr('disabled',true).addClass('load');
         setTimeout(function(){
