@@ -378,12 +378,15 @@ function process_upload(fs) {
                     }
                     return [ 1, $('#aio_up .upload_success').html(), d ];
                 } else {
-                    console.log(r);
+                    console.log(data);
                     if( r[1] !== undefined ) {
                         uploader_notify( r[1] );
                     }
                     return [ 1, 'File Uploaded Failed', 'There was an issue while sending file to server, please try again' ];
                 }
+            },
+            fail: function( error ) {
+                console.log(error);
             }
         });
     }

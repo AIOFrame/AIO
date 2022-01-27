@@ -542,7 +542,7 @@ class DB {
                 $d[$v['option_name']] = $v['option_value'];
             }
         }
-        return !empty( $d ) && count( $d ) == 1 ? $o[0] : $d;
+        return $d; //!empty( $d ) && count( $d ) == 1 ? $o[0] : $d;
     }
 
     // Test and remove

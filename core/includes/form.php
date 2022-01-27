@@ -190,14 +190,14 @@ class FORM {
      * Renders &lt;input type="radio"&gt; or &lt;input type="checkbox"&gt; elements of same name
      * @param string $type Type either 'radio' or 'checkbox'
      * @param string|array $identity Name of the input elements
-     * @param array $values Array of values
+     * @param string|array $values Array of values
      * @param string|array $checked Checked value or values separated by (,) comma
      * @param string $attr Attributes like class or data tags
      * @param bool $label_first If label should be before input element
      * @param string $pre String to wrap before start of &lt;input&gt;. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post End string to wrap after /&gt;
      */
-    function render_options( string $type = 'radio', string $label = '', string|array $identity = '', array $values = [], string|array $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ) {
+    function render_options( string $type = 'radio', string $label = '', string|array $identity = '', string|array $values = [], string|array $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ) {
         if( is_array( $values ) ) {
             $type = $type == 'radio' ? 'type="radio"' : 'type="checkbox"';
             $id = is_array($identity) ? $identity[0] : $identity;
@@ -266,6 +266,8 @@ class FORM {
                     echo $before . '<label for="cb_' . str_replace(' ', '_', $t) . '" ><input' . $attrs . 'id="cb_' . str_replace(' ', '_', $t) . '" type="' . $tp . '" value="' . $t . '" ' . (in_array($t, $t) ? "checked" : "") . '>' . $t . '</label>' . $after;
                 }
             } */
+        } else {
+            // TODO: If value is single
         }
     }
 
@@ -286,14 +288,14 @@ class FORM {
     /**
      * Renders &lt;input type="checkbox"&gt; elements
      * @param string|array $name Name of the input elements
-     * @param array $values Array of values
+     * @param string|array $values Array of values
      * @param array|string $checked Checked value or values separated by (,) comma
      * @param string $attr Attributes like class or data tags
      * @param bool $label_first If label should be before input element
      * @param string $pre String to wrap before start of &lt;input&gt;. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post End string to wrap after /&gt;
      */
-    function checkboxes( string|array $name, string $label = '', array $values = [], string|array $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ){
+    function checkboxes( string|array $name, string $label = '', string|array $values = '', string|array $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ){
         $this->render_options( 'checkbox', $label, $name, $values, $checked, $attr, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post );
     }
 
@@ -383,7 +385,7 @@ class FORM {
      */
     function process_params( string $target = '', string $data = '', string $pre = '', int $notify = 0, int $reload = 0, array $hidden = [], string $success_text = '' ) {
         $c = Crypto::initiate();
-        $t = !empty( $target ) ? ' data-t="'.$c->encrypt( $target ).'"' : '';
+        $t = !empty( $target ) ? ' data-t="'.$c->encrypt( $target ).'"' : 'data-t';
         $nt = $notify > 0 ? ' data-notify="'.$notify.'"' : '';
         $rl = $reload > 0 ? ' data-reload="'.$reload.'"' : '';
         $d = !empty( $data ) ? ' data-data="'.$data.'"' : '';

@@ -39,9 +39,10 @@ function get_values( parent, attribute, prepend ) {
             let t = $(this).is(':checked');
             let arr = $(this).data('array');
             if ( arr !== undefined ) {
-                console.log(1);
-                data[arr] = data[arr] === undefined ? [] : data[arr];
-                t ? data[ arr ].push( $(this).val() ) : '';
+                //console.log(1);
+                data[arr] = data[arr] === undefined || !$.isArray( data[arr] ) ? [] : data[arr];
+                console.log(data);
+                t ? data[arr].push( $(this).val() ) : '';
             } else if (m.length > 1) {
                 console.log(2);
                 value = $( '[name=' + $(this).attr('name') + ']' ).map(function () {
@@ -50,7 +51,7 @@ function get_values( parent, attribute, prepend ) {
                 }).toArray();
             } else {
                 console.log(3);
-                value = t === true ? 1 : 0;
+                value = t === true ? 1 : 2;
             }
 
         } else if( $(this).attr('type') === 'radio' ) {
@@ -258,9 +259,11 @@ function process_data( e ){
     //}
 
     let d = get_values( p, data, pre );
+    console.log(d);
     d.action = $(e).data('action');
     d.t = $(p).data('t');
     d.pre = pre;
+    console.log(d);
     /* let a = $(p).data('a');
     if( a !== undefined && a !== null ) {
         d.a = a;
