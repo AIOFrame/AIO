@@ -606,7 +606,7 @@ function pagination( int $page, int $records, int $limit = 24, string $class = '
         }
         echo $page < ($total_pages - 3) ? '<a  class="blank">...</a>' : '';
         echo $page < ($total_pages - 2) ? '<a href="' . $url . '/' . $total_pages . '" class="last ' . $class . '">' . $total_pages . '</a>' : '';
-    } else {
+    } else if( $total_pages > 1 ) {
         for($x = 1; $x <= $total_pages; $x++) {
             $on = $x == $page ? ' on' : '';
             echo '<a href="' . $url . '/' . $x . '" class="'. $class . $on . '">' . $x . '</a>';

@@ -426,6 +426,21 @@ class FORM {
     }
 
     /**
+     * Renders HTML to view page
+     * @param string $url URL to visit
+     * @param string $html HTML either button or div or i
+     * @param string $text Text to display
+     * @param string $class Class
+     * @param string $attr Additional attributes
+     * @param string $i_class Applied class to i element and places before text
+     */
+    function view_button_html( string $url = '', string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '' ) {
+        $c = Crypto::initiate();
+        $i = !empty( $i_class ) ? '<i class="'.$i_class.'"></i>' : '';
+        echo '<'.$html.' data-href="'.$url.'" class="'.$class.'" title="'.T('View').'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>';
+    }
+
+    /**
      * Renders HTML to open modal to edit data
      * @param string $element Modal element to open
      * @param array $array Data JSON array
@@ -433,10 +448,12 @@ class FORM {
      * @param string $text Text to display
      * @param string $class Class
      * @param string $attr Additional attributes
+     * @param string $i_class Applied class to i element and places before text
      */
-    function edit_button_html( string $element = '.modal', array $array = [], string $html = 'div', string $text = '', string $class = '', string $attr = '' ) {
+    function edit_button_html( string $element = '.modal', array $array = [], string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '' ) {
         $c = Crypto::initiate();
-        echo '<'.$html.' onclick="edit_data(this,\''.$element.'\')" data-data=\''.$this->_editable_data($array).'\' class="'.$class.'" '.$attr.'>'.T( $text ).'</'.$html.'>';
+        $i = !empty( $i_class ) ? '<i class="'.$i_class.'"></i>' : '';
+        echo '<'.$html.' onclick="edit_data(this,\''.$element.'\')" data-data=\''.$this->_editable_data($array).'\' class="'.$class.'" title="'.T('Edit').'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>';
     }
 
     /**
@@ -447,10 +464,12 @@ class FORM {
      * @param string $text Text to display
      * @param string $class Class
      * @param string $attr Additional attributes
+     * @param string $i_class Applied class to i element and places before text
      */
-    function trash_html( string $table, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '' ) {
+    function trash_html( string $table, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '' ) {
         $c = Crypto::initiate();
-        echo '<'.$html.' onclick="trash_data(\''.$c->encrypt('trash_data_ajax').'\',\''.$c->encrypt($table).'\',\''.$c->encrypt($logic).'\')" class="'.$class.'" '.$attr.'>'.T( $text ).'</'.$html.'>';
+        $i = $i_class ?? '<i class="'.$i_class.'"></i>';
+        echo '<'.$html.' onclick="trash_data(\''.$c->encrypt('trash_data_ajax').'\',\''.$c->encrypt($table).'\',\''.$c->encrypt($logic).'\')" class="'.$class.'" title="'.T('Delete').'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>';
     }
 
     /**
