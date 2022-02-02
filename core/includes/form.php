@@ -230,6 +230,12 @@ class FORM {
                     $value = $valued ? $val : $title;
                     $checked = is_array( $checked ) ? $checked : explode(',',$checked);
                     $c = in_array( $value, $checked ) ? 'checked' : '';
+                    //skel( $checked );
+                    /* if( is_array( $checked ) ) {
+                        $c = '';
+                    } else {
+                        $c = $value == $checked ? 'checked="true"' : '';
+                    } */
                     if ($label_first) {
                         echo $inputs_pre . '<label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' name="' . $name . '" '.$key.' id="' . $k . '" value="' . $value . '" '. $c .' >' . $inputs_post;
                     } else {
@@ -275,13 +281,13 @@ class FORM {
      * Renders &lt;input type="radio"&gt; elements
      * @param string|array $name Name of the input elements
      * @param array $values Array of values
-     * @param string $checked Checked value or values separated by (,) comma
+     * @param string|array $checked Checked value or values separated by (,) comma
      * @param string $attr Attributes like class or data tags
      * @param bool $label_first If label should be before input element
      * @param string $pre String to wrap before start of &lt;input&gt;. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post End string to wrap after /&gt;
      */
-    function radios( string|array $name, string $label = '', array $values = [], string $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ){
+    function radios( string|array $name, string $label = '', array $values = [], string|array $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ){
         $this->render_options( 'radio', $label, $name, $values, $checked, $attr, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post );
     }
 
@@ -382,8 +388,9 @@ class FORM {
      * @param int $reload Reload in Seconds
      * @param array $hidden Hidden data for Database
      * @param string $success_text Text to notify upon successfully storing data
+     * @param string $callback A JS Function to callback on results
      */
-    function process_params( string $target = '', string $data = '', string $pre = '', int $notify = 0, int $reload = 0, array $hidden = [], string $success_text = '' ) {
+    function process_params( string $target = '', string $data = '', string $pre = '', int $notify = 0, int $reload = 0, array $hidden = [], string $success_text = '', string $callback = '' ) {
         $c = Crypto::initiate();
         $t = !empty( $target ) ? ' data-t="'.$c->encrypt( $target ).'"' : 'data-t';
         $nt = $notify > 0 ? ' data-notify="'.$notify.'"' : '';
@@ -392,7 +399,8 @@ class FORM {
         $p = !empty( $pre ) ? ' data-pre="'.$pre.'"' : '';
         $h = !empty( $hidden ) ? ' data-h="'.$c->encrypt_array( $hidden ).'"' : '';
         $st = !empty( $success_text ) ? ' data-success="'.T($success_text).'"' : '';
-        echo $t.$nt.$rl.$d.$p.$h.$st;
+        $cb = !empty( $callback ) ? ' data-callback="'.T($callback).'"' : '';
+        echo $t.$nt.$rl.$d.$p.$h.$st.$cb;
     }
 
     /**

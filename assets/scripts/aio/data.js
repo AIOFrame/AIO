@@ -290,7 +290,7 @@ function process_data( e ){
 }
 
 function process_finish( p, r ) {
-    $(p).find('[onclick="process_data(this)"]').attr('disabled',false);
+    $(p).removeClass('load').find('[onclick="process_data(this)"]').attr('disabled',false);
     //elog( r );
 }
 
