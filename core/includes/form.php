@@ -451,7 +451,7 @@ class FORM {
      * @param string $i_class Applied class to i element and places before text
      */
     function edit_button_html( string $element = '.modal', array $array = [], string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '' ) {
-        $c = Crypto::initiate();
+        //$c = Crypto::initiate();
         $i = !empty( $i_class ) ? '<i class="'.$i_class.'"></i>' : '';
         echo '<'.$html.' onclick="edit_data(this,\''.$element.'\')" data-data=\''.$this->_editable_data($array).'\' class="'.$class.'" title="'.T('Edit').'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>';
     }
@@ -468,7 +468,7 @@ class FORM {
      */
     function trash_html( string $table, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '' ) {
         $c = Crypto::initiate();
-        $i = $i_class ?? '<i class="'.$i_class.'"></i>';
+        $i = !empty( $i_class ) ? '<i class="'.$i_class.'"></i>' : '';
         echo '<'.$html.' onclick="trash_data(\''.$c->encrypt('trash_data_ajax').'\',\''.$c->encrypt($table).'\',\''.$c->encrypt($logic).'\')" class="'.$class.'" title="'.T('Delete').'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>';
     }
 
