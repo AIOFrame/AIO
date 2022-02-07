@@ -411,8 +411,10 @@ class FORM {
      * @param string $action Default AJAX Action
      * @param string|int $pre Pre Wrap HTML or Bootstrap Column
      * @param string|int $post Post Wrap HTML
+     * @param string $element HTML Element
+     * @param string $confirm Message to show as confirmation before process
      */
-    function process_button_html( string $text = '', string $class = '', string $attr = '', string $action = '', string|int $pre = '', int|string $post = '' ) {
+    function process_button_html( string $text = '', string $class = '', string $attr = '', string $action = '', string|int $pre = '', int|string $post = '', string $element = 'button', string $confirm = '' ) {
         if( is_numeric( $pre ) ){
             $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
         } else {
@@ -422,7 +424,8 @@ class FORM {
         $c = Crypto::initiate();
         $action = empty( $action ) ? 'process_data_ajax' : $action;
         $a = 'data-action="'.$c->encrypt($action).'"';
-        echo $pre.'<button onclick="process_data(this)" '.$a.' class="'.$class.'" '.$attr.'>'.T( $text ).'</button>'.$post;
+        $click = $confirm !== '' ? 'onclick="if(confirm(\''.$confirm.'\')){process_data(this)}else{event.stopPropagation();event.preventDefault();}"' : 'onclick="process_data(this)"';
+        echo $pre.'<'.$element.' '.$click.' '.$a.' class="'.$class.'" '.$attr.'>'.T( $text ).'</'.$element.'>'.$post;
     }
 
     /**

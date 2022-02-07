@@ -99,7 +99,7 @@ function language_tables() {
  */
 function storage_tables() {
     $tables[] = [ 'storage', [
-        [ 'name', 'VARCHAR', 255, 1 ],
+        [ 'name', 'VARCHAR', 512, 1 ],
         [ 'url', 'VARCHAR', 255, 1 ],
         [ 'scope', 'INT', 13, 0 ],
         [ 'type', 'VARCHAR', 30, 1 ],
