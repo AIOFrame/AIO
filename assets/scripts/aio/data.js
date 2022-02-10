@@ -221,9 +221,9 @@ function process_data( e ){
     let p;
     if( $(e).parents('[data-t]') !== undefined && $(e).parents('[data-t]') !== null && $(e).parents('[data-t]').length > 0 ) {
         p =  $(e).parents('[data-t]');
-        $(p).find('[onclick="process_data(this)"]').attr('disabled',true).addClass('load');
+        $(p).find('[onclick="process_data(this)"]').attr('disabled',true);
         setTimeout(function(){
-            $(p).find('[onclick="process_data(this)"]').attr('disabled',false).removeClass('load');
+            $(p).removeClass('load').find('[onclick="process_data(this)"]').attr('disabled',false);
         },5000);
         console.log( $(e).parents('[data-t]') );
     } else { // TODO: Add logic to get all params from html button and parent element from where inputs inside will be validated
@@ -291,7 +291,7 @@ function process_data( e ){
 
 function process_finish( p, r ) {
     $(p).removeClass('load').find('[onclick="process_data(this)"]').attr('disabled',false);
-    //elog( r );
+    elog( p );
 }
 
 function edit_data( e, modal ) {
@@ -415,6 +415,12 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
             //this[callback](r);
         }
         catch( rat ) {
+            if( callback !== undefined && callback !== '' ) {
+                callback = callback.split(',');
+                $.each( callback, function(i,call){
+                    eval( call + '(' + JSON.stringify( r ) + ')' );
+                });
+            }
             //elog( rat );
         }
     });
