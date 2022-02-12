@@ -26,9 +26,6 @@ function reset_modal(e) {
     let m = $(e).parents('.modal');
     $(m).find('[data-add]').show();
     $(m).find('[data-update],[data-edit]').hide();
-
     $(m).data('id','');
-
-    // TODO: If modal has class to empty then empty fields
-
+    clear( m, '[data-empty]' );
 }

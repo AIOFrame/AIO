@@ -1,3 +1,10 @@
+if (typeof window.elog === 'undefined' ) {
+    window.elog = function(r) {
+        if( $('body').hasClass('debug') )
+            console.log(r);
+    }
+}
+
 /**
  * Gets values of all inputs of specific data attribute within an element
  * @param parent HTML Element Selector
@@ -41,16 +48,16 @@ function get_values( parent, attribute, prepend ) {
             if ( arr !== undefined ) {
                 //console.log(1);
                 data[arr] = data[arr] === undefined || !$.isArray( data[arr] ) ? [] : data[arr];
-                console.log(data);
+                elog(data);
                 t ? data[arr].push( $(this).val() ) : '';
             } else if (m.length > 1) {
-                console.log(2);
+                elog(2);
                 value = $( '[name=' + $(this).attr('name') + ']' ).map(function () {
                     if ($(this).is(':checked'))
                         return $(this).val();
                 }).toArray();
             } else {
-                console.log(3);
+                elog(3);
                 value = t === true ? 1 : 2;
             }
 
@@ -82,8 +89,8 @@ function get_values( parent, attribute, prepend ) {
     });
     $.each(data,function(a,b){
         if( typeof b === 'object' && b !== null ) {
-            console.log( b );
-            console.log( JSON.stringify(b) );
+            elog( b );
+            elog( JSON.stringify(b) );
             data[a] = JSON.stringify(b);
         }
     });
@@ -189,7 +196,7 @@ function _is_empty( e, d ) {
             if( b !== undefined && $(b).val() !== null && $(b).val() !== "" ){
                 r.push(false);
             } else {
-                console.log( b );
+                elog( b );
                 r.push(true);
             }
         });
@@ -206,7 +213,8 @@ function _is_empty( e, d ) {
  */
 function clear( e, d ){
     if( $(e)[0] && ( $(e)[0].localName === 'div' || $(e)[0].localName === 'tr' || $(e)[0].localName === 'form' ) ){
-        $.each($(e).find('input'+d+',select'+d),function(a,b){
+        elog($(e)[0].localName);
+        $.each($(e).find('input'+d+',select'+d+',textarea'+d),function(a,b){
             $(b).val('');
         })
     } else {
@@ -225,7 +233,7 @@ function process_data( e ){
         setTimeout(function(){
             $(p).removeClass('load').find('[onclick="process_data(this)"]').attr('disabled',false);
         },5000);
-        console.log( $(e).parents('[data-t]') );
+        elog( $(e).parents('[data-t]') );
     } else { // TODO: Add logic to get all params from html button and parent element from where inputs inside will be validated
         p =  $(e);
         $(p).attr('disabled',true).addClass('load');
@@ -233,7 +241,7 @@ function process_data( e ){
             $(p).attr('disabled',false).removeClass('load');
         },5000);
     }
-    console.log(p);
+    elog(p);
     p = ( p.length !== 0 && p[0].tagName === 'DIV' ) ? p : $(e).parents('[data-data]');
     p.addClass('load');
 
@@ -259,11 +267,11 @@ function process_data( e ){
     //}
 
     let d = get_values( p, data, pre );
-    console.log(d);
+    elog(d);
     d.action = $(e).data('action');
     d.t = $(p).data('t');
     d.pre = pre;
-    console.log(d);
+    elog(d);
     /* let a = $(p).data('a');
     if( a !== undefined && a !== null ) {
         d.a = a;
@@ -273,7 +281,7 @@ function process_data( e ){
         d.post = pos;
     }
     if( d.action === undefined || d.action === null ) {
-        console.log('Action not set!');
+        elog('Action not set!');
     }
 
     let types = Array('id','by','action','h','d','dt','alerts','emails');
@@ -283,7 +291,7 @@ function process_data( e ){
             d[a] = $(p).data(a);
         }
     });
-    console.log(d);
+    elog(d);
     let cb = p.data('callback') !== '' && p.data('callback') !== undefined ? 'process_finish,' + p.data('callback') : 'process_finish';
     post( d.action, d, p.data('notify'), p.data('reload'), p.data('redirect'), 0, cb, p.data('reset'), p );
 
@@ -306,9 +314,9 @@ function edit_data( e, modal ) {
     $('article').addClass('fade');
     $(modal).find('[data-add]').hide();
     $(modal).find('[data-update],[data-edit]').show();
-    console.log(data);
+    elog(data);
     $.each( data, function(i,d){
-        console.log(i);
+        elog(i);
         if( d === null ) {
             return;
         }
@@ -319,9 +327,9 @@ function edit_data( e, modal ) {
             let el = $('[data-key='+i+']');
             if( el.attr('type') === 'checkbox' ){
                 if( el.data('key') !== undefined ) {
-                    console.log(el);
+                    elog(el);
                     d = !$.isArray(d) ? JSON.parse(d) : [d];
-                    console.log(d);
+                    elog(d);
                     if( $.isArray(d) ) {
                         $(d).each(function(a,b){
                             let s = $('[data-key='+i+'][value='+b+']');
@@ -340,7 +348,7 @@ function edit_data( e, modal ) {
             } else if( el.prop('type') === 'select-multiple' ) {
                 $(el).val(d.split(', ')).trigger('change'); //.find('option[value="' + v + '"]').prop('selected', true);
                 /* $.each(d.split(', '), function(ix,v){
-                    console.log($(el).find('option[value="' + v + '"]'));
+                    elog($(el).find('option[value="' + v + '"]'));
                 }); */
                 /* $.map(d.split(','), function(value){
                     return parseInt(value);
@@ -379,13 +387,13 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
     //elog(callback);
     let d = $.extend({}, { 'action' : action }, data);
     $.post( location.origin, d, function(r) {
-        //console.log(r);
+        //elog(r);
         try {
             r = JSON.parse( r );
             //elog(r);
             if( notify_time !== undefined && notify_time !== '' ) {
-                console.log(r);
-                console.log($(p).data('success'));
+                elog(r);
+                elog($(p).data('success'));
                 if( r[0] === 1 && $(p).data('success') !== undefined ) {
                     notify( $(p).data('success'), notify_time );
                 } else {
@@ -406,9 +414,10 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
                     }, redirect_time * 1000)
                 }
             }
+            elog(callback);
             if( callback !== undefined && callback !== '' ) {
-                callback = callback.split(',');
-                $.each( callback, function(i,call){
+                let calls = callback.split(',');
+                $.each( calls, function(i,call){
                     eval( call + '(' + JSON.stringify( r ) + ')' );
                 });
             }
@@ -427,7 +436,7 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
 }
 
 function redirect( r ) {
-    console.log(r);
+    elog(r);
 }
 
 function reload( time_seconds ){
