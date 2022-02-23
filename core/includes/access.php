@@ -358,7 +358,7 @@ class ACCESS {
             // Data
             if( !empty( $data ) ) {
                 $keys[] = 'user_data';
-                $values[] = serialize( $data );
+                $values[] = json_encode( $data );
             }
             $update = $db->update( 'users', $keys, $values, 'user_id = \''.$user['user_id'].'\'' );
             return $update ? [ 1, T('Successfully updated user information!') ] : [ 0, T('Failed to update user information, please check log!') ];
