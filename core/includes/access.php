@@ -347,6 +347,7 @@ class ACCESS {
             $keys = $values = [];
             // Columns
             if( !empty( $columns ) ) {
+                elog( $columns );
                 foreach( $columns as $ck => $cv ) {
                     if( !empty( $cv ) ) {
                         $keys[] = 'user_'.$ck;
@@ -392,7 +393,14 @@ class ACCESS {
             if( isset( $c['users'] ) && is_array( $c['users'] ) ) {
                 foreach ( $c['users'] as $u ) {
                     if ( isset( $u['login'] ) && isset( $u['password'] ) ) {
-                        $r = $this->register( $u['login'], $u['password'], $u['email'], $u['name'], $u['picture'], $u['columns'], $u['data'], $u['access'], $u['status'] );
+                        $email = $u['email'] ?? '';
+                        $name = $u['name'] ?? '';
+                        $picture = $u['picture'] ?? '';
+                        $columns = $u['columns'] ?? [];
+                        $data = $u['data'] ?? [];
+                        $access = $u['access'] ?? [];
+                        $status = $u['status'] ?? '1';
+                        $r = $this->register( $u['login'], $u['password'], $email, $name, $picture, $columns, $data, $access, $status );
                         elog( json_encode( $r ) );
                     }
                 }
