@@ -495,13 +495,13 @@ class FORM {
 
     /**
      * Renders Filters HTML
-     * @param array $filters
+     * @param array $filter_params
      * @param string $clear_url Page path excluding APPURL Ex: user/payments
      */
-    function filters( array $filters = [], string $clear_url = '' ) {
+    function filters( array $filter_params = [], string $clear_url = '' ) {
         $clear_url = !empty( $clear_url ) ? APPURL . $clear_url : APPURL . PAGEPATH;
         echo '<div class="auto_filters"><form class="row">';
-        foreach( $filters as $f ) {
+        foreach( $filter_params as $f ) {
             $type = $f[0] ??= 'text';
             $id = $f[1] ??= '';
             $label = $f[2] ??= '';
@@ -522,5 +522,23 @@ class FORM {
         echo '<div class="col"><button type="submit" class="filter">'.T('Filter').'</button></div>';
         echo '<div class="col"><a href="'.$clear_url.'" class="clear">'.T('Clear').'</a></div>';
         echo '</form></div>';
+    }
+
+    /**
+     * Returns string of GET filters to SQL Query
+     * @param array $filter_params Array of query and filter [ [ 'user_since >', 'date_from' ] ]
+     * @param string $query Array of query and filter [ [ 'user_since >', 'date_from' ] ]
+     * @return string
+     */
+    function filters_to_query( array $filter_params = [], string $query = '' ): string {
+        foreach( $filter_params as $qa ) {
+            if( is_array( $qa ) && isset( $qa[7] ) && isset( $qa[1] ) && !empty( $_GET[$qa[1]] ) ) {
+                $where = $qa[7];
+                $value = $_GET[$qa[1]];
+                $q = $where.' \''.$value.'\'';
+                $query = !empty( $query ) ? $query.' AND '.$q : $q;
+            }
+        }
+        return $query;
     }
 }

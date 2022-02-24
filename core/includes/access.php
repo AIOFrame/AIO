@@ -132,21 +132,25 @@ class ACCESS {
      * @param array $data User meta to be stored in user_data column
      * @param array $access User Permissions, Custom array with permission name key and boolean value
      * @param string $status User status, 1 for active and 0 for inactive, default 1
+     * @param bool $send_email Send an automated email
      * @return array
      */
-    function register( string $login, string $pass, string $email = '', string $name = '', string $picture = '', array $columns = [], array $data = [], array $access = [], string $status = '1' ) : array {
+    function register( string $login, string $pass, string $email = '', string $name = '', string $picture = '', array $columns = [], array $data = [], array $access = [], string $status = '1', bool $send_email = false ) : array {
         // User login restrictions
         $login = strtolower( $login );
         $valid_name = $this->valid_name( $login );
-        if( !empty( $valid_name ) )
-            return [ 0, $valid_name ];
+        if( !empty( $valid_name ) ) {
+            return [0, $valid_name];
+        }
         $valid_pass = $this->valid_pass( $pass );
-        if( !empty( $valid_pass ) )
-            return [ 0, $valid_pass ];
+        if( !empty( $valid_pass ) ) {
+            return [0, $valid_pass];
+        }
 
         $db = new DB();
-        if( empty( $name ) )
-            $name = !empty( $data['name'] ) ? $data['name'] : ucwords( str_replace( '_', ' ', $login ) );
+        if( empty( $name ) ) {
+            $name = !empty($data['name']) ? $data['name'] : ucwords(str_replace('_', ' ', $login));
+        }
 
         // Checks if user with same login name or email exists
         $user_query = 'user_login = "' . $login . '"';
@@ -179,11 +183,13 @@ class ACCESS {
             );
             if( $access ) {
                 // Email user to notify registration
-                $subject = $db->get_option('email_subject_new_user');
-                $content = $db->get_option('email_content_new_user');
-                $subject = !empty( $subject ) ? str_replace('{{username}}',$login,$subject) : 'Welcome to '.APPNAME;
-                $content = !empty( $content ) ? str_replace('{{username}}',$login,$content) : 'You are successfully registered with '.APPNAME.'. Your login username is '.$login.' and your recovery email is '.$email.'!';
-                $this->mail( $email, $subject, $content );
+                if( $send_email ) {
+                    $subject = $db->get_option('email_subject_new_user');
+                    $content = $db->get_option('email_content_new_user');
+                    $subject = !empty($subject) ? str_replace('{{username}}', $login, $subject) : 'Welcome to ' . APPNAME;
+                    $content = !empty($content) ? str_replace('{{username}}', $login, $content) : 'You are successfully registered with ' . APPNAME . '. Your login username is ' . $login . ' and your recovery email is ' . $email . '!';
+                    $this->mail($email, $subject, $content);
+                }
                 return [ $add_user, T('Successfully registered user!') ];
             } else {
                 $db->delete( 'users', 'user_id = \'$add_user\'' );
@@ -425,7 +431,7 @@ class ACCESS {
     function valid_name( string $name = '' ): string {
         if( strlen( $name ) <= 6 ) {
             return T('User login must be at least 8 characters in length!');
-        } else if( preg_match( '/[^a-z\d ]/i', $name ) ) {
+        } else if( preg_match( '/[^a-z0-9_]/', $name ) ) {
             return T('User login cannot contain special characters!');
         } else {
             return '';

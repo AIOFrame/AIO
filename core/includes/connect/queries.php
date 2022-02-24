@@ -309,7 +309,8 @@ class DB {
 
     function count( $table, $where = '' ) {
         $db = $this->connect();
-        $q = "SELECT COUNT(*) FROM $table WHERE $where";
+        $q = "SELECT COUNT(*) FROM $table";
+        $q .= !empty( $where ) ? " WHERE $where" : '';
 
         $data = $db->query( $q );
         $count = $data->fetchColumn();
