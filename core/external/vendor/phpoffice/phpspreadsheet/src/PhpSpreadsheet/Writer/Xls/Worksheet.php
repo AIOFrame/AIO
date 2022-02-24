@@ -433,6 +433,7 @@ class Worksheet extends BIFFwriter
             } else {
                 switch ($cell->getDatatype()) {
                     case DataType::TYPE_STRING:
+                    case DataType::TYPE_INLINE:
                     case DataType::TYPE_NULL:
                         if ($cVal === '' || $cVal === null) {
                             $this->writeBlank($row, $column, $xfIndex);
@@ -2388,7 +2389,7 @@ class Worksheet extends BIFFwriter
             for ($i = 0; $i < $width; ++$i) {
                 $color = imagecolorsforindex($image, imagecolorat($image, $i, $j));
                 foreach (['red', 'green', 'blue'] as $key) {
-                    $color[$key] = $color[$key] + round((255 - $color[$key]) * $color['alpha'] / 127);
+                    $color[$key] = $color[$key] + (int) round((255 - $color[$key]) * $color['alpha'] / 127);
                 }
                 $data .= chr($color['blue']) . chr($color['green']) . chr($color['red']);
             }

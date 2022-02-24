@@ -5,6 +5,134 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com)
 and this project adheres to [Semantic Versioning](https://semver.org).
 
+## 1.22.0 - 2022-02-18
+
+### Added
+
+- Namespacing phase 2 - styles.
+[PR #2471](https://github.com/PHPOffice/PhpSpreadsheet/pull/2471)
+
+- Improved support for passing of array arguments to Excel function implementations to return array results (where appropriate). [Issue #2551](https://github.com/PHPOffice/PhpSpreadsheet/issues/2551)
+
+  This is the first stage in an ongoing process of adding array support to all appropriate function implementations, 
+- Support for the Excel365 Math/Trig SEQUENCE() function [PR #2536](https://github.com/PHPOffice/PhpSpreadsheet/pull/2536)
+- Support for the Excel365 Math/Trig RANDARRAY() function [PR #2540](https://github.com/PHPOffice/PhpSpreadsheet/pull/2540) 
+
+  Note that the Spill Operator is not yet supported in the Calculation Engine; but this can still be useful for defining array constants.
+- Improved support for Conditional Formatting Rules [PR #2491](https://github.com/PHPOffice/PhpSpreadsheet/pull/2491)
+  - Provide support for a wider range of Conditional Formatting Rules for Xlsx Reader/Writer:
+    - Cells Containing (cellIs)
+    - Specific Text (containing, notContaining, beginsWith, endsWith)
+    - Dates Occurring (all supported timePeriods)
+    - Blanks/NoBlanks
+    - Errors/NoErrors
+    - Duplicates/Unique
+    - Expression
+  - Provision of CF Wizards (for all the above listed rule types) to help create/modify CF Rules without having to manage all the combinations of types/operators, and the complexities of formula expressions, or the text/timePeriod attributes.
+
+    See [documentation](https://phpspreadsheet.readthedocs.io/en/latest/topics/conditional-formatting/) for details 
+
+  - Full support of the above CF Rules for the Xlsx Reader and Writer; even when the file being loaded has CF rules listed in the `<extLst><ext><ConditionalFormattings>` element for the worksheet rather than the `<ConditionalFormatting>` element.
+  - Provision of a CellMatcher to identify if rules are matched for a cell, and which matching style will be applied.
+  - Improved documentation and examples, covering all supported CF rule types.
+- Add support for one digit decimals (FORMAT_NUMBER_0, FORMAT_PERCENTAGE_0). [PR #2525](https://github.com/PHPOffice/PhpSpreadsheet/pull/2525)
+- Initial work enabling Excel function implementations for handling arrays as arguments when used in "array formulae" [#2562](https://github.com/PHPOffice/PhpSpreadsheet/issues/2562)
+- Enable most of the Date/Time functions to accept array arguments [#2573](https://github.com/PHPOffice/PhpSpreadsheet/issues/2573)
+- Array ready functions - Text, Math/Trig, Statistical, Engineering and Logical [#2580](https://github.com/PHPOffice/PhpSpreadsheet/issues/2580)
+
+### Changed
+
+- Additional Russian translations for Excel Functions (courtesy of aleks-samurai).
+- Improved code coverage for NumberFormat. [PR #2556](https://github.com/PHPOffice/PhpSpreadsheet/pull/2556)
+- Extract some methods from the Calculation Engine into dedicated classes [#2537](https://github.com/PHPOffice/PhpSpreadsheet/issues/2537)
+- Eliminate calls to `flattenSingleValue()` that are no longer required when we're checking for array values as arguments [#2590](https://github.com/PHPOffice/PhpSpreadsheet/issues/2590)
+
+### Deprecated
+
+- Nothing
+
+### Removed
+
+- Nothing
+
+### Fixed
+
+- Fixed `ReferenceHelper@insertNewBefore` behavior when removing column before last column with null value
+[PR #2541](https://github.com/PHPOffice/PhpSpreadsheet/pull/2541)
+- Fix bug with `DOLLARDE()` and `DOLLARFR()` functions when the dollar value is negative [Issue #2578](https://github.com/PHPOffice/PhpSpreadsheet/issues/2578) [PR #2579](https://github.com/PHPOffice/PhpSpreadsheet/pull/2579)
+- Fix partial function name matching when translating formulae from Russian to English [Issue #2533](https://github.com/PHPOffice/PhpSpreadsheet/issues/2533) [PR #2534](https://github.com/PHPOffice/PhpSpreadsheet/pull/2534)
+- Various bugs related to Conditional Formatting Rules, and errors in the Xlsx Writer for Conditional Formatting [PR #2491](https://github.com/PHPOffice/PhpSpreadsheet/pull/2491)
+- Xlsx Reader merge range fixes.
+[Issue #2501](https://github.com/PHPOffice/PhpSpreadsheet/issues/2501)
+[PR #2504](https://github.com/PHPOffice/PhpSpreadsheet/pull/2504)
+- Handle explicit "date" type for Cell in Xlsx Reader.
+[Issue #2373](https://github.com/PHPOffice/PhpSpreadsheet/issues/2373)
+[PR #2485](https://github.com/PHPOffice/PhpSpreadsheet/pull/2485)
+- Recalibrate Row/Column Dimensions after removeRow/Column.
+[Issue #2442](https://github.com/PHPOffice/PhpSpreadsheet/issues/2442)
+[PR #2486](https://github.com/PHPOffice/PhpSpreadsheet/pull/2486)
+- Refinement for XIRR.
+[Issue #2469](https://github.com/PHPOffice/PhpSpreadsheet/issues/2469)
+[PR #2487](https://github.com/PHPOffice/PhpSpreadsheet/pull/2487)
+- Xlsx Reader handle cell with non-null explicit type but null value.
+[Issue #2488](https://github.com/PHPOffice/PhpSpreadsheet/issues/2488)
+[PR #2489](https://github.com/PHPOffice/PhpSpreadsheet/pull/2489)
+- Xlsx Reader fix height and width for oneCellAnchorDrawings.
+[PR #2492](https://github.com/PHPOffice/PhpSpreadsheet/pull/2492)
+- Fix rounding error in NumberFormat::NUMBER_PERCENTAGE, NumberFormat::NUMBER_PERCENTAGE_00. [PR #2555](https://github.com/PHPOffice/PhpSpreadsheet/pull/2555)
+- Don't treat thumbnail file as xml.
+[Issue #2516](https://github.com/PHPOffice/PhpSpreadsheet/issues/2516)
+[PR #2517](https://github.com/PHPOffice/PhpSpreadsheet/pull/2517)
+- Eliminating Xlsx Reader warning when no sz tag for RichText.
+[Issue #2542](https://github.com/PHPOffice/PhpSpreadsheet/issues/2542)
+[PR #2550](https://github.com/PHPOffice/PhpSpreadsheet/pull/2550)
+- Fix Xlsx/Xls Writer handling of inline strings.
+[Issue #353](https://github.com/PHPOffice/PhpSpreadsheet/issues/353)
+[PR #2569](https://github.com/PHPOffice/PhpSpreadsheet/pull/2569)
+- Richtext colors were not being read correctly after namespace change [#2458](https://github.com/PHPOffice/PhpSpreadsheet/issues/2458)
+- Fix discrepancy between the way markdown tables are rendered in ReadTheDocs and in PHPStorm [#2520](https://github.com/PHPOffice/PhpSpreadsheet/issues/2520)
+- Update Russian Functions Text File [#2557](https://github.com/PHPOffice/PhpSpreadsheet/issues/2557)
+- Fix documentation, instantiation example [#2564](https://github.com/PHPOffice/PhpSpreadsheet/issues/2564)
+
+
+## 1.21.0 - 2022-01-06
+
+### Added
+
+- Ability to add a picture to the background of the comment. Supports four image formats: png, jpeg, gif, bmp. New `Comment::setSizeAsBackgroundImage()` to change the size of a comment to the size of a background image. [Issue #1547](https://github.com/PHPOffice/PhpSpreadsheet/issues/1547) [PR #2422](https://github.com/PHPOffice/PhpSpreadsheet/pull/2422)
+- Ability to set default paper size and orientation [PR #2410](https://github.com/PHPOffice/PhpSpreadsheet/pull/2410)
+- Ability to extend AutoFilter to Maximum Row [PR #2414](https://github.com/PHPOffice/PhpSpreadsheet/pull/2414)
+
+### Changed
+
+- Xlsx Writer will evaluate AutoFilter only if it is as yet unevaluated, or has changed since it was last evaluated [PR #2414](https://github.com/PHPOffice/PhpSpreadsheet/pull/2414)
+
+### Deprecated
+
+- Nothing
+
+### Removed
+
+- Nothing
+
+### Fixed
+
+- Rounding in `NumberFormatter` [Issue #2385](https://github.com/PHPOffice/PhpSpreadsheet/issues/2385) [PR #2399](https://github.com/PHPOffice/PhpSpreadsheet/pull/2399)
+- Support for themes [Issue #2075](https://github.com/PHPOffice/PhpSpreadsheet/issues/2075) [Issue #2387](https://github.com/PHPOffice/PhpSpreadsheet/issues/2387) [PR #2403](https://github.com/PHPOffice/PhpSpreadsheet/pull/2403)
+- Read spreadsheet with `#` in name [Issue #2405](https://github.com/PHPOffice/PhpSpreadsheet/issues/2405) [PR #2409](https://github.com/PHPOffice/PhpSpreadsheet/pull/2409)
+- Improve PDF support for page size and orientation [Issue #1691](https://github.com/PHPOffice/PhpSpreadsheet/issues/1691) [PR #2410](https://github.com/PHPOffice/PhpSpreadsheet/pull/2410)
+- Wildcard handling issues in text match [Issue #2430](https://github.com/PHPOffice/PhpSpreadsheet/issues/2430) [PR #2431](https://github.com/PHPOffice/PhpSpreadsheet/pull/2431)
+- Respect DataType in `insertNewBefore` [PR #2433](https://github.com/PHPOffice/PhpSpreadsheet/pull/2433)
+- Handle rows explicitly hidden after AutoFilter [Issue #1641](https://github.com/PHPOffice/PhpSpreadsheet/issues/1641) [PR #2414](https://github.com/PHPOffice/PhpSpreadsheet/pull/2414)
+- Special characters in image file name [Issue #1470](https://github.com/PHPOffice/PhpSpreadsheet/issues/1470) [Issue #2415](https://github.com/PHPOffice/PhpSpreadsheet/issues/2415) [PR #2416](https://github.com/PHPOffice/PhpSpreadsheet/pull/2416)
+- Mpdf with very many styles [Issue #2432](https://github.com/PHPOffice/PhpSpreadsheet/issues/2432) [PR #2434](https://github.com/PHPOffice/PhpSpreadsheet/pull/2434)
+- Name clashes between parsed and unparsed drawings [Issue #1767](https://github.com/PHPOffice/PhpSpreadsheet/issues/1767) [Issue #2396](https://github.com/PHPOffice/PhpSpreadsheet/issues/2396) [PR #2423](https://github.com/PHPOffice/PhpSpreadsheet/pull/2423)
+- Fill pattern start and end colors [Issue #2441](https://github.com/PHPOffice/PhpSpreadsheet/issues/2441) [PR #2444](https://github.com/PHPOffice/PhpSpreadsheet/pull/2444)
+- General style specified in wrong case [Issue #2450](https://github.com/PHPOffice/PhpSpreadsheet/issues/2450) [PR #2451](https://github.com/PHPOffice/PhpSpreadsheet/pull/2451)
+- Null passed to `AutoFilter::setRange()` [Issue #2281](https://github.com/PHPOffice/PhpSpreadsheet/issues/2281) [PR #2454](https://github.com/PHPOffice/PhpSpreadsheet/pull/2454)
+- Another undefined index in Xls reader (#2470) [Issue #2463](https://github.com/PHPOffice/PhpSpreadsheet/issues/2463) [PR #2470](https://github.com/PHPOffice/PhpSpreadsheet/pull/2470)
+- Allow single-cell checks on conditional styles, even when the style is configured for a range of cells (#) [PR #2483](https://github.com/PHPOffice/PhpSpreadsheet/pull/2483)
+
 ## 1.20.0 - 2021-11-23
 
 ### Added
@@ -64,7 +192,7 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ### Deprecated
 
-- PHP 8.1 will deprecate auto_detect_line_endings. As a result of this change, Csv Reader using PHP8.1+ will no longer be able to handle a Csv with Mac line endings.
+- PHP 8.1 will deprecate auto_detect_line_endings. As a result of this change, Csv Reader using some release after PHP8.1 will no longer be able to handle a Csv with Mac line endings.
 
 ### Removed
 

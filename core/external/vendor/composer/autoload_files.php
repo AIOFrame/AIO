@@ -27,7 +27,6 @@ return array(
     '786bf90caabc9e09b6ad4cc5ca8f0e30' => $vendorDir . '/laminas/laminas-diactoros/src/functions/normalize_uploaded_files.legacy.php',
     '751a5a3f463e4be759be31748b61737c' => $vendorDir . '/laminas/laminas-diactoros/src/functions/parse_cookie_header.legacy.php',
     '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => $vendorDir . '/symfony/polyfill-mbstring/bootstrap.php',
-    'a4a119a56e50fbb293281d9a48007e0e' => $vendorDir . '/symfony/polyfill-php80/bootstrap.php',
     '5c70426340c07411ceee79728a2304a8' => $vendorDir . '/vonage/nexmo-bridge/src/autoload.php',
     '2cffec82183ee1cea088009cef9a6fc3' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
     '79f66bc0a1900f77abe4a9a299057a0a' => $vendorDir . '/starkbank/ecdsa/src/ellipticcurve.php',

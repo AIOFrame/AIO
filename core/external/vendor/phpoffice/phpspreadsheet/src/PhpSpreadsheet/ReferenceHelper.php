@@ -398,6 +398,26 @@ class ReferenceHelper
             }
         }
 
+        // Find missing coordinates. This is important when inserting column before the last column
+        $missingCoordinates = array_filter(
+            array_map(function ($row) use ($highestColumn) {
+                return $highestColumn . $row;
+            }, range(1, $highestRow)),
+            function ($coordinate) use ($allCoordinates) {
+                return !in_array($coordinate, $allCoordinates);
+            }
+        );
+
+        // Create missing cells with null values
+        if (!empty($missingCoordinates)) {
+            foreach ($missingCoordinates as $coordinate) {
+                $worksheet->createNewCell($coordinate);
+            }
+
+            // Refresh all coordinates
+            $allCoordinates = $worksheet->getCoordinates();
+        }
+
         // Loop through cells, bottom-up, and change cell coordinate
         if ($remove) {
             // It's faster to reverse and pop than to use unshift, especially with large cell collections
@@ -426,7 +446,7 @@ class ReferenceHelper
                         ->setValue($this->updateFormulaReferences($cell->getValue(), $beforeCellAddress, $numberOfColumns, $numberOfRows, $worksheet->getTitle()));
                 } else {
                     // Formula should not be adjusted
-                    $worksheet->getCell($newCoordinate)->setValue($cell->getValue());
+                    $worksheet->getCell($newCoordinate)->setValueExplicit($cell->getValue(), $cell->getDataType());
                 }
 
                 // Clear the original cell

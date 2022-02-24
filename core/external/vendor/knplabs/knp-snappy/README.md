@@ -1,6 +1,6 @@
 # Snappy
 
-[![Travis CI Build Status](https://travis-ci.org/KnpLabs/snappy.svg?branch=master)](https://travis-ci.org/KnpLabs/snappy)
+![Build Status](https://github.com/KnpLabs/snappy/actions/workflows/build.yaml/badge.svg)
 [![AppVeyor CI Build Status](https://ci.appveyor.com/api/projects/status/github/KnpLabs/snappy?branch=master&svg=true)](https://ci.appveyor.com/project/NiR-/snappy)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/KnpLabs/Gaufrette/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/KnpLabs/Gaufrette/?branch=master)
 
@@ -163,10 +163,6 @@ KNPLabs is looking for maintainers ([see why](https://knplabs.com/en/blog/news-f
 If you are interested, feel free to open a PR to ask to be added as a maintainer.
 
 We’ll be glad to hear from you :)
-
-This library is maintained by the following people (alphabetically sorted) :
-
-@alexpozzi
 
 ## Credits
 

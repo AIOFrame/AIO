@@ -95,6 +95,20 @@
   margin-left: 5px;
 }
 
+.tabs.vertical {
+  display: flex;
+}
+.tabs.vertical > div:nth-child(1) {
+  display: flex;
+  flex-wrap: wrap;
+}
+.tabs.vertical > div:nth-child(1) > div, .tabs.vertical > div:nth-child(1) > a {
+  flex: 0 0 100%;
+}
+.tabs.vertical > div:nth-child(2) {
+  flex-grow: 1;
+}
+
 body.d .tab {
   box-shadow: 5px 0 45px #000;
 }

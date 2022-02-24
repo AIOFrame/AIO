@@ -10,7 +10,6 @@ return array(
     'WhichBrowser\\' => array($vendorDir . '/whichbrowser/parser/src', $vendorDir . '/whichbrowser/parser/tests/src'),
     'Vonage\\NexmoBridge\\' => array($vendorDir . '/vonage/nexmo-bridge/src'),
     'Vonage\\' => array($vendorDir . '/vonage/client-core/src'),
-    'Symfony\\Polyfill\\Php80\\' => array($vendorDir . '/symfony/polyfill-php80'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Component\\Process\\' => array($vendorDir . '/symfony/process'),
     'Stripe\\' => array($vendorDir . '/stripe/stripe-php/lib'),

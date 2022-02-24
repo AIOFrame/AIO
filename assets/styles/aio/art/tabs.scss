@@ -100,6 +100,21 @@
   }
 }
 
+// Vertical Tabs
+.tabs.vertical {
+  display: flex;
+  > div:nth-child(1) {
+    display: flex;
+    flex-wrap: wrap;
+    > div, > a {
+      flex: 0 0 100%;
+    }
+  }
+  > div:nth-child(2) {
+    flex-grow: 1;
+  }
+}
+
 // Dark mode
 body.d {
   .tab {
