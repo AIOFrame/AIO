@@ -247,7 +247,7 @@ class MAIL {
                 return 1;
             } catch (Exception $e) {
                 elog( $e->getMessage() );
-                return 0;
+                return $e->getMessage();
             }
         } else {
             elog('SendGrid Key is Empty! Please add key to config or option.');
