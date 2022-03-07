@@ -535,7 +535,7 @@ class FORM {
             if( is_array( $qa ) && isset( $qa[7] ) && isset( $qa[1] ) && !empty( $_GET[$qa[1]] ) ) {
                 $where = $qa[7];
                 $value = $_GET[$qa[1]];
-                $q = $where.' \''.$value.'\'';
+                $q = str_contains( $where, 'LIKE' ) ? $where.' \'%'.$value.'%\'' : $where.' \''.$value.'\'';
                 $query = !empty( $query ) ? $query.' AND '.$q : $q;
             }
         }

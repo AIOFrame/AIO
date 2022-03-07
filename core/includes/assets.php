@@ -630,7 +630,7 @@ function notify( string $message ) {
  * Clears Log File
  */
 function clear_log_viewer() {
-    $file = isset( $_POST['file'] ) ? $_POST['file'] : ini_get('error_log');
+    $file = $_POST['file'] ?? ini_get('error_log');
     if( $file = fopen( $file, 'w' ) ) {
         $clear = fwrite( $file, '' );
         if( $clear == '' ) {
@@ -640,4 +640,14 @@ function clear_log_viewer() {
         }
         fclose( $file );
     }
+}
+
+function previous_tab( string $text = '', string $class = 'prev', string $col = '6' ) {
+    $col = is_numeric( $col ) ? 'col-'.$col : $col;
+    echo '<div class="'.$col.'"><button class="'.$class.'" data-prev>'. T( $text ). '</button></div>';
+}
+
+function next_tab( string $text = '', string $class = 'next', string $col = '6' ) {
+    $col = is_numeric( $col ) ? 'col-'.$col : $col;
+    echo '<div class="'.$col.' tar"><button class="'.$class.'" data-next>'. T( $text ). '</button></div>';
 }
