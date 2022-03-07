@@ -18,12 +18,12 @@ class MAPS {
             })
         },500)
     });
-    var loc = {lat: 25.212212, lng: 55.275135};
+    let loc = {lat: 25.212212, lng: 55.275135};
     function GoogleMap(e, key = '<?php echo $k; ?>'  ) {
         if(key === ''){ elog('Google Maps Key Error, Option \'google_maps_key\' is missing in options database or pass key as second parameter in GoogleMaps(e, key)'); return }
-        var con = { center: loc };
+        let con = { center: loc };
         if($(e).data('value')){
-            var d = $(e).data('value');
+            let d = $(e).data('value');
             d = d.split(',');
             loc['lat'] = parseFloat(d[0]);
             loc['lng'] = parseFloat(d[1]);
@@ -33,7 +33,7 @@ class MAPS {
         con['styles'] = $(e).data('skin') ? $(e).data('skin') : '';
         con['scrollwheel'] = false;
         if( $(e).data('types') ){
-            var mapTypeControlOptions = {
+            let mapTypeControlOptions = {
                 mapTypeIds: $(e).data('types').split(',')
             }
             con['mapTypeControlOptions'] = mapTypeControlOptions;
@@ -42,19 +42,19 @@ class MAPS {
         if (!$(e).data('streetview')) {
             con['streetViewControl'] = false
         }
-        var map = new google.maps.Map($(e)[0], con);
+        let map = new google.maps.Map($(e)[0], con);
         if($(e).data('marks')){
-            var marks = $(e).data('marks');
+            let marks = $(e).data('marks');
             if( marks.length > 0 ) {
                 $.each( marks, function( a, b ){
-                    var loc = {lat: b['lat'], lng: b['long']};
-                    var ico = {
+                    let loc = {lat: b['lat'], lng: b['long']};
+                    let ico = {
                         url: b['ico'],
                         scaledSize: new google.maps.Size(50, 50),
                         origin: new google.maps.Point(0,0),
                         anchor: new google.maps.Point(0, 0)
                     };
-                    var marker = new google.maps.Marker({
+                    let marker = new google.maps.Marker({
                         position: loc,
                         icon: ico,
                         map: map,
@@ -62,13 +62,13 @@ class MAPS {
                         size: new google.maps.Size(25, 25)
                     });
                     if(b['center']){
-                        var center = new google.maps.LatLng(b['lat'], b['long']);
+                        let center = new google.maps.LatLng(b['lat'], b['long']);
                         map.panTo(center);
                     }
                 })
             }
         } else {
-            var marker = new google.maps.Marker({
+            let marker = new google.maps.Marker({
                 position: loc,
                 icon: '<?php echo APPURL; ?>assets/images/marker.png',
                 map: map,
@@ -85,29 +85,31 @@ class MAPS {
     }
     function GMapValues( e, m, p ){
         $($(e).data('gps')).val(m.position.lat() + ', ' + m.position.lng());
+        $($(e).data('lat'),$(e).data('latitude')).val(m.position.lat());
+        $($(e).data('long'),$(e).data('longitude')).val(m.position.lng());
         if($(e).data('area') || $(e).data('city') || $(e).data('state') || $(e).data('country') || $(e).data('country_code') || $(e).data('location')){
-            var gc = new google.maps.Geocoder();
+            let gc = new google.maps.Geocoder();
             gc.geocode({'location':p},function(r,s){
                 if (s === 'OK') {
                     if (r[0]['address_components']) {
-                        var a = r[0]['address_components'];
+                        let a = r[0]['address_components'];
 
-                        var a1 = a[0] !== undefined && a[0].long_name !== 'undefined' ? a[0].long_name.replace('"','').replace("'","") : '';
-                        var a2 = a[1] !== undefined && a[1].long_name !== 'undefined' ? a[1].long_name.replace('"','').replace("'","") : '';
-                        var a3 = a[2] !== undefined && a[2].long_name !== 'undefined' ? a[2].long_name.replace('"','').replace("'","") : '';
-                        var area = a1 + ' ' + a2 + ' ' + a3;
+                        let a1 = a[0] !== undefined && a[0].long_name !== 'undefined' ? a[0].long_name.replace('"','').replace("'","") : '';
+                        let a2 = a[1] !== undefined && a[1].long_name !== 'undefined' ? a[1].long_name.replace('"','').replace("'","") : '';
+                        let a3 = a[2] !== undefined && a[2].long_name !== 'undefined' ? a[2].long_name.replace('"','').replace("'","") : '';
+                        let area = a1 + ' ' + a2 + ' ' + a3;
                         $($(e).data('area')).val(area);
 
-                        var city = a[3] !== undefined && a[3].long_name !== 'undefined' ? a[3].long_name.replace('"','').replace("'","") : '';
+                        let city = a[3] !== undefined && a[3].long_name !== 'undefined' ? a[3].long_name.replace('"','').replace("'","") : '';
                         $($(e).data('city')).val(city);
 
-                        var state = a[4] !== undefined && a[4].long_name !== 'undefined' && a[4].long_name !== city ? a[4].long_name.replace('"','').replace("'","") : '';
+                        let state = a[4] !== undefined && a[4].long_name !== 'undefined' && a[4].long_name !== city ? a[4].long_name.replace('"','').replace("'","") : '';
                         $($(e).data('state')).val(state);
 
-                        var country = a[5] !== undefined && a[5].long_name !== undefined ? a[5].long_name.replace('"','').replace("'","") : '';
+                        let country = a[5] !== undefined && a[5].long_name !== undefined ? a[5].long_name.replace('"','').replace("'","") : '';
                         $($(e).data('country')).val(country);
 
-                        var code = a[5] !== undefined && a[5].short_name !== 'undefined' ? a[5].short_name.replace('"','').replace("'","") : '';
+                        let code = a[5] !== undefined && a[5].short_name !== 'undefined' ? a[5].short_name.replace('"','').replace("'","") : '';
                         $($(e).data('country_code')).val(code);
 
                         $($(e).data('location')).val(area+', '+city+' '+state+', '+country);
