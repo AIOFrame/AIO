@@ -376,19 +376,23 @@ function edit_data( e, modal ) {
     typeof file_ui === 'function' ? file_ui() : '';
 }
 
-function update_data( e, action, target, keys, values, logic ) {
+function update_data( e, action, target, keys, values, logic, notify_time, reload_time ) {
     let data = { 'action': action, target: target, keys: keys, values: values, logic: logic };
     let con = $(e).data('confirm') !== undefined && $(e).data('confirm') !== '' ? $(e).data('confirm') : 'Are you sure to update ?';
+    let n = notify_time !== undefined && notify_time !== '' ? notify_time : 2;
+    let r = reload_time !== undefined && reload_time !== '' ? reload_time : 2;
     if( confirm( con ) ){
-        post( action, data, 2, 2 );
+        post( action, data, n, r );
     }
 }
 
-function trash_data( e, action, target, logic ) {
+function trash_data( e, action, target, logic, notify_time, reload_time ) {
     let data = { 'action': action, target: target, logic: logic };
     let con = $(e).data('confirm') !== undefined && $(e).data('confirm') !== '' ? $(e).data('confirm') : 'Are you sure to delete ?';
+    let n = notify_time !== undefined && notify_time !== '' ? notify_time : 2;
+    let r = reload_time !== undefined && reload_time !== '' ? reload_time : 2;
     if( confirm( con ) ){
-        post( action, data, 2, 2 );
+        post( action, data, n, r );
     }
 }
 

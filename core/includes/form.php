@@ -468,13 +468,15 @@ class FORM {
      * @param string $class Class
      * @param string $attr Additional attributes
      * @param string $i_class Applied class to i element and places before text
+     * @param int $notify_time Time to notify
+     * @param int $reload_time Time to Reload
      * @param string $confirmation Text for confirmation
      */
-    function trash_html( string $table, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', string $confirmation = '' ) {
+    function trash_html( string $table, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', int $notify_time = 2, int $reload_time = 2, string $confirmation = '' ) {
         $c = Crypto::initiate();
         $i = !empty( $i_class ) ? '<i class="'.$i_class.'"></i>' : '';
         $attr .= !empty( $confirmation ) ? ' data-confirm="'.T($confirmation).'"' : '';
-        echo '<'.$html.' onclick="trash_data(this,\''.$c->encrypt('trash_data_ajax').'\',\''.$c->encrypt($table).'\',\''.$c->encrypt($logic).'\')" class="'.$class.'" title="'.T('Delete').'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>';
+        echo '<'.$html.' onclick="trash_data(this,\''.$c->encrypt('trash_data_ajax').'\',\''.$c->encrypt($table).'\',\''.$c->encrypt($logic).'\','.$notify_time.','.$reload_time.')" class="'.$class.'" title="'.T('Delete').'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>';
     }
 
     /**
@@ -488,13 +490,15 @@ class FORM {
      * @param string $class Class
      * @param string $attr Additional attributes
      * @param string $i_class Applied class to i element and places before text
+     * @param int $notify_time Time to notify
+     * @param int $reload_time Time to Reload
      * @param string $confirmation Text for confirmation
      */
-    function update_html( string $table, array $keys, array $values, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', string $confirmation = '' ) {
+    function update_html( string $table, array $keys, array $values, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', int $notify_time = 2, int $reload_time = 2, string $confirmation = '' ) {
         $c = Crypto::initiate();
         $i = !empty( $i_class ) ? '<i class="'.$i_class.'"></i>' : '';
         $attr .= !empty( $confirmation ) ? ' data-confirm="'.T($confirmation).'"' : '';
-        echo '<'.$html.' onclick="update_data(this,\''.$c->encrypt('update_data_ajax').'\',\''.$c->encrypt($table).'\',\''.$c->encrypt_array($keys).'\',\''.$c->encrypt_array($values).'\',\''.$c->encrypt($logic).'\')" class="'.$class.'" title="'.T('Update').'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>';
+        echo '<'.$html.' onclick="update_data(this,\''.$c->encrypt('update_data_ajax').'\',\''.$c->encrypt($table).'\',\''.$c->encrypt_array($keys).'\',\''.$c->encrypt_array($values).'\',\''.$c->encrypt($logic).'\','.$notify_time.','.$reload_time.')" class="'.$class.'" title="'.T('Update').'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>';
     }
 
     /**
