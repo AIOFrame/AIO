@@ -822,11 +822,27 @@ function process_data_ajax() {
 }
 
 function process_options_ajax() {
-    es('test');
     $p = $_POST;
     if( !empty( $p ) && is_array( $p ) ) {
         $db = new DB();
         $db->update_options( $p );
+    }
+}
+
+function update_data_ajax() {
+    $c = Crypto::initiate();
+    $p = $_POST;
+    elog( $p );
+    $target = isset( $p['target'] ) && !empty( $p['target'] ) ? $c->decrypt( $p['target'] ) : '';
+    $keys = isset( $p['keys'] ) && !empty( $p['keys'] ) ? $c->decrypt_array( $p['keys'] ) : '';
+    $values = isset( $p['values'] ) && !empty( $p['values'] ) ? $c->decrypt_array( $p['values'] ) : '';
+    $logic = isset( $p['logic'] ) && !empty( $p['logic'] ) ? $c->decrypt( $p['logic'] ) : '';
+    if( !empty( $target ) && is_array( $keys ) && is_array( $values ) && !empty( $logic ) ) {
+        $db = new DB();
+        $r = $db->update( $target, $keys, $values, $logic );
+        $r ? es('Successfully Updated!') : ef('Update failed due to query misinterpret, please contact support');
+    } else {
+        ef('Update failed due to query misinterpret, please contact developer');
     }
 }
 
@@ -835,17 +851,14 @@ function process_options_ajax() {
  */
 function trash_data_ajax() {
     $c = Crypto::initiate();
-    $target = isset( $_POST['target'] ) && !empty( $_POST['target'] ) ? $c->decrypt( $_POST['target'] ) : '';
-    $logic = isset( $_POST['logic'] ) && !empty( $_POST['logic'] ) ? $c->decrypt( $_POST['logic'] ) : '';
+    $p = $_POST;
+    $target = isset( $p['target'] ) && !empty( $p['target'] ) ? $c->decrypt( $p['target'] ) : '';
+    $logic = isset( $p['logic'] ) && !empty( $p['logic'] ) ? $c->decrypt( $p['logic'] ) : '';
     if( !empty( $target ) && !empty( $logic ) ){
         $db = new DB();
         $r = $db->delete( $target, $logic );
-        if( $r ){
-            ES('Deleted successfully');
-        } else {
-            EF('Delete failed due to query misinterpret, please contact support');
-        }
+        $r ? es('Deleted successfully') : ef('Delete failed due to query misinterpret, please contact support');
     } else {
-        EF('Delete failed due to query misinterpret, please contact support');
+        ef('Delete failed due to query misinterpret, please contact developer');
     }
 }

@@ -376,9 +376,18 @@ function edit_data( e, modal ) {
     typeof file_ui === 'function' ? file_ui() : '';
 }
 
-function trash_data( action, target, logic ) {
+function update_data( e, action, target, keys, values, logic ) {
+    let data = { 'action': action, target: target, keys: keys, values: values, logic: logic };
+    let con = $(e).data('confirm') !== undefined && $(e).data('confirm') !== '' ? $(e).data('confirm') : 'Are you sure to update ?';
+    if( confirm( con ) ){
+        post( action, data, 2, 2 );
+    }
+}
+
+function trash_data( e, action, target, logic ) {
     let data = { 'action': action, target: target, logic: logic };
-    if( confirm('Are you sure to delete ?') ){
+    let con = $(e).data('confirm') !== undefined && $(e).data('confirm') !== '' ? $(e).data('confirm') : 'Are you sure to delete ?';
+    if( confirm( con ) ){
         post( action, data, 2, 2 );
     }
 }
