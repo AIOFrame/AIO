@@ -4,7 +4,7 @@ label.beta {
 
 [type=radio], [type=checkbox] {
   cursor: pointer;
-  margin: 8px 8px 8px 0;
+  margin: 8px 0;
   display: inline-block;
   vertical-align: middle;
   border-radius: 8px;
@@ -47,6 +47,7 @@ label.beta {
   color: #000;
   display: inline-block;
   vertical-align: middle;
+  padding-left: 10px;
 }
 
 input.load, input.loading {
@@ -330,6 +331,10 @@ select.mb0 + .select2-container {
   cursor: pointer;
 }
 
+[dir=rtl] [type=radio] + label, [dir=rtl] [type=checkbox] + label {
+  padding-left: 0;
+  padding-right: 10px;
+}
 [dir=rtl] .select2-container .select2-selection {
   background: #f1f1f1 url("../../assets/icons/select.svg") no-repeat 10px center/18px;
 }

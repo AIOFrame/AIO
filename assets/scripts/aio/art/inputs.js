@@ -47,20 +47,32 @@ $(document).ready(function(){
         $(this).html(a);
     });
 
+    let dateLocaleEn = {
+        days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        daysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+        months: ['January','February','March','April','May','June', 'July','August','September','October','November','December'],
+        monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        today: 'Today',
+        clear: 'Clear',
+        dateFormat: 'yyyy-mm-dd',
+        timeFormat: 'hh:ii aa',
+        firstDay: 0
+    };
+    // Air Date Picker
+    if( AirDatepicker !== undefined ) {
+        $('.dater').each(function(i,date_field){
+            new AirDatepicker( '#'+$(date_field).attr('id'), {
+                locale: dateLocaleEn,
+                position: $(date_field).data('position'),
+                autoClose: true,
+                multipleDates: $(date_field).attr('multiple'),
+            })
+        })
+    }
     // Date Picker
     if( $.fn.datepicker !== undefined ){
-        $.fn.datepicker.language['en'] = {
-            days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-            daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-            daysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-            months: ['January','February','March','April','May','June', 'July','August','September','October','November','December'],
-            monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            today: 'Today',
-            clear: 'Clear',
-            dateFormat: 'yyyy-mm-dd',
-            timeFormat: 'hh:ii aa',
-            firstDay: 0
-        };
+        $.fn.datepicker.language['en'] = dateLocaleEn;
         $('.dater').datepicker({
             language: 'en',
             position: $(this).data('position'),
