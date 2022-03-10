@@ -414,7 +414,7 @@ class FORM {
      * @param string $element HTML Element
      * @param string $confirm Message to show as confirmation before process
      */
-    function process_button_html( string $text = '', string $class = '', string $attr = '', string $action = '', string|int $pre = '', int|string $post = '', string $element = 'button', string $confirm = '' ) {
+    function process_html( string $text = '', string $class = '', string $attr = '', string $action = '', string|int $pre = '', int|string $post = '', string $element = 'button', string $confirm = '' ) {
         if( is_numeric( $pre ) ){
             $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
         } else {
@@ -437,7 +437,7 @@ class FORM {
      * @param string $attr Additional attributes
      * @param string $i_class Applied class to i element and places before text
      */
-    function view_button_html( string $url = '', string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '' ) {
+    function view_html( string $url = '', string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '' ) {
         $c = Crypto::initiate();
         $i = !empty( $i_class ) ? '<i class="'.$i_class.'"></i>' : '';
         echo '<'.$html.' data-href="'.$url.'" class="'.$class.'" title="'.T('View').'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>';
@@ -453,7 +453,7 @@ class FORM {
      * @param string $attr Additional attributes
      * @param string $i_class Applied class to i element and places before text
      */
-    function edit_button_html( string $element = '.modal', array $array = [], string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '' ) {
+    function edit_html( string $element = '.modal', array $array = [], string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '' ) {
         //$c = Crypto::initiate();
         $i = !empty( $i_class ) ? '<i class="'.$i_class.'"></i>' : '';
         echo '<'.$html.' onclick="edit_data(this,\''.$element.'\')" data-data=\''.$this->_editable_data($array).'\' class="'.$class.'" title="'.T('Edit').'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>';
