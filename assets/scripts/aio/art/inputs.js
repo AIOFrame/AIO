@@ -67,6 +67,10 @@ $(document).ready(function(){
                 position: $(date_field).data('position'),
                 autoClose: true,
                 multipleDates: $(date_field).attr('multiple'),
+                dateFormat: 'yyyy-MM-dd',
+                onSelect: function(fD, d, e) {
+                    $(date_field).trigger('change');
+                }
             })
         })
     }
