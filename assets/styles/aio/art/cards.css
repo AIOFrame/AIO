@@ -146,25 +146,6 @@
   height: 20px;
   cursor: pointer;
 }
-.card .acts {
-  display: flex;
-  justify-content: center;
-}
-.card .acts > a, .card .acts > div {
-  margin: 0 10px;
-  width: 45px;
-  height: 45px;
-  border-radius: 10px;
-  background: #eee;
-  cursor: pointer;
-}
-.card .acts i {
-  width: 45px;
-  height: 45px;
-  display: block;
-  background: #aaa;
-  transition: 0.6s;
-}
 .card .status {
   position: absolute;
   left: 10px;
@@ -213,6 +194,26 @@
 }
 .card .trash {
   background: url("./icons/trash.svg") no-repeat center/20px;
+}
+
+.acts {
+  display: flex;
+  justify-content: center;
+}
+.acts > a, .acts > div {
+  margin: 0 10px;
+  width: 45px;
+  height: 45px;
+  border-radius: 10px;
+  background: #eee;
+  cursor: pointer;
+}
+.acts i {
+  width: 45px;
+  height: 45px;
+  display: block;
+  background: #aaa;
+  transition: 0.6s;
 }
 
 .card.off, .card.disabled, .plate.off, .plate.disabled {
