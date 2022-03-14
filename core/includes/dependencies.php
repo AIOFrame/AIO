@@ -62,7 +62,14 @@ function file_upload() {
     }
 }
 
-function render_image( string $logo = '', string $name = '', string $class = '' ) {
+/**
+ * Renders Logo or Picture, if empty shows name first character
+ * @param string|null $logo
+ * @param string $name
+ * @param string $class
+ * @return void
+ */
+function render_image( string|null $logo = '', string $name = '', string $class = '' ) {
     //skel( !file_exists( APPPATH . $logo ) );
     $n = !file_exists( APPPATH . $logo ) && !empty( $name ) ? '<span>'.$name[0].'</span>' : '';
     $logo = !empty( $logo ) ? ' style="background-image:url(\''.storage_url( $logo ).'\')"' : '';
