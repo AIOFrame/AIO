@@ -67,14 +67,12 @@ function define_path( $title, $parent = 0 ){
         $title = implode('/',$array);
     }
 
-    !defined( 'PAGENAME' ) ? define( 'PAGENAME', str_replace(' ','', $title) ) : '';
-    //echo PAGEPATH;
+    !defined( 'PAGEPATH' ) ? define( 'PAGEPATH', str_replace(' ','', $title) ) : '';
 }
+
 function define_page( $page ) {
     !defined( 'PAGELOAD' ) ? define( 'PAGELOAD', $page ) : '';
 }
-
-!defined( 'PAGEPATH' ) ? define( 'PAGEPATH', str_replace( APPPATH.'pages/', '', str_replace( '.php', '', $page_link ) ) ) : '';
 
 // This the CORE ROUTING logic
 
@@ -126,4 +124,6 @@ if( !isset( $_POST['action'] ) ) { // Checks if AJAX Action Request is sent so c
         $error = '404';
         include_once( ROOTPATH . 'core/pages/error.php'); // Loads super 404
     }
+    !defined( 'PAGEPATH' ) ? define( 'PAGEPATH', str_replace( APPPATH.'pages/', '', str_replace( '.php', '', $page_link ) ) ) : '';
 }
+
