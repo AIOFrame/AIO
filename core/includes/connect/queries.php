@@ -625,6 +625,23 @@ class DB {
         return $o ? true : false;
     }
 
+    /**
+     * Turns a string of IDs into a query statement Ex: 1, 4 into user_id = 1 OR user_id = 4
+     * @param string $string IDs string Ex: 1, 2, 4
+     * @param string $column Columns to query thru Ex: company_id
+     * @return string
+     */
+    function ids_string_to_query( string $string, string $column ): string {
+        $ids = explode( ',', str_replace( ' ', '', $string ) );
+        $query = '';
+        if( !empty( $ids ) && is_array( $ids ) ) {
+            foreach( $ids as $id ) {
+                $query .= $column.' = \''.$id.'\' OR ';
+            }
+        }
+        return rtrim( $query, ' OR ' );
+    }
+
     // IMPORT / EXPORT
 
     /**

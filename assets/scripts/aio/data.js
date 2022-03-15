@@ -324,7 +324,9 @@ function edit_data( e, modal ) {
             t.data('id',d).find('[data-t]').data('id',d);
             $(t).hasClass('modal') ? t.addClass('on') : '';
         } else {
-            let el = $('[data-key='+i+']');
+            let el = t.find('[data-key='+i+']');
+            console.log( el );
+            console.log( el.attr('type') );
             if( el.attr('type') === 'checkbox' ){
                 if( el.data('key') !== undefined ) {
                     elog(el);
@@ -360,8 +362,11 @@ function edit_data( e, modal ) {
                     $('[data-key="'+i+'"]').val(d).change();
                 }*/
             } else {
+                console.log('here');
                 let tar = '#'+i;
+                console.log(tar);
                 if( $(tar).length ) {
+                    $(tar).remove();
                     $(tar).val(d).trigger('change');
                 } else {
                     $('[data-key="'+i+'"]').val(d).trigger('change');
