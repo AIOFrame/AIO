@@ -9,9 +9,9 @@ class AGENT {
 
     /**
      * Get client device model
-     * @return string
+     * @return string|null
      */
-    function get_device(): string {
+    function get_device(): string|null {
         if( isset( $_SESSION['client']['device']['model'] ) && !APPDEBUG ) {
             return $_SESSION['client']['device']['model'];
         } else {
@@ -25,9 +25,9 @@ class AGENT {
 
     /**
      * Get client device type
-     * @return string
+     * @return string|null
      */
-    function get_device_type(): string {
+    function get_device_type(): string|null {
         if( isset( $_SESSION['client']['device']['type'] ) && !APPDEBUG ) {
             return $_SESSION['client']['device']['type'];
         } else {
@@ -39,9 +39,9 @@ class AGENT {
 
     /**
      * Get client browser name
-     * @return string
+     * @return string|null
      */
-    function get_browser(): string {
+    function get_browser(): string|null {
         if( isset( $_SESSION['client']['browser']['name'] ) && !APPDEBUG ) {
             return $_SESSION['client']['browser']['name'];
         } else {
@@ -53,9 +53,9 @@ class AGENT {
 
     /**
      * Get client browser version
-     * @return string
+     * @return string|null
      */
-    function get_browser_version(): string {
+    function get_browser_version(): string|null {
         if( isset( $_SESSION['client']['browser']['version']['value'] ) && !APPDEBUG ) {
             return $_SESSION['client']['browser']['version']['value'];
         } else {
@@ -67,9 +67,9 @@ class AGENT {
 
     /**
      * Get client operating system information
-     * @return string
+     * @return string|null
      */
-    function get_os(): string {
+    function get_os(): string|null {
         if( isset( $_SESSION['client']['os'] ) && !APPDEBUG ) {
             return $_SESSION['client']['os'];
         } else {
@@ -81,9 +81,9 @@ class AGENT {
 
     /**
      * Get client operating system version
-     * @return string
+     * @return string|null
      */
-    function get_os_version(): string {
+    function get_os_version(): string|null {
         if( isset( $_SESSION['client']['os']['version']['value'] ) && !APPDEBUG ) {
             return $_SESSION['client']['os']['version']['value'];
         } else {
