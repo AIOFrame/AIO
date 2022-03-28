@@ -76,6 +76,14 @@
   width: 140px;
   height: 140px;
 }
+.card .image.x3l {
+  width: 160px;
+  height: 160px;
+}
+.card .image.x4l {
+  width: 180px;
+  height: 180px;
+}
 .card .image.wide {
   width: 100%;
 }
@@ -86,6 +94,11 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: 80px;
+}
+.card .image.f {
+  width: calc(100% + 30px);
+  margin: -15px -15px auto;
+  background-size: cover;
 }
 .card .image.cover {
   background-size: cover;
