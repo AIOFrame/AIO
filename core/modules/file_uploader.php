@@ -35,9 +35,9 @@ class FUP {
                 <div class="drop_files"><span><?php E('Drop files to Upload!'); ?></span></div>
             </div>
             <div class="files_actions">
-                <div class="fi i select"><?php E('Select'); ?></div>
+                <label class="fi i select"><?php E('Choose'); ?></label>
                 <label for="file_input" class="fb i browse"><?php E('Browse'); ?></label>
-                <div class="disabled fd i trash"><?php E('Delete'); ?></div>
+                <label class="disabled fd i trash"><?php E('Delete'); ?></label>
             </div>
             <div class="translations">
                 <div class="extension_limit"><?php E('The file should be one of the extensions'); ?></div>
