@@ -77,6 +77,14 @@
     width: 140px;
     height: 140px;
   }
+  .image.x3l {
+    width: 160px;
+    height: 160px;
+  }
+  .image.x4l {
+    width: 180px;
+    height: 180px;
+  }
   .image.wide {
     width: 100%;
   }
@@ -87,6 +95,11 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size:80px;
+  }
+  .image.f {
+    width: calc(100% + 30px);
+    margin:-15px -15px auto;
+    background-size: cover;
   }
   .image.cover {
     background-size:cover;

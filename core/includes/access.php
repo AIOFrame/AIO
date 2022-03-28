@@ -537,12 +537,12 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
     $callback = !empty( $callback ) ? ' data-redirect="'.$callback.'"' : '';
     ?>
     <div class="login_wrap" data-t data-pre="login_" data-data="log"<?php echo $redirect.$callback; ?> data-notify="<?php echo $notify_for; ?>" data-reload="<?php echo $reload_in; ?>" data-reset="log">
-        <div class="inputs">
+        <form class="inputs">
             <?php
-            $f->text(['username_'.$rand,'username'],$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-log required="true"','<div>','</div>');
-            $f->input('password',['password_'.$rand,'password'],$pass_title,$pass_title,'','onkeyup="aio_login_init(event)" data-log required="true"','<div>','</div>');
+            $f->text(['username_'.$rand,'username'],$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-log required autocomplete="username"','<div>','</div>');
+            $f->input('password',['password_'.$rand,'password'],$pass_title,$pass_title,'','onkeyup="aio_login_init(event)" data-log required autocomplete="current-password"','<div>','</div>');
             ?>
-        </div>
+        </form>
         <button id="aio_login_init" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_login_ajax' ); ?>"><?php E('Login'); ?></button>
         <div class="more" onclick="aio_forgot_view()"><?php E($forgot_title); ?></div>
     </div>

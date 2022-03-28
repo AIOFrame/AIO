@@ -60,7 +60,7 @@ $(document).ready(function(){
         firstDay: 0
     };
     // Air Date Picker
-    if( AirDatepicker !== undefined ) {
+    if( typeof AirDatepicker !== 'undefined' ) {
         $('.dater').each(function(i,date_field){
             let position = $(date_field).data('position') !== undefined ? $(date_field).data('position') : 'bottom left';
             let multiple = $(date_field).attr('multiple') !== undefined;

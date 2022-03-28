@@ -104,6 +104,7 @@ class WORLD {
      * @return array
      */
     function cities( string $state_name = '', string $country_code = 'AE' ): array {
+        /* Use input instead of dropdown for now */
         return [];
     }
 
