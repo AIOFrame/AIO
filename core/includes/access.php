@@ -244,7 +244,7 @@ class ACCESS {
                     }
                 }
                 $_SESSION['db_session'] = $cry->encrypt( $session );
-                return [ 1, T('Logged in successfully!') ];
+                return [ $user['user_id'], T('Logged in successfully!') ];
             } else {
                 return [ 0, T('User login failed!') ];
             }
@@ -710,9 +710,9 @@ function logout_ajax() {
     $a = new ACCESS();
     $a->clear_current_sessions();
     if( !isset( $_SESSION['user'] ) ) {
-        es('Logged out Successfully!');
+        echo json_encode([1,'Logged out Successfully!']);
     } else {
-        ef('Failed to logout!');
+        echo json_encode([0,'Failed to logout!']);
     }
 }
 
