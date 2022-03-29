@@ -391,6 +391,30 @@ class ACCESS {
     }
 
     /**
+     * Removes user by id or login or email
+     * @param string $login_or_id
+     * @return void
+     */
+    function remove( string $login_or_id ) {
+        $db = new DB();
+        // Find existing User
+        if( is_numeric( $login_or_id ) ) {
+            $user = $db->select( 'users', 'user_id', 'user_id = \''.$login_or_id.'\'', 1 );
+        } else if( !empty( $login_or_id ) ) {
+            $user = $db->select( 'users', 'user_id', 'user_login = \''.$login_or_id.'\' OR user_email = \''.$login_or_id.'\'', 1 );
+        }
+        // Remove User
+        if( $user ) {
+            $db->delete( 'users', 'user_id = \''.$login_or_id.'\'' );
+            $db->delete( 'access', 'access_user = \''.$login_or_id.'\'' );
+            $db->delete( 'sessions', 'ss_uid = \''.$login_or_id.'\'' );
+            es('Successfully removed the user!');
+        } else {
+            ef('Failed to find existing user!');
+        }
+    }
+
+    /**
      * Add default users from config
      */
     function config_users() {
