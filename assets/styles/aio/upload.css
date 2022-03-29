@@ -8,7 +8,7 @@
   transform: translate(-50%, -50%);
   overflow: hidden;
   width: 32vw;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px) saturate(2);
   -webkit-backdrop-filter: blur(10px) saturate(2);
   opacity: 0;
@@ -55,6 +55,9 @@ body.d .file_modal, body.d .file_notify {
   flex-wrap: wrap;
   align-content: flex-start;
   position: relative;
+  max-height: 50vh;
+  overflow-y: auto;
+  padding: 0 5px;
 }
 .file_modal .no_uploaded_files {
   min-height: 260px;
@@ -72,21 +75,16 @@ body.d .file_modal, body.d .file_notify {
 .file_modal .search {
   box-shadow: none;
   border: 0;
-  background: #eee url(../../icons/search.svg) no-repeat 10px center/20px;
-  border-radius: 20px;
+  background: #ddd url(../../icons/search.svg) no-repeat 10px center/20px;
+  border-radius: 8px;
   width: calc(100% - 20px);
   font-size: 16px;
   padding: 12px 12px 12px 40px;
-  font-weight: lighter;
   margin: 10px;
   letter-spacing: 1px;
 }
 .file_modal .files_body {
   position: relative;
-}
-.file_modal .files_body .uploaded_files {
-  max-height: 50vh;
-  overflow-y: auto;
 }
 .file_modal .files_head {
   background: #333;
@@ -213,6 +211,7 @@ body.d .file_modal .files_head {
   border: 1px solid #ddd;
   border-radius: 5px;
   margin: 5px;
+  background-color: #fff;
 }
 
 #aio_up .f.gif {
@@ -265,11 +264,8 @@ body.d .file_modal .files_head {
 }
 
 #aio_up .f.on {
-  background-color: rgba(0, 0, 0, 0.1) !important;
-}
-
-body.d #aio_up .f.on {
-  background-color: rgba(0, 0, 0, 0.2) !important;
+  border: 1px solid #000;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
 
 #aio_up .f.new {
@@ -309,7 +305,8 @@ body.d #aio_up .f.on {
 #aio_up .f:after {
   content: "";
   position: absolute;
-  background: url(../../images/icons/uncheck.svg) no-repeat center;
+  background: url(../../icons/radio.svg) no-repeat center/contain;
+  opacity: 0.5;
   width: 20px;
   height: 20px;
   left: 10px;
@@ -317,7 +314,8 @@ body.d #aio_up .f.on {
 }
 
 #aio_up .f.on:after {
-  background: url(../../images/icons/check.svg) no-repeat center;
+  background: url(../../icons/checked.svg) no-repeat center/contain;
+  opacity: 1;
 }
 
 .uploaded_files .uploading .progress {
@@ -340,19 +338,18 @@ body.d #aio_up .f.on {
 
 .files_actions {
   display: flex;
-  border-top: 1px solid #eee;
+  border-top: 1px solid #ddd;
 }
 .files_actions > div, .files_actions > label {
-  margin: 0 auto;
+  margin: 0;
   cursor: pointer;
   flex-grow: 1;
   padding: 15px 10px;
   text-align: center;
   font-size: 16px;
   text-transform: none;
-  font-weight: lighter;
   color: #000;
-  border-right: 1px solid #eee;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
 }
 .files_actions .disabled {
   color: #ccc;
@@ -360,16 +357,19 @@ body.d #aio_up .f.on {
   pointer-events: none;
 }
 .files_actions .i.select {
-  background: url("../../icons/uploader/select.svg") no-repeat 10px center/22px;
+  z-index: 3;
+  background: #fff url("../../icons/uploader/select.svg") no-repeat 10px center/22px;
 }
 .files_actions .i.trash {
-  background: url("../../icons/uploader/trash.svg") no-repeat 10px center/20px;
+  z-index: 1;
+  background: #fff url("../../icons/uploader/trash.svg") no-repeat 10px center/20px;
 }
 .files_actions .i.disabled {
   background: none;
 }
 .files_actions .i.browse {
-  background: url("../../icons/uploader/browse.svg") no-repeat 10px center/25px;
+  z-index: 2;
+  background: #fff url("../../icons/uploader/browse.svg") no-repeat 10px center/25px;
 }
 .files_actions > div:hover, .files_actions > label:hover {
   background-color: rgba(0, 0, 0, 0.05);
