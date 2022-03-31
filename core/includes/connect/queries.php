@@ -468,7 +468,7 @@ class DB {
             }
             return $c;
         } else {
-            return false;
+            return 0;
         }
     }
 
@@ -478,32 +478,34 @@ class DB {
      * @return bool
      */
     function update_options( array $array = [] ): bool {
-        $r = false;
+        $r = [];
         $array = !empty( $array ) && isset( $_POST ) ? $_POST : [];
         foreach( $array as $key => $value ){
             // If value has optional parameters
             if( is_array( $value ) ) {
                 // Unique for current logged in user
                 if ( array_key_exists('unique', $value) ) {
-                    $r = $this->update_option($key, $value['unique'], get_current_user_id());
+                    $r[] = $this->update_option($key, $value['unique'], get_user_id());
                 } else
                     // Encrypt value
                     if ( array_key_exists('encrypt', $value) ) {
                         $cry = Crypto::initiate();
-                        $r = $this->update_option($key, $cry->encrypt( $value['encrypt'] ) );
+                        $r[] = $this->update_option($key, $cry->encrypt( $value['encrypt'] ) );
                     } else
                         // Encrypt value + Unique for current logged in user
                         if ( array_key_exists('encrypt,unique', $value) ) {
                             $cry = Crypto::initiate();
-                            $r = $this->update_option($key, $cry->encrypt( $value['encrypt'] ), get_current_user_id());
+                            $r[] = $this->update_option($key, $cry->encrypt( $value['encrypt'] ), get_user_id());
                         } else {
-                            $r = $this->update_option( $key, serialize( $value ) );
+                            $r[] = $this->update_option( $key, serialize( $value ) );
                         }
             } else {
-                $r = $this->update_option( $key, $value );
+                $r[] = $this->update_option( $key, $value );
             }
         }
-        return $r;
+        $r = array_unique( $r );
+        elog( $r );
+        return ( count( $r ) == 1 && $r[0] == '' ) || empty( $r ) ? 0 : 1;
     }
 
     /**
@@ -842,7 +844,9 @@ function process_options_ajax() {
     $p = $_POST;
     if( !empty( $p ) && is_array( $p ) ) {
         $db = new DB();
-        $db->update_options( $p );
+        $result = $db->update_options( $p );
+        elog($result);
+        $result ? es('Successfully updated!') : ef('No new data is updated!');
     }
 }
 

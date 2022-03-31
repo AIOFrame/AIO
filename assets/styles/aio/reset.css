@@ -78,11 +78,10 @@ button {
   width: auto;
   box-shadow: none;
   border: 0;
-  margin: 20px 0;
 }
 
 label {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   display: inline-block;
   font-weight: bold;
   color: #000;
