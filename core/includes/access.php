@@ -406,7 +406,7 @@ class ACCESS {
         // Remove User
         if( $user ) {
             $db->delete( 'users', 'user_id = \''.$login_or_id.'\'' );
-            $db->delete( 'access', 'access_user = \''.$login_or_id.'\'' );
+            $db->delete( 'access', 'access_uid = \''.$login_or_id.'\'' );
             $db->delete( 'sessions', 'ss_uid = \''.$login_or_id.'\'' );
             es('Successfully removed the user!');
         } else {
