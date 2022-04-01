@@ -62,7 +62,7 @@ $(document).ready(function(){
     // Air Date Picker
     if( typeof AirDatepicker !== 'undefined' ) {
         $('.dater').each(function(i,date_field){
-            let position = $(date_field).attr('position') !== undefined ? $(date_field).attr('position') : 'bottom left';
+            let position = $(date_field).attr('position') !== undefined ? $(date_field).attr('position') : 'top center';
             let multiple = $(date_field).attr('multiple') !== undefined;
             let range = $(date_field).attr('range') !== undefined;
             let format = $(date_field).attr('format') !== undefined ? $(date_field).attr('format') : 'dd-MM-yyyy';
