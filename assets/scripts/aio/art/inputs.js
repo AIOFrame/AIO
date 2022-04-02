@@ -62,9 +62,12 @@ $(document).ready(function(){
     // Air Date Picker
     if( typeof AirDatepicker !== 'undefined' ) {
         $('.dater').each(function(i,date_field){
-            let position = $(date_field).data('position') !== undefined ? $(date_field).data('position') : 'bottom left';
+            let position = $(date_field).attr('position') !== undefined ? $(date_field).attr('position') : 'top center';
             let multiple = $(date_field).attr('multiple') !== undefined;
             let range = $(date_field).attr('range') !== undefined;
+            let format = $(date_field).attr('format') !== undefined ? $(date_field).attr('format') : 'dd-MM-yyyy';
+            let alt = $(date_field).attr('alt') !== undefined ? $(date_field).attr('alt') : false;
+            let altFormat = $(date_field).attr('alt-format') !== undefined ? $(date_field).attr('alt-format') : 'yyyy-MM-dd';
             let separator = range ? '|' : ', ';
             new AirDatepicker( '#'+$(date_field).attr('id'), {
                 locale: dateLocaleEn,
@@ -73,7 +76,9 @@ $(document).ready(function(){
                 multipleDates: multiple,
                 range: range,
                 multipleDatesSeparator: separator,
-                dateFormat: 'yyyy-MM-dd',
+                dateFormat: format,
+                altField: alt,
+                altFieldDateFormat: altFormat,
                 onSelect: function(fD, d, e) {
                     $(date_field).trigger('change');
                 }

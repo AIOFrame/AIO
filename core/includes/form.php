@@ -150,6 +150,53 @@ class FORM {
     }
 
     /**
+     * Renders Date Picker
+     * @param string|array $id
+     * @param string $label
+     * @param string $placeholder
+     * @param string|null $value
+     * @param string $attrs
+     * @param string $position
+     * @param string $pre
+     * @param bool $range
+     * @param bool $multiple
+     * @param string $post
+     * @return void
+     */
+    function date( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $position = 'bottom center', string $pre = '', bool $range = false, bool $multiple = false, string $post = '' ) {
+        $alt_id = is_array( $id ) ? [ $id[0].'_alt', $id[1].'_alt' ] : $id.'_alt';
+        $range_attr = $range ? ' range' : '';
+        $multiple_attr = $multiple ? ' multiple' : '';
+        $visible_attr = is_array( $id ) ? 'class="dater" alt="#'.$id[0].'" position="'.$position.'"' : 'class="dater" alt="#'.$id.'" position="'.$position.'"';
+        // Hidden Input - Renders date format as per backend
+        $this->input( 'text', $id, '', '', $value, $attrs.' hidden' );
+        // Visible Input - Render date for easier user grasp
+        $this->input( 'text', $alt_id, $label, $placeholder, $value, $visible_attr.$range_attr.$multiple_attr, $pre, $post );
+    }
+
+    /**
+     * @param array $array
+     * @param string $attrs
+     * @param string $position
+     * @param string $pre
+     * @param bool $range
+     * @param bool $multiple
+     * @param string $post
+     * @return void
+     */
+    function dates( array $array, string $attrs = '', string $position = '', string $pre = '', bool $range = false, bool $multiple = false, string $post = '' ) {
+        if( !empty( $array ) ){
+            foreach( $array as $f ) {
+                $id = $f[0] ?? '';
+                $label = $f[1] ?? '';
+                $ph = $f[2] ?? '';
+                $value = $f[3] ?? '';
+                $this->date( $id, $label, $ph, $value, $attrs, $position, $pre, $range, $multiple, $post );
+            }
+        }
+    }
+
+    /**
      * Renders &lt;input type="textarea"&gt; element
      * Basically the text input function with $type = 'textarea' param
      * @param string|array $id ID and name of the element
@@ -172,14 +219,12 @@ class FORM {
      * @param string $post End string to wrap after /&gt;
      */
     function texts( array $array, string $attrs = '', string $pre = '', string $post = '' ){
-        if( is_array( $array ) ){
-            if( is_assoc( $array ) ){
-                foreach( $array as $k => $v ){
-                    $this->input( 'text', $k, $v, $attrs, $pre, $post );
-                }
-            } else {
-                $this->inputs( 'text', $array, $attrs, $pre, $post );
+        if( is_assoc( $array ) ){
+            foreach( $array as $k => $v ){
+                $this->input( 'text', $k, $v, $attrs, $pre, $post );
             }
+        } else {
+            $this->inputs( 'text', $array, $attrs, $pre, $post );
         }
     }
 
