@@ -102,11 +102,8 @@ class FORM {
                 $ch = $value == 'true' || $value == '1' ? 'checked' : '';
                 $input .= '<input type="checkbox" data-check="#'.$id.'" class="slide m" '.$ch.'></div>';
                 break;
-            case 'select':
-                $this->select($id,$label,$placeholder,[],$value,$attrs,$pre,$post,0,1);
-                break;
             default:
-                $input = '<input type="'.$type.'" autocapitalize="none" id="'.$id.'" data-key="'.$n.'" name="'.$n.'" '.$at.$ph.$va.'>';
+                $input = '<input type="'.$type.'" id="'.$id.'" data-key="'.$n.'" name="'.$n.'" '.$at.$ph.$va.'>';
                 break;
         }
         echo $pre;
