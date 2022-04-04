@@ -94,9 +94,7 @@ fieldset{
   border: 0;
 }
 .ace_editor div, .ace_editor span { font-family: monospace; }
-::-webkit-scrollbar {
-  width:12px;
-}
+::-webkit-scrollbar { width:12px; height:12px; }
 ::-webkit-scrollbar {
   background: rgba(255,255,255,.05);
   display: block;

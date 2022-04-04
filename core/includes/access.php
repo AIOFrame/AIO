@@ -804,7 +804,7 @@ function user_registration_fields( string $pre = 'user_', string $data = '', str
     //$f->text([$pre.'login', 'login'], '', 'Ex: john_doe', '', $attr.' hidden required', 12 );
     $f->text([$pre.'name', 'name'], 'Full Name', 'Ex: John Doe', '', $attr.' required', 4);
     $f->text([$pre.'login', 'login'], 'Login Email Address', 'Ex: john_doe@gmail.com', '', $attr.' required', 4);
-    $f->input('password', [$pre.'pass', 'pass'], 'Login Password', '***********', '', $attr.' required autocomplete="new-password"', 4);
+    $f->input('password', [$pre.'pass', 'pass'], 'Login Password', '***********', '', $attr.' autocomplete="new-password"', 4);
     $f->select([$pre.'gender', 'gender'], 'Gender', 'Choose Gender...', $genders, 'Male', $attr.' class="select2"', 0, 4, 0, 0);
     $f->date([$pre.'dob', 'dob'], 'Date of Birth', 'Ex: 15-05-1990', '', $attr, 'top center', 4);
     $f->select([$pre.'code', 'phone_code'], 'Code', 'Ex: +61', $codes, $phone_code, $attr.' class="select2" required', 1, '', 1, 0);

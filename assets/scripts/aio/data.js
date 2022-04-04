@@ -373,13 +373,16 @@ function edit_data( e, modal ) {
                     //$(tar).remove();
                     $(tar).val(d).trigger('change');
                 } else {
-                    let element = $('[data-key="'+i+'"]');
-                    if( element.data('hidden-date') !== undefined ) {
+                    //let element = $('[data-key="'+i+'"]');
+                    if( el.data('hidden-date') !== undefined ) {
+                        //elog( element );
+                        elog( el );
                         let date = new Date( d );
                         elog( date );
-                        $( '#'+element.attr('id')+'_alt' ).val( [('0'+date.getDate()).slice(-2), ('0'+date.getMonth()).slice(-2), date.getFullYear()].join('-') ).trigger('change');
+                        elog( '#'+el.attr('id')+'_alt' );
+                        $( '#'+el.attr('id')+'_alt' ).val( [('0'+date.getDate()).slice(-2), ('0'+date.getMonth()).slice(-2), date.getFullYear()].join('-') ).trigger('change');
                     }
-                    element.val(d).trigger('change');
+                    el.val(d).trigger('change');
                 }
             }
             //elog('#'+i);

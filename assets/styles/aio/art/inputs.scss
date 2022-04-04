@@ -137,6 +137,15 @@ textarea {
   }
   .select2-selection--single {
     height: auto;
+    .select2-selection__rendered {
+      padding-left: 0;
+      padding-right: 12px;
+    }
+  }
+  .select2-dropdown {
+    .select2-results__options {
+      overflow-x:hidden;
+    }
   }
 }
 select.mb0 + .select2-container {
