@@ -163,13 +163,14 @@ class FORM {
      * @param string $post
      * @return void
      */
-    function date( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $position = 'bottom center', string $pre = '', bool $range = false, bool $multiple = false, string $post = '' ) {
+    function date( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $position = '', string $pre = '', bool $range = false, bool $multiple = false, string $post = '' ) {
         $alt_id = is_array( $id ) ? [ $id[0].'_alt', $id[1].'_alt' ] : $id.'_alt';
         $range_attr = $range ? ' range' : '';
         $multiple_attr = $multiple ? ' multiple' : '';
+        $position = !empty( $position ) ? $position : 'bottom center';
         $visible_attr = is_array( $id ) ? 'class="dater" alt="#'.$id[0].'" position="'.$position.'"' : 'class="dater" alt="#'.$id.'" position="'.$position.'"';
         // Hidden Input - Renders date format as per backend
-        $this->input( 'text', $id, '', '', $value, $attrs.' hidden' );
+        $this->input( 'text', $id, '', '', $value, $attrs.' hidden data-hidden-date' );
         // Visible Input - Render date for easier user grasp
         $this->input( 'text', $alt_id, $label, $placeholder, $value, $visible_attr.$range_attr.$multiple_attr, $pre, $post );
     }

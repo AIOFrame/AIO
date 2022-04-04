@@ -146,6 +146,9 @@ class ACCESS {
         if( !empty( $valid_pass ) ) {
             return [0, $valid_pass];
         }
+        if( str_contains( $login, '@' ) && empty( $email ) ) {
+            $email = $login;
+        }
 
         $db = new DB();
         if( empty( $name ) ) {
@@ -164,6 +167,9 @@ class ACCESS {
 
         // Parsing columns
         if( !empty( $columns ) && is_assoc( $columns ) ) {
+            if( empty( $columns['dob'] ) ) {
+                unset( $columns['dob'] );
+            }
             foreach( $columns as $k => $v ) {
                 elog( $v );
                 if( !isset( $keys[ $k ] ) ) {
@@ -455,7 +461,7 @@ class ACCESS {
     function valid_name( string $name = '' ): string {
         if( strlen( $name ) <= 6 ) {
             return T('User login must be at least 8 characters in length!');
-        } else if( preg_match( '/[^a-z0-9_]/', $name ) ) {
+        } else if( preg_match( '/[^a-z0-9@_.]/', $name ) ) {
             return T('User login cannot contain special characters!');
         } else {
             return '';
@@ -757,14 +763,62 @@ if( user_logged_in() ) {
     }
 }
 
-function user_can( $perm ): bool {
+/**
+ * Check if user has specific permission
+ * @param string|array $perms
+ * @return bool
+ */
+function user_can( string|array $perms ): bool {
     $uid = isset( $_SESSION['user'] ) && isset( $_SESSION['user']['id'] ) ? $_SESSION['user']['id'] : 0;
     if( is_numeric( $uid ) && $uid > 0 ) {
         $db = new DB();
         $ua = $db->select( 'users', 'user_access', 'user_id = \''.$uid.'\'', 1 );
         $access = !empty( $ua ) && isset( $ua['user_access'] ) ? json_decode( $ua['user_access'] ) : [];
-        return in_array( $perm, $access );
+        $perms = !is_array( $perms ) ? explode( ',', $perms ) : $perms;
+        $return = [];
+        foreach( $perms as $p ) {
+            $return[] = in_array( $p, $access ) ? 1 : 0;
+        }
+        return in_array( 1, $return );
     } else {
         return 0;
+    }
+}
+
+/**
+ * Renders User Registration Fields
+ * @param string $pre Pre text for keys
+ * @param string $data data attribute to get values
+ * @param string $array if the data has to be grouped as array
+ * @return void
+ */
+function user_registration_fields( string $pre = 'user_', string $data = '', string $array = '' ) {
+    $codes = get_calling_codes();
+    $f = new FORM();
+    global $genders;
+    $genders = $genders ?? [ 'Male', 'Female', 'Others', 'No Specify' ];
+    global $phone_code;
+    $phone_code = $phone_code ?? '+971';
+    $data = $data ?? 'data';
+    $attr = $array !== '' ? 'data-'.$data.' data-empty data-array="'.$array.'"' : 'data-'.$data.' data-empty';
+    //$f->text([$pre.'login', 'login'], '', 'Ex: john_doe', '', $attr.' hidden required', 12 );
+    $f->text([$pre.'name', 'name'], 'Full Name', 'Ex: John Doe', '', $attr.' required', 4);
+    $f->text([$pre.'login', 'login'], 'Login Email Address', 'Ex: john_doe@gmail.com', '', $attr.' required', 4);
+    $f->input('password', [$pre.'pass', 'pass'], 'Login Password', '***********', '', $attr.' required autocomplete="new-password"', 4);
+    $f->select([$pre.'gender', 'gender'], 'Gender', 'Choose Gender...', $genders, 'Male', $attr.' class="select2"', 0, 4, 0, 0);
+    $f->date([$pre.'dob', 'dob'], 'Date of Birth', 'Ex: 15-05-1990', '', $attr, 'top center', 4);
+    $f->select([$pre.'code', 'phone_code'], 'Code', 'Ex: +61', $codes, $phone_code, $attr.' class="select2" required', 1, '', 1, 0);
+    $f->text([$pre.'phone', 'phone'], 'Phone Number', 'Ex: 501122333', '', $attr.' required', 3);
+}
+
+/**
+ * Displays a NO ACCESS content and end further code execution
+ * @param string $message Message to be displayed
+ * @return void
+ */
+function no_access( string $message = "You are trying to reach restricted content!", string $class = '', bool $die = true ) {
+    echo '<div class="no_access '.$class.'"><h1 class="tac">'.T( $message ).'</h1><a onclick="history.back()">'.T('Return to Previous Page').'</a></div>';
+    if( $die ) {
+        die();
     }
 }

@@ -13,6 +13,7 @@ if (typeof window.elog === 'undefined' ) {
  * @returns {{}}
  */
 function get_values( parent, attribute, prepend ) {
+    elog('running');
     let a = attribute;
     a = a !== undefined && a !== '' ? '[data-'+a+']' : '';
     let pre = prepend;
@@ -45,22 +46,26 @@ function get_values( parent, attribute, prepend ) {
         if( $(this).attr('type') === 'checkbox' ){
             let t = $(this).is(':checked');
             let arr = $(this).data('array');
+            let v = $(this).val();
             if ( arr !== undefined ) {
-                //console.log(1);
-                data[arr] = data[arr] === undefined || !$.isArray( data[arr] ) ? [] : data[arr];
-                elog(data);
-                t ? data[arr].push( $(this).val() ) : '';
+                elog(1);
+                if( data[arr] === undefined || !$.isArray( data[arr] ) ) {
+                    data[arr] = [];
+                }
+                if( t ) {
+                    data[arr].push( v );
+                }
             } else if (m.length > 1) {
                 elog(2);
                 value = $( '[name=' + $(this).attr('name') + ']' ).map(function () {
-                    if ($(this).is(':checked'))
+                    if( t ) {
                         return $(this).val();
+                    }
                 }).toArray();
             } else {
                 elog(3);
                 value = t === true ? 1 : 2;
             }
-
         } else if( $(this).attr('type') === 'radio' ) {
 
             key = $(this).is(':checked') ? $(this).attr('name') : '';
@@ -314,9 +319,9 @@ function edit_data( e, modal ) {
     $('article').addClass('fade');
     $(modal).find('[data-add]').hide();
     $(modal).find('[data-update],[data-edit]').show();
-    elog(data);
+    //elog(data);
     $.each( data, function(i,d){
-        elog(i);
+        //elog(i);
         if( d === null ) {
             return;
         }
@@ -324,14 +329,13 @@ function edit_data( e, modal ) {
             t.data('id',d).find('[data-t]').data('id',d);
             $(t).hasClass('modal') ? t.addClass('on') : '';
         } else {
-            let el = t.find('[data-key='+i+']');
-            console.log( el );
-            console.log( el.attr('type') );
+            let el = $(t).find('[data-key='+i+']');
+            //console.log( el.attr('type') );
             if( el.attr('type') === 'checkbox' ){
                 if( el.data('key') !== undefined ) {
-                    elog(el);
+                    //elog(el);
                     d = !$.isArray(d) ? JSON.parse(d) : [d];
-                    elog(d);
+                    //elog(d);
                     if( $.isArray(d) ) {
                         $(d).each(function(a,b){
                             let s = $('[data-key='+i+'][value='+b+']');
@@ -362,14 +366,20 @@ function edit_data( e, modal ) {
                     $('[data-key="'+i+'"]').val(d).change();
                 }*/
             } else {
-                console.log('here');
+                //console.log('here');
                 let tar = '#'+i;
                 console.log(tar);
                 if( $(tar).length ) {
-                    $(tar).remove();
+                    //$(tar).remove();
                     $(tar).val(d).trigger('change');
                 } else {
-                    $('[data-key="'+i+'"]').val(d).trigger('change');
+                    let element = $('[data-key="'+i+'"]');
+                    if( element.data('hidden-date') !== undefined ) {
+                        let date = new Date( d );
+                        elog( date );
+                        $( '#'+element.attr('id')+'_alt' ).val( [('0'+date.getDate()).slice(-2), ('0'+date.getMonth()).slice(-2), date.getFullYear()].join('-') ).trigger('change');
+                    }
+                    element.val(d).trigger('change');
                 }
             }
             //elog('#'+i);
