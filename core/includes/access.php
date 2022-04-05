@@ -350,9 +350,10 @@ class ACCESS {
      * @param string $login_or_id
      * @param array $columns
      * @param array $data
+     * @param array $access User Permissions, Custom array with permission name key and boolean value
      * @return array
      */
-    function update( string $login_or_id, array $columns = [], array $data = [] ): array {
+    function update( string $login_or_id, array $columns = [], array $data = [], array $access = [] ): array {
         $db = new DB();
         $user = is_numeric( $login_or_id ) ? $db->select( 'users', 'user_id', 'user_id = \''.$login_or_id.'\'', 1 ) : $db->select( 'users', 'user_id', 'user_login = \''.$login_or_id.'\'', 1 );
         if( isset( $user['user_id'] ) && !empty( $user['user_id'] ) ) {
@@ -371,6 +372,11 @@ class ACCESS {
             if( !empty( $data ) ) {
                 $keys[] = 'user_data';
                 $values[] = json_encode( $data );
+            }
+            // Access
+            if( !empty( $access ) ) {
+                $keys[] = 'user_access';
+                $values[] = json_encode( $access );
             }
             $update = $db->update( 'users', $keys, $values, 'user_id = \''.$user['user_id'].'\'' );
             return $update ? [ 1, T('Successfully updated user information!') ] : [ 0, T('Failed to update user information, please check log!') ];
