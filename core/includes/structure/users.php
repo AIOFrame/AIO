@@ -6,8 +6,10 @@ $user_struct[] = [ 'users', [
     [ 'name', 'VARCHAR', 128, 0 ],
     [ 'picture', 'VARCHAR', 512, 0 ],
     [ 'data', 'VARCHAR', 4096, 0 ],
-    [ 'access', 'VARCHAR', 4096, 0 ],
+    [ 'type', 'VARCHAR', 256, 0 ],
+    [ 'role', 'VARCHAR', 256, 0 ],
     [ 'status', 'BOOLEAN', '', 1 ],
+    [ 'access', 'VARCHAR', 4096, 0 ],
     [ 'since', 'DATETIME', '', 1 ],
 ], 'user', 1 ];
 

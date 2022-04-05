@@ -791,6 +791,14 @@ function user_can( string|array $perms ): bool {
     }
 }
 
+function user_type_is( $type = '' ): bool {
+    return $_SESSION['user']['type'] == $type;
+}
+
+function user_role_is( $role = '' ): bool {
+    return $_SESSION['user']['role'] == $role;
+}
+
 /**
  * Renders User Registration Fields
  * @param string $pre Pre text for keys
