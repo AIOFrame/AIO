@@ -527,16 +527,43 @@ function access_register_ajax() {
     }
 }
 
-function access_update_ajax() {
-    if( isset( $_POST ) && is_array( $_POST ) ) {
-        $cry = Crypto::initiate();
-        $id = isset( $_POST['login'] ) && !empty( $_POST['login'] ) ? $cry->decrypt( $_POST['login'] ) : get_user_id();
-        unset( $_POST['pre'] );
-        unset( $_POST['t'] );
+function access_ajax() {
+    if( !empty( $_POST['login'] ) ) {
+        $cols = [
+            'phone_code' => $_POST['phone_code'] ?? '',
+            'phone' => $_POST['phone'] ?? '',
+            'dob' => $_POST['dob'] ?? '',
+            'gender' => $_POST['gender'] ?? '',
+            'type' => $_POST['type'] ?? '',
+            'role' => $_POST['role'] ?? ''
+        ];
+        if( isset( $_POST['h'] ) ) {
+            $c = Crypto::initiate();
+            $h = $c->decrypt_array( $_POST['h'] );
+            unset( $_POST['h'] );
+            foreach( $h as $hk => $hv ) {
+                $cols[ $hk ] = $hv;
+            }
+        }
+        $l = $_POST['login'];
+        $p = $_POST['pass'] ?? '';
+        $email = $_POST['email'] ?? $_POST['login'];
+        $name = $_POST['name'] ?? '';
+        $access = !empty( $_POST['access'] ) ? json_decode( $_POST['access'] ) : [];
+        $data_bypass = ['login','pass','email','name','dob','gender','phone','phone_code','access','pre','t','id','acs','action'];
         $a = new ACCESS();
-        echo json_encode( $a->update( $id, $_POST ) );
+        if( empty( $_POST['id'] ) ) {
+            $user = $a->register( $l, $p, $email, $name, '', $cols, array_diff_key( $_POST, array_flip($data_bypass)), $access, 1 );
+            $user[0] ? es('Successfully registered Employee!') : ef($user[1]);
+        } else {
+            if( !empty( $p ) ) {
+                $a->overwrite_password( $l, $p );
+            }
+            $user = $a->update( $l, $cols, array_diff_key( $_POST, array_flip($data_bypass) ), $access );
+            $user ? es('Successfully updated Employee!') : ef('Failed to update Employee!');
+        }
     } else {
-        ef('Incomplete data received!');
+        ef('Failed to store employee due to empty data!');
     }
 }
 
@@ -695,7 +722,7 @@ function get_user_id(): string {
  * Redirects user to certain url if not logged in
  * @param string $url URL to redirect to
  */
-function login_redirect( $url = 'login' ) {
+function login_redirect( string $url = 'login' ) {
     if( !user_logged_in() ){
         header( "Location:" .APPURL.$url );
         die();
@@ -792,11 +819,11 @@ function user_can( string|array $perms ): bool {
 }
 
 function user_type_is( $type = '' ): bool {
-    return $_SESSION['user']['type'] == $type;
+    return user_logged_in() ? $_SESSION['user']['type'] == $type : 0;
 }
 
 function user_role_is( $role = '' ): bool {
-    return $_SESSION['user']['role'] == $role;
+    return user_logged_in() ? $_SESSION['user']['role'] == $role : 0;
 }
 
 /**

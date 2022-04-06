@@ -71,6 +71,7 @@ $(document).ready(function(){
             let position = $(date_field).attr('position') !== undefined ? $(date_field).attr('position') : 'top center';
             let multiple = $(date_field).attr('multiple') !== undefined;
             let range = $(date_field).attr('range') !== undefined;
+            let view = $(date_field).attr('view') !== undefined ? $(date_field).attr('view') : 'days';
             let format = $(date_field).attr('format') !== undefined ? $(date_field).attr('format') : 'dd-MM-yyyy';
             let alt = $(date_field).attr('alt') !== undefined ? $(date_field).attr('alt') : false;
             let altFormat = $(date_field).attr('alt-format') !== undefined ? $(date_field).attr('alt-format') : 'yyyy-MM-dd';
@@ -84,6 +85,7 @@ $(document).ready(function(){
                 multipleDatesSeparator: separator,
                 dateFormat: format,
                 altField: alt,
+                view: view,
                 altFieldDateFormat: altFormat,
                 onSelect: function(fD, d, e) {
                     $(date_field).trigger('change');
