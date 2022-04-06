@@ -95,6 +95,32 @@
   margin-left: 5px;
 }
 
+.tabs.three .tab {
+  background: #fff;
+  box-shadow: none;
+  font-size: 0.9rem;
+  padding: 16px 20px;
+  height: auto;
+}
+.tabs.three .tab:first-child {
+  border-radius: 10px 0 0 10px;
+}
+.tabs.three .tab:last-child {
+  border-radius: 0 10px 10px 0;
+}
+.tabs.three .tab.on:after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  width: calc(100% - 8px);
+  height: calc(100% - 8px);
+  background: linear-gradient(318deg, #333 0%, #000 100%);
+  z-index: -1;
+  border-radius: 8px;
+}
+
 .tabs.vertical {
   display: flex;
 }
