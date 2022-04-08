@@ -715,7 +715,15 @@ function register_html_post() {
  * @return string
  */
 function get_user_id(): string {
-    return user_logged_in() ? $_SESSION['user']['id'] : '';
+    return user_logged_in() ? $_SESSION['user']['id'] : 0;
+}
+
+/**
+ * Gets user name if logged in
+ * @return string
+ */
+function get_user_name(): string {
+    return user_logged_in() ? $_SESSION['user']['name'] : '';
 }
 
 /**

@@ -26,6 +26,41 @@ class DB {
         }
     }
 
+    function log( string|array $log, string $type = 'log', string $line = '', string $file = '', string $target = '' ) {
+        $log = is_array( $log ) ? json_encode( $log ) : $log;
+
+        $db = new DB();
+
+        $data = [
+            'dt' => date('Y-m-d H:i:s'),
+            'type' => $type,
+            'table' => $target,
+            'data' => $log,
+            'url' => $file,
+            'line' => $line,
+            'uid' => get_user_id(),
+            'name' => get_user_name(),
+            'client' => get_user_browser(),
+            'device' => get_user_device(),
+            'os' => get_user_os()
+        ];
+
+        $names = implode( ',', prepare_keys( $data, 'log_' ) );
+        $values = '\'' . implode( "', '", prepare_values( $data ) ) . '\'';
+
+        $q = "INSERT INTO log ($names) VALUES ( $values )";
+        $query = $db->prepare( $q );
+        try {
+            $query->execute();
+        } catch ( PDOException $e ) {
+            $df = debug_backtrace();
+            elog( $q, 'error', $df[0]['line'], $df[0]['file'], 'log' );
+            elog( json_encode( $e ), 'error', $df[0]['line'], $df[0]['file'], 'log' );
+        }
+
+        //$db->insert( 'log', prepare_keys( $data, 'log_' ), prepare_values( $data ) );
+    }
+
     // TABLE FUNCTIONS
 
     /**

@@ -5,6 +5,7 @@ if( !defined( 'ROOTPATH' ) ) { exit(); }
 $db = defined('DB_TYPE') ? DB_TYPE : '';
 
 $initials = [
+    'log',                              // Lets you easily add styles and scripts related assets
     'assets',                           // Lets you easily add styles and scripts related assets
     'crypt',                            // Most powerful encryption functions
     'device',                           // Client device info functions
@@ -37,7 +38,7 @@ foreach( $initials as $i ) {
 if( defined( 'CONFIG' ) ) {
     // Get functions directory and add to array
     $c = get_config();
-    $app_functions_dirs = isset($c['function_dirs']) ? $c['function_dirs'] : ['functions'];
+    $app_functions_dirs = $c['function_dirs'] ?? ['functions'];
 
     // Get in config and include pages if user logged in
     if (isset($c['logged_in']) && !empty($c['logged_in']) && user_logged_in()) {

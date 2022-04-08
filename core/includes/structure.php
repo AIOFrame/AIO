@@ -2,31 +2,9 @@
 
 $path = ROOTPATH . 'core/includes/structure/';
 
-/**
- * Creates options Table to save App settings, not optional
- */
-$option_struct = [
-    [ 'name', 'VARCHAR', 256, 1 ],
-    [ 'value', 'VARCHAR', 4096, 1 ],
-    [ 'scope', 'INT', 13, 0 ],
-    [ 'load', 'BOOLEAN', '', 0 ],
-];
-$db = new DB();
-$db->automate_tables( [ 'options', $option_struct, 'option', 1 ] );
+include_once( $path . 'options.php' );
 
-$log_struct[] = [ 'log', [
-    [ 'datetime', 'DATETIME', '', 1 ],
-    [ 'change', 'VARCHAR', 64, 1 ],
-    [ 'table', 'VARCHAR', 64, 1 ],
-    [ 'data', 'VARCHAR', 4096, 0 ],
-    [ 'where', 'VARCHAR', 2048, 0 ],
-    [ 'url', 'VARCHAR', 512, 0 ],
-    [ 'line', 'INT', 13, 0 ],
-    [ 'uid', 'INT', 13, 0 ],
-    [ 'name', 'VARCHAR', 256, 0 ],
-], 'log', 1 ];
-$db = new DB();
-$db->automate_tables( $log_struct );
+include_once( $path . 'log.php' );
 
 /**
  * Get App Config and create database tables
