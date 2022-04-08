@@ -246,6 +246,14 @@ function process_data( e ){
             $(p).attr('disabled',false).removeClass('load');
         },5000);
     }
+
+    // Confirm
+    if( $(p).data('confirm') !== undefined ) {
+        if( !confirm( $(p).data('confirm') ) ) {
+            return;
+        }
+    }
+
     elog(p);
     p = ( p.length !== 0 && p[0].tagName === 'DIV' ) ? p : $(e).parents('[data-data]');
     p.addClass('load');

@@ -434,8 +434,9 @@ class FORM {
      * @param array $hidden Hidden data for Database
      * @param string $success_text Text to notify upon successfully storing data
      * @param string $callback A JS Function to callback on results
+     * @param string $confirm A confirmation popup will execute further code
      */
-    function process_params( string $target = '', string $data = '', string $pre = '', int $notify = 0, int $reload = 0, array $hidden = [], string $success_text = '', string $callback = '' ) {
+    function process_params( string $target = '', string $data = '', string $pre = '', int $notify = 0, int $reload = 0, array $hidden = [], string $success_text = '', string $callback = '', string $confirm = '' ) {
         $c = Encrypt::initiate();
         $t = !empty( $target ) ? ' data-t="'.$c->encrypt( $target ).'"' : 'data-t';
         $nt = $notify > 0 ? ' data-notify="'.$notify.'"' : '';
@@ -445,7 +446,8 @@ class FORM {
         $h = !empty( $hidden ) ? ' data-h="'.$c->encrypt_array( $hidden ).'"' : '';
         $st = !empty( $success_text ) ? ' data-success="'.T($success_text).'"' : '';
         $cb = !empty( $callback ) ? ' data-callback="'.T($callback).'"' : '';
-        echo $t.$nt.$rl.$d.$p.$h.$st.$cb;
+        $cn = !empty( $confirm ) ? ' data-confirm="'.T($confirm).'"' : '';
+        echo $t.$nt.$rl.$d.$p.$h.$st.$cb.$cn;
     }
 
     /**
