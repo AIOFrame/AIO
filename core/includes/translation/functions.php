@@ -94,7 +94,7 @@ function update_translation_ajax( $string = '', $language = '', $translation = '
 function remove_translation_ajax() {
     $id = $_POST['id'] ?? '';
     if( $id !== '' ){
-        $cry = Crypto::initiate();
+        $cry = Encrypt::initiate();
         $db = new DB();
         $trans = $db->delete( 'translations', 't_id = "'.$cry->decrypt( $id ).'"' );
         $trans ? ES('Translation Deleted') : EF('Could not delete Translation');

@@ -3,7 +3,7 @@
 // This is the backend function that processes file upload
 
 function file_process_ajax() {
-    $cry = Crypto::initiate();
+    $cry = Encrypt::initiate();
     $db = new DB();
     //echo $cry->decrypt( $_POST['scope'] );
     //return;
@@ -150,7 +150,7 @@ function file_delete_ajax() {
 
     if( isset( $_POST['id'] ) && $_POST['id'] !== '' ) {
 
-        $cry = Crypto::initiate(); $db = new DB();
+        $cry = Encrypt::initiate(); $db = new DB();
 
         $id = isset( $_POST['id'] ) && $_POST['id'] !== '' ? $cry->decrypt( $_POST['id'] ) : '';
 
@@ -200,7 +200,7 @@ function download_url( $urls, $class = 'file', $element = 'a' ) {
 }
 
 /*function upload( $url_element, $text = 'Upload', $extensions = '', $deletable = 0, $path = '', $size_limit = '', $attr = '' ) {
-    $cry = Crypto::initiate();
+    $cry = Encrypt::initiate();
     $extras = '';
     $extras .= !empty( $extensions ) ? 'data-exts="'.$extensions.'" ' : '';
     $extras .= $deletable ? 'data-delete ' : '';

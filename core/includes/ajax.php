@@ -22,7 +22,7 @@ $ajax = !empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTT
 $url = !empty( $_SERVER['HTTP_ORIGIN'] ) && $_SERVER['HTTP_ORIGIN'] . '/' == APPURL;
 
 // Action is set
-$cry = Crypto::initiate();
+$cry = Encrypt::initiate();
 $action = isset( $_POST['action'] ) && !empty( $_POST['action'] ) ? $cry->decrypt( $_POST['action'] ) : '';
 unset( $_POST['action'] );
 $action_is_ajax = !empty( $action ) && strpos( $action, '_ajax' ) !== false;

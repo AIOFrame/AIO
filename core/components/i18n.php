@@ -45,7 +45,7 @@ font(['Lato','300,500']);
 
     if( !empty( $strings ) && is_array( $strings ) && !empty( $lang ) && $lang !== 'add' ) {
 
-        $cry = Crypto::initiate();
+        $cry = Encrypt::initiate();
         echo '<div id="aio_translations" class="translations" data-update="'.$cry->encrypt('update_translation_ajax').'" data-remove="'.$cry->encrypt('remove_translation_ajax').'">';
 
         foreach( $strings as $ts ){

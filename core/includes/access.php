@@ -81,7 +81,7 @@ class ACCESS {
 
     function clear_live_sessions() {
         $db = new DB();
-        $cry = Crypto::initiate();
+        $cry = Encrypt::initiate();
         $session_id = isset( $_SESSION['db_session'] ) ? $cry->decrypt( $_SESSION['db_session'] ) : '';
         if( !empty( $session_id ) && is_numeric( $session_id ) ) {
             $db->delete( 'sessions', 'session_id = \''.$session_id.'\'' );
@@ -231,7 +231,7 @@ class ACCESS {
         if( password_verify( $pass, $hash['access_pass'] ) ) {
             $db->update( 'access', [ 'access_recent' ], [ date('Y-m-d H-i-s') ], 'access_uid = \''.$user['user_id'].'\'' );
             // Set database sessions
-            $cry = Crypto::initiate();
+            $cry = Encrypt::initiate();
             $session_data = [
                 'uid' => $user['user_id'],
                 'time' => date('Y-m-d H-i-s'),
@@ -274,7 +274,7 @@ class ACCESS {
         }
 
         // Generate and update password
-        $cry = Crypto::initiate();
+        $cry = Encrypt::initiate();
         $pass = $cry->random(8);
         $update = $db->update( 'access', [ 'access_pass' ], [ password_hash( $pass, PASSWORD_DEFAULT, [ 'cost' => 12 ] ) ], 'access_uid = \''.$user['user_id'].'\'' );
 
@@ -538,7 +538,7 @@ function access_ajax() {
             'role' => $_POST['role'] ?? ''
         ];
         if( isset( $_POST['h'] ) ) {
-            $c = Crypto::initiate();
+            $c = Encrypt::initiate();
             $h = $c->decrypt_array( $_POST['h'] );
             unset( $_POST['h'] );
             foreach( $h as $hk => $hv ) {
@@ -593,7 +593,7 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
     if( user_logged_in() ) {
         return;
     }
-    $cry = Crypto::initiate();
+    $cry = Encrypt::initiate();
     $f = new FORM();
     $rand = rand(0,9999);
     $redirect = !empty( $redirect_to ) ? ' data-redirect="'.$redirect_to.'"' : '';
@@ -640,7 +640,7 @@ function register_html( array $columns = [], bool $columns_before = true, array 
         return;
     }
     $rand = rand( 0, 9999 );
-    $cry = Crypto::initiate();
+    $cry = Encrypt::initiate();
     $f = new FORM();
     $redirect = !empty( $redirect_to ) ? ' data-redirect="'.$redirect_to.'"' : '';
     $callback = !empty( $callback ) ? ' data-callback="'.$callback.'"' : '';
@@ -703,7 +703,7 @@ function register_html_pre( int|string $reload_in = 3, int|string $notify_for = 
  * Renders frontend post-wrap html for user registration
  **/
 function register_html_post() {
-    $cry = Crypto::initiate();
+    $cry = Encrypt::initiate();
     ?>
         <button onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_register_ajax' ); ?>"><?php E('Register'); ?></button>
     </div>

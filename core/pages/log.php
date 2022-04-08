@@ -5,7 +5,7 @@ $url = isset( $params['file'] ) && !empty( $params['file'] ) ? $params['file'] :
 
 if( $file = fopen( $url, 'r' ) ) {
     $f = new FORM();
-    $cry = Crypto::initiate();
+    $cry = Encrypt::initiate();
     ?>
     <header>
         <div class="logo"></div>

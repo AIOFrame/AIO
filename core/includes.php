@@ -7,7 +7,7 @@ $db = defined('DB_TYPE') ? DB_TYPE : '';
 $initials = [
     'log',                              // Lets you easily add styles and scripts related assets
     'assets',                           // Lets you easily add styles and scripts related assets
-    'crypt',                            // Most powerful encryption functions
+    'encrypt',                          // Most powerful encryption functions
     'device',                           // Client device info functions
     'form',                             // Input element rendering functions
     'arrays',                           // Advanced array functions

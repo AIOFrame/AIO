@@ -378,7 +378,7 @@ class FORM {
         $ext = $extensions !== '' ? ' data-exts="'.$extensions.'"' : '';
         $sz = $size !== '' ? ' data-size="'.$size.'"' : '';
         $del = $deletable ? ' data-delete' : '';
-        $cry = Crypto::initiate();
+        $cry = Encrypt::initiate();
         $pat = $path !== '' ? ' data-path="'.$cry->encrypt( $path ).'"' : '';
         $type = $multiple ? 'files' : 'file';
         $mul = $multiple ? 'data-files' : 'data-file';
@@ -400,7 +400,7 @@ class FORM {
                 continue;
             $k = strpos( $k, '_') !== false ? ltrim( strstr($k,'_'), '_' ) : $k;
             if( $k == 'id' ) {
-                $cry = CRYPTO::initiate();
+                $cry = Encrypt::initiate();
                 $final[ $k ] = $cry->encrypt( $v );
             } else if( !in_array( $k, $remove ) ){
                 $final[ $k ] = $v;
@@ -420,7 +420,7 @@ class FORM {
     }
 
     function delete_data( string $table, string $logic ) {
-        $c = Crypto::initiate();
+        $c = Encrypt::initiate();
         echo ' onclick="trash_data(\''.$c->encrypt('trash_data_ajax').'\',\''.$c->encrypt( $table ).'\',\''.$c->encrypt( $logic ).'\')"';
     }
 
@@ -436,7 +436,7 @@ class FORM {
      * @param string $callback A JS Function to callback on results
      */
     function process_params( string $target = '', string $data = '', string $pre = '', int $notify = 0, int $reload = 0, array $hidden = [], string $success_text = '', string $callback = '' ) {
-        $c = Crypto::initiate();
+        $c = Encrypt::initiate();
         $t = !empty( $target ) ? ' data-t="'.$c->encrypt( $target ).'"' : 'data-t';
         $nt = $notify > 0 ? ' data-notify="'.$notify.'"' : '';
         $rl = $reload > 0 ? ' data-reload="'.$reload.'"' : '';
@@ -466,7 +466,7 @@ class FORM {
             $pre = !empty( $pre ) ? '<div class="'.$pre.'">' : '';
         }
         $post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
-        $c = Crypto::initiate();
+        $c = Encrypt::initiate();
         $action = empty( $action ) ? 'process_data_ajax' : $action;
         $a = 'data-action="'.$c->encrypt($action).'"';
         $click = $confirm !== '' ? 'onclick="if(confirm(\''.$confirm.'\')){process_data(this)}else{event.stopPropagation();event.preventDefault();}"' : 'onclick="process_data(this)"';
@@ -483,7 +483,7 @@ class FORM {
      * @param string $i_class Applied class to i element and places before text
      */
     function view_html( string $url = '', string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '' ) {
-        $c = Crypto::initiate();
+        $c = Encrypt::initiate();
         $i = !empty( $i_class ) ? '<i class="'.$i_class.'"></i>' : '';
         echo '<'.$html.' data-href="'.$url.'" class="'.$class.'" title="'.T('View').'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>';
     }
@@ -499,7 +499,7 @@ class FORM {
      * @param string $i_class Applied class to i element and places before text
      */
     function edit_html( string $element = '.modal', array $array = [], string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '' ) {
-        //$c = Crypto::initiate();
+        //$c = Encrypt::initiate();
         $i = !empty( $i_class ) ? '<i class="'.$i_class.'"></i>' : '';
         echo '<'.$html.' onclick="edit_data(this,\''.$element.'\')" data-data=\''.$this->_editable_data($array).'\' class="'.$class.'" title="'.T('Edit').'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>';
     }
@@ -518,7 +518,7 @@ class FORM {
      * @param string $confirmation Text for confirmation
      */
     function trash_html( string $table, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', int $notify_time = 2, int $reload_time = 2, string $confirmation = '' ) {
-        $c = Crypto::initiate();
+        $c = Encrypt::initiate();
         $i = !empty( $i_class ) ? '<i class="'.$i_class.'"></i>' : '';
         $attr .= !empty( $confirmation ) ? ' data-confirm="'.T($confirmation).'"' : '';
         echo '<'.$html.' onclick="trash_data(this,\''.$c->encrypt('trash_data_ajax').'\',\''.$c->encrypt($table).'\',\''.$c->encrypt($logic).'\','.$notify_time.','.$reload_time.')" class="'.$class.'" title="'.T('Delete').'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>';
@@ -540,7 +540,7 @@ class FORM {
      * @param string $confirmation Text for confirmation
      */
     function update_html( string $table, array $keys, array $values, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', int $notify_time = 2, int $reload_time = 2, string $confirmation = '' ) {
-        $c = Crypto::initiate();
+        $c = Encrypt::initiate();
         $i = !empty( $i_class ) ? '<i class="'.$i_class.'"></i>' : '';
         $attr .= !empty( $confirmation ) ? ' data-confirm="'.T($confirmation).'"' : '';
         echo '<'.$html.' onclick="update_data(this,\''.$c->encrypt('update_data_ajax').'\',\''.$c->encrypt($table).'\',\''.$c->encrypt_array($keys).'\',\''.$c->encrypt_array($values).'\',\''.$c->encrypt($logic).'\','.$notify_time.','.$reload_time.')" class="'.$class.'" title="'.T('Update').'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>';

@@ -3,7 +3,7 @@
 class FUP {
 
     function file_uploader() {
-        $cry = Crypto::initiate();
+        $cry = Encrypt::initiate();
         get_style('upload');
         get_scripts(['jquery','upload']);
         // TODO: Translations as data attr
@@ -63,7 +63,7 @@ data-url - input where value should be updated with url of uploaded file
 data-exts - allowed file upload formats
 data-delete - Let the user delete files
 
-<?php $cry = Crypto::initiate(); ?>
+<?php $cry = Encrypt::initiate(); ?>
 <button onclick="file_upload(this)" data-path="<?php $cry->enc('variations'); ?>" data-url="#image_url" data-id="#image_id" data-size="10240" data-exts="jpg,svg" data-nodelete>Upload</button>
 
 */

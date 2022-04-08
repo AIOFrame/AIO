@@ -50,8 +50,8 @@ if( $type == 'ui' ) {
     // Get script code
     foreach( $arts as $a ) {
         // Load variables
-        include_once( __DIR__ . '/../core/includes/crypt.php' );
-        $cry = Crypto::initiate();
+        include_once( __DIR__ . '/../core/includes/encrypt.php' );
+        $cry = Encrypt::initiate();
         if( $a == 'alerts' ) {
             $art .= 'let get_alerts = \''.$cry->encrypt('get_alerts_ajax').'\';';
         }

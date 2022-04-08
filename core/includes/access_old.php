@@ -171,7 +171,7 @@ class ACCESS_OLD {
             $up = update( 'users', ['user_reset_pass'], [$code], 'user_id = "'.$user['user_id'].'"' );
             if( $up ) {
                 // Encrypt Code and Username
-                $cry = Crypto::initiate();
+                $cry = Encrypt::initiate();
                 $enc = $cry->encrypt($user['user_id'] . '|' . $code);
                 // Send Email
                 email($user['user_email'], T('Password Reset Email from ' . APPNAME), 'You requested for password reset, <a href="' . $url . '/?r=' . $enc . '">Please click here to reset password.</a>', 'server@email.com');
@@ -184,7 +184,7 @@ class ACCESS_OLD {
 
     function update_password( $code, $password ) {
         // Url to decode Code and Username
-        $cry = Crypto::initiate();
+        $cry = Encrypt::initiate();
         $code = $cry->decrypt( $code );
         $c = explode( '|', $code );
 

@@ -1,6 +1,6 @@
 <?php
 
-class Crypto {
+class Encrypt {
 
     private static $instance;
     private $method;
@@ -13,9 +13,9 @@ class Crypto {
         $this->separator = ':';
     }
 
-    public static function initiate() {
+    public static function initiate(): Encrypt {
         if (self::$instance === null) {
-            self::$instance = new Crypto();
+            self::$instance = new Encrypt();
         }
         return self::$instance;
     }
@@ -110,7 +110,7 @@ class Crypto {
 }
 
 /* GUIDE
-$cry = Crypto::initiate();
+$cry = Encrypt::initiate();
 $encrypted_text = $cry->encrypt( "Test String" );
 $decrypted_text = $cry->decrypt( $encrypted_text );
 */

@@ -524,12 +524,12 @@ class DB {
                 } else
                     // Encrypt value
                     if ( array_key_exists('encrypt', $value) ) {
-                        $cry = Crypto::initiate();
+                        $cry = Encrypt::initiate();
                         $r[] = $this->update_option($key, $cry->encrypt( $value['encrypt'] ) );
                     } else
                         // Encrypt value + Unique for current logged in user
                         if ( array_key_exists('encrypt,unique', $value) ) {
-                            $cry = Crypto::initiate();
+                            $cry = Encrypt::initiate();
                             $r[] = $this->update_option($key, $cry->encrypt( $value['encrypt'] ), get_user_id());
                         } else {
                             $r[] = $this->update_option( $key, serialize( $value ) );
@@ -762,7 +762,7 @@ function prepare_values( $array = '', $pre = '', bool $remove_empty = true ): ar
 function process_data_ajax() {
     $a = $_POST;
     if( !empty( $a['t'] ) ){
-        $cry = Crypto::initiate();
+        $cry = Encrypt::initiate();
         $db = new DB();
         $table = $cry->decrypt( $a['t'] );
         unset( $a['t'] );
@@ -799,7 +799,7 @@ function process_data_ajax() {
             unset($a['by']);
         }
         if( !empty( $a['h'] ) ){
-            $cry = Crypto::initiate();
+            $cry = Encrypt::initiate();
             $dec = $cry->decrypt( $a['h'] );
             $hs = !empty( $dec ) ? json_decode( $dec, 1 ) : [];
             if( is_array( $hs ) ){
@@ -886,7 +886,7 @@ function process_options_ajax() {
 }
 
 function update_data_ajax() {
-    $c = Crypto::initiate();
+    $c = Encrypt::initiate();
     $p = $_POST;
     elog( $p );
     $target = isset( $p['target'] ) && !empty( $p['target'] ) ? $c->decrypt( $p['target'] ) : '';
@@ -906,7 +906,7 @@ function update_data_ajax() {
  * Trashes data
  */
 function trash_data_ajax() {
-    $c = Crypto::initiate();
+    $c = Encrypt::initiate();
     $p = $_POST;
     $target = isset( $p['target'] ) && !empty( $p['target'] ) ? $c->decrypt( $p['target'] ) : '';
     $logic = isset( $p['logic'] ) && !empty( $p['logic'] ) ? $c->decrypt( $p['logic'] ) : '';

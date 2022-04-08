@@ -34,7 +34,7 @@ class ALERTS {
         $alerts = $db->select( 'alerts', '', 'alert_user = "'.get_user_id().'"' );
         if( is_array( $alerts ) && !empty( $alerts ) ){
             $alerts = replace_in_keys( $alerts, 'alert_' );
-            $cry = Crypto::initiate();
+            $cry = Encrypt::initiate();
             ?>
             <div data-aio-alerts class="alerts <?php echo $alerts_wrap_class; ?>" data-action="<?php $cry->enc('clear_alert_ajax'); ?>">
             <?php
@@ -72,7 +72,7 @@ class ALERTS {
 
 //function alert_seen( $alert_id = '' ) {
 //    $aid = isset( $_POST['id'] ) && !empty( $_POST['id'] ) ? $_POST['id'] : $alert_id;
-//    $c = Crypto::initiate();
+//    $c = Encrypt::initiate();
 //    if( $id = $c->decrypt($aid) ){
 //        echo ALERTS::alert_seen( $id ) ? 1 : 0;
 //    }
@@ -80,7 +80,7 @@ class ALERTS {
 
 function clear_alert_ajax() {
     if( isset( $_POST['id'] ) ) {
-        $cry = Crypto::initiate();
+        $cry = Encrypt::initiate();
         $id = $cry->decrypt( $_POST['id'] );
         if( is_numeric( $id ) ) {
             $db = new DB();

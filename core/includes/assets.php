@@ -561,9 +561,26 @@ function render_menu( array $array, string $prefix = '' ) {
     !empty( $title ) && !defined( 'PAGET' ) ? define( 'PAGET', $title ) : '';
 }
 
+function dashboard_menu() {
+
+}
+
+function render_details( string $title = '', array $data = [], int $col = 4 ) {
+    echo '<div class="group_details"><h2>'. T( $title ). '</h2><div class="row">';
+    if( !empty( $data ) ) {
+        foreach( $data as $dk => $d ) {
+            $k = $d['k'] ?? '';
+            $v = $d['v'] ? '<div class="tag">'.implode( '</div><div class="tag">', explode( ',', $d['v'] ) ).'</div>' : '';
+            $c = $d['c'] ?? $col;
+            echo '<div class="col-12 col-md-'.$c.'"><div class="set"><div class="key">'.$k.'</div><div class="tags">'.$v.'</div></div></div>';
+        }
+    }
+    echo '</div></div>';
+}
+
 function language_picker() {
     $db = new DB();
-    $c = Crypto::initiate();
+    $c = Encrypt::initiate();
     $os = $db->get_options(['base_language','languages']);
     $i18ns = $os['languages'] ?? '';
     $i18ns = !empty( $i18ns ) ? explode( ',', str_replace( ' ', '', $i18ns ) ) : [];

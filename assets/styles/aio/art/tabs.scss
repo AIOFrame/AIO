@@ -71,7 +71,7 @@
     color:#000;
     position: relative;
   }
-  .tab.on:after {
+  > div > .tab.on:after {
     content:'';
     position: absolute;
     width: calc(100% - 40px);
@@ -115,7 +115,7 @@
   .tab:last-child {
     border-radius: 0 10px 10px 0;
   }
-  .tab.on:after {
+  > div > .tab.on:after {
     content: '';
     display: block;
     position: absolute;

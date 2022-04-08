@@ -25,7 +25,7 @@ foreach( $includes as $inc )
 <?php
 $appdir = !empty( get_domain('sub') ) ? get_domain( 'sub' ) : get_domain();
 $p = $_POST;
-$cry = Crypto::initiate();
+$cry = Encrypt::initiate();
 $form = new FORM();
 ?>
     <header>
