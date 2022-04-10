@@ -35,9 +35,9 @@ class ACCESS {
         $device_type = get_user_device_type();
         $os = get_user_os();
         $browser = get_user_browser();
+        $secure = isset($_SERVER['HTTPS']);
         if( session_status() === PHP_SESSION_NONE ) {
             session_name(str_replace(' ', '', APPNAME));
-            $secure = isset($_SERVER['HTTPS']);
             session_set_cookie_params(14400, '/', APPURL, $secure, 1);
             session_start();
         }

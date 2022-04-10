@@ -32,8 +32,10 @@ class AGENT {
             return $_SESSION['client']['device']['type'];
         } else {
             $result = new WhichBrowser\Parser(getallheaders());
-            $_SESSION['client']['device']['type'] = $result->device->type;
-            return $result->device->type;
+            $device_type = $result->device->type;
+            $device_type = !empty( $device_type ) ? $device_type : $_SERVER['HTTP_USER_AGENT'];
+            $_SESSION['client']['device']['type'] = $device_type;
+            return $device_type;
         }
     }
 
@@ -46,8 +48,10 @@ class AGENT {
             return $_SESSION['client']['browser']['name'];
         } else {
             $result = new WhichBrowser\Parser(getallheaders());
-            $_SESSION['client']['browser']['name'] = $result->browser->name;
-            return $result->browser->name;
+            $browser = $result->browser->name;
+            $browser = !empty( $browser ) ? $browser : $_SERVER['HTTP_USER_AGENT'];
+            $_SESSION['client']['browser']['name'] = $browser;
+            return $browser;
         }
     }
 
@@ -74,8 +78,16 @@ class AGENT {
             return $_SESSION['client']['os'];
         } else {
             $result = new WhichBrowser\Parser(getallheaders());
-            $_SESSION['client']['os'] = $result->os->name;
-            return $result->os->name;
+            $os = $result->os->name;
+            if( empty( $os ) ) {
+                $agent = $_SERVER['HTTP_USER_AGENT'];
+                if(preg_match('/Linux/',$agent)) $os = 'Linux';
+                elseif(preg_match('/Win/',$agent)) $os = 'Windows';
+                elseif(preg_match('/Mac/',$agent)) $os = 'OS X';
+                else $os = 'UnKnown';
+            }
+            $_SESSION['client']['os'] = $os;
+            return $os;
         }
     }
 
