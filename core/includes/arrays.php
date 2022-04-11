@@ -25,7 +25,8 @@ function skell( $s ){
 // Checks if array is associated array
 
 function is_assoc( $a ) {
-    return is_array( $a ) ? array_keys( $a ) !== range(0, count( $a ) - 1) : false;
+    //return !array_values($a) === $a;
+    return is_array($a) && array_keys($a) !== range(0, count($a) - 1);
 }
 
 /**
@@ -64,7 +65,13 @@ function get_string_between( string $string, string $start, string $end ): strin
 
 // Restructures an array grouped by a common of key value
 
-function array_group_by( $array, $key ) {
+/**
+ * Groups a multi array by a common key value Ex: groups arrays by user_type
+ * @param array $array Data array
+ * @param string $key Key to group by Ex: user_type
+ * @return array|null
+ */
+function array_group_by( array $array = [], string $key = '' ): ?array {
     if (!is_string($key) && !is_int($key) && !is_float($key) && !is_callable($key) ) {
         trigger_error('array_group_by(): The key should be a string, an integer, or a callback', E_USER_ERROR);
         return null;
@@ -117,14 +124,18 @@ function create_where_from_array( $where, $array, $type = 'OR' ) {
 
 // Check if string is json
 
-function is_json( $string ) {
+function is_json( $string ): bool {
     json_decode( $string );
     return ( json_last_error() == JSON_ERROR_NONE );
 }
 
-// Restructures an array with key value as key
-
-function array_by_key( $array, $key ){
+/**
+ * Restructures a multi array with sub key value as parent key
+ * @param array $array Array that needs sub key as parent key
+ * @param string $key Sub Key Ex: user_id
+ * @return array
+ */
+function array_by_key( array $array = [], string $key = '' ): array {
     $new_array = [];
     if( is_array( $array ) && !empty( $array ) ){
         foreach( $array as $a ){
@@ -135,13 +146,13 @@ function array_by_key( $array, $key ){
 }
 
 /**
- * Converts array from database into array with chosen key and value
- * @param array $array Array from database
- * @param string $key Key
- * @param string $value Value
+ * Converts multi array from database into simple assoc array with chosen key and value
+ * @param array $array Data Array from database
+ * @param string $key Key Ex: user_id
+ * @param string $value Value Ex: user_name
  * @return array
  */
-function select_to_assoc( array $array = [], string $key = '', string $value = '' ): array {
+function array_to_assoc( array $array = [], string $key = '', string $value = '' ): array {
     $r = [];
     foreach( $array as $a ) {
         if( isset(  $a[ $key ] ) && isset( $a[ $value ] ) ) {
@@ -183,21 +194,26 @@ function values_by_key( $array = [], $key = '' ){
     return $values;
 }
 
-// Finds and Replaces in Array Keys
-// TODO: Add string that should be replaced with
-
-function replace_in_keys( $array = [], $trim = '', $json = false ){
+/**
+ * Loops through multi arrays and replaces in keys
+ * @param array $array Data array that needs key replaced
+ * @param string $trim The text to be removed from key
+ * @param string $replace The text to be replaced with removed text
+ * @param bool $json Return JSON or String
+ * @return string|array
+ */
+function replace_in_keys( array $array = [], string $trim = '', string $replace = '', bool $json = false ): string|array {
     $data = $vd = [];
     if( is_array( $array ) && !empty( $array ) ){
         foreach( $array as $k => $v ) {
             if( !is_array( $v ) ) {
                 $f = is_array($trim) && isset($trim[0]) ? $trim[0] : $trim;
-                $r = is_array($trim) && isset($trim[1]) ? $trim[1] : '';
+                $r = is_array($trim) && isset($trim[1]) ? $trim[1] : $replace;
                 $data[str_replace($f, $r, $k)] = $v;
             } else {
                 foreach( $v as $a => $b ){
                     $f = is_array($trim) && isset($trim[0]) ? $trim[0] : $trim;
-                    $r = is_array($trim) && isset($trim[1]) ? $trim[1] : '';
+                    $r = is_array($trim) && isset($trim[1]) ? $trim[1] : $replace;
                     $vd[str_replace($f, $r, $a)] = $b;
                 }
                 $data[$k] = $vd;
@@ -207,21 +223,29 @@ function replace_in_keys( $array = [], $trim = '', $json = false ){
     return $json ? json_encode( $data ) : $data;
 }
 
-// Attach pre string to Array Keys
-
-function pre_keys( $array = [], $trim = '', $json = false ){
+/**
+ * Append a string to array keys
+ * @param array $array Data array that needs string appended to keys
+ * @param string $pre String that will be appended to keys
+ * @param bool $json Return JSON or String
+ * @return string|array
+ */
+function pre_keys( array $array = [], string $pre = '', bool $json = false ): string|array {
     $data = [];
     if( is_array( $array ) && !empty( $array ) ){
         foreach( $array as $k => $v ) {
-            $data[ $trim . $k ] = $v;
+            $data[ $pre . $k ] = $v;
         }
     }
     return $json ? json_encode( $data ) : $data;
 }
 
-// Returns random of Array
-
-function random_of_array( $array = [] ){
+/**
+ * Returns random value of Array
+ * @param array $array
+ * @return string
+ */
+function random_of_array( array $array = [] ): string {
     return $array[ rand( 0, count( $array ) - 1 ) ];
 }
 
@@ -239,7 +263,14 @@ function array_sub_values( $arrays = [] ) {
     return $data;
 }
 
-function array_to_query( $array = [], $column = '', $query = 'OR' ) {
+/**
+ * Turns an array into SQL query
+ * @param array $array Array with data values Ex: [ 1, 2, 4, 7 ]
+ * @param string $column String that loops for each value Ex: user_id =
+ * @param string $query Logic that appends between loop Ex: OR, AND
+ * @return string
+ */
+function array_to_query( array $array = [], string $column = '', string $query = 'OR' ): string {
     $q = '';
     if( is_array( $array ) && !empty( $array ) ){
         foreach( $array as $c ){
@@ -269,7 +300,12 @@ function restructure_arrays( $array = [], $structure = [] ){
 
 }
 
-function ordinal( $number ) {
+/**
+ * Returns Ordinal of a Number Ex: 2 will return 2nd
+ * @param int $number The number that needs to be turned into Ordinal
+ * @return string
+ */
+function ordinal( int $number ): string {
     $ends = array('th','st','nd','rd','th','th','th','th','th','th');
     if ((($number % 100) >= 11) && (($number%100) <= 13)) {
         return $number . 'th';

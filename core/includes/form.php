@@ -10,18 +10,40 @@ class FORM {
      * @param bool $keyed Yes if option value should be array key
      * @param bool $translate Translate the option text or not
      */
-    function select_options( array $options = [], string|null $selected = '', string $placeholder = '', bool $keyed = false, bool $translate = true ) {
+    function select_options( array $options = [], string|null $selected = '', string $placeholder = '', bool $keyed = false, bool $translate = false ) {
         $s = $selected;
         $placeholder = $translate ? T($placeholder) : $placeholder;
         if( $placeholder !== '' ){
             echo empty($s) ? '<option disabled selected>'.$placeholder.'</option>' : '<option disabled>'.$placeholder.'</option>';
         }
-        foreach ( $options as $k => $t ) {
-            $t = $translate ? T($t) : $t;
-            $k = $keyed ? $k : $t;
-            if( is_array( $s ) && in_array( $k, $s ) ) { $sel = 'selected'; } else if( $k == $s ) { $sel = 'selected'; } else { $sel = ''; }
-            if( $t == 'select2_placeholder' ) { echo '<option></option>'; continue; }
-            echo '<option value="' . $k . '" ' . $sel . '>' . $t . '</option>';
+        if( is_assoc( $options ) ) {
+            foreach ( $options as $k => $t ) {
+                $t = $translate ? T($t) : $t;
+                $k = $keyed || $k !== $t ? $k : $t;
+                $sel = '';
+                if( is_array( $s ) && in_array( $k, $s ) ) {
+                    $sel = 'selected';
+                } else if( $k == $s ) {
+                    $sel = 'selected';
+                }
+                if( $t == 'select2_placeholder' ) { echo '<option></option>'; continue; }
+                echo '<option value="' . $k . '" ' . $sel . '>' . $t . '</option>';
+            }
+        } else {
+            foreach( $options as $o ) {
+                $k = $translate ? T( $o[0] ) : $o[0];
+                $t = isset( $o[1] ) && $o[1] !== $o[0] ? $o[1] : $o[0];
+                $d = $o[2] ?? '';
+                $d = is_array( $d ) ? json_encode( $d ) : $d;
+                $sel = '';
+                if( is_array( $s ) && in_array( $k, $s ) ) {
+                    $sel = 'selected';
+                } else if( $k == $s ) {
+                    $sel = 'selected';
+                }
+                if( $t == 'select2_placeholder' ) { echo '<option></option>'; continue; }
+                echo '<option data-data=\''.$d.'\' value="' . $k . '" ' . $sel . '>' . $t . '</option>';
+            }
         }
         //!empty($sel) ? elog($s) : '';
     }
@@ -40,7 +62,7 @@ class FORM {
      * @param bool $translate Translate the option text or not
      */
 
-    function select( string|array $identity = '', string $label = '', string $placeholder = '', array $options = [], string|null $selected = '', string $attr = '', string $pre = '', string $post = '', bool $keyed = false, bool $translate = true ) {
+    function select( string|array $identity = '', string $label = '', string $placeholder = '', array $options = [], string|null $selected = '', string $attr = '', string $pre = '', string $post = '', bool $keyed = false, bool $translate = false ) {
         if( is_numeric( $pre ) ){
             $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
             $post = '</select></div>';
