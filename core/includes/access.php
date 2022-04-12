@@ -19,11 +19,6 @@ if( isset( $_SESSION['user'] ) && isset( $_SESSION['db_session'] ) ) {
 } */
 //session_start();
 // Reload User Sessions
-if( user_logged_in() ) {
-    //skel( 'logged in' );
-} else {
-    //skel( 'logged out' );
-}
 
 class ACCESS {
 
@@ -251,6 +246,7 @@ class ACCESS {
                 }
                 $_SESSION['db_session'] = $cry->encrypt( $session );
                 return [ $user['user_id'], T('Logged in successfully!') ];
+
             } else {
                 return [ 0, T('User login failed!') ];
             }
