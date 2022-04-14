@@ -570,7 +570,8 @@ function render_details( string $title = '', array $data = [], int $col = 4 ) {
     if( !empty( $data ) ) {
         foreach( $data as $dk => $d ) {
             $k = $d['k'] ?? '';
-            $v = $d['v'] ? '<div class="tag">'.implode( '</div><div class="tag">', explode( ',', $d['v'] ) ).'</div>' : '';
+            $v = $d['v'] && isset( $d['s'] ) ? implode( '</div><div class="tag">', explode( $d['s'], $d['v'] ) ) : $d['v'];
+            $v = '<div class="tag">'.$v.'</div>';
             $c = $d['c'] ?? $col;
             echo '<div class="col-12 col-md-'.$c.'"><div class="set"><div class="key">'.$k.'</div><div class="tags">'.$v.'</div></div></div>';
         }
