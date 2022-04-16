@@ -114,18 +114,19 @@ class FORM {
             $va = $value !== '' ? ' value="'.$value.'"' : '';
         }
         $n = $name !== '' ? $name : $id;
+        $nn = str_contains( $attrs, 'no_post' ) ? '' : $n;
         switch( $type ){
             case 'textarea':
-                $input = '<textarea id="'.$id.'" data-key="'.$n.'" name="'.$n.'" '.$ph.$at.'>'.$va.'</textarea>';
+                $input = '<textarea id="'.$id.'" data-key="'.$n.'" name="'.$nn.'" '.$ph.$at.'>'.$va.'</textarea>';
                 break;
             case 'slide':
             case 'toggle':
-                $input = '<div><input type="hidden" id="'.$id.'" data-key="'.$n.'" name="'.$n.'" '.$at.$ph.$va.'>';
+                $input = '<div><input type="hidden" id="'.$id.'" data-key="'.$n.'" name="'.$nn.'" '.$at.$ph.$va.'>';
                 $ch = $value == 'true' || $value == '1' ? 'checked' : '';
                 $input .= '<input type="checkbox" data-check="#'.$id.'" class="slide m" '.$ch.'></div>';
                 break;
             default:
-                $input = '<input type="'.$type.'" id="'.$id.'" data-key="'.$n.'" name="'.$n.'" '.$at.$ph.$va.'>';
+                $input = '<input type="'.$type.'" id="'.$id.'" data-key="'.$n.'" name="'.$nn.'" '.$at.$ph.$va.'>';
                 break;
         }
         echo $pre;
@@ -196,7 +197,7 @@ class FORM {
         // Hidden Input - Renders date format as per backend
         $this->input( 'text', $id, '', '', $value, $attrs.' hidden data-hidden-date' );
         // Visible Input - Render date for easier user grasp
-        $this->input( 'text', $alt_id, $label, $placeholder, $value, $visible_attr.$range_attr.$multiple_attr.$view_attr, $pre, $post );
+        $this->input( 'text', $alt_id, $label, $placeholder, $value, $visible_attr.$range_attr.$multiple_attr.$view_attr.' no_post', $pre, $post );
     }
 
     /**
@@ -597,7 +598,7 @@ class FORM {
         $clear_url = !empty( $clear_url ) ? APPURL . $clear_url : APPURL . PAGEPATH;
         echo '<div class="auto_filters"><form class="row">';
         foreach( $filter_params as $f ) {
-            $type = $f[0] ??= 'text';
+            $type = $f[0] ?? 'text';
             $id = $f[1] ??= '';
             $label = $f[2] ??= '';
             $place = $f[3] ??= $f[2];
@@ -610,6 +611,8 @@ class FORM {
                 $post = $f[7] ??= '';
                 $keyed = $f[8] ??= '';
                 $this->select( $id, $label, $place, $options, $value, $attrs, $pre, $post, $keyed );
+            } else if( $type == 'date' ) {
+                $this->date( $id, $label, $place, $val, $attrs, '', $pre );
             } else {
                 $this->input( $type, $id, $label, $place, $val, $attrs, $pre );
             }

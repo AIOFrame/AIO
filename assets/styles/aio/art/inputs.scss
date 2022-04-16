@@ -325,6 +325,14 @@ select.mb0 + .select2-container {
     border:1px solid #ddd;
     cursor: pointer;
   }
+  .select2.select2-container.select2-container--default {
+    margin: 0;
+    .select2-selection {
+      background-color: transparent;
+      border: 0;
+      padding: 12px 0 0 0;
+    }
+  }
 }
 
 [dir=rtl] {

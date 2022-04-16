@@ -337,6 +337,14 @@ select.mb0 + .select2-container {
   border: 1px solid #ddd;
   cursor: pointer;
 }
+.auto_filters .select2.select2-container.select2-container--default {
+  margin: 0;
+}
+.auto_filters .select2.select2-container.select2-container--default .select2-selection {
+  background-color: transparent;
+  border: 0;
+  padding: 12px 0 0 0;
+}
 
 [dir=rtl] [type=radio] + label, [dir=rtl] [type=checkbox] + label {
   padding-left: 0;
