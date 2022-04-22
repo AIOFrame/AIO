@@ -28,7 +28,7 @@ function nsms( $no, $msg ) {
 
 // Include Google Maps Module and Render Map
 
-function render_maps() {
+function render_maps(): void {
     include_once( ROOTPATH . 'core/modules/maps.php' );
     global $google_maps_loaded;
     if( !$google_maps_loaded ){

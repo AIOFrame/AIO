@@ -1,5 +1,7 @@
 $c1: #000;
 $c2: #222;
+$radius: 12px;
+$border: 2px solid #eee;
 
 /* Header */
 
@@ -111,7 +113,7 @@ article.fade > div {
   }
   input {
     border: 0;
-    border-radius:12px;
+    border-radius:$radius;
     background:rgba(0,0,0,.05);
     height:46px;
     font-size: 20px;
@@ -423,7 +425,7 @@ aside {
     letter-spacing: 0;
     padding: 8px;
     box-shadow:0 5px 25px rgba(0,0,0,.1);
-    border-radius:10px;
+    border-radius:$radius;
     background: #fff;
     transition: .8s;
     margin: 0 0 12px;
@@ -474,7 +476,7 @@ aside {
     margin: 0;
     padding: 12px 15px 12px 40px;
     font-size: 1rem;
-    border-radius:12px;
+    border-radius:$radius;
     background:#eee url('../../../icons/search.svg') no-repeat 10px center / 24px;
   }
 }
@@ -492,7 +494,7 @@ aside::-webkit-scrollbar {
 .group_details {
   background: #fff;
   padding: 20px 20px 0;
-  border-radius: 15px;
+  border-radius: $radius;
   margin-bottom: 20px;
   h2, h3, h4 {
     text-transform: uppercase;
@@ -524,6 +526,20 @@ aside::-webkit-scrollbar {
       margin:0 6px 6px;
     }
   }
+}
+
+/* GOOGLE MAP */
+
+.map_wrap {
+  input[type=text] {
+    margin: 0;
+    border: $border;
+    border-radius: $radius $radius 0 0;
+  }
+}
+.google_map {
+  min-height: 200px;
+  border-radius:0 0 $radius $radius;
 }
 
 /* FOOT */

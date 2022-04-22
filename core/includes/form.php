@@ -101,7 +101,7 @@ class FORM {
     function input( string $type, string|array $identity, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '', string $name = '' ){
         $type = $type == '' ? 'text' : $type;
         if( is_numeric( $pre ) ){
-            $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
+            $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-md-'.$pre.'">';
             $post = '</div>';
         }
         $ph = $placeholder !== '' ? ' placeholder="'.$placeholder.'"' : '';
@@ -220,6 +220,40 @@ class FORM {
                 $this->date( $id, $label, $ph, $value, $attrs, $position, $pre, $range, $multiple, $post );
             }
         }
+    }
+
+    function map( string $latitude_field = '', string $longitude_field = '', string $address_field = '', string $area_field = '', string $city_field = '', string $country_field = '', string $pre = '', string $latitude_value = '', string $longitude_value = '', string $zoom = '13', string $post = '' ): void {
+        if( is_numeric( $pre ) ){
+            $pre = $pre == 0 ? '<div class="map_col col">' : '<div class="map_col col-12 col-md-'.$pre.'">';
+            $post = '</div>';
+        }
+        if( ( empty( $latitude_value ) || empty( $longitude_value ) ) && defined( 'DB_TYPE' ) ) {
+            $db = new DB();
+            $ops = json_decode( $db->get_option('default_map') );
+            $latitude_value = $ops['latitude'] ?? '';
+            $longitude_value = $ops['longitude'] ?? '';
+            $zoom = $ops['level'] ?? '';
+            $type = $ops['type'] ?? '';
+            $style = $ops['style'] ?? '';
+        }
+        $def_lat = !empty( $latitude_value ) ? ' lat="'.$latitude_value.'"' : '';
+        $def_long = !empty( $longitude_value ) ? ' lat="'.$longitude_value.'"' : '';
+        $def_zoom = !empty( $zoom ) ? ' level="'.$zoom.'"' : '';
+        $def_type = !empty( $type ) ? ' type="'.$type.'"' : '';
+        $def_style = !empty( $style ) ? ' design="'.$style.'"' : '';
+        $add = !empty( $address_field ) ? ' data-address="'.$address_field.'"' : '';
+        $area = !empty( $area_field ) ? ' data-area="'.$area_field.'"' : '';
+        $city = !empty( $city_field ) ? ' data-city="'.$city_field.'"' : '';
+        $country = !empty( $country_field ) ? ' data-country="'.$country_field.'"' : '';
+        $lat = !empty( $latitude_field ) ? ' data-lat="'.$latitude_field.'"' : '';
+        $long = !empty( $longitude_field ) ? ' data-long="'.$longitude_field.'"' : '';
+        $r = rand(0,999);
+        echo $pre;
+        echo '<div class="map_wrap">';
+        $this->text('search_'.$r,'','Search for Address...');
+        echo '<div id="map_'.$r.'" class="google_map" search="search_'.$r.'" data-map'.$def_zoom.$def_lat.$def_long.$def_type.$def_style.$add.$area.$city.$country.$lat.$long.'>';
+        echo '</div></div>';
+        echo $post;
     }
 
     /**

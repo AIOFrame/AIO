@@ -7,10 +7,11 @@ class MAPS {
         $k = $db->get_option( 'google_maps_key' );
         $k = empty( $k ) ? get_config('google_maps_key') : $k;
         if( !empty( $k ) ) {
-            echo '<script async defer src="//maps.googleapis.com/maps/api/js?key=' . $k . '" type="text/javascript"></script>';
+            echo '<script async defer src="//maps.googleapis.com/maps/api/js?key=' . $k . '&libraries=places" type="text/javascript"></script>';
         }
         ?>
 <script>
+    let marker;
     $(document).ready(function(){
         setTimeout(function(){
             $.each( $('[data-map]'), function( i,e ){
@@ -19,30 +20,35 @@ class MAPS {
         },500)
     });
     let loc = {lat: 25.212212, lng: 55.275135};
+    let icon = '<?php echo APPURL; ?>assets/images/marker.png';
     function GoogleMap(e, key = '<?php echo $k; ?>'  ) {
         if(key === ''){ elog('Google Maps Key Error, Option \'google_maps_key\' is missing in options database or pass key as second parameter in GoogleMaps(e, key)'); return }
-        let con = { center: loc };
-        if($(e).data('value')){
+
+        /* if($(e).data('value')){
             let d = $(e).data('value');
             d = d.split(',');
             loc['lat'] = parseFloat(d[0]);
             loc['lng'] = parseFloat(d[1]);
-        }
-        con['zoom'] = $(e).data('zoom') ? $(e).data('zoom') : 13;
-        con['mapTypeId'] = $(e).data('type') ? $(e).data('type') : 'roadmap';
-        con['styles'] = $(e).data('skin') ? $(e).data('skin') : '';
+        } */
+        loc['lat'] = $(e).attr('lat') ? parseFloat( $(e).attr('lat') ) : loc['lat'];
+        loc['long'] = $(e).attr('long') ? parseFloat( $(e).attr('long') ) : loc['long'];
+        let con = { center: loc };
+        con['zoom'] = $(e).attr('level') ? $(e).attr('level') : 13;
+        con['mapTypeId'] = $(e).attr('type') ? $(e).attr('type') : 'roadmap';
+        con['styles'] = $(e).attr('design') ? $(e).attr('design') : '';
         con['scrollwheel'] = false;
+        con['streetViewControl'] = $(e).attr('streetview') ? $(e).attr('streetview') : false ;
         if( $(e).data('types') ){
             let mapTypeControlOptions = {
                 mapTypeIds: $(e).data('types').split(',')
             }
             con['mapTypeControlOptions'] = mapTypeControlOptions;
         }
-        con['zoomControl'] = $(e).data('nozoom') ? false : true;
-        if (!$(e).data('streetview')) {
-            con['streetViewControl'] = false
-        }
-        let map = new google.maps.Map($(e)[0], con);
+        con['zoomControl'] = true;
+        const map = new google.maps.Map($(e)[0], con);
+        const search = document.getElementById( $(e).attr('search') );
+        const searchBox = new google.maps.places.SearchBox( search );
+
         if($(e).data('marks')){
             let marks = $(e).data('marks');
             if( marks.length > 0 ) {
@@ -54,9 +60,9 @@ class MAPS {
                         origin: new google.maps.Point(0,0),
                         anchor: new google.maps.Point(0, 0)
                     };
-                    let marker = new google.maps.Marker({
+                    marker = new google.maps.Marker({
                         position: loc,
-                        icon: ico,
+                        icon: icon,
                         map: map,
                         title: b['title'],
                         size: new google.maps.Size(25, 25)
@@ -68,19 +74,72 @@ class MAPS {
                 })
             }
         } else {
-            let marker = new google.maps.Marker({
+            marker = new google.maps.Marker({
                 position: loc,
-                icon: '<?php echo APPURL; ?>assets/images/marker.png',
+                icon: icon,
                 map: map,
                 draggable: true
             });
             marker.addListener('dragend', function () {
                 //console.log(map);
                 z = map.getZoom();
-                pos = {lat: this.position.lat(), lng: this.position.lng()};
+                let pos = {lat: this.position.lat(), lng: this.position.lng()};
                 GMapValues(e,marker,pos);
             });
         }
+
+        // let markers = [];
+        searchBox.addListener("places_changed", () => {
+            const places = searchBox.getPlaces();
+
+            if (places.length == 0) {
+                return;
+            }
+
+            // Clear out the old markers.
+            /* markers.forEach((marker) => {
+                marker.setMap(null);
+            });
+            markers = []; */
+
+            // For each place, get the icon, name and location.
+            const bounds = new google.maps.LatLngBounds();
+
+            /* places.forEach((place) => { */
+            if( places.length > 0 ) {
+                const place = places[0];
+                if (!place.geometry || !place.geometry.location) {
+                    console.log("Returned place contains no geometry");
+                    return;
+                }
+
+                // Create a marker for each place.
+                marker.setPosition( place.geometry.location );
+                let pos = {lat: place.geometry.location.lat(), lng: place.geometry.location.lng()};
+                GMapValues(e,marker,pos);
+                /* marker = new google.maps.Marker({
+                    map,
+                    icon: icon,
+                    title: place.name,
+                    draggable: true,
+                    position: place.geometry.location
+                });
+                /* new_marker.addListener('dragend', function () {
+                    //console.log(map);
+                    z = map.getZoom();
+                    pos = {lat: this.position.lat(), lng: this.position.lng()};
+                    GMapValues(e,marker,pos);
+                }); */
+                // markers.push(new_marker);
+                if (place.geometry.viewport) {
+                    // Only geocodes have viewport.
+                    bounds.union(place.geometry.viewport);
+                } else {
+                    bounds.extend(place.geometry.location);
+                }
+            }
+            map.fitBounds(bounds);
+        });
 
     }
     function GMapValues( e, m, p ){
@@ -97,7 +156,13 @@ class MAPS {
                         let a1 = a[0] !== undefined && a[0].long_name !== 'undefined' ? a[0].long_name.replace('"','').replace("'","") : '';
                         let a2 = a[1] !== undefined && a[1].long_name !== 'undefined' ? a[1].long_name.replace('"','').replace("'","") : '';
                         let a3 = a[2] !== undefined && a[2].long_name !== 'undefined' ? a[2].long_name.replace('"','').replace("'","") : '';
-                        let area = a1 + ' ' + a2 + ' ' + a3;
+                        let name = r[0]['formatted_address'];
+                        $($(e).data('name')).val(name);
+
+                        let address = a1 + ' ' + a2 + ' ' + a3;
+                        $($(e).data('address')).val(address);
+
+                        let area = a[2] !== undefined && a[2].long_name !== 'undefined' ? a[2].long_name.replace('"','').replace("'","") : '';
                         $($(e).data('area')).val(area);
 
                         let city = a[3] !== undefined && a[3].long_name !== 'undefined' ? a[3].long_name.replace('"','').replace("'","") : '';

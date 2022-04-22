@@ -26,7 +26,7 @@ class DB {
         }
     }
 
-    function log( string|array $log, string $type = 'log', string $line = '', string $file = '', string $target = '' ) {
+    function log( string|array $log, string $type = 'log', string $line = '', string $file = '', string $target = '' ): void {
         $log = is_array( $log ) ? json_encode( $log ) : $log;
 
         $db = new DB();

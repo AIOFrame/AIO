@@ -437,7 +437,7 @@ aside a {
   letter-spacing: 0;
   padding: 8px;
   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
+  border-radius: 12px;
   background: #fff;
   transition: 0.8s;
   margin: 0 0 12px;
@@ -506,7 +506,7 @@ aside::-webkit-scrollbar {
 .group_details {
   background: #fff;
   padding: 20px 20px 0;
-  border-radius: 15px;
+  border-radius: 12px;
   margin-bottom: 20px;
 }
 .group_details h2, .group_details h3, .group_details h4 {
@@ -538,6 +538,18 @@ aside::-webkit-scrollbar {
   padding: 6px 10px;
   border-radius: 6px;
   margin: 0 6px 6px;
+}
+
+/* GOOGLE MAP */
+.map_wrap input[type=text] {
+  margin: 0;
+  border: 2px solid #eee;
+  border-radius: 12px 12px 0 0;
+}
+
+.google_map {
+  min-height: 200px;
+  border-radius: 0 0 12px 12px;
 }
 
 /* FOOT */
