@@ -1,5 +1,5 @@
 /* Steps */
-.step_heads, .steps_head {
+.step_head, .step_heads, .steps_head {
   display: -ms-flexbox;
   display: flex;
   margin-bottom: 20px;

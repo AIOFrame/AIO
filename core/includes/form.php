@@ -10,7 +10,7 @@ class FORM {
      * @param bool $keyed Yes if option value should be array key
      * @param bool $translate Translate the option text or not
      */
-    function select_options( array $options = [], string|null $selected = '', string $placeholder = '', bool $keyed = false, bool $translate = false ) {
+    function select_options( array $options = [], string|null $selected = '', string $placeholder = '', bool $keyed = false, bool $translate = false ): void {
         $s = $selected;
         $placeholder = $translate ? T($placeholder) : $placeholder;
         if( $placeholder !== '' ){
@@ -19,7 +19,7 @@ class FORM {
         if( is_assoc( $options ) ) {
             foreach ( $options as $k => $t ) {
                 $t = $translate ? T($t) : $t;
-                $k = $keyed || $k !== $t ? $k : $t;
+                $k = $keyed ? $k : $t; //|| $k !== $t
                 $sel = '';
                 if( is_array( $s ) && in_array( $k, $s ) ) {
                     $sel = 'selected';
@@ -222,6 +222,21 @@ class FORM {
         }
     }
 
+    /**
+     * Render a Google Map with search
+     * @param string $latitude_field
+     * @param string $longitude_field
+     * @param string $address_field
+     * @param string $area_field
+     * @param string $city_field
+     * @param string $country_field
+     * @param string $pre
+     * @param string $latitude_value
+     * @param string $longitude_value
+     * @param string $zoom
+     * @param string $post
+     * @return void
+     */
     function map( string $latitude_field = '', string $longitude_field = '', string $address_field = '', string $area_field = '', string $city_field = '', string $country_field = '', string $pre = '', string $latitude_value = '', string $longitude_value = '', string $zoom = '13', string $post = '' ): void {
         if( is_numeric( $pre ) ){
             $pre = $pre == 0 ? '<div class="map_col col">' : '<div class="map_col col-12 col-md-'.$pre.'">';

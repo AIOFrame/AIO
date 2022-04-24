@@ -837,7 +837,7 @@ function user_role_is( $role = '' ): bool {
  * @param string $array if the data has to be grouped as array
  * @return void
  */
-function user_registration_fields( string $pre = 'user_', string $data = '', string $array = '' ) {
+function user_registration_fields( string $pre = 'user_', string $data = '', string $array = '' ): void {
     $codes = get_calling_codes();
     $f = new FORM();
     global $genders;
