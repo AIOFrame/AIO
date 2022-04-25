@@ -321,6 +321,65 @@ select.mb0 + .select2-container {
   height: auto;
 }
 
+/* Validator */
+input + .valid {
+  position: absolute;
+  top: calc(100% - 10px);
+  left: 15px;
+  width: calc(100% - 30px);
+  font-size: 12px;
+  padding: 10px;
+  border-radius: 8px;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.6s;
+  z-index: 999;
+  text-align: center;
+}
+input + .valid > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+input + .valid > div span {
+  font-size: 0.9rem;
+  margin: 0 4px;
+}
+input + .valid span.title + .value {
+  margin: 0 5px;
+  font-size: 1rem;
+}
+
+input + .valid:after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 10px 10px 10px;
+  border-color: transparent transparent #000 transparent;
+  box-sizing: border-box;
+  position: absolute;
+  left: calc(50% - 5px);
+  transition: 0.6s;
+  top: -10px;
+  opacity: 1;
+  pointer-events: none;
+}
+
+input + .valid.on {
+  opacity: 1;
+}
+
+.green .value {
+  color: forestgreen;
+}
+
+.red .value {
+  color: crimson;
+}
+
 /* Auto Filters */
 .auto_filters label {
   margin-bottom: 8px;

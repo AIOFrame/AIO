@@ -62,7 +62,7 @@ class FORM {
      * @param bool $translate Translate the option text or not
      */
 
-    function select( string|array $identity = '', string $label = '', string $placeholder = '', array $options = [], string|null $selected = '', string $attr = '', string $pre = '', string $post = '', bool $keyed = false, bool $translate = false ) {
+    function select( string|array $identity = '', string $label = '', string $placeholder = '', array $options = [], string|null $selected = '', string $attr = '', string $pre = '', bool $keyed = false, bool $translate = false, string $post = '' ): void {
         if( is_numeric( $pre ) ){
             $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
             $post = '</select></div>';
@@ -643,7 +643,7 @@ class FORM {
      * @param array $filter_params
      * @param string $clear_url Page path excluding APPURL Ex: user/payments
      */
-    function filters( array $filter_params = [], string $clear_url = '' ) {
+    function filters( array $filter_params = [], string $clear_url = '' ): void {
         $clear_url = !empty( $clear_url ) ? APPURL . $clear_url : APPURL . PAGEPATH;
         echo '<div class="auto_filters"><form class="row">';
         foreach( $filter_params as $f ) {
@@ -655,11 +655,10 @@ class FORM {
             $attrs = $f[5] ??= '';
             $pre = $f[6] ??= '';
             if( $type == 'select' ) {
-                $options = $f[4] ??= [];
+                $options = $f[4] ?? [];
                 $value = $_POST[ $id ] ?? ($_GET[ $id ] ?? '');
-                $post = $f[7] ??= '';
-                $keyed = $f[8] ??= '';
-                $this->select( $id, $label, $place, $options, $value, $attrs, $pre, $post, $keyed );
+                $keyed = $f[8] ??= 0;
+                $this->select( $id, $label, $place, $options, $value, $attrs, $pre, $keyed );
             } else if( $type == 'date' ) {
                 $this->date( $id, $label, $place, $val, $attrs, '', $pre );
             } else {

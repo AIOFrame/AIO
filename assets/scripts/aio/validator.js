@@ -11,7 +11,7 @@ $(document).ready(function(){
             let minDiv = $(this).next('.valid').find('.min');
             if( !minDiv.length ) {
                 let string = $(this).data('minlength') !== undefined ? $(this).data('minlength') : 'Minimum Characters';
-                $(this).next('.valid').append('<div class="min"><span class="title">'+string+'</span><span class="value">'+$(this).attr('minlength')+'</span></div>')
+                $(this).next('.valid').append('<div class="min"><span class="key">'+string+'</span><span class="value">'+$(this).attr('minlength')+'</span></div>')
             }
             // Color code based on validation
             if( $(this).val().length >= parseInt( $(this).attr('minlength') ) ) {
@@ -32,7 +32,7 @@ $(document).ready(function(){
             let maxDiv = $(this).next('.valid').find('.max');
             if( !maxDiv.length ) {
                 let string = $(this).data('maxlength') !== undefined ? $(this).data('maxlength') : 'Maximum Characters';
-                $(this).next('.valid').append('<div class="max"><span class="title">'+string+'</span><span class="value"><i class="live">'+$(this).val().length+'</i> of '+$(this).attr('maxlength')+'</span></div>')
+                $(this).next('.valid').append('<div class="max"><span class="key">'+string+'</span><span class="value"><i class="live">'+$(this).val().length+'</i> of '+$(this).attr('maxlength')+'</span></div>')
             }
             // Color code based on validation
             if( $(this).val().length <= parseInt( $(this).attr('maxlength') ) ) {
