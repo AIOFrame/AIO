@@ -354,6 +354,18 @@ article.fade > div {
   right: 0;
   transform: none;
 }
+.header input[type=text], .header select {
+  border: 0;
+  border-radius: 0;
+  margin: -10px 10px;
+  padding: 6px 12px;
+}
+.header input[type=text]:focus, .header select:focus {
+  border: 0;
+}
+.header select {
+  padding: 6px 30px 6px 12px;
+}
 
 .header.w {
   color: #fff;
@@ -575,4 +587,4 @@ p.break {
   margin-bottom: 20px;
 }
 
-/*# sourceMappingURL=dash.css.map */
+/*# sourceMappingURL=admin.css.map */

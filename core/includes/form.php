@@ -18,9 +18,9 @@ class FORM {
         }
         if( is_assoc( $options ) ) {
             foreach ( $options as $k => $t ) {
+                $sel = '';
                 $t = $translate ? T($t) : $t;
                 $k = $keyed ? $k : $t; //|| $k !== $t
-                $sel = '';
                 if( is_array( $s ) && in_array( $k, $s ) ) {
                     $sel = 'selected';
                 } else if( $k == $s ) {
@@ -30,19 +30,30 @@ class FORM {
                 echo '<option value="' . $k . '" ' . $sel . '>' . $t . '</option>';
             }
         } else {
-            foreach( $options as $o ) {
-                $k = $translate ? T( $o[0] ) : $o[0];
-                $t = isset( $o[1] ) && $o[1] !== $o[0] ? $o[1] : $o[0];
-                $d = $o[2] ?? '';
-                $d = is_array( $d ) ? json_encode( $d ) : $d;
+            foreach( $options as $k => $o ) {
                 $sel = '';
-                if( is_array( $s ) && in_array( $k, $s ) ) {
-                    $sel = 'selected';
-                } else if( $k == $s ) {
-                    $sel = 'selected';
+                if( is_array( $o ) ) {
+                    $k = $translate ? T( $o[0] ) : $o[0];
+                    $t = isset( $o[1] ) && $o[1] !== $o[0] ? $o[1] : $o[0];
+                    $d = $o[2] ?? '';
+                    $d = is_array( $d ) ? 'data-data=\''.json_encode( $d ).'\'' : 'data-data=\''.$d.'\'';
+                    if( is_array( $s ) && in_array( $k, $s ) ) {
+                        $sel = 'selected';
+                    } else if( $k == $s ) {
+                        $sel = 'selected';
+                    }
+                } else {
+                    $k = $keyed ? $k : $o;
+                    $d = '';
+                    $t = $o;
+                    if( is_array( $s ) && in_array( $o, $s ) ) {
+                        $sel = 'selected';
+                    } else if( $o == $s ) {
+                        $sel = 'selected';
+                    }
                 }
                 if( $t == 'select2_placeholder' ) { echo '<option></option>'; continue; }
-                echo '<option data-data=\''.$d.'\' value="' . $k . '" ' . $sel . '>' . $t . '</option>';
+                echo '<option '.$d.' value="' . $k . '" ' . $sel . '>' . $t . '</option>';
             }
         }
         //!empty($sel) ? elog($s) : '';
@@ -195,9 +206,9 @@ class FORM {
         $position = !empty( $position ) ? $position : 'bottom center';
         $visible_attr = is_array( $id ) ? 'class="dater" alt="#'.$id[0].'" position="'.$position.'"' : 'class="dater" alt="#'.$id.'" position="'.$position.'"';
         // Hidden Input - Renders date format as per backend
-        $this->input( 'text', $id, '', '', $value, $attrs.' hidden data-hidden-date' );
+        $this->input( 'text', $id, '', '', easy_date( $value, 'Y-m-d' ), $attrs.' hidden data-hidden-date' );
         // Visible Input - Render date for easier user grasp
-        $this->input( 'text', $alt_id, $label, $placeholder, $value, $visible_attr.$range_attr.$multiple_attr.$view_attr.' no_post', $pre, $post );
+        $this->input( 'text', $alt_id, $label, $placeholder, easy_date( $value, 'd-m-Y' ), $visible_attr.$range_attr.$multiple_attr.$view_attr.' data-visible-date no_post', $pre, $post );
     }
 
     /**

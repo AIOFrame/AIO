@@ -15,6 +15,11 @@ $(document).ready(function(){
         $( '#' + $(this).attr('id')+'_alt' ).val( [('0'+date.getDate()).slice(-2), ('0'+date.getMonth()).slice(-2), date.getFullYear()].join('-') ).trigger('change');
     })
 
+    .on('change','[data-visible-date]',function(){
+        elog( $(this) );
+        let date = new Date( $(this).val() );
+    })
+
     // Initiate Clipboard JS
     if( typeof ClipboardJS === 'function' ){
         var clipboard = new ClipboardJS('[data-clipboard-target],[data-clipboard-text]');
@@ -94,7 +99,7 @@ $(document).ready(function(){
         })
     }
     // Date Picker
-    if( $.fn.datepicker !== undefined ){
+    /* if( $.fn.datepicker !== undefined ){
         $.fn.datepicker.language['en'] = dateLocaleEn;
         $('.dater').datepicker({
             language: 'en',
@@ -127,7 +132,7 @@ $(document).ready(function(){
                 });
             }
         });
-    }
+    } */
 
 });
 
