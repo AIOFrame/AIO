@@ -234,7 +234,7 @@ function asset_exists( $paths = [], $f = '', $ext = '' ): string {
  * @param array $array Fonts array Ex: [['Lato','300,500'],['Dubai','Light']]
  * @author Shaikh <hey@shaikh.dev>
  */
-function fonts( $array = [] ){
+function fonts( array $array = [] ): void {
     $appdir = !empty( get_domain('sub') ) ? get_domain( 'sub' ) : get_domain();
     !defined( 'APPDIR' ) ? define( 'APPDIR', $appdir ) : '';
 
@@ -393,7 +393,7 @@ function html_class( string $class = '', bool $extras = true ) {
  * Renders attributes and class for <body> start tag
  * @param string $class
  */
-function body_class(string $class = '' ) {
+function body_class(string $class = '' ): void {
 
     // Is Debug
     $dc = APPDEBUG ? 'debug ' : '';

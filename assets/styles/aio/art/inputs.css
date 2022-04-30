@@ -405,6 +405,23 @@ input + .valid.on {
   padding: 12px 0 0 0;
 }
 
+/* trumbowyg */
+.trumbowyg-button-pane button {
+  border-radius: 0;
+  margin: 0;
+  box-shadow: none;
+}
+.trumbowyg-button-pane button:hover {
+  transform: none;
+}
+
+.trumbowyg-dropdown button {
+  margin: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* RTL */
 [dir=rtl] [type=radio] + label, [dir=rtl] [type=checkbox] + label {
   padding-left: 0;
   padding-right: 10px;

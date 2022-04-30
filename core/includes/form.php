@@ -656,7 +656,7 @@ class FORM {
      */
     function filters( array $filter_params = [], string $clear_url = '' ): void {
         $clear_url = !empty( $clear_url ) ? APPURL . $clear_url : APPURL . PAGEPATH;
-        echo '<div class="auto_filters"><form class="row">';
+        echo '<div class="filters_wrap"><form class="auto_filters"><div class="row"><div class="col-12 col-md-10"><div class="row">';
         foreach( $filter_params as $f ) {
             $type = $f[0] ?? 'text';
             $id = $f[1] ??= '';
@@ -676,9 +676,9 @@ class FORM {
                 $this->input( $type, $id, $label, $place, $val, $attrs, $pre );
             }
         }
-        echo '<div class="col"><button type="submit" class="filter">'.T('Filter').'</button></div>';
+        echo '</div></div><div class="col-12 col-md-2"><div class="row"><div class="col"><button type="submit" class="filter">'.T('Filter').'</button></div>';
         echo '<div class="col"><a href="'.$clear_url.'" class="clear">'.T('Clear').'</a></div>';
-        echo '</form></div>';
+        echo '</div></div></div></form></div>';
     }
 
     /**

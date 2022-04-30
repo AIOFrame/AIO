@@ -27,7 +27,8 @@ if( defined( 'DB_TYPE' ) ) {
         'files',                         // File uploader functions
         'translation/functions',        // Translation functions
         'components',                   // AIO Components
-        'backup'                        // Database backup / restore functions
+        'backup',                       // Database backup / restore functions
+        'options'                       // Pre Coded Options
     );
 }
 
@@ -39,6 +40,11 @@ if( defined( 'CONFIG' ) ) {
     // Get functions directory and add to array
     $c = get_config();
     $app_functions_dirs = $c['function_dirs'] ?? ['functions'];
+
+    // Add Portal
+    if( isset( $c['portal'] ) && $c['portal'] ) {
+        include_once( dirname( __FILE__ ) . '/includes/portal.php' );
+    }
 
     // Get in config and include pages if user logged in
     if (isset($c['logged_in']) && !empty($c['logged_in']) && user_logged_in()) {

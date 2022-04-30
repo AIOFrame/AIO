@@ -510,11 +510,17 @@ class DB {
     /**
      * Update options by array param or $_POST
      * @param array $array Array of options [['key'=>'val'],['key2'=>'val2']]
+     * @param string|array $encrypt Array or String (separated by comma) of key of options whose value is to be encrypted
+     * @param string|array $unique Array or String (separated by comma) of key of options whose value is to be specific for that logged-in user
+     * @param string|array $autoload Array or String (separated by comma) of key of options whose value is to be loaded in global $options
      * @return bool
      */
-    function update_options( array $array = [] ): bool {
+    function update_options( array $array = [], string|array $encrypt = '', string|array $unique = '', string|array $autoload = '' ): bool {
         $r = [];
         $array = !empty( $array ) && isset( $_POST ) ? $_POST : [];
+        $encrypt = !is_array( $encrypt ) && !empty( $encrypt ) ? explode( ',', $encrypt ) : $encrypt;
+        $unique = !is_array( $unique ) && !empty( $unique ) ? explode( ',', $unique ) : $unique;
+        $autoload = !is_array( $autoload ) && !empty( $autoload ) ? explode( ',', $autoload ) : $autoload;
         foreach( $array as $key => $value ){
             // If value has optional parameters
             if( is_array( $value ) ) {
@@ -535,7 +541,17 @@ class DB {
                             $r[] = $this->update_option( $key, serialize( $value ) );
                         }
             } else {
-                $r[] = $this->update_option( $key, $value );
+                $c = Encrypt::initiate();
+                if( !empty( $encrypt ) && in_array( $key, $encrypt ) ) {
+                    $value = is_array($value) ? $c->encrypt_array($value) : $c->encrypt($value);
+                }
+                $unique = !empty( $unique ) && in_array( $key, $unique ) ? get_user_id() : 0;
+                elog( 'Autoload:' );
+                elog( $autoload );
+                elog( 'Key:' );
+                elog( $key );
+                $load = !empty( $autoload ) && in_array( $key, $autoload ) ? 1 : 0;
+                $r[] = $this->update_option( $key, $value, $unique, $load );
             }
         }
         $r = array_unique( $r );
@@ -863,8 +879,9 @@ function process_data_ajax() {
             elog('Isset Emails :)');
             $mailer = new MAIL();
             foreach( $emails as $e ) {
+                $to = isset( $e['field'] ) ? $a[ $e['field'] ] : $e['to'];
                 elog( 'Each Email' );
-                if( !empty( $e['to'] ) ) {
+                if( !empty( $to ) ) {
                     $mailer->send( $e['to'], $e['subject'], $e['content'] );
                 }
             }
@@ -875,17 +892,23 @@ function process_data_ajax() {
     }
 }
 
-function process_options_ajax() {
+function process_options_ajax(): void {
     $p = $_POST;
     if( !empty( $p ) && is_array( $p ) ) {
         $db = new DB();
-        $result = $db->update_options( $p );
+        $encrypt = $_POST['encrypt'] ?? [];
+        $unique = $_POST['unique'] ?? [];
+        $autoload = $_POST['autoload'] ?? [];
+        unset( $_POST['encrypt'] );
+        unset( $_POST['unique'] );
+        unset( $_POST['autoload'] );
+        $result = $db->update_options( $p, $encrypt, $unique, $autoload );
         elog($result);
         $result ? es('Successfully updated!') : ef('No new data is updated!');
     }
 }
 
-function update_data_ajax() {
+function update_data_ajax(): void {
     $c = Encrypt::initiate();
     $p = $_POST;
     elog( $p );
@@ -905,7 +928,7 @@ function update_data_ajax() {
 /**
  * Trashes data
  */
-function trash_data_ajax() {
+function trash_data_ajax(): void {
     $c = Encrypt::initiate();
     $p = $_POST;
     $target = isset( $p['target'] ) && !empty( $p['target'] ) ? $c->decrypt( $p['target'] ) : '';

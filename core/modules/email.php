@@ -121,6 +121,10 @@ class MAIL {
             'mailersend' => [
                 'host' => 'smtp.mailersend.net',
                 'port' => 587
+            ],
+            'sendgrid' => [
+                'host' => 'smtp.sendgrid.net',
+                'port' => 465
             ]
         ];
         if( class_exists( 'DB' ) ) {
@@ -354,7 +358,7 @@ class MAIL {
      * @param string $type
      * @param string $content
      */
-    function set_template( string $type = 'head', string $content = '' ) {
+    function set_template( string $type = 'head', string $content = '' ): void {
 
         // Create dir if not exists
         $template_path = APPPATH . 'storage/mail_templates/';
@@ -377,4 +381,118 @@ class MAIL {
         $template_path = APPPATH . 'storage/mail_templates/';
         return file_exists( $template_path . $template . '.html' ) ? file_get_contents( $template_path . $template . '.html' ) : '';
     }
+
+    function email_template_fields( array $fields = [], array $options = [], string|int $pre = 12 ): void {
+        $f = new FORM();
+        foreach( $fields as $fk => $fv ) {
+            $val = $options[ $fk ] ?? '';
+            //echo '<div class="col-12 col-md-6">';
+            $f->textarea( $fk, $fv, '', $val, 'data-data class="editor"', $pre );
+            //echo '<div id="'.$fk.'_editor" class="email_code"></div>';
+            //echo '</div>';
+        }
+    }
+
+    /**
+     * Renders Email Options
+     * @param string $template_url
+     * @return void
+     */
+    function options( string $template_url = '' ): void {
+        $db = new DB();
+        $email_fields = [
+            'from_email' => 'From Email',
+            'smtp' => 'SMTP Server',
+            'smtp_username' => 'SMTP Username',
+            'smtp_password' => 'SMTP Password',
+        ];
+        $m = new MAIL();
+        if( isset( $_POST['template_head'] ) ) {
+            $m->set_template( 'head', $_POST['template_head'] );
+        }
+        $head = $m->get_template('head');
+        if( isset( $_POST['template_foot'] ) ) {
+            $m->set_template( 'foot', $_POST['template_foot'] );
+        }
+        $foot = $m->get_template('foot');
+        $f = new FORM();
+        ?>
+        <div class="mail_view">
+            <iframe class="template_preview" src="<?php echo $template_url; ?>" frameborder="0"></iframe>
+        </div>
+        <div class="row" <?php $f->process_params('','email','',3,0,[],'Successfully Saved Settings'); ?>>
+            <?php
+            $os = $db->get_options(['from_email','smtp','smtp_username','smtp_password']);
+            $attr = 'data-email';
+            $f->text('test_content','','','',$attr.' class="dn"');
+            //$f->text('autoload','','','from_email,smtp,smtp_username,smtp_password',$attr.' class="dn"');
+            $f->input('email','test_email','Send Test Email','Ex: email@website.com', 'installer0001@gmail.com', 'data-help data-test', 10);
+            $f->process_html('Send','l w r5 mt30','','send_test_email_ajax',2);
+            $from = $os['from_email'] ?? '';
+            $smtp = $os['smtp'] ?? '';
+            $smtp_username = $os['smtp_username'] ?? '';
+            $smtp_password = $os['smtp_password'] ?? '';
+            $f->text('from_email','From (Sender) Email','',$from,$attr,3);
+            $f->select('smtp','SMTP Gateway','Choose gateway...',[ 'google' => 'Google', 'yahoo' => 'Yahoo', 'hotmail' => 'Hotmail / Outlook / Live', 'mailjet' => 'MailJet', 'mailersend' => 'MailerSend', 'sendgrid' => 'SendGrid' ],$smtp,$attr.' class="select2"',3,'',1);
+            $f->text('smtp_username','SMTP Email','',$smtp_username,$attr,3);
+            $f->input('password','smtp_password','SMTP Password','',$smtp_password,$attr,3);
+            $f->process_html('Save API Details','l r5','','process_options_ajax','col-12 tac');
+            ?>
+        </div>
+        <form id="template" method="post">
+            <div class="row">
+                <?php
+                $f->input( 'textarea','template_head','Email Header HTML','Ex: <html>',$head,'rows=8',6 );
+                $f->input( 'textarea','template_foot','Email Footer HTML','Ex: </html>',$foot,'rows=8',6 );
+                ?>
+            </div>
+            <div class="tac"><button class="l r5"><?php E('Build Template'); ?></button></div>
+        </form>
+
+        <script>
+            $(document).ready(function(){
+                /* $('body').on('keyup focus','.editor', function(e){
+                    let f = $('iframe');
+                    let url = $(f).attr('src').split('?')[0]+'?all&text='+encodeURIComponent($(this).val());
+                    $('#test_content').val($(this).val());
+                    $(f).attr('src',url);
+                    setTimeout(frame_height,1000);
+                }); */
+                $('.editor').trumbowyg().on('tbwchange tbwfocus', function(e){
+                    let f = $('iframe');
+                    let url = $(f).attr('src').split('?')[0]+'?all&text='+encodeURIComponent($(this).val());
+                    $('#test_content').val( $( e.currentTarget ).val() );
+                    $(f).attr('src',url);
+                    setTimeout( frame_height, 1000 );
+                });
+                /* ace.config.set("basePath", '<?php echo APPURL . 'assets/ext/ace'; ?>' );
+                $('.email_code').each(function(a,b){
+                    let id = $(b).attr('id');
+                    $(b).css({'position':'relative','height':'160px','width':'100%'});
+                    let editor = ace.edit( id );
+                    //editor.setTheme("ace/theme/twilight");
+                    editor.session.setMode("ace/mode/html");
+                }); */
+            });
+            function frame_height() {
+                let f = $('iframe');
+                $(f).height( $(f).contents().find('html').height() );
+            }
+        </script>
+        <?php
+        get_style('https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.21.0/ui/trumbowyg.min.css');
+        get_script('https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.21.0/trumbowyg.min.js');
+    }
+
+    function render_template(): void {
+        $m = new MAIL();
+        $head = $m->get_template('head');
+        $foot = $m->get_template('foot');
+
+        $text = isset( $_GET['text'] ) ? '<div style="text-align:center">'.urldecode( $_GET['text'] ).'</div>' : '';
+        echo isset( $_GET['head'] ) ? $head . $text : '';
+        echo isset( $_GET['foot'] ) ? $text . $foot : '';
+        echo isset( $_GET['all'] ) ? $head.$text.$foot : '';
+    }
+
 }
