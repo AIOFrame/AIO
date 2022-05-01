@@ -386,10 +386,7 @@ class MAIL {
         $f = new FORM();
         foreach( $fields as $fk => $fv ) {
             $val = $options[ $fk ] ?? '';
-            //echo '<div class="col-12 col-md-6">';
             $f->textarea( $fk, $fv, '', $val, 'data-data class="editor"', $pre );
-            //echo '<div id="'.$fk.'_editor" class="email_code"></div>';
-            //echo '</div>';
         }
     }
 
@@ -442,8 +439,14 @@ class MAIL {
         <form id="template" method="post">
             <div class="row">
                 <?php
-                $f->input( 'textarea','template_head','Email Header HTML','Ex: <html>',$head,'rows=8',6 );
-                $f->input( 'textarea','template_foot','Email Footer HTML','Ex: </html>',$foot,'rows=8',6 );
+                echo '<div class="col-12 col-md-6">';
+                $f->input( 'textarea','template_head','Email Header HTML','Ex: <html>',$head,'class="dn"' );
+                echo '<div id="head_code" class="email_code"></div>';
+                echo '</div>';
+                echo '<div class="col-12 col-md-6">';
+                $f->input( 'textarea','template_foot','Email Footer HTML','Ex: </html>',$foot,'class="dn"' );
+                echo '<div id="foot_code" class="email_code"></div>';
+                echo '</div>';
                 ?>
             </div>
             <div class="tac"><button class="l r5"><?php E('Build Template'); ?></button></div>
@@ -465,23 +468,36 @@ class MAIL {
                     $(f).attr('src',url);
                     setTimeout( frame_height, 1000 );
                 });
-                /* ace.config.set("basePath", '<?php echo APPURL . 'assets/ext/ace'; ?>' );
-                $('.email_code').each(function(a,b){
-                    let id = $(b).attr('id');
-                    $(b).css({'position':'relative','height':'160px','width':'100%'});
-                    let editor = ace.edit( id );
-                    //editor.setTheme("ace/theme/twilight");
-                    editor.session.setMode("ace/mode/html");
-                }); */
+                let head_editor = ace.edit( 'head_code' );
+                head_editor.session.setMode("ace/mode/html");
+                head_editor.session.setValue($('#template_head').val(),-1);
+                head_editor.session.on('change', function(d) {
+                    $('#template_head').val( head_editor.getValue() );
+                });
+                let foot_editor = ace.edit( 'foot_code' );
+                foot_editor.session.setMode("ace/mode/html");
+                foot_editor.session.setValue($('#template_foot').val(),-1);
+                foot_editor.session.on('change', function(d) {
+                    $('#template_foot').val( foot_editor.getValue() );
+                });
             });
             function frame_height() {
                 let f = $('iframe');
+                console.log( $(f).contents().find('html').height() );
                 $(f).height( $(f).contents().find('html').height() );
             }
         </script>
+        <style>
+            #head_code, #foot_code {
+                position: relative;
+                width: 100%;
+                height: 220px;
+            }
+        </style>
         <?php
         get_style('https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.21.0/ui/trumbowyg.min.css');
-        get_script('https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.21.0/trumbowyg.min.js');
+        get_scripts(['ace','https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.21.0/trumbowyg.min.js']);
+        echo '<script>ace.config.set("basePath", "'. APPURL . 'assets/ext/ace/" );</script>';
     }
 
     function render_template(): void {
