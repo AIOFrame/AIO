@@ -35,10 +35,12 @@ function reset_styles( $font = 'Lato', $weight = 'normal', $scrollbar = 5 ) {
  * @param string $color2 color code hex for second color
  * @author Shaikh <hey@shaikh.dev>
  */
-function art( $arts, string $color1 = '222', string $color2 = '000' ) {
+function art( array|string $arts = '', string $color1 = '222', string $color2 = '000' ): void {
     $cache = get_config( 'cache' );
     $v = $cache ? '&v=' . round( time() / ( $cache * 60 ) ) : '';
     $arts = !is_array( $arts ) ? explode( ',', $arts ) : $arts;
+    $color1 = str_contains( $color1, '#' ) ? str_replace( '#', '', $color1 ) : $color1;
+    $color2 = str_contains( $color2, '#' ) ? str_replace( '#', '', $color2 ) : $color2;
 
     global $universal_assets;
 
@@ -342,7 +344,7 @@ function aio_page( $ui, $array = [] ) {
  * Renders a <link rel="icon"> from icon file name
  * @param string $icon
  */
-function favicon( string $icon ){
+function favicon( string $icon ): void {
     if( file_exists( APPPATH . 'assets/images/' . $icon . '.png' ) ) {
         $link = APPURL . 'apps/' . APPDIR . '/assets/images/'.$icon.'.png';
         echo '<link rel="shortcut icon" href="'.$link.'">';
@@ -363,7 +365,7 @@ function favicon( string $icon ){
  * @param string $class
  * @param bool $extras
  */
-function html_class( string $class = '', bool $extras = true ) {
+function html_class( string $class = '', bool $extras = true ): void {
     // Is Debug
     $dc = APPDEBUG ? 'debug ' : '';
 
@@ -393,7 +395,7 @@ function html_class( string $class = '', bool $extras = true ) {
  * Renders attributes and class for <body> start tag
  * @param string $class
  */
-function body_class(string $class = '' ): void {
+function body_class( string $class = '' ): void {
 
     // Is Debug
     $dc = APPDEBUG ? 'debug ' : '';
@@ -425,7 +427,7 @@ function body_class(string $class = '' ): void {
  * @param string $title
  * @param bool $join_app_name
  */
-function get_title( string $title = '', bool $join_app_name = true ) {
+function get_title( string $title = '', bool $join_app_name = true ): void {
     $add = $join_app_name ? ' - '.T( APPNAME ) : '';
     if( !empty( $title ) ) {
         echo '<title>'.$title.$add.'</title>';

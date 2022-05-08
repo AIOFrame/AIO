@@ -152,7 +152,7 @@ select.mb0 + .select2-container {
   margin-bottom: 0;
 }
 .select2-dropdown {
-  border: 1px solid #f1f1f1;
+  border: 0;
   border-radius:0 0 10px 10px;
 }
 .select2-container--default {
@@ -230,7 +230,7 @@ select.mb0 + .select2-container {
   transform: translate(-50%,-50%);
   background: rgba(255,255,255,.85);
   box-shadow: 0 0 50px rgba(0,0,0,0.2);
-  padding: 20px;
+  padding:40px 20px 20px;
   border-radius:25px;
   pointer-events: none;
   opacity:0;
@@ -238,11 +238,17 @@ select.mb0 + .select2-container {
   transition:.6s;
   backdrop-filter: blur(8px) saturate(2);
   -webkit-backdrop-filter: blur(8px) saturate(2);
+  width: 340px;
+  max-width: 100vw;
+  .IroBox {
+    width: 300px;
+    height: 300px;
+  }
   .trans {
     height:28px;
     border-radius:15px;
     margin:10px 0;
-    background:url('../../images/transparency.svg') repeat center/ 13px;
+    background:url('../../../images/transparency.svg') repeat center/ 13px;
     .grad {
       height: 100%;
       width: 100%;
@@ -264,10 +270,12 @@ select.mb0 + .select2-container {
     text-align: center;
   }
   .close {
-    background:url('../../assets/icons/close.svg') no-repeat center / 70%;
+    background: #000;
+    mask:url('../../assets/icons/close.svg') no-repeat center / 50%;
+    -webkit-mask:url('../../assets/icons/close.svg') no-repeat center / 50%;
     position: absolute;
-    right:10px;
-    top:10px;
+    right:9px;
+    top:2px;
     width:40px;
     height:40px;
     cursor: pointer;
@@ -288,7 +296,7 @@ select.mb0 + .select2-container {
   font-size: 12px;
   pointer-events: none;
   height: 0;
-  overflow: hidden;
+  //overflow: hidden;
   > div {
     display: flex;
   }
@@ -314,10 +322,12 @@ input + .valid {
   top:calc(100% - 10px);
   left:15px;
   width: calc(100% - 30px);
-  font-size: 12px;
-  padding: 10px;
-  border-radius:8px;
-  background:#000;
+  font-size: 0;
+  padding: 0;
+  border-radius: 8px;
+  background:#fff;
+  box-shadow: 0 0 30px rgba(0,0,0,.2);
+  border: 2px solid #eee;
   opacity: 0;
   pointer-events: none;
   transition: .6s;
@@ -344,8 +354,8 @@ input + .valid:after {
   width: 0;
   height: 0;
   border-style: solid;
-  border-width:0 10px 10px 10px;
-  border-color: transparent transparent #000 transparent;
+  border-width: 0 10px 10px 10px;
+  border-color: transparent transparent #fff transparent;
   box-sizing: border-box;
   position: absolute;
   left: calc(50% - 5px);
@@ -356,6 +366,8 @@ input + .valid:after {
 }
 input + .valid.on {
   opacity: 1;
+  padding: 10px;
+  font-size: 1rem;
 }
 .green {
   .value {
@@ -456,9 +468,11 @@ body.d {
   }
   .color_picker_wrap {
     background:rgba(0,0,0,.8);
-    box-shadow:0 0 50px rgba(40,40,40,1);
     input {
       background:rgba(30,30,30,1);
+    }
+    .close {
+      background:#fff;
     }
   }
   input[data-color-picker] {
@@ -468,6 +482,8 @@ body.d {
     background:#212121;
   }
   .select2-dropdown {
-    background:#333;
+    background:rgba(0,0,0,.5);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
   }
 }

@@ -1,0 +1,96 @@
+$w: rgba(255,255,255,.05);
+$w1: rgba(255,255,255,.04);
+$w2: rgba(255,255,255,.06);
+$w3: rgba(255,255,255,.2);
+$w5: rgba(255,255,255,.5);
+$wf: rgba(255,255,255,1);
+
+/* ELEMENTS */
+
+body {
+  background: #2c335c;
+}
+header {
+  background: #374072;
+}
+.header {
+  background: #323967;
+  color: #fff;
+}
+aside {
+  background: #374072;
+  a {
+    background: $w2;
+    color: #fff;
+  }
+  .set {
+    border-bottom: 1px solid $w2;
+    > .title {
+      color: $wf;
+    }
+  }
+}
+#menu {
+  background: $wf;
+}
+.card {
+  background: #38406e;
+}
+.dash {
+  .card {
+    .title, .title.c1, .title.c2 {
+      color: #eee;
+    }
+    .card {
+      background: $w2;
+      color: #fff;
+    }
+  }
+}
+.user_drop {
+  .user_name {
+    color: #fff;
+    background: $w3 url("../../../../icons/select.svg") no-repeat calc(100% - 12px) / 18px;
+    border: 1px solid transparent;
+  }
+  .user_details {
+    background: $w3;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+}
+.user_drop:hover {
+  .user_name {
+    border: 1px solid transparent;
+  }
+}
+.auto_filters {
+  background:#38406e;
+  backdrop-filter: none;
+}
+body.d {
+  .step {
+    background: #272d4d;
+    background: linear-gradient(145deg, #272d4d 0%, #1c2038 100%);
+  }
+  .step:after {
+    border-left: 10px solid #1c2038;
+  }
+}
+.modal {
+  background: $w2;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.acts {
+  > a[title], > div[title] {
+    background: $w3;
+  }
+}
+.wbg {
+  color: #fff;
+  background: $w;
+}
+.credit {
+  color: #eee;
+}

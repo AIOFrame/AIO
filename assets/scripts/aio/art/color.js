@@ -1,4 +1,4 @@
-var debug = !!$('body').hasClass('debug');
+let debug = !!$('body').hasClass('debug');
 
 $(document).ready(function(){
     let b = $('body');
@@ -7,7 +7,7 @@ $(document).ready(function(){
         $('[data-color-picker][data-preview]').each(function(a,b){
             $( $(b).data('preview') ).css( 'background', 'url(\'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"><rect rx="6" ry="6" width="22" height="22" style="fill:%23'+$(b).val().substring(1)+'" /></svg>\') no-repeat calc(100% - 5px) center / 22px' );
         });
-        $('<div class="color_picker_wrap"><div class="close"></div><div class="color-picker"></div><div class="controls"><input type="text" value="#ffffff" class="code"></div></div>').appendTo(b);
+        $('<div class="color_picker_wrap"><div class="color-picker"></div><div class="controls"><input type="text" value="#ffffff" class="code"></div><div class="close"></div></div>').appendTo(b);
     }
 
     // Initiate Color Picker
@@ -17,38 +17,40 @@ $(document).ready(function(){
     })
     // Close color wrapper
     .on('click','.color_picker_wrap .close',function(){
-        $('.color_picker_wrap').removeClass('on');
+        $('.color_picker_wrap').removeClass('on').children('.color-picker').html('');
+        $('article').removeClass('fade');
     })
     // Update color code
     .on('keyup','.color_picker_wrap input',function(){
         if( $(this).val().length > 6 ) {
-            var cp = $('.color-picker');
+            let cp = $('.color-picker');
             $(cp).html('');
-            var colorPicker = iro.ColorPicker('.color-picker', {'color': $(this).val()});
+            let colorPicker = iro.ColorPicker('.color-picker', {'color': $(this).val()});
             $($(cp).data('value')).val($(this).val());
         }
     })
 
 })
 
-$(document).mouseup(function(e) {
-    var cp = $('.color_picker_wrap');
+/* $(document).mouseup(function(e) {
+    let cp = $('.color_picker_wrap');
     if (!cp.is(e.target) && cp.has(e.target).length === 0) {
         cp.removeClass('on').children('.color-picker').html('');
     }
-});
+}); */
 
-function init_color_picker( e, c ) {
-    var cp = $('.color-picker');
+function init_color_picker( e, value ) {
+    $('article').addClass('fade');
+    let cp = $('.color-picker');
     $(e).data('value') !== undefined ? $(cp).data('value',$(e).data('value')) : $(cp).data('value',$(e)); // Reads target element to set value, and sets it to color picker
     $(e).data('background') !== undefined ? $(cp).data('background',$(e).data('background')) : '';
-    var v = {};
-    var c = c === '' || c === undefined ? '#aaaaaa' : c;
+    let v = {};
+    let c = value === '' || value === undefined ? '#aaaaaa' : value;
     v.color = $(e).val() !== '' && $(e).val() !== undefined ? $(e).val() : c;
     v.width = $(e).data('width') !== '' && $(e).data('width') !== undefined ? $(e).data('width') : '300';
-    var types = { 'box' : [ { component: iro.ui.Box }, { component: iro.ui.Slider, options: { sliderType: 'hue' } } ], 'wheel' : [ { component: iro.ui.Wheel } ] };
+    let types = { 'box' : [ { component: iro.ui.Box }, { component: iro.ui.Slider, options: { sliderType: 'hue' } } ], 'wheel' : [ { component: iro.ui.Wheel } ] };
     v.layout = $(e).data('type') !== '' && $(e).data('type') !== undefined ? types[ $(e).data('type') ] : types['box'];
-    var colorPicker = new iro.ColorPicker('.color-picker',v);
+    let colorPicker = new iro.ColorPicker('.color-picker',v);
     colorPicker.on('color:change', onColorChange);
     //onColorChange(colorPicker.color);
 }

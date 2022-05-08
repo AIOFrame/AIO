@@ -9,13 +9,20 @@
  * @param string $target Target
  * @author Shaikh <hey@shaikh.dev>
  */
-function elog( string|array $log, string $type = 'log', string $line = '', string $file = '', string $target = '' ){
+function elog( string|array $log, string $type = 'log', string $line = '', string $file = '', string $target = '' ): void {
 
     $log = is_array( $log ) ? json_encode( $log ) : $log;
-    $data = '';
-    $data .= $log . '<AIO>' . $type;
+    $data = $log . '<AIO>' . $type;
+
+    $df = debug_backtrace()[0];
+    //error_log( json_encode( $df ) );
+
+    $line = empty( $line ) && isset( $df['line'] ) ? $df['line'] : $line;
     $data .= !empty( $line ) ? '<AIO>' . $line : '';
+
+    $file = empty( $file ) && isset( $df['file'] ) ? $df['file'] : $file;
     $data .= !empty( $file ) ? '<AIO>' . $file : '';
+
     $data .= !empty( $target ) ? '<AIO>' . $target : '';
 
     // Get dev users

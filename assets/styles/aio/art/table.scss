@@ -184,6 +184,23 @@ table.px0 {
   }
 }
 
+/* Dark */
+
+body.d {
+  table {
+    tr {
+      border-top: 1px solid rgba(255,255,255,.2);
+      border-bottom: 1px solid rgba(255,255,255,.2);
+    }
+  }
+  table.plain {
+    thead, tbody, tfoot, tr, td, th {
+      background: 0;
+      color: #fff;
+    }
+  }
+}
+
 [dir=rtl] {
   table.r {
     tr:first-child {

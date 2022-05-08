@@ -1,15 +1,15 @@
 /*!
- * jQuery JavaScript Library v3.5.1
+ * jQuery JavaScript Library v3.6.0
  * https://jquery.com/
  *
  * Includes Sizzle.js
  * https://sizzlejs.com/
  *
- * Copyright JS Foundation and other contributors
+ * Copyright OpenJS Foundation and other contributors
  * Released under the MIT license
  * https://jquery.org/license
  *
- * Date: 2020-05-04T22:49Z
+ * Date: 2021-03-02T17:08Z
  */
 ( function( global, factory ) {
 
@@ -80,7 +80,11 @@
         // In some browsers, typeof returns "function" for HTML <object> elements
         // (i.e., `typeof document.createElement( "object" ) === "function"`).
         // We don't want to classify *any* DOM node as a function.
-        return typeof obj === "function" && typeof obj.nodeType !== "number";
+        // Support: QtWeb <=3.8.5, WebKit <=534.34, wkhtmltopdf tool <=0.12.5
+        // Plus for old WebKit, typeof returns "function" for HTML collections
+        // (e.g., `typeof document.getElementsByTagName("div") === "function"`). (gh-4756)
+        return typeof obj === "function" && typeof obj.nodeType !== "number" &&
+            typeof obj.item !== "function";
     };
 
 
@@ -147,7 +151,7 @@
 
 
     var
-        version = "3.5.1",
+        version = "3.6.0",
 
         // Define a local copy of jQuery
         jQuery = function( selector, context ) {
@@ -518,14 +522,14 @@
     }
     var Sizzle =
         /*!
- * Sizzle CSS Selector Engine v2.3.5
+ * Sizzle CSS Selector Engine v2.3.6
  * https://sizzlejs.com/
  *
  * Copyright JS Foundation and other contributors
  * Released under the MIT license
  * https://js.foundation/
  *
- * Date: 2020-03-14
+ * Date: 2021-02-16
  */
         ( function( window ) {
             var i,
@@ -1108,8 +1112,8 @@
              * @returns {Boolean} True iff elem is a non-HTML XML node
              */
             isXML = Sizzle.isXML = function( elem ) {
-                var namespace = elem.namespaceURI,
-                    docElem = ( elem.ownerDocument || elem ).documentElement;
+                var namespace = elem && elem.namespaceURI,
+                    docElem = elem && ( elem.ownerDocument || elem ).documentElement;
 
                 // Support: IE <=8
                 // Assume HTML when documentElement doesn't yet exist, such as inside loading iframes
@@ -2011,8 +2015,8 @@
                                                 ( diff = nodeIndex = 0 ) || start.pop() ) ) {
 
                                                 if ( ( ofType ?
-                                                    node.nodeName.toLowerCase() === name :
-                                                    node.nodeType === 1 ) &&
+                                                        node.nodeName.toLowerCase() === name :
+                                                        node.nodeType === 1 ) &&
                                                     ++diff ) {
 
                                                     // Cache the index of each encountered element
@@ -2646,10 +2650,10 @@
                                 i > 1 && elementMatcher( matchers ),
                                 i > 1 && toSelector(
 
-                                // If the preceding token was a descendant combinator, insert an implicit any-element `*`
-                                tokens
-                                    .slice( 0, i - 1 )
-                                    .concat( { value: tokens[ i - 2 ].type === " " ? "*" : "" } )
+                                    // If the preceding token was a descendant combinator, insert an implicit any-element `*`
+                                    tokens
+                                        .slice( 0, i - 1 )
+                                        .concat( { value: tokens[ i - 2 ].type === " " ? "*" : "" } )
                                 ).replace( rtrim, "$1" ),
                                 matcher,
                                 i < j && matcherFromTokens( tokens.slice( i, j ) ),
@@ -3026,7 +3030,7 @@
 
         return elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase();
 
-    };
+    }
     var rsingleTag = ( /^<([a-z][^\/\0>:\x20\t\r\n\f]*)[\x20\t\r\n\f]*\/?>(?:<\/\1>|)$/i );
 
 
@@ -3997,8 +4001,8 @@
                 resolveContexts = Array( i ),
                 resolveValues = slice.call( arguments ),
 
-                // the master Deferred
-                master = jQuery.Deferred(),
+                // the primary Deferred
+                primary = jQuery.Deferred(),
 
                 // subordinate callback factory
                 updateFunc = function( i ) {
@@ -4006,30 +4010,30 @@
                         resolveContexts[ i ] = this;
                         resolveValues[ i ] = arguments.length > 1 ? slice.call( arguments ) : value;
                         if ( !( --remaining ) ) {
-                            master.resolveWith( resolveContexts, resolveValues );
+                            primary.resolveWith( resolveContexts, resolveValues );
                         }
                     };
                 };
 
             // Single- and empty arguments are adopted like Promise.resolve
             if ( remaining <= 1 ) {
-                adoptValue( singleValue, master.done( updateFunc( i ) ).resolve, master.reject,
+                adoptValue( singleValue, primary.done( updateFunc( i ) ).resolve, primary.reject,
                     !remaining );
 
                 // Use .then() to unwrap secondary thenables (cf. gh-3000)
-                if ( master.state() === "pending" ||
+                if ( primary.state() === "pending" ||
                     isFunction( resolveValues[ i ] && resolveValues[ i ].then ) ) {
 
-                    return master.then();
+                    return primary.then();
                 }
             }
 
             // Multiple arguments are aggregated like Promise.all array elements
             while ( i-- ) {
-                adoptValue( resolveValues[ i ], updateFunc( i ), master.reject );
+                adoptValue( resolveValues[ i ], updateFunc( i ), primary.reject );
             }
 
-            return master.promise();
+            return primary.promise();
         }
     } );
 
@@ -5089,10 +5093,7 @@
     }
 
 
-    var
-        rkeyEvent = /^key/,
-        rmouseEvent = /^(?:mouse|pointer|contextmenu|drag|drop)|click/,
-        rtypenamespace = /^([^.]*)(?:\.(.+)|)/;
+    var rtypenamespace = /^([^.]*)(?:\.(.+)|)/;
 
     function returnTrue() {
         return true;
@@ -5656,7 +5657,13 @@
                             // Cancel the outer synthetic event
                             event.stopImmediatePropagation();
                             event.preventDefault();
-                            return result.value;
+
+                            // Support: Chrome 86+
+                            // In Chrome, if an element having a focusout handler is blurred by
+                            // clicking outside of it, it invokes the handler synchronously. If
+                            // that handler calls `.remove()` on the element, the data is cleared,
+                            // leaving `result` undefined. We need to guard against this.
+                            return result && result.value;
                         }
 
                         // If this is an inner synthetic event for an event with a bubbling surrogate
@@ -5821,34 +5828,7 @@
         targetTouches: true,
         toElement: true,
         touches: true,
-
-        which: function( event ) {
-            var button = event.button;
-
-            // Add which for key events
-            if ( event.which == null && rkeyEvent.test( event.type ) ) {
-                return event.charCode != null ? event.charCode : event.keyCode;
-            }
-
-            // Add which for click: 1 === left; 2 === middle; 3 === right
-            if ( !event.which && button !== undefined && rmouseEvent.test( event.type ) ) {
-                if ( button & 1 ) {
-                    return 1;
-                }
-
-                if ( button & 2 ) {
-                    return 3;
-                }
-
-                if ( button & 4 ) {
-                    return 2;
-                }
-
-                return 0;
-            }
-
-            return event.which;
-        }
+        which: true
     }, jQuery.event.addProp );
 
     jQuery.each( { focus: "focusin", blur: "focusout" }, function( type, delegateType ) {
@@ -5871,6 +5851,12 @@
                 leverageNative( this, type );
 
                 // Return non-false to allow normal event-path propagation
+                return true;
+            },
+
+            // Suppress native focus or blur as it's already being fired
+            // in leverageNative.
+            _default: function() {
                 return true;
             },
 
@@ -6541,6 +6527,10 @@
             // set in CSS while `offset*` properties report correct values.
             // Behavior in IE 9 is more subtle than in newer versions & it passes
             // some versions of this test; make sure not to make it pass there!
+            //
+            // Support: Firefox 70+
+            // Only Firefox includes border widths
+            // in computed dimensions. (gh-4529)
             reliableTrDimensions: function() {
                 var table, tr, trChild, trStyle;
                 if ( reliableTrDimensionsVal == null ) {
@@ -6548,9 +6538,22 @@
                     tr = document.createElement( "tr" );
                     trChild = document.createElement( "div" );
 
-                    table.style.cssText = "position:absolute;left:-11111px";
+                    table.style.cssText = "position:absolute;left:-11111px;border-collapse:separate";
+                    tr.style.cssText = "border:1px solid";
+
+                    // Support: Chrome 86+
+                    // Height set through cssText does not get applied.
+                    // Computed height then comes back as 0.
                     tr.style.height = "1px";
                     trChild.style.height = "9px";
+
+                    // Support: Android 8 Chrome 86+
+                    // In our bodyBackground.html iframe,
+                    // display for all div elements is set to "inline",
+                    // which causes a problem only in Android 8 Chrome 86.
+                    // Ensuring the div is display: block
+                    // gets around this issue.
+                    trChild.style.display = "block";
 
                     documentElement
                         .appendChild( table )
@@ -6558,7 +6561,9 @@
                         .appendChild( trChild );
 
                     trStyle = window.getComputedStyle( tr );
-                    reliableTrDimensionsVal = parseInt( trStyle.height ) > 3;
+                    reliableTrDimensionsVal = ( parseInt( trStyle.height, 10 ) +
+                        parseInt( trStyle.borderTopWidth, 10 ) +
+                        parseInt( trStyle.borderBottomWidth, 10 ) ) === tr.offsetHeight;
 
                     documentElement.removeChild( table );
                 }
@@ -6797,19 +6802,19 @@
         // In those cases, the computed value can be trusted to be border-box.
         if ( ( !support.boxSizingReliable() && isBorderBox ||
 
-            // Support: IE 10 - 11+, Edge 15 - 18+
-            // IE/Edge misreport `getComputedStyle` of table rows with width/height
-            // set in CSS while `offset*` properties report correct values.
-            // Interestingly, in some cases IE 9 doesn't suffer from this issue.
-            !support.reliableTrDimensions() && nodeName( elem, "tr" ) ||
+                // Support: IE 10 - 11+, Edge 15 - 18+
+                // IE/Edge misreport `getComputedStyle` of table rows with width/height
+                // set in CSS while `offset*` properties report correct values.
+                // Interestingly, in some cases IE 9 doesn't suffer from this issue.
+                !support.reliableTrDimensions() && nodeName( elem, "tr" ) ||
 
-            // Fall back to offsetWidth/offsetHeight when value is "auto"
-            // This happens for inline elements with no explicit setting (gh-3571)
-            val === "auto" ||
+                // Fall back to offsetWidth/offsetHeight when value is "auto"
+                // This happens for inline elements with no explicit setting (gh-3571)
+                val === "auto" ||
 
-            // Support: Android <=4.1 - 4.3 only
-            // Also use offsetWidth/offsetHeight for misreported inline dimensions (gh-3602)
-            !parseFloat( val ) && jQuery.css( elem, "display", false, styles ) === "inline" ) &&
+                // Support: Android <=4.1 - 4.3 only
+                // Also use offsetWidth/offsetHeight for misreported inline dimensions (gh-3602)
+                !parseFloat( val ) && jQuery.css( elem, "display", false, styles ) === "inline" ) &&
 
             // Make sure the element is visible & connected
             elem.getClientRects().length ) {
@@ -7761,6 +7766,7 @@
                         anim.stop( true );
                     }
                 };
+
             doAnimation.finish = doAnimation;
 
             return empty || optall.queue === false ?
@@ -8707,9 +8713,7 @@
                     special.bindType || type;
 
                 // jQuery handler
-                handle = (
-                        dataPriv.get( cur, "events" ) || Object.create( null )
-                    )[ event.type ] &&
+                handle = ( dataPriv.get( cur, "events" ) || Object.create( null ) )[ event.type ] &&
                     dataPriv.get( cur, "handle" );
                 if ( handle ) {
                     handle.apply( cur, data );
@@ -8730,7 +8734,7 @@
             if ( !onlyHandlers && !event.isDefaultPrevented() ) {
 
                 if ( ( !special._default ||
-                    special._default.apply( eventPath.pop(), data ) === false ) &&
+                        special._default.apply( eventPath.pop(), data ) === false ) &&
                     acceptData( elem ) ) {
 
                     // Call a native DOM method on the target with the same name as the event.
@@ -8856,7 +8860,7 @@
 
 // Cross-browser xml parsing
     jQuery.parseXML = function( data ) {
-        var xml;
+        var xml, parserErrorElem;
         if ( !data || typeof data !== "string" ) {
             return null;
         }
@@ -8865,12 +8869,17 @@
         // IE throws on parseFromString with invalid input.
         try {
             xml = ( new window.DOMParser() ).parseFromString( data, "text/xml" );
-        } catch ( e ) {
-            xml = undefined;
-        }
+        } catch ( e ) {}
 
-        if ( !xml || xml.getElementsByTagName( "parsererror" ).length ) {
-            jQuery.error( "Invalid XML: " + data );
+        parserErrorElem = xml && xml.getElementsByTagName( "parsererror" )[ 0 ];
+        if ( !xml || parserErrorElem ) {
+            jQuery.error( "Invalid XML: " + (
+                parserErrorElem ?
+                    jQuery.map( parserErrorElem.childNodes, function( el ) {
+                        return el.textContent;
+                    } ).join( "\n" ) :
+                    data
+            ) );
         }
         return xml;
     };
@@ -8971,30 +8980,28 @@
                 // Can add propHook for "elements" to filter or add form elements
                 var elements = jQuery.prop( this, "elements" );
                 return elements ? jQuery.makeArray( elements ) : this;
-            } )
-                .filter( function() {
-                    var type = this.type;
+            } ).filter( function() {
+                var type = this.type;
 
-                    // Use .is( ":disabled" ) so that fieldset[disabled] works
-                    return this.name && !jQuery( this ).is( ":disabled" ) &&
-                        rsubmittable.test( this.nodeName ) && !rsubmitterTypes.test( type ) &&
-                        ( this.checked || !rcheckableType.test( type ) );
-                } )
-                .map( function( _i, elem ) {
-                    var val = jQuery( this ).val();
+                // Use .is( ":disabled" ) so that fieldset[disabled] works
+                return this.name && !jQuery( this ).is( ":disabled" ) &&
+                    rsubmittable.test( this.nodeName ) && !rsubmitterTypes.test( type ) &&
+                    ( this.checked || !rcheckableType.test( type ) );
+            } ).map( function( _i, elem ) {
+                var val = jQuery( this ).val();
 
-                    if ( val == null ) {
-                        return null;
-                    }
+                if ( val == null ) {
+                    return null;
+                }
 
-                    if ( Array.isArray( val ) ) {
-                        return jQuery.map( val, function( val ) {
-                            return { name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
-                        } );
-                    }
+                if ( Array.isArray( val ) ) {
+                    return jQuery.map( val, function( val ) {
+                        return { name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
+                    } );
+                }
 
-                    return { name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
-                } ).get();
+                return { name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
+            } ).get();
         }
     } );
 
@@ -9033,6 +9040,7 @@
 
         // Anchor tag for parsing the document origin
         originAnchor = document.createElement( "a" );
+
     originAnchor.href = location.href;
 
 // Base "constructor" for jQuery.ajaxPrefilter and jQuery.ajaxTransport
@@ -9727,8 +9735,10 @@
                     response = ajaxHandleResponses( s, jqXHR, responses );
                 }
 
-                // Use a noop converter for missing script
-                if ( !isSuccess && jQuery.inArray( "script", s.dataTypes ) > -1 ) {
+                // Use a noop converter for missing script but not if jsonp
+                if ( !isSuccess &&
+                    jQuery.inArray( "script", s.dataTypes ) > -1 &&
+                    jQuery.inArray( "json", s.dataTypes ) < 0 ) {
                     s.converters[ "text script" ] = function() {};
                 }
 
@@ -10466,12 +10476,6 @@
                 options.using.call( elem, props );
 
             } else {
-                if ( typeof props.top === "number" ) {
-                    props.top += "px";
-                }
-                if ( typeof props.left === "number" ) {
-                    props.left += "px";
-                }
                 curElem.css( props );
             }
         }
@@ -10640,48 +10644,51 @@
 
 // Create innerHeight, innerWidth, height, width, outerHeight and outerWidth methods
     jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
-        jQuery.each( { padding: "inner" + name, content: type, "": "outer" + name },
-            function( defaultExtra, funcName ) {
+        jQuery.each( {
+            padding: "inner" + name,
+            content: type,
+            "": "outer" + name
+        }, function( defaultExtra, funcName ) {
 
-                // Margin is only for outerHeight, outerWidth
-                jQuery.fn[ funcName ] = function( margin, value ) {
-                    var chainable = arguments.length && ( defaultExtra || typeof margin !== "boolean" ),
-                        extra = defaultExtra || ( margin === true || value === true ? "margin" : "border" );
+            // Margin is only for outerHeight, outerWidth
+            jQuery.fn[ funcName ] = function( margin, value ) {
+                var chainable = arguments.length && ( defaultExtra || typeof margin !== "boolean" ),
+                    extra = defaultExtra || ( margin === true || value === true ? "margin" : "border" );
 
-                    return access( this, function( elem, type, value ) {
-                        var doc;
+                return access( this, function( elem, type, value ) {
+                    var doc;
 
-                        if ( isWindow( elem ) ) {
+                    if ( isWindow( elem ) ) {
 
-                            // $( window ).outerWidth/Height return w/h including scrollbars (gh-1729)
-                            return funcName.indexOf( "outer" ) === 0 ?
-                                elem[ "inner" + name ] :
-                                elem.document.documentElement[ "client" + name ];
-                        }
+                        // $( window ).outerWidth/Height return w/h including scrollbars (gh-1729)
+                        return funcName.indexOf( "outer" ) === 0 ?
+                            elem[ "inner" + name ] :
+                            elem.document.documentElement[ "client" + name ];
+                    }
 
-                        // Get document width or height
-                        if ( elem.nodeType === 9 ) {
-                            doc = elem.documentElement;
+                    // Get document width or height
+                    if ( elem.nodeType === 9 ) {
+                        doc = elem.documentElement;
 
-                            // Either scroll[Width/Height] or offset[Width/Height] or client[Width/Height],
-                            // whichever is greatest
-                            return Math.max(
-                                elem.body[ "scroll" + name ], doc[ "scroll" + name ],
-                                elem.body[ "offset" + name ], doc[ "offset" + name ],
-                                doc[ "client" + name ]
-                            );
-                        }
+                        // Either scroll[Width/Height] or offset[Width/Height] or client[Width/Height],
+                        // whichever is greatest
+                        return Math.max(
+                            elem.body[ "scroll" + name ], doc[ "scroll" + name ],
+                            elem.body[ "offset" + name ], doc[ "offset" + name ],
+                            doc[ "client" + name ]
+                        );
+                    }
 
-                        return value === undefined ?
+                    return value === undefined ?
 
-                            // Get width or height on the element, requesting but not forcing parseFloat
-                            jQuery.css( elem, type, extra ) :
+                        // Get width or height on the element, requesting but not forcing parseFloat
+                        jQuery.css( elem, type, extra ) :
 
-                            // Set width or height on the element
-                            jQuery.style( elem, type, value, extra );
-                    }, type, chainable ? margin : undefined, chainable );
-                };
-            } );
+                        // Set width or height on the element
+                        jQuery.style( elem, type, value, extra );
+                }, type, chainable ? margin : undefined, chainable );
+            };
+        } );
     } );
 
 
@@ -10726,9 +10733,10 @@
         }
     } );
 
-    jQuery.each( ( "blur focus focusin focusout resize scroll click dblclick " +
-        "mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " +
-        "change select submit keydown keypress keyup contextmenu" ).split( " " ),
+    jQuery.each(
+        ( "blur focus focusin focusout resize scroll click dblclick " +
+            "mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " +
+            "change select submit keydown keypress keyup contextmenu" ).split( " " ),
         function( _i, name ) {
 
             // Handle event binding
@@ -10737,7 +10745,8 @@
                     this.on( name, null, data, fn ) :
                     this.trigger( name );
             };
-        } );
+        }
+    );
 
 
 

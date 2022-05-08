@@ -130,6 +130,22 @@
   border: 0;
 }
 
+body.d .step {
+  background: #242424;
+  background: linear-gradient(145deg, #242424 0%, #000 100%);
+}
+body.d .step:after {
+  border-left: 10px solid #000;
+}
+body.d .step.on {
+  color: #fff;
+  background: #111;
+  background: linear-gradient(-45deg, #222 0%, #111 100%);
+}
+body.d .step.on:after {
+  border-left: 10px solid #222;
+}
+
 [dir=rtl] .step:after {
   right: auto;
   left: -9px;

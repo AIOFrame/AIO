@@ -1,7 +1,7 @@
 <?php
 
 $user_struct[] = [ 'users', [
-    [ 'login', 'VARCHAR', 24, 1 ],
+    [ 'login', 'VARCHAR', 128, 1 ],
     [ 'email', 'VARCHAR', 128, 0 ],
     [ 'name', 'VARCHAR', 128, 0 ],
     [ 'picture', 'VARCHAR', 512, 0 ],
@@ -24,9 +24,9 @@ $user_struct[] = [ 'sessions', [
     [ 'uid', 'INT', 13, 1 ],
     [ 'time', 'DATETIME', '', 1 ],
     [ 'code', 'VARCHAR', 256, 1 ],
-    [ 'os', 'VARCHAR', 128, 1 ],
-    [ 'client', 'VARCHAR', 128, 1 ],
-    [ 'device', 'VARCHAR', 128, 1 ],
+    [ 'os', 'VARCHAR', 256, 1 ],
+    [ 'client', 'VARCHAR', 256, 1 ],
+    [ 'device', 'VARCHAR', 256, 1 ],
     [ 'status', 'BOOLEAN', '', 1 ],
 ], 'session', 1 ];
 

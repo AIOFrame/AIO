@@ -437,7 +437,9 @@ td .aio_fsp {
     right: 5px;
     width: 30px;
     height: 30px;
-    background:url('../../images/icons/delete.svg') no-repeat center / 20px;
+    mask:url('../../icons/remove.svg') no-repeat center / 20px;
+    -webkit-mask:url('../../icons/remove.svg') no-repeat center / 20px;
+    background: #000;
   }
   .i.file {
     height:20px;
@@ -507,6 +509,14 @@ td .aio_fsp {
 }
 .aio_df:last-child {
   margin: 0;
+}
+
+body.d {
+  .aio_files {
+    .trash {
+      background: #fff;
+    }
+  }
 }
 
 @media only screen and (max-width:600px) {

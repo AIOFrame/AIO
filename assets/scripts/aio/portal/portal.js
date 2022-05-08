@@ -1,0 +1,60 @@
+$(document).ready(function() {
+
+    let b = $('body');
+
+    // MENU SCRIPTS
+    $(b).on('click','#menu',function(){
+        $(this).toggleClass('on');
+        $('aside').toggleClass('on');
+    })
+
+    .on('keyup search','aside [type=search]',function(){
+        let s = $(this).val().toLowerCase();
+        $('aside .set a').each(function(i,e){
+            let n = $(e).addClass('dn').find('.title').text().toLowerCase();
+            if( n.indexOf(s) >= 0 ) {
+                $(e).removeClass('dn');
+            }
+        })
+    })
+
+    /* .on('click','#expand',function(){
+        $('#user_panel').toggleClass('on');
+        $(this).toggleClass('on');
+    }); */
+
+    .on('click', '[data-e]', function () {
+        $('[data-e]').removeClass('on');
+        $(this).addClass('on');
+        $('.vertical_blocks').scrollTo($($(this).data('e')), {
+            duration: 800
+        });
+    })
+
+    .on('click','aside ul i',function(){
+        $('aside ul li').not($(this).parents('li')).removeClass('open');
+        $(this).parents('li').toggleClass('open');
+    });
+
+    // Auto Opens Modal
+    if( $(b).hasClass('add') ) {
+        $('.actions.float [data-on]').click();
+        window.history.replaceState({}, document.title, location.origin + location.pathname);
+    }
+
+    // Auto Close Menus
+    $(document).mouseup(function(e) {
+        let c = $('#menu, aside');
+        if (!c.is(e.target) && c.has(e.target).length === 0) {
+            $('aside,#menu').removeClass('on');
+        }
+    });
+
+});
+
+function logout() {
+    if( confirm('Are you sure to log out?') ) {
+        let action = $('body').data('out');
+        post( action, { 'action': action }, 2, 2, location.origin + '/admin' );
+    }
+}

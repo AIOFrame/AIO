@@ -179,7 +179,7 @@ class FORM {
      * @param string $pre String to wrap before start of &lt;input&gt;. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post End string to wrap after /&gt;
      */
-    function text( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '' ) {
+    function text( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '' ): void {
         $this->input( 'text', $id, $label, $placeholder, $value, $attrs, $pre, $post );
     }
 
@@ -198,7 +198,7 @@ class FORM {
      * @param string $post
      * @return void
      */
-    function date( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $position = '', string $pre = '', bool $range = false, bool $multiple = false, string $view = '', string $post = '' ) {
+    function date( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $position = '', string $pre = '', bool $range = false, bool $multiple = false, string $view = '', string $post = '' ): void {
         $alt_id = is_array( $id ) ? [ $id[0].'_alt', $id[1].'_alt' ] : $id.'_alt';
         $range_attr = $range ? ' range' : '';
         $multiple_attr = $multiple ? ' multiple' : '';
@@ -221,7 +221,7 @@ class FORM {
      * @param string $post
      * @return void
      */
-    function dates( array $array, string $attrs = '', string $position = '', string $pre = '', bool $range = false, bool $multiple = false, string $post = '' ) {
+    function dates( array $array, string $attrs = '', string $position = '', string $pre = '', bool $range = false, bool $multiple = false, string $post = '' ): void {
         if( !empty( $array ) ){
             foreach( $array as $f ) {
                 $id = $f[0] ?? '';
@@ -231,6 +231,13 @@ class FORM {
                 $this->date( $id, $label, $ph, $value, $attrs, $position, $pre, $range, $multiple, $post );
             }
         }
+    }
+
+    function color( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $border = '', string $preview = '', string $post = '' ): void {
+        $attrs .= ' data-color-picker';
+        $attrs = !empty( $border ) ? $attrs . ' data-border="'.$border.'"' : $attrs;
+        $attrs = !empty( $preview ) ? $attrs . ' data-preview="'.$preview.'"' : $attrs;
+        $this->text( $id, $label, $placeholder, $value, $attrs, $pre, $post );
     }
 
     /**
@@ -508,7 +515,7 @@ class FORM {
     }
 
     /**
-     * Renders HTML
+     * Renders HTML parameters for automated data saving
      * @param string $target Database Name
      * @param string $data Data attribute to fetch data
      * @param string $pre Pre Wrap String for Tables
@@ -519,7 +526,7 @@ class FORM {
      * @param string $callback A JS Function to callback on results
      * @param string $confirm A confirmation popup will execute further code
      */
-    function process_params( string $target = '', string $data = '', string $pre = '', int $notify = 0, int $reload = 0, array $hidden = [], string $success_text = '', string $callback = '', string $confirm = '' ) {
+    function process_params( string $target = '', string $data = '', string $pre = '', int $notify = 0, int $reload = 0, array $hidden = [], string $success_text = '', string $callback = '', string $confirm = '' ): void {
         $c = Encrypt::initiate();
         $t = !empty( $target ) ? ' data-t="'.$c->encrypt( $target ).'"' : 'data-t';
         $nt = $notify > 0 ? ' data-notify="'.$notify.'"' : '';
@@ -534,6 +541,28 @@ class FORM {
     }
 
     /**
+     * Renders HTML for Options Auto Save
+     * @param string $data
+     * @param int $notify
+     * @param int $reload
+     * @param array|string $autoload
+     * @param array|string $unique
+     * @param array|string $encrypt
+     * @param string $success_text
+     * @param string $callback
+     * @param string $confirm
+     * @return void
+     */
+    function option_params( string $data = '', int $notify = 0, int $reload = 0, array|string $autoload = [], array|string $unique = [], array|string $encrypt = [], string $success_text = 'Successfully Updated Preferences!', string $callback = '', string $confirm = '' ): void {
+        $h = [];
+        !empty( $autoload ) ? $h['autoload'] = $autoload : '';
+        !empty( $unique ) ? $h['unique'] = $unique : '';
+        !empty( $encrypt ) ? $h['encrypt'] = $encrypt : '';
+        $this->process_params( '', $data, '', $notify, $reload, $h, $success_text, $callback, $confirm );
+        //skel( $h );
+    }
+
+    /**
      * Renders HTML to process data
      * @param string $text Button text
      * @param string $class Button class
@@ -544,7 +573,7 @@ class FORM {
      * @param string $element HTML Element
      * @param string $confirm Message to show as confirmation before process
      */
-    function process_html( string $text = '', string $class = '', string $attr = '', string $action = '', string|int $pre = '', int|string $post = '', string $element = 'button', string $confirm = '' ) {
+    function process_html( string $text = '', string $class = '', string $attr = '', string $action = '', string|int $pre = '', int|string $post = '', string $element = 'button', string $confirm = '' ): void {
         if( is_numeric( $pre ) ){
             $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
         } else {
@@ -556,6 +585,20 @@ class FORM {
         $a = 'data-action="'.$c->encrypt($action).'"';
         $click = $confirm !== '' ? 'onclick="if(confirm(\''.$confirm.'\')){process_data(this)}else{event.stopPropagation();event.preventDefault();}"' : 'onclick="process_data(this)"';
         echo $pre.'<'.$element.' '.$click.' '.$a.' class="'.$class.'" '.$attr.'>'.T( $text ).'</'.$element.'>'.$post;
+    }
+
+    /**
+     * Renders HTML to process options
+     * @param string $text Button text
+     * @param string $class Button class
+     * @param string $attr Additional attributes to button
+     * @param string|int $pre Pre Wrap HTML or Bootstrap Column
+     * @param string|int $post Post Wrap HTML
+     * @param string $element HTML Element
+     * @param string $confirm Message to show as confirmation before process
+     */
+    function process_options( string $text = '', string $class = '', string $attr = '', string|int $pre = '', int|string $post = '', string $element = 'button', string $confirm = '' ): void {
+        $this->process_html( $text, $class, $attr, 'process_options_ajax', $pre, $post, $element, $confirm );
     }
 
     /**
@@ -671,7 +714,7 @@ class FORM {
                 $keyed = $f[8] ??= 0;
                 $this->select( $id, $label, $place, $options, $value, $attrs, $pre, $keyed );
             } else if( $type == 'date' ) {
-                $this->date( $id, $label, $place, $val, $attrs, '', $pre );
+                $this->date( $id, $label, $place, $val, $attrs, 'bottom center', $pre );
             } else {
                 $this->input( $type, $id, $label, $place, $val, $attrs, $pre );
             }

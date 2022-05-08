@@ -161,6 +161,16 @@ table.px0 td {
   padding-right: 0;
 }
 
+/* Dark */
+body.d table tr {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+body.d table.plain thead, body.d table.plain tbody, body.d table.plain tfoot, body.d table.plain tr, body.d table.plain td, body.d table.plain th {
+  background: 0;
+  color: #fff;
+}
+
 [dir=rtl] table.r tr:first-child {
   border-radius: 0 0 5px 5px;
 }

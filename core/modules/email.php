@@ -433,7 +433,7 @@ class MAIL {
             $f->select('smtp','SMTP Gateway','Choose gateway...',[ 'google' => 'Google', 'yahoo' => 'Yahoo', 'hotmail' => 'Hotmail / Outlook / Live', 'mailjet' => 'MailJet', 'mailersend' => 'MailerSend', 'sendgrid' => 'SendGrid' ],$smtp,$attr.' class="select2"',3,'',1);
             $f->text('smtp_username','SMTP Email','',$smtp_username,$attr,3);
             $f->input('password','smtp_password','SMTP Password','',$smtp_password,$attr,3);
-            $f->process_html('Save API Details','l r5','','process_options_ajax','col-12 tac');
+            $f->process_html('Save API Details','store grad','','process_options_ajax','col-12 tac');
             ?>
         </div>
         <form id="template" method="post">
@@ -449,7 +449,7 @@ class MAIL {
                 echo '</div>';
                 ?>
             </div>
-            <div class="tac"><button class="l r5"><?php E('Build Template'); ?></button></div>
+            <div class="tac"><button class="store"><?php E('Build Template'); ?></button></div>
         </form>
 
         <script>
@@ -461,7 +461,7 @@ class MAIL {
                     $(f).attr('src',url);
                     setTimeout(frame_height,1000);
                 }); */
-                $('.editor').trumbowyg().on('tbwchange tbwfocus', function(e){
+                $('.editor').trumbowyg({ autogrow: true }).on('tbwchange tbwfocus', function(e){
                     let f = $('iframe');
                     let url = $(f).attr('src').split('?')[0]+'?all&text='+encodeURIComponent($(this).val());
                     $('#test_content').val( $( e.currentTarget ).val() );
@@ -483,7 +483,7 @@ class MAIL {
             });
             function frame_height() {
                 let f = $('iframe');
-                console.log( $(f).contents().find('html').height() );
+                //console.log( $(f).contents().find('html').height() );
                 $(f).height( $(f).contents().find('html').height() );
             }
         </script>

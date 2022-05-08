@@ -58,8 +58,8 @@ $(document).ready(function(){
     });
 
     // Load Dark Mode
-    let dark = localStorage.getItem('dark_mode');
-    dark === 'true' ? b.addClass('d') : b.removeClass('d');
+    //let dark = localStorage.getItem('dark_mode');
+    //dark === 'true' ? b.addClass('d') : b.removeClass('d');
 
     // Scroll Save
 

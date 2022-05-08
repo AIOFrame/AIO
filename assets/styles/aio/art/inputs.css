@@ -164,7 +164,7 @@ select.mb0 + .select2-container {
 }
 
 .select2-dropdown {
-  border: 1px solid #f1f1f1;
+  border: 0;
   border-radius: 0 0 10px 10px;
 }
 
@@ -243,7 +243,7 @@ select.mb0 + .select2-container {
   transform: translate(-50%, -50%);
   background: rgba(255, 255, 255, 0.85);
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
-  padding: 20px;
+  padding: 40px 20px 20px;
   border-radius: 25px;
   pointer-events: none;
   opacity: 0;
@@ -251,12 +251,18 @@ select.mb0 + .select2-container {
   transition: 0.6s;
   backdrop-filter: blur(8px) saturate(2);
   -webkit-backdrop-filter: blur(8px) saturate(2);
+  width: 340px;
+  max-width: 100vw;
+}
+.color_picker_wrap .IroBox {
+  width: 300px;
+  height: 300px;
 }
 .color_picker_wrap .trans {
   height: 28px;
   border-radius: 15px;
   margin: 10px 0;
-  background: url("../../images/transparency.svg") repeat center/13px;
+  background: url("../../../images/transparency.svg") repeat center/13px;
 }
 .color_picker_wrap .trans .grad {
   height: 100%;
@@ -278,10 +284,12 @@ select.mb0 + .select2-container {
   text-align: center;
 }
 .color_picker_wrap .close {
-  background: url("../../assets/icons/close.svg") no-repeat center/70%;
+  background: #000;
+  mask: url("../../assets/icons/close.svg") no-repeat center/50%;
+  -webkit-mask: url("../../assets/icons/close.svg") no-repeat center/50%;
   position: absolute;
-  right: 10px;
-  top: 10px;
+  right: 9px;
+  top: 2px;
   width: 40px;
   height: 40px;
   cursor: pointer;
@@ -301,7 +309,6 @@ select.mb0 + .select2-container {
   font-size: 12px;
   pointer-events: none;
   height: 0;
-  overflow: hidden;
 }
 [type=text] + .valid > div, [type=email] + .valid > div, [type=password] + .valid > div, select + .valid > div, textarea + .valid > div {
   display: flex;
@@ -327,10 +334,12 @@ input + .valid {
   top: calc(100% - 10px);
   left: 15px;
   width: calc(100% - 30px);
-  font-size: 12px;
-  padding: 10px;
+  font-size: 0;
+  padding: 0;
   border-radius: 8px;
-  background: #000;
+  background: #fff;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+  border: 2px solid #eee;
   opacity: 0;
   pointer-events: none;
   transition: 0.6s;
@@ -358,7 +367,7 @@ input + .valid:after {
   height: 0;
   border-style: solid;
   border-width: 0 10px 10px 10px;
-  border-color: transparent transparent #000 transparent;
+  border-color: transparent transparent #fff transparent;
   box-sizing: border-box;
   position: absolute;
   left: calc(50% - 5px);
@@ -370,6 +379,8 @@ input + .valid:after {
 
 input + .valid.on {
   opacity: 1;
+  padding: 10px;
+  font-size: 1rem;
 }
 
 .green .value {
@@ -454,10 +465,12 @@ body.d [type=checkbox]:not(:checked).switch:before, body.d [type=radio]:not(:che
 }
 body.d .color_picker_wrap {
   background: rgba(0, 0, 0, 0.8);
-  box-shadow: 0 0 50px #282828;
 }
 body.d .color_picker_wrap input {
   background: #1e1e1e;
+}
+body.d .color_picker_wrap .close {
+  background: #fff;
 }
 body.d input[data-color-picker] {
   text-shadow: 1px 1px 1px #000;
@@ -466,7 +479,9 @@ body.d .select2-container--default .select2-selection--multiple {
   background: #212121;
 }
 body.d .select2-dropdown {
-  background: #333;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 /*# sourceMappingURL=inputs.css.map */

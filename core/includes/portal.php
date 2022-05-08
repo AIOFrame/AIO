@@ -2,7 +2,7 @@
 
 class PORTAL {
 
-    private array $brand_options = [ 'brand_logo', 'brand_name', 'brand_favicon', 'color_1', 'color_2', 'font_1', 'font_1_weights', 'font_2', 'font_2_weights', 'scrollbar' ];
+    private array $brand_options = [ 'app_name', 'primary_color', 'secondary_color', 'logo_light', 'logo_dark', 'primary_color_dark', 'secondary_color_dark', 'fav', 'font_1', 'font_1_weights', 'font_2', 'font_2_weights', 'scrollbar' ];
 
     /**
      * @param string $attrs
@@ -15,16 +15,29 @@ class PORTAL {
 
         // Defines
         $db = new DB();
+        global $is_light;
+        $is_light = true;
+        $class = isset( $_GET['add'] ) ? 'add' : '';
 
         // Load Options
         global $options;
-        $options = $db->select( 'options', 'option_scope = \'0\' AND option_load = \'1\'' );
+        $auto_options = $db->select( 'options', '', 'option_scope = \'0\' AND option_load = \'1\'' );
+        $user_options = $db->select( 'options', '', 'option_scope = \''.get_user_id().'\'' );
+        $option_set = array_merge( $auto_options, $user_options );
+        if( !empty( $option_set ) ) {
+            foreach( $option_set as $os ) {
+                $options[ $os['option_name'] ] = $os['option_value'];
+            }
+        }
+        //skel( $options );
 
         // <head>
-        echo '<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"><meta http-equiv="X-UA-Compatible" content="ie=edge">';
+        echo '<!doctype html><html ';
+        html_class();
+        echo '><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"><meta http-equiv="X-UA-Compatible" content="ie=edge">';
 
         // Fav Icon
-        $favicon = $os['brand_favicon'] ?? 'fav';
+        $favicon = isset( $options['fav'] ) ? storage_url( $options['fav'] ) : 'fav';
         favicon( $favicon );
 
         // Fonts
@@ -40,32 +53,49 @@ class PORTAL {
         fonts( $fonts );
 
         // Appearance
-        $color1 = $options['color1'] ?? '111';
-        $color2 = $options['color2'] ?? '222';
+        $color1 = $options['primary_color'] ?? '111';
+        $color2 = $options['secondary_color'] ?? '222';
         get_styles( $ex_styles );
         get_scripts( $scripts );
+        $theme = $options['theme'] ?? '';
+        if( str_contains( $theme, 'dark' ) ) {
+            $class .= $theme . ' d';
+            $is_light = false;
+            $color1 = $options['primary_color_dark'] ?? $color1;
+            $color2 = $options['secondary_color_dark'] ?? $color2;
+        } else {
+            $class .= $theme . ' l';
+        }
         art('cards,modal,buttons,inputs,icons,tabs,steps,color,table,alerts',$color1,$color2);
+        //skel( $options );
+        if( is_array( $styles ) ) {
+            $styles[] = 'portal/portal';
+            $styles[] = 'portal/ui/'.$theme;
+        } else {
+            $styles .= ',portal/portal';
+            $styles .= ',portal/ui/'.$theme;
+        }
         get_styles( $styles );
         get_styles( [ PAGEPATH, 'micro' ] );
 
         get_title();
-        $modal_add = isset( $_GET['add'] ) ? 'add' : '';
+
 
         $f = new FORM();
         $c = Encrypt::initiate();
 
-        // Payment Gateway
+        // Attributes
         $attrs = $attrs.' data-out="'. $c->encrypt('logout_ajax').'"';
 
-
         // </head>
-        echo '</head><body ';
-        body_class( $modal_add );
+        echo '<style>.grad { background-color: '.$color1.'; background-image: linear-gradient(45deg, '.$color1.' 0%, '.$color2.' 100%); }</style></head><body ';
+        body_class( $class );
         echo $attrs . '>';
 
     }
 
     function footer( string|array $scripts = [] ): void {
+        $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'iro', 'portal/portal' ] ) : $scripts.',iro,portal/portal';
         get_scripts( $scripts );
         get_script( PAGEPATH );
         ?>
@@ -85,8 +115,9 @@ class PORTAL {
             <?php echo !is_mobile() ? '<div class="col-2"></div>' : ''; ?>
             <div class="col-12 col-lg-8">
                 <div class="tabs">
-                    <div class="tab_heads">
-                        <div class="tab on" data-t="#basic"><?php is_mobile() ? E('Info') : E('Basic Info'); ?></div>
+                    <div class="tab_heads" data-store>
+                        <div class="tab on" data-t="#looks"><?php is_mobile() ? E('UI') : E('Appearance'); ?></div>
+                        <div class="tab on" data-t="#basic"><?php is_mobile() ? E('User') : E('User Details'); ?></div>
                         <div class="tab" data-t="#pass"><?php is_mobile() ? E('Pass') : E('Change Password'); ?></div>
                         <div class="tab" data-t="#sess"><?php is_mobile() ? E('Sessions') : E('Active Sessions'); ?><?php echo ' ('.count($ss).')'; ?></div>
                         <?php if( is_admin() ) { ?>
@@ -94,37 +125,56 @@ class PORTAL {
                         <?php } ?>
                     </div>
                     <div class="tab_data wbg <?php echo is_mobile() ? 'p20' : 'p40'; ?>">
+
+                        <div id="looks" <?php $f->option_params('data',2,2,'','theme,input_theme'); ?>>
+                            <div class="row">
+                                <?php
+                                $uis = [ 'default' => 'Default - Light' ];
+                                $ui_list = scandir( ROOTPATH . 'assets/styles/aio/portal/ui' );
+                                foreach( $ui_list as $ui ) {
+                                    if( str_contains( $ui, '.scss' ) ) {
+                                        $s = str_replace( '.scss', '', $ui );
+                                        $uis[ $s ] = ucwords( str_replace( '-', ' ', $s ) );
+                                    }
+                                }
+                                $f->select( 'theme', 'Dashboard Style', 'Select Theme...', $uis, '', 'data-data class="select2"', 6, 1 );
+                                $f->select( 'input_theme', 'Input Style', 'Select Theme...', [], '', 'data-data class="select2"', 6, 1 );
+                                $f->process_options('Update Preferences','r5 xl mb0','','col-12 tar');
+                                //skel( $uis );
+                                //$f->texts([['']])
+                                ?>
+                            </div>
+                        </div>
+
                         <div id="basic" <?php $f->process_params('','user','user_',3,3,[],'Successfully updated user details!'); ?>>
                             <div class="row">
                                 <?php
                                 $f->texts([['login','User Login','',$user['user_login']],['since','User Since','',easy_date($user['user_since'])]],'disabled','6');
-                                $f->texts([['name','Full Name','Ex: John Doe',$user['user_name']],['email','E Mail','Ex: john@company.com',$user['user_email']]],'data-user','6');
-                                $f->upload('picture','Upload Picture','Upload',$user['user_picture'],0,0,'upload','data-user','svg,jpg,png',10,1,'',6);
-                                ?>
-                            </div>
-                            <div class="tar">
-                                <?php
-                                $f->process_html('Update Profile','r5 xl mb0','','update_profile_ajax');
+                                $f->texts([['name','Full Name','Ex: John Doe',$user['user_name']]],'required data-user','6');
+                                $f->input('email','email','E Mail','Ex: john@company.com',$user['user_email'],'data-help',6);
+                                $f->upload('picture','Upload Picture','Upload',$user['user_picture'],0,0,'upload','data-user','svg,jpg,png',10,1,'',4);
+                                $f->process_html('Update Profile','r5 xl mb0','','update_profile_ajax','col-12 tar');
                                 ?>
                             </div>
                         </div>
+
                         <div id="pass" class="dn" <?php $f->process_params('','ps','',3,3,[],'Successfully updated user password!'); ?>>
                             <div class="row">
-                                <?php $f->texts([['pass_old','Old Password'],['pass','New Password','','','data-length-notify="Password minimum length is 8 Characters"']],'data-ps','6'); ?>
-                            </div>
-                            <div class="tar">
                                 <?php
-                                $f->process_html('Change Password','r5 xl mb0','','change_password_ajax');
+                                $min_string = T('Minimum Characters');
+                                $f->inputs('password',[['pass_old','Old Password'],['pass','New Password','','','data-length-notify="Password minimum length is 8 Characters"']],'data-ps minlength="8" data-minlength="'.$min_string.'" data-help required',6);
+                                $f->process_html('Change Password','r5 xl mb0','','change_password_ajax','col-12 tar');
                                 ?>
                             </div>
                         </div>
+
                         <div id="sess" class="dn">
                             <table class="">
                                 <thead>
                                 <tr>
-                                    <th><?php E('Time'); ?></th>
-                                    <th><?php E('Date'); ?></th>
                                     <th><?php E('OS'); ?></th>
+                                    <th><?php E('Date'); ?></th>
+                                    <th><?php E('Time'); ?></th>
                                     <th><?php E('Browser'); ?></th>
                                 </tr>
                                 </thead>
@@ -136,9 +186,9 @@ class PORTAL {
 
                                         ?>
                                         <tr class="tac">
-                                            <td><?php echo easy_date($s['session_time'],'h:i a'); ?></td>
-                                            <td><?php echo easy_date($s['session_time']); ?></td>
                                             <td><?php echo $s['session_os']; ?></td>
+                                            <td><?php echo easy_date($s['session_time']); ?></td>
+                                            <td><?php echo easy_date($s['session_time'],'h:i a'); ?></td>
                                             <td><?php echo $s['session_client']; ?></td>
                                         </tr>
                                         <?php

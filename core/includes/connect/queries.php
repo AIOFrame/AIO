@@ -545,13 +545,15 @@ class DB {
                 if( !empty( $encrypt ) && in_array( $key, $encrypt ) ) {
                     $value = is_array($value) ? $c->encrypt_array($value) : $c->encrypt($value);
                 }
-                $unique = !empty( $unique ) && in_array( $key, $unique ) ? get_user_id() : 0;
-                elog( 'Autoload:' );
+                $user = !empty( $unique ) && in_array( $key, $unique ) ? get_user_id() : 0;
+                /* elog( 'Autoload:' );
                 elog( $autoload );
+                elog( 'Unique:' );
+                elog( $unique );
                 elog( 'Key:' );
-                elog( $key );
+                elog( $key ); */
                 $load = !empty( $autoload ) && in_array( $key, $autoload ) ? 1 : 0;
-                $r[] = $this->update_option( $key, $value, $unique, $load );
+                $r[] = $this->update_option( $key, $value, $user, $load );
             }
         }
         $r = array_unique( $r );
@@ -893,15 +895,21 @@ function process_data_ajax() {
 }
 
 function process_options_ajax(): void {
+    $c = Encrypt::initiate();
+    $h = $c->decrypt_array( $_POST['h'] );
+    unset( $_POST['h'] );
+    unset( $_POST['t'] );
+    unset( $_POST['pre'] );
     $p = $_POST;
-    if( !empty( $p ) && is_array( $p ) ) {
+    elog( $p );
+    if( !empty( $p ) ) {
         $db = new DB();
-        $encrypt = $_POST['encrypt'] ?? [];
-        $unique = $_POST['unique'] ?? [];
-        $autoload = $_POST['autoload'] ?? [];
-        unset( $_POST['encrypt'] );
-        unset( $_POST['unique'] );
-        unset( $_POST['autoload'] );
+        $encrypt = $h['encrypt'] ?? [];
+        $unique = $h['unique'] ?? [];
+        $autoload = $h['autoload'] ?? [];
+        elog( $p );
+        elog( $h );
+        elog( $unique );
         $result = $db->update_options( $p, $encrypt, $unique, $autoload );
         elog($result);
         $result ? es('Successfully updated!') : ef('No new data is updated!');

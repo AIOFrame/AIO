@@ -1,0 +1,91 @@
+$w: rgba(255,255,255,.05);
+$w1: rgba(255,255,255,.04);
+$w2: rgba(255,255,255,.06);
+$w3: rgba(255,255,255,.2);
+$w5: rgba(255,255,255,.5);
+$wf: rgba(255,255,255,1);
+
+/* ELEMENTS */
+
+body {
+  background: #464859;
+  /* background: -moz-linear-gradient(top,  #4c5793 0%, #2c335c 100%);
+  background: -webkit-linear-gradient(top,  #4c5793 0%,#2c335c 100%);
+  background: linear-gradient(to bottom,  #4c5793 0%,#2c335c 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4c5793', endColorstr='#2c335c',GradientType=0 ); */
+}
+header {
+  background: #5a5e76;
+}
+.header {
+  background: #4f5266;
+  color: #fff;
+}
+aside {
+  background: #4f5266;
+  a {
+    background: $w2;
+    color: #fff;
+  }
+  .set {
+    border-bottom: 1px solid $w2;
+    > .title {
+      color: $wf;
+    }
+  }
+}
+#menu {
+  background: $wf;
+}
+.card {
+  background: #4f5266;
+}
+.dash {
+  .card {
+    .title, .title.c1, .title.c2 {
+      color: #eee;
+    }
+    .card {
+      background: $w2;
+      color: #fff;
+    }
+  }
+}
+.user_drop {
+  .user_name {
+    color: #fff;
+    background: $w3 url("../../../../icons/select.svg") no-repeat calc(100% - 12px) / 18px;
+    border: 1px solid transparent;
+  }
+  .user_details {
+    background: $w3;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+}
+.user_drop:hover {
+  .user_name {
+    border: 1px solid transparent;
+  }
+}
+.auto_filters {
+  background: #4f5266;
+  backdrop-filter: none;
+}
+.modal {
+  background: #4f5266;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.acts {
+  > a[title], > div[title] {
+    background: $w3;
+  }
+}
+.wbg {
+  color: #fff;
+  background: $w;
+}
+.credit {
+  color: #eee;
+}
