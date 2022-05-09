@@ -159,9 +159,13 @@ button.store:after, .btn.store:after {
   button, .btn {
     border-radius: 20px;
     font-size: 1em;
-    padding: 12px 40px;
+    padding: 12px 15px 12px 40px;
     border: 0;
     color: #fff;
+  }
+  button.store:after, .btn.store:after {
+    mask: url('../../../icons/open.svg') no-repeat center / contain;
+    -webkit-mask: url('../../../icons/open.svg') no-repeat center / contain;
   }
 }
 

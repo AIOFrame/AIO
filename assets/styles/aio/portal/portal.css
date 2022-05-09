@@ -162,9 +162,13 @@ button.store:after, .btn.store:after {
 .actions.float button, .actions.float .btn {
   border-radius: 20px;
   font-size: 1em;
-  padding: 12px 40px;
+  padding: 12px 15px 12px 40px;
   border: 0;
   color: #fff;
+}
+.actions.float button.store:after, .actions.float .btn.store:after {
+  mask: url("../../../icons/open.svg") no-repeat center/contain;
+  -webkit-mask: url("../../../icons/open.svg") no-repeat center/contain;
 }
 
 /* General */

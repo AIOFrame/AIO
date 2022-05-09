@@ -69,11 +69,10 @@ class PORTAL {
         art('cards,modal,buttons,inputs,icons,tabs,steps,color,table,alerts',$color1,$color2);
         //skel( $options );
         if( is_array( $styles ) ) {
-            $styles[] = 'portal/portal';
-            $styles[] = 'portal/ui/'.$theme;
+            array_unshift( $styles, 'portal/portal' );
+            array_unshift( $styles, 'portal/ui/'.$theme );
         } else {
-            $styles .= ',portal/portal';
-            $styles .= ',portal/ui/'.$theme;
+            $styles = 'portal/portal,portal/ui/'.$theme.','.$styles;
         }
         get_styles( $styles );
         get_styles( [ PAGEPATH, 'micro' ] );

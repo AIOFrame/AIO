@@ -7,12 +7,14 @@ if( session_status() === PHP_SESSION_NONE ) {
     session_start();
 }
 
-function es( $string ) {
-    echo json_encode( [ 1, T( $string ) ] );
+function es( string $string = '', bool $translate = true ): void {
+    $string = $translate ? T( $string ) : $string;
+    echo json_encode( [ 1, $string ] );
 }
 
-function ef( $string ) {
-    echo json_encode( [ 0, T( $string ) ] );
+function ef( string $string = '', bool $translate = true ): void {
+    $string = $translate ? T( $string ) : $string;
+    echo json_encode( [ 0, $string ] );
 }
 
 // Check if request is AJAX
