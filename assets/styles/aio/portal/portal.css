@@ -178,6 +178,54 @@ body {
   min-height: calc( 100vh - 210px);
 }
 
+.invoice_view {
+  margin: 20px auto;
+  width: 1024px;
+  border: rgba(0, 0, 0, 0.1);
+}
+.invoice_view .head, .invoice_view thead {
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+}
+.invoice_view tbody {
+  padding: 20px;
+}
+.invoice_view h2 {
+  margin: 0 0 20px;
+}
+.invoice_view .info {
+  display: flex;
+  margin: 0 -10px;
+  flex-wrap: wrap;
+}
+.invoice_view .info > div {
+  margin: 0 10px 12px;
+  border-radius: 12px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.1);
+  flex: 0 0 calc(50% - 20px);
+}
+.invoice_view .info > div span {
+  display: block;
+  font-size: 0.7em;
+  margin-bottom: 6px;
+  opacity: 0.3;
+}
+.invoice_view .loc {
+  border-radius: 12px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.1);
+}
+.invoice_view .loc > div {
+  margin-bottom: 6px;
+}
+.invoice_view .loc span {
+  display: block;
+  font-size: 0.7em;
+  margin-bottom: 6px;
+  opacity: 0.3;
+}
+
 /* Header */
 header {
   height: 70px;

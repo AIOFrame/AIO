@@ -176,6 +176,53 @@ body {
   margin:120px 0 90px;
   min-height: calc( 100vh - 210px);
 }
+.invoice_view {
+  margin: 20px auto;
+  width: 1024px;
+  border: rgba(0,0,0,.1);
+  .head, thead,  {
+    padding: 20px;
+    background: rgba(255,255,255,.05);
+  }
+  tbody {
+    padding: 20px;
+  }
+  h2 {
+    margin:0 0 20px;
+  }
+  .info {
+    display: flex;
+    margin: 0 -10px;
+    flex-wrap: wrap;
+    > div {
+      margin:0 10px 12px;
+      border-radius: 12px;
+      padding: 15px;
+      background: rgba(0,0,0,.1);
+      flex: 0 0 calc(50% - 20px);
+      span {
+        display: block;
+        font-size: .7em;
+        margin-bottom: 6px;
+        opacity: .3;
+      }
+    }
+  }
+  .loc {
+    border-radius: 12px;
+    padding: 15px;
+    background: rgba(0,0,0,.1);
+    > div {
+      margin-bottom: 6px;
+    }
+    span {
+      display: block;
+      font-size: .7em;
+      margin-bottom: 6px;
+      opacity: .3;
+    }
+  }
+}
 
 /* Header */
 

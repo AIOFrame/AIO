@@ -896,7 +896,7 @@ function process_data_ajax() {
 
 function process_options_ajax(): void {
     $c = Encrypt::initiate();
-    $h = $c->decrypt_array( $_POST['h'] );
+    $h = !empty( $_POST['h'] ) ? $c->decrypt_array( $_POST['h'] ) : [];
     unset( $_POST['h'] );
     unset( $_POST['t'] );
     unset( $_POST['pre'] );
