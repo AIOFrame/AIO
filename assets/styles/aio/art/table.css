@@ -49,7 +49,6 @@ table td.r, table th.r, table td.r input {
 }
 table .acts {
   display: flex;
-  justify-content: center;
 }
 table .acts > a, table .acts > div {
   margin: 0 10px;
