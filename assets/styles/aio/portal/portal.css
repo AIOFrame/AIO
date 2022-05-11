@@ -21,9 +21,6 @@ label {
   transition: 0.6s;
 }
 
-.select2-container--default .select2-search--dropdown .select2-search__field, .select2-container--default .select2-search--dropdown .select2-search__field:focus, .select2-container--default.select2-container--focus .select2-search--dropdown .select2-search__field, .select2-container--default.select2-container--focus .select2-search--dropdown .select2-search__field:focus {
-  border: 0;
-}
 .select2-container--default .select2-selection--single, .select2-container--default .select2-selection--multiple, .select2-container--default .select2-selection--multiple, .select2-container--default.select2-container--focus .select2-selection--single, .select2-container--default.select2-container--focus .select2-selection--multiple, .select2-container--default.select2-container--focus .select2-selection--multiple {
   border: 2px solid #eee;
   transition: 0.6s;
@@ -134,12 +131,19 @@ input.empty, select.empty, select.empty + .select2 {
 /* Buttons */
 button.store, .btn.store {
   position: relative;
+  padding: 14px 20px;
+  border-radius: 8px;
+  margin: 15px 6px;
+}
+
+button.pop, .btn.pop {
+  position: relative;
   padding: 14px 20px 14px 40px;
   border-radius: 8px;
   margin: 15px 6px;
 }
 
-button.store:after, .btn.store:after {
+button:after, .btn:after {
   content: "";
   position: absolute;
   top: 50%;
@@ -147,9 +151,6 @@ button.store:after, .btn.store:after {
   left: 14px;
   width: 20px;
   height: 20px;
-  background: #fff;
-  mask: url(../../../icons/save.svg) no-repeat center/contain;
-  -webkit-mask: url(../../../icons/save.svg) no-repeat center/contain;
 }
 
 .actions.float {
@@ -162,13 +163,28 @@ button.store:after, .btn.store:after {
 .actions.float button, .actions.float .btn {
   border-radius: 20px;
   font-size: 1em;
-  padding: 12px 15px 12px 40px;
+  padding: 12px 15px;
   border: 0;
   color: #fff;
+  position: relative;
 }
-.actions.float button.store:after, .actions.float .btn.store:after {
+.actions.float button.pop, .actions.float .btn.pop, .actions.float button.trash, .actions.float .btn.trash, .actions.float button.print, .actions.float .btn.print {
+  padding: 12px 15px 12px 40px;
+}
+.actions.float button.pop:after, .actions.float button.trash:after, .actions.float button.print:after {
+  background: #fff;
+}
+.actions.float button.pop:after, .actions.float .btn.pop:after {
   mask: url("../../../icons/open.svg") no-repeat center/contain;
   -webkit-mask: url("../../../icons/open.svg") no-repeat center/contain;
+}
+.actions.float button.trash:after, .actions.float .btn.trash:after {
+  mask: url("../../../icons/trash.svg") no-repeat center/contain;
+  -webkit-mask: url("../../../icons/trash.svg") no-repeat center/contain;
+}
+.actions.float button.print:after, .actions.float .btn.print:after {
+  mask: url("../../../icons/print.svg") no-repeat center/contain;
+  -webkit-mask: url("../../../icons/print.svg") no-repeat center/contain;
 }
 
 /* General */
@@ -185,7 +201,6 @@ body {
 }
 .invoice_view .head, .invoice_view thead {
   padding: 20px;
-  background: rgba(255, 255, 255, 0.05);
 }
 .invoice_view tbody {
   padding: 20px;
@@ -803,24 +818,11 @@ aside::-webkit-scrollbar {
   border-radius: 6px;
   padding: 10px;
 }
-.auto_filters .filter, .auto_filters .clear {
-  display: block;
-  text-align: center;
-  font-size: 1rem;
-  padding: 12px;
-  border-radius: 10px;
-  text-transform: none;
-  line-height: 1rem;
-  border: 0;
-}
 .auto_filters label {
   font-weight: bold;
   font-size: 0.6rem;
   display: block;
   margin: 0;
-}
-.auto_filters .clear {
-  background: none;
 }
 .auto_filters input, .auto_filters textarea, .auto_filters select {
   padding: 8px 0 0;
@@ -895,6 +897,12 @@ aside::-webkit-scrollbar {
   border-right: 0;
 }
 
+.vertical_blocks {
+  max-height: calc(100vh - 180px);
+  padding: 0 20px 20px 0;
+  overflow-y: auto;
+}
+
 /* EMAIL OPTIONS */
 .template_preview {
   height: 300px;
@@ -947,6 +955,24 @@ aside::-webkit-scrollbar {
 }
 .modal .foot.df .t {
   text-align: right;
+}
+.modal button.save {
+  border-radius: 10px;
+  padding: 15px 20px 15px 40px;
+  margin: 0;
+  position: relative;
+}
+.modal button.save:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 14px;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  mask: url(../../../icons/save.svg) no-repeat center/contain;
+  -webkit-mask: url(../../../icons/save.svg) no-repeat center/contain;
 }
 
 /* FOOT */

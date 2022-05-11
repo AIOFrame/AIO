@@ -11,7 +11,7 @@ class PORTAL {
      * @param string|array $scripts
      * @return void
      */
-    function header( string $attrs = '', string|array $ex_styles = [], string|array $styles = [], string|array $scripts = [] ): void {
+    function pre_html( string $attrs = '', string|array $ex_styles = [], string|array $styles = [], string|array $scripts = [] ): void {
 
         // Defines
         $db = new DB();
@@ -93,7 +93,7 @@ class PORTAL {
 
     }
 
-    function footer( string|array $scripts = [] ): void {
+    function post_html( string|array $scripts = [] ): void {
         $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'iro', 'portal/portal' ] ) : $scripts.',iro,portal/portal';
         get_scripts( $scripts );
         get_script( PAGEPATH );

@@ -423,14 +423,14 @@ class MAIL {
             $attr = 'data-email';
             $f->text('test_content','','','',$attr.' class="dn"');
             //$f->text('autoload','','','from_email,smtp,smtp_username,smtp_password',$attr.' class="dn"');
-            $f->input('email','test_email','Send Test Email','Ex: email@website.com', 'installer0001@gmail.com', 'data-help data-test', 10);
+            $f->input('email','test_email','Send Test Email','Ex: email@website.com', 'installer0001@gmail.com', $attr.' data-help', 10);
             $f->process_html('Send','l w r5 mt30','','send_test_email_ajax',2);
             $from = $os['from_email'] ?? '';
             $smtp = $os['smtp'] ?? '';
             $smtp_username = $os['smtp_username'] ?? '';
             $smtp_password = $os['smtp_password'] ?? '';
             $f->text('from_email','From (Sender) Email','',$from,$attr,3);
-            $f->select('smtp','SMTP Gateway','Choose gateway...',[ 'google' => 'Google', 'yahoo' => 'Yahoo', 'hotmail' => 'Hotmail / Outlook / Live', 'mailjet' => 'MailJet', 'mailersend' => 'MailerSend', 'sendgrid' => 'SendGrid' ],$smtp,$attr.' class="select2"',3,'',1);
+            $f->select('smtp','SMTP Gateway','Choose gateway...',[ 'google' => 'Google', 'yahoo' => 'Yahoo', 'hotmail' => 'Hotmail / Outlook / Live', 'mailjet' => 'MailJet', 'mailersend' => 'MailerSend', 'sendgrid' => 'SendGrid' ],$smtp,$attr.' class="select2"',3,1);
             $f->text('smtp_username','SMTP Email','',$smtp_username,$attr,3);
             $f->input('password','smtp_password','SMTP Password','',$smtp_password,$attr,3);
             $f->process_html('Save API Details','store grad','','process_options_ajax','col-12 tac');
@@ -511,4 +511,15 @@ class MAIL {
         echo isset( $_GET['all'] ) ? $head.$text.$foot : '';
     }
 
+}
+
+function send_test_email_ajax(): void {
+    elog( $_POST );
+    if( isset( $_POST['test_email'] ) && $_POST['test_content'] ) {
+        $m = new MAIL();
+        $m->send( $_POST['test_email'], 'Test Email Template', $_POST['test_content'] );
+        es('Test Email Send!');
+    } else {
+        ef('Test Email failed because of empty email or template content');
+    }
 }

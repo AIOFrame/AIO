@@ -72,7 +72,6 @@ header .options .ico {
   box-shadow: none;
 }
 header .options .ico:hover {
-  background-color: rgba(0, 0, 0, 0.05);
   transform: none;
 }
 header .options .ico:hover .tip {
@@ -408,32 +407,43 @@ body.d .c .ft > div {
 }
 
 /* ICONS */
+.ico {
+  background: #000;
+}
+
 .ico.nav {
-  background: url("../../icons/menu.svg") no-repeat center/30px;
+  mask: url("../../icons/menu.svg") no-repeat center/30px;
+  -webkit-mask: url("../../icons/menu.svg") no-repeat center/30px;
 }
 
 .ico.lang {
-  background: url("../../icons/lang.svg") no-repeat center/30px;
+  mask: url("../../icons/lang.svg") no-repeat center/30px;
+  -webkit-mask: url("../../icons/lang.svg") no-repeat center/30px;
 }
 
 .ico.filter {
-  background: url("../../icons/filter.svg") no-repeat center/30px;
+  mask: url("../../icons/filter.svg") no-repeat center/30px;
+  -webkit-mask: url("../../icons/filter.svg") no-repeat center/30px;
 }
 
 .ico.dark {
-  background: url("../../icons/moon.svg") no-repeat center/30px;
+  mask: url("../../icons/night.svg") no-repeat center/30px;
+  -webkit-mask: url("../../icons/night.svg") no-repeat center/30px;
 }
 
 .ico.reload {
-  background: url("../../icons/reload.svg") no-repeat center/30px;
+  mask: url("../../icons/refresh.svg") no-repeat center/30px;
+  -webkit-mask: url("../../icons/refresh.svg") no-repeat center/30px;
 }
 
 .ico.delete {
-  background: url("../../icons/trash.svg") no-repeat center/30px;
+  mask: url("../../icons/trash.svg") no-repeat center/30px;
+  -webkit-mask: url("../../icons/trash.svg") no-repeat center/30px;
 }
 
 .ico.back {
-  background: url("../../icons/back.svg") no-repeat center/30px;
+  mask: url("../../icons/back.svg") no-repeat center/30px;
+  -webkit-mask: url("../../icons/back.svg") no-repeat center/30px;
 }
 
 /* DARK MODE */
@@ -470,26 +480,8 @@ body.d .logo {
 body.d [type=text], body.d [type=search], body.d [type=password], body.d [type=number], body.d textarea {
   color: #fff;
 }
-body.d .ico.nav {
-  background: url("../../icons/w/menu.svg") no-repeat center/30px;
-}
-body.d .ico.lang {
-  background: url("../../icons/w/lang.svg") no-repeat center/30px;
-}
-body.d .ico.filter {
-  background: url("../../icons/w/filter.svg") no-repeat center/30px;
-}
-body.d .ico.dark {
-  background: url("../../icons/w/moon.svg") no-repeat center/30px;
-}
-body.d .ico.reload {
-  background: url("../../icons/w/reload.svg") no-repeat center/30px;
-}
-body.d .ico.delete {
-  background: url("../../icons/w/trash.svg") no-repeat center/30px;
-}
-body.d .ico.back {
-  background: url("../../icons/w/back.svg") no-repeat center/30px;
+body.d .ico {
+  background: #fff;
 }
 
 /* RESPONSIVE */
