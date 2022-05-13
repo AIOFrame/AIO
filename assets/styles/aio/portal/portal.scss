@@ -53,8 +53,12 @@ label {
   min-height: 50px;
   border-radius: 8px;
   button {
-    background: #888 url('../icons/upload3.svg') no-repeat center / 50%;
+    background: rgba(0,0,0,.1);
     font-size: 0;
+    border-radius: 8px;
+  }
+  button:after {
+    width: 37px;
   }
   .w > .f {
     border: 0;

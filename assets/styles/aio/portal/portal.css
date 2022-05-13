@@ -46,8 +46,12 @@ label {
   border-radius: 8px;
 }
 .aio_fsp.aio_files button {
-  background: #888 url("../icons/upload3.svg") no-repeat center/50%;
+  background: rgba(0, 0, 0, 0.1);
   font-size: 0;
+  border-radius: 8px;
+}
+.aio_fsp.aio_files button:after {
+  width: 37px;
 }
 .aio_fsp.aio_files .w > .f {
   border: 0;

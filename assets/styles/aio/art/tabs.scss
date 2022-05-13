@@ -103,7 +103,6 @@
 // Design 3
 .tabs.three {
   .tab {
-    background: #fff;
     box-shadow: none;
     font-size: .9rem;
     padding: 16px 20px;
@@ -146,8 +145,10 @@
 
 // Dark mode
 body.d {
-  .tab {
-    box-shadow: 5px 0 45px #000;
+  .tab:not(.on) {
+    background: rgba(255,255,255,.2);
+    color: #fff;
+    //box-shadow: 5px 0 45px #000;
   }
 }
 

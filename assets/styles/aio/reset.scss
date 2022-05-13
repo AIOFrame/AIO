@@ -36,9 +36,10 @@ input, button, select, textarea {
   border-radius: 0;
 }
 input:disabled, button:disabled, select:disabled, textarea:disabled {
-  background:#eee;
+  background:rgba(255,255,255,.2);
   cursor:not-allowed;
   box-shadow:none;
+  opacity: .6;
   //border:1px solid #eee;
 }
 select, button {

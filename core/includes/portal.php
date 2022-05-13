@@ -116,7 +116,7 @@ class PORTAL {
                 <div class="tabs">
                     <div class="tab_heads" data-store>
                         <div class="tab on" data-t="#looks"><?php is_mobile() ? E('UI') : E('Appearance'); ?></div>
-                        <div class="tab on" data-t="#basic"><?php is_mobile() ? E('User') : E('User Details'); ?></div>
+                        <div class="tab" data-t="#basic"><?php is_mobile() ? E('User') : E('User Details'); ?></div>
                         <div class="tab" data-t="#pass"><?php is_mobile() ? E('Pass') : E('Change Password'); ?></div>
                         <div class="tab" data-t="#sess"><?php is_mobile() ? E('Sessions') : E('Active Sessions'); ?><?php echo ' ('.count($ss).')'; ?></div>
                         <?php if( is_admin() ) { ?>
@@ -145,7 +145,7 @@ class PORTAL {
                             </div>
                         </div>
 
-                        <div id="basic" <?php $f->process_params('','user','user_',3,3,[],'Successfully updated user details!'); ?>>
+                        <div id="basic" class="dn" <?php $f->process_params('','user','user_',3,3,[],'Successfully updated user details!'); ?>>
                             <div class="row">
                                 <?php
                                 $f->texts([['login','User Login','',$user['user_login']],['since','User Since','',easy_date($user['user_since'])]],'disabled','6');
