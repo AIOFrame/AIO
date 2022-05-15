@@ -4,14 +4,14 @@
 if( defined( 'DB_TYPE' ) ) {
     global $options;
     $db = new DB();
-    $auto_options = $db->select( 'options', '', 'option_scope = \'0\' AND option_load = \'1\'' );
-    $user_options = $db->select( 'options', '', 'option_scope = \''.get_user_id().'\'' );
-    $option_set = array_merge( $auto_options, $user_options );
-    if( !empty( $option_set ) ) {
+    $options = $db->select( 'options', '', 'option_scope = \'0\' AND option_load = \'1\'' );
+    //
+    //
+    /* if( !empty( $option_set ) ) {
         foreach( $option_set as $os ) {
             $options[ $os['option_name'] ] = $os['option_value'];
         }
-    }
+    } */
 }
 
 class DB {

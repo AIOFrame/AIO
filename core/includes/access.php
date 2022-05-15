@@ -2,6 +2,12 @@
 if( session_status() === PHP_SESSION_NONE ) {
     session_start();
 }
+if( isset( $_SESSION['user'] ) && isset( $_SESSION['db_session'] ) ) {
+    global $options;
+    $db = new DB();
+    $user_options = $db->select( 'options', '', 'option_scope = \''.get_user_id().'\'' );
+    $options = !empty( $user_options ) ? array_merge( $options, $user_options ) : $options;
+}
 /*
 // Verify existing sessions
 if( isset( $_SESSION['user'] ) && isset( $_SESSION['db_session'] ) ) {
