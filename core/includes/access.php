@@ -463,7 +463,7 @@ class ACCESS {
     function valid_name( string $name = '' ): string {
         if( strlen( $name ) <= 6 ) {
             return T('User login must be at least 8 characters in length!');
-        } else if( preg_match( '/[^a-z0-9@_.]/', $name ) ) {
+        } else if( preg_match( '/[^a-z0-9@_.-]/', $name ) ) {
             return T('User login cannot contain special characters!');
         } else {
             return '';
