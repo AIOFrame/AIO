@@ -1,17 +1,15 @@
 <?php
 
 // Load Default Options
+global $options;
 if( defined( 'DB_TYPE' ) ) {
-    global $options;
     $db = new DB();
-    $options = $db->select( 'options', '', 'option_scope = \'0\' AND option_load = \'1\'' );
-    //
-    //
-    /* if( !empty( $option_set ) ) {
+    $option_set = $db->select( 'options', '', 'option_scope = \'0\' AND option_load = \'1\'' );
+    if( !empty( $option_set ) ) {
         foreach( $option_set as $os ) {
             $options[ $os['option_name'] ] = $os['option_value'];
         }
-    } */
+    }
 }
 
 class DB {

@@ -1,5 +1,8 @@
 <?php
 
+// global $options;
+// skel( $options );
+
 class OPTIONS {
 
     function brand_options(): void {

@@ -2,12 +2,17 @@
 if( session_status() === PHP_SESSION_NONE ) {
     session_start();
 }
+global $options;
 if( isset( $_SESSION['user'] ) && isset( $_SESSION['db_session'] ) ) {
-    global $options;
     $db = new DB();
     $user_options = $db->select( 'options', '', 'option_scope = \''.get_user_id().'\'' );
-    $options = !empty( $user_options ) ? array_merge( $options, $user_options ) : $options;
+    if( !empty( $user_options ) ) {
+        foreach( $user_options as $uo ) {
+            $options[ $uo['option_name'] ] = $uo['option_value'];
+        }
+    }
 }
+// skel( $options );
 /*
 // Verify existing sessions
 if( isset( $_SESSION['user'] ) && isset( $_SESSION['db_session'] ) ) {
@@ -796,7 +801,7 @@ if( isset( $_GET['logout'] ) ) {
 }
 
 // Set autoload user options as session
-if( user_logged_in() ) {
+/* if( user_logged_in() ) {
     $db = new DB();
     $options = $db->select('options', 'option_name,option_value', 'option_scope = "' . $_SESSION['user']['id'] . '" AND option_load = 1');
     if (is_array($options)) {
@@ -804,7 +809,7 @@ if( user_logged_in() ) {
             $_SESSION[$opt['option_name']] = $opt['option_value'];
         }
     }
-}
+} */
 
 /**
  * Check if user has specific permission

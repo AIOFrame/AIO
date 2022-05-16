@@ -14,15 +14,15 @@ class PORTAL {
     function pre_html( string $attrs = '', string|array $ex_styles = [], string|array $styles = [], string|array $scripts = [] ): void {
 
         // Defines
-        $db = new DB();
+        // $db = new DB();
         global $is_light;
         $is_light = true;
         $class = isset( $_GET['add'] ) ? 'add' : '';
 
         // Load Options
         global $options;
-
         //skel( $options );
+
 
         // <head>
         echo '<!doctype html><html ';
