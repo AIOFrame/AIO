@@ -73,29 +73,36 @@ $(document).ready(function(){
     // Air Date Picker
     if( typeof AirDatepicker !== 'undefined' ) {
         $('.dater').each(function(i,date_field){
-            let position = $(date_field).attr('position') !== undefined ? $(date_field).attr('position') : 'top center';
-            let multiple = $(date_field).attr('multiple') !== undefined;
-            let range = $(date_field).attr('range') !== undefined;
-            let view = $(date_field).attr('view') !== undefined ? $(date_field).attr('view') : 'days';
-            let format = $(date_field).attr('format') !== undefined ? $(date_field).attr('format') : 'dd-MM-yyyy';
-            let alt = $(date_field).attr('alt') !== undefined ? $(date_field).attr('alt') : false;
-            let altFormat = $(date_field).attr('alt-format') !== undefined ? $(date_field).attr('alt-format') : 'yyyy-MM-dd';
-            let separator = range ? '|' : ', ';
-            new AirDatepicker( '#'+$(date_field).attr('id'), {
+            let config = {
                 locale: dateLocaleEn,
-                position: position,
                 autoClose: true,
-                multipleDates: multiple,
-                range: range,
-                multipleDatesSeparator: separator,
-                dateFormat: format,
-                altField: alt,
-                view: view,
-                altFieldDateFormat: altFormat,
                 onSelect: function(fD, d, e) {
                     $(date_field).trigger('change');
                 }
-            })
+            };
+            if( $(date_field).attr('multiple') !== undefined ) {
+                config.multipleDates = true;
+            }
+            if( $(date_field).attr('multiple') !== undefined ) {
+                config.multipleDates = true;
+                config.multipleDatesSeparator = $(date_field).attr('range') !== undefined ? '|' : ', ';
+            }
+            if( $(date_field).attr('range') !== undefined ) {
+                config.range = $(date_field).attr('range');
+            }
+            if( $(date_field).attr('min') !== undefined ) {
+                config.minDate = $(date_field).attr('min');
+                console.log($(date_field).attr('min'));
+            }
+            if( $(date_field).attr('max') !== undefined ) {
+                config.maxDate = $(date_field).attr('max');
+            }
+            config.position = $(date_field).attr('position') !== undefined ? $(date_field).attr('position') : 'top center';
+            config.view = $(date_field).attr('view') !== undefined ? $(date_field).attr('view') : 'days';
+            config.dateFormat = $(date_field).attr('format') !== undefined ? $(date_field).attr('format') : 'dd-MM-yyyy';
+            config.altField = $(date_field).attr('alt') !== undefined ? $(date_field).attr('alt') : false;
+            config.altFieldDateFormat = $(date_field).attr('alt-format') !== undefined ? $(date_field).attr('alt-format') : 'yyyy-MM-dd';
+            new AirDatepicker( '#'+$(date_field).attr('id'), config );
         })
     }
     // Date Picker

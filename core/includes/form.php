@@ -125,19 +125,19 @@ class FORM {
             $va = $value !== '' ? ' value="'.$value.'"' : '';
         }
         $n = $name !== '' ? $name : $id;
-        $nn = str_contains( $attrs, 'no_post' ) ? '' : $n;
+        $nn = str_contains( $attrs, 'no_post' ) ? '' : ' name="'.$n.'"';
         switch( $type ){
             case 'textarea':
-                $input = '<textarea id="'.$id.'" data-key="'.$n.'" name="'.$nn.'" '.$ph.$at.'>'.$va.'</textarea>';
+                $input = '<textarea id="'.$id.'" data-key="'.$n.'" '.$ph.$at.$nn.'>'.$va.'</textarea>';
                 break;
             case 'slide':
             case 'toggle':
-                $input = '<div><input type="hidden" id="'.$id.'" data-key="'.$n.'" name="'.$nn.'" '.$at.$ph.$va.'>';
+                $input = '<div><input type="hidden" id="'.$id.'" data-key="'.$n.'" '.$at.$ph.$va.$nn.'>';
                 $ch = $value == 'true' || $value == '1' ? 'checked' : '';
                 $input .= '<input type="checkbox" data-check="#'.$id.'" class="slide m" '.$ch.'></div>';
                 break;
             default:
-                $input = '<input type="'.$type.'" id="'.$id.'" data-key="'.$n.'" name="'.$nn.'" '.$at.$ph.$va.'>';
+                $input = '<input type="'.$type.'" id="'.$id.'" data-key="'.$n.'" '.$at.$ph.$va.$nn.'>';
                 break;
         }
         echo $pre;
@@ -195,20 +195,27 @@ class FORM {
      * @param bool $range
      * @param bool $multiple
      * @param string $view
+     * @param string $min Minimum Date yyyy-mm-dd
+     * @param string $max Maximum Date yyyy-mm-dd
      * @param string $post
      * @return void
      */
-    function date( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $position = '', string $pre = '', bool $range = false, bool $multiple = false, string $view = '', string $post = '' ): void {
+    function date( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $position = '', string $pre = '', bool $range = false, bool $multiple = false, string $view = '', string $min = '', string $max = '', string $post = '' ): void {
         $alt_id = is_array( $id ) ? [ $id[0].'_alt', $id[1].'_alt' ] : $id.'_alt';
         $range_attr = $range ? ' range' : '';
         $multiple_attr = $multiple ? ' multiple' : '';
         $view_attr = $view ? ' view="'.$view.'"' : '';
         $position = !empty( $position ) ? $position : 'bottom center';
         $visible_attr = is_array( $id ) ? 'class="dater" alt="#'.$id[0].'" position="'.$position.'"' : 'class="dater" alt="#'.$id.'" position="'.$position.'"';
+
+        $visible_attr .= !empty( $min ) ? ' min="'.$min.'"' : '';
+        $visible_attr .= !empty( $max ) ? ' max="'.$max.'"' : '';
+        $visible_attr .= str_contains( $attrs, 'disabled' ) ? ' disabled' : '';
+
         // Hidden Input - Renders date format as per backend
-        $this->input( 'text', $id, '', '', easy_date( $value, 'Y-m-d' ), $attrs.' hidden data-hidden-date' );
+        $this->text( $id, '', '', easy_date( $value, 'Y-m-d' ), $attrs.' hidden data-hidden-date' );
         // Visible Input - Render date for easier user grasp
-        $this->input( 'text', $alt_id, $label, $placeholder, easy_date( $value, 'd-m-Y' ), $visible_attr.$range_attr.$multiple_attr.$view_attr.' data-visible-date no_post', $pre, $post );
+        $this->text( $alt_id, $label, $placeholder, easy_date( $value, 'd-m-Y' ), $visible_attr.$range_attr.$multiple_attr.$view_attr.' data-visible-date no_post', $pre, $post );
     }
 
     /**
