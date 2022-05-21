@@ -101,6 +101,9 @@
   padding: 16px 20px;
   height: auto;
 }
+.tabs.three .tab.on {
+  background: #fff;
+}
 .tabs.three .tab:first-child {
   border-radius: 10px 0 0 10px;
 }

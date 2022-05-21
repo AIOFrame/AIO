@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    let page_path = location.href.replace(location.origin+'/','').replace('/','_');
+    let page_path = location.pathname.replace( '/', '_' ).slice(1);
     let tab = localStorage[ page_path + '_tab'];
     if( tab !== undefined ){
         setTimeout(function(){ $('[data-t="' + tab + '"]').click(); },200);
