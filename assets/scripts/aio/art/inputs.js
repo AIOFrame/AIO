@@ -88,7 +88,8 @@ $(document).ready(function(){
                 config.multipleDatesSeparator = $(date_field).attr('range') !== undefined ? '|' : ', ';
             }
             if( $(date_field).attr('range') !== undefined ) {
-                config.range = $(date_field).attr('range');
+                config.range = true;
+                config.multipleDatesSeparator = $(date_field).attr('range') !== undefined ? '|' : ', ';
             }
             if( $(date_field).attr('min') !== undefined ) {
                 config.minDate = $(date_field).attr('min');
