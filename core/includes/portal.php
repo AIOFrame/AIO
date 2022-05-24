@@ -5,10 +5,10 @@ class PORTAL {
     private array $brand_options = [ 'app_name', 'primary_color', 'secondary_color', 'logo_light', 'logo_dark', 'primary_color_dark', 'secondary_color_dark', 'fav', 'font_1', 'font_1_weights', 'font_2', 'font_2_weights', 'scrollbar' ];
 
     /**
-     * @param string $attrs
-     * @param string|array $ex_styles
-     * @param string|array $styles
-     * @param string|array $scripts
+     * @param string $attrs Attributes for <body> tag
+     * @param string|array $ex_styles External Styles
+     * @param string|array $styles Styles to be linked
+     * @param string|array $scripts Scripts to be added
      * @return void
      */
     function pre_html( string $attrs = '', string|array $ex_styles = [], string|array $styles = [], string|array $scripts = [] ): void {
@@ -48,6 +48,7 @@ class PORTAL {
         // Appearance
         $color1 = $options['primary_color'] ?? '111';
         $color2 = $options['secondary_color'] ?? '222';
+        $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'jquery' ] ) : $scripts . ',jquery';
         get_styles( $ex_styles );
         get_scripts( $scripts );
         $theme = $options['theme'] ?? '';
@@ -80,21 +81,41 @@ class PORTAL {
         $attrs = $attrs.' data-out="'. $c->encrypt('logout_ajax').'"';
 
         // </head>
-        echo '<style>.grad { background-color: '.$color1.'; background-image: linear-gradient(45deg, '.$color1.' 0%, '.$color2.' 100%); }</style></head><body ';
+        echo '<style>.c1{color:'.$color1.'}.c2{color:'.$color2.'}.b{border:1px solid '.$color1.'}.bf:focus{border:1px solid '.$color1.'}.grad{background-color:'.$color1.';background:-moz-linear-gradient(326deg,'.$color1.' 0%,'.$color2.' 100%);background:-webkit-linear-gradient(326deg,'.$color1.' 0%,'.$color2.' 100%);background-image:linear-gradient(45deg,'.$color1.' 0%,'.$color2.' 100%);}</style></head><body ';
         body_class( $class );
         echo $attrs . '>';
 
     }
 
     function post_html( string|array $scripts = [] ): void {
-        $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'iro', 'portal/portal' ] ) : $scripts.',iro,portal/portal';
+        $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'iro', 'data', 'portal/portal' ] ) : $scripts.',iro,data,portal/portal';
         get_scripts( $scripts );
         get_script( PAGEPATH );
-        ?>
-        <div class="notices t r"></div>
-        </body>
-        </html>
-        <?php
+        echo '<div class="notices t r"></div></body></html>';
+    }
+
+    function login_html( string $attrs = '', string|array $ex_styles = [], string|array $styles = [], string|array $scripts = [] ): void {
+
+        // Head
+        $styles = is_array( $styles ) ? array_merge( $styles, [ 'portal/login', 'login' ] ) : $styles . ',portal/login,login';
+        $this->pre_html( $attrs, $ex_styles, $styles, $scripts );
+
+        // Content
+        global $options;
+        global $is_light;
+        if( $is_light ) {
+            $logo = isset( $options['logo_light'] ) ? 'style="background:url(\''.storage_url( $options['logo_light'] ).'\') no-repeat center / contain"' : '';
+        } else {
+            $logo = isset( $options['logo_dark'] ) ? 'style="background:url(\''.storage_url( $options['logo_dark'] ).'\') no-repeat center / contain"' : '';
+        }
+        echo '<article><div class="access_wrap"><div class="access_panel">';
+        echo '<a href="'. APPURL . 'admin" class="brand" '.$logo.'></a>';
+        login_html();
+        echo '</div></div></article>';
+
+        // Foot
+        $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'portal/login', 'login' ] ) : $scripts . ',portal/login,login';
+        $this->post_html( $scripts );
     }
 
     function user_profile( $user ): void {

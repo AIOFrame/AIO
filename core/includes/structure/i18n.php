@@ -7,8 +7,8 @@ $trans = [ 'translations', [
     [ 'page', 'VARCHAR', 512, 0 ],
 ], 't', 1 ];
 
-$os = $db->get_options(['base_language','languages']);
-$i18ns = $os['languages'] ?? '';
+global $options;
+$i18ns = $options['languages'] ?? '';
 $i18ns = !empty( $i18ns ) ? explode( ',', str_replace( ' ', '', $i18ns ) ) : [];
 //$base = $os['base_language'] ?? 'English';
 if( is_array( $i18ns ) && !empty( $i18ns ) ) {

@@ -13,6 +13,7 @@
     get_scripts('jquery');
     art('inputs,alerts','00A99D','047267');
     get_styles(['bootstrap/grid',PAGENAME,'micro']);
-    font(['Lato', '300,500']); ?>
+    font('Lato','300,500');
+    ?>
 </head>
 <body <?php body_class(); ?>>

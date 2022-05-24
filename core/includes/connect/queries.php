@@ -169,16 +169,19 @@ class DB {
             //elog($tables);
 
             // Get file properties
-            $file = str_replace( '/', '_', $file_path );
+            $file = str_replace( '/', '_', str_replace( '.php', '', $file_path ) );
             $md5 = md5_file( $file_path );
 
-            // Get database option and verify if md5 is same
-            $exist = $db->get_option( $file . '_md5' );
+            // Get options
+            global $options;
+            //skel( $options );
+            $exist = $options[ $file . '_md5' ] ?? '';
+
+            // Verify if file is changed
             if( empty( $exist ) || $exist !== $md5 ) {
-                $db->update_option( $file . '_md5', $md5 );
+                echo $file;
+                $db->update_option( $file . '_md5', $md5, 0, 1 );
                 $result = $this->create_tables( $tables );
-                //elog('HEre 3');
-                //elog($tables);
             }
         }
         return $result;

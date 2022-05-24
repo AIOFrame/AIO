@@ -596,7 +596,7 @@ function access_change_ajax() {
  * @param int|string $notify_for Seconds to Notify
  * @param string $redirect_to Page to redirect to upon success
  */
-function login_html( string $login_title = 'Username or Email', string $pass_title = 'Password', string $forgot_title = 'Forgot Password?', string $back_title = 'Back to Login', int|string $reload_in = 1, int|string $notify_for = 1, string $redirect_to = '' ) {
+function login_html( string $login_title = 'Username or Email', string $pass_title = 'Password', string $forgot_title = 'Forgot Password?', string $back_title = 'Back to Login', int|string $reload_in = 1, int|string $notify_for = 1, string $redirect_to = '' ): void {
     if( user_logged_in() ) {
         return;
     }
@@ -613,7 +613,7 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
             $f->input('password',['password_'.$rand,'password'],$pass_title,$pass_title,'','onkeyup="aio_login_init(event)" data-log required autocomplete="current-password"','<div>','</div>');
             ?>
         </form>
-        <button id="aio_login_init" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_login_ajax' ); ?>"><?php E('Login'); ?></button>
+        <button id="aio_login_init" class="grad" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_login_ajax' ); ?>"><?php E('Login'); ?></button>
         <div class="more" onclick="aio_forgot_view()"><?php E($forgot_title); ?></div>
     </div>
     <div class="forgot_wrap" data-t data-pre="forgot_" data-data="forg" data-notify="3" data-reload="3" data-reset="forg" style="display:none;">
@@ -623,7 +623,7 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
             $f->text(['username_'.$rand,'username'],$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"','<div>','</div>');
             ?>
         </div>
-        <button id="aio_forgot_init" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_forgot_ajax' ); ?>"><?php E('Reset my Password'); ?></button>
+        <button id="aio_forgot_init" class="grad" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_forgot_ajax' ); ?>"><?php E('Reset my Password'); ?></button>
         <div class="more" onclick="aio_login_view()"><?php E($back_title); ?></div>
     </div>
     <?php

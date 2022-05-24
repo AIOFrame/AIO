@@ -94,6 +94,7 @@ function get_style(string $f, $params = [], $page_of = '') {
         $universal_assets['styles'][] = $f;
         $style_paths = [
             APPPATH . 'assets/styles/' . $f => APPURL . 'apps/' . APPDIR . '/assets/styles/' . $f,
+            ROOTPATH . 'assets/styles/'. $f => APPURL . 'assets/styles/' . $f,
             ROOTPATH . 'assets/styles/ext/'. $f => APPURL . 'assets/styles/ext/' . $f,
             ROOTPATH . 'assets/styles/ext/'. $f . '/' . $f => APPURL . 'assets/styles/ext/' . $f . '/' . $f,
             ROOTPATH . 'assets/styles/aio/' . $f => APPURL . 'assets/styles/aio/' . $f,
@@ -160,6 +161,7 @@ function get_script(string $f, array $params = [], string $page_of = '') {
         $universal_assets['scripts'][] = $f;
         $script_paths = [
             APPPATH . 'assets/scripts/' . $f => APPURL . 'apps/' . APPDIR . '/assets/scripts/' . $f,
+            ROOTPATH . 'assets/scripts/' . $f => APPURL . 'assets/scripts/' . $f,
             ROOTPATH . 'assets/scripts/ext/' . $f => APPURL . 'assets/scripts/ext/' . $f,
             ROOTPATH . 'assets/scripts/ext/' . $f . '/' . $f => APPURL . 'assets/scripts/ext/' . $f . '/' . $f,
             ROOTPATH . 'assets/scripts/aio/' . $f => APPURL . 'assets/scripts/aio/' . $f,
@@ -250,13 +252,12 @@ function fonts( array $array = [] ): void {
 
 /**
  * Stylesheet <link> to single Font
- * @param array $array Font name and weights Ex: ['Lato','300,500']
+ * @param string $font Font name
+ * @param string $weights Font weights Ex: 400,600
  * @author Shaikh <hey@shaikh.dev>
  */
-function font( $array = [] ){
-    $weights = isset( $array[1] ) && !empty( $array[1] ) ? $array[1] : '400';
-    $fonts[] = $array[0].':'.$weights;
-    echo !empty( $fonts ) ? '<link rel="stylesheet" href="' . APPURL . 'assets/fonts.php?'.APPDIR.'='. implode( '|', $fonts ) .'">' : '';
+function font( string $font = 'Lato', string $weights = '400' ): void {
+    echo '<link rel="stylesheet" href="' . APPURL . 'assets/fonts.php?'.APPDIR.'='. $font . '|'. $weights .'">';
 }
 
 /**

@@ -4,9 +4,9 @@ $db = new DB();
 $f = new FORM();
 $w = new WORLD();
 
-$os = $db->get_options(['base_language','languages']);
-$i18ns = $os['languages'] ?? '';
-$base = $os['base_language'] ?? 'English';
+global $options;
+$i18ns = $options['languages'] ?? '';
+$base = $options['base_language'] ?? 'English';
 
 $app_languages = !empty( $i18ns ) ? explode( ',', str_replace( ' ', '', $i18ns ) ) : [];
 /* if( !empty( $i18ns ) ) {
@@ -28,7 +28,7 @@ foreach( $strings as $t ) {
 $pages = array_unique( $pages );
 reset_styles('Lato','300',5);
 get_styles( ['bootstrap-grid','tagcomplete','i18n','micro'] );
-font(['Lato','300,500']);
+font('Lato','300,500');
 ?>
 <form class="row" method="post">
     <?php
@@ -87,7 +87,7 @@ font(['Lato','300,500']);
             ?>
             <div class="tac">
                 <?php
-                $f->process_button_html('Save Languages','save_i18ns','','process_options_ajax');
+                $f->process_html('Save Languages','save_i18ns','','process_options_ajax');
                 ?>
             </div>
         </div>

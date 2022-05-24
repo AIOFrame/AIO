@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?php echo 'Database - '.APPNAME; ?></title>
     <link rel="shortcut icon" href="<?php echo APPURL . 'assets/images/aio.png'; ?>">
-    <?php get_styles( ['reset','aio_ui','backup','micro'] ); font(['Lato','300,500']); ?>
+    <?php get_styles( ['reset','aio_ui','backup','micro'] ); font('Lato','300,500'); ?>
 </head>
 <body <?php body_class(); ?>>
 
