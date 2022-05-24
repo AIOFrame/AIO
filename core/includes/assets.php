@@ -582,13 +582,13 @@ function render_details( string $title = '', array $data = [], int $col = 4 ) {
     echo '</div></div>';
 }
 
-function language_picker() {
+function language_picker(): void {
     $db = new DB();
     $c = Encrypt::initiate();
-    $os = $db->get_options(['base_language','languages']);
-    $i18ns = $os['languages'] ?? '';
+    global $options;
+    $i18ns = $options['languages'] ?? '';
     $i18ns = !empty( $i18ns ) ? explode( ',', str_replace( ' ', '', $i18ns ) ) : [];
-    $base = $os['base_language'] ?? 'English';
+    $base = $options['base_language'] ?? 'English';
     $i18ns = array_merge( [ $base ], $i18ns );
     echo '<div class="languages" data-language="'.$c->encrypt('set_language_ajax').'">';
     if( !empty( $i18ns ) ) {

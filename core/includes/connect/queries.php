@@ -2,7 +2,7 @@
 
 // Load Default Options
 global $options;
-if( defined( 'DB_TYPE' ) ) {
+if( defined( 'DB_TYPE' ) && empty( $options ) ) {
     $db = new DB();
     $option_set = $db->select( 'options', '', 'option_scope = \'0\' AND option_load = \'1\'' );
     if( !empty( $option_set ) ) {
@@ -157,16 +157,11 @@ class DB {
         foreach( $tables as $tb ) {
             $table_names .= $tb[0].'_';
         }
-        //elog('HEre 1');
-        //elog($tables);
         $result = [];
         $db = new DB();
         $trace = debug_backtrace();
         $file_path = $trace[0]['file'] ?? '';
         if( !empty( $file_path ) ) {
-
-            //elog('HEre 2');
-            //elog($tables);
 
             // Get file properties
             $file = str_replace( '/', '_', str_replace( '.php', '', $file_path ) );
@@ -179,7 +174,6 @@ class DB {
 
             // Verify if file is changed
             if( empty( $exist ) || $exist !== $md5 ) {
-                echo $file;
                 $db->update_option( $file . '_md5', $md5, 0, 1 );
                 $result = $this->create_tables( $tables );
             }
@@ -591,6 +585,8 @@ class DB {
             $query = $user_id !== 0 ? $q . ' AND option_scope = \''.$user_id.'\'' : $q;
             $o = $this->select( 'options', 'option_value', $query, 1 );
             $r = $o ? $o['option_value'] : '';
+            $df = debug_backtrace();
+            elog( $query, 'get_option', $df[0]['line'], $df[0]['file'], $name );
         }
         return $r;
     }

@@ -436,7 +436,7 @@ class ACCESS {
     /**
      * Add default users from config
      */
-    function config_users() {
+    function config_users(): void {
         if( defined('CONFIG') && APPDEBUG ) {
             $c = json_decode( CONFIG, 1 );
             if( isset( $c['users'] ) && is_array( $c['users'] ) ) {
@@ -628,6 +628,8 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
     </div>
     <?php
     get_script('access');
+    $a = new ACCESS();
+    $a->config_users();
 }
 
 /**

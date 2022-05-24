@@ -160,7 +160,8 @@ function app_languages() {
     }
     return $final_languages; */
     $db = new DB();
-    $app_langs = $db->get_option( 'app_languages' );
+    global $options;
+    $app_langs = $options['app_languages'] ?? '';
 
     if( !empty( $app_langs ) ) {
         $n = unserialize( $app_langs );

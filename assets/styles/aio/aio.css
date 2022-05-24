@@ -25,7 +25,7 @@ article {
 /* HEADER */
 header {
   position: fixed;
-  height: calc( 100vh - 40px );
+  height: calc(100vh - 40px);
   top: 20px;
   left: 20px;
   width: 80px;
@@ -272,7 +272,7 @@ button:hover {
   font-size: 14px;
   margin-bottom: 10px;
   display: block;
-  font-weight: lighter;
+  font-weight: normal;
 }
 .config label .link {
   color: #aaa;
@@ -280,7 +280,7 @@ button:hover {
 .config [type=radio] + label, .config [type=checkbox] + label {
   display: inline-block;
   vertical-align: middle;
-  font-weight: lighter;
+  font-weight: normal;
   margin: 0;
 }
 .config input[type=text], .config select, .config .select2-selection {
@@ -323,8 +323,8 @@ button:hover {
 }
 
 body.d .b {
-  background: #141414;
-  border: 1px solid #282828;
+  background: rgb(20, 20, 20);
+  border: 1px solid rgb(40, 40, 40);
 }
 
 .b > .l {
@@ -359,20 +359,16 @@ body.d .b {
   letter-spacing: 1px;
   text-transform: uppercase;
   color: #fff;
-  font-weight: lighter;
+  font-weight: normal;
 }
 
 .b .c > div, .b .c > button {
-  font-weight: lighter;
+  font-weight: normal;
   font-size: 13px;
   border-radius: 6px;
   padding: 4px 8px;
   transition: 0.6s;
   cursor: pointer;
-  color: #fff;
-}
-
-.b .c > div, .b .c > button {
   border: 1px solid #5691b0;
   color: #5691b0;
   margin-left: 15px;
@@ -394,12 +390,12 @@ body.d .b {
   flex-grow: 1;
   padding: 8px 15px 12px;
   box-sizing: border-box;
-  font-weight: lighter;
+  font-weight: normal;
   border-top: 1px solid #ebebeb;
 }
 
 body.d .c .ft > div {
-  border-top: 1px solid #232323;
+  border-top: 1px solid rgb(35, 35, 35);
 }
 
 .b .ft > div:last-child {
@@ -453,17 +449,17 @@ body.d {
   /* DARK ICONS */
 }
 body.d header {
-  background: #191919;
+  background: rgb(25, 25, 25);
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
   border: 1px solid #333;
 }
 body.d article {
-  background: #0f0f0f;
+  background: rgb(15, 15, 15);
   border: 1px solid #444;
 }
 body.d aside .scroll {
-  background: #0f0f0f;
-  box-shadow: 0 0 50px black;
+  background: rgb(15, 15, 15);
+  box-shadow: 0 0 50px rgb(0, 0, 0);
 }
 body.d [type=search], body.d input[data-color-picker] {
   background-color: #212121;

@@ -118,10 +118,11 @@ class PORTAL {
         $this->post_html( $scripts );
     }
 
-    function user_profile( $user ): void {
+    function user_profile(): void {
         $f = new FORM();
         $c = Encrypt::initiate();
         $db = new DB();
+        $user = $db->select( 'users', '', 'user_id = \''.get_user_id().'\'', 1 );
         $ss = $db->select( 'sessions', '', 'session_uid = \''.get_user_id().'\'' );
         ?>
         <div class="row">
