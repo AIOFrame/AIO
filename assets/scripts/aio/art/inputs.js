@@ -12,13 +12,13 @@ $(document).ready(function(){
     .on('change','[data-hidden-date]',function(){
         elog( $(this) );
         let date = new Date( $(this).val() );
-        $( '#' + $(this).attr('id')+'_alt' ).val( [('0'+date.getDate()).slice(-2), ('0'+date.getMonth()).slice(-2), date.getFullYear()].join('-') ).trigger('change');
+        $( $(this).data('alt') ).val( [('0'+date.getDate()).slice(-2), ('0'+date.getMonth()).slice(-2), date.getFullYear()].join('-') ).trigger('change');
     })
 
-    .on('change','[data-visible-date]',function(){
+    /* .on('change','[data-visible-date]',function(){
         elog( $(this) );
         let date = new Date( $(this).val() );
-    })
+    }) */
 
     // Initiate Clipboard JS
     if( typeof ClipboardJS === 'function' ){

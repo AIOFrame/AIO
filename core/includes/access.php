@@ -609,8 +609,8 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
     <div class="login_wrap" data-t data-pre="login_" data-data="log"<?php echo $redirect.$callback; ?> data-notify="<?php echo $notify_for; ?>" data-reload="<?php echo $reload_in; ?>" data-reset="log">
         <form class="inputs">
             <?php
-            $f->text(['username_'.$rand,'username'],$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-log required autocomplete="username"','<div>','</div>');
-            $f->input('password',['password_'.$rand,'password'],$pass_title,$pass_title,'','onkeyup="aio_login_init(event)" data-log required autocomplete="current-password"','<div>','</div>');
+            $f->text('username',$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-log required autocomplete="username"','<div>','</div>');
+            $f->input('password','password',$pass_title,$pass_title,'','onkeyup="aio_login_init(event)" data-log required autocomplete="current-password"','<div>','</div>');
             ?>
         </form>
         <button id="aio_login_init" class="grad" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_login_ajax' ); ?>"><?php E('Login'); ?></button>
@@ -620,7 +620,7 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
         <div class="inputs">
             <?php
             $rand = rand(0,9999);
-            $f->text(['username_'.$rand,'username'],$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"','<div>','</div>');
+            $f->text('username',$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"','<div>','</div>');
             ?>
         </div>
         <button id="aio_forgot_init" class="grad" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_forgot_ajax' ); ?>"><?php E('Reset my Password'); ?></button>
@@ -665,10 +665,10 @@ function register_html( array $columns = [], bool $columns_before = true, array 
             }
             echo $columns_before ? $columns_html : '';
             $min_string = T('Minimum Characters');
-            $f->text(['reg_name_'.$rand,'username'],'Username','Username','','data-reg minlength="8" data-minlength="'.$min_string.'" data-help required','<div>','</div>');
-            $f->input('password',['reg_pass_'.$rand,'password'],'Password','Password','','data-reg minlength="8" data-minlength="'.$min_string.'" data-help required','<div>','</div>');
+            $f->text('username','Username','Username','','data-reg minlength="8" data-minlength="'.$min_string.'" data-help required','<div>','</div>');
+            $f->input('password','password','Password','Password','','data-reg minlength="8" data-minlength="'.$min_string.'" data-help required','<div>','</div>');
             $empty_logic = in_array( 'email', $compulsory ) ? 'required="true"' : '';
-            $f->input('email',['reg_email_'.$rand,'email'],'Email','Email','','data-reg data-help required'.$empty_logic,'<div>','</div>');
+            $f->input('email','email','Email','Email','','data-reg data-help required'.$empty_logic,'<div>','</div>');
             $defs = [ 'name' => 'Name', 'picture' => 'Picture' ];
             foreach( $defs as $dk => $dv ) {
                 if( !in_array( $dk, $hide ) ) {
@@ -860,13 +860,13 @@ function user_registration_fields( string $pre = 'user_', string $data = '', str
     $data = $data ?? 'data';
     $attr = $array !== '' ? 'data-'.$data.' data-empty data-array="'.$array.'"' : 'data-'.$data.' data-empty';
     //$f->text([$pre.'login', 'login'], '', 'Ex: john_doe', '', $attr.' hidden required', 12 );
-    $f->text([$pre.'name', 'name'], 'Full Name', 'Ex: John Doe', '', $attr.' required', 4);
-    $f->input('email',[$pre.'login', 'login'], 'Login Email Address', 'Ex: john_doe@gmail.com', '', $attr.'  data-help required', 4);
-    $f->input('password', [$pre.'pass', 'pass'], 'Login Password', '***********', '', $attr.' minlength="8" data-minlength="'.T('Minimum Characters').'" data-help autocomplete="new-password" required', 4);
-    $f->select([$pre.'gender', 'gender'], 'Gender', 'Choose Gender...', $genders, 'Male', $attr.' class="select2"', 0, 4, 0, 0);
-    $f->date([$pre.'dob', 'dob'], 'Date of Birth', 'Ex: 15-05-1990', '', $attr, 'top center', 4);
-    $f->select([$pre.'code', 'phone_code'], 'Code', 'Ex: +61', $codes, $phone_code, $attr.' class="select2" required', 1, '', 1, 0);
-    $f->text([$pre.'phone', 'phone'], 'Phone Number', 'Ex: 501122333', '', $attr.' required', 3);
+    $f->text('name', 'Full Name', 'Ex: John Doe', '', $attr.' required', 4);
+    $f->input('email','login', 'Login Email Address', 'Ex: john_doe@gmail.com', '', $attr.'  data-help required', 4);
+    $f->input('password', 'pass', 'Login Password', '***********', '', $attr.' minlength="8" data-minlength="'.T('Minimum Characters').'" data-help autocomplete="new-password" required', 4);
+    $f->select('gender', 'Gender', 'Choose Gender...', $genders, 'Male', $attr.' class="select2"', 0, 4, 0, 0);
+    $f->date('dob', 'Date of Birth', 'Ex: 15-05-1990', '', $attr, 'top center', 4);
+    $f->select('phone_code', 'Code', 'Ex: +61', $codes, $phone_code, $attr.' class="select2" required', 1, '', 1, 0);
+    $f->text('phone', 'Phone Number', 'Ex: 501122333', '', $attr.' required', 3);
 }
 
 /**
@@ -874,7 +874,7 @@ function user_registration_fields( string $pre = 'user_', string $data = '', str
  * @param string $message Message to be displayed
  * @return void
  */
-function no_access( string $message = "You are trying to reach restricted content!", string $class = '', bool $die = true ) {
+function no_access( string $message = "You are trying to reach restricted content!", string $class = '', bool $die = true ): void {
     echo '<div class="no_access '.$class.'"><h1 class="tac">'.T( $message ).'</h1><a onclick="history.back()">'.T('Return to Previous Page').'</a></div>';
     if( $die ) {
         die();

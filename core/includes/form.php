@@ -74,20 +74,21 @@ class FORM {
      */
 
     function select( string|array $identity = '', string $label = '', string $placeholder = '', array $options = [], string|null $selected = '', string $attr = '', string $pre = '', bool $keyed = false, bool $translate = false, string $post = '' ): void {
+        $rand = rand( 0, 999999 );
         if( is_numeric( $pre ) ){
             $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
             $post = '</select></div>';
         }
         $post = empty( $post ) ? '</select>' : '</select>' . $post;
         $at = $attr !== '' ? ' '.$attr : '';
-        $id = is_array($identity) ? $identity[0] : $identity;
-        $name = is_array($identity) ? $identity[1] : $identity;
+        $id = !empty( $identity ) ? ( is_array($identity) ? $identity[0] : $identity.'_'.$rand ) : '';
+        $name = is_array( $identity ) ? $identity[1] : $identity;
         echo $pre;
         echo !empty( $label ) ? '<label for="'.$id.'">'.T($label).'</label>' : '';
         $ph = !empty( $placeholder ) ? ' placeholder="'.$placeholder.'" data-placeholder="'.$placeholder.'"' : '';
         echo '<select name="'.$name.'" data-key="'.$name.'" id="'.$id.'"'.$at.$ph.'>';
         //if( str_contains( $attr, 'select2' ) ) {
-        if( strpos( $attr, 'select2' ) !== false ) {
+        if( str_contains( $attr, 'select2') ) {
             $placeholder = '';
             $options = [ '' => 'select2_placeholder' ] + $options;
             //array_unshift( $options, 'select2_placeholder' );
@@ -95,6 +96,10 @@ class FORM {
         //$placeholder = strpos( $attr, 'select2') !== false ? '' : $placeholder;
         $this->select_options( $options, $selected, $placeholder, $keyed, $translate );
         echo $post;
+    }
+
+    function select2( string $id = '', string $label = '', string $placeholder = '', array $options = [], string|null $selected = '', string $attr = '', string $pre = '', bool $keyed = false, bool $translate = false, string $post = '' ): void {
+        $this->select( $id, $label, $placeholder, $options, $selected, $attr.' class="select2"', $pre, $keyed, $translate, $post );
     }
 
     /**
@@ -109,7 +114,8 @@ class FORM {
      * @param string $post End string to wrap after /&gt;
      * @param string $name Optional if different name is needed
      */
-    function input( string $type, string|array $identity, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '', string $name = '' ){
+    function input( string $type, string|array $identity, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '', string $name = '' ): void {
+        $rand = rand( 0, 999999 );
         $type = $type == '' ? 'text' : $type;
         if( is_numeric( $pre ) ){
             $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-md-'.$pre.'">';
@@ -117,8 +123,8 @@ class FORM {
         }
         $ph = $placeholder !== '' ? ' placeholder="'.$placeholder.'"' : '';
         $at = $attrs !== '' ? ' '.$attrs : '';
-        $id = is_array($identity) ? $identity[0] : $identity;
-        $name = is_array($identity) ? $identity[1] : $identity;
+        $id = !empty( $identity ) ? ( is_array($identity) ? $identity[0] : $identity.'_'.$rand ) : '';
+        $name = is_array( $identity ) ? $identity[1] : $identity;
         if( $type == 'textarea' ) {
             $va = $value !== '' ? $value : '';
         } else {
@@ -153,7 +159,7 @@ class FORM {
      * @param string $pre String to wrap before start of &lt;input&gt;. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post End string to wrap after /&gt;
      */
-    function inputs( string $type = 'text', array $array = [], string $attrs = '', string $pre = '', string $post = '' ){
+    function inputs( string $type = 'text', array $array = [], string $attrs = '', string $pre = '', string $post = '' ): void {
         if( !empty( $array ) && is_array( $array ) ){
             foreach( $array as $id ){
                 $slug = isset($id[0]) && $id[0] !== '' ? $id[0] : '';
@@ -201,19 +207,22 @@ class FORM {
      * @return void
      */
     function date( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $position = '', string $pre = '', bool $range = false, bool $multiple = false, string $view = '', string $min = '', string $max = '', string $post = '' ): void {
+        $rand = rand(0,99999);
+        $id = !empty( $id ) ? ( is_array( $id ) ? [ $id[0] ] : $id ) : $rand;
         $alt_id = is_array( $id ) ? [ $id[0].'_alt', $id[1].'_alt' ] : $id.'_alt';
         $range_attr = $range ? ' range' : '';
         $multiple_attr = $multiple ? ' multiple' : '';
         $view_attr = $view ? ' view="'.$view.'"' : '';
         $position = !empty( $position ) ? $position : 'bottom center';
-        $visible_attr = is_array( $id ) ? 'class="dater" alt="#'.$id[0].'" position="'.$position.'"' : 'class="dater" alt="#'.$id.'" position="'.$position.'"';
+        $attrs .= is_array( $alt_id ) ? ' data-alt="[data-key='.$alt_id[0].']"' : ' data-alt="[data-key='.$alt_id.']"';
 
+        $visible_attr = is_array( $id ) ? 'class="dater" alt="#'.$id[0].'" position="'.$position.'"' : 'class="dater" alt="#'.$id.'" position="'.$position.'"';
         $visible_attr .= !empty( $min ) ? ' min="'.$min.'"' : '';
         $visible_attr .= !empty( $max ) ? ' max="'.$max.'"' : '';
         $visible_attr .= str_contains( $attrs, 'disabled' ) ? ' disabled' : '';
 
         // Hidden Input - Renders date format as per backend
-        $this->text( $id, '', '', easy_date( $value, 'Y-m-d' ), $attrs.' hidden data-hidden-date' );
+        $this->text( [ $id, $id ], '', '', easy_date( $value, 'Y-m-d' ), $attrs.' hidden data-hidden-date' );
         // Visible Input - Render date for easier user grasp
         $this->text( $alt_id, $label, $placeholder, easy_date( $value, 'd-m-Y' ), $visible_attr.$range_attr.$multiple_attr.$view_attr.' data-visible-date no_post', $pre, $post );
     }
@@ -318,7 +327,7 @@ class FORM {
      * @param string $pre String to wrap before start of input. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post End string to wrap after /&gt;
      */
-    function texts( array $array, string $attrs = '', string $pre = '', string $post = '' ){
+    function texts( array $array, string $attrs = '', string $pre = '', string $post = '' ): void {
         if( is_assoc( $array ) ){
             foreach( $array as $k => $v ){
                 $this->input( 'text', $k, $v, $attrs, $pre, $post );
@@ -339,8 +348,9 @@ class FORM {
      * @param string $pre String to wrap before start of &lt;input&gt;. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post End string to wrap after /&gt;
      */
-    function render_options( string $type = 'radio', string $label = '', string|array $identity = '', string|array $values = [], string|array $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ) {
+    function render_options( string $type = 'radio', string $label = '', string|array $identity = '', string|array $values = [], string|array $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ): void {
         if( is_array( $values ) ) {
+            $rand = rand( 0, 99999 );
             $type = $type == 'radio' ? 'type="radio"' : 'type="checkbox"';
             $id = is_array($identity) ? $identity[0] : $identity;
             $name = is_array($identity) ? $identity[1] : $identity;
@@ -443,7 +453,7 @@ class FORM {
      * @param string $pre String to wrap before start of &lt;input&gt;. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post End string to wrap after /&gt;
      */
-    function checkboxes( string|array $name, string $label = '', string|array $values = '', string|array $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ){
+    function checkboxes( string|array $name, string $label = '', string|array $values = '', string|array $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ): void {
         $this->render_options( 'checkbox', $label, $name, $values, $checked, $attr, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post );
     }
 
@@ -464,9 +474,10 @@ class FORM {
      * @param string $pre String to wrap before start
      * @param string $post End string to wrap after /&gt;
      */
-    function upload( string|array $identity, string $label, string $button_label = 'Upload', string $value = '', bool $multiple = false, bool $show_history = false, string $button_class = '', string $attrs = '', string $extensions = '', string $size = '', bool $deletable = false, string $path = '', string $pre = '', string $post = '' ) {
-        $id = is_array($identity) ? $identity[0] : $identity;
-        $name = is_array($identity) ? $identity[1] : $identity;
+    function upload( string|array $identity, string $label, string $button_label = 'Upload', string $value = '', bool $multiple = false, bool $show_history = false, string $button_class = '', string $attrs = '', string $extensions = '', string $size = '', bool $deletable = false, string $path = '', string $pre = '', string $post = '' ): void {
+        $rand = rand( 0, 99999 );
+        $id = $identity.'_'.$rand; // is_array($identity) ? $identity[0] : $identity;
+        $name = $identity; // is_array($identity) ? $identity[1] : $identity;
         if( is_numeric( $pre ) ){
             $pre = $pre == 0 ? '<div class="upload_set col">' : '<div class="upload_set col-12 col-lg-'.$pre.'">';
             $post = '</div>';
@@ -489,7 +500,7 @@ class FORM {
      * @return string
      * @author Shaikh <hey@shaikh.dev>
      */
-    function _editable_data( $data = [], $remove = '' ): string {
+    function _editable_data( array $data = [], string $remove = '' ): string {
         $final = [];
         $remove = explode( ',', $remove );
         foreach( $data as $k => $v ){
@@ -512,7 +523,7 @@ class FORM {
      * @param string $remove If needed to remove, provide keys separated by ,
      * @author Shaikh <hey@shaikh.dev>
      */
-    function editable_data( $data = [], $remove = '' ) {
+    function editable_data( array $data = [], string $remove = '' ) {
         echo $this->_editable_data( $data, $remove );
     }
 
