@@ -271,7 +271,7 @@ class FORM {
      * @param string $post
      * @return void
      */
-    function map( string $latitude_field = '', string $longitude_field = '', string $address_field = '', string $area_field = '', string $city_field = '', string $country_field = '', string $pre = '', string $latitude_value = '', string $longitude_value = '', string $zoom = '13', string $post = '' ): void {
+    function map( string $latitude_field = '', string $longitude_field = '', string $address_field = '', string $area_field = '', string $city_field = '', string $country_field = '', string $coordinates = '', string $pre = '', string $latitude_value = '', string $longitude_value = '', string $zoom = '13', string $post = '' ): void {
         if( is_numeric( $pre ) ){
             $pre = $pre == 0 ? '<div class="map_col col">' : '<div class="map_col col-12 col-md-'.$pre.'">';
             $post = '</div>';
@@ -290,6 +290,7 @@ class FORM {
         $def_zoom = !empty( $zoom ) ? ' level="'.$zoom.'"' : '';
         $def_type = !empty( $type ) ? ' type="'.$type.'"' : '';
         $def_style = !empty( $style ) ? ' design="'.$style.'"' : '';
+        $co = !empty( $coordinates ) ? ' data-coordinates="'.$coordinates.'"' : '';
         $add = !empty( $address_field ) ? ' data-address="'.$address_field.'"' : '';
         $area = !empty( $area_field ) ? ' data-area="'.$area_field.'"' : '';
         $city = !empty( $city_field ) ? ' data-city="'.$city_field.'"' : '';
@@ -299,10 +300,12 @@ class FORM {
         $r = rand(0,999);
         echo $pre;
         echo '<div class="map_wrap">';
-        $this->text('search_'.$r,'','Search for Address...');
-        echo '<div id="map_'.$r.'" class="google_map" search="search_'.$r.'" data-map'.$def_zoom.$def_lat.$def_long.$def_type.$def_style.$add.$area.$city.$country.$lat.$long.'>';
+        $this->text(['search_'.$r,'search_'.$r],'','Search for Address...');
+        echo '<div id="map_'.$r.'" class="google_map" search="search_'.$r.'" data-map'.$def_zoom.$def_lat.$def_long.$def_type.$def_style.$co.$add.$area.$city.$country.$lat.$long.'>';
         echo '</div></div>';
         echo $post;
+        $m = new MAPS();
+        $m->google_maps();
     }
 
     /**

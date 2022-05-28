@@ -590,13 +590,12 @@ function access_change_ajax() {
  * Renders frontend code for user login
  * @param string $login_title Replacement text for default "Username" title
  * @param string $pass_title Replacement text for default "Password" title
- * @param string $forgot_title Replacement text for default "Forgot Password?" title
  * @param string $back_title Replacement text for default "Back to Login" title
  * @param int|string $reload_in Seconds to Reload Page
  * @param int|string $notify_for Seconds to Notify
  * @param string $redirect_to Page to redirect to upon success
  */
-function login_html( string $login_title = 'Username or Email', string $pass_title = 'Password', string $forgot_title = 'Forgot Password?', string $back_title = 'Back to Login', int|string $reload_in = 1, int|string $notify_for = 1, string $redirect_to = '' ): void {
+function login_html( string $login_title = 'Username or Email', string $pass_title = 'Password', int|string $reload_in = 1, int|string $notify_for = 1, string $redirect_to = '' ): void {
     if( user_logged_in() ) {
         return;
     }
@@ -614,7 +613,7 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
             ?>
         </form>
         <button id="aio_login_init" class="grad" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_login_ajax' ); ?>"><?php E('Login'); ?></button>
-        <div class="more" onclick="aio_forgot_view()"><?php E($forgot_title); ?></div>
+        <div class="more" onclick="aio_forgot_view()"><?php E('Forgot Password ?'); ?></div>
     </div>
     <div class="forgot_wrap" data-t data-pre="forgot_" data-data="forg" data-notify="3" data-reload="3" data-reset="forg" style="display:none;">
         <div class="inputs">
@@ -624,7 +623,7 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
             ?>
         </div>
         <button id="aio_forgot_init" class="grad" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_forgot_ajax' ); ?>"><?php E('Reset my Password'); ?></button>
-        <div class="more" onclick="aio_login_view()"><?php E($back_title); ?></div>
+        <div class="more" onclick="aio_login_view()"><?php E( 'Return to Login' ); ?></div>
     </div>
     <?php
     get_script('access');

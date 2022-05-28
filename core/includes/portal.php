@@ -81,7 +81,7 @@ class PORTAL {
         $attrs = $attrs.' data-out="'. $c->encrypt('logout_ajax').'"';
 
         // </head>
-        echo '<style>.c1{color:'.$color1.'}.c2{color:'.$color2.'}.b{border:1px solid '.$color1.'}.bf:focus{border:1px solid '.$color1.'}.grad{background-color:'.$color1.';background:-moz-linear-gradient(326deg,'.$color1.' 0%,'.$color2.' 100%);background:-webkit-linear-gradient(326deg,'.$color1.' 0%,'.$color2.' 100%);background-image:linear-gradient(45deg,'.$color1.' 0%,'.$color2.' 100%);}</style></head><body ';
+        echo '<style>:root {--primary-color:'.$color1.';--secondary-color:'.$color2.'}.b{border:1px solid '.$color1.'}.bf:focus{border:1px solid var(--primary-color)}.grad{background-color:var(--primary-color);background:-moz-linear-gradient(326deg,var(--primary-color) 0%,var(--secondary-color) 100%);background:-webkit-linear-gradient(326deg,var(--primary-color) 0%,var(--secondary-color) 100%);background-image:linear-gradient(45deg,var(--primary-color) 0%,var(--secondary-color) 100%);}</style></head><body ';
         body_class( $class );
         echo $attrs . '>';
 
@@ -94,7 +94,7 @@ class PORTAL {
         echo '<div class="notices t r"></div></body></html>';
     }
 
-    function login_html( string $attrs = '', string|array $ex_styles = [], string|array $styles = [], string|array $scripts = [] ): void {
+    function login_html( string $login_redirect_url = '', string $attrs = '', string|array $ex_styles = [], string|array $styles = [], string|array $scripts = [] ): void {
 
         // Head
         $styles = is_array( $styles ) ? array_merge( $styles, [ 'portal/login', 'login' ] ) : $styles . ',portal/login,login';
@@ -109,8 +109,8 @@ class PORTAL {
             $logo = isset( $options['logo_dark'] ) ? 'style="background:url(\''.storage_url( $options['logo_dark'] ).'\') no-repeat center / contain"' : '';
         }
         echo '<article><div class="access_wrap"><div class="access_panel">';
-        echo '<a href="'. APPURL . 'admin" class="brand" '.$logo.'></a>';
-        login_html();
+        echo '<a href="'. APPURL . $login_redirect_url . '" class="brand" '.$logo.'></a>';
+        login_html( 'User Login / Email', 'Password', 2, 2, $login_redirect_url );
         echo '</div></div></article>';
 
         // Foot

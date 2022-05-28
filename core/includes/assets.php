@@ -139,7 +139,7 @@ function get_styles( $ar = '', $page_of = '' ) {
  * @param string $page_of loads the stylesheet only if you are on this page
  * @author Shaikh <hey@shaikh.dev>
  */
-function get_script(string $f, array $params = [], string $page_of = '') {
+function get_script(string $f, array $params = [], string $page_of = ''): void {
 
     // Gets cache config
     $cache = get_config( 'cache' );
@@ -183,7 +183,7 @@ function get_script(string $f, array $params = [], string $page_of = '') {
         if( $page_of !== '' ){
             echo page_of( $page_of ) && $url !== '' ? '<script src="' . $url . $v . '"></script>' : '';
         } else {
-            echo $url !== '' ? '<script src="' . $url . $v . '"></script>' : '';
+            echo $url !== '' ? '<script src="' . $url . '"></script>' : '';
         }
 
     }

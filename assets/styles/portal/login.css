@@ -4,6 +4,38 @@ body {
   background: #eee;
 }
 
+/* Inputs */
+label {
+  display: block;
+  text-transform: uppercase;
+  color: #aaa;
+  font-weight: 400;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  margin: 0;
+}
+
+input {
+  font-size: 1.1rem;
+  background: #f1f1f1;
+  border: 2px solid #f1f1f1;
+  border-radius: 8px;
+  box-shadow: none;
+  text-align: center;
+  transition: 0.6s;
+  font-weight: lighter;
+  margin: 10px 0 20px;
+  padding: 15px 40px;
+}
+
+[data-key=username] {
+  background: #f1f1f1 url("../../icons/user.svg") no-repeat 10px center/24px;
+}
+
+[data-key=password] {
+  background: #f1f1f1 url("../../icons/pass.svg") no-repeat 10px center/24px;
+}
+
 /* Login */
 .brand {
   display: block;

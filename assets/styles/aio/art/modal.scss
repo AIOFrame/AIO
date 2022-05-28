@@ -22,7 +22,7 @@
     letter-spacing: 1px;
   }
   .t.c, .title.c {
-    color:#111;
+    color:var(--primary-color);
   }
   .modal {
     z-index:15;
@@ -47,7 +47,7 @@
   pointer-events: none;
 }
 .modal.b2 {
-  border:2px solid #111;
+  border:2px solid var(--primary-color);
 }
 .modal.on {
   /*display: block;*/

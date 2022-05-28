@@ -1,5 +1,5 @@
 label.beta {
-  color:#111;
+  color:var(--primary-color);
 }
 [type=radio], [type=checkbox] {
   cursor: pointer;
@@ -26,8 +26,8 @@ label.beta {
   height: calc(100% - 6px);
   display: block;
   border-radius:5px;
-  background:#111;
-  background: linear-gradient(160deg, #111 0%, #222 100%);
+  background:var(--primary-color);
+  background: linear-gradient(160deg, var(--primary-color) 0%, var(--secondary-color) 100%);
 }
 [type=radio]:not(.slide,.switch):checked:after {
   border-radius:100%;
@@ -51,8 +51,8 @@ input.load, input.loading {
 
 [type=checkbox]:checked.slide:before, [type=radio]:checked.slide:before,
 [type=checkbox]:checked.switch:before, [type=radio]:checked.switch:before {
-  background:#111;
-  background: linear-gradient(160deg, #111 0%, #222 100%);
+  background:var(--primary-color);
+  background: linear-gradient(160deg, var(--primary-color) 0%, var(--secondary-color) 100%);
 }
 [type=checkbox].slide, [type=checkbox].slide:active, [type=checkbox].slide:checked, [type=radio].slide, [type=radio].slide:active, [type=radio].slide:checked,
 [type=checkbox].switch, [type=checkbox].switch:active, [type=checkbox].switch:checked, [type=radio].switch, [type=radio].switch:active, [type=radio].switch:checked {
@@ -195,7 +195,7 @@ select.mb0 + .select2-container {
     }
   }
   .select2-results__option--highlighted[aria-selected] {
-    background-color:#111;
+    background-color:var(--primary-color);
   }
 }
 .select2-container--default, .select2-container--default.select2-container--focus {

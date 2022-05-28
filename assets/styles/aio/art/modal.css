@@ -22,7 +22,7 @@
   letter-spacing: 1px;
 }
 .modal .t.c, .modal .title.c {
-  color: #111;
+  color: var(--primary-color);
 }
 .modal .modal {
   z-index: 15;
@@ -50,7 +50,7 @@
 }
 
 .modal.b2 {
-  border: 2px solid #111;
+  border: 2px solid var(--primary-color);
 }
 
 .modal.on {

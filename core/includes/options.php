@@ -40,7 +40,20 @@ class OPTIONS {
      * @return void
      */
     function map_options(): void {
-
+        $f = new FORM();
+        $db = new DB();
+        $options_array = [ 'default_map', 'google_maps_key' ];
+        $ops = $db->get_options( $options_array );
+        echo '<div class="row"';
+        $f->option_params('', 3);
+        echo '>';
+        $key = $ops['google_maps_key'] ?? '';
+        $gps = $ops['default_map'] ?? '';
+        $f->text('google_maps_key','Google Maps - API Key','Ex: AIvcDfDtd04QuAYdfgRN-aZBF5DuSFhMUnbdehD9',$key,'data-data',12);
+        $f->map( '', '', '', '', '', '', '[data-key=default_map]', 12 );
+        $f->text('default_map','Default Map Location','Ex: 12.34233, 24.43555',$gps,'data-data',12);
+        $f->process_options('Save Map Options','store grad','','col-12 tac');
+        echo '</div>';
     }
 
     /**
@@ -51,10 +64,10 @@ class OPTIONS {
         $f = new FORM();
         $db = new DB();
         // Gateway Fields
-        $gateway = [ 'stripe_public_key', 'stripe_private_key', 'stripe_test_public_key', 'stripe_test_private_key', 'stripe_test' ];
-        $ops = $db->get_options( $gateway );
+        $options_array = [ 'stripe_public_key', 'stripe_private_key', 'stripe_test_public_key', 'stripe_test_private_key', 'stripe_test' ];
+        $ops = $db->get_options( $options_array );
         echo '<div class="row"';
-        $f->process_params('', 'stripe', '', 3, 0, [], 'Successfully Saved Settings');
+        $f->option_params('stripe', 3 );
         echo '>';
         $attr = 'data-stripe';
         $pub = $ops['stripe_public_key'] ?? '';

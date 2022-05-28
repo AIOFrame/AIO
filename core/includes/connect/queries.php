@@ -163,13 +163,10 @@ class DB {
         $file_path = $trace[0]['file'] ?? '';
         if( !empty( $file_path ) ) {
 
-            // Get file properties
+            // Get file properties & options
             $file = str_replace( '/', '_', str_replace( '.php', '', $file_path ) );
             $md5 = md5_file( $file_path );
-
-            // Get options
             global $options;
-            //skel( $options );
             $exist = $options[ $file . '_md5' ] ?? '';
 
             // Verify if file is changed
@@ -186,34 +183,39 @@ class DB {
      * @param string $table Table Name
      * @param string $column Column Name
      * @param string $type Column Type
-     * @param string $length Column Length
+     * @param int|string $length Column Length
      * @param bool $null Is Nullable
      * @param string $default Default Value
-     * @return bool
      */
-    function create_column( string $table, string $column, $type = 'TEXT', $length = '13', $null = true, $default = ''): bool {
-        $type == 'BOOLEAN' ? $type = 'TINYINT' : '';
-        $length = in_array($type, ['BOOLEAN', 'DATETIME', 'DATE', 'TIME', 'TINYTEXT','DOUBLE']) ? '' : $length;
-        $null = $null ? 'NOT NULL' : 'NULL';
-        $length = !empty($length) ? '('.$length.')' : '';
-        //$exist = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$column'";
-        $query = "ALTER TABLE $table ADD COLUMN $column $type$length $null";
-        $query .= !empty($default) ? ' default "'.$default.'"' : '';
+    function create_column( string $table, string $column, string $type = 'TEXT', int|string $length = '13', bool $null = true, string $default = '' ): void {
 
-        $df = debug_backtrace();
-        $exist = $this->table_exists( $table );
-        if( $exist ){
-            $db = $this->connect();
-            try {
-                $r = $db->query( $query );
-                return 1;
-            } catch ( PDOException $e ) {
-                elog( json_encode( $e ) . ' - ' . $query, 'column', $df[0]['line'], $df[0]['file'], $table . '-' . $column );
-                //elog( $column.' '.mysqli_error($db), 'error', $df[0]['line'], $df[0]['file'], $table . '-' . $column );
-                return false;
+        // Get file properties & options
+        $trace = debug_backtrace();
+        $file_path = $trace[0]['file'] ?? '';
+        $file = str_replace( '/', '_', str_replace( '.php', '', $file_path ) );
+        $md5 = md5_file( $file_path );
+        global $options;
+        $exist = $options[ $file . '_md5' ] ?? '';
+
+        if( empty( $exist ) || $exist !== $md5 ) {
+            $type == 'BOOLEAN' ? $type = 'TINYINT' : '';
+            $length = in_array($type, ['BOOLEAN', 'DATETIME', 'DATE', 'TIME', 'TINYTEXT', 'DOUBLE']) ? '' : $length;
+            $null = $null ? 'NOT NULL' : 'NULL';
+            $length = !empty($length) ? '(' . $length . ')' : '';
+            //$exist = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$column'";
+            $query = "ALTER TABLE $table ADD COLUMN $column $type$length $null";
+            $query .= !empty($default) ? ' default "' . $default . '"' : '';
+
+            $df = debug_backtrace();
+            $table_exist = $this->table_exists($table);
+            if( $table_exist ) {
+                $db = $this->connect();
+                try {
+                    $r = $db->query($query);
+                } catch (PDOException $e) {
+                    elog(json_encode($e) . ' - ' . $query, 'column', $df[0]['line'], $df[0]['file'], $table . '-' . $column);
+                }
             }
-        } else {
-            return 0;
         }
     }
 

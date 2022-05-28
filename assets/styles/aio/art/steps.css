@@ -30,8 +30,8 @@
 
 .step.on {
   color: #fff;
-  background: #111;
-  background: linear-gradient(-45deg, #222 0%, #111 100%);
+  background: var(--primary-color);
+  background: linear-gradient(-45deg, var(--secondary-color) 0%, var(--primary-color) 100%);
 }
 
 .step:after {
@@ -48,7 +48,7 @@
 }
 
 .step.on:after {
-  border-left: 10px solid #222;
+  border-left: 10px solid var(--secondary-color);
 }
 
 .step:last-child:after {
@@ -139,11 +139,11 @@ body.d .step:after {
 }
 body.d .step.on {
   color: #fff;
-  background: #111;
-  background: linear-gradient(-45deg, #222 0%, #111 100%);
+  background: var(--primary-color);
+  background: linear-gradient(-45deg, var(--secondary-color) 0%, var(--primary-color) 100%);
 }
 body.d .step.on:after {
-  border-left: 10px solid #222;
+  border-left: 10px solid var(--secondary-color);
 }
 
 [dir=rtl] .step:after {
