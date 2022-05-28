@@ -60,7 +60,6 @@ input, button, select, textarea {
 }
 
 input:disabled, button:disabled, select:disabled, textarea:disabled {
-  background: rgba(255, 255, 255, 0.2);
   cursor: not-allowed;
   box-shadow: none;
   opacity: 0.6;

@@ -264,29 +264,31 @@ class FORM {
      * @param string $area_field
      * @param string $city_field
      * @param string $country_field
+     * @param string $coordinates
      * @param string $pre
      * @param string $latitude_value
      * @param string $longitude_value
      * @param string $zoom
+     * @param string $type
      * @param string $post
      * @return void
      */
-    function map( string $latitude_field = '', string $longitude_field = '', string $address_field = '', string $area_field = '', string $city_field = '', string $country_field = '', string $coordinates = '', string $pre = '', string $latitude_value = '', string $longitude_value = '', string $zoom = '13', string $post = '' ): void {
+    function map( string $latitude_field = '', string $longitude_field = '', string $address_field = '', string $area_field = '', string $city_field = '', string $country_field = '', string $coordinates = '', string $pre = '', string $latitude_value = '', string $longitude_value = '', string $zoom = '13', string $type = 'terrain', string $post = '' ): void {
         if( is_numeric( $pre ) ){
             $pre = $pre == 0 ? '<div class="map_col col">' : '<div class="map_col col-12 col-md-'.$pre.'">';
             $post = '</div>';
         }
         if( ( empty( $latitude_value ) || empty( $longitude_value ) ) && defined( 'DB_TYPE' ) ) {
             $db = new DB();
-            $ops = json_decode( $db->get_option('default_map') );
-            $latitude_value = $ops['latitude'] ?? '';
-            $longitude_value = $ops['longitude'] ?? '';
-            $zoom = $ops['level'] ?? '';
-            $type = $ops['type'] ?? '';
+            $ops = $db->get_options([ 'default_map_lat', 'default_map_long', 'default_map_zoom', 'default_map_type' ]);
+            $latitude_value = $ops['default_map_lat'] ?? '';
+            $longitude_value = $ops['default_map_long'] ?? '';
+            $zoom = $ops['default_map_zoom'] ?? $zoom;
+            $type = $ops['default_map_type'] ?? $type;
             $style = $ops['style'] ?? '';
         }
         $def_lat = !empty( $latitude_value ) ? ' lat="'.$latitude_value.'"' : '';
-        $def_long = !empty( $longitude_value ) ? ' lat="'.$longitude_value.'"' : '';
+        $def_long = !empty( $longitude_value ) ? ' long="'.$longitude_value.'"' : '';
         $def_zoom = !empty( $zoom ) ? ' level="'.$zoom.'"' : '';
         $def_type = !empty( $type ) ? ' type="'.$type.'"' : '';
         $def_style = !empty( $style ) ? ' design="'.$style.'"' : '';
@@ -301,7 +303,7 @@ class FORM {
         echo $pre;
         echo '<div class="map_wrap">';
         $this->text(['search_'.$r,'search_'.$r],'','Search for Address...');
-        echo '<div id="map_'.$r.'" class="google_map" search="search_'.$r.'" data-map'.$def_zoom.$def_lat.$def_long.$def_type.$def_style.$co.$add.$area.$city.$country.$lat.$long.'>';
+        echo '<div id="map_'.$r.'" class="google_map" search="search_'.$r.'" data-google-map-render'.$def_zoom.$def_lat.$def_long.$def_type.$def_style.$co.$add.$area.$city.$country.$lat.$long.'>';
         echo '</div></div>';
         echo $post;
         $m = new MAPS();

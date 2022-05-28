@@ -11,15 +11,14 @@ class MAPS {
         }
         ?>
 <script>
-    // let marker;
     $(document).ready(function(){
         setTimeout(function(){
-            $.each( $('[data-map]'), function( i,e ){
+            $.each( $('div[data-google-map-render]'), function( i,e ){
                 GoogleMap(e, '<?php echo $k; ?>' );
             })
         },500)
     });
-    var marker = '<?php echo APPURL; ?>assets/images/marker.png';
+    let icon = '<?php echo APPURL; ?>assets/images/marker.png';
 </script>
         <?php
     }

@@ -1,7 +1,6 @@
 let loc = {lat: 25.212212, lng: 55.275135};
 function GoogleMap(e, key ) {
     if(key === ''){ elog('Google Maps Key Error, Option \'google_maps_key\' is missing in options database or pass key as second parameter in GoogleMaps(e, key)'); return }
-
     /* if($(e).data('value')){
         let d = $(e).data('value');
         d = d.split(',');
@@ -9,9 +8,9 @@ function GoogleMap(e, key ) {
         loc['lng'] = parseFloat(d[1]);
     } */
     loc['lat'] = $(e).attr('lat') ? parseFloat( $(e).attr('lat') ) : loc['lat'];
-    loc['long'] = $(e).attr('long') ? parseFloat( $(e).attr('long') ) : loc['long'];
+    loc['lng'] = $(e).attr('long') ? parseFloat( $(e).attr('long') ) : loc['lng'];
     let con = { center: loc };
-    con['zoom'] = $(e).attr('level') ? $(e).attr('level') : 13;
+    con['zoom'] = $(e).attr('level') ? parseInt( $(e).attr('level') ) : 13;
     con['mapTypeId'] = $(e).attr('type') ? $(e).attr('type') : 'roadmap';
     con['styles'] = $(e).attr('design') ? $(e).attr('design') : '';
     con['scrollwheel'] = false;
@@ -23,10 +22,11 @@ function GoogleMap(e, key ) {
         con['mapTypeControlOptions'] = mapTypeControlOptions;
     }
     con['zoomControl'] = true;
+    console.log(con);
     const map = new google.maps.Map($(e)[0], con);
     const search = document.getElementById( $(e).attr('search') );
     const searchBox = new google.maps.places.SearchBox( search );
-
+    let marker;
     if($(e).data('marks')){
         let marks = $(e).data('marks');
         if( marks.length > 0 ) {
@@ -40,7 +40,7 @@ function GoogleMap(e, key ) {
                 };
                 marker = new google.maps.Marker({
                     position: loc,
-                    icon: marker,
+                    icon: ico,
                     map: map,
                     title: b['title'],
                     size: new google.maps.Size(25, 25)
@@ -54,7 +54,7 @@ function GoogleMap(e, key ) {
     } else {
         marker = new google.maps.Marker({
             position: loc,
-            icon: marker,
+            icon: icon,
             map: map,
             draggable: true
         });
@@ -92,6 +92,7 @@ function GoogleMap(e, key ) {
             }
 
             // Create a marker for each place.
+            //let marker;
             marker.setPosition( place.geometry.location );
             let pos = {lat: place.geometry.location.lat(), lng: place.geometry.location.lng()};
             GMapValues(e,marker,pos);
