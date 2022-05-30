@@ -216,13 +216,13 @@ class FORM {
         $position = !empty( $position ) ? $position : 'bottom center';
         $attrs .= is_array( $alt_id ) ? ' data-alt="[data-key='.$alt_id[0].']"' : ' data-alt="[data-key='.$alt_id.']"';
 
-        $visible_attr = is_array( $id ) ? 'class="dater" alt="#'.$id[0].'" position="'.$position.'"' : 'class="dater" alt="#'.$id.'" position="'.$position.'"';
+        $visible_attr = is_array( $id ) ? 'class="dater" alt="#'.$id[0].'_'.$rand.'" position="'.$position.'"' : 'class="dater" alt="#'.$id.'_'.$rand.'" position="'.$position.'"';
         $visible_attr .= !empty( $min ) ? ' min="'.$min.'"' : '';
         $visible_attr .= !empty( $max ) ? ' max="'.$max.'"' : '';
         $visible_attr .= str_contains( $attrs, 'disabled' ) ? ' disabled' : '';
 
         // Hidden Input - Renders date format as per backend
-        $this->text( [ $id, $id ], '', '', easy_date( $value, 'Y-m-d' ), $attrs.' hidden data-hidden-date' );
+        $this->text( [ $id.'_'.$rand, $id ], '', '', easy_date( $value, 'Y-m-d' ), $attrs.' hidden data-hidden-date' );
         // Visible Input - Render date for easier user grasp
         $this->text( $alt_id, $label, $placeholder, easy_date( $value, 'd-m-Y' ), $visible_attr.$range_attr.$multiple_attr.$view_attr.' data-visible-date no_post', $pre, $post );
     }
@@ -361,13 +361,13 @@ class FORM {
             $name = is_array($identity) ? $identity[1] : $identity;
             $valued = is_assoc( $values ); $x = 0;
             if( is_numeric( $pre ) ){
-                $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
+                $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-md-'.$pre.'">';
                 $post = '</div>';
             }
             $wrap_inputs_pre = !empty( $inputs_wrap ) ? '<div class="'.$inputs_wrap.'">' : '';
             $wrap_inputs_post = !empty( $inputs_wrap ) ? '</div>' : '';
             if( is_numeric( $inputs_pre ) ) {
-                $inputs_pre = $inputs_pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$inputs_pre.'">';
+                $inputs_pre = $inputs_pre == 0 ? '<div class="col">' : '<div class="col-12 col-md-'.$inputs_pre.'">';
                 $inputs_post = '</div>';
                 $wrap_inputs_pre = '<div class="row '.$inputs_wrap.'">';
                 $wrap_inputs_post = '</div>';
@@ -444,7 +444,7 @@ class FORM {
      * @param string $pre String to wrap before start of &lt;input&gt;. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post End string to wrap after /&gt;
      */
-    function radios( string|array $name, string $label = '', array $values = [], string|array $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ){
+    function radios( string|array $name, string $label = '', array $values = [], string|array $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ): void {
         $this->render_options( 'radio', $label, $name, $values, $checked, $attr, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post );
     }
 
@@ -460,6 +460,25 @@ class FORM {
      */
     function checkboxes( string|array $name, string $label = '', string|array $values = '', string|array $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ): void {
         $this->render_options( 'checkbox', $label, $name, $values, $checked, $attr, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post );
+    }
+
+    function slide( string|array $key, string $label = '', string $off_text = '', string $on_text = '', bool $checked = true, string $size = 'm', string $attr = '', string $pre = '', string $post = '' ): void {
+        $checked = $checked ? 'checked' : '';
+        $rand = rand( 0, 99999 );
+        $id = is_array( $key ) ? $key[0] : $key.'_'.$rand;
+        $name = is_array( $key ) ? $key[1] : $key;
+        if( is_numeric( $pre ) ){
+            $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-md-'.$pre.'">';
+            $post = '</div>';
+        }
+        $key = 'data-key="'.$name.'"';
+        $tip = $label !== '' ? 'title="'.$label.'"' : '';
+        echo $pre;
+        echo !empty($label) ? '<label class="db">'.T( $label ).'</label>' : '';
+        echo !empty( $off_text ) ? '<label for="' . $id . '" '.$tip.' class="slide_label off">' . $off_text . '</label>' : '';
+        echo '<input ' . $attr . ' class="slide ' . $size . '" type="checkbox" name="' . $name . '" '.$key.' id="' . $id . '" '. $checked .' >';
+        echo !empty( $on_text ) ? '<label for="' . $id . '" '.$tip.' class="slide_label on">' . $on_text . '</label>' : '';
+        echo $post;
     }
 
     /**

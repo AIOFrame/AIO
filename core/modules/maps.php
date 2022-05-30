@@ -4,23 +4,14 @@ class MAPS {
 
     function google_maps(): void {
         $db = new DB();
-        $k = $db->get_option( 'google_maps_key' );
+        $os = $db->get_options([ 'google_maps_key', 'default_map_marker' ]);
+        $k = $os['google_maps_key'] ?? '';
         $k = empty( $k ) ? get_config('google_maps_key') : $k;
+        $marker = $os['default_map_marker'] ?? APPURL.'assets/images/marker.png';
+        echo '<script>window.google_map_icon = \''.$marker.'\';window.google_maps_key = \''.$k.'\';</script>';
         if( !empty( $k ) ) {
             get_scripts( 'https://maps.googleapis.com/maps/api/js?key=' . $k . '&libraries=places,google_maps' );
         }
-        ?>
-<script>
-    $(document).ready(function(){
-        setTimeout(function(){
-            $.each( $('div[data-google-map-render]'), function( i,e ){
-                GoogleMap(e, '<?php echo $k; ?>' );
-            })
-        },500)
-    });
-    let icon = '<?php echo APPURL; ?>assets/images/marker.png';
-</script>
-        <?php
     }
 }
 

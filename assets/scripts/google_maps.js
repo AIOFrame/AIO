@@ -1,4 +1,16 @@
 let loc = {lat: 25.212212, lng: 55.275135};
+
+$(document).ready(function(){
+    setTimeout(function(){
+        $.each( $('div[data-google-map-render]'), function( i,e ){
+            GoogleMap(e, window.google_maps_key );
+        })
+    },500)
+});
+
+window.google_maps_key = undefined;
+window.google_map_icon = undefined;
+
 function GoogleMap(e, key ) {
     if(key === ''){ elog('Google Maps Key Error, Option \'google_maps_key\' is missing in options database or pass key as second parameter in GoogleMaps(e, key)'); return }
     /* if($(e).data('value')){
@@ -22,7 +34,7 @@ function GoogleMap(e, key ) {
         con['mapTypeControlOptions'] = mapTypeControlOptions;
     }
     con['zoomControl'] = true;
-    console.log(con);
+    // console.log(con);
     const map = new google.maps.Map($(e)[0], con);
     const search = document.getElementById( $(e).attr('search') );
     const searchBox = new google.maps.places.SearchBox( search );
@@ -54,7 +66,7 @@ function GoogleMap(e, key ) {
     } else {
         marker = new google.maps.Marker({
             position: loc,
-            icon: icon,
+            icon: window.google_map_icon,
             map: map,
             draggable: true
         });

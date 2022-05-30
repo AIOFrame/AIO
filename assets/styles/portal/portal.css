@@ -1,7 +1,7 @@
 /* Inputs */
 label {
   font-size: 0.9rem;
-  color: #000;
+  color: var(--primary-color);
   text-transform: uppercase;
   font-weight: bold;
   margin: 0 0 10px;
@@ -12,7 +12,7 @@ label {
   margin: 0;
 }
 
-[type=text], [type=search], [type=number], [type=email], [type=date], [type=password], [type=file], select, textarea {
+[type=text], [type=search], [type=number], [type=email], [type=date], [type=time], [type=password], [type=file], select, textarea {
   border: 2px solid #eee;
   font-size: 1rem;
   line-height: 1.4rem;
@@ -63,8 +63,8 @@ label {
   padding-right: 36px;
 }
 
-[type=text]:focus, [type=search]:focus, [type=number]:focus, [type=email]:focus, [type=date]:focus, [type=password]:focus, [type=file]:focus, select:focus, textarea:focus {
-  border: 2px solid #000;
+[type=text]:focus, [type=search]:focus, [type=number]:focus, [type=email]:focus, [type=date]:focus, [type=time]:focus, [type=password]:focus, [type=file]:focus, select:focus, textarea:focus {
+  border: 2px solid var(--primary-color);
 }
 
 input.empty, select.empty, select.empty + .select2 {
@@ -74,7 +74,7 @@ input.empty, select.empty, select.empty + .select2 {
 .aio_upload {
   border: 2px solid #eee;
   background: none;
-  color: #000;
+  color: var(--primary-color);
   box-shadow: none;
   border-radius: 30px;
   margin: 0;
@@ -195,7 +195,7 @@ button:after, .btn:after {
 body {
   background: #f3f3f3;
   margin: 120px 0 90px;
-  min-height: calc(100vh - 210px);
+  min-height: calc( 100vh - 210px);
 }
 
 .invoice_view {
@@ -447,7 +447,7 @@ article.fade > div {
   color: #fff;
   padding: 5px;
   z-index: 101;
-  background: #000 url("../../images/user.svg") no-repeat center/cover;
+  background: var(--primary-color) url("../../images/user.svg") no-repeat center/cover;
 }
 .user_drop .user_pic.bg {
   color: transparent;
@@ -482,7 +482,7 @@ article.fade > div {
   text-align: left;
 }
 .user_drop .user_details .name {
-  color: #000;
+  color: var(--primary-color);
   font-weight: 500;
   margin: 10px 0;
   text-align: center;

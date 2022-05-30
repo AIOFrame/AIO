@@ -50,6 +50,24 @@ label.beta {
   padding-left: 10px;
 }
 
+label.slide_label {
+  font-size: 1rem;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  vertical-align: middle;
+  text-transform: none;
+  cursor: pointer;
+}
+
+label.slide_label.off {
+  padding-right: 10px;
+}
+
+label.slide_label.on {
+  padding-left: 10px;
+}
+
 input.load, input.loading {
   background: url("../../images/load.svg") no-repeat center;
 }
@@ -466,6 +484,14 @@ input + .valid.on {
 }
 [dir=rtl] .select2-container .select2-selection {
   background: #f1f1f1 url("../../assets/icons/select.svg") no-repeat 10px center/18px;
+}
+[dir=rtl] label.slide_label.off {
+  padding-right: 0;
+  padding-left: 10px;
+}
+[dir=rtl] label.slide_label.on {
+  padding-left: 0;
+  padding-right: 10px;
 }
 
 /* DARK MODE */

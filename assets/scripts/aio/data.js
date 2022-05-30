@@ -13,7 +13,7 @@ if (typeof window.elog === 'undefined' ) {
  * @returns {{}}
  */
 function get_values( parent, attribute, prepend ) {
-    elog('running');
+    //elog('running');
     let a = attribute;
     a = a !== undefined && a !== '' ? '[data-'+a+']' : '';
     let pre = prepend;
@@ -40,20 +40,25 @@ function get_values( parent, attribute, prepend ) {
             pre_key = pre + $(this).attr('class');
 
         let m = $(parent).find( '[name=' + name + ']' );
+
+        // Set default value for text, number, email, textarea, select
         let value;
         value = $(this).hasClass('fn') ? ufn( $(this).val() ) : $(this).val(); // Un Format Number
 
         if( $(this).attr('type') === 'checkbox' ){
             let t = $(this).is(':checked');
             let arr = $(this).data('array');
-            let v = $(this).val();
-            if ( arr !== undefined ) {
+            let v =  $(this).val();
+            if ( $(this).hasClass('slide') ) {
+                elog(0);
+                value = $(this).is(':checked') ? 1 : 2;
+            } else if ( arr !== undefined ) {
                 elog(1);
-                if( data[arr] === undefined || !$.isArray( data[arr] ) ) {
-                    data[arr] = [];
+                if( data[pre_key] === undefined || !$.isArray( data[pre_key] ) ) {
+                    data[pre_key] = [];
                 }
                 if( t ) {
-                    data[arr].push( v );
+                    data[pre_key].push( v );
                 }
             } else if (m.length > 1) {
                 elog(2);
@@ -66,30 +71,38 @@ function get_values( parent, attribute, prepend ) {
                 elog(3);
                 value = t === true ? 1 : 2;
             }
-        } else if( $(this).attr('type') === 'radio' ) {
+        }
+        else if( $(this).attr('type') === 'radio' ) {
 
             key = $(this).is(':checked') ? $(this).attr('name') : '';
             key = $(this).data('key') !== undefined ? $(this).data('key') : key;
             //v = $(this).is(':checked') ? $(this).val() : '';
-            value = $('input[name='+$(this).attr('name')+']:checked').val();
-            data[ pre_key ] = value;
+            v = $('input[name='+$(this).attr('name')+']:checked').val();
+            value[ pre_key ] = v;
             return true;
-        } else if( $(this).is( "select" ) && $(this).attr('multiple') !== undefined ) {
-
+        }
+        else if( $(this).is( "select" ) && $(this).attr('multiple') !== undefined ) {
             value = $(this).val().join(", ");
-
-        } else if( $(this).data('array') !== undefined ) {
+        }
+        if( $(this).data('array') !== undefined ) {
+            elog(pre_key);
             let arr = $(this).data('array');
             key = $(this).val() !== '' ? $(this).attr('name') : '';
             key = key === '' ? $(this).attr('id') : key;
             let key2 = $(this).data('key') !== undefined ? $(this).data('key') : key;
             data[arr] = data[arr] === undefined ? {} : data[arr];
             $(this).val() !== '' ? data[ arr ][ key2 ] = value : '';
-            return true;
+            //return true;
+        } else {
+            // Finally push the value
+            data[ pre_key ] = value;
         }
 
-        // Finally push the value
-        data[ pre_key ] = value;
+
+
+        elog(key);
+        elog( 'Updated:' );
+        elog( data );
 
     });
     $.each(data,function(a,b){
@@ -266,13 +279,13 @@ function process_data( e ){
 
     // Check for empty values
     //if( $(p).attr('required') !== undefined ) {
-        if( is_empty( p, 'required' ) ) {
-            $(p).removeClass('load');
-            $(e).attr('disabled',false);
-            let empty_note = $(p).data('empty') !== undefined ? $(p).data('empty') : 'Input fields seem to be empty! Please fill and try again!!';
-            notify( empty_note );
-            return;
-        }
+    if( is_empty( p, 'required' ) ) {
+        $(p).removeClass('load');
+        $(e).attr('disabled',false);
+        let empty_note = $(p).data('empty') !== undefined ? $(p).data('empty') : 'Input fields seem to be empty! Please fill and try again!!';
+        notify( empty_note );
+        return;
+    }
     //}
 
     // Disable Send Button

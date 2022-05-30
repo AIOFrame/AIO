@@ -1,5 +1,5 @@
-$c1: #000;
-$c2: #222;
+$c1: var(--primary-color);
+$c2: var(--secondary-color);
 $radius: 8px;
 $border: 2px solid #eee;
 
@@ -17,7 +17,7 @@ label {
   font-size: 1rem;
   margin: 0;
 }
-[type=text], [type=search], [type=number], [type=email], [type=date], [type=password], [type=file], select, textarea {
+[type=text], [type=search], [type=number], [type=email], [type=date], [type=time], [type=password], [type=file], select, textarea {
   border:2px solid #eee;
   font-size: 1rem;
   line-height: 1.4rem;
@@ -73,7 +73,7 @@ label {
 [type=date], [type=time], [type=datetime] {
 
 }
-[type=text]:focus, [type=search]:focus, [type=number]:focus, [type=email]:focus, [type=date]:focus, [type=password]:focus, [type=file]:focus, select:focus, textarea:focus {
+[type=text]:focus, [type=search]:focus, [type=number]:focus, [type=email]:focus, [type=date]:focus, [type=time]:focus, [type=password]:focus, [type=file]:focus, select:focus, textarea:focus {
   border:2px solid $c1;
 }
 input.empty, select.empty, select.empty+.select2 {
