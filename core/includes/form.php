@@ -771,9 +771,9 @@ class FORM {
      * @param array $filter_params
      * @param string $clear_url Page path excluding APPURL Ex: user/payments
      */
-    function filters( array $filter_params = [], string $clear_url = '' ): void {
+    function filters( array $filter_params = [], string $clear_url = '', string $method = 'GET', string $filter_text = 'Filter', string $class = '' ): void {
         $clear_url = !empty( $clear_url ) ? APPURL . $clear_url : APPURL . PAGEPATH;
-        echo '<div class="filters_wrap"><form class="auto_filters"><div class="row"><div class="col-12 col-md-10"><div class="row">';
+        echo '<div class="filters_wrap '.$class.'"><form method="'.$method.'" class="auto_filters"><div class="row"><div class="col-12 col-md-10 inputs"><div class="row">';
         foreach( $filter_params as $f ) {
             $type = $f[0] ?? 'text';
             $id = $f[1] ??= '';
@@ -786,14 +786,14 @@ class FORM {
                 $options = $f[4] ?? [];
                 $value = $_POST[ $id ] ?? ($_GET[ $id ] ?? '');
                 $keyed = $f[8] ??= 0;
-                $this->select( $id, $label, $place, $options, $value, $attrs, $pre, $keyed );
+                $this->select2( $id, $label, $place, $options, $value, $attrs, $pre, $keyed );
             } else if( $type == 'date' ) {
                 $this->date( $id, $label, $place, $val, $attrs, 'bottom center', $pre );
             } else {
                 $this->input( $type, $id, $label, $place, $val, $attrs, $pre );
             }
         }
-        echo '</div></div><div class="col-12 col-md-2"><div class="row"><div class="col"><button type="submit" class="filter">'.T('Filter').'</button></div>';
+        echo '</div></div><div class="col-12 col-md-2 actions"><div class="row"><div class="col"><button type="submit" class="filter">'. $filter_text .'</button></div>';
         echo '<div class="col"><a href="'.$clear_url.'" class="clear">'.T('Clear').'</a></div>';
         echo '</div></div></div></form></div>';
     }
