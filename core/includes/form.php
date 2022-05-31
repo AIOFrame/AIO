@@ -770,6 +770,9 @@ class FORM {
      * Renders Filters HTML
      * @param array $filter_params
      * @param string $clear_url Page path excluding APPURL Ex: user/payments
+     * @param string $method
+     * @param string $filter_text
+     * @param string $class
      */
     function filters( array $filter_params = [], string $clear_url = '', string $method = 'GET', string $filter_text = 'Filter', string $class = '' ): void {
         $clear_url = !empty( $clear_url ) ? APPURL . $clear_url : APPURL . PAGEPATH;
@@ -804,13 +807,20 @@ class FORM {
      * @param string $query Array of query and filter [ [ 'user_since >', 'date_from' ] ]
      * @return string
      */
-    function filters_to_query( array $filter_params = [], string $query = '' ): string {
+    function filters_to_query( array $filter_params = [], string $query = '', string $method = 'GET' ): string {
         foreach( $filter_params as $qa ) {
-            if( is_array( $qa ) && isset( $qa[7] ) && isset( $qa[1] ) && !empty( $_GET[$qa[1]] ) ) {
-                $where = $qa[7];
-                $value = $_GET[$qa[1]];
-                $q = str_contains( $where, 'LIKE' ) ? $where.' \'%'.$value.'%\'' : $where.' \''.$value.'\'';
-                $query = !empty( $query ) ? $query.' AND '.$q : $q;
+            if( is_array( $qa ) && isset( $qa[7] ) && isset( $qa[1] ) ) {
+                $value = '';
+                if( $method == 'GET' ) {
+                    $value = $_GET[ $qa[1] ] ?? '';
+                } else {
+                    $value = $_POST[ $qa[1] ] ?? '';
+                }
+                if( !empty( $value ) ) {
+                    $where = $qa[7];
+                    $q = str_contains( $where, 'LIKE' ) ? $where.' \'%'.$value.'%\'' : $where.' \''.$value.'\'';
+                    $query = !empty( $query ) ? $query.' AND '.$q : $q;
+                }
             }
         }
         return $query;

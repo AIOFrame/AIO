@@ -963,6 +963,35 @@ aside::-webkit-scrollbar {
   overflow-y: auto;
 }
 
+/* REPORT PAGE */
+.report_page {
+  display: flex;
+  flex-direction: column-reverse;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+.report_page table, .report_page .charts {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+.report_page .charts {
+  display: none;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  scroll-snap-type: x mandatory;
+  scroll-padding: 0 20px;
+  margin: 0 -10px 20px;
+}
+.report_page .charts > div {
+  flex: 0 0 20%;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  cursor: pointer;
+  padding: 20px;
+  border: 2px solid red;
+  margin: 0 10px;
+}
+
 /* EMAIL OPTIONS */
 .template_preview {
   height: 300px;
