@@ -124,14 +124,19 @@ input.empty, select.empty, select.empty+.select2 {
   transform: translateY(-50%);
   width: 20px;
   height: 20px;
+  background-color: #fff;
 }
 [data-prev]:after {
   left: 5px;
-  background: url('../../icons/left.svg') no-repeat center / contain;
+  right: auto;
+  mask: url('../../icons/left.svg') no-repeat center / contain;
+  -webkit-mask: url('../../icons/left.svg') no-repeat center / contain;
 }
 [data-next]:after {
+  left: auto;
   right: 5px;
-  background: url('../../icons/right.svg') no-repeat center / contain;
+  mask: url('../../icons/right.svg') no-repeat center / contain;
+  -webkit-mask: url('../../icons/right.svg') no-repeat center / contain;
 }
 
 /* Buttons */
