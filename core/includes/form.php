@@ -76,7 +76,7 @@ class FORM {
     function select( string|array $identity = '', string $label = '', string $placeholder = '', array $options = [], string|null $selected = '', string $attr = '', string $pre = '', bool $keyed = false, bool $translate = false, string $post = '' ): void {
         $rand = rand( 0, 999999 );
         if( is_numeric( $pre ) ){
-            $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
+            $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-md-'.$pre.'">';
             $post = '</select></div>';
         }
         $post = empty( $post ) ? '</select>' : '</select>' . $post;

@@ -81,6 +81,14 @@
     background:#000;
   }
 }
+.tabs.material.light {
+  .tab {
+    color: #fff;
+  }
+  > div > .tab.on:after {
+    background: #fff;
+  }
+}
 
 // Design 2
 .tabs.two {

@@ -81,6 +81,13 @@
   background: #000;
 }
 
+.tabs.material.light .tab {
+  color: #fff;
+}
+.tabs.material.light > div > .tab.on:after {
+  background: #fff;
+}
+
 .tabs.two .tab {
   margin-right: 5px;
 }

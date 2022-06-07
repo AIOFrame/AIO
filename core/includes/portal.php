@@ -36,11 +36,11 @@ class PORTAL {
         // Fonts
         $fonts = [];
         $font1 = $options['font_1'] ?? 'Lato';
-        $weight1 = $options['font_1_weights'] ?? 400;
+        $weight1 = $options['font_1_weights'] ?? '300,400';
         $fonts[] = [ $font1, $weight1 ];
         reset_styles( $font1, $weight1, 5 );
         if( !empty( $options['font_2'] ) ) {
-            $weight2 = $options['font_2_weights'] ?? 400;
+            $weight2 = $options['font_2_weights'] ?? '300,400';
             $fonts[] = [ $options['font_2'], $weight2 ];
         }
         fonts( $fonts );
@@ -81,7 +81,7 @@ class PORTAL {
         $attrs = $attrs.' data-out="'. $c->encrypt('logout_ajax').'"';
 
         // </head>
-        echo '<style>:root {--primary-color:'.$color1.';--secondary-color:'.$color2.'}.b{border:1px solid '.$color1.'}.bf:focus{border:1px solid var(--primary-color)}.grad{background-color:var(--primary-color);background:-moz-linear-gradient(326deg,var(--primary-color) 0%,var(--secondary-color) 100%);background:-webkit-linear-gradient(326deg,var(--primary-color) 0%,var(--secondary-color) 100%);background-image:linear-gradient(45deg,var(--primary-color) 0%,var(--secondary-color) 100%);}</style></head><body ';
+        echo '<style>:root {--primary-color:'.$color1.';--secondary-color:'.$color2.'}.b{border:1px solid '.$color1.'}.bf:focus{border:1px solid var(--primary-color)}.grad{background-color:var(--primary-color);background:-moz-linear-gradient(326deg,var(--primary-color) 0%,var(--secondary-color) 100%);background:-webkit-linear-gradient(326deg,var(--primary-color) 0%,var(--secondary-color) 100%);background-image:linear-gradient(45deg,var(--primary-color) 0%,var(--secondary-color) 100%);}.grad-text{background: -webkit-linear-gradient(var(--primary-color), var(--secondary-color));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}</style></head><body ';
         body_class( $class );
         echo $attrs . '>';
 
