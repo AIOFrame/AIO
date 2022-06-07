@@ -61,7 +61,7 @@ $(document).ready(function(){
     // Air Date Picker
     if( typeof AirDatepicker !== 'undefined' ) {
         date_picker();
-        $('body').on('change','.dater',date_picker(this));
+        // $('body').on('change','.dater',date_picker(this));
     }
     // Date Picker
     /* if( $.fn.datepicker !== undefined ){
