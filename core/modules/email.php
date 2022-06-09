@@ -146,61 +146,67 @@ class MAIL {
 
         $secure = $smtp['port'] == 587 ? PHPMailer::ENCRYPTION_STARTTLS : PHPMailer::ENCRYPTION_SMTPS;
 
-        elog( 'To: ' . json_encode( $to ) . ', From: ' . json_encode( $from ) . ', Sub: ' . json_encode( $subject ), 'log', 182, ROOTPATH . 'core/modules/email.php' );
-        elog( 'Server: ' . json_encode( $smtp ) );
-        elog( 'Username: ' . $username . ', Password: ' . $password );
+        if( !empty( $smtp['host'] ) && !empty( $smtp['port'] ) ) {
 
-        elog('SMTP Host is '.$smtp['host']);
+            elog( 'To: ' . json_encode( $to ) . ', From: ' . json_encode( $from ) . ', Sub: ' . json_encode( $subject ), 'log', 182, ROOTPATH . 'core/modules/email.php' );
+            elog( 'Server: ' . json_encode( $smtp ) );
+            elog( 'Username: ' . $username . ', Password: ' . $password );
 
-        try {
-            $mail->SMTPDebug = false;
-            $mail->isSMTP();
-            $mail->Host       = $smtp['host'];
-            $mail->SMTPAuth   = true;
-            $mail->Username   = $username;
-            $mail->Password   = $password;
-            $mail->SMTPSecure = $secure;
-            $mail->Port       = $smtp['port'];
+            elog('SMTP Host is '.$smtp['host']);
 
-            //Recipients
-            if( is_array( $to ) ) {
-                foreach( $to as $t ) {
-                    is_array( $t ) ? $mail->addAddress( $t[0], $t[1] ) : $mail->addAddress( $t );;
+            try {
+                $mail->SMTPDebug = false;
+                $mail->isSMTP();
+                $mail->Host       = $smtp['host'];
+                $mail->SMTPAuth   = true;
+                $mail->Username   = $username;
+                $mail->Password   = $password;
+                $mail->SMTPSecure = $secure;
+                $mail->Port       = $smtp['port'];
+
+                //Recipients
+                if( is_array( $to ) ) {
+                    foreach( $to as $t ) {
+                        is_array( $t ) ? $mail->addAddress( $t[0], $t[1] ) : $mail->addAddress( $t );;
+                    }
+                } else {
+                    $to = explode( ',', $to );
+                    foreach( $to as $t ){
+                        $mail->addAddress( $t );
+                    }
                 }
-            } else {
-                $to = explode( ',', $to );
-                foreach( $to as $t ){
-                    $mail->addAddress( $t );
+                $mail->setFrom( $from, APPNAME );
+                $mail->addReplyTo( $from, APPNAME );
+
+                // Carbon-copy
+                if( is_array( $cc ) ) {
+                    foreach( $cc as $c ) {
+                        is_array( $c ) ? $mail->addCC( $c[0], $c[1] ) : $mail->addCC( $c );;
+                    }
+                } else if( !empty( $cc ) ) {
+                    $cc = explode( ',', $cc );
+                    foreach( $cc as $c ){
+                        $mail->addCC( $c );
+                    }
                 }
+
+                //Attachments
+                //$mail->addAttachment('/var/tmp/file.tar.gz');
+                //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');
+
+                //Content
+                $mail->isHTML(true);
+                $mail->Subject = $subject;
+                $mail->Body    = $content;
+
+                $mail->send();
+                return 1;
+            } catch (Exception $e) {
+                elog( $mail->ErrorInfo, 'error', 170, ROOTPATH . 'core/modules/email.php' );
+                return 0;
             }
-            $mail->setFrom( $from, APPNAME );
-            $mail->addReplyTo( $from, APPNAME );
-
-            // Carbon-copy
-            if( is_array( $cc ) ) {
-                foreach( $cc as $c ) {
-                    is_array( $c ) ? $mail->addCC( $c[0], $c[1] ) : $mail->addCC( $c );;
-                }
-            } else if( !empty( $cc ) ) {
-                $cc = explode( ',', $cc );
-                foreach( $cc as $c ){
-                    $mail->addCC( $c );
-                }
-            }
-
-            //Attachments
-            //$mail->addAttachment('/var/tmp/file.tar.gz');
-            //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');
-
-            //Content
-            $mail->isHTML(true);
-            $mail->Subject = $subject;
-            $mail->Body    = $content;
-
-            $mail->send();
-            return 1;
-        } catch (Exception $e) {
-            elog( $mail->ErrorInfo, 'error', 170, ROOTPATH . 'core/modules/email.php' );
+        } else {
+            elog( 'SMTP Details are not set!' );
             return 0;
         }
     }
