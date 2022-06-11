@@ -15,15 +15,15 @@ label {
   letter-spacing: 2px;
   margin: 0;
 }
-input {
-  font-size:1.1rem;
+[data-key=username], [data-key=password] {
+  font-size:1.2rem;
   background: #f1f1f1;
   border: 2px solid #f1f1f1;
   border-radius:8px;
   box-shadow:none;
   text-align: center;
   transition:.6s;
-  font-weight: lighter;
+  font-weight: normal;
   margin: 10px 0 20px;
   padding: 15px 40px;
 }
@@ -41,6 +41,7 @@ input {
   height:60px;
   width: 100%;
   margin: 0 auto 30px;
+  background-position: center !important;
 }
 .access_wrap {
   width: 40vw;
