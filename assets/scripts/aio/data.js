@@ -247,9 +247,9 @@ function process_data( e ){
     let p;
     if( $(e).parents('[data-t]') !== undefined && $(e).parents('[data-t]') !== null && $(e).parents('[data-t]').length > 0 ) {
         p =  $(e).parents('[data-t]');
-        $(p).find('[onclick="process_data(this)"]').attr('disabled',true);
+        $(p).find('[onclick="process_data(this)"]').attr('disabled',true).addClass('load');
         setTimeout(function(){
-            $(p).removeClass('load').find('[onclick="process_data(this)"]').attr('disabled',false);
+            $(p).removeClass('load').find('[onclick="process_data(this)"]').attr('disabled',false).removeClass('load');
         },5000);
         elog( $(e).parents('[data-t]') );
     } else { // TODO: Add logic to get all params from html button and parent element from where inputs inside will be validated
@@ -281,7 +281,7 @@ function process_data( e ){
     //if( $(p).attr('required') !== undefined ) {
     if( is_empty( p, 'required' ) ) {
         $(p).removeClass('load');
-        $(e).attr('disabled',false);
+        $(e).attr('disabled',false).removeClass('load');
         let empty_note = $(p).data('empty') !== undefined ? $(p).data('empty') : 'Input fields seem to be empty! Please fill and try again!!';
         notify( empty_note );
         return;
@@ -324,7 +324,7 @@ function process_data( e ){
 }
 
 function process_finish( p, r ) {
-    $(p).removeClass('load').find('[onclick="process_data(this)"]').attr('disabled',false);
+    $(p).removeClass('load').find('[onclick="process_data(this)"]').attr('disabled',false).removeClass('load');
     elog( p );
 }
 
