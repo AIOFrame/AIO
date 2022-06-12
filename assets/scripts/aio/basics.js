@@ -32,7 +32,11 @@ $(document).ready(function(){
         // Prevent default
         if($(this).data('href')){
             if( $(e.target).data('prevent-default') === undefined ){
-                location.href = $(this).data('href');
+                if( $(this).attr('target') !== undefined && $(this).attr('target') === '_blank' ) {
+                    window.open( $(this).data('href'), '_blank').focus();
+                } else {
+                    location.href = $(this).data('href');
+                }
             }
         }
     })
