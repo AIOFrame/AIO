@@ -27,6 +27,20 @@
       transition:.6s;
       position: relative;
       padding:12px 30px 20px 12px;
+      .fields {
+        display: flex;
+        margin: 10px -5px -5px;
+        justify-content: center;
+        flex-wrap: wrap;
+        .field {
+          margin:0 5px 5px;
+          padding: 6px 12px;
+          font-size: .9rem;
+          color: #fff;
+          background: firebrick;
+          border-radius: 6px;
+        }
+      }
     }
     .close {
       position: absolute;

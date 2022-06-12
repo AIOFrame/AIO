@@ -72,13 +72,11 @@ function get_values( parent, attribute, prepend ) {
                 value = t === true ? 1 : 2;
             }
         }
-        else if( $(this).attr('type') === 'radio' ) {
-
-            key = $(this).is(':checked') ? $(this).attr('name') : '';
-            key = $(this).data('key') !== undefined ? $(this).data('key') : key;
+        else if( $(this).attr('type') === 'radio' && $('input[name=' + $(this).attr('name') + ']:checked') ) {
+            // key = $(this).is(':checked') ? $(this).attr('name') : '';
+            // key = $(this).data('key') !== undefined ? $(this).data('key') : $(this).attr('name');
             //v = $(this).is(':checked') ? $(this).val() : '';
-            v = $('input[name='+$(this).attr('name')+']:checked').val();
-            value[ pre_key ] = v;
+            data[ pre_key ] = $('input[name=' + $(this).attr('name') + ']:checked').val();
             return true;
         }
         else if( $(this).is( "select" ) && $(this).attr('multiple') !== undefined ) {
@@ -162,42 +160,53 @@ function _email_valid( id ) {
  * Check if input field is empty and add class "empty"
  * @param e Input element or Parent element identifier ID or Class
  * @param d Data attribute of input
- * @returns {boolean}
  */
 function is_empty( e, d ) {
     d = d === undefined || d === '' ? '' : '['+d+']';
-    let result;
+    let required = [];
     if( $(e)[0] && ( $(e)[0].localName === 'div' || $(e)[0].localName === 'tr' || $(e)[0].localName === 'form' ) ){
-        let r = [];
         $.each($(e).find('input'+d+',select'+d+',textarea'+d),function(a,b){
             if( b !== undefined && $(b).val() !== null && $(b).val() !== "" ){
                 $(b).removeClass('empty');
-                r.push(false);
             } else {
                 // TODO: Check if the input is inside a tab and activate that tab
                 $(b).addClass('empty');
-                r.push(true);
-                if( $(e).data('empty-notify') !== undefined && $(e).data('empty-notify') !== '' ) {
-                    notify( $(e).data('empty-notify') );
-                }
+                required.push( $(b).attr('title') );
             }
-            //elog(b);
         });
-        //elog(r);
-        result = $.inArray(true, r) !== -1;
     } else {
         if( $(e).val() !== null && $(e).val() !== "" ){
             $(e).removeClass('empty');
-            result = false;
         } else {
             $(e).addClass('empty');
-            result = true;
-        }
-        if( result && $(e).data('empty-notify') !== undefined && $(e).data('empty-notify') !== '' ) {
-            notify( $(e).data('empty-notify') );
+            required.push( $(e).attr('title') );
         }
     }
-    return result;
+    return required;
+}
+
+function is_invalid( e, d ) {
+    d = d === undefined || d === '' ? '' : '['+d+']';
+    let invalid = [];
+    if( $(e)[0] && ( $(e)[0].localName === 'div' || $(e)[0].localName === 'tr' || $(e)[0].localName === 'form' ) ){
+        invalid = [];
+        $.each($(e).find('input'+d+',select'+d+',textarea'+d),function(a,b){
+            if( b !== undefined && $(b).attr('minlength') !== undefined && $(b).val().length < parseInt( $(b).attr('minlength') ) ) {
+                invalid.push( $(b).attr('title') );
+                $(b).addClass('empty');
+            } else {
+                $(b).removeClass('empty');
+            }
+        });
+    } else {
+        if( $(e).attr('minlength') !== undefined && $(e).val().length < parseInt( $(b).attr('minlength') ) ){
+            invalid.push( $(b).attr('title') );
+            $(e).addClass('empty');
+        } else {
+            $(e).removeClass('empty');
+        }
+    }
+    return invalid;
 }
 
 /**
@@ -266,7 +275,7 @@ function process_data( e ){
             return;
         }
     }
-
+    elog('testtt');
     elog(p);
     p = ( p.length !== 0 && p[0].tagName === 'DIV' ) ? p : $(e).parents('[data-data]');
     p.addClass('load');
@@ -277,13 +286,35 @@ function process_data( e ){
     let data = $(p).data('data');
     data = data !== undefined ? data : '';
 
-    // Check for empty values
     //if( $(p).attr('required') !== undefined ) {
-    if( is_empty( p, 'required' ) ) {
+    // Check for empty values
+    let required = is_empty( p, 'required' );
+    if( required.length > 0 ) {
         $(p).removeClass('load');
+        console.log(required);
         $(e).attr('disabled',false).removeClass('load');
-        let empty_note = $(p).data('empty') !== undefined ? $(p).data('empty') : 'Input fields seem to be empty! Please fill and try again!!';
+        let empty_note = $(p).data('empty') !== undefined ? $(p).data('empty') : 'The following fields seem to be empty!';
+        empty_note += '<div class="fields">';
+        $(required).each(function(i,req){
+            empty_note += '<div class="field">'+req+'</div>';
+        });
+        empty_note += '</div>';
         notify( empty_note );
+        return;
+    }
+
+    let invalid = is_invalid( p );
+    if( invalid.length > 0 ) {
+        $(p).removeClass('load');
+        console.log(invalid);
+        $(e).attr('disabled',false).removeClass('load');
+        let invalid_note = $(p).data('invalid') !== undefined ? $(p).data('invalid') : 'The following fields seem to be invalid!';
+        invalid_note += '<div class="fields">';
+        $(invalid).each(function(i,req){
+            invalid_note += '<div class="field">'+req+'</div>';
+        });
+        invalid_note += '</div>';
+        notify( invalid_note );
         return;
     }
     //}
@@ -443,6 +474,7 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
         try {
             r = JSON.parse( r );
             //elog(r);
+            elog( notify_time );
             if( notify_time !== undefined && notify_time !== '' ) {
                 elog(r);
                 elog($(p).data('success'));

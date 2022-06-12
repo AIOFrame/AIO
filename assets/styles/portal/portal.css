@@ -99,8 +99,8 @@ input.empty, select.empty, select.empty + .select2 {
 }
 
 .select2-selection:after {
-  mask: url("../../icons/select.svg") no-repeat calc(100% - 10px) center/20px;
-  -webkit-mask: url("../../icons/select.svg") no-repeat calc(100% - 10px) center/20px;
+  mask: url("../../icons/select.svg") no-repeat calc(100% - 2px) center/20px;
+  -webkit-mask: url("../../icons/select.svg") no-repeat calc(100% - 2px) center/20px;
 }
 
 [data-prev], [data-next] {

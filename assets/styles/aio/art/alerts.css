@@ -29,6 +29,20 @@
   position: relative;
   padding: 12px 30px 20px 12px;
 }
+[data-alerts] .alert .data .fields {
+  display: flex;
+  margin: 10px -5px -5px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+[data-alerts] .alert .data .fields .field {
+  margin: 0 5px 5px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  color: #fff;
+  background: firebrick;
+  border-radius: 6px;
+}
 [data-alerts] .alert .close {
   position: absolute;
   right: 5px;

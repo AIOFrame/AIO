@@ -122,7 +122,7 @@ class FORM {
             $post = '</div>';
         }
         $ph = $placeholder !== '' ? ' placeholder="'.$placeholder.'"' : '';
-        $at = $attrs !== '' ? ' '.$attrs : '';
+        $at = $attrs !== '' ? 'title="'.$label.'" '.$attrs : 'title="'.$label.'"';
         $id = !empty( $identity ) ? ( is_array($identity) ? $identity[0] : $identity.'_'.$rand ) : '';
         $name = is_array( $identity ) ? $identity[1] : $identity;
         if( $type == 'textarea' ) {
@@ -373,7 +373,7 @@ class FORM {
                 $wrap_inputs_post = '</div>';
             }
             $key = 'data-key="'.$name.'"';
-            if( strpos( $attr, 'data-array') !== false ) {
+            if( $type !== 'type="radio"' && strpos( $attr, 'data-array') !== false ) {
                 $name = $name . '[]';
             }
             $uq = rand(1,999);

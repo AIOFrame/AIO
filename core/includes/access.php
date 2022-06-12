@@ -195,12 +195,12 @@ class ACCESS {
             );
             if( $access ) {
                 // Email user to notify registration
-                if( $send_email ) {
+                if( $send_email && !empty( $email ) ) {
                     $subject = $db->get_option('email_subject_new_user');
                     $content = $db->get_option('email_content_new_user');
                     $subject = !empty($subject) ? str_replace('{{username}}', $login, $subject) : 'Welcome to ' . APPNAME;
                     $content = !empty($content) ? str_replace('{{username}}', $login, $content) : 'You are successfully registered with ' . APPNAME . '. Your login username is ' . $login . ' and your recovery email is ' . $email . '!';
-                    $this->mail($email, $subject, $content);
+                    $this->mail( $email, $subject, $content );
                 }
                 return [ $add_user, T('Successfully registered user!') ];
             } else {
@@ -534,7 +534,7 @@ function access_register_ajax() {
     }
 }
 
-function access_ajax() {
+function access_ajax(): void {
     if( !empty( $_POST['login'] ) ) {
         $cols = [
             'phone_code' => $_POST['phone_code'] ?? '',
@@ -556,25 +556,25 @@ function access_ajax() {
         $p = $_POST['pass'] ?? '';
         $email = $_POST['email'] ?? $_POST['login'];
         $name = $_POST['name'] ?? '';
-        $access = !empty( $_POST['access'] ) ? json_decode( $_POST['access'] ) : [];
+        $access = !empty( $_POST['access'] ) ? json_decode( $_POST['access'], 1 ) : [];
         $data_bypass = ['login','pass','email','name','dob','gender','phone','phone_code','access','pre','t','id','acs','action'];
         $a = new ACCESS();
         if( empty( $_POST['id'] ) ) {
             $user = $a->register( $l, $p, $email, $name, '', $cols, array_diff_key( $_POST, array_flip($data_bypass)), $access, 1 );
-            $user[0] ? es('Successfully registered Employee!') : ef($user[1]);
+            $user[0] ? es('Successfully registered User!') : ef($user[1]);
         } else {
             if( !empty( $p ) ) {
                 $a->overwrite_password( $l, $p );
             }
             $user = $a->update( $l, $cols, array_diff_key( $_POST, array_flip($data_bypass) ), $access );
-            $user ? es('Successfully updated Employee!') : ef('Failed to update Employee!');
+            $user ? es('Successfully updated User!') : ef('Failed to update User!');
         }
     } else {
-        ef('Failed to store employee due to empty data!');
+        ef('Failed to add user due to empty data!');
     }
 }
 
-function access_change_ajax() {
+function access_change_ajax(): void {
     $p = $_POST;
     if( isset( $p['old'] ) && isset( $p['new'] ) ) {
         $u = isset( $p['login'] ) ? $p['login'] : get_user_id();
@@ -849,7 +849,7 @@ function user_role_is( $role = '' ): bool {
  * @param string $array if the data has to be grouped as array
  * @return void
  */
-function user_registration_fields( string $pre = 'user_', string $data = '', string $array = '' ): void {
+function user_registration_fields( string $pre = 'user_', string $data = '', string $array = '', int $name = 4, int $email = 4, int $pass = 4, int $gender = 0, int $dob = 0, int $phone = 0 ): void {
     $codes = get_calling_codes();
     $f = new FORM();
     global $genders;
@@ -859,13 +859,15 @@ function user_registration_fields( string $pre = 'user_', string $data = '', str
     $data = $data ?? 'data';
     $attr = $array !== '' ? 'data-'.$data.' data-empty data-array="'.$array.'"' : 'data-'.$data.' data-empty';
     //$f->text([$pre.'login', 'login'], '', 'Ex: john_doe', '', $attr.' hidden required', 12 );
-    $f->text('name', 'Full Name', 'Ex: John Doe', '', $attr.' required', 4);
-    $f->input('email','login', 'Login Email Address', 'Ex: john_doe@gmail.com', '', $attr.'  data-help required', 4);
-    $f->input('password', 'pass', 'Login Password', '***********', '', $attr.' minlength="8" data-minlength="'.T('Minimum Characters').'" data-help autocomplete="new-password" required', 4);
-    $f->select('gender', 'Gender', 'Choose Gender...', $genders, 'Male', $attr.' class="select2"', 0, 4, 0, 0);
-    $f->date('dob', 'Date of Birth', 'Ex: 15-05-1990', '', $attr, 'top center', 4);
-    $f->select('phone_code', 'Code', 'Ex: +61', $codes, $phone_code, $attr.' class="select2" required', 1, '', 1, 0);
-    $f->text('phone', 'Phone Number', 'Ex: 501122333', '', $attr.' required', 3);
+    !empty( $name ) ? $f->text('name', 'Full Name', 'Ex: John Doe', '', $attr.' required', $name ) : '';
+    !empty( $email ) ? $f->input('email','login', 'Login Email Address', 'Ex: john_doe@gmail.com', '', $attr.'  data-help required', $email ) : '';
+    !empty( $pass ) ? $f->input('password', 'pass', 'Login Password', '***********', '', $attr.' minlength="8" data-minlength="'.T('Minimum Characters').'" data-help autocomplete="new-password" required', $pass ) : '';
+    !empty( $gender ) ? $f->select('gender', 'Gender', 'Choose Gender...', $genders, 'Male', $attr.' class="select2"', 0, $gender ) : '';
+    !empty( $dob ) ? $f->date('dob', 'Date of Birth', 'Ex: 15-05-1990', '', $attr, 'top center', $dob ) : '';
+    if( !empty( $phone ) ) {
+        $f->select('phone_code', 'Code', 'Ex: +61', $codes, $phone_code, $attr.' class="select2" required', 2 );
+        $f->text('phone', 'Phone Number', 'Ex: 501122333', '', $attr.' required', ( $phone - 2 ) );
+    }
 }
 
 /**
