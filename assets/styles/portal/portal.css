@@ -328,7 +328,7 @@ button:after, .btn:after {
 body {
   background: #f3f3f3;
   margin: 120px 0 90px;
-  min-height: calc( 100vh - 210px);
+  min-height: calc(100vh - 210px);
 }
 
 .invoice_view {
