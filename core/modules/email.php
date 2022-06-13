@@ -470,21 +470,21 @@ class MAIL {
                 $('.editor').trumbowyg({ autogrow: true }).on('tbwchange tbwfocus', function(e){
                     let f = $('iframe');
                     let url = $(f).attr('src').split('?')[0]+'?all&text='+encodeURIComponent($(this).val());
-                    $('#test_content').val( $( e.currentTarget ).val() );
+                    $('[data-key=test_content]').val( $( e.currentTarget ).val() );
                     $(f).attr('src',url);
                     setTimeout( frame_height, 1000 );
                 });
                 let head_editor = ace.edit( 'head_code' );
                 head_editor.session.setMode("ace/mode/html");
-                head_editor.session.setValue($('#template_head').val(),-1);
+                head_editor.session.setValue($('[data-key=template_head]').val(),-1);
                 head_editor.session.on('change', function(d) {
-                    $('#template_head').val( head_editor.getValue() );
+                    $('[data-key=template_head]').val( head_editor.getValue() );
                 });
                 let foot_editor = ace.edit( 'foot_code' );
                 foot_editor.session.setMode("ace/mode/html");
-                foot_editor.session.setValue($('#template_foot').val(),-1);
+                foot_editor.session.setValue($('[data-key=template_foot]').val(),-1);
                 foot_editor.session.on('change', function(d) {
-                    $('#template_foot').val( foot_editor.getValue() );
+                    $('[data-key=template_foot]').val( foot_editor.getValue() );
                 });
             });
             function frame_height() {
