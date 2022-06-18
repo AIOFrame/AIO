@@ -36,8 +36,6 @@ $action = isset( $_POST['action'] ) && !empty( $_POST['action'] ) ? $cry->decryp
 unset( $_POST['action'] );
 $action_is_ajax = !empty( $action ) && str_contains($action, '_ajax');
 
-elog( $action );
-
 if( $action_is_ajax ) {
     if( !$ajax ) {
         elog('AJAX request is not Asynchronous!');
