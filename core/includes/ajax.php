@@ -20,14 +20,23 @@ function ef( string $string = '', bool $translate = true ): void {
 // Check if request is AJAX
 $ajax = !empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest';
 
-// Check if AJAX is from same URL
-$url = !empty( $_SERVER['HTTP_ORIGIN'] ) && $_SERVER['HTTP_ORIGIN'] . '/' == APPURL;
+/* Check if AJAX is from same origin
+if (array_key_exists('HTTP_ORIGIN', $_SERVER)) {
+    $origin = $_SERVER['HTTP_ORIGIN'];
+} else if (array_key_exists('HTTP_REFERER', $_SERVER)) {
+    $origin = $_SERVER['HTTP_REFERER'];
+} else {
+    $origin = $_SERVER['REMOTE_ADDR'];
+}
+$url = !empty( $origin ) && $origin . '/' == APPURL; */
 
 // Action is set
 $cry = Encrypt::initiate();
 $action = isset( $_POST['action'] ) && !empty( $_POST['action'] ) ? $cry->decrypt( $_POST['action'] ) : '';
 unset( $_POST['action'] );
-$action_is_ajax = !empty( $action ) && strpos( $action, '_ajax' ) !== false;
+$action_is_ajax = !empty( $action ) && str_contains($action, '_ajax');
+
+elog( $action );
 
 if( $action_is_ajax ) {
     if( !$ajax ) {
@@ -35,11 +44,11 @@ if( $action_is_ajax ) {
         ef('AJAX request is not Asynchronous!');
         exit();
     }
-    if( !$url ) {
-        elog('AJAX request is not from authorized domain!');
-        ef('AJAX request is not from authorized domain!');
+    /* if( !$url ) {
+        elog('AJAX request is not from authorized domain '.$origin );
+        ef('AJAX request is not from authorized domain '.$origin, 0);
         exit();
-    }
+    } */
     if( function_exists( $action ) ){
         $action( $_POST );
     } else {
