@@ -19,7 +19,7 @@ class BARCODE {
      * @param string $format Format of the barcode
      * @author Shaikh <hey@shaikh.dev>
      */
-    function generate( string $text, int $width, int $height, string $bgColor, string $lineColor, string $textShow, string $textAlign, string $textPosition, int $textMargin, string $format ) {
+    function generate( string $text, int $width, int $height, string $bgColor, string $lineColor, string $textShow, string $textAlign, string $textPosition, int $textMargin, string $format ): void {
         if( !defined( 'BARCODE_'.$format.'_INCLUDED' ) ) {
             if (file_exists(ROOTPATH . 'core/components/ext/JsBarcode/JsBarcode.' . strtolower($format) . '.min.js')) {
                 echo '<script src="' . APPURL . '/core/components/ext/JsBarcode/JsBarcode.' . strtolower($format) . '.min.js" type="text/javascript"></script>';

@@ -40,7 +40,7 @@ function render_maps(): void {
 
 // Include and Render various BarCode
 
-function barcode( $text, $width = '100', $height = '36', $textShow = 0, $bgColor = '#ffffff', $lineColor = '#000000', $textAlign = 'center', $textPosition = 'bottom', $textMargin = '0', $format = 'CODE128' ) {
+function barcode( $text, $width = '100', $height = '36', $textShow = 0, $bgColor = '#ffffff', $lineColor = '#000000', $textAlign = 'center', $textPosition = 'bottom', $textMargin = '0', $format = 'CODE128' ) : void {
     include_once( ROOTPATH . 'core/modules/external/JsBarcode/barcode.php' );
     //global $barcode_loaded;
     //if( !$barcode_loaded ) {
@@ -50,9 +50,15 @@ function barcode( $text, $width = '100', $height = '36', $textShow = 0, $bgColor
     //}
 }
 
+function qrcode( $text, $width = '100', $height = '100', $bgColor = '#ffffff', $lineColor = '#000000' ): void {
+    include_once( ROOTPATH . 'core/modules/external/QRCode/qrcode.php' );
+    $qrcode = new QRCODE();
+    $qrcode->generate( $text, $width, $height, $bgColor, $lineColor );
+}
+
 // File Uploader and Stored URL Processor
 
-function file_upload() {
+function file_upload(): void {
     include_once( ROOTPATH . 'core/modules/file_uploader.php' );
     global $file_upload_loaded;
     if( !$file_upload_loaded ){
