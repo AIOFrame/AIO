@@ -341,9 +341,15 @@ class ACCESS {
 
     }
 
-    function overwrite_password( string $login, string $new_pass ): array {
+    function overwrite_password( string|int $login_or_id, string $new_pass ): array {
         $db = new DB();
-        $user = $db->select( 'users', 'user_id', 'user_login = \''.$login.'\'', 1 );
+        if( is_numeric( $login_or_id ) ) {
+            $e = Encrypt::initiate();
+            $uid = $e->decrypt( $login_or_id );
+            $user = $db->select( 'users', 'user_id', 'user_id = \''.$uid.'\'', 1 );
+        } else {
+            $user = $db->select( 'users', 'user_id', 'user_login = \''.$login_or_id.'\'', 1 );
+        }
         if( isset( $user['user_id'] ) && !empty( $user['user_id'] ) ) {
             $update = $db->update( 'access', [ 'access_pass' ], [ password_hash( $new_pass, PASSWORD_DEFAULT, [ 'cost' => 12 ] ) ], 'access_uid = \''.$user['user_id'].'\'' );
             return $update ? [ 1, T('Password updated successfully!') ] : [ 0, T('Failed to update password, please try again later') ];
@@ -554,8 +560,8 @@ function access_ajax(): void {
         }
         $l = $_POST['login'];
         $p = $_POST['pass'] ?? '';
-        $email = $_POST['email'] ?? $_POST['login'];
-        $name = $_POST['name'] ?? '';
+        $email = $_POST['email'] ?? $l;
+        $name = $_POST['name'] ?? $l;
         $access = !empty( $_POST['access'] ) ? json_decode( $_POST['access'], 1 ) : [];
         $data_bypass = ['login','pass','email','name','dob','gender','phone','phone_code','access','pre','t','id','acs','action'];
         $a = new ACCESS();
@@ -563,10 +569,15 @@ function access_ajax(): void {
             $user = $a->register( $l, $p, $email, $name, '', $cols, array_diff_key( $_POST, array_flip($data_bypass)), $access, 1 );
             $user[0] ? es('Successfully registered User!') : ef($user[1]);
         } else {
+            $e = Encrypt::initiate();
+            $uid = $e->decrypt( $_POST['id'] );
             if( !empty( $p ) ) {
-                $a->overwrite_password( $l, $p );
+                $a->overwrite_password( $uid, $p );
             }
-            $user = $a->update( $l, $cols, array_diff_key( $_POST, array_flip($data_bypass) ), $access );
+            $cols['login'] = $l;
+            $cols['email'] = $email;
+            $cols['name'] = $name;
+            $user = $a->update( $uid, $cols, array_diff_key( $_POST, array_flip($data_bypass) ), $access );
             $user ? es('Successfully updated User!') : ef('Failed to update User!');
         }
     } else {
