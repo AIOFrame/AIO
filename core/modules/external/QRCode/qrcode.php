@@ -18,8 +18,8 @@ class QRCODE {
         echo '<script>';
         echo 'new QRCode(document.getElementById("bc_'.$r.'"), { useSVG: true,';
         echo 'text: "'.$text.'",';
-        echo 'colorLight: "'.$lineColor.'",';
-        echo 'colorDark: "'.$bgColor.'",';
+        echo 'colorLight: "'.$bgColor.'",';
+        echo 'colorDark: "'.$lineColor.'",';
         echo 'width: '.$width.',';
         echo 'height: '.$height.',';
         echo '});';
