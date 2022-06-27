@@ -50,10 +50,10 @@ function barcode( $text, $width = '100', $height = '36', $textShow = 0, $bgColor
     //}
 }
 
-function qrcode( $text, $width = '100', $height = '100', $bgColor = '#ffffff', $lineColor = '#000000' ): void {
+function qrcode( $text, $width = '100', $height = '100', $color = '#000000' ): void {
     include_once( ROOTPATH . 'core/modules/external/QRCode/qrcode.php' );
     $qrcode = new QRCODE();
-    $qrcode->generate( $text, $width, $height, $bgColor, $lineColor );
+    $qrcode->generate( $text, $width, $height, $color );
 }
 
 // File Uploader and Stored URL Processor
