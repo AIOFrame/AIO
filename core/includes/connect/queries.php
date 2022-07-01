@@ -746,7 +746,7 @@ class DB {
  * @param bool $remove_empty
  * @return array
  */
-function prepare_keys( $array = '', $pre = '', bool $remove_empty = true ): array {
+function prepare_keys( array|string $array = '', string $pre = '', bool $remove_empty = true ): array {
     $keys = [];
     $array = is_array( $array ) ? $array : $_POST;
     unset( $array['action'] );
@@ -761,6 +761,7 @@ function prepare_keys( $array = '', $pre = '', bool $remove_empty = true ): arra
             }
         }
     }
+    //elog( $keys );
     return $keys;
 }
 
@@ -771,7 +772,7 @@ function prepare_keys( $array = '', $pre = '', bool $remove_empty = true ): arra
  * @param bool $remove_empty
  * @return array
  */
-function prepare_values( $array = '', $pre = '', bool $remove_empty = true ): array {
+function prepare_values( array|string $array = '', string $pre = '', bool $remove_empty = true ): array {
     $values = [];
     $array = is_array( $array ) ? $array : $_POST;
     unset( $array['action'] );
@@ -787,10 +788,11 @@ function prepare_values( $array = '', $pre = '', bool $remove_empty = true ): ar
             }
         }
     }
+    //elog( $values );
     return $values;
 }
 
-function process_data_ajax() {
+function process_data_ajax(): void {
     $a = $_POST;
     if( !empty( $a['t'] ) ){
         $cry = Encrypt::initiate();
