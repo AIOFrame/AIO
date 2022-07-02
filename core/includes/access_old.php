@@ -104,7 +104,7 @@ class ACCESS_OLD {
                 if ( $nu ) {
                     // Sets the user's access data
                     $um = update( 'access', ['access_pass'], [ password_hash( $password, PASSWORD_BCRYPT, ['cost' => 12] )], 'access_uid = "'.$uq.'"' );
-                    $um && $logout ? delete( 'sessions', 'ss_uid = "'.$uq.'"' ) : '';
+                    $um && $logout ? delete( 'sessions', 'session_uid = "'.$uq.'"' ) : '';
                     return $um ? [true, $nu] : [0, 'Update Successful'];
                 } else {
                     return [1, 'Failed to update'];
@@ -139,7 +139,7 @@ class ACCESS_OLD {
                         $_SESSION = $gu;
                         !empty($gu['user_data']) ? $_SESSION['user_data'] = unserialize($gu['user_data']) : '';
                         $_SESSION['login_string'] = hash('sha512', $gp['access_pass'] . $this->get_user_browser());
-                        $ssid = insert( 'sessions', ['ss_uid','ss_time','ss_ip','ss_os','ss_client','ss_status'],[$uid,date("Y-m-d H:i:s"),$this->get_user_ip(),$this->get_user_os(),self::get_user_browser(),1] );
+                        $ssid = insert( 'sessions', ['session_uid','ss_time','ss_ip','ss_os','ss_client','ss_status'],[$uid,date("Y-m-d H:i:s"),$this->get_user_ip(),$this->get_user_os(),self::get_user_browser(),1] );
                         $_SESSION['id'] = $ssid;
                         if (!isset($_SESSION)) {
                             session_set_cookie_params(0, '/', str_replace(' ', '_', APPNAME), false, false);

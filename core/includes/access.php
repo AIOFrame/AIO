@@ -106,7 +106,7 @@ class ACCESS {
     function clear_session(): array {
         if( !empty( $_SESSION['user']['id'] ) && is_numeric( $_SESSION['user']['id'] ) ) {
             $db = new DB();
-            $deleted = $db->delete( 'sessions', 'ss_uid = \''.$_SESSION['user_id'].'\'' );
+            $deleted = $db->delete( 'sessions', 'session_uid = \''.$_SESSION['user_id'].'\'' );
             return $deleted ? [ 1, T('Successfully cleared all sessions!') ] : [ 0, T('Failed to clear sessions!') ];
         } else {
             return [];
@@ -120,7 +120,7 @@ class ACCESS {
     function clear_all_sessions(): array {
         if( !empty( $_SESSION['user_id'] ) && is_numeric( $_SESSION['user_id'] ) ) {
             $db = new DB();
-            $deleted = $db->delete( 'sessions', 'ss_uid = \''.$_SESSION['user_id'].'\'' );
+            $deleted = $db->delete( 'sessions', 'session_uid = \''.$_SESSION['user_id'].'\'' );
             return $deleted ? [ 1, T('Successfully cleared all sessions!') ] : [ 0, T('Failed to clear sessions!') ];
         } else {
             return [];
@@ -432,7 +432,7 @@ class ACCESS {
         if( $user ) {
             $db->delete( 'users', 'user_id = \''.$login_or_id.'\'' );
             $db->delete( 'access', 'access_uid = \''.$login_or_id.'\'' );
-            $db->delete( 'sessions', 'ss_uid = \''.$login_or_id.'\'' );
+            $db->delete( 'sessions', 'session_uid = \''.$login_or_id.'\'' );
             es('Successfully removed the user!');
         } else {
             ef('Failed to find existing user!');
@@ -776,7 +776,7 @@ function verify_user_logged_in() {
 
             // Check if session is stored online
             $session_check = 0; global $access;
-            $ss = select('sessions', '', 'ss_uid = "'.$_SESSION['user_id'].'"');
+            $ss = select('sessions', '', 'session_uid = "'.$_SESSION['user_id'].'"');
             if( is_array( $ss ) ){
                 foreach( $ss as $s ){
                     if( $s['ss_ip'] == $access->get_user_ip() && $s['ss_os'] == $access->get_user_os() && $s['ss_client'] == $access::get_user_browser() && $s['ss_status'] == 1 ){
