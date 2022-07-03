@@ -125,6 +125,10 @@ class MAIL {
             'sendgrid' => [
                 'host' => 'smtp.sendgrid.net',
                 'port' => 465
+            ],
+            'zepto' => [
+                'host' => 'smtp.zeptomail.com',
+                'port' => 465
             ]
         ];
         if( class_exists( 'DB' ) ) {
@@ -403,6 +407,15 @@ class MAIL {
      */
     function options( string $template_url = '' ): void {
         $db = new DB();
+        $smtp_servers = [
+            'google' => 'Google',
+            'yahoo' => 'Yahoo',
+            'hotmail' => 'Hotmail / Outlook / Live',
+            'mailjet' => 'MailJet',
+            'mailersend' => 'MailerSend',
+            'sendgrid' => 'SendGrid',
+            'zepto' => 'ZeptoMail'
+        ];
         $email_fields = [
             'from_email' => 'From Email',
             'smtp' => 'SMTP Server',
@@ -436,7 +449,7 @@ class MAIL {
             $smtp_username = $os['smtp_username'] ?? '';
             $smtp_password = $os['smtp_password'] ?? '';
             $f->text('from_email','From (Sender) Email','',$from,$attr,3);
-            $f->select('smtp','SMTP Gateway','Choose gateway...',[ 'google' => 'Google', 'yahoo' => 'Yahoo', 'hotmail' => 'Hotmail / Outlook / Live', 'mailjet' => 'MailJet', 'mailersend' => 'MailerSend', 'sendgrid' => 'SendGrid' ],$smtp,$attr.' class="select2"',3,1);
+            $f->select('smtp','SMTP Gateway','Choose gateway...', $smtp_servers, $smtp,$attr.' class="select2"',3,1);
             $f->text('smtp_username','SMTP Email','',$smtp_username,$attr,3);
             $f->input('password','smtp_password','SMTP Password','',$smtp_password,$attr,3);
             $f->process_html('Save API Details','store grad','','process_options_ajax','col-12 tac');
