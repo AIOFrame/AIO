@@ -390,6 +390,8 @@ class ACCESS {
             if( !empty( $access ) ) {
                 $keys[] = 'user_access';
                 $values[] = json_encode( $access );
+                // Sets that user permissions have changed
+                $_SESSION['user']['update'] = 1;
             }
             $update = $db->update( 'users', $keys, $values, 'user_id = \''.$user['user_id'].'\'' );
             return $update ? [ 1, T('Successfully updated user information!') ] : [ 0, T('Failed to update user information, please check log!') ];
@@ -831,9 +833,16 @@ if( isset( $_GET['logout'] ) ) {
 function user_can( string|array $perms ): bool {
     $uid = isset( $_SESSION['user'] ) && isset( $_SESSION['user']['id'] ) ? $_SESSION['user']['id'] : 0;
     if( is_numeric( $uid ) && $uid > 0 ) {
-        $db = new DB();
-        $ua = $db->select( 'users', 'user_access', 'user_id = \''.$uid.'\'', 1 );
-        $access = !empty( $ua ) && isset( $ua['user_access'] ) ? json_decode( $ua['user_access'] ) : [];
+        if( isset( $_SESSION['user']['update'] ) && $_SESSION['user']['update'] == 1 ) {
+            $db = new DB();
+            $ua = $db->select( 'users', 'user_access', 'user_id = \''.$uid.'\'', 1 );
+            $access = !empty( $ua ) && isset( $ua['user_access'] ) ? json_decode( $ua['user_access'] ) : [];
+            // Update SESSION
+            $_SESSION['user']['access'] = json_encode( $access );
+            unset( $_SESSION['user']['update'] );
+        } else {
+            $access = !is_array( $_SESSION['user']['access'] ) ? json_decode( $_SESSION['user']['access'] ) : $_SESSION['user']['access'];
+        }
         $perms = !is_array( $perms ) ? explode( ',', $perms ) : $perms;
         $return = [];
         foreach( $perms as $p ) {
@@ -858,6 +867,12 @@ function user_role_is( $role = '' ): bool {
  * @param string $pre Pre text for keys
  * @param string $data data attribute to get values
  * @param string $array if the data has to be grouped as array
+ * @param int $name
+ * @param int $email
+ * @param int $pass
+ * @param int $gender
+ * @param int $dob
+ * @param int $phone
  * @return void
  */
 function user_registration_fields( string $pre = 'user_', string $data = '', string $array = '', int $name = 4, int $email = 4, int $pass = 4, int $gender = 0, int $dob = 0, int $phone = 0 ): void {
