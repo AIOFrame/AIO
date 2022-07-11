@@ -11,13 +11,14 @@ $(document).ready(function(){
     // Modal Close Logics
     .on('click','.modal .close',function(){
         $(this).parents('.modal').removeClass('on');
-        let removeFade = true;
+        let removeFade = [];
         $('.modal').each(function(a,b){
             if( $(b).hasClass('on') ) {
-                removeFade = false;
+                removeFade.push(1);
             }
         });
-        if( removeFade ) { $('article').removeClass('fade'); }
+        console.log( removeFade );
+        if( removeFade.length === 0 ) { $('article').removeClass('fade'); }
         reset_modal(this);
     });
 })

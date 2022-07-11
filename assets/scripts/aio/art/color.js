@@ -18,7 +18,14 @@ $(document).ready(function(){
     // Close color wrapper
     .on('click','.color_picker_wrap .close',function(){
         $('.color_picker_wrap').removeClass('on').children('.color-picker').html('');
-        $('article').removeClass('fade');
+        let removeFade = [];
+        $('.modal').each(function(a,b){
+            if( $(b).hasClass('on') ) {
+                removeFade.push(1);
+            }
+        });
+        if( removeFade.length === 0 ) { $('article').removeClass('fade'); }
+        //$('article').removeClass('fade');
     })
     // Update color code
     .on('keyup','.color_picker_wrap input',function(){

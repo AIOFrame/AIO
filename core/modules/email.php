@@ -5,6 +5,100 @@ use \Mailjet\Resources;
 
 class MAIL {
 
+    private array $mail_providers = [
+        'google' => [
+            'name' => 'Google',
+            'host' => 'smtp.gmail.com',
+            'port' => 465
+        ],
+        'yahoo' => [
+            'name' => 'Yahoo Mail',
+            'host' => 'smtp.mail.yahoo.com'
+        ],
+        'hotmail' => [
+            'name' => 'Hotmail',
+            'host' => 'smtp-mail.outlook.com'
+        ],
+        'outlook' => [
+            'name' => 'Outlook',
+            'host' => 'smtp-mail.outlook.com'
+        ],
+        'live' => [
+            'name' => 'Live Mail',
+            'host' => 'smtp-mail.outlook.com'
+        ],
+        'mailjet' => [
+            'name' => 'MailJet',
+            'host' => 'in-v3.mailjet.com',
+            'port' => 587
+        ],
+        'mailersend' => [
+            'name' => 'MailerSend',
+            'host' => 'smtp.mailersend.net',
+            'port' => 587
+        ],
+        'sendgrid' => [
+            'name' => 'SendGrid',
+            'host' => 'smtp.sendgrid.net',
+            'port' => 465
+        ],
+        'zepto' => [
+            'name' => 'ZeptoMail',
+            'host' => 'smtp.zeptomail.com',
+            'port' => 465
+        ],
+        'sendinblue' => [
+            'name' => 'SendInBlue',
+            'host' => 'smtp-relay.sendinblue.com',
+            'port' => 587
+        ],
+        'postmark' => [
+            'name' => 'PostMark',
+            'host' => 'smtp.postmarkapp.com',
+            'port' => 587
+        ],
+        'mailgun' => [
+            'name' => 'MailGun',
+            'host' => 'smtp.mailgun.org',
+            'port' => 587
+        ],
+        'elastic' => [
+            'name' => 'Elastic Email',
+            'host' => 'smtp.elasticemail.com',
+            'port' => 587
+        ],
+        'pepipost' => [
+            'name' => 'Pepipost',
+            'host' => 'smtp.pepipost.com',
+            'port' => 587
+        ],
+        'sparkpost' => [
+            'name' => 'SparkPost',
+            'host' => 'smtp.sparkpostmail.com',
+            'port' => 587
+        ],
+        'mandrill' => [
+            'name' => 'Mandrill',
+            'host' => 'smtp.mandrillapp.com',
+            'port' => 465
+        ],
+        'netcore' => [
+            'name' => 'Net Core',
+            'host' => 'smtp.netcorecloud.net',
+            'port' => 465
+        ],
+        'sendpulse' => [
+            'name' => 'SendPulse',
+            'host' => 'smtp-pulse.com',
+            'port' => 2525
+        ],
+        'kingmailer' => [
+            'name' => 'KingMailer',
+            'host' => 'kingmailer.org',
+            'port' => 465
+        ]
+    ];
+
     /**
      * @param string $to Receivers email address
      * @param string $subject Email subject
@@ -97,40 +191,7 @@ class MAIL {
             $foot = $this->get_template('foot');
             $content = $head . $content . $foot;
         }
-        $def = [
-            'google' => [
-                'host' => 'smtp.gmail.com',
-                'port' => 465
-            ],
-            'yahoo' => [
-                'host' => 'smtp.mail.yahoo.com'
-            ],
-            'hotmail' => [
-                'host' => 'smtp-mail.outlook.com'
-            ],
-            'outlook' => [
-                'host' => 'smtp-mail.outlook.com'
-            ],
-            'live' => [
-                'host' => 'smtp-mail.outlook.com'
-            ],
-            'mailjet' => [
-                'host' => 'in-v3.mailjet.com',
-                'port' => 587
-            ],
-            'mailersend' => [
-                'host' => 'smtp.mailersend.net',
-                'port' => 587
-            ],
-            'sendgrid' => [
-                'host' => 'smtp.sendgrid.net',
-                'port' => 465
-            ],
-            'zepto' => [
-                'host' => 'smtp.zeptomail.com',
-                'port' => 465
-            ]
-        ];
+        $def = $this->mail_providers;
         if( class_exists( 'DB' ) ) {
             $db = new DB();
             $smtp = !empty( $smtp ) ? $smtp : $db->get_option('smtp');
@@ -407,7 +468,7 @@ class MAIL {
      */
     function options( string $template_url = '' ): void {
         $db = new DB();
-        $smtp_servers = [
+        /* $smtp_servers = [
             'google' => 'Google',
             'yahoo' => 'Yahoo',
             'hotmail' => 'Hotmail / Outlook / Live',
@@ -421,7 +482,8 @@ class MAIL {
             'smtp' => 'SMTP Server',
             'smtp_username' => 'SMTP Username',
             'smtp_password' => 'SMTP Password',
-        ];
+        ]; */
+        $mail_providers = $this->mail_providers;
         $m = new MAIL();
         if( isset( $_POST['template_head'] ) ) {
             $m->set_template( 'head', $_POST['template_head'] );

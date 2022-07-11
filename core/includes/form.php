@@ -16,6 +16,7 @@ class FORM {
         if( $placeholder !== '' ){
             echo empty($s) ? '<option disabled selected>'.$placeholder.'</option>' : '<option disabled>'.$placeholder.'</option>';
         }
+        // TODO: If multi dimensional array then and also add data attr, possibly auto fill logic
         if( is_assoc( $options ) ) {
             foreach ( $options as $k => $t ) {
                 $sel = '';
@@ -88,6 +89,7 @@ class FORM {
         $ph = !empty( $placeholder ) ? ' placeholder="'.$placeholder.'" data-placeholder="'.$placeholder.'"' : '';
         echo '<select name="'.$name.'" data-key="'.$name.'" id="'.$id.'"'.$at.$ph.'>';
         //if( str_contains( $attr, 'select2' ) ) {
+        // TODO: Options to check if array is multi dimensional and append accordingly
         if( str_contains( $attr, 'select2') ) {
             $placeholder = '';
             $options = [ '' => 'select2_placeholder' ] + $options;
