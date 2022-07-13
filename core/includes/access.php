@@ -138,10 +138,11 @@ class ACCESS {
      * @param array $data User meta to be stored in user_data column
      * @param array $access User Permissions, Custom array with permission name key and boolean value
      * @param string $status User status, 1 for active and 0 for inactive, default 1
-     * @param bool $send_email Send an automated email
+     * @param string $email_subject Subject for automated email
+     * @param string $email_content Content placeholder for automated email, also adds header and footer templates
      * @return array
      */
-    function register( string $login, string $pass, string $email = '', string $name = '', string $picture = '', array $columns = [], array $data = [], array $access = [], string $status = '1', bool $send_email = false ) : array {
+    function register( string $login, string $pass, string $email = '', string $name = '', string $picture = '', array $columns = [], array $data = [], array $access = [], string $status = '1', string $email_subject = '', string $email_content = '' ) : array {
         // User login restrictions
         $login = strtolower( $login );
         $valid_name = $this->valid_name( $login );
@@ -195,11 +196,10 @@ class ACCESS {
             );
             if( $access ) {
                 // Email user to notify registration
-                if( $send_email && !empty( $email ) ) {
-                    $subject = $db->get_option('email_subject_new_user');
-                    $content = $db->get_option('email_content_new_user');
-                    $subject = !empty($subject) ? str_replace('{{username}}', $login, $subject) : 'Welcome to ' . APPNAME;
-                    $content = !empty($content) ? str_replace('{{username}}', $login, $content) : 'You are successfully registered with ' . APPNAME . '. Your login username is ' . $login . ' and your recovery email is ' . $email . '!';
+                if( !empty( $email_subject ) || !empty( $email_content ) ) {
+                    // $subject = $db->get_option('email_subject_new_user');
+                    $subject = $email_subject == 1 ? 'Welcome to ' . APPNAME : str_replace('{{username}}', $login, $email_subject);
+                    $content = $email_content == 1 ? 'You are successfully registered with ' . APPNAME . '. Your login username is ' . $login . ' and your recovery email is ' . $email . '!' : str_replace('{{username}}', $login, str_replace('{{email}}', $email, str_replace( '{{password}}', $pass, $email_content )));
                     $this->mail( $email, $subject, $content );
                 }
                 return [ $add_user, T('Successfully registered user!') ];
@@ -499,7 +499,7 @@ class ACCESS {
     }
 }
 
-function access_login_ajax() {
+function access_login_ajax(): void {
     $login = isset( $_POST['login_username'] ) && !empty( $_POST['login_username'] ) ? $_POST['login_username'] : '';
     $pass = isset( $_POST['login_password'] ) && !empty( $_POST['login_password'] ) ? $_POST['login_password'] : '';
 
@@ -512,7 +512,7 @@ function access_login_ajax() {
     }
 }
 
-function access_forgot_ajax() {
+function access_forgot_ajax(): void {
     if( !empty( $_POST['forgot_username'] ) ) {
         $a = new ACCESS();
         $forgot = $a->forgot( $_POST['forgot_username'] );
@@ -522,7 +522,7 @@ function access_forgot_ajax() {
     }
 }
 
-function access_register_ajax() {
+function access_register_ajax(): void {
     $login = isset( $_POST['register_username'] ) && !empty( $_POST['register_username'] ) ? $_POST['register_username'] : '';
     $pass = isset( $_POST['register_password'] ) && !empty( $_POST['register_password'] ) ? $_POST['register_password'] : '';
     $email = isset( $_POST['register_email'] ) && !empty( $_POST['register_email'] ) ? $_POST['register_email'] : '';
@@ -532,10 +532,12 @@ function access_register_ajax() {
     $data = isset( $_POST['register_data'] ) && !empty( $_POST['register_data'] ) ? $_POST['register_data'] : [];
     $access = isset( $_POST['register_access'] ) && !empty( $_POST['register_access'] ) ? $_POST['register_access'] : [];
     $status = isset( $_POST['register_status'] ) && !empty( $_POST['register_status'] ) ? $_POST['register_status'] : 1;
+    $subject = isset( $_POST['register_subject'] ) && !empty( $_POST['register_subject'] ) ? $_POST['register_subject'] : 1;
+    $content = isset( $_POST['register_content'] ) && !empty( $_POST['register_content'] ) ? $_POST['register_content'] : 1;
 
     if( !empty( $login ) && !empty( $pass ) ) {
         $a = new ACCESS();
-        $register = $a->register( $login, $pass, $email, $name, $picture, $columns, $data, $access, $status );
+        $register = $a->register( $login, $pass, $email, $name, $picture, $columns, $data, $access, $status, $subject, $content );
         echo json_encode( $register );
     } else {
         ef('Missing user login or password!');
