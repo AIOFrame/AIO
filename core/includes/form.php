@@ -18,17 +18,30 @@ class FORM {
         }
         // TODO: If multi dimensional array then and also add data attr, possibly auto fill logic
         if( is_assoc( $options ) ) {
-            foreach ( $options as $k => $t ) {
+            foreach ( $options as $value => $data ) {
                 $sel = '';
-                $t = $translate ? T($t) : $t;
-                $k = $keyed ? $k : $t; //|| $k !== $t
-                if( is_array( $s ) && in_array( $k, $s ) ) {
+                $attr = '';
+                $text = '';
+                if( is_array( $data ) && isset( $data['text'] ) && isset( $data['value'] ) ) {
+                    //skel( $data );
+                    $text = $translate ? T( $data['text'] ) : $data['text'];
+                    $value = $keyed ? T( $data['value'] ) : $data['value'];
+                    $attrs = array_diff_key( $data, array_flip( [ 'text', 'value' ] ));
+                    //skel( $attrs );
+                    foreach( $attrs as $ak => $av ) {
+                        $attr .= ' data-'.$ak.'="'.$av.'"';
+                    }
+                } else {
+                    $text = $translate ? T($data) : $data;
+                    $value = $keyed ? $value : $data; //|| $k !== $t
+                }
+                if( is_array( $s ) && in_array( $value, $s ) ) {
                     $sel = 'selected';
-                } else if( $k == $s ) {
+                } else if( $value == $s ) {
                     $sel = 'selected';
                 }
-                if( $t == 'select2_placeholder' ) { echo '<option></option>'; continue; }
-                echo '<option value="' . $k . '" ' . $sel . '>' . $t . '</option>';
+                if( $data == 'select2_placeholder' ) { echo '<option></option>'; continue; }
+                echo '<option value="' . $value . '" ' . $sel . $attr.'>' . $text . '</option>';
             }
         } else {
             foreach( $options as $k => $o ) {

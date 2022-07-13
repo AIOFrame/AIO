@@ -7,94 +7,94 @@ class MAIL {
 
     private array $mail_providers = [
         'google' => [
-            'name' => 'Google',
-            'host' => 'smtp.gmail.com',
+            'text' => 'Google',
+            'value' => 'smtp.gmail.com',
             'port' => 465
         ],
         'yahoo' => [
-            'name' => 'Yahoo Mail',
-            'host' => 'smtp.mail.yahoo.com'
+            'text' => 'Yahoo Mail',
+            'value' => 'smtp.mail.yahoo.com'
         ],
         'hotmail' => [
-            'name' => 'Hotmail',
-            'host' => 'smtp-mail.outlook.com'
+            'text' => 'Hotmail',
+            'value' => 'smtp-mail.outlook.com'
         ],
         'outlook' => [
-            'name' => 'Outlook',
-            'host' => 'smtp-mail.outlook.com'
+            'text' => 'Outlook',
+            'value' => 'smtp-mail.outlook.com'
         ],
         'live' => [
-            'name' => 'Live Mail',
-            'host' => 'smtp-mail.outlook.com'
+            'text' => 'Live Mail',
+            'value' => 'smtp-mail.outlook.com'
         ],
         'mailjet' => [
-            'name' => 'MailJet',
-            'host' => 'in-v3.mailjet.com',
+            'text' => 'MailJet',
+            'value' => 'in-v3.mailjet.com',
             'port' => 587
         ],
         'mailersend' => [
-            'name' => 'MailerSend',
-            'host' => 'smtp.mailersend.net',
+            'text' => 'MailerSend',
+            'value' => 'smtp.mailersend.net',
             'port' => 587
         ],
         'sendgrid' => [
-            'name' => 'SendGrid',
-            'host' => 'smtp.sendgrid.net',
+            'text' => 'SendGrid',
+            'value' => 'smtp.sendgrid.net',
             'port' => 465
         ],
         'zepto' => [
-            'name' => 'ZeptoMail',
-            'host' => 'smtp.zeptomail.com',
+            'text' => 'ZeptoMail',
+            'value' => 'smtp.zeptomail.com',
             'port' => 465
         ],
         'sendinblue' => [
-            'name' => 'SendInBlue',
-            'host' => 'smtp-relay.sendinblue.com',
+            'text' => 'SendInBlue',
+            'value' => 'smtp-relay.sendinblue.com',
             'port' => 587
         ],
         'postmark' => [
-            'name' => 'PostMark',
-            'host' => 'smtp.postmarkapp.com',
+            'text' => 'PostMark',
+            'value' => 'smtp.postmarkapp.com',
             'port' => 587
         ],
         'mailgun' => [
-            'name' => 'MailGun',
-            'host' => 'smtp.mailgun.org',
+            'text' => 'MailGun',
+            'value' => 'smtp.mailgun.org',
             'port' => 587
         ],
         'elastic' => [
-            'name' => 'Elastic Email',
-            'host' => 'smtp.elasticemail.com',
+            'text' => 'Elastic Email',
+            'value' => 'smtp.elasticemail.com',
             'port' => 587
         ],
         'pepipost' => [
-            'name' => 'Pepipost',
-            'host' => 'smtp.pepipost.com',
+            'text' => 'Pepipost',
+            'value' => 'smtp.pepipost.com',
             'port' => 587
         ],
         'sparkpost' => [
-            'name' => 'SparkPost',
-            'host' => 'smtp.sparkpostmail.com',
+            'text' => 'SparkPost',
+            'value' => 'smtp.sparkpostmail.com',
             'port' => 587
         ],
         'mandrill' => [
-            'name' => 'Mandrill',
-            'host' => 'smtp.mandrillapp.com',
+            'text' => 'Mandrill',
+            'value' => 'smtp.mandrillapp.com',
             'port' => 465
         ],
         'netcore' => [
-            'name' => 'Net Core',
-            'host' => 'smtp.netcorecloud.net',
+            'text' => 'Net Core',
+            'value' => 'smtp.netcorecloud.net',
             'port' => 465
         ],
         'sendpulse' => [
-            'name' => 'SendPulse',
-            'host' => 'smtp-pulse.com',
+            'text' => 'SendPulse',
+            'value' => 'smtp-pulse.com',
             'port' => 2525
         ],
         'kingmailer' => [
-            'name' => 'KingMailer',
-            'host' => 'kingmailer.org',
+            'text' => 'KingMailer',
+            'value' => 'kingmailer.org',
             'port' => 465
         ]
     ];
@@ -191,43 +191,46 @@ class MAIL {
             $foot = $this->get_template('foot');
             $content = $head . $content . $foot;
         }
-        $def = $this->mail_providers;
+        //$def = $this->mail_providers;
         if( class_exists( 'DB' ) ) {
             $db = new DB();
-            $smtp = !empty( $smtp ) ? $smtp : $db->get_option('smtp');
-            $username = !empty( $username ) ? $username : $db->get_option('smtp_username');
-            $password = !empty( $password ) ? $password : $db->get_option('smtp_password');
-            $from = !empty( $from ) ? $from : $db->get_option('from_email');
+            $smtp_options = $db->get_options(['smtp_server','smtp_port','smtp_username','smtp_password']);
+            $smtp_server = !empty( $smtp ) ? $smtp : $smtp_options['smtp_server'];
+            $smtp_port = $smtp_options['smtp_port'] ?? '';
+            $username = !empty( $username ) ? $username : $smtp_options['smtp_username'];
+            $password = !empty( $password ) ? $password : $smtp_options['smtp_password'];
+            $from = !empty( $from ) ? $from : $smtp_options['from_email'];
         }
-        $smtp = !empty( $smtp ) ? $smtp : get_config('smtp');
+        $smtp_server = !empty( $smtp_server ) ? $smtp_server : get_config('smtp_server');
+        $smtp_port = !empty( $smtp_port ) ? $smtp_port : get_config('smtp_port');
         $username = !empty( $username ) ? $username : get_config('smtp_username');
         $password = !empty( $password ) ? $password : get_config('smtp_password');
-        elog( 'SMTP -> '. $smtp );
-        $smtp = is_array( $smtp ) ? $smtp : ($def[$smtp] ?? []);
+        elog( 'SMTP -> '. $smtp_server );
+        /* $smtp = is_array( $smtp ) ? $smtp : ($def[$smtp] ?? []);
         elog( 'SMTP -> '. json_encode( $smtp ) );
         $from = !empty( $from ) ? $from : $username;
-        $smtp['port'] = !empty( $smtp['port'] ) ? $smtp['port'] : 465;
+        $smtp['port'] = !empty( $smtp['port'] ) ? $smtp['port'] : 465; */
         $mail = new PHPMailer(true);
 
-        $secure = $smtp['port'] == 587 ? PHPMailer::ENCRYPTION_STARTTLS : PHPMailer::ENCRYPTION_SMTPS;
+        $secure = $smtp_port == 587 ? PHPMailer::ENCRYPTION_STARTTLS : PHPMailer::ENCRYPTION_SMTPS;
 
-        if( !empty( $smtp['host'] ) && !empty( $smtp['port'] ) ) {
+        if( !empty( $smtp_server ) && !empty( $smtp_port ) ) {
 
             elog( 'To: ' . json_encode( $to ) . ', From: ' . json_encode( $from ) . ', Sub: ' . json_encode( $subject ), 'log', 182, ROOTPATH . 'core/modules/email.php' );
             elog( 'Server: ' . json_encode( $smtp ) );
             elog( 'Username: ' . $username . ', Password: ' . $password );
 
-            elog('SMTP Host is '.$smtp['host']);
+            elog('SMTP Host is '.$smtp_port);
 
             try {
                 $mail->SMTPDebug = false;
                 $mail->isSMTP();
-                $mail->Host       = $smtp['host'];
+                $mail->Host       = $smtp_server;
                 $mail->SMTPAuth   = true;
                 $mail->Username   = $username;
                 $mail->Password   = $password;
                 $mail->SMTPSecure = $secure;
-                $mail->Port       = $smtp['port'];
+                $mail->Port       = $smtp_port;
 
                 //Recipients
                 if( is_array( $to ) ) {
@@ -468,6 +471,8 @@ class MAIL {
      */
     function options( string $template_url = '' ): void {
         $db = new DB();
+        //$smtp_servers = [];
+        $mail_providers = $this->mail_providers;
         /* $smtp_servers = [
             'google' => 'Google',
             'yahoo' => 'Yahoo',
@@ -483,7 +488,7 @@ class MAIL {
             'smtp_username' => 'SMTP Username',
             'smtp_password' => 'SMTP Password',
         ]; */
-        $mail_providers = $this->mail_providers;
+        
         $m = new MAIL();
         if( isset( $_POST['template_head'] ) ) {
             $m->set_template( 'head', $_POST['template_head'] );
@@ -500,7 +505,7 @@ class MAIL {
         </div>
         <div class="row" <?php $f->process_params('','email','',3,0,[],'Successfully Saved Settings'); ?>>
             <?php
-            $os = $db->get_options(['from_email','smtp','smtp_username','smtp_password']);
+            $os = $db->get_options(['from_email','smtp','smtp_server','smtp_port','smtp_username','smtp_password']);
             $attr = 'data-email';
             $f->text('test_content','','','',$attr.' class="dn"');
             //$f->text('autoload','','','from_email,smtp,smtp_username,smtp_password',$attr.' class="dn"');
@@ -508,12 +513,18 @@ class MAIL {
             $f->process_html('Send','l w r5 mt30','','send_test_email_ajax',2);
             $from = $os['from_email'] ?? '';
             $smtp = $os['smtp'] ?? '';
+            $smtp_server = $os['smtp_server'] ?? '';
+            $smtp_port = $os['smtp_port'] ?? '';
             $smtp_username = $os['smtp_username'] ?? '';
             $smtp_password = $os['smtp_password'] ?? '';
-            $f->text('from_email','From (Sender) Email','',$from,$attr,3);
-            $f->select('smtp','SMTP Gateway','Choose gateway...', $smtp_servers, $smtp,$attr.' class="select2"',3,1);
-            $f->text('smtp_username','SMTP Email','',$smtp_username,$attr,3);
-            $f->input('password','smtp_password','SMTP Password','',$smtp_password,$attr,3);
+            $f->select('smtp','SMTP Gateway','Choose gateway...', $mail_providers, $smtp,$attr.' class="select2"',4,1);
+            $f->texts([
+                ['smtp_server','SMTP Server','',$smtp_server],
+                ['smtp_port','SMTP Port','',$smtp_port],
+                ['from_email','From (Sender) Email','',$from],
+                ['smtp_username','SMTP Email','',$smtp_username],
+            ],$attr,4);
+            $f->input('password','smtp_password','SMTP Password','',$smtp_password,$attr,4);
             $f->process_html('Save API Details','store grad','','process_options_ajax','col-12 tac');
             ?>
         </div>
@@ -542,6 +553,14 @@ class MAIL {
                     $(f).attr('src',url);
                     setTimeout(frame_height,1000);
                 }); */
+
+                $('body').on('change','[data-key=smtp]',function(){
+                    let d = $(this).find(':selected');
+                    let port = d.data('port') !== undefined ? d.data('port') : 465;
+                    $('[data-key=smtp_server]').val( d.val() );
+                    $('[data-key=smtp_port]').val( port );
+                });
+
                 $('.editor').trumbowyg({ autogrow: true }).on('tbwchange tbwfocus', function(e){
                     let f = $('iframe');
                     let url = $(f).attr('src').split('?')[0]+'?all&text='+encodeURIComponent($(this).val());
