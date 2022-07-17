@@ -178,7 +178,7 @@ class ACCESS {
                 unset( $columns['dob'] );
             }
             foreach( $columns as $k => $v ) {
-                elog( $v );
+                //elog( $v );
                 if( !isset( $keys[ $k ] ) ) {
                     $keys[] = 'user_'.$k;
                     $values[] = $v;
@@ -366,7 +366,7 @@ class ACCESS {
      * @param array $access User Permissions, Custom array with permission name key and boolean value
      * @return array
      */
-    function update( string $login_or_id, array $columns = [], array $data = [], array $access = [] ): array {
+    function update( string $login_or_id, string $pass = '', array $columns = [], array $data = [], array $access = [] ): array {
         $db = new DB();
         $user = is_numeric( $login_or_id ) ? $db->select( 'users', 'user_id', 'user_id = \''.$login_or_id.'\'', 1 ) : $db->select( 'users', 'user_id', 'user_login = \''.$login_or_id.'\'', 1 );
         if( isset( $user['user_id'] ) && !empty( $user['user_id'] ) ) {
@@ -381,6 +381,10 @@ class ACCESS {
                     }
                 }
             }
+            // Password
+            if( !empty( $pass ) ) {
+                $this->overwrite_password( $login_or_id, $pass );
+            }
             // Data
             if( !empty( $data ) ) {
                 $keys[] = 'user_data';
@@ -394,7 +398,7 @@ class ACCESS {
                 $_SESSION['user']['update'] = 1;
             }
             $update = $db->update( 'users', $keys, $values, 'user_id = \''.$user['user_id'].'\'' );
-            return $update ? [ 1, T('Successfully updated user information!') ] : [ 0, T('Failed to update user information, please check log!') ];
+            return $update ? [ $user['user_id'], T('Successfully updated user information!') ] : [ 0, T('Failed to update user information, please check log!') ];
         } else {
             return [ 0, T('User not found!') ];
         }
@@ -445,6 +449,7 @@ class ACCESS {
      * Add default users from config
      */
     function config_users(): void {
+        // TODO: Automate this so it does not repeat
         if( defined('CONFIG') && APPDEBUG ) {
             $c = json_decode( CONFIG, 1 );
             if( isset( $c['users'] ) && is_array( $c['users'] ) ) {
@@ -495,7 +500,7 @@ class ACCESS {
      * @return string
      */
     function valid_email( string $email = '' ): string {
-
+        return '';
     }
 }
 
@@ -545,6 +550,76 @@ function access_register_ajax(): void {
 }
 
 function access_ajax(): void {
+    $login = $_POST['login'] ?? ( $_POST['email'] ?? ( $_POST['id'] ?? '' ) );
+    $pass = $_POST['pass'] ?? '';
+    if( !empty( $login ) ) {
+
+        $e = Encrypt::initiate();
+
+        // Prepare Parameters
+        $name = $_POST['name'] ?? '';
+        $email = $_POST['email'] ?? '';
+        $gender = $_POST['gender'] ?? '';
+        $phone = $_POST['phone'] ?? '';
+        $phone_code = $_POST['phone_code'] ?? '';
+        $picture = $_POST['picture'] ?? '';
+        $dob = $_POST['dob'] ?? '';
+        $role = $_POST['role'] ?? '';
+        $type = $_POST['type'] ?? '';
+        $access = !empty( $_POST['access'] ) ? json_decode( $_POST['access'], 1 ) : [];
+        $status = $_POST['status'] ?? '';
+        $data_bypass = ['login','pass','email','name','dob','picture','gender','phone','phone_code','type','role','access','callback','h','status','pre','t','id','acs','action'];
+        $data = $_POST['data'] ?? array_diff_key( $_POST, array_flip($data_bypass));
+        $columns_bypass = ['login','pass','email','name','picture','callback','h','pre','t','id','acs','access','action'];
+        $register_columns = array_diff_key( $_POST, array_flip($columns_bypass));
+        $update_columns = [ 'name' => $name, 'email' => $email, 'gender' => $gender, 'dob' => $dob, 'phone' => $phone, 'phone_code' => $phone_code, 'role' => $role, 'type' => $type, 'status' => $status ];
+
+        // Hidden Data
+        if( isset( $_POST['h'] ) ) {
+            $h = $e->decrypt_array( $_POST['h'] );
+            //unset( $_POST['h'] );
+            foreach( $h as $hk => $hv ) {
+                $register_columns[ $hk ] = $hv;
+                $update_columns[ $hk ] = $hv;
+            }
+        }
+
+        // Check If User Exists
+        $db = new DB();
+
+        if( is_numeric( $login ) || isset( $_POST['id'] ) ) {
+            $eid = isset( $_POST['id'] ) ? $e->decrypt( $_POST['id'] ) : $login;
+            $user_query = 'user_id = \''.$eid.'\'';
+        } else {
+            $user_query = 'user_login = \''.$login.'\'';
+        }
+        $user = $db->select( 'users', '', $user_query, 1 );
+
+        // Either Update User or Register
+        $a = new ACCESS();
+
+        if( !empty( $user ) ) {
+            $r = $a->update( $login, $pass, $update_columns, $data, $access );
+        } else {
+            $r = $a->register( $login, $pass, $email, $name, $picture, $register_columns, $data, $access, 1 );
+        }
+
+        elog( $_POST );
+
+        // Callback Function
+        if( !empty( $_POST['callback'] ) && $r[0] ) {
+            $new_user = $db->select( 'users', '', 'user_id = \''.$r[0].'\'', 1 );
+            $callback = $e->decrypt( $_POST['callback'] );
+            $callback( $new_user );
+        }
+
+        $r[0] ? es( $r[1], 'Successfully updated user account!' ) : ef('Failed to register or update user account!');
+    } else {
+        ef('User not found!');
+    }
+}
+
+/* function access_ajax(): void {
     if( !empty( $_POST['login'] ) ) {
         $cols = [
             'phone_code' => $_POST['phone_code'] ?? '',
@@ -575,19 +650,19 @@ function access_ajax(): void {
         } else {
             $e = Encrypt::initiate();
             $uid = $e->decrypt( $_POST['id'] );
-            if( !empty( $p ) ) {
-                $a->overwrite_password( $uid, $p );
-            }
+            //if( !empty( $p ) ) {
+                //$a->overwrite_password( $uid, $p );
+            //}
             $cols['login'] = $l;
             $cols['email'] = $email;
             $cols['name'] = $name;
-            $user = $a->update( $uid, $cols, array_diff_key( $_POST, array_flip($data_bypass) ), $access );
+            $user = $a->update( $uid, $p, $cols, array_diff_key( $_POST, array_flip($data_bypass) ), $access );
             $user ? es('Successfully updated User!') : ef('Failed to update User!');
         }
     } else {
         ef('Failed to add user due to empty data!');
     }
-}
+} */
 
 function access_change_ajax(): void {
     $p = $_POST;
@@ -725,7 +800,7 @@ function register_html_pre( int|string $reload_in = 3, int|string $notify_for = 
 /**
  * Renders frontend post-wrap html for user registration
  **/
-function register_html_post() {
+function register_html_post(): void {
     $cry = Encrypt::initiate();
     ?>
         <button onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_register_ajax' ); ?>"><?php E('Register'); ?></button>
@@ -742,7 +817,7 @@ function get_user_id(): string {
 }
 
 /**
- * Gets user name if logged in
+ * Gets username if logged in
  * @return string
  */
 function get_user_name(): string {
@@ -753,7 +828,7 @@ function get_user_name(): string {
  * Redirects user to certain url if not logged in
  * @param string $url URL to redirect to
  */
-function login_redirect( string $url = 'login' ) {
+function login_redirect( string $url = 'login' ): void {
     if( !user_logged_in() ){
         header( "Location:" .APPURL.$url );
         die();
@@ -769,7 +844,7 @@ function user_logged_in(): bool {
 }
 
 
-function verify_user_logged_in() {
+function verify_user_logged_in(): bool {
     // TODO: Change define to global vars
     if( !defined('LOGGED_IN') ){
         if ( isset($_SESSION['user_login']) && isset($_SESSION['user_id']) && isset($_SESSION['login_string']) ) {
@@ -800,7 +875,7 @@ function verify_user_logged_in() {
     }
 }
 
-function logout_ajax() {
+function logout_ajax(): void {
     $a = new ACCESS();
     $a->clear_current_sessions();
     if( !isset( $_SESSION['user'] ) ) {
@@ -890,11 +965,13 @@ function user_registration_fields( string $pre = 'user_', string $data = '', str
     !empty( $name ) ? $f->text('name', 'Full Name', 'Ex: John Doe', '', $attr.' required', $name ) : '';
     !empty( $email ) ? $f->input('email','login', 'Login Email Address', 'Ex: john_doe@gmail.com', '', $attr.'  data-help required', $email ) : '';
     !empty( $pass ) ? $f->input('password', 'pass', 'Login Password', '***********', '', $attr.' data-help autocomplete="new-password"', $pass ) : '';
-    !empty( $gender ) ? $f->select('gender', 'Gender', 'Choose Gender...', $genders, 'Male', $attr.' class="select2"', 0, $gender ) : '';
+    !empty( $gender ) ? $f->select('gender', 'Gender', 'Choose Gender...', $genders, 'Male', $attr.' class="select2"', $gender ) : '';
     !empty( $dob ) ? $f->date('dob', 'Date of Birth', 'Ex: 15-05-1990', '', $attr, 'top center', $dob ) : '';
     if( !empty( $phone ) ) {
-        $f->select('phone_code', 'Code', 'Ex: +61', $codes, $phone_code, $attr.' class="select2" required', 2 );
-        $f->text('phone', 'Phone Number', 'Ex: 501122333', '', $attr.' required', ( $phone - 2 ) );
+        echo $phone == 0 ? '<div class="col"><div class="row">' : '<div class="col-12 col-md-' . $phone . '"><div class="row">';
+        $f->select('phone_code', 'Code', 'Ex: +61', $codes, $phone_code, $attr.' class="select2" required', 5 );
+        $f->text('phone', 'Phone Number', 'Ex: 501122333', '', $attr.' required', 7 );
+        echo '</div></div>';
     }
 }
 

@@ -195,7 +195,7 @@ class MAIL {
         if( class_exists( 'DB' ) ) {
             $db = new DB();
             $smtp_options = $db->get_options(['smtp_server','smtp_port','smtp_username','smtp_password']);
-            $smtp_server = !empty( $smtp ) ? $smtp : $smtp_options['smtp_server'];
+            $smtp_server = !empty( $smtp ) ? $smtp : ( $smtp_options['smtp_server'] ?? '' );
             $smtp_port = $smtp_options['smtp_port'] ?? '';
             $username = !empty( $username ) ? $username : $smtp_options['smtp_username'];
             $password = !empty( $password ) ? $password : $smtp_options['smtp_password'];

@@ -275,7 +275,7 @@ function process_data( e ){
             return;
         }
     }
-    elog('testtt');
+    //elog('testtt');
     elog(p);
     p = ( p.length !== 0 && p[0].tagName === 'DIV' ) ? p : $(e).parents('[data-data]');
     p.addClass('load');
@@ -349,12 +349,20 @@ function process_data( e ){
         }
     });
     elog(d);
-    let cb = p.data('callback') !== '' && p.data('callback') !== undefined ? 'process_finish,' + p.data('callback') : 'process_finish';
+
+    // Callback Function
+    let cb = '';
+    if( p.data('callback') !== '' && p.data('callback') !== undefined ) {
+        cb = 'process_end,' + p.data('callback');
+        d.callback = p.data('callback');
+    } else {
+        cb = 'process_end';
+    }
     post( d.action, d, p.data('notify'), p.data('reload'), p.data('redirect'), 0, cb, p.data('reset'), p );
 
 }
 
-function process_finish( p, r ) {
+function process_end( p, r ) {
     $(p).removeClass('load').find('[onclick="process_data(this)"]').attr('disabled',false).removeClass('load');
     elog( p );
 }

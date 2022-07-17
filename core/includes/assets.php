@@ -60,7 +60,7 @@ function art( array|string $arts = '', string $color1 = '222', string $color2 = 
             $art_ux .= $a.',';
         }
     }
-    echo '<style>:root {--primary-color:'.$color1.';--secondary-color:'.$color2.'}.b{border:1px solid '.$color1.'}.bf:focus{border:1px solid var(--primary-color)}.grad{background-color:var(--primary-color);background:-moz-linear-gradient(326deg,var(--primary-color) 0%,var(--secondary-color) 100%);background:-webkit-linear-gradient(326deg,var(--primary-color) 0%,var(--secondary-color) 100%);background-image:linear-gradient(45deg,var(--primary-color) 0%,var(--secondary-color) 100%);}.grad-text{background: -webkit-linear-gradient(var(--primary-color), var(--secondary-color));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}</style>';
+    echo '<style>:root {--primary-color:'.$color1.';--secondary-color:'.$color2.'}.bs{border:1px solid '.$color1.'}.bf:focus{border:1px solid var(--primary-color)}.grad{background-color:var(--primary-color);background:-moz-linear-gradient(326deg,var(--primary-color) 0%,var(--secondary-color) 100%);background:-webkit-linear-gradient(326deg,var(--primary-color) 0%,var(--secondary-color) 100%);background-image:linear-gradient(45deg,var(--primary-color) 0%,var(--secondary-color) 100%);}.grad-text{background: -webkit-linear-gradient(var(--primary-color), var(--secondary-color));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}</style>';
     echo '<link rel="stylesheet" href="'.APPURL.'assets/art.php?arts='.rtrim($art_ui,',').'&fc='.$color1.'&sc='.$color2. $v . '">';
     echo '<script src="'.APPURL.'assets/art.php?type=ux&arts='.rtrim($art_ux,',').$v.'"></script>';
 
