@@ -182,6 +182,8 @@ function get_script(string $f, array $params = [], string $page_of = ''): void {
                 echo '<script data-recaptcha src="' . $url . '"></script>';
                 return;
             }
+        } else if( $f == 'stripe' ) {
+            echo '<script src="https://js.stripe.com/v3/"></script>';
         }
         if( $page_of !== '' ){
             echo page_of( $page_of ) && $url !== '' ? '<script src="' . $url . $v . '"></script>' : '';
@@ -194,11 +196,11 @@ function get_script(string $f, array $params = [], string $page_of = ''): void {
 
 /**
  * Finds .js files and outputs <script>'s
- * @param string $ar JS files separated by ,
- * @param string $page_of Load only if current page is of
+ * @param string|array string $ar JS files separated by ,
+ * @param string|array $page_of Load only if current page is of
  * @author Shaikh <hey@shaikh.dev>
  */
-function get_scripts( $ar = '', $page_of = '' ) {
+function get_scripts( string|array $ar = '', string|array $page_of = '' ): void {
     if( !empty( $ar ) ){
         $ar = is_array( $ar ) ? $ar : explode( ',', str_replace( ' ', '', $ar ) );
         foreach( $ar as $f ){
@@ -219,7 +221,7 @@ function get_scripts( $ar = '', $page_of = '' ) {
  * @return string
  * @author Shaikh <hey@shaikh.dev>
  */
-function asset_exists( $paths = [], $f = '', $ext = '' ): string {
+function asset_exists( array $paths = [], string $f = '', string $ext = '' ): string {
     $url = '';
     foreach( $paths as $path => $link ) {
         if( file_exists( $path . '.php' ) )
@@ -296,7 +298,7 @@ function comp_exists( string $component, string $dir ): string {
  * Load component file if exists
  * @param string $n Comp file name excluding .php
  */
-function get_comp( string $n ){
+function get_comp( string $n ): void {
     $app_file = comp_exists( $n, 'components' );
     if( $app_file ) {
         include($app_file);
@@ -309,7 +311,7 @@ function get_comp( string $n ){
  * Loads modal file if exists
  * @param string $n Modal file name excluding .php
  */
-function get_modal( string $n ){
+function get_modal( string $n ): void {
     $n = comp_exists( $n, 'modals' );
     $n ? include_once( $n ) : '';
 }
@@ -318,7 +320,7 @@ function get_modal( string $n ){
  * Gets page file
  * @param string $n Page file name excluding .php
  */
-function get_page( string $n ){
+function get_page( string $n ): void {
     $ns = explode('/',$n);
     $x = 1;
     $fl = APPPATH . '/pages/';
@@ -333,7 +335,7 @@ function get_page( string $n ){
     file_exists( $fl ) ? include( $fl ) : '';
 }
 
-function aio_page( $ui, $array = [] ) {
+function aio_page( $ui, $array = [] ): void {
     $page = ROOTPATH . 'core/pages/' . $ui . '.php';
     if( file_exists( $page ) ) {
         if( !empty( $array ) ) {
@@ -451,7 +453,7 @@ function get_title( string $title = '', bool $join_app_name = true ): void {
  * Sets a title thru jQuery, Not SEO friendly
  * @param $title
  */
-function set_title( $title ){
+function set_title( $title ): void {
     echo '<script>$(document).ready(function() { document.title = "' . $title . ' - ' . APPNAME . '"; });</script>';
 }
 
@@ -459,7 +461,7 @@ function set_title( $title ){
  * Renders APP URL from a string
  * @param string $link
  */
-function APPURL( string $link ) {
+function APPURL( string $link ): void {
     echo APPURL.$link;
 }
 
@@ -468,7 +470,7 @@ function APPURL( string $link ) {
  * @param string $url
  * @param string $title
  */
-function back_link( string $url = './', string $title = '' ) {
+function back_link( string $url = './', string $title = '' ): void {
     echo '<a id="back" class="nico" href="'.$url.'">'.$title.'</a>';
 }
 
@@ -476,7 +478,7 @@ function back_link( string $url = './', string $title = '' ) {
  * @param string $number Phone Number (with code)
  * @param string $class Additional Class
  */
-function call_link( string $number = '', string $class = '' ) {
+function call_link( string $number = '', string $class = '' ): void {
     echo '<a href="tel:'.$number.'" class="call_link '.$class.'">'.$number.'</a>';
 }
 
@@ -484,27 +486,27 @@ function call_link( string $number = '', string $class = '' ) {
  * @param string $email Email address
  * @param string $class Additional Class
  */
-function mail_link( string $email = '', string $class = '' ) {
+function mail_link( string $email = '', string $class = '' ): void {
     echo '<a href="mailto:'.$email.'" class="mail_link '.$class.'">'.$email.'</a>';
 }
 
 /**
  * Check if current page is given page name
- * @param string $p page name
+ * @param string|array $p page name
  * @return bool
  */
-function page_is( string $p ): bool {
+function page_is( string|array $p ): bool {
     return is_array( $p ) ? in_array(PAGEPATH,$p) : PAGEPATH == $p;
 }
 
 /**
  * Check if current page is or child of given page name
- * @param string $p page name
+ * @param string|array $p page name
  * @return bool
  */
-function page_of( string $p ): bool {
+function page_of( string|array $p ): bool {
     $results = [];
-    $page_ofs = explode( ',', $p );
+    $page_ofs = is_array( $p ) ? $p : explode( ',', $p );
     $pages = explode( '/', PAGEPATH );
     foreach( $page_ofs as $of ) {
         $results[] = in_array( $of, $pages );
@@ -517,7 +519,7 @@ function page_of( string $p ): bool {
  * @param array $array
  * @param string $prefix
  */
-function render_menu( array $array, string $prefix = '' ) {
+function render_menu( array $array, string $prefix = '' ): void {
     //$array = is_array( $array ) ? $array : explode(',',$array);
     echo '<ul>';
     foreach( $array as $first_row ){

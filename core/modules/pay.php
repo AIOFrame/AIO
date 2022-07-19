@@ -80,6 +80,15 @@ class PAY {
 class STRIPE {
 
     function __construct() {
+
+        // Subscriptions Plans
+        $tables[] = [ 'subscription_plans', [
+            [ 'name', 'VARCHAR', 128, 1 ],
+            [ 'price', 'FLOAT', '', 1 ],
+            [ 'interval', 'VARCHAR', 128, 1 ],
+            [ 'quantity', 'INT', 13, 0 ],
+        ], 'sp', 1 ];
+
         // Subscriptions
         $tables[] = [ 'subscriptions', [
             [ 'user', 'INT', 13, 0 ],
@@ -98,6 +107,13 @@ class STRIPE {
             [ 'end', 'DATE', '', 0 ],
             [ 'status', 'INT', 2, 0 ]
         ], 'sub', 1 ];
+
+        $db = new DB();
+        $db->automate_tables( $tables );
+    }
+
+    function manage_subscription_plans(): void {
+
     }
 
     function checkout_form(): void {
@@ -128,14 +144,14 @@ class STRIPE {
 
                 <!-- Form submit button -->
                 <button id="submitBtn" class="btn btn-success">
-                    <div class="spinner hidden" id="spinner"></div>
+                    <span class="spinner hidden" id="spinner"></span>
                     <span id="buttonText">Proceed</span>
                 </button>
             </form>
 
-            div id="frmProcess" class="hidden">
-            <span class="ring"></span> Processing...
-        </div>
+            <div id="frmProcess" class="hidden">
+                <span class="ring"></span> Processing...
+            </div>
 
         </div>
         <?php
