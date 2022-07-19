@@ -592,7 +592,7 @@ class FORM {
         $p = !empty( $pre ) ? ' data-pre="'.$pre.'"' : '';
         $h = !empty( $hidden ) ? ' data-h="'.$c->encrypt_array( $hidden ).'"' : '';
         $st = !empty( $success_text ) ? ' data-success="'.T($success_text).'"' : '';
-        $cb = !empty( $callback ) ? ' data-callback="'.T($callback).'"' : '';
+        $cb = !empty( $callback ) ? ( str_contains( $callback, '_ajax' ) ? ' data-callback="'.$c->encrypt($callback).'"' : ' data-callback="'.$callback.'"') : '';
         $cn = !empty( $confirm ) ? ' data-confirm="'.T($confirm).'"' : '';
         echo $t.$nt.$rl.$d.$p.$h.$st.$cb.$cn;
     }
