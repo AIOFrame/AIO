@@ -260,7 +260,7 @@ function fonts( array $array = [] ): void {
  * @author Shaikh <hey@shaikh.dev>
  */
 function font( string $font = 'Lato', string $weights = '400' ): void {
-    echo '<link rel="stylesheet" href="' . APPURL . 'assets/fonts.php?'.APPDIR.'='. $font . '|'. $weights .'">';
+    echo '<link rel="stylesheet" href="' . APPURL . 'assets/fonts.php?'.APPDIR.'='. $font . ':'. $weights .'">';
 }
 
 /**
