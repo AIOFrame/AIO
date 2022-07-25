@@ -428,7 +428,7 @@ function edit_data( e, modal ) {
             } else {
                 //console.log('here');
                 let tar = '#'+i;
-                console.log(tar);
+                //console.log(tar);
                 if( $(tar).length ) {
                     //$(tar).remove();
                     $(tar).val(d).trigger('change');

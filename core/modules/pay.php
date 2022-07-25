@@ -112,17 +112,93 @@ class STRIPE {
         $db->automate_tables( $tables );
     }
 
-    function manage_subscription_plans(): void {
+    function options(): void {
+        $f = new FORM();
+        $db = new DB();
+        // API Fields
+        $options_array = [ 'stripe_public_key', 'stripe_private_key', 'stripe_test_public_key', 'stripe_test_private_key', 'stripe_test' ];
+        $ops = $db->get_options( $options_array );
+        echo '<div class="row"';
+        $f->option_params('stripe', 3 );
+        echo '>';
+        $attr = 'data-stripe';
+        $pub = $ops['stripe_public_key'] ?? '';
+        $pri = $ops['stripe_private_key'] ?? '';
+        $pub_test = $ops['stripe_test_public_key'] ?? '';
+        $pri_test = $ops['stripe_test_private_key'] ?? '';
+        $test = $ops['stripe_test'] ?? '';
+        $f->texts([
+            [ 'stripe_public_key', 'Public Key', '', $pub ],
+            [ 'stripe_private_key', 'Private Key', '', $pri ],
+        ], $attr, 3 );
+        echo '<div class="col-12 col-md-6"><div class="row">';
+        $f->checkboxes( 'stripe_test', 'Test Mode', [1=>''], $test, $attr.' class="slide"', 0, 2 );
+        $f->texts([
+            [ 'stripe_test_public_key', 'Public Key - Test Mode', '', $pub_test ],
+            [ 'stripe_test_private_key', 'Private Key - Test Mode', '', $pri_test ],
+        ], $attr, 5);
+        echo '</div></div>';
+        $f->process_options('Save Stripe Options','store grad','','col-12 tac');
+        echo '</div>';
+    }
 
+    function manage_subscription_plans(): void {
+        $f = new FORM();
+        $a = 'data-sp';
+        ?>
+        <table class="plain c r">
+            <thead>
+            <tr>
+                <td>Plan Name</td>
+                <td>Pay Interval</td>
+                <td>Price (USD)</td>
+                <td>Max Quantity</td>
+                <td>Options</td>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            $db = new DB();
+            $sps = $db->select( 'subscription_plans' );
+            if( !empty( $sps ) ) {
+                foreach( $sps as $sp ){
+                    echo '<tr>';
+                    echo '<td>'.$sp['sp_name'].'</td>';
+                    echo '<td>'.$sp['sp_interval'].'</td>';
+                    echo '<td>'.$sp['sp_price'].'</td>';
+                    echo '<td>'.$sp['sp_quantity'].'</td><td>';
+                    $f->trash_html('subscription_plans','sp_id = \''.$sp['sp_id'].'\'','button','Delete','red b bsn l m0');
+                    echo '</td></tr>';
+                }
+            }
+            ?>
+            </tbody>
+            <tfoot>
+            <tr <?php $f->process_params('subscription_plans','sp','sp_',2,2); ?>>
+                <td><?php $f->text('name','','Ex: Platinum Plan','',$a); ?></td>
+                <td><?php $f->select2('interval','','Choose...',['monthly'=>'Monthly','yearly'=>'Yearly'],'',$a,'',1); ?></td>
+                <td><?php $f->text('price','','Ex: 250','',$a); ?></td>
+                <td><?php $f->text('quantity','','Ex: 10','',$a); ?></td>
+                <td><?php $f->process_html('Add','add_plan store grad'); ?></td>
+            </tr>
+            </tfoot>
+        </table>
+        <?php
     }
 
     function checkout_form(): void {
 
     }
 
-    function subscription_form( int $subscription_id ): void {
+    function subscription_form(): void {
+        $db = new DB();
+        // API Fields
+        $options_array = [ 'stripe_public_key', 'stripe_private_key', 'stripe_test_public_key', 'stripe_test_private_key', 'stripe_test' ];
+        $ops = $db->get_options( $options_array );
+        $public_key = $ops['stripe_test'] ? ( $ops['stripe_test_public_key'] ?? '' ) : ( $ops['stripe_public_key'] ?? '' );
+        if( !empty( $public_key ) ) {
         ?>
-        <div class="subscription_wrap stripe">
+        <div class="subscription_wrap stripe" data-stripe-public-key="<?php echo $public_key; ?>">
 
             <div id="payment_response" class="dn"></div>
 
@@ -155,5 +231,9 @@ class STRIPE {
 
         </div>
         <?php
+            get_scripts('stripe,stripe-checkout');
+        } else {
+            no_access('Stripe API keys are not saved!');
+        }
     }
 }

@@ -31,7 +31,7 @@ table td {
   padding: 10px;
   position: relative;
 }
-table td input, table td textarea, table td select {
+table td input, table td textarea, table td select, table td .select2-container {
   margin: 0;
   width: auto;
 }
