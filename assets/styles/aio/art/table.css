@@ -85,15 +85,33 @@ table.l tr {
 }
 table.l tr:after {
   content: "";
-  width: calc(100% - 80px);
-  left: 20px;
+  width: calc(100% - 30px);
+  left: 15px;
   height: 1px;
   background: rgba(0, 0, 0, 0.1);
   display: block;
   position: absolute;
 }
 table.l td {
-  padding: 20px 40px;
+  padding: 15px;
+  font-size: 16px;
+}
+
+table.xl tr {
+  position: relative;
+  border: 0;
+}
+table.xl tr:after {
+  content: "";
+  width: calc(100% - 40px);
+  left: 20px;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.1);
+  display: block;
+  position: absolute;
+}
+table.xl td {
+  padding: 20px;
   font-size: 16px;
 }
 

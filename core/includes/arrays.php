@@ -24,7 +24,7 @@ function skell( $s ){
 
 // Checks if array is associated array
 
-function is_assoc( $a ) {
+function is_assoc( $a ): bool {
     //return !array_values($a) === $a;
     return is_array($a) && array_keys($a) !== range(0, count($a) - 1);
 }
@@ -149,14 +149,19 @@ function array_by_key( array $array = [], string $key = '' ): array {
  * Converts multi array from database into simple assoc array with chosen key and value
  * @param array $array Data Array from database
  * @param string $key Key Ex: user_id
- * @param string $value Value Ex: user_name
+ * @param string|array $values Value Ex: user_name
  * @return array
  */
-function array_to_assoc( array $array = [], string $key = '', string $value = '' ): array {
+function array_to_assoc( array $array = [], string $key = '', string|array $values = '', string $separator = ' - ' ): array {
     $r = [];
     foreach( $array as $a ) {
-        if( isset(  $a[ $key ] ) && isset( $a[ $value ] ) ) {
-            $r[ $a[ $key ] ] = $a[ $value ];
+        if( isset(  $a[ $key ] ) && !empty( $values ) ) {
+            $values = is_array( $values ) ? $values : explode( ',', $values );
+            $value = '';
+            foreach( $values as $v ) {
+                $value .= isset( $a[ $v ] ) ? $a[ $v ] . $separator : $v . $separator;
+            }
+            $r[ $a[ $key ] ] = rtrim( $value, $separator );
         }
     }
     return $r;

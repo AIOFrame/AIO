@@ -142,18 +142,18 @@ class STRIPE {
         echo '</div>';
     }
 
-    function manage_subscription_plans(): void {
+    function manage_subscription_plans( string $table_class = 'plain c r' ): void {
         $f = new FORM();
         $a = 'data-sp';
         ?>
-        <table class="plain c r">
+        <table class="<?php echo $table_class; ?>">
             <thead>
             <tr>
-                <td>Plan Name</td>
-                <td>Pay Interval</td>
-                <td>Price (USD)</td>
-                <td>Max Quantity</td>
-                <td>Options</td>
+                <td><?php E('Plan Name'); ?></td>
+                <td><?php E('Pay Interval'); ?></td>
+                <td><?php E('Price (USD)'); ?></td>
+                <td><?php E('Max Quantity'); ?></td>
+                <td><?php E('Options'); ?></td>
             </tr>
             </thead>
             <tbody>
@@ -186,11 +186,22 @@ class STRIPE {
         <?php
     }
 
+    function update_subscription_plan( int $user = 0, string $plan = '' ): void {
+
+    }
+
     function checkout_form(): void {
 
     }
 
-    function subscription_form(): void {
+    /**
+     * @param string $name Name of the Subscriber
+     * @param string $email Email of the Subscriber
+     * @param string $default_plan Default plan to be chosen
+     * @param bool $show_plans Show or Hide Plans from the User
+     * @return void
+     */
+    function subscription_form( string $name = '', string $email = '', string $default_plan = '', bool $show_plans = true ): void {
         $db = new DB();
         // API Fields
         $options_array = [ 'stripe_public_key', 'stripe_private_key', 'stripe_test_public_key', 'stripe_test_private_key', 'stripe_test' ];
@@ -204,12 +215,17 @@ class STRIPE {
 
             <form id="subscription_form">
 
-                <?php
-                $f = new FORM();
-                $f->text('plan','','','','class="dn"');
-                $f->text('name','Full Name','Ex: Mohammed Ahmed');
-                $f->text('email','Email','Ex: john_doe@website.com');
-                ?>
+                <div class="row">
+                    <?php
+                    $f = new FORM();
+                    $sps = $db->select( 'subscription_plans' );
+                    $sps = !empty( $sps ) ? array_to_assoc( $sps, 'sp_id', 'sp_name,sp_price,USD' ) : [];
+                    $show_plan = $show_plans ? '' : 'class="dn"';
+                    $f->select2('plan','Subscription Plan','Select a Plan...',$sps,$default_plan,$show_plan,12);
+                    $f->text('name','Full Name','Ex: Mohammed Ahmed',$name,'',6);
+                    $f->text('email','Email','Ex: john_doe@website.com',$email,'',6);
+                    ?>
+                </div>
 
                 <div class="form-group">
                     <label>CARD INFO</label>

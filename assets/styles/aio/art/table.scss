@@ -97,7 +97,28 @@ table.l {
   }
   tr:after {
     content: '';
-    width: calc(100% - 80px);
+    width: calc(100% - 30px);
+    left: 15px;
+    height: 1px;
+    background: rgba(0,0,0,.1);
+    display: block;
+    position: absolute;
+  }
+  td {
+    padding:15px;
+    font-size: 16px;
+  }
+}
+
+// Large table
+table.xl {
+  tr {
+    position: relative;
+    border:0;
+  }
+  tr:after {
+    content: '';
+    width: calc(100% - 40px);
     left: 20px;
     height: 1px;
     background: rgba(0,0,0,.1);
@@ -105,7 +126,7 @@ table.l {
     position: absolute;
   }
   td {
-    padding:20px 40px;
+    padding:20px;
     font-size: 16px;
   }
 }

@@ -13,7 +13,6 @@ const subscrFrm = document.querySelector("#subscrFrm");
 let elements = stripe.elements();
 let style = {
     base: {
-        lineHeight: "30px",
         fontSize: "16px",
         border: "1px solid #ced4da",
     }
