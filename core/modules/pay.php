@@ -195,13 +195,14 @@ class STRIPE {
     }
 
     /**
+     * @param int $user_id User or Company ID to link to subscriptions database locally
+     * @param int $default_quantity Default quantity to set a plan
+     * @param bool $enable_plans Show or Hide Plans from the User
      * @param string $name Name of the Subscriber
      * @param string $email Email of the Subscriber
-     * @param string $default_plan Default plan to be chosen
-     * @param bool $show_plans Show or Hide Plans from the User
      * @return void
      */
-    function subscription_form( string $name = '', string $email = '', string $default_plan = '', bool $show_plans = true ): void {
+    function subscription_form( int $user_id = 0, int $default_quantity = 0, bool $enable_plans = true, string $name = '', string $email = '', ): void {
         $db = new DB();
         // API Fields
         $options_array = [ 'stripe_public_key', 'stripe_private_key', 'stripe_test_public_key', 'stripe_test_private_key', 'stripe_test' ];
@@ -218,10 +219,17 @@ class STRIPE {
                 <div class="row">
                     <?php
                     $f = new FORM();
-                    $sps = $db->select( 'subscription_plans' );
-                    $sps = !empty( $sps ) ? array_to_assoc( $sps, 'sp_id', 'sp_name,sp_price,USD' ) : [];
-                    $show_plan = $show_plans ? '' : 'class="dn"';
-                    $f->select2('plan','Subscription Plan','Select a Plan...',$sps,$default_plan,$show_plan,12);
+                    $sps = $db->select( 'subscription_plans', '', '', 0, 0, '', 0, 'DESC', 'sp_quantity' );
+                    $sub_plans = [];
+                    $default_plan = '';
+                    //echo $default_quantity;
+                    foreach( $sps as $sp ) {
+                        $sub_plans[ $sp['sp_id'] ] = $sp['sp_name'] . ' (' . $sp['sp_interval'] . ') ' . $sp['sp_price'] . ' USD Quantity - ' . $sp['sp_quantity'] ;
+                        $default_plan = $default_quantity <= $sp['sp_quantity'] ? $sp['sp_id'] : $default_plan;
+                    }
+                    //echo $default_plan;
+                    $show_plan = $enable_plans ? '' : 'disabled';
+                    $f->select2('plan','Subscription Plan','Select a Plan...',$sub_plans,$default_plan,$show_plan,12,1);
                     $f->text('name','Full Name','Ex: Mohammed Ahmed',$name,'',6);
                     $f->text('email','Email','Ex: john_doe@website.com',$email,'',6);
                     ?>

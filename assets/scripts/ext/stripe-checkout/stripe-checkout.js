@@ -11,11 +11,26 @@ const subscrFrm = document.querySelector("#subscrFrm");
 //subscrFrm.addEventListener("submit", handleSubscrSubmit);
 
 let elements = stripe.elements();
+let ir = $($('[type=text]')[0]);
 let style = {
     base: {
-        fontSize: "16px",
-        border: "1px solid #ced4da",
-    }
+        iconColor: ir.css('color'),
+        border: ir.css('border'),
+        height: ir.css('height'),
+        borderRadius: ir.css('border-radius'),
+        color: ir.css('color'),
+        fontWeight: ir.css('font-weight'),
+        fontFamily: ir.css('font-family'),
+        fontSize: ir.css('font-size'),
+        backgroundColor: ir.css('background-color'),
+        letterSpacing: ir.css('letter-spacing'),
+        fontSmoothing: 'antialiased',
+        padding: ir.css('padding'),
+    },
+    invalid: {
+        iconColor: '#FFC7EE',
+        color: '#FFC7EE',
+    },
 };
 let cardElement = elements.create('card', { style: style });
 cardElement.mount('#card-element');
