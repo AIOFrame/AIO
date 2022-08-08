@@ -41,7 +41,7 @@ cardElement.on('change', function (event) {
 
 function displayError(event) {
     if (event.error) {
-        showMessage(event.error.message);
+        notify(event.error.message);
     }
 }
 
@@ -49,22 +49,22 @@ function handleSubscrSubmit(e) {
     e.preventDefault();
     setLoading(true);
 
-    let subscr_plan_id = document.getElementById("subscr_plan").value;
-    let customer_name = document.getElementById("name").value;
-    let customer_email = document.getElementById("email").value;
+    let plan_id = $('[data-key=plan]').val();
+    let customer_name = $('[data-key=name]').val();
+    let customer_email = $('[data-key=email]').val();
 
     // Post the subscription info to the server-side script
-    fetch("payment_init.php", {
+    fetch( location.origin, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ request_type:'create_customer_subscription', subscr_plan_id: subscr_plan_id, name: customer_name, email: customer_email }),
+        body: JSON.stringify({ request_type:'create_customer_subscription', plan_id: plan_id, name: customer_name, email: customer_email }),
     })
         .then(function(response){ response.json() })
         .then(function(data){
             if (data.subscriptionId && data.clientSecret) {
                 paymentProcess(data.subscriptionId, data.clientSecret, data.customerId);
             } else {
-                showMessage(data.error);
+                notify(data.error);
             }
 
             setLoading(false);
@@ -75,8 +75,8 @@ function handleSubscrSubmit(e) {
 function paymentProcess(subscriptionId, clientSecret, customerId){
     setProcessing(true);
 
-    let subscr_plan_id = document.getElementById("subscr_plan").value;
-    let customer_name = document.getElementById("name").value;
+    let plan_id = $('[data-key=plan]').val();
+    let customer_name = $('[data-key=name]').val();
 
     // Create payment method and confirm payment intent.
     stripe.confirmCardPayment(clientSecret, {
@@ -88,7 +88,7 @@ function paymentProcess(subscriptionId, clientSecret, customerId){
         }
     }).then(function(result) {
         if(result.error) {
-            showMessage(result.error.message);
+            notify(result.error.message);
 
             setProcessing(false);
             setLoading(false);
@@ -96,17 +96,19 @@ function paymentProcess(subscriptionId, clientSecret, customerId){
             // Successful subscription payment
             //console.log(result);
             // Post the transaction info to the server-side script and redirect to the payment status page
-            fetch( location.origin + "/pay", {
+            fetch( location.origin, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ request_type:'payment_insert', subscription_id: subscriptionId, customer_id: customerId, subscr_plan_id: subscr_plan_id,payment_intent: result.paymentIntent }),
+                body: JSON.stringify({ request_type:'payment_insert', subscription_id: subscriptionId, customer_id: customerId, plan_id: plan_id, payment_intent: result.paymentIntent }),
             })
                 .then(function(response){ response.json() })
                 .then(function(data) {
                     if (data.payment_id) {
-                        window.location.href = 'payment-status.php?sid='+data.payment_id;
+                        alert(data.payment_id);
+                        console.log(data.payment_id);
+                        //window.location.href = 'payment-status.php?sid='+data.payment_id;
                     } else {
-                        showMessage(data.error);
+                        notify(data.error);
 
                         setProcessing(false);
                         setLoading(false);
@@ -117,31 +119,18 @@ function paymentProcess(subscriptionId, clientSecret, customerId){
     });
 }
 
-// Display message
-function showMessage(messageText) {
-    const messageContainer = document.querySelector("#paymentResponse");
-
-    messageContainer.classList.remove("hidden");
-    messageContainer.textContent = messageText;
-
-    setTimeout(function () {
-        messageContainer.classList.add("hidden");
-        messageText.textContent = "";
-    }, 5000);
-}
-
 // Show a spinner on payment submission
 function setLoading(isLoading) {
     if (isLoading) {
         // Disable the button and show a spinner
-        document.querySelector("#submitBtn").disabled = true;
-        document.querySelector("#spinner").classList.remove("hidden");
-        document.querySelector("#buttonText").classList.add("hidden");
+        $('#submit_button').attr('disabled',true);
+        $('#spinner').removeClass('dn');
+        $('#buttonText').addClass('dn');
     } else {
         // Enable the button and hide spinner
-        document.querySelector("#submitBtn").disabled = false;
-        document.querySelector("#spinner").classList.add("hidden");
-        document.querySelector("#buttonText").classList.remove("hidden");
+        $('#submit_button').attr('disabled',false);
+        $('#spinner').addClass('dn');
+        $('#buttonText').removeClass('dn');
     }
 }
 
@@ -149,9 +138,9 @@ function setLoading(isLoading) {
 function setProcessing(isProcessing) {
     if (isProcessing) {
         subscrFrm.classList.add("hidden");
-        document.querySelector("#frmProcess").classList.remove("hidden");
+        $('#frmProcess').removeClass('dn');
     } else {
         subscrFrm.classList.remove("hidden");
-        document.querySelector("#frmProcess").classList.add("hidden");
+        $('#frmProcess').addClass('dn');
     }
 }

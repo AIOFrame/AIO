@@ -200,9 +200,11 @@ class STRIPE {
      * @param bool $enable_plans Show or Hide Plans from the User
      * @param string $name Name of the Subscriber
      * @param string $email Email of the Subscriber
+     * @param string $button_class Class of the Subscribe Button
      * @return void
      */
-    function subscription_form( int $user_id = 0, int $default_quantity = 0, bool $enable_plans = true, string $name = '', string $email = '', ): void {
+    function subscription_form( int $user_id = 0, int $default_quantity = 0, bool $enable_plans = true, string $name = '', string $email = '', string $button_class = 'l br5' ): void {
+        skel($_POST);
         $db = new DB();
         // API Fields
         $options_array = [ 'stripe_public_key', 'stripe_private_key', 'stripe_test_public_key', 'stripe_test_private_key', 'stripe_test' ];
@@ -236,20 +238,24 @@ class STRIPE {
                 </div>
 
                 <div class="form-group">
-                    <label>CARD INFO</label>
-                    <div id="card-element">
-                        <!-- Stripe.js will create card input elements here -->
-                    </div>
+                    <label><?php E('Enter Card Details'); ?></label>
+                    <div id="card-element"></div>
+                    <?php
+                    $s_test = $db->get_option('stripe_test');
+                    if( !empty( $s_test ) && $s_test == 1 ) {
+                        echo '<div class="tac mt15"><div>Success Test Card: 4242424242424242</div><div>Failure Test Card: 4000000000009995</div></div>';
+                    }
+                    ?>
                 </div>
 
                 <!-- Form submit button -->
-                <button id="submitBtn" class="btn btn-success">
-                    <span class="spinner hidden" id="spinner"></span>
-                    <span id="buttonText">Proceed</span>
+                <button id="submit_button" class="submit_button <?php echo $button_class; ?>">
+                    <span class="spinner dn" id="spinner"></span>
+                    <span id="buttonText"><?php E('Subscribe'); ?></span>
                 </button>
             </form>
 
-            <div id="frmProcess" class="hidden">
+            <div id="frmProcess" class="dn">
                 <span class="ring"></span> Processing...
             </div>
 
