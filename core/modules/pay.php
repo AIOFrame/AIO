@@ -42,9 +42,9 @@ class PAY {
                     "phoneNumber" => '585872455'
                 )
             ));
-            skel( $charge );
+            // skel( $charge );
         } catch (Twocheckout_Error $e) {
-            skel( $e->getMessage() );
+            // skel( $e->getMessage() );
         }
     }
 
@@ -209,14 +209,19 @@ class STRIPE {
         // API Fields
         $options_array = [ 'stripe_public_key', 'stripe_private_key', 'stripe_test_public_key', 'stripe_test_private_key', 'stripe_test' ];
         $ops = $db->get_options( $options_array );
-        $public_key = $ops['stripe_test'] ? ( $ops['stripe_test_public_key'] ?? '' ) : ( $ops['stripe_public_key'] ?? '' );
+        $public_key = '';
+        if( isset( $ops['stripe_test'] ) && $ops['stripe_test'] == 1 ) {
+            $public_key = $ops['stripe_test_public_key'] ?? '';
+        } else {
+            $public_key = $ops['stripe_public_key'] ?? '';
+        }
         if( !empty( $public_key ) ) {
         ?>
         <div class="subscription_wrap stripe" data-stripe-public-key="<?php echo $public_key; ?>">
 
             <div id="payment_response" class="dn"></div>
 
-            <form id="subscription_form">
+            <form id="subscription_form" method="POST">
 
                 <div class="row">
                     <?php

@@ -5,10 +5,10 @@ let STRIPE_PUBLISHABLE_KEY = $('[data-stripe-public-key]').data('stripe-public-k
 const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
 
 // Select subscription form element
-const subscrFrm = document.querySelector("#subscrFrm");
+const subscrFrm = $('#subscription_form');
 
 // Attach an event handler to subscription form
-//subscrFrm.addEventListener("submit", handleSubscrSubmit);
+subscrFrm.addEventListener("submit", handleSubscrSubmit);
 
 let elements = stripe.elements();
 let ir = $($('[type=text]')[0]);
@@ -28,8 +28,8 @@ let style = {
         padding: ir.css('padding'),
     },
     invalid: {
-        iconColor: '#FFC7EE',
-        color: '#FFC7EE',
+        iconColor: 'firebrick',
+        color: 'firebrick',
     },
 };
 let cardElement = elements.create('card', { style: style });
@@ -137,10 +137,10 @@ function setLoading(isLoading) {
 // Show a spinner on payment form processing
 function setProcessing(isProcessing) {
     if (isProcessing) {
-        subscrFrm.classList.add("hidden");
+        $(subscrFrm).addClass('dn');
         $('#frmProcess').removeClass('dn');
     } else {
-        subscrFrm.classList.remove("hidden");
+        $(subscrFrm).removeClass('dn');
         $('#frmProcess').addClass('dn');
     }
 }
