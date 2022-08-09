@@ -4,12 +4,6 @@ let STRIPE_PUBLISHABLE_KEY = $('[data-stripe-public-key]').data('stripe-public-k
 // Create an instance of the Stripe object and set your publishable API key
 const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
 
-// Select subscription form element
-const subscrFrm = $('#subscription_form');
-
-// Attach an event handler to subscription form
-subscrFrm.addEventListener("submit", handleSubscrSubmit);
-
 let elements = stripe.elements();
 let ir = $($('[type=text]')[0]);
 let style = {
@@ -45,8 +39,7 @@ function displayError(event) {
     }
 }
 
-function handleSubscrSubmit(e) {
-    e.preventDefault();
+function init_subscription(e) {
     setLoading(true);
 
     let plan_id = $('[data-key=plan]').val();
@@ -54,22 +47,24 @@ function handleSubscrSubmit(e) {
     let customer_email = $('[data-key=email]').val();
 
     // Post the subscription info to the server-side script
-    fetch( location.origin, {
+    fetch( location.href, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ request_type:'create_customer_subscription', plan_id: plan_id, name: customer_name, email: customer_email }),
+        body: JSON.stringify({ request_type: 'create_customer_subscription', plan_id: plan_id, name: customer_name, email: customer_email }),
     })
-        .then(function(response){ response.json() })
-        .then(function(data){
-            if (data.subscriptionId && data.clientSecret) {
-                paymentProcess(data.subscriptionId, data.clientSecret, data.customerId);
-            } else {
-                notify(data.error);
-            }
-
-            setLoading(false);
-        })
-        .catch(console.error);
+    .then(function(response){
+        console.log(response);
+        response.json();
+    }).then(function(data){
+        console.log(data);
+        if (data.subscriptionId && data.clientSecret) {
+            paymentProcess(data.subscriptionId, data.clientSecret, data.customerId);
+        } else {
+            notify(data.error);
+        }
+        setLoading(false);
+    })
+    .catch(console.error);
 }
 
 function paymentProcess(subscriptionId, clientSecret, customerId){
