@@ -20,6 +20,8 @@ class STRIPE {
             [ 'name', 'VARCHAR', 256, 1 ],
             [ 'email', 'VARCHAR', 256, 1 ],
             [ 'stripe_customer_id', 'VARCHAR', 55, 1 ],
+            [ 'stripe_subscription_id', 'VARCHAR', 99, 0 ],
+            [ 'stripe_secret_id', 'VARCHAR', 99, 0 ],
             [ 'user', 'INT', 13, 0 ],
         ], 'stc', 1 ];
 
@@ -39,7 +41,7 @@ class STRIPE {
             [ 'date', 'DATE', '', 0 ],
             [ 'start', 'DATE', '', 0 ],
             [ 'end', 'DATE', '', 0 ],
-            [ 'status', 'INT', 2, 0 ]
+            [ 'status', 'VARCHAR', 24, 0 ],
         ], 'sub', 1 ];
 
         $db = new DB();
@@ -102,6 +104,7 @@ class STRIPE {
                 <td><?php E('Price'); ?></td>
                 <td><?php E('Max Quantity'); ?></td>
                 <td><?php E('Currency'); ?></td>
+                <td><?php E('Stripe ID'); ?></td>
                 <td><?php E('Options'); ?></td>
             </tr>
             </thead>
@@ -117,7 +120,8 @@ class STRIPE {
                     echo '<td>'.$int.'</td>';
                     echo '<td>'.$sp['sp_price'].'</td>';
                     echo '<td>'.$sp['sp_quantity'].'</td>';
-                    echo '<td>'.$sp['sp_currency'].'</td><td>';
+                    echo '<td>'.$sp['sp_currency'].'</td>';
+                    echo '<td>'.$sp['sp_stripe_product_id'].'</td><td>';
                     $f->trash_html('subscription_plans','sp_id = \''.$sp['sp_id'].'\'','button','Delete','red b bsn l m0');
                     echo '</td></tr>';
                 }
@@ -125,28 +129,22 @@ class STRIPE {
             ?>
             </tbody>
             <tfoot>
-            <tr <?php $f->process_params('subscription_plans','sp','sp_',2,2); ?>>
+            <tr <?php $f->process_params('','sp','',2,2); ?>>
                 <td><?php $f->text('name','','Ex: Platinum Plan','',$a); ?></td>
-                <td><?php $f->select2('interval','','Choose...',$intervals,'',$a,'',1); ?></td>
+                <td><?php $f->select2('interval','','Choose...',$intervals,'month',$a,'',1); ?></td>
                 <td><?php $f->text('price','','Ex: 250','',$a); ?></td>
                 <td><?php $f->text('quantity','','Ex: 10','',$a); ?></td>
-                <td><?php $f->select2('currency','','Choose...',['AED','AUD','USD','EUR','AED','INR'],'',$a); ?></td>
-                <td><?php $f->process_html('Add','add_plan store grad'); ?></td>
+                <td><?php $f->select2('currency','','Choose...',['AED','AUD','USD','EUR','AED','INR'],'USD',$a); ?></td>
+                <td></td>
+                <td><?php $f->process_html('Add','add_plan store grad','','update_subscription_product_ajax'); ?></td>
             </tr>
             </tfoot>
         </table>
         <?php
     }
 
-    function update_subscription_plan( int $user = 0, string $plan = '' ): void {
-
-    }
-
-    function checkout_form(): void {
-
-    }
-
     /**
+     * Renders Subscription Form
      * @param int $user_id User or Company ID to link to subscriptions database locally
      * @param int $default_quantity Default quantity to set a plan
      * @param bool $enable_plans Show or Hide Plans from the User
@@ -156,7 +154,6 @@ class STRIPE {
      * @return void
      */
     function subscription_form( int $user_id = 0, int $default_quantity = 0, bool $enable_plans = true, string $name = '', string $email = '', string $button_class = 'l br5' ): void {
-        skel($_POST);
         $db = new DB();
         // API Fields
         $options_array = [ 'stripe_public_key', 'stripe_private_key', 'stripe_test_public_key', 'stripe_test_private_key', 'stripe_test' ];
@@ -169,12 +166,13 @@ class STRIPE {
         }
         if( !empty( $public_key ) ) {
             $f = new FORM();
+            $e = Encrypt::initiate();
         ?>
         <div class="subscription_wrap stripe" data-stripe-public-key="<?php echo $public_key; ?>">
 
-            <div id="payment_response" class="dn"></div>
+            <div id="payment_response" class="dn" data-action="<?php $e->enc('register_stripe_payment_ajax'); ?>"></div>
 
-            <div id="subscription_form" <?php $f->process_params('','pay'); ?> >
+            <div id="subscription_form" <?php $f->process_params('','pay','',2,0,[],'','process_payment'); ?> >
 
                 <div class="row">
                     <?php
@@ -210,10 +208,6 @@ class STRIPE {
                 <?php
                 $f->process_html( 'Subscribe', $button_class . ' submit_button', '', 'update_stripe_subscription_ajax' );
                 ?>
-                <button id="submit_button" onclick="init_subscription()" class="submit_button dn <?php echo $button_class; ?>">
-                    <span class="spinner dn" id="spinner"></span>
-                    <span id="buttonText"><?php E('Subscribe'); ?></span>
-                </button>
             </div>
 
             <div id="frmProcess" class="dn">
@@ -264,67 +258,121 @@ class STRIPE {
 
             // Add customer to stripe
 
+        } else {
+            return [ 'Name and Email cannot be empty!' ];
         }
     }
 
-    function update_subscription_product( int $sid = 0, string $name = '', float $price = 0, int $quantity = 1, string $interval = 'monthly', string $currency = 'USD' ): array {
+    function update_subscription( string $customer_id, string $product_id, int $subscription_id = 0 ): array {
         $db = new DB();
 
-        $sid = $_POST['id'] ?? 0;
-        $name = $_POST['name'] ?? $name;
-        $price = $_POST['price'] ?? $price;
-        $cents = round( $price * 100 );
-        $quantity = $_POST['quantity'] ?? $quantity;
-        $interval = $_POST['interval'] ?? $interval;
-        $currency = $_POST['currency'] ?? $currency;
+        // Load Subscription
+        $sub_query = !empty( $subscription_id ) ? 'stc_stripe_subscription_id = \''.$subscription_id.'\'' : 'stc_stripe_customer_id = \''.$customer_id.'\'';
+        $sub = $db->select( 'stripe_customers', 'stc_stripe_subscription_id,stc_stripe_secret_id', $sub_query, 1 );
 
-        // Fetch Existing Customer
-        $product = $sid > 0 ? $db->select( 'subscription_plans', '', 'sp_id = \''.$sid.'\'', 1 ) : [];
-        elog( $product );
-        $product_data = [ 'name' => $name, 'price' => $price, 'quantity' => $quantity, 'interval' => $interval, 'currency' => $currency ];
-        if( !empty( $product ) ) {
-            $update = $db->update( 'subscription_plans', prepare_keys( $product_data, 'sp_' ), prepare_values( $product_data ), 'sp_id = \''.$sid.'\'' );
-            if( $update ) {
-                try {
-                    // Update price with subscription info and interval
-                    $price = \Stripe\Price::update( $product['sp_stripe_product_id'], [
-                        'unit_amount' => $cents,
-                        'currency' => strtolower( $currency ),
-                        'recurring' => ['interval' => $interval],
-                        'product_data' => ['name' => $name],
-                    ]);
-                } catch (Exception $e) {
-                    $api_error = $e->getMessage();
-                }
+        $subscription_id = $sub['stc_stripe_subscription_id'] ?? $subscription_id;
+        if( empty( $subscription_id ) ) {
+            elog( 'Creating Subscription' );
+            try {
+                $subscription = \Stripe\Subscription::create([
+                    'customer' => $customer_id,
+                    'items' => [[
+                        'price' => $product_id,
+                    ]],
+                    'payment_behavior' => 'default_incomplete',
+                    'expand' => [ 'latest_invoice.payment_intent' ],
+                ]);
+                //$sid = $subscription->id ?? 0;
+                //$secret = $subscription->latest_invoice->payment_intent->client_secret ?? 0;
+            } catch( Exception $e ) {
+                elog( $e->getMessage() );
+                return [ 0, $e->getMessage() ];
             }
-            return [ 'id' => $product['sp_stripe_product_id'] ];
+            $sid = $subscription->id ?? 0;
+            $secret = $subscription->latest_invoice->payment_intent->client_secret ?? 0;
         } else {
-            $create = $db->insert( 'subscription_plans', prepare_keys( $product_data, 'sp_' ), prepare_values( $product_data ) );
-            if( $create ) {
-                try {
-                    // Create price with subscription info and interval
-                    $price = \Stripe\Price::create([
-                        'unit_amount' => $cents,
-                        'currency' => strtolower( $currency ),
-                        'recurring' => ['interval' => $interval],
-                        'product_data' => ['name' => $name],
-                    ]);
-                } catch (Exception $e) {
-                    $api_error = $e->getMessage();
-                }
-            }
-            return [ 'id' => $price->id ];
+            $sid = $sub['stc_stripe_subscription_id'];
+            $secret = $sub['stc_stripe_secret_id'];
         }
-    }
 
-    function update_subscription( string $email = '', int $plan = 0 ): array {
-        return [];
+        // Update Local Database
+        $db->update( 'stripe_customers', [ 'stc_stripe_subscription_id', 'stc_stripe_secret_id' ], [ $sid, $secret ], 'stc_stripe_customer_id = \''.$customer_id.'\'' );
+
+        return [ 'id' => $sid, 'secret' => $secret ];
     }
 
 }
 
-function stripe_update_customer_ajax(): void {
+function update_subscription_product_ajax( int|array $sid ): array {
+    $db = new DB();
 
+    $stripe = new STRIPE();
+    $stripe->get_stripe_key();
+
+    // Fetch Existing Subscription Plan
+    if( is_numeric( $sid ) && $sid ) {
+        $id = $sid;
+        $product = $db->select( 'subscription_plans', '', 'sp_id = \''.$id.'\'', 1 );
+        $name = $product['sp_name'] ?? '';
+        $price = $product['sp_price'] ?? 0;
+        $quantity = $product['sp_quantity'] ?? '';
+        $interval = $product['sp_interval'] ?? '';
+        $currency = $product['sp_currency'] ?? 'USD';
+        elog( $product );
+    } else {
+        $id = $_POST['id'] ?? 0;
+        $product = $id ? $db->select( 'subscription_plans', '', 'sp_id = \''.$id.'\'', 1 ) : [];
+        $name = $_POST['name'] ?? '';
+        $price = $_POST['price'] ?? 0;
+        $quantity = $_POST['quantity'] ?? '';
+        $interval = $_POST['interval'] ?? '';
+        $currency = $_POST['currency'] ?? 'USD';
+    }
+    $cents = round( $price * 100 );
+    $product_data = [ 'name' => $name, 'price' => $price, 'quantity' => $quantity, 'interval' => $interval, 'currency' => $currency ];
+    elog( $product_data );
+
+    // Update Subscription Product
+    $product_id = 0;
+    if( isset( $product['sp_stripe_product_id'] ) ) {
+        $update = $db->update( 'subscription_plans', prepare_keys( $product_data, 'sp_' ), prepare_values( $product_data ), 'sp_id = \''.$id.'\'' );
+        if( $update ) {
+            try {
+                // Update price with subscription info and interval
+                $price = \Stripe\Price::update( $product['sp_stripe_product_id'], [
+                    'unit_amount' => $cents,
+                    'currency' => strtolower( $currency ),
+                    'recurring' => ['interval' => $interval],
+                    'product_data' => ['name' => $name],
+                ]);
+            } catch (Exception $e) {
+                elog( $e->getMessage() );
+                return [ 0, $e->getMessage() ];
+            }
+        }
+        $product_id = $product['sp_stripe_product_id'];
+    } else {
+        try {
+            // Create price with subscription info and interval
+            $price = \Stripe\Price::create([
+                'unit_amount' => $cents,
+                'currency' => strtolower( $currency ),
+                'recurring' => ['interval' => $interval],
+                'product_data' => ['name' => $name],
+            ]);
+            $product_data['stripe_product_id'] = $price->id;
+            $create = $db->insert( 'subscription_plans', prepare_keys( $product_data, 'sp_' ), prepare_values( $product_data ) );
+        } catch (Exception $e) {
+            elog( $e->getMessage() );
+            return [ 0, $e->getMessage() ];
+        }
+        $product_id = $price->id;
+    }
+
+    if( is_array( $sid ) ) {
+        !empty( $product_id ) ? es( 'Subscription Plan Successfully Created!' ) : ef( 'Failed to create subscription plan!' );
+    }
+    return [ 'id' => $product_id ];
 }
 
 function update_stripe_subscription_ajax(): void {
@@ -344,66 +392,50 @@ function update_stripe_subscription_ajax(): void {
     $db = new DB();
     if( $plan_id > 0 && !empty( $customer_id ) ) {
 
+        if( $customer ){
 
-        if( empty( $api_error ) && $customer ){
-
-            $subscription_product = $stripe->update_subscription_product( $plan_id );
+            $subscription_product = update_subscription_product_ajax( $plan_id );
             $subscription_product_id = $subscription_product['id'] ?? 0;
 
             if( $subscription_product_id ){
-                // Create a new subscription
-                try {
-                    $subscription = \Stripe\Subscription::create([
-                        'customer' => $customer_id,
-                        'items' => [[
-                            'price' => $subscription_product_id,
-                        ]],
-                        'payment_behavior' => 'default_incomplete',
-                        'expand' => [ 'latest_invoice.payment_intent' ],
-                    ]);
-                } catch( Exception $e ) {
-                    $api_error = $e->getMessage();
-                }
 
-                if( empty( $api_error ) && $subscription ){
+                // Create a new subscription
+                $subscription = $stripe->update_subscription( $customer_id, $subscription_product_id );
+                $subscription_id = $subscription['id'] ?? 0;
+                $subscription_secret = $subscription['secret'] ?? '';
+
+                if( $subscription_id ){
                     $output = [
-                        'subscription_id' => $subscription->id,
-                        'client_secret' => $subscription->latest_invoice->payment_intent->client_secret,
+                        'subscription_id' => $subscription_id,
+                        'client_secret' => $subscription_secret,
                         'customer_id' => $customer_id
                     ];
                     es(json_encode($output));
-                }else{
-                    ef($api_error);
+                } else {
+                    ef( 'Subscription not Found in Database! Please consult admin!' );
                 }
             } else {
-                ef($api_error);
+                ef( 'Subscription Product ID not Found in Database! Please consult admin!' );
             }
         }else{
-            ef($api_error);
+            ef( 'Customer not Found in Database! Please consult admin!' );
         }
     } else {
-        ef('Subscription ID cannot be empty! Please consult admin!');
+        ef('Subscription Plan cannot be empty! Please consult admin!');
     }
 }
 
 function register_stripe_payment_ajax(): void {
-    $payment_intent = !empty($jsonObj->payment_intent)?$jsonObj->payment_intent:'';
-    $subscription_id = !empty($jsonObj->subscription_id)?$jsonObj->subscription_id:'';
-    $customer_id = !empty($jsonObj->customer_id)?$jsonObj->customer_id:'';
-    $subscr_plan_id = !empty($jsonObj->subscr_plan_id)?$jsonObj->subscr_plan_id:'';
+    $p = $_POST;
+    $db = new DB();
+    elog( $p );
+    $payment_intent = $p['payment_intent'];
+    $subscription_id = $p['subscription_id'];
+    $customer_id = $p['customer_id'];
+    $plan_id = $p['plan_id'];
 
     // Fetch plan details from the database
-    $sqlQ = "SELECT * FROM plans WHERE id=?";
-    $stmt = $db->prepare($sqlQ);
-    $stmt->bind_param("i", $db_id);
-    $db_id = $subscr_plan_id;
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $planData = $result->fetch_assoc();
-
-    $planName = $planData['name'];
-    $planPrice = $planData['price'];
-    $planInterval = $planData['interval'];
+    $product = $db->select( 'subscription_plans', '', 'sp_id = \''.$plan_id.'\'', 1 );
 
     // Retrieve customer info
     try {
@@ -413,7 +445,8 @@ function register_stripe_payment_ajax(): void {
     }
 
     // Check whether the charge was successful
-    if(!empty($payment_intent) && $payment_intent->status == 'succeeded'){
+    elog($payment_intent);
+    if(!empty($payment_intent) && $payment_intent['status'] == 'succeeded'){
 
         // Retrieve subscription info
         try {
@@ -422,13 +455,13 @@ function register_stripe_payment_ajax(): void {
             $api_error = $e->getMessage();
         }
 
-        $payment_intent_id = $payment_intent->id;
-        $paidAmount = $payment_intent->amount;
+        $payment_intent_id = $payment_intent['id'];
+        $paidAmount = $payment_intent['amount'];
         $paidAmount = ($paidAmount/100);
-        $paidCurrency = $payment_intent->currency;
-        $payment_status = $payment_intent->status;
+        $paidCurrency = $payment_intent['currency'];
+        $payment_status = $payment_intent['status'];
 
-        $created = date("Y-m-d H:i:s", $payment_intent->created);
+        $created = date("Y-m-d H:i:s", $payment_intent['created']);
         $current_period_start = $current_period_end = '';
         if(!empty($subscriptionData)){
             $created = date("Y-m-d H:i:s", $subscriptionData->created);
@@ -443,50 +476,33 @@ function register_stripe_payment_ajax(): void {
         }
 
         // Check if any transaction data exists already with the same TXN ID
-        $sqlQ = "SELECT id FROM user_subscriptions WHERE stripe_payment_intent_id = ?";
-        $stmt = $db->prepare($sqlQ);
-        $stmt->bind_param("s", $db_txn_id);
+        $exist = $db->select( 'subscriptions', '', 'sub_stripe_payment_intent_id = \''.$payment_intent_id.'\'', 1 );
         $db_txn_id = $payment_intent_id;
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $prevRow = $result->fetch_assoc();
 
         $payment_id = 0;
-        if(!empty($prevRow)){
-            $payment_id = $prevRow['id'];
-        }else{
+        if( !empty( $exist ) ){
+            $payment_id = $exist['sub_id'];
+        } else {
             // Insert transaction data into the database
-            $sqlQ = "INSERT INTO user_subscriptions (user_id,plan_id,stripe_subscription_id,stripe_customer_id,stripe_payment_intent_id,paid_amount,paid_amount_currency,plan_interval,payer_email,created,plan_period_start,plan_period_end,status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-            $stmt = $db->prepare($sqlQ);
-            $stmt->bind_param("iisssdsssssss", $db_user_id, $db_plan_id, $db_stripe_subscription_id, $db_stripe_customer_id, $db_stripe_payment_intent_id, $db_paid_amount, $db_paid_amount_currency, $db_plan_interval, $db_payer_email, $db_created, $db_plan_period_start, $db_plan_period_end, $db_status);
-            $db_user_id = $userID;
-            $db_plan_id = $subscr_plan_id;
-            $db_stripe_subscription_id = $subscription_id;
-            $db_stripe_customer_id = $customer_id;
-            $db_stripe_payment_intent_id = $payment_intent_id;
-            $db_paid_amount = $paidAmount;
-            $db_paid_amount_currency = $paidCurrency;
-            $db_plan_interval = $planInterval;
-            $db_payer_email = $email;
-            $db_created = $created;
-            $db_plan_period_start = $current_period_start;
-            $db_plan_period_end = $current_period_end;
-            $db_status = $payment_status;
-            $insert = $stmt->execute();
-
-            if($insert){
-                $payment_id = $stmt->insert_id;
-
-                // Update subscription ID in users table
-                $sqlQ = "UPDATE users SET subscription_id=? WHERE id=?";
-                $stmt = $db->prepare($sqlQ);
-                $stmt->bind_param("ii", $db_subscription_id, $db_user_id);
-                $db_subscription_id = $payment_id;
-                $db_user_id = $userID;
-                $update = $stmt->execute();
-            }
+            $data = [
+                'user' => 0,
+                'plan' => $plan_id,
+                'method' => 'card',
+                'stripe_subscription_id' => $subscription_id,
+                'stripe_customer_id' => $customer_id,
+                'stripe_payment_intent_id' => $payment_intent_id,
+                'amount' => $paidAmount,
+                'currency' => $paidCurrency,
+                'interval' => $product['sp_interval'],
+                // 'interval_count' => '',
+                'email' => $email,
+                'date' => $created,
+                'start' => $current_period_start,
+                'end' => $current_period_end,
+                'status' => $payment_status
+            ];
+            $record = $db->insert( 'subscriptions', prepare_keys( $data, 'sub_' ), prepare_values( $data ) );
         }
-
         $output = [
             'payment_id' => base64_encode($payment_id)
         ];

@@ -39,6 +39,7 @@ function displayError(event) {
     }
 }
 
+/*
 function init_subscription(e) {
     setLoading(true);
 
@@ -66,8 +67,22 @@ function init_subscription(e) {
     })
     .catch(console.error);
 }
+*/
 
-function paymentProcess(subscriptionId, clientSecret, customerId){
+
+function process_payment( d ){
+
+    let subscriptionId;
+    let clientSecret;
+    let customerId;
+    if( d[0] === 1 ) {
+        notify('Subscription created with Stripe, proceeding to process payment!');
+        let data = JSON.parse( d[1] );
+        console.log(data);
+        subscriptionId = data['subscription_id'];
+        clientSecret = data['client_secret'];
+        customerId = data['customer_id'];
+    }
     setProcessing(true);
 
     let plan_id = $('[data-key=plan]').val();
@@ -81,35 +96,13 @@ function paymentProcess(subscriptionId, clientSecret, customerId){
                 name: customer_name,
             },
         }
-    }).then(function(result) {
-        if(result.error) {
-            notify(result.error.message);
-
+    }).then(function( r ) {
+        if( r.error ) {
+            notify( r.error.message );
             setProcessing(false);
             setLoading(false);
         } else {
-            // Successful subscription payment
-            //console.log(result);
-            // Post the transaction info to the server-side script and redirect to the payment status page
-            fetch( location.origin, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ request_type:'payment_insert', subscription_id: subscriptionId, customer_id: customerId, plan_id: plan_id, payment_intent: result.paymentIntent }),
-            })
-                .then(function(response){ response.json() })
-                .then(function(data) {
-                    if (data.payment_id) {
-                        alert(data.payment_id);
-                        console.log(data.payment_id);
-                        //window.location.href = 'payment-status.php?sid='+data.payment_id;
-                    } else {
-                        notify(data.error);
-
-                        setProcessing(false);
-                        setLoading(false);
-                    }
-                })
-                .catch(console.error);
+            post( $('#payment_response').data('action'), { subscription_id: subscriptionId, customer_id: customerId, plan_id: plan_id, payment_intent: r.paymentIntent }, 2, 2 );
         }
     });
 }
@@ -132,10 +125,10 @@ function setLoading(isLoading) {
 // Show a spinner on payment form processing
 function setProcessing(isProcessing) {
     if (isProcessing) {
-        $(subscrFrm).addClass('dn');
-        $('#frmProcess').removeClass('dn');
+        //$(subscrFrm).addClass('dn');
+        //$('#frmProcess').removeClass('dn');
     } else {
-        $(subscrFrm).removeClass('dn');
-        $('#frmProcess').addClass('dn');
+        //$(subscrFrm).removeClass('dn');
+        //$('#frmProcess').addClass('dn');
     }
 }
