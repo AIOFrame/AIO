@@ -6,7 +6,7 @@ class STRIPE {
     function __construct() {
 
         // Subscriptions Plans
-        $tables[] = [ 'subscription_plans', [
+        $tables[] = [ 'stripe_subscription_plans', [
             [ 'name', 'VARCHAR', 128, 1 ],
             [ 'price', 'FLOAT', '', 1 ],
             [ 'interval', 'VARCHAR', 128, 1 ],
@@ -26,7 +26,7 @@ class STRIPE {
         ], 'stc', 1 ];
 
         // Subscriptions
-        $tables[] = [ 'subscriptions', [
+        $tables[] = [ 'stripe_subscriptions', [
             [ 'user', 'INT', 13, 0 ],
             [ 'plan', 'INT', 13, 0 ],
             [ 'method', 'VARCHAR', 256, 0 ],
@@ -111,7 +111,7 @@ class STRIPE {
             <tbody>
             <?php
             $db = new DB();
-            $sps = $db->select( 'subscription_plans' );
+            $sps = $db->select( 'stripe_subscription_plans' );
             if( !empty( $sps ) ) {
                 foreach( $sps as $sp ){
                     $int = $intervals[ $sp['sp_interval'] ] ?? '';
@@ -122,7 +122,7 @@ class STRIPE {
                     echo '<td>'.$sp['sp_quantity'].'</td>';
                     echo '<td>'.$sp['sp_currency'].'</td>';
                     echo '<td>'.$sp['sp_stripe_product_id'].'</td><td>';
-                    $f->trash_html('subscription_plans','sp_id = \''.$sp['sp_id'].'\'','button','Delete','red b bsn l m0');
+                    $f->trash_html('stripe_subscription_plans','sp_id = \''.$sp['sp_id'].'\'','button','Delete','red b bsn l m0');
                     echo '</td></tr>';
                 }
             }
@@ -176,7 +176,7 @@ class STRIPE {
 
                 <div class="row">
                     <?php
-                    $sps = $db->select( 'subscription_plans', '', '', 0, 0, '', 0, 'DESC', 'sp_quantity' );
+                    $sps = $db->select( 'stripe_subscription_plans', '', '', 0, 0, '', 0, 'DESC', 'sp_quantity' );
                     $sub_plans = [];
                     $default_plan = '';
                     //echo $default_quantity;
@@ -301,6 +301,17 @@ class STRIPE {
         return [ 'id' => $sid, 'secret' => $secret ];
     }
 
+    function get_subscription_plan_from_quantity( int $quantity = 1 ): array {
+        $db = new DB();
+        $sps = $db->select( 'stripe_subscription_plans', '', '', 0, 0, '', 0, 'DESC', 'sp_quantity' );
+        $sps = !empty( $sps ) ? array_by_key( $sps, 'sp_id' ) : [];
+        $plan = '';
+        foreach( $sps as $sp ) {
+            $plan = $quantity <= $sp['sp_quantity'] ? $sp['sp_id'] : $plan;
+        }
+        return $sps[ $plan ] ?? [];
+    }
+
 }
 
 function update_subscription_product_ajax( int|array $sid ): array {
@@ -312,7 +323,7 @@ function update_subscription_product_ajax( int|array $sid ): array {
     // Fetch Existing Subscription Plan
     if( is_numeric( $sid ) && $sid ) {
         $id = $sid;
-        $product = $db->select( 'subscription_plans', '', 'sp_id = \''.$id.'\'', 1 );
+        $product = $db->select( 'stripe_subscription_plans', '', 'sp_id = \''.$id.'\'', 1 );
         $name = $product['sp_name'] ?? '';
         $price = $product['sp_price'] ?? 0;
         $quantity = $product['sp_quantity'] ?? '';
@@ -321,7 +332,7 @@ function update_subscription_product_ajax( int|array $sid ): array {
         elog( $product );
     } else {
         $id = $_POST['id'] ?? 0;
-        $product = $id ? $db->select( 'subscription_plans', '', 'sp_id = \''.$id.'\'', 1 ) : [];
+        $product = $id ? $db->select( 'stripe_subscription_plans', '', 'sp_id = \''.$id.'\'', 1 ) : [];
         $name = $_POST['name'] ?? '';
         $price = $_POST['price'] ?? 0;
         $quantity = $_POST['quantity'] ?? '';
@@ -335,7 +346,7 @@ function update_subscription_product_ajax( int|array $sid ): array {
     // Update Subscription Product
     $product_id = 0;
     if( isset( $product['sp_stripe_product_id'] ) ) {
-        $update = $db->update( 'subscription_plans', prepare_keys( $product_data, 'sp_' ), prepare_values( $product_data ), 'sp_id = \''.$id.'\'' );
+        $update = $db->update( 'stripe_subscription_plans', prepare_keys( $product_data, 'sp_' ), prepare_values( $product_data ), 'sp_id = \''.$id.'\'' );
         if( $update ) {
             try {
                 // Update price with subscription info and interval
@@ -361,7 +372,7 @@ function update_subscription_product_ajax( int|array $sid ): array {
                 'product_data' => ['name' => $name],
             ]);
             $product_data['stripe_product_id'] = $price->id;
-            $create = $db->insert( 'subscription_plans', prepare_keys( $product_data, 'sp_' ), prepare_values( $product_data ) );
+            $create = $db->insert( 'stripe_subscription_plans', prepare_keys( $product_data, 'sp_' ), prepare_values( $product_data ) );
         } catch (Exception $e) {
             elog( $e->getMessage() );
             return [ 0, $e->getMessage() ];
@@ -426,6 +437,10 @@ function update_stripe_subscription_ajax(): void {
 }
 
 function register_stripe_payment_ajax(): void {
+
+    $stripe = new STRIPE();
+    $stripe->get_stripe_key();
+
     $p = $_POST;
     $db = new DB();
     elog( $p );
@@ -435,13 +450,13 @@ function register_stripe_payment_ajax(): void {
     $plan_id = $p['plan_id'];
 
     // Fetch plan details from the database
-    $product = $db->select( 'subscription_plans', '', 'sp_id = \''.$plan_id.'\'', 1 );
+    $product = $db->select( 'stripe_subscription_plans', '', 'sp_id = \''.$plan_id.'\'', 1 );
 
     // Retrieve customer info
     try {
         $customer = \Stripe\Customer::retrieve($customer_id);
-    }catch(Exception $e) {
-        $api_error = $e->getMessage();
+    } catch( Exception $e ) {
+        elog( $e->getMessage() );
     }
 
     // Check whether the charge was successful
@@ -452,7 +467,7 @@ function register_stripe_payment_ajax(): void {
         try {
             $subscriptionData = \Stripe\Subscription::retrieve($subscription_id);
         }catch(Exception $e) {
-            $api_error = $e->getMessage();
+            elog( $e->getMessage() );
         }
 
         $payment_intent_id = $payment_intent['id'];
@@ -476,7 +491,7 @@ function register_stripe_payment_ajax(): void {
         }
 
         // Check if any transaction data exists already with the same TXN ID
-        $exist = $db->select( 'subscriptions', '', 'sub_stripe_payment_intent_id = \''.$payment_intent_id.'\'', 1 );
+        $exist = $db->select( 'stripe_subscriptions', '', 'sub_stripe_payment_intent_id = \''.$payment_intent_id.'\'', 1 );
         $db_txn_id = $payment_intent_id;
 
         $payment_id = 0;
@@ -494,14 +509,14 @@ function register_stripe_payment_ajax(): void {
                 'amount' => $paidAmount,
                 'currency' => $paidCurrency,
                 'interval' => $product['sp_interval'],
-                // 'interval_count' => '',
+                'interval_count' => 1,
                 'email' => $email,
                 'date' => $created,
                 'start' => $current_period_start,
                 'end' => $current_period_end,
-                'status' => $payment_status
+                'status' => 1
             ];
-            $record = $db->insert( 'subscriptions', prepare_keys( $data, 'sub_' ), prepare_values( $data ) );
+            $record = $db->insert( 'stripe_subscriptions', prepare_keys( $data, 'sub_' ), prepare_values( $data ) );
         }
         $output = [
             'payment_id' => base64_encode($payment_id)
