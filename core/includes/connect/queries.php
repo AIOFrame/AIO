@@ -295,8 +295,8 @@ class DB {
      * @param int $offset Offset rows
      * @param string $group Group data rows by column key
      * @param bool $count Only get count of data rows
-     * @param string $order_by Order data by
-     * @param string $sort
+     * @param string $order_by Order data by ASC or DESC
+     * @param string $sort Sort Order by Column Name
      * @return array
      */
     function select( string $table, string $cols = '*', string $where = '', int $limit = 0, int $offset = 0 , string $group = '', bool $count = false, string $order_by = '', string $sort = '' ): array {

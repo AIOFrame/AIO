@@ -678,7 +678,8 @@ class FORM {
         $post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
         $c = Encrypt::initiate();
         $i = !empty( $i_class ) ? '<i class="'.$i_class.'"></i>' : '';
-        echo $pre.'<'.$html.' data-href="'.$url.'" class="'.$class.'" title="'.T('View').'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$post;
+        $title = str_contains( $attr, 'title' ) ? '' : 'title="'.T('View').'"';
+        echo $pre.'<'.$html.' data-href="'.$url.'" '.$title.' class="'.$class.'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$post;
     }
 
     /**
@@ -702,7 +703,8 @@ class FORM {
         }
         $post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
         $i = !empty( $i_class ) ? '<i class="'.$i_class.'"></i>' : '';
-        echo $pre.'<'.$html.' onclick="edit_data(this,\''.$element.'\')" data-data=\''.$this->_editable_data($array).'\' class="'.$class.'" title="'.T('Edit').'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$post;
+        $title = str_contains( $attr, 'title' ) ? '' : 'title="'.T('Edit').'"';
+        echo $pre.'<'.$html.' onclick="edit_data(this,\''.$element.'\')" data-data=\''.$this->_editable_data($array).'\' class="'.$class.'" '.$title.' '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$post;
     }
 
     /**
@@ -730,7 +732,8 @@ class FORM {
         $c = Encrypt::initiate();
         $i = !empty( $i_class ) ? '<i class="'.$i_class.'"></i>' : '';
         $attr .= !empty( $confirmation ) ? ' data-confirm="'.T($confirmation).'"' : '';
-        echo $pre.'<'.$html.' onclick="trash_data(this,\''.$c->encrypt('trash_data_ajax').'\',\''.$c->encrypt($table).'\',\''.$c->encrypt($logic).'\','.$notify_time.','.$reload_time.')" class="'.$class.'" title="'.T('Delete').'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$post;
+        $title = str_contains( $attr, 'title' ) ? '' : 'title="'.T('Delete').'"';
+        echo $pre.'<'.$html.' onclick="trash_data(this,\''.$c->encrypt('trash_data_ajax').'\',\''.$c->encrypt($table).'\',\''.$c->encrypt($logic).'\','.$notify_time.','.$reload_time.')" class="'.$class.'" '.$title.' '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$post;
     }
 
     /**
@@ -761,6 +764,19 @@ class FORM {
         $i = !empty( $i_class ) ? '<i class="'.$i_class.'"></i>' : '';
         $attr .= !empty( $confirmation ) ? ' data-confirm="'.T($confirmation).'"' : '';
         echo $pre.'<'.$html.' onclick="update_data(this,\''.$c->encrypt('update_data_ajax').'\',\''.$c->encrypt($table).'\',\''.$c->encrypt_array($keys).'\',\''.$c->encrypt_array($values).'\',\''.$c->encrypt($logic).'\','.$notify_time.','.$reload_time.')" class="'.$class.'" title="'.T('Update').'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$post;
+    }
+
+    function steps( array $steps = [], string $active = '', bool $translate = true ): void {
+        echo '<div class="steps_head">';
+        if( !empty( $steps ) ) {
+            foreach( $steps as $step ) {
+                $title = $translate ? T( $step ) : $step;
+                $id = strtolower( str_replace( ' ', '_', $step ) );
+                $class = $active == $step || $active == $id ? 'step on' : 'step';
+                echo '<div class="'.$class.'" data-step="#'.$id.'">'.$title.'</div>';
+            }
+        }
+        echo '</div>';
     }
 
     /**
