@@ -166,12 +166,23 @@ function is_empty( e, d ) {
     let required = [];
     if( $(e)[0] && ( $(e)[0].localName === 'div' || $(e)[0].localName === 'tr' || $(e)[0].localName === 'form' ) ){
         $.each($(e).find('input'+d+',select'+d+',textarea'+d),function(a,b){
-            if( b !== undefined && $(b).val() !== null && $(b).val() !== "" ){
-                $(b).removeClass('empty');
-            } else {
-                // TODO: Check if the input is inside a tab and activate that tab
-                $(b).addClass('empty');
-                required.push( $(b).attr('title') );
+            // TODO: Check if the input is inside a tab and activate that tab
+            if( b !== undefined ) {
+                if( $(b).attr('type') === 'checkbox' || $(b).attr('type') === 'radio' ) {
+                    if( $(b).is(':checked') ) {
+                        $(b).removeClass('empty');
+                    } else {
+                        $(b).addClass('empty');
+                        required.push( $(b).attr('title') );
+                    }
+                } else {
+                    if( $(b).val() !== null && $(b).val() !== '' ) {
+                        $(b).removeClass('empty');
+                    } else {
+                        $(b).addClass('empty');
+                        required.push( $(b).attr('title') );
+                    }
+                }
             }
         });
     } else {

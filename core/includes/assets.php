@@ -668,12 +668,26 @@ function clear_log_viewer() {
     }
 }
 
-function previous_tab( string $text = '', string $class = 'prev', string $col = '6' ) {
+function tab_nav( bool $show_prev_button = false, bool $show_next_button = false, string $prev_text = '', string $next_text = '', string $class = '', string $col = '6' ): void {
+    echo '<div class="row">';
+    $col = is_numeric( $col ) ? 'col-'.$col : $col;
+    if( $show_prev_button ) {
+        previous_tab( $prev_text, $class, $col );
+    } else {
+        echo '<div class="'.$col.'"></div>';
+    }
+    if( $show_next_button ) {
+        next_tab( $next_text, $class, $col );
+    }
+    echo '</div>';
+}
+
+function previous_tab( string $text = '', string $class = 'prev', string $col = '6' ): void {
     $col = is_numeric( $col ) ? 'col-'.$col : $col;
     echo '<div class="'.$col.'"><button type="button" class="'.$class.'" data-prev>'. T( $text ). '</button></div>';
 }
 
-function next_tab( string $text = '', string $class = 'next', string $col = '6' ) {
+function next_tab( string $text = '', string $class = 'next', string $col = '6' ): void {
     $col = is_numeric( $col ) ? 'col-'.$col : $col;
     echo '<div class="'.$col.' tar"><button type="button" class="'.$class.'" data-next>'. T( $text ). '</button></div>';
 }

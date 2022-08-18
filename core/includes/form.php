@@ -98,9 +98,10 @@ class FORM {
         $id = !empty( $identity ) ? ( is_array($identity) ? $identity[0] : $identity.'_'.$rand ) : '';
         $name = is_array( $identity ) ? $identity[1] : $identity;
         echo $pre;
-        echo !empty( $label ) ? '<label for="'.$id.'">'.T($label).'</label>' : '';
+        $label = !empty( $label ) ? T( $label ) : '';
+        echo !empty( $label ) ? '<label for="'.$id.'">'. $label .'</label>' : '';
         $ph = !empty( $placeholder ) ? ' placeholder="'.$placeholder.'" data-placeholder="'.$placeholder.'"' : '';
-        echo '<select name="'.$name.'" data-key="'.$name.'" id="'.$id.'"'.$at.$ph.'>';
+        echo '<select name="'.$name.'" title="'.$label.'" data-key="'.$name.'" id="'.$id.'"'.$at.$ph.'>';
         //if( str_contains( $attr, 'select2' ) ) {
         // TODO: Options to check if array is multi dimensional and append accordingly
         if( str_contains( $attr, 'select2') ) {
@@ -393,7 +394,8 @@ class FORM {
             }
             $uq = rand(1,999);
             echo $pre;
-            echo !empty($label) ? '<label class="db">'.T($label).'</label>' : '';
+            $label = !empty( $label ) ? T( $label ) : '';
+            echo !empty($label) ? '<label class="db">'. $label .'</label>' : '';
             echo $wrap_inputs_pre;
             if( is_assoc( $values ) ) {
                 foreach ($values as $val => $title) {
@@ -409,9 +411,9 @@ class FORM {
                         $c = $value == $checked ? 'checked="true"' : '';
                     } */
                     if ($label_first) {
-                        echo $inputs_pre . '<label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' name="' . $name . '" '.$key.' id="' . $k . '" value="' . $value . '" '. $c .' >' . $inputs_post;
+                        echo $inputs_pre . '<label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . '</label><input ' . $tip . $attr . ' ' . $type . ' name="' . $name . '" '.$key.' id="' . $k . '" value="' . $value . '" '. $c .' >' . $inputs_post;
                     } else {
-                        echo $inputs_pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" '.$key.' id="' . $k . '" value="' . $value . '" '. $c .' ><label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . '</label>' . $inputs_post;
+                        echo $inputs_pre . '<input ' . $tip . $attr . ' ' . $type . ' name="' . $name . '" '.$key.' id="' . $k . '" value="' . $value . '" '. $c .' ><label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . '</label>' . $inputs_post;
                     }
                     $x++;
                 }
@@ -426,9 +428,9 @@ class FORM {
                     $c = in_array( $value, $checked ) ? 'checked' : '';
 
                     if ($label_first) {
-                        echo $inputs_pre . '<label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . '</label><input ' . $attr . ' ' . $type . ' ' . $data . ' data-key="'.$name.'" name="' . $name . '" id="' . $k . '" value="' . $value . '" '.$c.'>' . $inputs_post;
+                        echo $inputs_pre . '<label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . '</label><input ' . $tip . $attr . ' ' . $type . ' ' . $data . ' data-key="'.$name.'" name="' . $name . '" id="' . $k . '" value="' . $value . '" '.$c.'>' . $inputs_post;
                     } else {
-                        echo $inputs_pre . '<input ' . $attr . ' ' . $type . ' name="' . $name . '" data-key="'.$name.'" id="' . $k . '" value="' . $value . '" ' . $data . ' '.$c.'><label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . '</label>' . $inputs_post;
+                        echo $inputs_pre . '<input ' . $tip . $attr . ' ' . $type . ' name="' . $name . '" data-key="'.$name.'" id="' . $k . '" value="' . $value . '" ' . $data . ' '.$c.'><label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . '</label>' . $inputs_post;
                     }
                     $x++;
                 }
