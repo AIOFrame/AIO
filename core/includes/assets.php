@@ -519,9 +519,12 @@ function page_of( string|array $p ): bool {
  * @param array $array
  * @param string $prefix
  */
-function render_menu( array $array, string $prefix = '' ): void {
+function render_menu( array $array, string $prefix = '', string $wrap_class = '', string $list_class = '' ): void {
     //$array = is_array( $array ) ? $array : explode(',',$array);
-    echo '<ul>';
+    $wrap_class = !empty( $wrap_class ) ? ' class="'.$wrap_class.'"' : '';
+    $list_class_text = !empty( $list_class ) ? $list_class : '';
+    $list_class = !empty( $list_class ) ? ' class="'.$list_class.'"' : '';
+    echo '<ul'.$wrap_class.'>';
     foreach( $array as $first_row ){
 
         $title = !empty( $first_row[1] ) && !is_array( $first_row[1] ) ? $first_row[1] : ucwords( $first_row[0] );
@@ -529,7 +532,7 @@ function render_menu( array $array, string $prefix = '' ): void {
         $url = explode( '/', PAGEPATH );
         $page_class = strtolower(str_replace(' ','_',$title));
         $first_row_class = PAGEPATH == $first_row[0] ? 'class="on '.$page_class.'"' : 'class="'.$page_class.'"';
-        $first_li_class = $url[0] == $first_row[0] ? 'class="open"' : '';
+        $first_li_class = $url[0] == $first_row[0] ? 'class="open '.$list_class_text.'"' : '';
 
         $sec_rows = '';
         if( !empty( $first_row[2] ) && is_array( $first_row[2] ) ){
@@ -547,7 +550,7 @@ function render_menu( array $array, string $prefix = '' ): void {
                 if( $sec_row[0] == '' && $url[count($url)-1] == $url[0] ){
                     $sec_row_class = 'class="on '.strtolower(str_replace(' ','_',$sec_title)).'"';
                 }
-                $sec .= '<li><a href="'.APPURL.$prefix.$first_row[0].'/'.$prefix.$sec_row[0].'" '.$sec_row_class.'>'.T($sec_title).'</a></li>';
+                $sec .= '<li'.$list_class.'><a href="'.APPURL.$prefix.$first_row[0].'/'.$prefix.$sec_row[0].'" '.$sec_row_class.'>'.T($sec_title).'</a></li>';
             }
             $sec .= '</ul>';
         }

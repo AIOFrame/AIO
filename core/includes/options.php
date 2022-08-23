@@ -23,7 +23,7 @@ class OPTIONS {
         $light = $ops['logo_light'] ?? '';
         $dark = $ops['logo_dark'] ?? '';
         $fav = $ops['fav'] ?? '';
-        $f->text('app_name','App Name','Ex: AIO University...',$name,$attr,8);
+        $f->text('app_name','Web App / Site Name','Ex: AIO University...',$name,$attr,8);
         $f->upload('fav','Fav Icon','Upload',$fav,0,0,'upload',$attr,'png',5,1,'',4);
         $f->upload('logo_light','Logo - Light Theme','Upload',$light,0,0,'upload',$attr,$ext,5,1,'',4);
         $f->color('primary_color','Primary Color','Ex: F1F1F1',$c1,$attr,4,'','#primary_color');
