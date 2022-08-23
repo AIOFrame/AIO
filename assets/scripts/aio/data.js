@@ -196,28 +196,59 @@ function is_empty( e, d ) {
     return required;
 }
 
-function is_invalid( e, d ) {
+/*
+This function runs a valid_field function on single input or a inputs inside an element wrap
+ */
+function validator( e, d ) {
     d = d === undefined || d === '' ? '' : '['+d+']';
     let invalid = [];
+    // If Validating a group of inputs
     if( $(e)[0] && ( $(e)[0].localName === 'div' || $(e)[0].localName === 'tr' || $(e)[0].localName === 'form' ) ){
         invalid = [];
         $.each($(e).find('input'+d+',select'+d+',textarea'+d),function(a,b){
-            if( b !== undefined && $(b).attr('minlength') !== undefined && $(b).val().length < parseInt( $(b).attr('minlength') ) ) {
+            if( valid_field( b ) ) {
                 invalid.push( $(b).attr('title') );
-                $(b).addClass('empty');
+                $(b).addClass('invalid');
             } else {
-                $(b).removeClass('empty');
+                console.log('removed empty');
+                $(b).removeClass('invalid');
             }
         });
+    // else If validating a single input
     } else {
-        if( $(e).attr('minlength') !== undefined && $(e).val().length < parseInt( $(b).attr('minlength') ) ){
-            invalid.push( $(b).attr('title') );
-            $(e).addClass('empty');
+        if( valid_field( e ) ){
+            invalid.push( $(e).attr('title') );
+            $(e).addClass('invalid');
         } else {
-            $(e).removeClass('empty');
+            $(e).removeClass('invalid');
         }
     }
     return invalid;
+}
+
+function valid_field( field ) {
+    console.log( $(field) );
+    let invalid = [];
+    // Minimum Number / Amount Validation
+    if( $(field) !== undefined && $(field).attr('min') !== undefined && $(field).val() < parseInt( $(field).attr('min') ) ) {
+        invalid.push( 1 );
+    }
+    // Maximum Number / Amount Validation
+    if( $(field) !== undefined && $(field).attr('max') !== undefined && $(field).val() > parseInt( $(field).attr('max') ) ) {
+        invalid.push( 1 );
+    }
+    // Characters Minimum Length Validation
+    if( $(field) !== undefined && $(field).attr('minlength') !== undefined && $(field).val().length < parseInt( $(field).attr('minlength') ) ) {
+        invalid.push( 1 );
+    }
+    // Characters Maximum Length Validation
+    if( $(field) !== undefined && $(field).attr('maxlength') !== undefined && $(field).val().length > parseInt( $(field).attr('maxlength') ) ) {
+        invalid.push( 1 );
+    }
+    console.log(invalid);
+    // TODO: Validate Email
+    // TODO: Validate Password
+    return invalid.length > 0;
 }
 
 /**
@@ -299,6 +330,8 @@ function process_data( e ){
 
     //if( $(p).attr('required') !== undefined ) {
     // Check for empty values
+    let breaker = [];
+
     let required = is_empty( p, 'required' );
     if( required.length > 0 ) {
         $(p).removeClass('load');
@@ -311,10 +344,10 @@ function process_data( e ){
         });
         empty_note += '</div>';
         notify( empty_note );
-        return;
+        breaker.push(1);
     }
 
-    let invalid = is_invalid( p );
+    let invalid = validator( p );
     if( invalid.length > 0 ) {
         $(p).removeClass('load');
         console.log(invalid);
@@ -326,6 +359,10 @@ function process_data( e ){
         });
         invalid_note += '</div>';
         notify( invalid_note );
+        breaker.push(1);
+    }
+
+    if( breaker.length > 0 ) {
         return;
     }
     //}

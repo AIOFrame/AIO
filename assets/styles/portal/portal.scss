@@ -76,7 +76,10 @@ label {
 [type=text]:focus, [type=search]:focus, [type=number]:focus, [type=email]:focus, [type=date]:focus, [type=time]:focus, [type=password]:focus, [type=file]:focus, select:focus, textarea:focus {
   border:2px solid $c1;
 }
-input.empty, select.empty, select.empty+.select2 {
+input.empty, select.empty, select.empty+.select2,
+input.required, select.required, select.required+.select2,
+input.invalid, select.invalid, select.invalid+.select2
+{
   border:2px solid firebrick;
 }
 .aio_upload {

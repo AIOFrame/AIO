@@ -375,6 +375,7 @@ input + .valid > div {
 input + .valid > div span {
   font-size: 0.9rem;
   margin: 0 4px;
+  min-width: 80px;
 }
 input + .valid span.title + .value {
   margin: 0 5px;

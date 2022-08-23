@@ -21,14 +21,16 @@ $(document).ready(function(){
             } else {
                 minDiv.addClass('red').removeClass('green');
             }
+            $(minDiv).find('.live').html( $(this).val().length );
         }
 
         // Validate Maximum Length
         if( $(this).attr('maxlength') !== undefined ) {
             // Check if message exist
             let maxlengthDiv = $(this).next('.valid').find('.maxlength');
+            console.log(maxlengthDiv);
             if( !maxlengthDiv.length ) {
-                let string = $(this).data('maxlength') !== undefined ? $(this).data('maxlength') : 'Maximum Characters';
+                let string = $(this).data('maxlength') !== undefined ? $(this).data('maxlength') : 'Max Characters';
                 $(this).next('.valid').append('<div class="maxlength"><span class="key">'+string+'</span><span class="value"><i class="live">'+$(this).val().length+'</i> of '+$(this).attr('maxlength')+'</span></div>')
             }
             // Color code based on validation
@@ -37,17 +39,17 @@ $(document).ready(function(){
             } else {
                 maxlengthDiv.addClass('red').removeClass('green');
             }
-            $(this).next().find('.live').html( $(this).val().length );
+            $(maxlengthDiv).find('.live').html( $(this).val().length );
         }
 
         // Validate Maximum Number
         if( $(this).attr('max') !== undefined ) {
             // Check if message exist
-            let maxDiv = $(this).next('.valid').find('.max');
+            let maxDiv = $(this).next('.valid').find('.max_num');
             console.log(maxDiv);
-            if( !maxDiv ) {
-                let string = $(this).data('max') !== undefined ? $(this).data('max') : 'Maximum Length';
-                $(this).next('.valid').append('<div class="max"><span class="key">'+string+'</span><span class="value"><i class="live">'+$(this).val()+'</i> of '+$(this).attr('max')+'</span></div>')
+            if( !maxDiv.length ) {
+                let string = $(this).data('max') !== undefined ? $(this).data('max') : 'Max Number';
+                $(this).next('.valid').append('<div class="max_num"><span class="key">'+string+'</span><span class="value">'+$(this).attr('max')+'</span></div>')
             }
             // Color code based on validation
             if( parseInt( $(this).val() ) <= parseInt( $(this).attr('max') ) ) {
@@ -55,7 +57,6 @@ $(document).ready(function(){
             } else {
                 maxDiv.addClass('red').removeClass('green');
             }
-            $(this).next().find('.live').html( $(this).val().length );
         }
         // Validate Email
         if( $(this).attr('type') === 'email' ) {

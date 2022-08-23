@@ -67,7 +67,9 @@ label {
   border: 2px solid var(--primary-color);
 }
 
-input.empty, select.empty, select.empty + .select2 {
+input.empty, select.empty, select.empty + .select2,
+input.required, select.required, select.required + .select2,
+input.invalid, select.invalid, select.invalid + .select2 {
   border: 2px solid firebrick;
 }
 
