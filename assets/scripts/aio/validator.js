@@ -1,12 +1,14 @@
 // Fields and Validation
 $(document).ready(function(){
-    $(document).on('keyup','[data-help]',function(e){
+    $(document).on('keyup','[data-help],[data-validate]',function(e){
+
+        // Check if validation wrapper exist
+        if( !$(this).next('.valid').length ) {
+            $(this).parent().append('<div class="valid on"></div>');
+        }
+
         // Validate Minimum Length
         if( $(this).attr('minlength') !== undefined ) {
-            // Check if validation wrapper exist
-            if( !$(this).next('.valid').length ) {
-                $(this).parent().append('<div class="valid on"></div>');
-            }
             // Check if message exist
             let minDiv = $(this).next('.valid').find('.min');
             if( !minDiv.length ) {
@@ -15,41 +17,48 @@ $(document).ready(function(){
             }
             // Color code based on validation
             if( $(this).val().length >= parseInt( $(this).attr('minlength') ) ) {
-                //$(this).next('.valid').removeClass('on');
                 minDiv.addClass('green').removeClass('red');
             } else {
-                //$(this).next('.valid').addClass('on');
                 minDiv.addClass('red').removeClass('green');
             }
         }
+
         // Validate Maximum Length
         if( $(this).attr('maxlength') !== undefined ) {
-            // Check if validation wrapper exist
-            if( !$(this).next('.valid').length ) {
-                $(this).parent().append('<div class="valid on"></div>');
-            }
             // Check if message exist
-            let maxDiv = $(this).next('.valid').find('.max');
-            if( !maxDiv.length ) {
+            let maxlengthDiv = $(this).next('.valid').find('.maxlength');
+            if( !maxlengthDiv.length ) {
                 let string = $(this).data('maxlength') !== undefined ? $(this).data('maxlength') : 'Maximum Characters';
-                $(this).next('.valid').append('<div class="max"><span class="key">'+string+'</span><span class="value"><i class="live">'+$(this).val().length+'</i> of '+$(this).attr('maxlength')+'</span></div>')
+                $(this).next('.valid').append('<div class="maxlength"><span class="key">'+string+'</span><span class="value"><i class="live">'+$(this).val().length+'</i> of '+$(this).attr('maxlength')+'</span></div>')
             }
             // Color code based on validation
             if( $(this).val().length <= parseInt( $(this).attr('maxlength') ) ) {
-                //$(this).next('.valid').removeClass('on');
+                maxlengthDiv.addClass('green').removeClass('red');
+            } else {
+                maxlengthDiv.addClass('red').removeClass('green');
+            }
+            $(this).next().find('.live').html( $(this).val().length );
+        }
+
+        // Validate Maximum Number
+        if( $(this).attr('max') !== undefined ) {
+            // Check if message exist
+            let maxDiv = $(this).next('.valid').find('.max');
+            console.log(maxDiv);
+            if( !maxDiv ) {
+                let string = $(this).data('max') !== undefined ? $(this).data('max') : 'Maximum Length';
+                $(this).next('.valid').append('<div class="max"><span class="key">'+string+'</span><span class="value"><i class="live">'+$(this).val()+'</i> of '+$(this).attr('max')+'</span></div>')
+            }
+            // Color code based on validation
+            if( parseInt( $(this).val() ) <= parseInt( $(this).attr('max') ) ) {
                 maxDiv.addClass('green').removeClass('red');
             } else {
-                //$(this).next('.valid').addClass('on');
                 maxDiv.addClass('red').removeClass('green');
             }
             $(this).next().find('.live').html( $(this).val().length );
         }
         // Validate Email
         if( $(this).attr('type') === 'email' ) {
-            // Check if validation wrapper exist
-            if( !$(this).next('.valid').length ) {
-                $(this).parent().append('<div class="valid on"></div>');
-            }
             // Check if message exist
             let mailDiv = $(this).next('.valid').find('.email');
             if( !mailDiv.length ) {
@@ -66,10 +75,6 @@ $(document).ready(function(){
         }
         // Validate Password
         if( $(this).attr('type') === 'password' ) {
-            // Check if validation wrapper exist
-            if( !$(this).next('.valid').length ) {
-                $(this).parent().append('<div class="valid on"></div>');
-            }
             // Check if message exist
             let passDiv = $(this).next('.valid').find('.pass');
             if( !passDiv.length ) {
