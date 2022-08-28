@@ -5,13 +5,14 @@ if( !defined( 'ROOTPATH' ) ) { exit(); }
 $db = defined('DB_TYPE') ? DB_TYPE : '';
 
 $initials = [
-    'log',                              // Lets you easily add styles and scripts related assets
+    'log',                              // Logs issues to error log file
     'assets',                           // Lets you easily add styles and scripts related assets
     'encrypt',                          // Most powerful encryption functions
     'device',                           // Client device info functions
     'form',                             // Input element rendering functions
     'arrays',                           // Advanced array functions
-    'icons',                            // Individual icon renderer - Will be deprecated or improved
+    //'icons',                            // Individual icon renderer - Will be deprecated or improved // Deprecated
+    'content',                          // Logs issues to error log file
     'dependencies',                     // Improves or Includes most of the third-party dependencies
     'translation/strings',              // Translation functions
 ];

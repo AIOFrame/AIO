@@ -1,0 +1,32 @@
+.aio_soon {
+  width: 100%;
+  text-align: center;
+  min-height: 100vh;
+  position: relative;
+  .brand {
+    height: 60px;
+    width: 100%;
+  }
+  .vc {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .box {
+    padding: 30px 80px;
+    margin: 30px auto;
+    display: inline-block;
+    border-radius: 20px;
+    box-shadow: 0 5px 35px rgba(0,0,0,.1);
+    .text {
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .date {
+      font-size: 40px;
+
+    }
+  }
+}

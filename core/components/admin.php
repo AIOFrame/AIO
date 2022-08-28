@@ -69,7 +69,7 @@
     </div>
 </aside>
 <article>
-    <?php !empty( $page ) ? UI( $page ) : ''; ?>
+    <?php /* !empty( $page ) ? UI( $page ) : ''; */ ?>
 </article>
 <?php
 get_scripts(['select2','smooth-scrollbar','aio','admin']);
