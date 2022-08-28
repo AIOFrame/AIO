@@ -860,6 +860,12 @@ aside {
       margin-bottom: 12px;
     }
   }
+  i.mico {
+    height: 40px;
+    width: 40px;
+    margin: 5px auto;
+    display: block;
+  }
   a {
     display: block;
     text-align: center;
@@ -885,35 +891,11 @@ aside {
     text-align: center;
     width: 100%;
   }
-  // WTF
-  [data-vaultp] {
-    margin: 0 -8px;
-    > * {
-      padding: 0 6px;
-    }
-    .title {
-      font-size: .6rem;
-      font-weight: bold;
-      margin: -2px auto 6px;
-      text-align: center;
-      text-transform: uppercase;
-      opacity: .4;
-    }
-  }
   .home_link {
     box-shadow: none !important;
     padding: 0;
     height: 100%;
     margin: 0;
-  }
-  i.home {
-    mask: url('../../icons/home.svg') no-repeat center / 60%;
-    -webkit-mask: url('../../icons/home.svg') no-repeat center / 60%;
-  }
-  .ico.xl {
-    display: block;
-    width: 100%;
-    margin:0 0 6px;
   }
   [type=search] {
     margin: 0;

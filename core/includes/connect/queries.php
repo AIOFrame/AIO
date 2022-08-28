@@ -11,6 +11,10 @@ if( defined( 'DB_TYPE' ) && empty( $options ) ) {
         }
     }
 }
+if( isset( $options['app_name'] ) && !empty( $options['app_name'] ) ) {
+    if( !defined( 'APP_NAME' ) )
+        define( 'APP_NAME', $options['app_name'] );
+}
 
 class DB {
 

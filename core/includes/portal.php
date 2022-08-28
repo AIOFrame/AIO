@@ -2,7 +2,7 @@
 
 class PORTAL {
 
-    private array $brand_options = [ 'app_name', 'primary_color', 'secondary_color', 'logo_light', 'logo_dark', 'primary_color_dark', 'secondary_color_dark', 'fav', 'font_1', 'font_1_weights', 'font_2', 'font_2_weights', 'scrollbar' ];
+    private array $brand_options = [ 'app_name', 'default_theme', 'primary_color', 'secondary_color', 'logo_light', 'logo_dark', 'primary_color_dark', 'secondary_color_dark', 'fav', 'font_1', 'font_1_weights', 'font_2', 'font_2_weights', 'scrollbar' ];
 
     /**
      * @param string $attrs Attributes for <body> tag
@@ -23,7 +23,6 @@ class PORTAL {
         global $options;
         //skel( $options );
 
-
         // <head>
         echo '<!doctype html><html ';
         html_class();
@@ -34,11 +33,11 @@ class PORTAL {
         favicon( $favicon );
 
         // Fonts
-        $fonts = [];
+        $fonts = [ [ 'MaterialIcons' ] ];
         $font1 = $options['font_1'] ?? 'Lato';
         $weight1 = $options['font_1_weights'] ?? '300,400';
         $fonts[] = [ $font1, $weight1 ];
-        reset_styles( $font1, $weight1, 5 );
+        reset_styles( $font1, $weight1 );
         if( !empty( $options['font_2'] ) ) {
             $weight2 = $options['font_2_weights'] ?? '300,400';
             $fonts[] = [ $options['font_2'], $weight2 ];
@@ -46,12 +45,13 @@ class PORTAL {
         fonts( $fonts );
 
         // Appearance
-        $color1 = $options['primary_color'] ?? '111';
-        $color2 = $options['secondary_color'] ?? '222';
+        $color1 = $options['primary_color'] ?? '#111';
+        $color2 = $options['secondary_color'] ?? '#222';
         $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'jquery' ] ) : $scripts . ',jquery';
         get_styles( $ex_styles );
         get_scripts( $scripts );
-        $theme = $options['theme'] ?? '';
+        $theme = $options['default_theme'] ?? '';
+        $theme = $options['theme'] ?? $theme;
         if( str_contains( $theme, 'dark' ) ) {
             $class .= $theme . ' d';
             $is_light = false;
@@ -60,7 +60,7 @@ class PORTAL {
         } else {
             $class .= $theme . ' l';
         }
-        art('cards,modal,buttons,inputs,icons,tabs,steps,color,table,alerts',$color1,$color2);
+        art('icons,cards,modal,buttons,inputs,icons,tabs,steps,color,table,alerts',$color1,$color2);
         //skel( $options );
         if( is_array( $styles ) ) {
             array_unshift( $styles, 'portal/portal' );
@@ -88,7 +88,7 @@ class PORTAL {
     }
 
     function post_html( string|array $scripts = [] ): void {
-        $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'iro', 'data', 'portal/portal' ] ) : $scripts.',iro,data,portal/portal';
+        $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'iro', 'scrollto', 'data', 'portal/portal' ] ) : $scripts.',iro,data,portal/portal';
         get_scripts( $scripts );
         get_script( PAGEPATH );
         echo '<div class="notices t r"></div></body></html>';
@@ -144,7 +144,7 @@ class PORTAL {
                             <div class="row">
                                 <?php
                                 $uis = [ 'default' => 'Default - Light' ];
-                                $ui_list = scandir( ROOTPATH . 'assets/styles/aio/portal/ui' );
+                                $ui_list = scandir( ROOTPATH . 'assets/styles/portal/ui' );
                                 foreach( $ui_list as $ui ) {
                                     if( str_contains( $ui, '.scss' ) ) {
                                         $s = str_replace( '.scss', '', $ui );
@@ -226,4 +226,66 @@ class PORTAL {
         file_upload();
     }
 
+    /**
+     * Renders Side Menu
+     * @param string $root_url URL of root Dashboard
+     * @param array $menus Array set of [ 'title' => 'Contacts', 'url' => 'contacts', 'icon' => 'users', 'perm' => 'view_contacts', 'type' => 'admin', 'col' => 4, 'group' => 'Contacts', 'data' => 'contacts' ];
+     * @param string $content Any HTML content to be shown after Search Bar
+     * @return void
+     */
+    function render_menu( array $menus = [], string $root_url = 'portal', string $content = '' ): void {
+        $menus = !empty( $menus ) ? array_group_by( $menus, 'group' ) : [];
+        ?>
+        <aside class="menu">
+            <div class="row">
+                    <div class="col-2" data-intro>
+                        <a href="<?php echo APPURL.$root_url; ?>" class="home_link">
+                            <i class="ico l mico">home</i>
+                        </a>
+                    </div>
+                    <div class="col-10">
+                        <input type="search" placeholder="<?php E('Search in Menu...'); ?>">
+                    </div>
+                </div>
+            <?php echo $content;
+            if( !empty( $menus ) ) {
+                foreach( $menus as $group_title => $menu_lists ) {
+                    //skel( $menu_lists );
+                    $data = is_array( $menu_lists ) && isset( $menu_lists[ array_key_first($menu_lists) ]['data'] ) ? 'data-'.$menu_lists[ array_key_first($menu_lists) ]['data'] : 'data-'.str_replace( ' ', '-', strtolower( $group_title ) );
+                    ?>
+                    <div class="set">
+                        <div class="title"><?php E( $group_title ); ?></div>
+                        <div class="row" <?php echo $data; ?>>
+                            <?php
+                            if( !empty( $menu_lists ) ) {
+                                foreach( $menu_lists as $menu ) {
+                                    $col = isset( $menu['col'] ) ? 'item col-'.$menu['col'] : 'item col-4';
+                                    $perm = $menu['perm'] ?? '';
+                                    $url = $menu['url'] ?? '';
+                                    $icon = $menu['icon'] ?? '';
+                                    $title = $menu['title'] ?? '';
+                                    if( !empty( $perm ) && !user_can( $perm ) ) {
+                                        continue;
+                                    }
+                                    ?>
+                                    <div class="<?php echo $col; ?>">
+                                        <a href="<?php echo APPURL.$url; ?>">
+                                            <?php echo '<i class="mico l bg">'.$icon.'</i>' ?>
+                                            <div class="title"><?php E( $title ); ?></div>
+                                        </a>
+                                    </div>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </div>
+                    </div>
+                    <?php
+                }
+            }
+            ?>
+        </aside>
+        <div class="credit"><?php echo T('Copyright ©').' '.date('Y').' '.APPNAME; ?></div>
+        <?php
+    }
 }

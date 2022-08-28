@@ -434,7 +434,8 @@ function body_class( string $class = '' ): void {
  * @param bool $join_app_name
  */
 function get_title( string $title = '', bool $join_app_name = true ): void {
-    $add = $join_app_name ? ' - '.T( APPNAME ) : '';
+    $app_name = defined('APP_NAME') ? APP_NAME : APPNAME;
+    $add = $join_app_name ? ' - '.T( $app_name ) : '';
     if( !empty( $title ) ) {
         echo '<title>'.$title.$add.'</title>';
         return;
@@ -445,12 +446,12 @@ function get_title( string $title = '', bool $join_app_name = true ): void {
         $p = is_numeric( $p ) ? $pp[count($pp)-1] : $p;
         echo '<title>'.T( ucwords( str_replace('-',' ', str_replace('_',' ', $p )) ) ) .$add.'</title>';
     } else {
-        echo '<title>'.T( APPNAME ).'</title>';
+        echo '<title>'.T( $app_name ).'</title>';
     }
 }
 
 /**
- * Sets a title thru jQuery, Not SEO friendly
+ * Sets a title through jQuery, Not SEO friendly
  * @param $title
  */
 function set_title( $title ): void {

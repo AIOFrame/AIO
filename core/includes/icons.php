@@ -7,6 +7,10 @@ if( APPDEBUG && file_exists( APPPATH . 'assets/styles/icons.css' ) ) {
     fclose($icon_css);
 }
 
+function mico( string $icon = '', string $class = '' ): void {
+    echo '<span class="material-icons '.$class.'">'.$icon.'</span>';
+}
+
 function _icon( $name, $size = 25, $thickness = 15, $color = '#000000', $stroke = true ) {
     global $icons;
     if( is_array( $name ) ){

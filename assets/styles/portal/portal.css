@@ -330,7 +330,7 @@ button:after, .btn:after {
 body {
   background: #f3f3f3;
   margin: 120px 0 90px;
-  min-height: calc(100vh - 210px);
+  min-height: calc( 100vh - 210px);
 }
 
 .invoice_view {
@@ -875,6 +875,12 @@ aside .set > .title {
   opacity: 0.3;
   margin-bottom: 12px;
 }
+aside i.mico {
+  height: 40px;
+  width: 40px;
+  margin: 5px auto;
+  display: block;
+}
 aside a {
   display: block;
   text-align: center;
@@ -900,34 +906,11 @@ aside a.bg {
   text-align: center;
   width: 100%;
 }
-aside [data-vaultp] {
-  margin: 0 -8px;
-}
-aside [data-vaultp] > * {
-  padding: 0 6px;
-}
-aside [data-vaultp] .title {
-  font-size: 0.6rem;
-  font-weight: bold;
-  margin: -2px auto 6px;
-  text-align: center;
-  text-transform: uppercase;
-  opacity: 0.4;
-}
 aside .home_link {
   box-shadow: none !important;
   padding: 0;
   height: 100%;
   margin: 0;
-}
-aside i.home {
-  mask: url("../../icons/home.svg") no-repeat center/60%;
-  -webkit-mask: url("../../icons/home.svg") no-repeat center/60%;
-}
-aside .ico.xl {
-  display: block;
-  width: 100%;
-  margin: 0 0 6px;
 }
 aside [type=search] {
   margin: 0;
