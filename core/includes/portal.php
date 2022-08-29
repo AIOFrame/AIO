@@ -234,7 +234,7 @@ class PORTAL {
      * @return void
      */
     function render_menu( array $menus = [], string $root_url = 'portal', string $content = '' ): void {
-        $menus = !empty( $menus ) ? array_group_by( $menus, 'group' ) : [];
+        //$menus = !empty( $menus ) ? array_group_by( $menus, 'group' ) : [];
         ?>
         <aside class="menu">
             <div class="row">
@@ -249,24 +249,44 @@ class PORTAL {
                 </div>
             <?php echo $content;
             if( !empty( $menus ) ) {
-                foreach( $menus as $group_title => $menu_lists ) {
-                    //skel( $menu_lists );
-                    $data = is_array( $menu_lists ) && isset( $menu_lists[ array_key_first($menu_lists) ]['data'] ) ? 'data-'.$menu_lists[ array_key_first($menu_lists) ]['data'] : 'data-'.str_replace( ' ', '-', strtolower( $group_title ) );
+                foreach( $menus as $menu_set ) {
+                    //skel( $menu_set );
+                    $group_title = $menu_set['group'] ?? '';
+                    $data = $menu_set['data'] ?? str_replace( ' ', '_', strtolower( $group_title ) );
+                    $menu_list = $menu_set['menu'] ?? [];
+                    $group_restricted = [];
+                    if( !empty( $menu_set['user_can'] ) ) {
+                        $user_can_in_group = explode( ',', $menu_set['user_can'] );
+                        foreach( $user_can_in_group as $ucg ) {
+                            if( !user_can( $ucg ) ) {
+                                $group_restricted[] = 1;
+                            }
+                        }
+                    }
+                    if( empty( $group_restricted ) ) {
+                        //skel( $menu_set );
                     ?>
                     <div class="set">
                         <div class="title"><?php E( $group_title ); ?></div>
-                        <div class="row" <?php echo $data; ?>>
+                        <div class="row" <?php echo 'data-'.$data; ?>>
                             <?php
-                            if( !empty( $menu_lists ) ) {
-                                foreach( $menu_lists as $menu ) {
+                            if( !empty( $menu_list ) ) {
+                                foreach( $menu_list as $menu ) {
                                     $col = isset( $menu['col'] ) ? 'item col-'.$menu['col'] : 'item col-4';
-                                    $perm = $menu['perm'] ?? '';
+                                    $user_can = $menu['user_can'] ?? '';
                                     $url = $menu['url'] ?? '';
                                     $icon = $menu['icon'] ?? '';
                                     $title = $menu['title'] ?? '';
-                                    if( !empty( $perm ) && !user_can( $perm ) ) {
-                                        continue;
+                                    $restricted = [];
+                                    if( !empty( $perm ) ) {
+                                        $user_can = explode( ',', $user_can );
+                                        foreach( $user_can as $uc ) {
+                                            if( !user_can( $uc ) ) {
+                                                $restricted[] = 1;
+                                            }
+                                        }
                                     }
+                                    if( empty( $restricted ) ) {
                                     ?>
                                     <div class="<?php echo $col; ?>">
                                         <a href="<?php echo APPURL.$url; ?>">
@@ -275,12 +295,14 @@ class PORTAL {
                                         </a>
                                     </div>
                                     <?php
+                                    }
                                 }
                             }
                             ?>
                         </div>
                     </div>
                     <?php
+                    }
                 }
             }
             ?>
