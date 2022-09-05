@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    // Create wrap if doesn't exist
+    // Create wrap if it doesn't exist
     if( !$('[data-alerts]').length ) {
         $('body').append('<div class="t r" data-alerts></div>');
     }
@@ -36,13 +36,14 @@ function alert( text, duration ) {
     notify( text, duration );
 }
 
-function notify( text, duration ) {
+function notify( text, duration, type, icon ) {
     // Process duration of notification
     duration = duration !== undefined && duration !== '' && duration > 0 ? duration * 1000 : 6000;
 
     // Create notification message
     let r = Math.random().toString(36).substring(7);
-    let n = '<div class="alert in n_'+r+'"><div class="data"><div class="close"></div><div class="message">'+text+'</div></div><div class="time"></div></div>';
+    let ico = icon !== undefined && icon !== '' ? '<div class="ico"><div class="mico">'+icon+'</div></div>' : '';
+    let n = '<div class="alert in '+type+' n_'+r+'"><div class="data"><div class="mico close">close</div>'+ico+'<div class="message">'+text+'</div></div><div class="time"></div></div>';
     let id = '.n_' + r;
     let ns = $('[data-alerts]');
 

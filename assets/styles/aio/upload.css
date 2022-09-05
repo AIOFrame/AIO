@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .file_modal, .file_notify {
   position: fixed;
   z-index: 999;
@@ -28,6 +29,20 @@ body.d .file_modal, body.d .file_notify {
 .file_notify {
   z-index: 1000;
   padding: 20px 40px;
+  text-align: center;
+}
+.file_notify .ext_wrap {
+  display: flex;
+  justify-content: center;
+}
+.file_notify .ext_wrap .ext {
+  background: #eee;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: #000;
+  margin: 10px 6px 0;
+  text-transform: uppercase;
 }
 
 .file_notify.on {
@@ -114,12 +129,13 @@ body.d .file_modal, body.d .file_notify {
   width: 40px;
   height: 40px;
   position: relative;
+  font-size: 2rem;
+  line-height: 40px;
 }
 .file_modal .files_head .expand {
-  background: url("../../icons/uploader/expand.svg") no-repeat center/40%;
+  content: "";
 }
 .file_modal .files_head .close {
-  background: url("../../images/icons/close.svg") no-repeat center/40%;
   left: auto;
   top: auto;
 }
@@ -349,27 +365,48 @@ body.d .file_modal .files_head {
   font-size: 16px;
   text-transform: none;
   color: #000;
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  display: block;
+  background: #fff;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: #000;
 }
 .files_actions .disabled {
   color: #ccc;
   cursor: not-allowed;
   pointer-events: none;
+  opacity: 0.5;
+}
+.files_actions .i {
+  color: #878787;
+  position: relative;
+}
+.files_actions .i:after {
+  font-family: "MaterialIcons", sans-serif;
+  line-height: 50px;
+  font-size: 2rem;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 50px;
+  height: 50px;
+  transform: translateY(-50%);
 }
 .files_actions .i.select {
   z-index: 3;
-  background: #fff url("../../icons/uploader/select.svg") no-repeat 10px center/22px;
 }
-.files_actions .i.trash {
-  z-index: 1;
-  background: #fff url("../../icons/uploader/trash.svg") no-repeat 10px center/20px;
+.files_actions .i.select:after {
+  content: "";
+}
+.files_actions .i.browse:after {
+  content: "";
+}
+.files_actions .i.trash:after {
+  content: "";
 }
 .files_actions .i.disabled {
   background: none;
-}
-.files_actions .i.browse {
-  z-index: 2;
-  background: #fff url("../../icons/uploader/browse.svg") no-repeat 10px center/25px;
+  cursor: not-allowed;
 }
 .files_actions > div:hover, .files_actions > label:hover {
   background-color: rgba(0, 0, 0, 0.05);
@@ -459,30 +496,35 @@ td .aio_fsp {
 
 .aio_files > .f {
   display: block;
-  padding: 10px 8px;
-  border: 1px solid #888;
-  border-radius: 4px;
+  padding: var(--input-padding-top) var(--input-padding-right) var(--input-padding-bottom) var(--input-padding-left);
+  background-color: var(--input-bg-light);
+  border-top: var(--input-border-top) solid #888;
+  border-right: var(--input-border-right) solid #888;
+  border-bottom: var(--input-border-bottom) solid #888;
+  border-left: var(--input-border-left) solid #888;
+  border-radius: var(--input-radius);
   position: relative;
   margin-right: 15px;
+  line-height: 1.4rem;
+  font-size: 1rem;
 }
 .aio_files .f > .f {
   font-size: 12px;
-  max-width: calc(100% - 30px);
+  max-width: calc(100% - 34px);
   overflow: hidden;
   height: 16px;
   display: inline-block;
   vertical-align: middle;
+  line-height: normal;
 }
 .aio_files .trash {
   cursor: pointer;
   position: absolute;
-  top: 5px;
+  top: 50%;
+  transform: translateY(-50%);
   right: 5px;
   width: 30px;
   height: 30px;
-  mask: url("../../icons/remove.svg") no-repeat center/20px;
-  -webkit-mask: url("../../icons/remove.svg") no-repeat center/20px;
-  background: #000;
 }
 .aio_files .i.file {
   height: 20px;
@@ -555,7 +597,7 @@ td .aio_fsp {
 }
 
 body.d .aio_files .trash {
-  background: #fff;
+  color: #fff;
 }
 
 @media only screen and (max-width: 600px) {

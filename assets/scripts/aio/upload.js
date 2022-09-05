@@ -199,8 +199,8 @@ function file_ui() {
         let readonly = $(f).attr('readonly') !== undefined;
         let file = d.split('/')[ d.split('/').length - 1 ];
         let ext = file.split('.')[ file.split('.').length - 1 ];
-        let trash = !readonly ? '<i class="i trash"></i>' : '';
-        let file_ui = file !== '' ? '<div class="f"><i class="i file '+ext+'"></i>'+trash+'<div class="f">'+file+'</div></div>' : $(f).prev('button').show().clone();
+        let trash = !readonly ? '<i class="mico trash">remove_circle</i>' : '';
+        let file_ui = file !== '' ? '<div class="f"><i class="mico file '+ext+'"></i>'+trash+'<div class="f">'+file+'</div></div>' : $(f).prev('button').show().clone();
         if( !$(f).next().hasClass('aio_fp') ){
             let id = $(f).prev('button').data('url');
             $(f).after('<div class="aio_fp aio_files" data-url="'+ id +'"></div>');
@@ -219,7 +219,7 @@ function files_ui() {
         let files = $(b).val() !== '' ? $(b).val().split('|') : '';
         let files_ui = '';
         let readonly = $(b).attr('readonly') !== undefined;
-        let trash = !readonly ? '<i class="i trash"></i>' : '';
+        let trash = !readonly ? '<i class="mico trash">remove_circle</i>' : '';
         $(files).each(function(c,d){
             let file = d.split('/')[ d.split('/').length - 1 ];
             let ext = file.split('.')[ file.split('.').length - 1 ];
@@ -327,8 +327,12 @@ function process_upload(fs) {
             exts = exts.split(',');
             let ext = f.name.split('.')[1];
             if(exts.indexOf(ext) < 0){
+                let ext_text = '';
+                $(exts).each(function(a,ext){
+                    ext_text += '<div class="ext">'+ext+'</div>';
+                });
                 let msg = $('#aio_up .extension_limit').html();
-                uploader_notify(msg + ' <strong>' + exts + '</strong>');
+                uploader_notify(msg + ' <div class="ext_wrap">' + ext_text + '</div>');
                 return [ false, 'Extension Restricted', 'The file should be one of the extensions ' + exts ];
             }
         }

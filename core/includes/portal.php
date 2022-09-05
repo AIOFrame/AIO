@@ -2,8 +2,6 @@
 
 class PORTAL {
 
-    private array $brand_options = [ 'app_name', 'default_theme', 'primary_color', 'secondary_color', 'logo_light', 'logo_dark', 'primary_color_dark', 'secondary_color_dark', 'fav', 'font_1', 'font_1_weights', 'font_2', 'font_2_weights', 'scrollbar' ];
-
     /**
      * @param string $attrs Attributes for <body> tag
      * @param string|array $ex_styles External Styles
@@ -45,8 +43,6 @@ class PORTAL {
         fonts( $fonts );
 
         // Appearance
-        $color1 = $options['primary_color'] ?? '#111';
-        $color2 = $options['secondary_color'] ?? '#222';
         $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'jquery' ] ) : $scripts . ',jquery';
         get_styles( $ex_styles );
         get_scripts( $scripts );
@@ -55,12 +51,10 @@ class PORTAL {
         if( str_contains( $theme, 'dark' ) ) {
             $class .= $theme . ' d';
             $is_light = false;
-            $color1 = $options['primary_color_dark'] ?? $color1;
-            $color2 = $options['secondary_color_dark'] ?? $color2;
         } else {
             $class .= $theme . ' l';
         }
-        art('icons,cards,modal,buttons,inputs,icons,tabs,steps,color,table,alerts',$color1,$color2);
+        art('icons,cards,modal,buttons,inputs,icons,tabs,steps,color,table,alerts');
         //skel( $options );
         if( is_array( $styles ) ) {
             array_unshift( $styles, 'portal/portal' );
@@ -134,7 +128,7 @@ class PORTAL {
                         <div class="tab" data-t="#basic"><?php is_mobile() ? E('User') : E('User Details'); ?></div>
                         <div class="tab" data-t="#pass"><?php is_mobile() ? E('Pass') : E('Change Password'); ?></div>
                         <div class="tab" data-t="#sess"><?php is_mobile() ? E('Sessions') : E('Active Sessions'); ?><?php echo ' ('.count($ss).')'; ?></div>
-                        <?php if( is_admin() ) { ?>
+                        <?php if( APPDEBUG ) { ?>
                             <div class="tab" data-t="#status">Log</div>
                         <?php } ?>
                     </div>

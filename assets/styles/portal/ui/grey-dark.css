@@ -72,6 +72,10 @@ aside .set > .title {
   -webkit-backdrop-filter: blur(20px);
 }
 
+[data-alerts] .alert {
+  background: #4f5266;
+}
+
 .acts > a[title], .acts > div[title] {
   background: rgba(255, 255, 255, 0.2);
 }

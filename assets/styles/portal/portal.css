@@ -1,7 +1,10 @@
+@charset "UTF-8";
 /* Inputs */
 label {
   font-size: 0.9rem;
-  color: var(--primary-color);
+  background: -webkit-linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   text-transform: uppercase;
   font-weight: bold;
   margin: 0 0 10px;
@@ -13,16 +16,25 @@ label {
 }
 
 [type=text], [type=search], [type=number], [type=email], [type=date], [type=time], [type=password], [type=file], select, textarea {
-  border: 2px solid #eee;
   font-size: 1rem;
   line-height: 1.4rem;
-  padding: 12px;
-  border-radius: 8px;
+  padding: var(--input-padding-top) var(--input-padding-right) var(--input-padding-bottom) var(--input-padding-left);
   transition: 0.6s;
+  background-color: var(--input-bg-light);
+  border-top: var(--input-border-top) solid var(--input-border-color-light);
+  border-right: var(--input-border-right) solid var(--input-border-color-light);
+  border-bottom: var(--input-border-bottom) solid var(--input-border-color-light);
+  border-left: var(--input-border-left) solid var(--input-border-color-light);
+  border-radius: var(--input-radius);
+  color: var(--input-color-light);
 }
 
 .select2-container--default .select2-selection--single, .select2-container--default .select2-selection--multiple, .select2-container--default .select2-selection--multiple, .select2-container--default.select2-container--focus .select2-selection--single, .select2-container--default.select2-container--focus .select2-selection--multiple, .select2-container--default.select2-container--focus .select2-selection--multiple {
-  border: 2px solid #eee;
+  border-top: var(--input-border-top) solid var(--input-border-color-light);
+  border-right: var(--input-border-right) solid var(--input-border-color-light);
+  border-bottom: var(--input-border-bottom) solid var(--input-border-color-light);
+  border-left: var(--input-border-left) solid var(--input-border-color-light);
+  color: var(--input-color-light);
   transition: 0.6s;
 }
 
@@ -32,10 +44,10 @@ label {
 
 .select2-container .select2-selection {
   position: relative;
-  border-radius: 8px;
+  border-radius: var(--input-radius);
   font-size: 1rem;
   height: auto;
-  background: 0;
+  background-color: var(--input-bg-light);
 }
 
 .aio_fsp.aio_files {
@@ -64,13 +76,20 @@ label {
 }
 
 [type=text]:focus, [type=search]:focus, [type=number]:focus, [type=email]:focus, [type=date]:focus, [type=time]:focus, [type=password]:focus, [type=file]:focus, select:focus, textarea:focus {
-  border: 2px solid var(--primary-color);
+  border-top: var(--input-border-color-active-light) solid var(--input-border-top);
+  border-right: var(--input-border-color-active-light) solid var(--input-border-right);
+  border-bottom: var(--input-border-color-active-light) solid var(--input-border-bottom);
+  border-left: var(--input-border-color-active-light) solid var(--input-border-left);
+  color: var(--input-color-active-light);
 }
 
 input.empty, select.empty, select.empty + .select2,
 input.required, select.required, select.required + .select2,
 input.invalid, select.invalid, select.invalid + .select2 {
-  border: 2px solid firebrick;
+  border-top: var(--input-border-color-light) solid firebrick;
+  border-right: var(--input-border-color-light) solid firebrick;
+  border-bottom: var(--input-border-color-light) solid firebrick;
+  border-left: var(--input-border-color-light) solid firebrick;
 }
 
 .aio_upload {
@@ -88,21 +107,22 @@ input.invalid, select.invalid, select.invalid + .select2 {
 }
 
 .aio_upload:after, .select2-selection:after {
-  content: "";
+  content: "";
   position: absolute;
   right: 6px;
   top: 50%;
   transform: translateY(-50%);
-  mask: url("../../icons/upload.svg") no-repeat calc(100% - 10px) center/20px;
-  -webkit-mask: url("../../icons/upload.svg") no-repeat calc(100% - 10px) center/20px;
-  background: #000;
+  color: #000;
+  font-family: "MaterialIcons", sans-serif;
+  font-size: 1.8rem;
   width: 40px;
   height: 40px;
+  line-height: 40px;
+  text-align: center;
 }
 
 .select2-selection:after {
-  mask: url("../../icons/select.svg") no-repeat calc(100% - 2px) center/20px;
-  -webkit-mask: url("../../icons/select.svg") no-repeat calc(100% - 2px) center/20px;
+  content: "";
 }
 
 [data-prev], [data-next] {
@@ -499,7 +519,7 @@ article.fade > div {
 }
 #finder input {
   border: 0;
-  border-radius: 8px;
+  border-radius: var(--input-radius);
   background: rgba(0, 0, 0, 0.05);
   height: 46px;
   font-size: 20px;
@@ -889,7 +909,7 @@ aside a {
   letter-spacing: 0;
   padding: 8px;
   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  border-radius: var(--input-radius);
   background: #fff;
   transition: 0.8s;
   margin: 0 0 12px;
@@ -917,7 +937,7 @@ aside [type=search] {
   margin: 0;
   padding: 12px 15px 12px 40px;
   font-size: 1rem;
-  border-radius: 8px;
+  border-radius: var(--input-radius);
   background: #eee url("../../icons/search.svg") no-repeat 10px center/24px;
 }
 
@@ -1013,16 +1033,20 @@ aside::-webkit-scrollbar {
 }
 
 /* CONTENT */
+.html_code {
+  min-height: 300px;
+}
+
 .group_details {
   background: #fff;
   padding: 20px 20px 0;
-  border-radius: 8px;
+  border-radius: var(--input-radius);
   margin-bottom: 20px;
 }
 .group_details .group_title {
   margin: -20px -20px 20px;
   color: #fff;
-  border-radius: 8px 8px 0 0;
+  border-radius: var(--input-radius) var(--input-radius) 0 0;
   padding: 12px 20px;
   font-weight: lighter;
   font-size: 1.1rem;
@@ -1137,13 +1161,12 @@ aside::-webkit-scrollbar {
 /* GOOGLE MAP */
 .map_wrap input[type=text] {
   margin: 0;
-  border: 2px solid #eee;
-  border-radius: 8px 8px 0 0;
+  border-radius: var(--input-radius) var(--input-radius) 0 0;
 }
 
 .google_map {
   min-height: 200px;
-  border-radius: 0 0 8px 8px;
+  border-radius: 0 0 var(--input-radius) var(--input-radius);
   margin-bottom: 15px;
 }
 
@@ -1274,7 +1297,7 @@ body.d .aio_fsp.aio_files {
   border: 2px solid rgba(255, 255, 255, 0.1);
 }
 body.d .aio_upload:after {
-  background: #fff;
+  color: #fff;
 }
 body.d .modal .close, body.d .header .tabs a.on:after, body.d .header .tabs div.on:after {
   background: #fff;
