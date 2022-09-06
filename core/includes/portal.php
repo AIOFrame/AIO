@@ -96,6 +96,11 @@ class PORTAL {
 
     function login_html( string $login_redirect_url = '', string $attrs = '', string|array $ex_styles = [], string|array $styles = [], string|array $scripts = [] ): void {
 
+        if( user_logged_in() ) {
+            header('Location:'.APPURL.$login_redirect_url);
+            exit;
+        }
+
         // Head
         $styles = is_array( $styles ) ? array_merge( $styles, [ 'portal/login', 'login' ] ) : $styles . ',portal/login,login';
         $this->pre_html( $attrs, $ex_styles, $styles, $scripts );
