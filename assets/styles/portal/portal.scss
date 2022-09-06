@@ -1,13 +1,40 @@
 $c1: var(--primary-color);
 $c2: var(--secondary-color);
-$radius: 8px;
-$border: 2px solid #eee;
+$radius: var(--input-radius);
+$border-top: var(--input-border-top);
+$border-right: var(--input-border-right);
+$border-bottom: var(--input-border-bottom);
+$border-left: var(--input-border-left);
+$margin-top: var(--input-margin-top);
+$margin-right: var(--input-margin-right);
+$margin-bottom: var(--input-margin-bottom);
+$margin-left: var(--input-margin-left);
+$padding-top: var(--input-padding-top);
+$padding-right: var(--input-padding-right);
+$padding-bottom: var(--input-padding-bottom);
+$padding-left: var(--input-padding-left);
+
+// Light Options
+$bg-light: var(--input-bg-light);
+$border-color-light: var(--input-border-color-light);
+$border-color-active-light: var(--input-border-color-active-light);
+$color-light: var(--input-color-light);
+$color-active-light: var(--input-color-active-light);
+
+// Dark Options
+$bg-dark: var(--input-bg-dark);
+$border-color-dark: var(--input-border-color-dark);
+$border-color-active-dark: var(--input-border-color-active-dark);
+$color-dark: var(--input-color-dark);
+$color-active-dark: var(--input-color-active-dark);
 
 /* Inputs */
 
 label {
   font-size: .9rem;
-  color:$c1;
+  background: -webkit-linear-gradient( 45deg, $c1, $c2 );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   text-transform: uppercase;
   font-weight: bold;
   margin: 0 0 10px;
@@ -18,12 +45,18 @@ label {
   margin: 0;
 }
 [type=text], [type=search], [type=number], [type=email], [type=date], [type=time], [type=password], [type=file], select, textarea {
-  border:2px solid #eee;
   font-size: 1rem;
   line-height: 1.4rem;
-  padding: 12px;
-  border-radius: 8px;
+  padding: $padding-top $padding-right $padding-bottom $padding-left;
   transition: .6s;
+  background-color: $bg_light;
+  border-top: $border-top solid $border-color-light;
+  border-right: $border-right solid $border-color-light;
+  border-bottom: $border-bottom solid $border-color-light;
+  border-left: $border-left solid $border-color-light;
+  border-radius: $radius;
+  color: $color-light
+  //border: $border-top $border-right $border-bottom $border-left;
 }
 .select2-container--default, .select2-container--default.select2-container--focus {
   .select2-search--dropdown {
@@ -32,7 +65,11 @@ label {
     }
   }
   .select2-selection--single, .select2-selection--multiple, .select2-selection--multiple {
-    border:2px solid #eee;
+    border-top: $border-top solid $border-color-light;
+    border-right: $border-right solid $border-color-light;
+    border-bottom: $border-bottom solid $border-color-light;
+    border-left: $border-left solid $border-color-light;
+    color: $color-light;
     transition: .6s;
   }
 }
@@ -41,10 +78,10 @@ label {
 }
 .select2-container .select2-selection {
   position: relative;
-  border-radius:8px;
+  border-radius: $radius;
   font-size: 1rem;
   height: auto;
-  background: 0;
+  background-color: $bg_light;
 }
 .aio_fsp.aio_files {
   border: 2px solid #eee;
@@ -74,13 +111,20 @@ label {
 
 }
 [type=text]:focus, [type=search]:focus, [type=number]:focus, [type=email]:focus, [type=date]:focus, [type=time]:focus, [type=password]:focus, [type=file]:focus, select:focus, textarea:focus {
-  border:2px solid $c1;
+  border-top:$border-color-active-light solid $border-top;
+  border-right:$border-color-active-light solid $border-right;
+  border-bottom:$border-color-active-light solid $border-bottom;
+  border-left:$border-color-active-light solid $border-left;
+  color: $color-active-light;
 }
 input.empty, select.empty, select.empty+.select2,
 input.required, select.required, select.required+.select2,
 input.invalid, select.invalid, select.invalid+.select2
 {
-  border:2px solid firebrick;
+  border-top:$border-color-light solid firebrick;
+  border-right:$border-color-light solid firebrick;
+  border-bottom:$border-color-light solid firebrick;
+  border-left:$border-color-light solid firebrick;
 }
 .aio_upload {
   border: 2px solid #eee;
@@ -96,20 +140,21 @@ input.invalid, select.invalid, select.invalid+.select2
   position: relative;
 }
 .aio_upload:after, .select2-selection:after {
-  content:'';
+  content:'\e9fc';
   position: absolute;
   right: 6px;
   top: 50%;
   transform: translateY(-50%);
-  mask: url('../../icons/upload.svg') no-repeat calc(100% - 10px) center / 20px;
-  -webkit-mask: url('../../icons/upload.svg') no-repeat calc(100% - 10px) center / 20px;
-  background: #000;
+  color: #000;
+  font-family: 'MaterialIcons',sans-serif;
+  font-size: 1.8rem;
   width: 40px;
   height: 40px;
+  line-height: 40px;
+  text-align: center;
 }
 .select2-selection:after {
-  mask: url('../../icons/select.svg') no-repeat calc(100% - 2px) center / 20px;
-  -webkit-mask: url('../../icons/select.svg') no-repeat calc(100% - 2px) center / 20px;
+  content:'\e313'
 }
 [data-prev], [data-next] {
   border-radius: 20px;
@@ -1005,6 +1050,9 @@ aside::-webkit-scrollbar {
 
 /* CONTENT */
 
+.html_code {
+  min-height: 300px;
+}
 .group_details {
   background: #fff;
   padding: 20px 20px 0;
@@ -1135,7 +1183,7 @@ aside::-webkit-scrollbar {
 .map_wrap {
   input[type=text] {
     margin: 0;
-    border: $border;
+    //border: $border;
     border-radius: $radius $radius 0 0;
   }
 }
@@ -1281,7 +1329,7 @@ body.d {
     border: 2px solid rgba(255,255,255,.1);
   }
   .aio_upload:after {
-    background: #fff;
+    color: #fff;
   }
 
   /* Elements */

@@ -13,11 +13,11 @@ $universal_assets = [ 'styles' => [], 'scripts' => [] ];
  * RESET STYLES
  * @version 1.3
  * @param string $font Default Fonts (separate by ,) to be applied to all elements
- * @param string $weight Default font weight
+ * @param string|int $weight Default font weight
  * @param int $scrollbar Default scrollbar width
  * @author Shaikh <hey@shaikh.dev>
  */
-function reset_styles( $font = 'Lato', $weight = 'normal', $scrollbar = 5 ) {
+function reset_styles( string $font = 'Lato', string|int $weight = 'normal', int $scrollbar = 5 ): void {
     $cache = get_config( 'cache' );
     $v = $cache ? '&v=' . round( time() / ( $cache * 60 ) ) : '';
     global $universal_assets;
@@ -36,15 +36,35 @@ function reset_styles( $font = 'Lato', $weight = 'normal', $scrollbar = 5 ) {
  * @author Shaikh <hey@shaikh.dev>
  */
 function art( array|string $arts = '', string $color1 = '222', string $color2 = '000' ): void {
+    global $options;
+    global $universal_assets;
+
     $cache = get_config( 'cache' );
     $v = $cache ? '&v=' . round( time() / ( $cache * 60 ) ) : '';
     $arts = !is_array( $arts ) ? explode( ',', $arts ) : $arts;
-    //$color1 = str_contains( $color1, '#' ) ? str_replace( '#', '', $color1 ) : $color1;
-    $color1 = strlen( $color1 ) == 6 ? '#' . $color1 : $color1;
-    //$color2 = str_contains( $color2, '#' ) ? str_replace( '#', '', $color2 ) : $color2;
-    $color2 = strlen( $color2 ) == 6 ? '#' . $color2 : $color2;
 
-    global $universal_assets;
+    // Setting Colors
+    if( $color1 == '222' && $color2 == '000' ) {
+        $theme = $options['default_theme'] ?? '';
+        $theme = $options['theme'] ?? $theme;
+        if( str_contains( $theme, 'dark' ) ) {
+            $color = $options['color_dark'] ?? '#fff';
+            $color1 = $options['primary_color_dark'] ?? $color1;
+            $color2 = $options['secondary_color_dark'] ?? $color2;
+        } else {
+            $color = $options['color_light'] ?? '#000';
+            $color1 = $options['primary_color'] ?? '#111';
+            $color2 = $options['secondary_color'] ?? '#222';
+        }
+    } else {
+        $color = '#fff';
+    }
+    //$color1 = str_contains( $color1, '#' ) ? str_replace( '#', '', $color1 ) : $color1;
+    //$color1 = strlen( $color1 ) == 6 ? '#' . $color1 : $color1;
+    //$color2 = str_contains( $color2, '#' ) ? str_replace( '#', '', $color2 ) : $color2;
+    //$color2 = strlen( $color2 ) == 6 ? '#' . $color2 : $color2;
+
+    $o = new OPTIONS();
 
     // Loop for Art Styles and Scripts
     $art_ui = $art_ux = '';
@@ -60,7 +80,19 @@ function art( array|string $arts = '', string $color1 = '222', string $color2 = 
             $art_ux .= $a.',';
         }
     }
-    echo '<style>:root {--primary-color:'.$color1.';--secondary-color:'.$color2.'}.bs{border:1px solid '.$color1.'}.bf:focus{border:1px solid var(--primary-color)}.grad{background-color:var(--primary-color);background:-moz-linear-gradient(326deg,var(--primary-color) 0%,var(--secondary-color) 100%);background:-webkit-linear-gradient(326deg,var(--primary-color) 0%,var(--secondary-color) 100%);background-image:linear-gradient(45deg,var(--primary-color) 0%,var(--secondary-color) 100%);}.grad-text{background: -webkit-linear-gradient(var(--primary-color), var(--secondary-color));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}</style>';
+    echo '<style>:root {';
+    echo '--primary-color:'.$color1.';--secondary-color:'.$color2.';--color:'.$color.';';
+    $input_options = $o->input_options;
+    //skel( $options );
+    if( !empty( $input_options ) ){
+        foreach( $input_options as $io ){
+            if( isset( $options[$io] ) ) {
+                $input_css = '--'.str_replace('_','-',$io).':'.$options[$io];
+                echo strlen($options[$io]) > 2 ? $input_css.';' : $input_css.'px;';
+            }
+        }
+    }
+    echo '}.bs{border:1px solid '.$color1.'}.bf:focus{border:1px solid var(--primary-color)}.grad{color:var(--color);background-color:var(--primary-color);background:-moz-linear-gradient(326deg,var(--primary-color) 0%,var(--secondary-color) 100%);background:-webkit-linear-gradient(326deg,var(--primary-color) 0%,var(--secondary-color) 100%);background-image:linear-gradient(45deg,var(--primary-color) 0%,var(--secondary-color) 100%);}.grad-text{background: -webkit-linear-gradient(var(--primary-color), var(--secondary-color));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}</style>';
     echo '<link rel="stylesheet" href="'.APPURL.'assets/art.php?arts='.rtrim($art_ui,',').'&fc='.$color1.'&sc='.$color2. $v . '">';
     echo '<script src="'.APPURL.'assets/art.php?type=ux&arts='.rtrim($art_ux,',').$v.'"></script>';
 

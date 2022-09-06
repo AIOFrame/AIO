@@ -509,7 +509,7 @@ class DB {
      * @return bool
      */
     function update_option( string $name, string|array $value, int $user_id = 0, int $autoload = 0 ): bool {
-        if( $name !== '' && !empty( $value ) ){
+        if( $name !== '' ){
             $exist = $this->select( 'options', '*', 'option_name = \''.$name.'\' AND option_scope = \''.$user_id.'\'', 1 );
             if( $exist ) {
                 $c = $this->update('options', ['option_value', 'option_scope', 'option_load'], [$value, $user_id, $autoload], 'option_name = \'' . $name . '\'');

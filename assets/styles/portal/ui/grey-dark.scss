@@ -77,6 +77,9 @@ aside {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
+[data-alerts] .alert {
+  background: #4f5266;
+}
 .acts {
   > a[title], > div[title] {
     background: $w3;

@@ -1,5 +1,7 @@
 label.beta {
-  color: var(--primary-color);
+  background: -webkit-linear-gradient(var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 [type=radio], [type=checkbox] {
@@ -164,9 +166,6 @@ textarea {
 .select2-container {
   margin-bottom: 20px;
 }
-.select2-container .select2-selection {
-  background: url("../../assets/icons/select.svg") no-repeat calc(100% - 10px) center/18px;
-}
 .select2-container .select2-selection--single {
   height: auto;
 }
@@ -183,8 +182,9 @@ select.mb0 + .select2-container {
 }
 
 .select2-dropdown {
-  border: 2px solid #eee;
+  border: 0;
   border-radius: 0 0 10px 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .select2-container--default .select2-selection--single {
@@ -304,15 +304,16 @@ select.mb0 + .select2-container {
   text-align: center;
 }
 .color_picker_wrap .close {
-  background: #000;
-  mask: url("../../assets/icons/close.svg") no-repeat center/50%;
-  -webkit-mask: url("../../assets/icons/close.svg") no-repeat center/50%;
+  font-family: "MaterialIcons", sans-serif;
+  content: "close";
   position: absolute;
   right: 9px;
-  top: 2px;
+  top: 5px;
   width: 40px;
   height: 40px;
   cursor: pointer;
+  color: #000;
+  font-size: 2rem;
 }
 
 .color_picker_wrap.on {
@@ -525,7 +526,7 @@ body.d .color_picker_wrap input {
   background: #1e1e1e;
 }
 body.d .color_picker_wrap .close {
-  background: #fff;
+  color: #fff;
 }
 body.d input[data-color-picker] {
   text-shadow: 1px 1px 1px #000;

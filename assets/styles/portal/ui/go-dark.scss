@@ -82,6 +82,9 @@ body.d {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
+[data-alerts] .alert {
+  background: #374072;
+}
 .acts {
   > a[title], > div[title] {
     background: $w3;

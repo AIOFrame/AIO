@@ -27,7 +27,6 @@
 [data-alerts] .alert .data {
   transition: 0.6s;
   position: relative;
-  padding: 12px 30px 20px 12px;
 }
 [data-alerts] .alert .data .fields {
   display: flex;
@@ -43,13 +42,31 @@
   background: firebrick;
   border-radius: 6px;
 }
+[data-alerts] .alert .data .ico {
+  position: absolute;
+  left: 0;
+  height: calc( 100% - 10px );
+  width: 50px;
+}
+[data-alerts] .alert .data .ico .mico {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+[data-alerts] .alert .data .message {
+  padding: 12px 30px 20px 12px;
+}
+[data-alerts] .alert .data .ico + .message {
+  padding: 12px 30px 20px 50px;
+}
 [data-alerts] .alert .close {
   position: absolute;
   right: 5px;
   top: 5px;
   width: 25px;
   height: 25px;
-  background: url("../../../assets/icons/tiny_close.svg") no-repeat center/18px;
+  font-size: 1.6rem;
 }
 [data-alerts] .alert .time {
   position: absolute;

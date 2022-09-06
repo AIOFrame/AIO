@@ -12,8 +12,8 @@ class FUP {
             <div class="files_head">
                 <h3><?php E('File Uploader'); ?></h3>
                 <div class="acts">
-                    <div class="expand"></div>
-                    <div class="close"></div>
+                    <div class="mico expand"></div>
+                    <div class="mico close">close</div>
                 </div>
                 <input type="file" id="file_input">
             </div>

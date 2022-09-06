@@ -87,6 +87,64 @@ class CONTENT {
         echo '<div class="notices t r"></div></body></html>';
     }
 
+    function manage_templates(): void {
+        if( file_exists( APPPATH . 'templates' ) ) {
+            $templates = glob( APPPATH . 'templates/*' );
+            ?>
+            <div id="aio_templates">
+                <div id="aio_template_cards">
+                    <div class="row cards">
+                        <div class="col-12 col-md-3">
+                            <div class="card br15 tac" data-show="#aio_edit_template" data-hide="#aio_template_cards">
+                                <div class="mico xxl">add_circle</div>
+                            </div>
+                        </div>
+                        <?php if( !empty( $templates ) ) {
+                            foreach( $templates as $t ) {
+                                echo '<div class="col-12 col-md-3"><div class="card br15">'.$t.'</div></div>';
+                            }
+                        }
+                        ?>
+                    </div>
+                </div>
+                <div id="aio_edit_template" class="dn card no-float p20 br15">
+                    <?php
+                    get_script('ace');
+                    $f = new FORM();
+                    $f->text( 'template_name','Template Name','','','data-tl' );
+                    $f->input( 'textarea','template_code','Template Code','Ex: <html>','','class="dn"' );
+                    echo '<div id="template_code" class="html_code"></div>';
+                    ?>
+                    <script>
+                        $(document).ready(function(){
+                            ace.config.set("basePath", "<?php echo APPURL; ?>assets/ext/ace/" );
+
+                            let code_editor = ace.edit( 'template_code' );
+                            code_editor.session.setMode("ace/mode/html");
+                            code_editor.session.setValue($('[data-key=template_code]').val(),-1);
+                            code_editor.session.on('change', function(d) {
+                                $('[data-key=template_code]').val( code_editor.getValue() );
+                            });
+                        });
+
+                        function frame_height() {
+                            let f = $('iframe');
+                            //console.log( $(f).contents().find('html').height() );
+                            $(f).height( $(f).contents().find('html').height() );
+                        }
+                    </script>
+                    <div class="tac">
+                        <button data-hide="#aio_edit_template" data-show="#aio_template_cards" data-action class="store grad"><?php E('Back to Templates'); ?></button>
+                        <?php $f->process_html('Save Template','store grad','','store_template_ajax'); ?>
+                    </div>
+                </div>
+            </div>
+            <?php
+        } else {
+            mkdir( APPPATH . 'templates' );
+        }
+    }
+
     /**
      * Renders a coming / launching soon HTML
      * @param string $date Estimated Launch Date
@@ -125,4 +183,8 @@ class CONTENT {
         $this->post_html();
     }
 
+}
+
+function store_template_ajax(): void {
+    elog( $_POST );
 }

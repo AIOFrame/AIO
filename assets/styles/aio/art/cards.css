@@ -201,11 +201,9 @@
   background: firebrick;
   border: 1px solid firebrick;
 }
-.card .edit {
-  background: url("./icons/edit.svg") no-repeat center/20px;
-}
-.card .trash {
-  background: url("./icons/trash.svg") no-repeat center/20px;
+
+.card[data-on], .card[data-off], .card[data-show], .card[data-hide] {
+  cursor: pointer;
 }
 
 .acts {

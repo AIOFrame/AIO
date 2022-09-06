@@ -7,7 +7,7 @@ table {
   border-spacing: 0;
   thead {
     background: linear-gradient(-90deg, var(--secondary-color) 0%, var(--primary-color) 100%);
-    color:#000;
+    color: var(--color);
     tr {
       //background:#fff;
       z-index:10;
