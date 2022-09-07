@@ -1,3 +1,9 @@
+$border-bottom: var(--input_border_bottom);
+$margin-bottom: 50px; //var(--input_margin_bottom);
+:root {
+  --input_margin_bottom: 50px;
+  --space-bottom: calc(50% + #{$margin-bottom});
+}
 body {
   margin: 0;
   height: 100vh;
@@ -6,32 +12,36 @@ body {
 
 /* Inputs */
 
-label {
-  display: block;
-  text-transform: uppercase;
-  color: #aaa;
-  font-weight: 400;
-  font-size: .8rem;
-  letter-spacing: 2px;
-  margin: 0;
-}
 [data-key=username], [data-key=password] {
   font-size:1.2rem;
-  background: #f1f1f1;
-  border: 2px solid #f1f1f1;
-  border-radius:8px;
   box-shadow:none;
   text-align: center;
   transition:.6s;
   font-weight: normal;
-  margin: 10px 0 20px;
   padding: 15px 40px;
+  position: relative;
 }
-[data-key=username] {
-  background:#f1f1f1 url('../../icons/user.svg') no-repeat 10px center / 24px;
+.user_wrap, .pass_wrap {
+  position: relative;
 }
-[data-key=password] {
-  background:#f1f1f1 url('../../icons/pass.svg') no-repeat 10px center / 24px;
+.user_wrap:after, .pass_wrap:after {
+  position: absolute;
+  left: 5px;
+  bottom: calc(50% - $margin-bottom);
+  transform: translateY( 50% );
+  //transform: translateY( calc( 50% + calc( $border-bottom / 2 )) );
+  width: 40px;
+  height: 40px;
+  font-family: 'MaterialIcons', sans-serif;
+  font-size: 2rem;
+  line-height: 40px;
+  text-align: center;
+}
+.user_wrap:after {
+  content: '\e7fd'
+}
+.pass_wrap:after {
+  content: '\e897'
 }
 
 /* Login */

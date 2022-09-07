@@ -698,8 +698,8 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
     <div class="login_wrap" data-t data-pre="login_" data-data="log"<?php echo $redirect.$callback; ?> data-notify="<?php echo $notify_for; ?>" data-reload="<?php echo $reload_in; ?>" data-reset="log">
         <form class="inputs">
             <?php
-            $f->text('username',$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-log required autocomplete="username"','<div>','</div>');
-            $f->input('password','password',$pass_title,$pass_title,'','onkeyup="aio_login_init(event)" data-log required autocomplete="current-password"','<div>','</div>');
+            $f->text('username',$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-log required autocomplete="username"','<div class="user_wrap">','</div>');
+            $f->input('password','password',$pass_title,$pass_title,'','onkeyup="aio_login_init(event)" data-log required autocomplete="current-password"','<div class="pass_wrap">','</div>');
             ?>
         </form>
         <button id="aio_login_init" class="grad" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_login_ajax' ); ?>"><?php E('Login'); ?></button>

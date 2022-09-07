@@ -1,7 +1,7 @@
 /* Inputs */
 label {
   font-size: 0.9rem;
-  background: -webkit-linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+  background: -webkit-linear-gradient(45deg, var(--primary_color), var(--secondary_color));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-transform: uppercase;
@@ -17,41 +17,41 @@ label {
 [type=text], [type=search], [type=number], [type=email], [type=date], [type=time], [type=password], [type=file], select, textarea {
   font-size: 1rem;
   line-height: 1.4rem;
-  padding: var(--input-padding-top) var(--input-padding-right) var(--input-padding-bottom) var(--input-padding-left);
+  padding: var(--input_padding_top) var(--input_padding_right) var(--input_padding_bottom) var(--input_padding_left);
   transition: 0.6s;
-  background-color: var(--input-bg-light);
-  border-top: var(--input-border-top) solid var(--input-border-color-light);
-  border-right: var(--input-border-right) solid var(--input-border-color-light);
-  border-bottom: var(--input-border-bottom) solid var(--input-border-color-light);
-  border-left: var(--input-border-left) solid var(--input-border-color-light);
-  border-radius: var(--input-radius);
-  color: var(--input-color-light);
-  margin: var(--input-margin-top) var(--input-margin-right) var(--input-margin-bottom) var(--input-margin-left);
+  background-color: var(--input_bg_light);
+  border-top: var(--input_border_top) solid var(--input_border_color-_ight);
+  border-right: var(--input_border_right) solid var(--input_border_color-_ight);
+  border-bottom: var(--input_border_bottom) solid var(--input_border_color-_ight);
+  border-left: var(--input_border_left) solid var(--input_border_color-_ight);
+  border-radius: var(--input_radius);
+  color: var(--input_color_light);
+  margin: var(--input_margin_top) var(--input_margin_right) var(--input_margin_bottom) var(--input_margin_left);
 }
 
 [type=text]:focus, [type=search]:focus, [type=number]:focus, [type=email]:focus, [type=date]:focus, [type=time]:focus, [type=password]:focus, [type=file]:focus, select:focus, textarea:focus {
-  border-top: var(--input-border-top) solid var(--input-border-color-active-light);
-  border-right: var(--input-border-right) solid var(--input-border-color-active-light);
-  border-bottom: var(--input-border-bottom) solid var(--input-border-color-active-light);
-  border-left: var(--input-border-left) solid var(--input-border-color-active-light);
-  color: var(--input-color-active-light);
+  border-top: var(--input_border_top) solid var(--input_border_color_active_light);
+  border-right: var(--input_border_right) solid var(--input_border_color_active_light);
+  border-bottom: var(--input_border_bottom) solid var(--input_border_color_active_light);
+  border-left: var(--input_border_left) solid var(--input_border_color_active_light);
+  color: var(--input_color_active_light);
 }
 
 input.empty, select.empty, select.empty + .select2 .select2-selection--single,
 input.required, select.required, select.required + .select2 .select2-selection--single,
 input.invalid, select.invalid, select.invalid + .select2 .select2-selection--single {
-  border-top: var(--input-border-top) solid firebrick;
-  border-right: var(--input-border-right) solid firebrick;
-  border-bottom: var(--input-border-bottom) solid firebrick;
-  border-left: var(--input-border-left) solid firebrick;
+  border-top: var(--input_border_top) solid firebrick;
+  border-right: var(--input_border_right) solid firebrick;
+  border-bottom: var(--input_border_bottom) solid firebrick;
+  border-left: var(--input_border_left) solid firebrick;
 }
 
 .select2-container--default .select2-selection--single, .select2-container--default .select2-selection--multiple, .select2-container--default .select2-selection--multiple, .select2-container--default.select2-container--focus .select2-selection--single, .select2-container--default.select2-container--focus .select2-selection--multiple, .select2-container--default.select2-container--focus .select2-selection--multiple {
-  border-top: var(--input-border-top) solid var(--input-border-color-light);
-  border-right: var(--input-border-right) solid var(--input-border-color-light);
-  border-bottom: var(--input-border-bottom) solid var(--input-border-color-light);
-  border-left: var(--input-border-left) solid var(--input-border-color-light);
-  color: var(--input-color-light);
+  border-top: var(--input_border_top) solid var(--input_border_color-_ight);
+  border-right: var(--input_border_right) solid var(--input_border_color-_ight);
+  border-bottom: var(--input_border_bottom) solid var(--input_border_color-_ight);
+  border-left: var(--input_border_left) solid var(--input_border_color-_ight);
+  color: var(--input_color_light);
   transition: 0.6s;
 }
 
@@ -61,14 +61,14 @@ input.invalid, select.invalid, select.invalid + .select2 .select2-selection--sin
 
 .select2-container .select2-selection {
   position: relative;
-  border-radius: var(--input-radius);
+  border-radius: var(--input_radius);
   font-size: 1rem;
   height: auto;
-  background-color: var(--input-bg-light);
+  background-color: var(--input_bg_light);
 }
 
 label.beta {
-  background: -webkit-linear-gradient(var(--primary-color), var(--secondary-color));
+  background: -webkit-linear-gradient(var(--primary_color), var(--secondary_color));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -80,10 +80,10 @@ label.beta {
   vertical-align: middle;
   border-radius: 8px;
   position: relative;
-  border-top: var(--input-border-top) solid var(--input-border-color-light);
-  border-right: var(--input-border-right) solid var(--input-border-color-light);
-  border-bottom: var(--input-border-bottom) solid var(--input-border-color-light);
-  border-left: var(--input-border-left) solid var(--input-border-color-light);
+  border-top: var(--input_border_top) solid var(--input_border_color-_ight);
+  border-right: var(--input_border_right) solid var(--input_border_color-_ight);
+  border-bottom: var(--input_border_bottom) solid var(--input_border_color-_ight);
+  border-left: var(--input_border_left) solid var(--input_border_color-_ight);
   background: transparent;
 }
 
@@ -235,7 +235,7 @@ textarea {
 
 /* Select2 Fixes */
 .select2-container {
-  margin: var(--input-margin-top) var(--input-margin-right) var(--input-margin-bottom) var(--input-margin-left);
+  margin: var(--input_margin_top) var(--input_margin_right) var(--input_margin_bottom) var(--input_margin_left);
 }
 .select2-container .select2-selection--single {
   height: auto;

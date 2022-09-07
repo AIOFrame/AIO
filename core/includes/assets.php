@@ -81,19 +81,19 @@ function art( array|string $arts = '', string $color1 = '222', string $color2 = 
         }
     }
     echo '<style>:root {';
-    echo '--primary-color:'.$color1.';--secondary-color:'.$color2.';--color:'.$color.';';
+    echo '--primary_color:'.$color1.';--secondary_color:'.$color2.';--color:'.$color.';';
     $input_options = $o->input_options;
     //skel( $options );
     if( !empty( $input_options ) ){
-        echo '--input-radius:4px;--input-padding-top:8px;--input-padding-right:12px;--input-padding-bottom:8px;--input-padding-left:12px;--input-margin-top:0;--input-margin-right:0;--input-margin-bottom:20px;--input-margin-left:0;';
+        echo '--input-radius:4px;--input_bg_light:#efefef;--input_padding_top:8px;--input_padding_right:12px;--input_padding_bottom:8px;--input_padding_left:12px;--input_margin_top:0;--input_margin_right:0;--input_margin_bottom:20px;--input_margin_left:0;';
         foreach( $input_options as $io ){
             if( isset( $options[$io] ) ) {
-                $input_css = '--'.str_replace('_','-',$io).':'.$options[$io];
+                $input_css = '--'.$io.':'.$options[$io]; //str_replace('_','-',$io)
                 echo strlen($options[$io]) > 2 ? $input_css.';' : $input_css.'px;';
             }
         }
     }
-    echo '}.bs{border:1px solid '.$color1.'}.bf:focus{border:1px solid var(--primary-color)}.grad{color:var(--color);background-color:var(--primary-color);background:-moz-linear-gradient(326deg,var(--primary-color) 0%,var(--secondary-color) 100%);background:-webkit-linear-gradient(326deg,var(--primary-color) 0%,var(--secondary-color) 100%);background-image:linear-gradient(45deg,var(--primary-color) 0%,var(--secondary-color) 100%);}.grad-text{background: -webkit-linear-gradient(var(--primary-color), var(--secondary-color));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}</style>';
+    echo '}.bs{border:1px solid '.$color1.'}.bf:focus{border:1px solid var(--primary_color)}.grad{color:var(--color);background-color:var(--primary_color);background:-moz-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background:-webkit-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background-image:linear-gradient(45deg,var(--primary_color) 0%,var(--secondary_color) 100%);}.grad-text{background: -webkit-linear-gradient(var(--primary_color), var(--secondary_color));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}</style>';
     echo '<link rel="stylesheet" href="'.APPURL.'assets/art.php?arts='.rtrim($art_ui,',').'&fc='.$color1.'&sc='.$color2. $v . '">';
     echo '<script src="'.APPURL.'assets/art.php?type=ux&arts='.rtrim($art_ux,',').$v.'"></script>';
 
