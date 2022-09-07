@@ -66,14 +66,14 @@ label {
   border-left:$border-left solid $border-color-active-light;
   color: $color-active-light;
 }
-input.empty, select.empty, select.empty+.select2,
-input.required, select.required, select.required+.select2,
-input.invalid, select.invalid, select.invalid+.select2
+input.empty, select.empty, select.empty+.select2 .select2-selection--single,
+input.required, select.required, select.required+.select2 .select2-selection--single,
+input.invalid, select.invalid, select.invalid+.select2 .select2-selection--single
 {
-  border-top:$border-color-light solid firebrick;
-  border-right:$border-color-light solid firebrick;
-  border-bottom:$border-color-light solid firebrick;
-  border-left:$border-color-light solid firebrick;
+  border-top:$border-top solid firebrick;
+  border-right:$border-right solid firebrick;
+  border-bottom:$border-bottom solid firebrick;
+  border-left:$border-left solid firebrick;
 }
 .select2-container--default, .select2-container--default.select2-container--focus {
   .select2-search--dropdown {
@@ -113,7 +113,10 @@ label.beta {
   vertical-align: middle;
   border-radius: 8px;
   position: relative;
-  border:1px solid #ccc;
+  border-top: $border-top solid $border-color-light;
+  border-right: $border-right solid $border-color-light;
+  border-bottom: $border-bottom solid $border-color-light;
+  border-left: $border-left solid $border-color-light;
   background:transparent;
 }
 [type=radio] {
@@ -141,7 +144,6 @@ label.beta {
   text-transform: none;
   font-size: 14px;
   letter-spacing: unset;
-  font-weight: lighter;
   cursor:pointer;
   color:#000;
   display: inline-block;
@@ -281,7 +283,6 @@ select.mb0 + .select2-container {
   .select2-selection--single {
     padding: 12px;
     box-sizing: border-box;
-    border: 1px solid #ddd;
     height:auto;
   }
   .select2-selection--multiple {
