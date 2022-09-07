@@ -222,8 +222,8 @@ select.mb0 + .select2-container {
   border-radius: 5px;
   padding: 6px 6px 6px 25px;
   box-shadow: none;
-  font-size: 14px;
-  background: url("../../assets/icons/search.svg") no-repeat 0 center/22px;
+  font-size: 2rem;
+  font-family: "MaterialIcons", sans-serif;
 }
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
   background-color: var(--primary-color);
@@ -253,7 +253,7 @@ select.mb0 + .select2-container {
   cursor: pointer;
   padding-right: 35px;
   position: relative;
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"><rect rx="6" ry="6" width="25" height="25" style="fill:grey"/></svg>') no-repeat calc(100% - 10px)/20px;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"><rect rx="12" ry="12" width="22" height="22" style="fill:grey"/></svg>') no-repeat calc(100% - 5px)/22px;
 }
 
 .color_picker_wrap {
