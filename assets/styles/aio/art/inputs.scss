@@ -55,8 +55,25 @@ label {
   border-bottom: $border-bottom solid $border-color-light;
   border-left: $border-left solid $border-color-light;
   border-radius: $radius;
-  color: $color-light
+  color: $color-light;
+  margin: $margin-top $margin-right $margin-bottom $margin-left;
   //border: $border-top $border-right $border-bottom $border-left;
+}
+[type=text]:focus, [type=search]:focus, [type=number]:focus, [type=email]:focus, [type=date]:focus, [type=time]:focus, [type=password]:focus, [type=file]:focus, select:focus, textarea:focus {
+  border-top:$border-top solid $border-color-active-light;
+  border-right:$border-right solid $border-color-active-light;
+  border-bottom:$border-bottom solid $border-color-active-light;
+  border-left:$border-left solid $border-color-active-light;
+  color: $color-active-light;
+}
+input.empty, select.empty, select.empty+.select2,
+input.required, select.required, select.required+.select2,
+input.invalid, select.invalid, select.invalid+.select2
+{
+  border-top:$border-color-light solid firebrick;
+  border-right:$border-color-light solid firebrick;
+  border-bottom:$border-color-light solid firebrick;
+  border-left:$border-color-light solid firebrick;
 }
 .select2-container--default, .select2-container--default.select2-container--focus {
   .select2-search--dropdown {
@@ -235,7 +252,7 @@ textarea {
 /* Select2 Fixes */
 
 .select2-container {
-  margin-bottom: 20px;
+  margin: $margin-top $margin-right $margin-bottom $margin-left;
   .select2-selection {
     //background:url('../../assets/icons/select.svg') no-repeat calc(100% - 10px) center / 18px;
   }
@@ -320,22 +337,6 @@ select.mb0 + .select2-container {
   b {
     display: none;
   }
-}
-[type=text]:focus, [type=search]:focus, [type=number]:focus, [type=email]:focus, [type=date]:focus, [type=time]:focus, [type=password]:focus, [type=file]:focus, select:focus, textarea:focus {
-  border-top:$border-color-active-light solid $border-top;
-  border-right:$border-color-active-light solid $border-right;
-  border-bottom:$border-color-active-light solid $border-bottom;
-  border-left:$border-color-active-light solid $border-left;
-  color: $color-active-light;
-}
-input.empty, select.empty, select.empty+.select2,
-input.required, select.required, select.required+.select2,
-input.invalid, select.invalid, select.invalid+.select2
-{
-  border-top:$border-color-light solid firebrick;
-  border-right:$border-color-light solid firebrick;
-  border-bottom:$border-color-light solid firebrick;
-  border-left:$border-color-light solid firebrick;
 }
 
 /* COLOR PICKER */
