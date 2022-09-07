@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .aio_fsp.aio_files {
   border: 2px solid #eee;
   background: #eee;
@@ -38,7 +39,7 @@
 }
 
 .aio_upload:after, .select2-selection:after {
-  content: "\e9fc";
+  content: "";
   position: absolute;
   right: 6px;
   top: 50%;
@@ -53,7 +54,7 @@
 }
 
 .select2-selection:after {
-  content: "\e313";
+  content: "";
 }
 
 [data-prev], [data-next] {
@@ -281,7 +282,7 @@ button:after, .btn:after {
 body {
   background: #f3f3f3;
   margin: 120px 0 90px;
-  min-height: calc(100vh - 210px);
+  min-height: calc( 100vh - 210px);
 }
 
 .invoice_view {

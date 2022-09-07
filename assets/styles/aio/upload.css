@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .file_modal, .file_notify {
   position: fixed;
   z-index: 999;
@@ -132,7 +133,7 @@ body.d .file_modal, body.d .file_notify {
   line-height: 40px;
 }
 .file_modal .files_head .expand {
-  content: "\f1ce";
+  content: "";
 }
 .file_modal .files_head .close {
   left: auto;
@@ -395,13 +396,13 @@ body.d .file_modal .files_head {
   z-index: 3;
 }
 .files_actions .i.select:after {
-  content: "\e86c";
+  content: "";
 }
 .files_actions .i.browse:after {
-  content: "\e9fc";
+  content: "";
 }
 .files_actions .i.trash:after {
-  content: "\e872";
+  content: "";
 }
 .files_actions .i.disabled {
   background: none;
