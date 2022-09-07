@@ -85,6 +85,7 @@ function art( array|string $arts = '', string $color1 = '222', string $color2 = 
     $input_options = $o->input_options;
     //skel( $options );
     if( !empty( $input_options ) ){
+        echo '--input-radius:4px;--input-padding-top:8px;--input-padding-right:12px;--input-padding-bottom:8px;--input-padding-left:12px;--input-margin-top:0;--input-margin-right:0;--input-margin-bottom:20px;--input-margin-left:0;';
         foreach( $input_options as $io ){
             if( isset( $options[$io] ) ) {
                 $input_css = '--'.str_replace('_','-',$io).':'.$options[$io];
@@ -648,36 +649,38 @@ function language_picker(): void {
  * @param int $limit Maximum items limit per page
  * @param string $class Class for buttons
  */
-function pagination( int $page, int $records, int $limit = 24, string $class = 'page_btn' ) {
+function pagination( int $page, int $records, int $limit = 24, string $class = 'page_btn' ): void {
     $url = APPURL . PAGEPATH;
-    ?>
-<div class="pagination">
-    <?php
-    $total_pages = ceil( $records / $limit );
-    //skel( $total_pages );
-    if( $total_pages > 3 ) {
-        // echo '<a href="'.$url.'/1" class="first '.$class.'"></a>';
-        echo $page > 3 ? '<a href="' . $url . '/1" class="first ' . $class . '">1</a>' : '';
-        echo $page > 3 ? '<a  class="blank">...</a>' : '';
-        for ($x = ($page - 2); $x < $page; $x++) {
-            echo $x > 0 ? '<a href="' . $url . '/' . $x . '" class="pre ' . $class . '">' . $x . '</a>' : '';
-        }
-        echo '<a href="' . $url . '/' . $page . '" class="on ' . $class . '">' . $page . '</a>';
-        for ($y = ($page + 1); $y <= ($page + 2); $y++) {
-            echo $page < $total_pages ? '<a href="' . $url . '/' . $y . '" class="post ' . $class . '">' . $y . '</a>' : '';
-        }
-        echo $page < ($total_pages - 3) ? '<a  class="blank">...</a>' : '';
-        echo $page < ($total_pages - 2) ? '<a href="' . $url . '/' . $total_pages . '" class="last ' . $class . '">' . $total_pages . '</a>' : '';
-    } else if( $total_pages > 1 ) {
-        for($x = 1; $x <= $total_pages; $x++) {
-            $on = $x == $page ? ' on' : '';
-            echo '<a href="' . $url . '/' . $x . '" class="'. $class . $on . '">' . $x . '</a>';
-        }
+    if( $limit > 0 ) {
+        ?>
+        <div class="pagination">
+            <?php
+            $total_pages = !empty( $records ) ? ceil( $records / $limit ) : 0;
+            //skel( $total_pages );
+            if( $total_pages > 3 ) {
+                // echo '<a href="'.$url.'/1" class="first '.$class.'"></a>';
+                echo $page > 3 ? '<a href="' . $url . '/1" class="first ' . $class . '">1</a>' : '';
+                echo $page > 3 ? '<a  class="blank">...</a>' : '';
+                for ($x = ($page - 2); $x < $page; $x++) {
+                    echo $x > 0 ? '<a href="' . $url . '/' . $x . '" class="pre ' . $class . '">' . $x . '</a>' : '';
+                }
+                echo '<a href="' . $url . '/' . $page . '" class="on ' . $class . '">' . $page . '</a>';
+                for ($y = ($page + 1); $y <= ($page + 2); $y++) {
+                    echo $page < $total_pages ? '<a href="' . $url . '/' . $y . '" class="post ' . $class . '">' . $y . '</a>' : '';
+                }
+                echo $page < ($total_pages - 3) ? '<a  class="blank">...</a>' : '';
+                echo $page < ($total_pages - 2) ? '<a href="' . $url . '/' . $total_pages . '" class="last ' . $class . '">' . $total_pages . '</a>' : '';
+            } else if( $total_pages > 1 ) {
+                for($x = 1; $x <= $total_pages; $x++) {
+                    $on = $x == $page ? ' on' : '';
+                    echo '<a href="' . $url . '/' . $x . '" class="'. $class . $on . '">' . $x . '</a>';
+                }
+            }
+            // echo '<a href="'.$url.'/'.$total_pages.'" class="last '.$class.'"></a>';
+            ?>
+        </div>
+        <?php
     }
-    // echo '<a href="'.$url.'/'.$total_pages.'" class="last '.$class.'"></a>';
-    ?>
-</div>
-    <?php
 }
 
 /**

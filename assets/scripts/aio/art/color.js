@@ -5,7 +5,9 @@ $(document).ready(function(){
 
     if( $('[data-color-picker]').length > 0 ) {
         $('[data-color-picker][data-preview]').each(function(a,b){
-            $( $(b).data('preview') ).css( 'background', 'url(\'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"><rect rx="6" ry="6" width="22" height="22" style="fill:%23'+$(b).val().substring(1)+'" /></svg>\') no-repeat calc(100% - 5px) center / 22px' );
+           if( $(b).val() !== '' ) {
+               $( $(b).data('preview') ).css( 'background', 'var(--input-bg-light) url(\'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"><rect rx="12" ry="12" width="22" height="22" style="fill:%23'+$(b).val().substring(1)+'" /></svg>\') no-repeat calc(100% - 5px) center / 22px' );
+           }
         });
         $('<div class="color_picker_wrap"><div class="color-picker"></div><div class="controls"><input type="text" value="#ffffff" class="code"></div><div class="close">close</div></div>').appendTo(b);
     }
@@ -29,11 +31,8 @@ $(document).ready(function(){
     })
     // Update color code
     .on('keyup','.color_picker_wrap input',function(){
-        if( $(this).val().length > 6 ) {
-            let cp = $('.color-picker');
-            $(cp).html('');
-            let colorPicker = iro.ColorPicker('.color-picker', {'color': $(this).val()});
-            $($(cp).data('value')).val($(this).val());
+        if( $(this).val().length > 3 ) {
+            init_color_picker( $(this), $(this).val() );
         }
     })
 
@@ -49,6 +48,7 @@ $(document).ready(function(){
 function init_color_picker( e, value ) {
     $('article').addClass('fade');
     let cp = $('.color-picker');
+    $(cp).html('');
     $(e).data('value') !== undefined ? $(cp).data('value',$(e).data('value')) : $(cp).data('value',$(e)); // Reads target element to set value, and sets it to color picker
     $(e).data('background') !== undefined ? $(cp).data('background',$(e).data('background')) : '';
     let v = {};
@@ -74,7 +74,7 @@ function onColorChange( color ) {
             $( v.data('background') ).css('background-color', color.hexString );
         }
         if( v.data('preview') !== undefined && $( v.data('preview') ).length ) {
-            $( v.data('preview') ).css( 'background', 'url(\'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"><rect rx="6" ry="6" width="22" height="22" style="fill:%23'+color.hexString.substring(1)+'" /></svg>\') no-repeat calc(100% - 5px) center / 22px' );
+            $( v.data('preview') ).css( 'background', 'var(--input-bg-light) url(\'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"><rect rx="12" ry="12" width="22" height="22" style="fill:%23'+color.hexString.substring(1)+'" /></svg>\') no-repeat calc(100% - 5px) center / 22px' );
         }
     }
     $('.color_picker_wrap input').val(color.hexString);

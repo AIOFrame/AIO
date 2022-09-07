@@ -1,3 +1,13 @@
+$margin-top: var(--input-margin-top);
+$margin-right: var(--input-margin-right);
+$margin-bottom: var(--input-margin-bottom);
+$margin-left: var(--input-margin-left);
+$padding-top: var(--input-padding-top);
+$padding-right: var(--input-padding-right);
+$padding-bottom: var(--input-padding-bottom);
+$padding-left: var(--input-padding-left);
+$radius: var(--input-radius);
+
 /* Buttons */
 
 button, .btn {
@@ -6,12 +16,15 @@ button, .btn {
   color:#fff;
   letter-spacing: 1px;
   transition:.6s;
-  border-radius:2px;
+  border-radius: $radius;
   font-weight: 300;
   text-transform: uppercase;
   box-shadow:0 10px 30px rgba(0,0,0,.2);
-  margin: 15px 0;
-  padding: 8px 15px;
+  margin-top: $margin-top;
+  margin-right: $margin-right;
+  margin-bottom: $margin-bottom;
+  margin-left: $margin-left;
+  padding: $padding-top $padding-right $padding-bottom $padding-left;
   cursor: pointer;
   line-height: normal;
 }

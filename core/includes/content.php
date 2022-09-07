@@ -9,11 +9,12 @@ class CONTENT {
     /**
      * @param string $attrs Attributes for <body> tag
      * @param string|array $ex_styles External Styles
+     * @param string $art Art Components to be added
      * @param string|array $styles Styles to be linked
      * @param string|array $scripts Scripts to be added
      * @return void
      */
-    function pre_html( string $attrs = '', string|array $ex_styles = [], string|array $styles = [], string|array $scripts = [] ): void {
+    function pre_html( string $attrs = '', string|array $ex_styles = [], string $art = '', string|array $styles = [], string|array $scripts = [] ): void {
 
         // Defines
         // $db = new DB();
@@ -47,8 +48,6 @@ class CONTENT {
         fonts( $fonts );
 
         // Appearance
-        $color1 = $options['primary_color'] ?? '#111';
-        $color2 = $options['secondary_color'] ?? '#222';
         $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'jquery' ] ) : $scripts . ',jquery';
         get_styles( $ex_styles );
         get_scripts( $scripts );
@@ -57,10 +56,11 @@ class CONTENT {
         if( str_contains( $theme, 'dark' ) ) {
             $class .= $theme . ' d';
             $is_light = false;
-            $color1 = $options['primary_color_dark'] ?? $color1;
-            $color2 = $options['secondary_color_dark'] ?? $color2;
         } else {
             $class .= $theme . ' l';
+        }
+        if( !empty( $art ) ) {
+            art( $art );
         }
         get_styles( $styles );
         get_styles( [ PAGEPATH, 'micro' ] );

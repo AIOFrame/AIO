@@ -1,55 +1,3 @@
-@charset "UTF-8";
-/* Inputs */
-label {
-  font-size: 0.9rem;
-  background: -webkit-linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-transform: uppercase;
-  font-weight: bold;
-  margin: 0 0 10px;
-}
-
-[type=radio] + label, [type=checkbox] + label {
-  font-size: 1rem;
-  margin: 0;
-}
-
-[type=text], [type=search], [type=number], [type=email], [type=date], [type=time], [type=password], [type=file], select, textarea {
-  font-size: 1rem;
-  line-height: 1.4rem;
-  padding: var(--input-padding-top) var(--input-padding-right) var(--input-padding-bottom) var(--input-padding-left);
-  transition: 0.6s;
-  background-color: var(--input-bg-light);
-  border-top: var(--input-border-top) solid var(--input-border-color-light);
-  border-right: var(--input-border-right) solid var(--input-border-color-light);
-  border-bottom: var(--input-border-bottom) solid var(--input-border-color-light);
-  border-left: var(--input-border-left) solid var(--input-border-color-light);
-  border-radius: var(--input-radius);
-  color: var(--input-color-light);
-}
-
-.select2-container--default .select2-selection--single, .select2-container--default .select2-selection--multiple, .select2-container--default .select2-selection--multiple, .select2-container--default.select2-container--focus .select2-selection--single, .select2-container--default.select2-container--focus .select2-selection--multiple, .select2-container--default.select2-container--focus .select2-selection--multiple {
-  border-top: var(--input-border-top) solid var(--input-border-color-light);
-  border-right: var(--input-border-right) solid var(--input-border-color-light);
-  border-bottom: var(--input-border-bottom) solid var(--input-border-color-light);
-  border-left: var(--input-border-left) solid var(--input-border-color-light);
-  color: var(--input-color-light);
-  transition: 0.6s;
-}
-
-.select2.select2-container.select2-container--default {
-  width: 100% !important;
-}
-
-.select2-container .select2-selection {
-  position: relative;
-  border-radius: var(--input-radius);
-  font-size: 1rem;
-  height: auto;
-  background-color: var(--input-bg-light);
-}
-
 .aio_fsp.aio_files {
   border: 2px solid #eee;
   background: #eee;
@@ -75,23 +23,6 @@ label {
   padding-right: 36px;
 }
 
-[type=text]:focus, [type=search]:focus, [type=number]:focus, [type=email]:focus, [type=date]:focus, [type=time]:focus, [type=password]:focus, [type=file]:focus, select:focus, textarea:focus {
-  border-top: var(--input-border-color-active-light) solid var(--input-border-top);
-  border-right: var(--input-border-color-active-light) solid var(--input-border-right);
-  border-bottom: var(--input-border-color-active-light) solid var(--input-border-bottom);
-  border-left: var(--input-border-color-active-light) solid var(--input-border-left);
-  color: var(--input-color-active-light);
-}
-
-input.empty, select.empty, select.empty + .select2,
-input.required, select.required, select.required + .select2,
-input.invalid, select.invalid, select.invalid + .select2 {
-  border-top: var(--input-border-color-light) solid firebrick;
-  border-right: var(--input-border-color-light) solid firebrick;
-  border-bottom: var(--input-border-color-light) solid firebrick;
-  border-left: var(--input-border-color-light) solid firebrick;
-}
-
 .aio_upload {
   border: 2px solid #eee;
   background: none;
@@ -107,7 +38,7 @@ input.invalid, select.invalid, select.invalid + .select2 {
 }
 
 .aio_upload:after, .select2-selection:after {
-  content: "";
+  content: "\e9fc";
   position: absolute;
   right: 6px;
   top: 50%;
@@ -122,7 +53,7 @@ input.invalid, select.invalid, select.invalid + .select2 {
 }
 
 .select2-selection:after {
-  content: "";
+  content: "\e313";
 }
 
 [data-prev], [data-next] {
@@ -350,7 +281,7 @@ button:after, .btn:after {
 body {
   background: #f3f3f3;
   margin: 120px 0 90px;
-  min-height: calc( 100vh - 210px);
+  min-height: calc(100vh - 210px);
 }
 
 .invoice_view {

@@ -44,7 +44,11 @@ class OPTIONS {
         'input_color_active_dark',
     ];
 
-    function brand_options(): void {
+    /**
+     * @param bool $dark_mode_options Show Dark Mode Options
+     * @return void
+     */
+    function brand_options( bool $dark_mode_options = true ): void {
         $f = new FORM();
         $db = new DB();
         $brands = $this->brand_options;
@@ -80,15 +84,21 @@ class OPTIONS {
         $f->color('primary_color','Primary Color - Light','Ex: F1F1F1',$c1,$attr,3,'','[data-key=primary_color]');
         $f->color('secondary_color','Secondary Color - Light','Ex: A2A2A2',$c2,$attr,3,'','[data-key=secondary_color]');
         $f->color('color_light','Content Color on Gradient - Light','Ex: A2A2A2',$c3,$attr,3,'','[data-key=color_light]');
-        $f->upload('logo_dark','Logo - Dark Theme','Upload',$dark,0,0,'upload',$attr,$ext,5,1,'',3);
-        $f->color('primary_color_dark','Primary Color - Dark','Ex: F1F1F1',$dc1,$attr,3,'','[data-key=primary_color_dark]');
-        $f->color('secondary_color_dark','Secondary Color - Dark','Ex: A2A2A2',$dc2,$attr,3,'','[data-key=secondary_color_dark]');
-        $f->color('color_dark','Content Color on Gradient - Dark','Ex: A2A2A2',$dc3,$attr,3,'','[data-key=color_dark]');
+        if( $dark_mode_options ) {
+            $f->upload('logo_dark','Logo - Dark Theme','Upload',$dark,0,0,'upload',$attr,$ext,5,1,'',3);
+            $f->color('primary_color_dark','Primary Color - Dark','Ex: F1F1F1',$dc1,$attr,3,'','[data-key=primary_color_dark]');
+            $f->color('secondary_color_dark','Secondary Color - Dark','Ex: A2A2A2',$dc2,$attr,3,'','[data-key=secondary_color_dark]');
+            $f->color('color_dark','Content Color on Gradient - Dark','Ex: A2A2A2',$dc3,$attr,3,'','[data-key=color_dark]');
+        }
         $f->process_options('Save Brand Options','store grad','','col-12 tac');
         echo '</div>';
     }
 
-    function input_options(): void {
+    /**
+     * @param bool $dark_mode_options Show Dark Mode Options
+     * @return void
+     */
+    function input_options( bool $dark_mode_options = true ): void {
         $f = new FORM();
         $db = new DB();
         $options = $this->input_options;
@@ -121,10 +131,10 @@ class OPTIONS {
         $cd = $ops['input_color_dark'] ?? '';
         $cad = $ops['input_color_active_dark'] ?? '';
         $f->input('number','input_radius','Corner Radius (Px)','Ex: 5',$radius,$attr,4);
-        $f->input('number','input_border_top','Thickness - Top (Px)','Ex: 2',$bt,$attr,2);
-        $f->input('number','input_border_right','Thickness - Right (Px)','Ex: 2',$br,$attr,2);
-        $f->input('number','input_border_bottom','Thickness - Bottom (Px)','Ex: 2',$bb,$attr,2);
-        $f->input('number','input_border_left','Thickness - Left (Px)','Ex: 2',$bl,$attr,2);
+        $f->input('number','input_border_top','Border - Top (Px)','Ex: 2',$bt,$attr,2);
+        $f->input('number','input_border_right','Border - Right (Px)','Ex: 2',$br,$attr,2);
+        $f->input('number','input_border_bottom','Border - Bottom (Px)','Ex: 2',$bb,$attr,2);
+        $f->input('number','input_border_left','Border - Left (Px)','Ex: 2',$bl,$attr,2);
         echo '<div class="col-6"><h4 class="mt0 ttu">'.T('Padding').' (Px)</h4><div class="row">';
         $f->input('number','input_padding_top','Top','Ex: 2',$pt,$attr,3);
         $f->input('number','input_padding_right','Right','Ex: 2',$pr,$attr,3);
@@ -142,12 +152,14 @@ class OPTIONS {
         $f->color('input_border_color_active_light','Border Color - Active','Ex: F1F1F1',$bal,$attr,2,'','[data-key=input_border_color_active_light]');
         $f->color('input_color_light','Text Color','Ex: F1F1F1',$cl,$attr,2,'','[data-key=input_color_light]');
         $f->color('input_color_active_light','Text Color - Active','Ex: F1F1F1',$cal,$attr,2,'','[data-key=input_color_active_light]');
-        echo '<div class="col-12"><h4 class="mt0 ttu">'.T('Dark Theme Options').'</h4></div>';
-        $f->color('input_bg_dark','Background','Ex: F1F1F1',$bgd,$attr,4,'','[data-key=input_bg_dark]');
-        $f->color('input_border_color_dark','Border Color','Ex: F1F1F1',$bcd,$attr,2,'','[data-key=input_border_color_dark]');
-        $f->color('input_border_color_active_dark','Border Color - Active','Ex: F1F1F1',$bad,$attr,2,'','[data-key=input_border_color_active_dark]');
-        $f->color('input_color_dark','Text Color','Ex: F1F1F1',$cd,$attr,2,'','[data-key=input_color_dark]');
-        $f->color('input_color_active_dark','Text Color - Active','Ex: F1F1F1',$cad,$attr,2,'','[data-key=input_color_active_dark]');
+        if( $dark_mode_options ) {
+            echo '<div class="col-12"><h4 class="mt0 ttu">'.T('Dark Theme Options').'</h4></div>';
+            $f->color('input_bg_dark','Background','Ex: F1F1F1',$bgd,$attr,4,'','[data-key=input_bg_dark]');
+            $f->color('input_border_color_dark','Border Color','Ex: F1F1F1',$bcd,$attr,2,'','[data-key=input_border_color_dark]');
+            $f->color('input_border_color_active_dark','Border Color - Active','Ex: F1F1F1',$bad,$attr,2,'','[data-key=input_border_color_active_dark]');
+            $f->color('input_color_dark','Text Color','Ex: F1F1F1',$cd,$attr,2,'','[data-key=input_color_dark]');
+            $f->color('input_color_active_dark','Text Color - Active','Ex: F1F1F1',$cad,$attr,2,'','[data-key=input_color_active_dark]');
+        }
         $f->process_options('Save Brand Options','store grad','','col-12 tac');
         echo '</div>';
     }

@@ -28,61 +28,7 @@ $border-color-active-dark: var(--input-border-color-active-dark);
 $color-dark: var(--input-color-dark);
 $color-active-dark: var(--input-color-active-dark);
 
-/* Inputs */
 
-label {
-  font-size: .9rem;
-  background: -webkit-linear-gradient( 45deg, $c1, $c2 );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-transform: uppercase;
-  font-weight: bold;
-  margin: 0 0 10px;
-  //display: block;
-}
-[type=radio]+label, [type=checkbox]+label {
-  font-size: 1rem;
-  margin: 0;
-}
-[type=text], [type=search], [type=number], [type=email], [type=date], [type=time], [type=password], [type=file], select, textarea {
-  font-size: 1rem;
-  line-height: 1.4rem;
-  padding: $padding-top $padding-right $padding-bottom $padding-left;
-  transition: .6s;
-  background-color: $bg_light;
-  border-top: $border-top solid $border-color-light;
-  border-right: $border-right solid $border-color-light;
-  border-bottom: $border-bottom solid $border-color-light;
-  border-left: $border-left solid $border-color-light;
-  border-radius: $radius;
-  color: $color-light
-  //border: $border-top $border-right $border-bottom $border-left;
-}
-.select2-container--default, .select2-container--default.select2-container--focus {
-  .select2-search--dropdown {
-    .select2-search__field, .select2-search__field:focus {
-
-    }
-  }
-  .select2-selection--single, .select2-selection--multiple, .select2-selection--multiple {
-    border-top: $border-top solid $border-color-light;
-    border-right: $border-right solid $border-color-light;
-    border-bottom: $border-bottom solid $border-color-light;
-    border-left: $border-left solid $border-color-light;
-    color: $color-light;
-    transition: .6s;
-  }
-}
-.select2.select2-container.select2-container--default {
-  width: 100% !important;
-}
-.select2-container .select2-selection {
-  position: relative;
-  border-radius: $radius;
-  font-size: 1rem;
-  height: auto;
-  background-color: $bg_light;
-}
 .aio_fsp.aio_files {
   border: 2px solid #eee;
   background: #eee;
@@ -110,22 +56,7 @@ label {
 [type=date], [type=time], [type=datetime] {
 
 }
-[type=text]:focus, [type=search]:focus, [type=number]:focus, [type=email]:focus, [type=date]:focus, [type=time]:focus, [type=password]:focus, [type=file]:focus, select:focus, textarea:focus {
-  border-top:$border-color-active-light solid $border-top;
-  border-right:$border-color-active-light solid $border-right;
-  border-bottom:$border-color-active-light solid $border-bottom;
-  border-left:$border-color-active-light solid $border-left;
-  color: $color-active-light;
-}
-input.empty, select.empty, select.empty+.select2,
-input.required, select.required, select.required+.select2,
-input.invalid, select.invalid, select.invalid+.select2
-{
-  border-top:$border-color-light solid firebrick;
-  border-right:$border-color-light solid firebrick;
-  border-bottom:$border-color-light solid firebrick;
-  border-left:$border-color-light solid firebrick;
-}
+
 .aio_upload {
   border: 2px solid #eee;
   background: none;
