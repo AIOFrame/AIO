@@ -6,7 +6,7 @@ $(document).ready(function(){
     if( $('[data-color-picker]').length > 0 ) {
         $('[data-color-picker][data-preview]').each(function(a,b){
            if( $(b).val() !== '' ) {
-               $( $(b).data('preview') ).css( 'background', 'var(--input-bg-light) url(\'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"><rect rx="12" ry="12" width="22" height="22" style="fill:%23'+$(b).val().substring(1)+'" /></svg>\') no-repeat calc(100% - 5px) center / 22px' );
+               $( $(b).data('preview') ).css( 'background', 'var(--input_bg_light) url(\'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"><rect rx="12" ry="12" width="22" height="22" style="fill:%23'+$(b).val().substring(1)+'" /></svg>\') no-repeat calc(100% - 5px) center / 22px' );
            }
         });
         $('<div class="color_picker_wrap"><div class="color-picker"></div><div class="controls"><input type="text" value="#ffffff" class="code"></div><div class="close">close</div></div>').appendTo(b);
@@ -74,7 +74,7 @@ function onColorChange( color ) {
             $( v.data('background') ).css('background-color', color.hexString );
         }
         if( v.data('preview') !== undefined && $( v.data('preview') ).length ) {
-            $( v.data('preview') ).css( 'background', 'var(--input-bg-light) url(\'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"><rect rx="12" ry="12" width="22" height="22" style="fill:%23'+color.hexString.substring(1)+'" /></svg>\') no-repeat calc(100% - 5px) center / 22px' );
+            $( v.data('preview') ).css( 'background', 'var(--input_bg_light) url(\'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"><rect rx="12" ry="12" width="22" height="22" style="fill:%23'+color.hexString.substring(1)+'" /></svg>\') no-repeat calc(100% - 5px) center / 22px' );
         }
     }
     $('.color_picker_wrap input').val(color.hexString);

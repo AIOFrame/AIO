@@ -499,13 +499,13 @@ td .aio_fsp {
 
 .aio_files > .f {
   display: block;
-  padding: var(--input-padding-top) var(--input-padding-right) var(--input-padding-bottom) var(--input-padding-left);
-  background-color: var(--input-bg-light);
-  border-top: var(--input-border-top) solid #888;
-  border-right: var(--input-border-right) solid #888;
-  border-bottom: var(--input-border-bottom) solid #888;
-  border-left: var(--input-border-left) solid #888;
-  border-radius: var(--input-radius);
+  padding: var(--input_padding_top) var(--input_padding_right) var(--input_padding_bottom) var(--input_padding_left);
+  background-color: var(--input_bg_light);
+  border-top: var(--input_border_top) solid #888;
+  border-right: var(--input_border_right) solid #888;
+  border-bottom: var(--input_border_bottom) solid #888;
+  border-left: var(--input_border_left) solid #888;
+  border-radius: var(--input_radius);
   position: relative;
   margin-right: 15px;
   line-height: 1.4rem;

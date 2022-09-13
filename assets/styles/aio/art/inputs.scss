@@ -16,7 +16,7 @@ $padding-left: var(--input_padding_left);
 
 // Light Options
 $bg-light: var(--input_bg_light);
-$border-color-light: var(--input_border_color-_ight);
+$border-color-light: var(--input_border_color_light);
 $border-color-active-light: var(--input_border_color_active_light);
 $color-light: var(--input_color_light);
 $color-active-light: var(--input_color_active_light);
@@ -100,7 +100,6 @@ input.invalid, select.invalid, select.invalid+.select2 .select2-selection--singl
   height: auto;
   background-color: $bg_light;
 }
-
 label.beta {
   background: -webkit-linear-gradient( $primary, $secondary );
   -webkit-background-clip: text;
@@ -134,8 +133,8 @@ label.beta {
   height: calc(100% - 6px);
   display: block;
   border-radius:5px;
-  background:var(--primary-color);
-  background: linear-gradient(160deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  background: $primary;
+  background: linear-gradient(160deg, $primary 0%, $secondary 100%);
 }
 [type=radio]:not(.slide,.switch):checked:after {
   border-radius:100%;
@@ -167,15 +166,15 @@ label.slide_label.on {
   padding-left: 10px;
 }
 input.load, input.loading {
-  background:url('../../images/load.svg') no-repeat center;
+  background:url('../../assets/loaders/tadpole.svg') no-repeat center;
 }
 
 /* Input Checkbox Slider */
 
 [type=checkbox]:checked.slide:before, [type=radio]:checked.slide:before,
 [type=checkbox]:checked.switch:before, [type=radio]:checked.switch:before {
-  background:var(--primary-color);
-  background: linear-gradient(160deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  background: $primary;
+  background: linear-gradient(160deg, $primary 0%, $secondary 100%);
 }
 [type=checkbox].slide, [type=checkbox].slide:active, [type=checkbox].slide:checked, [type=radio].slide, [type=radio].slide:active, [type=radio].slide:checked,
 [type=checkbox].switch, [type=checkbox].switch:active, [type=checkbox].switch:checked, [type=radio].switch, [type=radio].switch:active, [type=radio].switch:checked {
@@ -284,6 +283,21 @@ select.mb0 + .select2-container {
     padding: 12px;
     box-sizing: border-box;
     height:auto;
+    .select2-selection__arrow {
+      top: 50%;
+      transform: translateY(-50%);
+      width: auto;
+      //height:100% !important;
+      b {
+        display: none;
+      }
+    }
+    .select2-selection__arrow:after {
+      font-family: 'MaterialIcons', sans-serif;
+      content: '\e5cf';
+      font-size: 1.6rem;
+      line-height: 26px;
+    }
   }
   .select2-selection--multiple {
     margin-bottom: 0;
@@ -319,7 +333,7 @@ select.mb0 + .select2-container {
     }
   }
   .select2-results__option--highlighted[aria-selected] {
-    background-color:var(--primary-color);
+    background-color:$primary;
   }
 }
 .select2-container--default, .select2-container--default.select2-container--focus {
@@ -333,12 +347,6 @@ select.mb0 + .select2-container {
 .select2-selection {
   outline:none;
 }
-.select2-selection__arrow {
-  height:100% !important;
-  b {
-    display: none;
-  }
-}
 
 /* COLOR PICKER */
 
@@ -346,7 +354,7 @@ select.mb0 + .select2-container {
   cursor:pointer;
   padding-right: 35px;
   position: relative;
-  background:var(--input-bg-light) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"><rect rx="12" ry="12" width="22" height="22" style="fill:grey"/></svg>') no-repeat calc(100% - 5px) / 22px;
+  background:var(--input_bg_light) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"><rect rx="12" ry="12" width="22" height="22" style="fill:grey"/></svg>') no-repeat calc(100% - 5px) / 22px;
 }
 .color_picker_wrap {
   position: fixed;
@@ -410,6 +418,19 @@ select.mb0 + .select2-container {
 .color_picker_wrap.on {
   opacity:1;
   pointer-events:all
+}
+
+/* AIR DATEPICKER */
+
+.air-datepicker-body--day-name {
+  background: -webkit-linear-gradient( 45deg, $primary, $secondary );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.air-datepicker-cell.-current- {
+  color: $color-light;
+  background: $primary;
+  background: -webkit-linear-gradient( 45deg, $primary, $secondary );
 }
 
 .next, .prev {
@@ -515,9 +536,6 @@ input + .valid.on {
   }
   input, textarea, select {
     margin-bottom: 0;
-    padding:0 12px 0 0;
-    border:0;
-    border-radius:0;
   }
   .filter, .clear {
     width: 100%;
@@ -537,27 +555,21 @@ input + .valid.on {
     padding:12px 12px 12px 30px;
   }
   .filter:after {
-    content: "";
+    content: '/e8b6';
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     left: 10px;
     width: 20px;
     height: 20px;
-    background: #fff;
-    mask: url('../../assets/icons/filter.svg') no-repeat center / contain;
-    -webkit-mask: url('../../assets/icons/filter.svg') no-repeat center / contain;
+    line-height: 20px;
+    color: #fff;
   }
   .clear {
     background: none;
   }
-  .select2.select2-container.select2-container--default {
-    margin: 0;
-    .select2-selection {
-      background-color: transparent;
-      border: 0;
-      padding: 12px 0 0 0;
-    }
+  .select2-container {
+    margin-bottom: 0;
   }
 }
 
@@ -590,7 +602,7 @@ input + .valid.on {
   }
   .select2-container {
     .select2-selection {
-      background: #f1f1f1 url('../../assets/icons/select.svg') no-repeat 10px center / 18px;
+      //background: #f1f1f1 url('../../assets/icons/select.svg') no-repeat 10px center / 18px;
     }
   }
   label.slide_label.off {

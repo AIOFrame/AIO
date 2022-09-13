@@ -1,3 +1,7 @@
+$primary: var(--primary_color);
+$secondary: var(--secondary_color);
+$color: var(--color);
+
 /* Tabs */
 
 .tab_heads {
@@ -45,8 +49,8 @@
   border-top-right-radius: 5px;
 }
 .tab.on {
-  background: var(--primary-color);
-  background: linear-gradient(-15deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+  background: $primary;
+  background: linear-gradient(-15deg, $secondary 0%, $primary 100%);
   color: #fff;
 }
 

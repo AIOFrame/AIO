@@ -239,7 +239,7 @@ class PORTAL {
             <div class="row">
                     <div class="col-2" data-intro>
                         <a href="<?php echo APPURL.$root_url; ?>" class="home_link">
-                            <i class="ico l mico">home</i>
+                            <i class="ico l mat-ico">home</i>
                         </a>
                     </div>
                     <div class="col-10">
@@ -289,7 +289,7 @@ class PORTAL {
                                     ?>
                                     <div class="<?php echo $col; ?>">
                                         <a href="<?php echo APPURL.$url; ?>">
-                                            <?php echo '<i class="mico l bg">'.$icon.'</i>' ?>
+                                            <?php echo '<i class="mat-ico l bg">'.$icon.'</i>' ?>
                                             <div class="title"><?php E( $title ); ?></div>
                                         </a>
                                     </div>

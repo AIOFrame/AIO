@@ -96,7 +96,7 @@ class CONTENT {
                     <div class="row cards">
                         <div class="col-12 col-md-3">
                             <div class="card br15 tac" data-show="#aio_edit_template" data-hide="#aio_template_cards">
-                                <div class="mico xxl">add_circle</div>
+                                <div class="mat-ico xxl">add_circle</div>
                             </div>
                         </div>
                         <?php if( !empty( $templates ) ) {

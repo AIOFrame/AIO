@@ -1,3 +1,6 @@
+$primary: var(--primary_color);
+$secondary: var(--secondary_color);
+
 /* Cards */
 
 .card {
@@ -32,9 +35,9 @@
     border: 1px solid lightgrey;
   }
   .image.bg, .pic.bg {
-    background: -moz-linear-gradient(169deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    background: -webkit-linear-gradient(169deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    background: linear-gradient(169deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background: -moz-linear-gradient(169deg, $primary 0%, $secondary 100%);
+    background: -webkit-linear-gradient(169deg, $primary 0%, $secondary 100%);
+    background: linear-gradient(169deg, $primary 0%, $secondary 100%);
     span {
       color:#fff;
       font-weight: bold;
@@ -115,10 +118,10 @@
     text-transform: uppercase;
   }
   .color1 {
-    color:var(--primary-color);
+    color:$primary;
   }
   .color2 {
-    color:var(--secondary-color);
+    color:$secondary;
   }
   .title.s {
     white-space: nowrap;

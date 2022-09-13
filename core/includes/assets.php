@@ -85,12 +85,26 @@ function art( array|string $arts = '', string $color1 = '222', string $color2 = 
     $input_options = $o->input_options;
     //skel( $options );
     if( !empty( $input_options ) ){
-        echo '--input-radius:4px;--input_bg_light:#efefef;--input_padding_top:8px;--input_padding_right:12px;--input_padding_bottom:8px;--input_padding_left:12px;--input_margin_top:0;--input_margin_right:0;--input_margin_bottom:20px;--input_margin_left:0;';
+        $default_options = [
+            'input_radius' => 4,
+            'input_bg_light' => '#efefef',
+            'input_padding_top' => 8,
+            'input_padding_right' => 12,
+            'input_padding_bottom' => 8,
+            'input_padding_left' => 12,
+            'input_margin_top' => 0,
+            'input_margin_right' => 0,
+            'input_margin_bottom' => 20,
+            'input_margin_left' => 0,
+        ];
         foreach( $input_options as $io ){
+            $css_var = '';
             if( isset( $options[$io] ) ) {
-                $input_css = '--'.$io.':'.$options[$io]; //str_replace('_','-',$io)
-                echo strlen($options[$io]) > 2 ? $input_css.';' : $input_css.'px;';
+                $css_var = strlen( $options[$io] ) > 2 ? $options[$io].';' : $options[$io].'px;';
+            } else if( isset( $default_options[$io] ) ) {
+                $css_var = strlen( $default_options[$io] ) > 2 ? $default_options[$io].';' : $default_options[$io].'px;';
             }
+            echo !empty( $css_var ) ? '--'.$io.':'.$css_var : '';
         }
     }
     echo '}.bs{border:1px solid '.$color1.'}.bf:focus{border:1px solid var(--primary_color)}.grad{color:var(--color);background-color:var(--primary_color);background:-moz-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background:-webkit-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background-image:linear-gradient(45deg,var(--primary_color) 0%,var(--secondary_color) 100%);}.grad-text{background: -webkit-linear-gradient(var(--primary_color), var(--secondary_color));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}</style>';

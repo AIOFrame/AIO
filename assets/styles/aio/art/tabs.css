@@ -48,8 +48,8 @@
 }
 
 .tab.on {
-  background: var(--primary-color);
-  background: linear-gradient(-15deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+  background: var(--primary_color);
+  background: linear-gradient(-15deg, var(--secondary_color) 0%, var(--primary_color) 100%);
   color: #fff;
 }
 

@@ -2,7 +2,7 @@
 
 $(document).ready(function(){
 
-    // Changes checkbox value to 1 or 0
+    // Changes checkbox value to 1 or 2
     $(document).on('change','[type=checkbox].slide,[data-check],[data-bool],[data-boolean]',function(){
         let v = $(this).is(':checked') ? '1' : '2';
         $(this).val(v);

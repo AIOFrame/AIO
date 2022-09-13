@@ -22,18 +22,18 @@
   letter-spacing: 1px;
 }
 .modal .t.c, .modal .title.c {
-  color: var(--primary-color);
+  color: var(--primary_color);
 }
 .modal .modal {
   z-index: 15;
 }
 .modal .close {
-  background: url("../assets/icons/close.svg") no-repeat center/70%;
   position: absolute;
   right: 10px;
   top: 10px;
   width: 40px;
   height: 40px;
+  line-height: 40px;
   cursor: pointer;
 }
 
@@ -50,7 +50,7 @@
 }
 
 .modal.b2 {
-  border: 2px solid var(--primary-color);
+  border: 2px solid var(--primary_color);
 }
 
 .modal.on {

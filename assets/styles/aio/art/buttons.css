@@ -1,19 +1,19 @@
 /* Buttons */
 button, .btn {
-  background: var(--primary-color);
-  background: linear-gradient(160deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  background: var(--primary_color);
+  background: linear-gradient(160deg, var(--primary_color) 0%, var(--secondary_color) 100%);
   color: #fff;
   letter-spacing: 1px;
   transition: 0.6s;
-  border-radius: var(--input-radius);
+  border-radius: var(--input_radius);
   font-weight: 300;
   text-transform: uppercase;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  margin-top: var(--input-margin-top);
-  margin-right: var(--input-margin-right);
-  margin-bottom: var(--input-margin-bottom);
-  margin-left: var(--input-margin-left);
-  padding: var(--input-padding-top) var(--input-padding-right) var(--input-padding-bottom) var(--input-padding-left);
+  margin-top: var(--input_margin_top);
+  margin-right: var(--input_margin_right);
+  margin-bottom: var(--input_margin_bottom);
+  margin-left: var(--input_margin_left);
+  padding: var(--input_padding_top) var(--input_padding_right) var(--input_padding_bottom) var(--input_padding_left);
   cursor: pointer;
   line-height: normal;
 }
@@ -345,6 +345,19 @@ button.bsn, .btn.bsn, button.bsn:hover, .btn.bsn:hover, button.ns, .btn.ns, .bsn
 .sl button:last-child, .sl .btn:last-child {
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
+}
+
+button.load, .btn.load {
+  position: relative;
+}
+
+button.load:after, .btn.load:after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 30px;
+  height: 30px;
 }
 
 /*# sourceMappingURL=buttons.css.map */

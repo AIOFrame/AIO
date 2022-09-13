@@ -1,20 +1,20 @@
-$radius: var(--input-radius);
-$border-top: var(--input-border-top);
-$border-right: var(--input-border-right);
-$border-bottom: var(--input-border-bottom);
-$border-left: var(--input-border-left);
-$padding-top: var(--input-padding-top);
-$padding-right: var(--input-padding-right);
-$padding-bottom: var(--input-padding-bottom);
-$padding-left: var(--input-padding-left);
+$radius: var(--input_radius);
+$border-top: var(--input_border_top);
+$border-right: var(--input_border_right);
+$border-bottom: var(--input_border_bottom);
+$border-left: var(--input_border_left);
+$padding-top: var(--input_padding_top);
+$padding-right: var(--input_padding_right);
+$padding-bottom: var(--input_padding_bottom);
+$padding-left: var(--input_padding_left);
 
 // Light Options
-$bg-light: var(--input-bg-light);
-$border-color-light: var(--input-border-color-light);
+$bg-light: var(--input_bg_light);
+$border-color-light: var(--input_border_color_light);
 
 // Dark Options
-$bg-dark: var(--input-bg-dark);
-$border-color-dark: var(--input-border-color-dark);
+$bg-dark: var(--input_bg_dark);
+$border-color-dark: var(--input_border_color_dark);
 
 .file_modal, .file_notify {
   position:fixed;

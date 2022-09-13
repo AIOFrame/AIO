@@ -1,32 +1,32 @@
-$c1: var(--primary-color);
-$c2: var(--secondary-color);
-$radius: var(--input-radius);
-$border-top: var(--input-border-top);
-$border-right: var(--input-border-right);
-$border-bottom: var(--input-border-bottom);
-$border-left: var(--input-border-left);
-$margin-top: var(--input-margin-top);
-$margin-right: var(--input-margin-right);
-$margin-bottom: var(--input-margin-bottom);
-$margin-left: var(--input-margin-left);
-$padding-top: var(--input-padding-top);
-$padding-right: var(--input-padding-right);
-$padding-bottom: var(--input-padding-bottom);
-$padding-left: var(--input-padding-left);
+$c1: var(--primary_color);
+$c2: var(--secondary_color);
+$radius: var(--input_radius);
+$border-top: var(--input_border_top);
+$border-right: var(--input_border_right);
+$border-bottom: var(--input_border_bottom);
+$border-left: var(--input_border_left);
+$margin-top: var(--input_margin_top);
+$margin-right: var(--input_margin_right);
+$margin-bottom: var(--input_margin_bottom);
+$margin-left: var(--input_margin_left);
+$padding-top: var(--input_padding_top);
+$padding-right: var(--input_padding_right);
+$padding-bottom: var(--input_padding_bottom);
+$padding-left: var(--input_padding_left);
 
 // Light Options
-$bg-light: var(--input-bg-light);
-$border-color-light: var(--input-border-color-light);
-$border-color-active-light: var(--input-border-color-active-light);
-$color-light: var(--input-color-light);
-$color-active-light: var(--input-color-active-light);
+$bg-light: var(--input_bg_light);
+$border-color-light: var(--input_border_color_light);
+$border-color-active-light: var(--input_border_color_active_light);
+$color-light: var(--input_color_light);
+$color-active-light: var(--input_color_active_light);
 
 // Dark Options
-$bg-dark: var(--input-bg-dark);
-$border-color-dark: var(--input-border-color-dark);
-$border-color-active-dark: var(--input-border-color-active-dark);
-$color-dark: var(--input-color-dark);
-$color-active-dark: var(--input-color-active-dark);
+$bg-dark: var(--input_bg_dark);
+$border-color-dark: var(--input_border_color_dark);
+$border-color-active-dark: var(--input_border_color_active_dark);
+$color-dark: var(--input_color_dark);
+$color-active-dark: var(--input_color_active_dark);
 
 
 .aio_fsp.aio_files {
@@ -211,8 +211,8 @@ $color-active-dark: var(--input-color-active-dark);
     top: 0;
     width: 100%;
     height: 100%;
-    background: var(--primary-color);
-    background: linear-gradient(320deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background: $c1;
+    background: linear-gradient(320deg, $c1 0%, $c2 100%);
   }
   .banner_bg:after {
     content:'';
@@ -997,8 +997,8 @@ aside::-webkit-scrollbar {
     font-weight: lighter;
     font-size: 1.1rem;
     letter-spacing: 2px;
-    background: var(--primary-color);
-    background: linear-gradient(320deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background: $c1;
+    background: linear-gradient(320deg, $c1 0%, $c2 100%);
   }
   h2, h3, h4 {
     text-transform: uppercase;

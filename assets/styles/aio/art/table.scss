@@ -1,3 +1,7 @@
+$primary: var(--primary_color);
+$secondary: var(--secondary_color);
+$color: var(--color);
+
 /* Tables */
 
 table {
@@ -6,8 +10,8 @@ table {
   box-shadow:0 0 10px rgba(0,0,0,.08);
   border-spacing: 0;
   thead {
-    background: linear-gradient(-90deg, var(--secondary-color) 0%, var(--primary-color) 100%);
-    color: var(--color);
+    background: linear-gradient(-90deg, $secondary 0%, $primary 100%);
+    color: $color;
     tr {
       //background:#fff;
       z-index:10;

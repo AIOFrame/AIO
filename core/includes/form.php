@@ -801,7 +801,7 @@ class FORM {
 
     /**
      * Renders Filters HTML
-     * @param array $filter_params
+     * @param array $filter_params [ 'type', 'id', 'label / title', 'place', 'value', 'attr', 'pre', 'options', 'keyed' ]
      * @param string $clear_url Page path excluding APPURL Ex: user/payments
      * @param string $method
      * @param string $filter_text
@@ -811,17 +811,17 @@ class FORM {
         $clear_url = !empty( $clear_url ) ? APPURL . $clear_url : APPURL . PAGEPATH;
         echo '<div class="filters_wrap '.$class.'"><form method="'.$method.'" class="auto_filters"><div class="row"><div class="col-12 col-md-10 inputs"><div class="row">';
         foreach( $filter_params as $f ) {
-            $type = $f[0] ?? 'text';
-            $id = $f[1] ??= '';
-            $label = $f[2] ??= '';
-            $place = $f[3] ??= $f[2];
-            $val = $_POST[$id] ?? ($f[4] ?? '');
-            $attrs = $f[5] ??= '';
-            $pre = $f[6] ??= '';
+            $type = $f['type'] ?? 'text';
+            $id = $f['id'] ??= '';
+            $label = $f['label'] ??= ($f['title'] ??= '');
+            $place = $f['place'] ??= $label;
+            $val = $f['value'] ?? ($_POST[$id] ?? '');
+            $attrs = $f['attr'] ??= '';
+            $pre = $f['pre'] ??= '';
             if( $type == 'select' ) {
-                $options = $f[4] ?? [];
+                $options = $f['options'] ?? [];
                 $value = $_POST[ $id ] ?? ($_GET[ $id ] ?? '');
-                $keyed = $f[8] ??= 0;
+                $keyed = $f['keyed'] ??= 0;
                 $this->select2( $id, $label, $place, $options, $value, $attrs, $pre, $keyed );
             } else if( $type == 'date' ) {
                 $this->date( $id, $label, $place, $val, $attrs, 'bottom center', $pre );
@@ -829,7 +829,7 @@ class FORM {
                 $this->input( $type, $id, $label, $place, $val, $attrs, $pre );
             }
         }
-        echo '</div></div><div class="col-12 col-md-2 actions"><div class="row"><div class="col"><button type="submit" class="filter">'. $filter_text .'</button></div>';
+        echo '</div></div><div class="col-12 col-md-2 filter_actions"><div class="row"><div class="col"><button type="submit" class="filter mat-ico-after">'. $filter_text .'</button></div>';
         echo '<div class="col"><a href="'.$clear_url.'" class="clear">'.T('Clear').'</a></div>';
         echo '</div></div></div></form></div>';
     }
@@ -838,6 +838,7 @@ class FORM {
      * Returns string of GET filters to SQL Query
      * @param array $filter_params Array of query and filter [ [ 'user_since >', 'date_from' ] ]
      * @param string $query Array of query and filter [ [ 'user_since >', 'date_from' ] ]
+     * @param string $method POST or GET form data
      * @return string
      */
     function filters_to_query( array $filter_params = [], string $query = '', string $method = 'GET' ): string {

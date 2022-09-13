@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* Inputs */
 label {
   font-size: 0.9rem;
@@ -20,10 +21,10 @@ label {
   padding: var(--input_padding_top) var(--input_padding_right) var(--input_padding_bottom) var(--input_padding_left);
   transition: 0.6s;
   background-color: var(--input_bg_light);
-  border-top: var(--input_border_top) solid var(--input_border_color-_ight);
-  border-right: var(--input_border_right) solid var(--input_border_color-_ight);
-  border-bottom: var(--input_border_bottom) solid var(--input_border_color-_ight);
-  border-left: var(--input_border_left) solid var(--input_border_color-_ight);
+  border-top: var(--input_border_top) solid var(--input_border_color_light);
+  border-right: var(--input_border_right) solid var(--input_border_color_light);
+  border-bottom: var(--input_border_bottom) solid var(--input_border_color_light);
+  border-left: var(--input_border_left) solid var(--input_border_color_light);
   border-radius: var(--input_radius);
   color: var(--input_color_light);
   margin: var(--input_margin_top) var(--input_margin_right) var(--input_margin_bottom) var(--input_margin_left);
@@ -47,10 +48,10 @@ input.invalid, select.invalid, select.invalid + .select2 .select2-selection--sin
 }
 
 .select2-container--default .select2-selection--single, .select2-container--default .select2-selection--multiple, .select2-container--default .select2-selection--multiple, .select2-container--default.select2-container--focus .select2-selection--single, .select2-container--default.select2-container--focus .select2-selection--multiple, .select2-container--default.select2-container--focus .select2-selection--multiple {
-  border-top: var(--input_border_top) solid var(--input_border_color-_ight);
-  border-right: var(--input_border_right) solid var(--input_border_color-_ight);
-  border-bottom: var(--input_border_bottom) solid var(--input_border_color-_ight);
-  border-left: var(--input_border_left) solid var(--input_border_color-_ight);
+  border-top: var(--input_border_top) solid var(--input_border_color_light);
+  border-right: var(--input_border_right) solid var(--input_border_color_light);
+  border-bottom: var(--input_border_bottom) solid var(--input_border_color_light);
+  border-left: var(--input_border_left) solid var(--input_border_color_light);
   color: var(--input_color_light);
   transition: 0.6s;
 }
@@ -80,10 +81,10 @@ label.beta {
   vertical-align: middle;
   border-radius: 8px;
   position: relative;
-  border-top: var(--input_border_top) solid var(--input_border_color-_ight);
-  border-right: var(--input_border_right) solid var(--input_border_color-_ight);
-  border-bottom: var(--input_border_bottom) solid var(--input_border_color-_ight);
-  border-left: var(--input_border_left) solid var(--input_border_color-_ight);
+  border-top: var(--input_border_top) solid var(--input_border_color_light);
+  border-right: var(--input_border_right) solid var(--input_border_color_light);
+  border-bottom: var(--input_border_bottom) solid var(--input_border_color_light);
+  border-left: var(--input_border_left) solid var(--input_border_color_light);
   background: transparent;
 }
 
@@ -104,8 +105,8 @@ label.beta {
   height: calc(100% - 6px);
   display: block;
   border-radius: 5px;
-  background: var(--primary-color);
-  background: linear-gradient(160deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  background: var(--primary_color);
+  background: linear-gradient(160deg, var(--primary_color) 0%, var(--secondary_color) 100%);
 }
 
 [type=radio]:not(.slide, .switch):checked:after {
@@ -143,14 +144,14 @@ label.slide_label.on {
 }
 
 input.load, input.loading {
-  background: url("../../images/load.svg") no-repeat center;
+  background: url("../../assets/loaders/tadpole.svg") no-repeat center;
 }
 
 /* Input Checkbox Slider */
 [type=checkbox]:checked.slide:before, [type=radio]:checked.slide:before,
 [type=checkbox]:checked.switch:before, [type=radio]:checked.switch:before {
-  background: var(--primary-color);
-  background: linear-gradient(160deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  background: var(--primary_color);
+  background: linear-gradient(160deg, var(--primary_color) 0%, var(--secondary_color) 100%);
 }
 
 [type=checkbox].slide, [type=checkbox].slide:active, [type=checkbox].slide:checked, [type=radio].slide, [type=radio].slide:active, [type=radio].slide:checked,
@@ -263,6 +264,20 @@ select.mb0 + .select2-container {
   box-sizing: border-box;
   height: auto;
 }
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  top: 50%;
+  transform: translateY(-50%);
+  width: auto;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+  display: none;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow:after {
+  font-family: "MaterialIcons", sans-serif;
+  content: "";
+  font-size: 1.6rem;
+  line-height: 26px;
+}
 .select2-container--default .select2-selection--multiple {
   margin-bottom: 0;
 }
@@ -296,7 +311,7 @@ select.mb0 + .select2-container {
   font-family: "MaterialIcons", sans-serif;
 }
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
-  background-color: var(--primary-color);
+  background-color: var(--primary_color);
 }
 
 .select2-container--default .select2-selection--multiple, .select2-container--default.select2-container--focus .select2-selection--multiple {
@@ -311,19 +326,12 @@ select.mb0 + .select2-container {
   outline: none;
 }
 
-.select2-selection__arrow {
-  height: 100% !important;
-}
-.select2-selection__arrow b {
-  display: none;
-}
-
 /* COLOR PICKER */
 [data-color-picker] {
   cursor: pointer;
   padding-right: 35px;
   position: relative;
-  background: var(--input-bg-light) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"><rect rx="12" ry="12" width="22" height="22" style="fill:grey"/></svg>') no-repeat calc(100% - 5px)/22px;
+  background: var(--input_bg_light) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"><rect rx="12" ry="12" width="22" height="22" style="fill:grey"/></svg>') no-repeat calc(100% - 5px)/22px;
 }
 
 .color_picker_wrap {
@@ -389,6 +397,19 @@ select.mb0 + .select2-container {
 .color_picker_wrap.on {
   opacity: 1;
   pointer-events: all;
+}
+
+/* AIR DATEPICKER */
+.air-datepicker-body--day-name {
+  background: -webkit-linear-gradient(45deg, var(--primary_color), var(--secondary_color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.air-datepicker-cell.-current- {
+  color: var(--input_color_light);
+  background: var(--primary_color);
+  background: -webkit-linear-gradient(45deg, var(--primary_color), var(--secondary_color));
 }
 
 .next, .prev {
@@ -489,9 +510,6 @@ input + .valid.on {
 }
 .auto_filters input, .auto_filters textarea, .auto_filters select {
   margin-bottom: 0;
-  padding: 0 12px 0 0;
-  border: 0;
-  border-radius: 0;
 }
 .auto_filters .filter, .auto_filters .clear {
   width: 100%;
@@ -511,27 +529,21 @@ input + .valid.on {
   padding: 12px 12px 12px 30px;
 }
 .auto_filters .filter:after {
-  content: "";
+  content: "/e8b6";
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   left: 10px;
   width: 20px;
   height: 20px;
-  background: #fff;
-  mask: url("../../assets/icons/filter.svg") no-repeat center/contain;
-  -webkit-mask: url("../../assets/icons/filter.svg") no-repeat center/contain;
+  line-height: 20px;
+  color: #fff;
 }
 .auto_filters .clear {
   background: none;
 }
-.auto_filters .select2.select2-container.select2-container--default {
-  margin: 0;
-}
-.auto_filters .select2.select2-container.select2-container--default .select2-selection {
-  background-color: transparent;
-  border: 0;
-  padding: 12px 0 0 0;
+.auto_filters .select2-container {
+  margin-bottom: 0;
 }
 
 /* trumbowyg */
@@ -554,9 +566,6 @@ input + .valid.on {
 [dir=rtl] [type=radio] + label, [dir=rtl] [type=checkbox] + label {
   padding-left: 0;
   padding-right: 10px;
-}
-[dir=rtl] .select2-container .select2-selection {
-  background: #f1f1f1 url("../../assets/icons/select.svg") no-repeat 10px center/18px;
 }
 [dir=rtl] label.slide_label.off {
   padding-right: 0;

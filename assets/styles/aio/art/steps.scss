@@ -1,3 +1,6 @@
+$primary: var(--primary_color);
+$secondary: var(--secondary_color);
+
 /* Steps */
 
 .step_head, .step_heads, .steps_head {
@@ -27,8 +30,8 @@
 }
 .step.on {
   color:#fff;
-  background: var(--primary-color);
-  background: linear-gradient(-45deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+  background: $primary;
+  background: linear-gradient(-45deg, $secondary 0%, $primary 100%);
 }
 .step:after {
   position: absolute;
@@ -43,7 +46,7 @@
   z-index:1;
 }
 .step.on:after {
-  border-left: 10px solid var(--secondary-color);
+  border-left: 10px solid $secondary;
 }
 .step:last-child:after {
   display: none;
@@ -125,11 +128,11 @@ body.d {
   }
   .step.on {
     color:#fff;
-    background: var(--primary-color);
-    background: linear-gradient(-45deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+    background: $primary;
+    background: linear-gradient(-45deg, $secondary 0%, $primary 100%);
   }
   .step.on:after {
-    border-left: 10px solid var(--secondary-color);
+    border-left: 10px solid $secondary;
   }
 }
 

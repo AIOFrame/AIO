@@ -8,7 +8,7 @@
   background-size:contain !important;
   cursor: pointer;
 }
-.mico {
+.mat-ico, .mat-ico-after:after {
   font-family: 'MaterialIcons',sans-serif;
   font-weight: normal;
   font-style: normal;
@@ -33,25 +33,25 @@
   /* Support for IE. */
   font-feature-settings: 'liga';
 }
-.mico.bg {
+.mat-ico.bg {
   color: #fff;
 }
-.mico.xs {
+.mat-ico.xs {
   font-size: 1rem;
 }
-.mico.s {
+.mat-ico.s {
   font-size: 1.4rem;
 }
-.mico {
+.mat-ico {
   font-size: 1.8rem;
 }
-.mico.l {
+.mat-ico.l {
   font-size: 2.2rem;
 }
-.mico.xl {
+.mat-ico.xl {
   font-size: 2.6rem;
 }
-.mico.xxl {
+.mat-ico.xxl {
   font-size: 3.2rem;
 }
 .ico.c {

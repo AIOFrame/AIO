@@ -31,9 +31,9 @@
   border: 1px solid lightgrey;
 }
 .card .image.bg, .card .pic.bg {
-  background: -moz-linear-gradient(169deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-  background: -webkit-linear-gradient(169deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-  background: linear-gradient(169deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  background: -moz-linear-gradient(169deg, var(--primary_color) 0%, var(--secondary_color) 100%);
+  background: -webkit-linear-gradient(169deg, var(--primary_color) 0%, var(--secondary_color) 100%);
+  background: linear-gradient(169deg, var(--primary_color) 0%, var(--secondary_color) 100%);
 }
 .card .image.bg span, .card .pic.bg span {
   color: #fff;
@@ -114,10 +114,10 @@
   text-transform: uppercase;
 }
 .card .color1 {
-  color: var(--primary-color);
+  color: var(--primary_color);
 }
 .card .color2 {
-  color: var(--secondary-color);
+  color: var(--secondary_color);
 }
 .card .title.s {
   white-space: nowrap;
