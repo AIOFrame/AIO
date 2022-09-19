@@ -319,18 +319,29 @@ select.mb0 + .select2-container {
     }
   }
   .select2-search--dropdown {
+    position: relative;
     padding: 5px;
     .select2-search__field, .select2-search__field:focus {
       margin: 0;
-      border:0;
-      border-bottom:1px solid #ddd;
-      border-radius:5px;
-      padding:6px 6px 6px 25px;
-      box-shadow:none;
-      font-size: 2rem;
-      font-family: 'MaterialIcons',sans-serif;
-      //background: url('../../assets/icons/search.svg') no-repeat 0 center / 22px;
+      border: 0;
+      padding-left: 30px;
     }
+  }
+  .select2-search--dropdown:after {
+    position: absolute;
+    display: block;
+    width: 24px;
+    height: 24px;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    content: '\e8b6';
+    box-shadow:none;
+    font-size: 1.2rem;
+    font-family: 'MaterialIcons',sans-serif;
+    text-align: center;
+    line-height: 24px;
+    //background: url('../../assets/icons/search.svg') no-repeat 0 center / 22px;
   }
   .select2-results__option--highlighted[aria-selected] {
     background-color:$primary;
@@ -427,10 +438,14 @@ select.mb0 + .select2-container {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-.air-datepicker-cell.-current- {
+.air-datepicker-cell.-selected-, .air-datepicker-cell.-selected-.-focus- {
   color: $color-light;
   background: $primary;
   background: -webkit-linear-gradient( 45deg, $primary, $secondary );
+}
+.air-datepicker-cell.-current- {
+  color: $primary;
+  border: 1px solid $primary;
 }
 
 .next, .prev {
@@ -543,8 +558,6 @@ input + .valid.on {
     display: block;
     text-align: center;
     font-size: 1rem;
-    padding: 12px;
-    border-radius:6px;
     text-transform: none;
     line-height: 1rem;
     border: 0;
@@ -552,10 +565,10 @@ input + .valid.on {
     position: relative;
   }
   .filter {
-    padding:12px 12px 12px 30px;
+    padding-left:30px;
   }
   .filter:after {
-    content: '/e8b6';
+    content: '\e8b6';
     position: absolute;
     top: 50%;
     transform: translateY(-50%);

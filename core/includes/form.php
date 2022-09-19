@@ -895,7 +895,7 @@ class FORM {
             }
         }
         echo '</div></div><div class="col-12 col-md-2 filter_actions"><div class="row"><div class="col"><button type="submit" class="filter mat-ico-after">'. $filter_text .'</button></div>';
-        echo '<div class="col"><a href="'.$clear_url.'" class="clear">'.T('Clear').'</a></div>';
+        echo '<div class="col"><a href="'.$clear_url.'" class="btn clear">'.T('Clear').'</a></div>';
         echo '</div></div></div></form></div>';
     }
 
