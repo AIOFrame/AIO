@@ -416,32 +416,21 @@ function favicon( string $icon ): void {
 /**
  * Renders attributes and class for <html> start tag
  * @param string $class
- * @param bool $extras
  */
-function html_class( string $class = '', bool $extras = true ): void {
+function html_class( string $class = '' ): void {
+    $lang = $_SESSION['lang'] ?? 'en';
+
     // Is Debug
     $dc = APPDEBUG ? 'debug ' : '';
 
     // Is RTL
-    $dir = isset( $_SESSION['lang'] ) && in_array( $_SESSION['lang'], ['ar','iw','ku','fa','ur'] ) ? 'dir="rtl" lang="'.$_SESSION['lang'].'"' : '';
+    $dir = in_array( $lang, ['ar','iw','ku','fa','ur'] ) ? 'dir="rtl"' : 'dir="ltr"';
 
     // Custom class
     $ec = !empty( $class ) ? 'class="'.$class.' '.$dc.'"' : '';
 
-    $ex = '';
-    if( $extras ) {
-        global $access;
-        // Get Browser
-        $browser = ''; //$access::get_user_browser();
-        $ex = 'browser="'.str_replace(' ','_',strtolower($browser)).'"';
-
-        // Get OS
-        $os = ''; //$access::get_user_os();
-        $ex .= ' client="'.str_replace(' ','_',strtolower($os)).'"';
-    }
-
     // Final Output
-    echo $dir.' '.$ec.' '.$ex;
+    echo 'lang="'.$lang.'"' . $dir . ' ' . $ec;
 }
 
 /**
