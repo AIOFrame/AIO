@@ -337,7 +337,7 @@ class FORM {
      * @param string $pre String to wrap before start of &lt;input&gt;. Tip: 6 will wrap with bootstrap col-lg-6
      * @param string $post End string to wrap after /&gt;
      */
-    function textarea( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '' ) {
+    function textarea( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '' ): void {
         $this->input( 'textarea', $id, $label, $placeholder, $value, $attrs, $pre, $post );
     }
 
@@ -532,6 +532,71 @@ class FORM {
         $type = $multiple ? 'files' : 'file';
         $mul = $multiple ? 'data-files' : 'data-file';
         echo $pre.'<label for="'.$id.'">'.T($label).'</label><button type="button" class="aio_upload '.$button_class.'" data-url="#'.$id.'" onclick="file_upload(this)" '.$sh.$ext.$sz.$mul.$del.$pat.'>'.T($button_label).'</button><input id="'.$id.'" name="'.$name.'" data-key="'.$name.'" type="text" data-'.$type.' value="'.$value.'" '.$attrs.'>'.$post;
+    }
+
+    /**
+     * Renders code editor with hidden &lt;input type="textarea"&gt; element
+     * @param string|array $id ID and name of the element
+     * @param string $label Label for the &lt;label&gt;
+     * @param string|null $value Value of the input if any
+     * @param string $attrs Attributes like class or data tags
+     * @param string $pre String to wrap before start of &lt;input&gt;. Tip: 6 will wrap with bootstrap col-lg-6
+     * @param string $post End string to wrap after /&gt;
+     */
+    function code( string|array $id, string $label = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '' ): void {
+        get_script('ace');
+        echo '<script>ace.config.set("basePath", "'. APPURL . 'assets/ext/ace/" );</script>';
+        if( is_numeric( $pre ) ){
+            $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-md-'.$pre.'">';
+            $post = '</div>';
+        }
+        echo $pre;
+        $this->input( 'textarea', $id, $label, $value, '', $attrs . ' style="display:none !important"' );
+        echo '<div id="'.$id.'_code" style="min-height: 200px"></div>';
+        ?>
+        <script>
+            $(document).ready(function(){
+                let <?php echo $id; ?>_code = ace.edit( '<?php echo $id; ?>_code' );
+                <?php echo $id; ?>_code.session.setMode("ace/mode/html");
+                <?php echo $id; ?>_code.session.setValue($('[data-key=<?php echo $id; ?>]').val(),-1);
+                <?php echo $id; ?>_code.session.on('change', function(d) {
+                    $('[data-key=<?php echo $id; ?>]').val( <?php echo $id; ?>_code.getValue() );
+                });
+            });
+        </script>
+        <?php
+        echo $post;
+    }
+
+    /**
+     * Renders rich WYSIWYG editor with hidden &lt;input type="textarea"&gt; element
+     * @param string|array $id ID and name of the element
+     * @param string $label Label for the &lt;label&gt;
+     * @param string|null $value Value of the input if any
+     * @param string $attrs Attributes like class or data tags
+     * @param string $pre String to wrap before start of &lt;input&gt;. Tip: 6 will wrap with bootstrap col-lg-6
+     * @param string $post End string to wrap after /&gt;
+     */
+    function richtext( string|array $id, string $label = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '' ): void {
+        get_style('https://cdn.jsdelivr.net/npm/trumbowyg/dist/ui/trumbowyg.min.css');
+        get_script('https://cdn.jsdelivr.net/npm/trumbowyg/dist/trumbowyg.min.js');
+        if( is_numeric( $pre ) ){
+            $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-md-'.$pre.'">';
+            $post = '</div>';
+        }
+        echo $pre;
+        //echo '<div id="'.$id.'_rte"><div>';
+        $this->input( 'textarea', $id, $label, '', $value, $attrs );
+        ?>
+        <script>
+            $(document).ready(function(){
+                $('[data-key=<?php echo $id; ?>]').trumbowyg({ autogrow: true }).on('tbwchange tbwfocus', function(e){
+                    $('[data-key=<?php echo $id; ?>]').val( $( e.currentTarget ).val() );
+                });
+            });
+        </script>
+        <?php
+        echo $post;
     }
 
     /**

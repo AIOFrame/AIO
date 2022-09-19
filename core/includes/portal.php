@@ -237,15 +237,15 @@ class PORTAL {
         ?>
         <aside class="menu">
             <div class="row">
-                    <div class="col-2" data-intro>
-                        <a href="<?php echo APPURL.$root_url; ?>" class="home_link">
-                            <i class="ico l mat-ico">home</i>
-                        </a>
-                    </div>
-                    <div class="col-10">
-                        <input type="search" placeholder="<?php E('Search in Menu...'); ?>">
-                    </div>
+                <div class="col-2" data-intro>
+                    <a href="<?php echo APPURL.$root_url; ?>" class="home_link">
+                        <i class="ico l mat-ico">home</i>
+                    </a>
                 </div>
+                <div class="col-10">
+                    <input type="search" placeholder="<?php E('Search in Menu...'); ?>">
+                </div>
+            </div>
             <?php echo $content;
             if( !empty( $menus ) ) {
                 foreach( $menus as $menu_set ) {

@@ -6,14 +6,13 @@ button, .btn {
   letter-spacing: 1px;
   transition: 0.6s;
   border-radius: var(--input_radius);
-  font-weight: 300;
   text-transform: uppercase;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   margin-top: var(--input_margin_top);
   margin-right: var(--input_margin_right);
   margin-bottom: var(--input_margin_bottom);
   margin-left: var(--input_margin_left);
-  padding: var(--input_padding_top) var(--input_padding_right) var(--input_padding_bottom) var(--input_padding_left);
+  padding: var(--input_padding_top) 15px var(--input_padding_bottom) 15px;
   cursor: pointer;
   line-height: normal;
 }

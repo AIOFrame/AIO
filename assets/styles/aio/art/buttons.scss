@@ -17,14 +17,13 @@ button, .btn {
   letter-spacing: 1px;
   transition:.6s;
   border-radius: $radius;
-  font-weight: 300;
   text-transform: uppercase;
   box-shadow:0 10px 30px rgba(0,0,0,.2);
   margin-top: $margin-top;
   margin-right: $margin-right;
   margin-bottom: $margin-bottom;
   margin-left: $margin-left;
-  padding: $padding-top $padding-right $padding-bottom $padding-left;
+  padding: $padding-top 15px $padding-bottom 15px;
   cursor: pointer;
   line-height: normal;
 }
