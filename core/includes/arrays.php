@@ -273,11 +273,16 @@ function array_sub_values( $arrays = [] ) {
  * @param array $array Array with data values Ex: [ 1, 2, 4, 7 ]
  * @param string $column String that loops for each value Ex: user_id =
  * @param string $query Logic that appends between loop Ex: OR, AND
+ * @param string $key
  * @return string
  */
-function array_to_query( array $array = [], string $column = '', string $query = 'OR' ): string {
+function array_to_query( array $array = [], string $column = '', string $query = 'OR', string $key = '' ): string {
     $q = '';
-    if( is_array( $array ) && !empty( $array ) ){
+    if( !empty( $key ) ){
+        foreach( $array as $c ){
+            $q .= ' '.$column.' = "'.$c[ $key ].'" '.$query.' ';
+        }
+    } else if( is_array( $array ) && !empty( $array ) ){
         foreach( $array as $c ){
             $q .= ' '.$column.' = "'.$c.'" '.$query.' ';
         }
