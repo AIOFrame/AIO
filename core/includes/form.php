@@ -238,9 +238,11 @@ class FORM {
         $visible_attr .= str_contains( $attrs, 'disabled' ) ? ' disabled' : '';
 
         // Hidden Input - Renders date format as per backend
-        $this->text( [ $id.'_'.$rand, $id ], '', '', easy_date( $value, 'Y-m-d' ), $attrs.' hidden data-hidden-date' );
+        $value_ymd = !empty( $value ) ? easy_date( $value, 'Y-m-d' ) : '';
+        $this->text( [ $id.'_'.$rand, $id ], '', '', $value_ymd, $attrs.' hidden data-hidden-date' );
         // Visible Input - Render date for easier user grasp
-        $this->text( $alt_id, $label, $placeholder, easy_date( $value, 'd-m-Y' ), $visible_attr.$range_attr.$multiple_attr.$view_attr.' data-visible-date no_post', $pre, $post );
+        $value_dmy = !empty( $value ) ? easy_date( $value, 'd-m-Y' ) : '';
+        $this->text( $alt_id, $label, $placeholder, $value_dmy, $visible_attr.$range_attr.$multiple_attr.$view_attr.' data-visible-date no_post', $pre, $post );
     }
 
     /**
@@ -880,9 +882,9 @@ class FORM {
             $id = $f['id'] ??= '';
             $label = $f['label'] ??= ($f['title'] ??= '');
             $place = $f['place'] ??= $label;
-            $val = $f['value'] ?? ($_POST[$id] ?? '');
+            $val = $f['value'] ?? ($method == 'POST' ? ($_POST[$id] ?? '') : ($_GET[$id] ?? ''));
             $attrs = $f['attr'] ??= '';
-            $pre = $f['pre'] ??= '';
+            $pre = $f['pre'] ??= ($f['col'] ??= '');
             if( $type == 'select' ) {
                 $options = $f['options'] ?? [];
                 $value = $_POST[ $id ] ?? ($_GET[ $id ] ?? '');
@@ -908,15 +910,15 @@ class FORM {
      */
     function filters_to_query( array $filter_params = [], string $query = '', string $method = 'GET' ): string {
         foreach( $filter_params as $qa ) {
-            if( is_array( $qa ) && isset( $qa[7] ) && isset( $qa[1] ) ) {
+            if( is_array( $qa ) && isset( $qa['id'] ) && isset( $qa['logic'] ) ) {
                 $value = '';
                 if( $method == 'GET' ) {
-                    $value = $_GET[ $qa[1] ] ?? '';
+                    $value = $_GET[ $qa['id'] ] ?? '';
                 } else {
-                    $value = $_POST[ $qa[1] ] ?? '';
+                    $value = $_POST[ $qa['id'] ] ?? '';
                 }
                 if( !empty( $value ) ) {
-                    $where = $qa[7];
+                    $where = $qa['logic'];
                     $q = str_contains( $where, 'LIKE' ) ? $where.' \'%'.$value.'%\'' : $where.' \''.$value.'\'';
                     $query = !empty( $query ) ? $query.' AND '.$q : $q;
                 }

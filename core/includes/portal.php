@@ -227,15 +227,16 @@ class PORTAL {
 
     /**
      * Renders Side Menu
-     * @param string $root_url URL of root Dashboard
      * @param array $menus Array set of [ 'title' => 'Contacts', 'url' => 'contacts', 'icon' => 'users', 'perm' => 'view_contacts', 'type' => 'admin', 'col' => 4, 'group' => 'Contacts', 'data' => 'contacts' ];
+     * @param string $root_url URL of root Dashboard
      * @param string $content Any HTML content to be shown after Search Bar
+     * @param string $class Class for the wrapper aside element
      * @return void
      */
-    function render_menu( array $menus = [], string $root_url = 'portal', string $content = '' ): void {
+    function render_menu( array $menus = [], string $root_url = 'portal', string $content = '', string $class = '' ): void {
         //$menus = !empty( $menus ) ? array_group_by( $menus, 'group' ) : [];
         ?>
-        <aside class="menu">
+        <aside class="menu <?php echo $class; ?>">
             <div class="row">
                 <div class="col-2" data-intro>
                     <a href="<?php echo APPURL.$root_url; ?>" class="home_link">
