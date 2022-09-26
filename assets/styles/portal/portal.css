@@ -1057,28 +1057,28 @@ aside::-webkit-scrollbar {
   line-height: 45px;
 }
 .acts i.edit:after {
-  content: "";
+  content: "\e3c9";
 }
 .acts i.view:after {
-  content: "";
+  content: "\e8a0";
 }
 .acts i.delete:after, .acts i.trash:after {
-  content: "";
+  content: "\e872";
 }
 .acts i.inspect:after {
-  content: "";
+  content: "\ea9b";
 }
 .acts i.pay:after {
-  content: "";
+  content: "\ef63";
 }
 .acts i.map:after {
-  content: "";
+  content: "\e55f";
 }
 .acts i.up:after, .acts i.upload:after {
-  content: "";
+  content: "\f09b";
 }
 .acts i.down:after, .acts i.download:after {
-  content: "";
+  content: "\e2c4";
 }
 
 /* Tabs */
