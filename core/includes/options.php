@@ -7,6 +7,7 @@ class OPTIONS {
 
     public array $brand_options = [
         'app_name',
+        'app_desc',
         'default_theme',
         'primary_color',
         'secondary_color',
@@ -56,6 +57,12 @@ class OPTIONS {
         'mob' => 'Mobile Number',
         'll' => 'Land Line'
     ];
+    public array $communication_options = [
+        'phone' => 'Phone',
+        'mobile' => 'Mobile',
+        'email' => 'Email',
+        'website' => 'Website'
+    ];
 
     /**
      * @param bool $dark_mode_options Show Dark Mode Options
@@ -72,6 +79,7 @@ class OPTIONS {
         $attr = 'data-brand';
         $ext = 'jpg,svg,png';
         $name = $ops['app_name'] ?? '';
+        $desc = $ops['app_desc'] ?? '';
         $theme = $ops['default_theme'] ?? '';
         $c1 = $ops['primary_color'] ?? '';
         $c2 = $ops['secondary_color'] ?? '';
@@ -91,6 +99,7 @@ class OPTIONS {
         }
         $f->text('app_name','Web App / Site Name','Ex: AIO University...',$name,$attr,8);
         $f->upload('fav','Fav Icon','Upload',$fav,0,0,'upload',$attr,'png,jpg,doc',5,1,'',4);
+        $f->textarea('app_desc','Web App / Site Description','Ex: We provide...',$desc,$attr,12);
         $f->select2( 'default_theme', 'Default Admin Theme', 'Select Theme...', $uis, $theme, $attr, 12, 1 );
         //$f->select( 'input_theme', 'Input Style', 'Select Theme...', [], '', 'data-data class="select2"', 6, 1 );
         $f->upload('logo_light','Logo - Light Theme','Upload',$light,0,0,'upload',$attr,$ext,5,1,'',3);
@@ -208,7 +217,7 @@ class OPTIONS {
     function communication_options(): void {
         $f = new FORM();
         $db = new DB();
-        $os = $db->get_options(['phone','mobile','email','website']);
+        $os = $db->get_options( $this->communication_options );
         echo '<div class="row"';
         $f->option_params('com',2,2);
         echo '>';
