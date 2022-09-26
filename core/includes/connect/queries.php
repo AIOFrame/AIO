@@ -599,33 +599,43 @@ class DB {
 
     /**
      * Get multiple options by keys as array
-     * @param array $opn Option Names ['theme_color','dark_mode']
+     * @param array|string $options Option Names ['theme_color','dark_mode']
      * @param int $user_id User ID optional
      * @param string $key Get option by 'name' or 'id'
      * @return array
      */
-    function get_options( array $opn, int $user_id = 0, string $key = 'name' ): array {
+    function get_options( array|string $options, int $user_id = 0, string $key = 'name' ): array {
         $q = '';
-        if( is_array( $opn ) ){
-            foreach( $opn as $op ){
-                if( $key == 'id' ){
-                    $q .= 'option_id = \''.$op.'\' OR ';
-                } else {
-                    $q .= 'option_name = \''.$op.'\' OR ';
+        if( !empty( $options ) ){
+            if( is_assoc($options) ) {
+                foreach( $options as $opk => $opv ){
+                    if( $key == 'id' ){
+                        $q .= 'option_id = \''.$opk.'\' OR ';
+                    } else {
+                        $q .= 'option_name = \''.$opk.'\' OR ';
+                    }
+                }
+            } else {
+                foreach( $options as $op ){
+                    if( $key == 'id' ){
+                        $q .= 'option_id = \''.$op.'\' OR ';
+                    } else {
+                        $q .= 'option_name = \''.$op.'\' OR ';
+                    }
                 }
             }
         } else {
             if( $key == 'id' ){
-                $q .= 'option_id = \''.$opn.'\' OR ';
+                $q .= 'option_id = \''.$options.'\' OR ';
             } else {
-                $q .= 'option_name = \''.$opn.'\' OR ';
+                $q .= 'option_name = \''.$options.'\' OR ';
             }
         }
         $q = !empty( $q ) ? substr($q, 0, -3) : $q;
         $query = $user_id ? '('. $q . ') AND option_scope = \''.$user_id.'\'' : $q;
         $o = $this->select( 'options', 'option_name, option_value', $query );
         $d = [];
-        if( is_array( $o ) ){
+        if( !empty( $o ) ){
             foreach( $o as $k => $v ){
                 $d[$v['option_name']] = $v['option_value'];
             }

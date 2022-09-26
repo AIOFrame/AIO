@@ -452,6 +452,17 @@ select.mb0 + .select2-container {
   margin: 0;
 }
 
+/* TRUMBOWYG EDITOR */
+
+.trumbowyg-button-pane {
+  background: #eee;
+  .trumbowyg-button-group {
+    button {
+      color: #000;
+    }
+  }
+}
+
 /* Helper */
 
 [type=text] + .valid, [type=email] + .valid, [type=password] + .valid, select + .valid, textarea + .valid {

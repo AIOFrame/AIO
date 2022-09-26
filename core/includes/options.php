@@ -43,6 +43,19 @@ class OPTIONS {
         'input_color_dark',
         'input_color_active_dark',
     ];
+    public array $social_options = [
+        'fb' => 'Facebook',
+        'tw' => 'Twitter',
+        'ig' => 'Instagram',
+        'yt' => 'YouTube',
+        'wa' => 'WhatsApp',
+        'tg' => 'Telegram',
+        'pin' => 'Pinterest',
+        'sk' => 'Skype',
+        'ln' => 'LinkedIn',
+        'mob' => 'Mobile Number',
+        'll' => 'Land Line'
+    ];
 
     /**
      * @param bool $dark_mode_options Show Dark Mode Options
@@ -253,36 +266,17 @@ class OPTIONS {
     }
 
     function social_options(): void {
+        $options = $this->social_options;
         $f = new FORM();
         $db = new DB();
-        $os = $db->get_options(['fb','tw','ig','yt','wa','tg','pin','sk','ln','mob','ll']);
+        $os = $db->get_options( $options );
         echo '<div class="row"';
         $f->option_params('soc',2,2);
         echo '>';
-        $fb = $os['fb'] ?? '';
-        $tw = $os['tw'] ?? '';
-        $ig = $os['ig'] ?? '';
-        $yt = $os['yt'] ?? '';
-        $wa = $os['wa'] ?? '';
-        $tg = $os['tg'] ?? '';
-        $pin = $os['pin'] ?? '';
-        $sk = $os['sk'] ?? '';
-        $ln = $os['ln'] ?? '';
-        $mob = $os['mob'] ?? '';
-        $ll = $os['ll'] ?? '';
-        $f->texts([
-            ['fb','Facebook Link','',$fb],
-            ['tw','Twitter Link','',$tw],
-            ['ig','Instagram Link','',$ig],
-            ['yt','Youtube Link','',$yt],
-            ['wa','Whatsapp Link','',$wa],
-            ['tg','Telegram Link','',$tg],
-            ['pin','Pinterest Link','',$pin],
-            ['sk','Pinterest Link','',$sk],
-            ['ln','LinkedIn Link','',$ln],
-            ['mob','Mobile Number','',$mob],
-            ['ll','Mobile Number','',$ll],
-        ],'data-soc',3);
+        foreach( $options as $ok => $ov ) {
+            $val = $os[ $ok ] ?? '';
+            $f->text( $ok, $ov, 'Ex: '.$ov.' Details', $val, 'data-soc', 3 );
+        }
         $f->process_options('Save Options','store grad','','col-12 tac');
         echo '</div>';
     }
