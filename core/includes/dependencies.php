@@ -70,16 +70,17 @@ function file_upload(): void {
 
 /**
  * Renders Logo or Picture, if empty shows name first character
- * @param string|null $logo
+ * @param string|null $image
  * @param string $name
  * @param string $class
+ * @param string $element Render div or image element
  * @return void
  */
-function render_image( string|null $logo = '', string $name = '', string $class = '' ) {
+function render_image( string|null $image = '', string $name = '', string $class = '', string $element = 'div' ): void {
     //skel( !file_exists( APPPATH . $logo ) );
-    $n = !file_exists( APPPATH . $logo ) && !empty( $name ) ? '<span>'.$name[0].'</span>' : '';
-    $logo = !empty( $logo ) ? ' style="background-image:url(\''.storage_url( $logo ).'\')"' : '';
-    echo '<div class="image '.$class.'"'.$logo.'>'.$n.'</div>';
+    $n = !file_exists( APPPATH . $image ) && !empty( $name ) ? '<span>'.$name[0].'</span>' : '';
+    $image = !empty( $image ) ? ( $element == 'div' ? ' style="background-image:url(\''.storage_url( $image ).'\')"' : storage_url( $image ) ) : '';
+    echo $element == 'div' ? '<div class="image '.$class.'"'.$image.'>'.$n.'</div>' : '<img class="'.$class.'" src="'.$image.'" alt="'.$name.'">';
 }
 
 function storage_url( $url = '' ): string {

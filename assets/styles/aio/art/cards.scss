@@ -1,5 +1,6 @@
 $primary: var(--primary_color);
 $secondary: var(--secondary_color);
+$radius: var(--input_radius);
 
 /* Cards */
 
@@ -216,7 +217,8 @@ $secondary: var(--secondary_color);
     margin: 0 10px;
     width: 45px;
     height: 45px;
-    border-radius:10px;
+    border-radius: 10px;
+    overflow: hidden;
     cursor: pointer;
     font-size: .6rem;
     text-align: center;
