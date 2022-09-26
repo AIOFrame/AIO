@@ -1039,6 +1039,49 @@ aside::-webkit-scrollbar {
   position: relative;
 }
 
+.acts [title=View] {
+  background: var(--primary_color);
+  background: linear-gradient(160deg, var(--primary_color) 0%, var(--secondary_color) 100%);
+}
+.acts [title=Edit] {
+  background-color: #FAD961;
+  background-image: linear-gradient(145deg, #FAD961 0%, #F76B1C 100%);
+}
+.acts [title=Delete] {
+  background-color: #FFE53B;
+  background-image: linear-gradient(147deg, #FFE53B 0%, #FF2525 74%);
+}
+.acts i:after {
+  color: #fff;
+  font-family: "MaterialIcons", sans-serif;
+  font-size: 1.6rem;
+  line-height: 45px;
+}
+.acts i.edit:after {
+  content: "";
+}
+.acts i.view:after {
+  content: "";
+}
+.acts i.delete:after, .acts i.trash:after {
+  content: "";
+}
+.acts i.inspect:after {
+  content: "";
+}
+.acts i.pay:after {
+  content: "";
+}
+.acts i.map:after {
+  content: "";
+}
+.acts i.up:after, .acts i.upload:after {
+  content: "";
+}
+.acts i.down:after, .acts i.download:after {
+  content: "";
+}
+
 /* Tabs */
 .vertical_tabs {
   padding: 20px 0;

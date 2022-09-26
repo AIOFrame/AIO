@@ -215,6 +215,7 @@
   width: 45px;
   height: 45px;
   border-radius: 10px;
+  overflow: hidden;
   cursor: pointer;
   font-size: 0.6rem;
   text-align: center;
