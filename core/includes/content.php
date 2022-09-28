@@ -38,13 +38,16 @@ class CONTENT {
         // Fonts
         $fonts = [ [ 'MaterialIcons' ] ];
         $font1 = $options['font_1'] ?? 'Lato';
-        $weight1 = $options['font_1_weights'] ?? '300,400';
+        $weight1 = $options['font_1_weights'] ?? '400';
         $fonts[] = [ $font1, $weight1 ];
+        $weights = explode( ',', $weight1 );
         // TODO: Properly Reset
-        reset_styles( $font1, $weight1 );
         if( !empty( $options['font_2'] ) ) {
-            $weight2 = $options['font_2_weights'] ?? '300,400';
+            reset_styles( $font1.','.$options['font_2'], $weights[0] );
+            $weight2 = $options['font_2_weights'] ?? '400';
             $fonts[] = [ $options['font_2'], $weight2 ];
+        } else {
+            reset_styles( $font1, $weights[0] );
         }
         fonts( $fonts );
 

@@ -190,25 +190,42 @@ class OPTIONS {
      * Renders Maps Options
      * @return void
      */
-    function map_options(): void {
+    function font_options(): void {
         $f = new FORM();
         $db = new DB();
         $options_array = [ 'font_1', 'font_1_weights', 'font_2', 'font_2_weights' ];
         $ops = $db->get_options( $options_array );
         echo '<div class="row"';
-        $f->option_params('fonts', 2, 2 );
+        $f->option_params('fonts', 2, 2, $options_array );
         echo '>';
         $font_1 = $ops['font_1'] ?? 'Lato';
         $font_1_weights = $ops['font_1_weights'] ?? '400';
         $font_2 = $ops['font_2'] ?? '';
         $font_2_weights = $ops['font_2_weights'] ?? '';
         $attr = 'data-fonts';
-        $fonts =
+        $core_fonts_list = new DirectoryIterator( ROOTPATH . 'assets/fonts' );
+        $app_fonts_list = file_exists( ROOTPATH . 'apps/'. APPDIR . '/assets/fonts' ) ? new DirectoryIterator( ROOTPATH . 'apps/'. APPDIR . '/assets/fonts' ) : [];
+        $fonts = [];
+        $weights = [ 100, 200, 300, 400, 500, 600, 700, 800, 900 ];
+        foreach( $core_fonts_list as $font ) {
+            if ( !$font->isDot() && $font->getFilename() !== '.DS_Store' ) {
+                $fonts[] = $font->getFilename();
+            }
+        }
+        foreach( $app_fonts_list as $font ) {
+            if ( !$font->isDot() && !in_array( $font->getFilename(), [ '.DS_Store', 'MaterialIcons' ] ) ) {
+                $fonts[] = $font->getFilename();
+            }
+        }
+        $f->select2('font_1','Primary Font','Select Font...',$fonts,$font_1,$attr,6);
+        $f->select2('font_1_weights','Primary Font Weights','Select Weights...',$weights,$font_1_weights,$attr.' multiple',6);
+        $f->select2('font_2','Primary Font','Select Font...',$fonts,$font_2,$attr,6);
+        $f->select2('font_2_weights','Primary Font Weights','Select Weights...',$weights,$font_2_weights,$attr.' multiple',6);
         /* $f->text('google_maps_key','Google Maps - API Key','Ex: AIvcDfDtd04QuAYdfgRN-aZBF5DuSFhMUnbdehD9',$key,$attr,12);
         $f->map( '[data-key=default_map_lat]', '[data-key=default_map_long]', '', '', '', '', '', 12 );
         $f->text('default_map_lat','Default Map Latitude','Ex: 12.34233',$lat,$attr,3);
         $f->text('default_map_long','Default Map Longitude','Ex: 24.43555',$long,$attr,3);
-        $f->select2('default_map_zoom','Default Zoom Level','Select Level...',range(0,19),$zoom,$attr,3);
+
         $f->select2('default_map_type','Default Map Type','Select Type...',['roadmap','satellite','hybrid','terrain'],$type,$attr,3); */
         $f->process_options('Save Map Options','store grad','','col-12 tac');
         echo '</div>';
