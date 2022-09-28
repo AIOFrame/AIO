@@ -1,11 +1,20 @@
 <?php
 
-function E( $string ) {
+/**
+ * Echo the translation of string if present, or adds to untranslated
+ * @param string $string
+ * @return void
+ */
+function E( string $string ): void {
     echo T( $string );
 }
 
-// Returns the translation of string if present, or adds to untranslated
-function T( $string ) {
+/**
+ * Returns the translation of string if present, or adds to untranslated
+ * @param string $string String
+ * @return string
+ */
+function T( string $string ): string {
 
     //$lang = defined(BASELANG) ? BASELANG : 'en';
     global $translated;
@@ -38,8 +47,4 @@ function T( $string ) {
         return $string;
 
     }
-}
-
-function __( $string ) {
-    return T( $string );
 }

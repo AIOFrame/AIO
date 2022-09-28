@@ -32,10 +32,6 @@ if( !empty( $_SESSION['lang'] ) && defined( 'BASELANG' ) && $_SESSION['lang'] !=
 }
 
 
-
-
-
-
 function save_untranslated( $string ){
     if( isset( $_SESSION['lang'] ) ) {
         global $untranslated_words;
@@ -53,7 +49,15 @@ function save_untranslated( $string ){
     }
 }
 
-function update_translation_ajax( $string = '', $language = '', $translation = '', $page = '' ) {
+/**
+ * Updates as translation string to database
+ * @param string $string Key base en string
+ * @param string $language Language of this translation
+ * @param string $translation Translated string
+ * @param string $page Particular page of this translation
+ * @return void
+ */
+function update_translation_ajax( string $string = '', string $language = '', string $translation = '', string $page = '' ): void {
 
     $string = $_POST['string'] ?? $string;
     $language = $_POST['language'] ?? $language;
@@ -91,7 +95,11 @@ function update_translation_ajax( $string = '', $language = '', $translation = '
 
 }
 
-function remove_translation_ajax() {
+/**
+ * Removes a translation string from database
+ * @return void
+ */
+function remove_translation_ajax(): void {
     $id = $_POST['id'] ?? '';
     if( $id !== '' ){
         $cry = Encrypt::initiate();
@@ -102,15 +110,16 @@ function remove_translation_ajax() {
 }
 
 // Language Translation Files
-
+/**
+ * Loads Translation Strings from database
+ */
 function get_translations() {
-
     $ln = isset( $_POST['ln'] ) && !empty( $_POST['ln'] ) ? $_POST['ln'] : 'en';
 
     $db = new DB();
     $trans = $db->select( 'translations', '', 'trans_ln = "'.$ln.'"' );
 
-    if( is_array( $trans ) ){
+    if( !empty( $trans ) ){
         $data = [];
         foreach( $trans as $tran ){
             $data[$tran['trans_base']] = $tran['trans_replace'];
@@ -122,6 +131,7 @@ function get_translations() {
         }
     } else {
         EF('No Translations Found');
+        return [];
     }
 }
 
@@ -182,9 +192,12 @@ function app_languages() {
     }
 }
 
-// Set User Session of their preferred language choice
-
-function set_language( $language = '' ) {
+/**
+ * Set PHP Session of their preferred language choice
+ * @param string $language
+ * @return void
+ */
+function set_language( string $language = '' ): void {
     if( !empty( $_POST ) ) {
         unset( $_POST['action'] );
         $language = !empty( $_POST['lang'] ) && !is_array( $_POST['lang'] ) ? $_POST['lang'] : 'en';
@@ -201,7 +214,11 @@ function set_language( $language = '' ) {
     }
 }
 
-function set_language_ajax() {
+/**
+ * Set PHP Session of their preferred language choice by AJAX
+ * @return void
+ */
+function set_language_ajax(): void {
     $language = !empty( $_POST['lang'] ) && !is_array( $_POST['lang'] ) ? $_POST['lang'] : 'en';
     $_SESSION['lang'] = $language;
     if( !empty( $_POST ) ) {
@@ -213,13 +230,17 @@ function set_language_ajax() {
 
 // Builds Translation Files
 
-function update_translations() {
+/**
+ * Update translation strings to database in bulk
+ * @return void
+ */
+function update_translations(): void {
     $ln = $_POST['language'];
     $trans = $_POST['translations'];
     if( !empty( $ln ) && is_array( $trans ) ){
         $passed = $failed = 0;
         foreach( $trans as $en => $tran ){
-            $u = update_translation( $en, $ln, $tran );
+            $u = update_translation_ajax( $en, $ln, $tran );
             if( $u ){
                 $passed++;
             } else {
@@ -229,7 +250,11 @@ function update_translations() {
     }
 }
 
-function get_untranslated() {
+/**
+ * Returns array of untranslated strings from database
+ * @return void
+ */
+function get_untranslated(): void {
 
     if( !empty( $_SESSION['lang'] ) ){
 
@@ -245,10 +270,14 @@ function get_untranslated() {
 
 }
 
-function select_languages() {
+/**
+ * Returns select options of languages
+ * @return void
+ */
+function select_languages() : void {
     $langs = app_languages();
     if( is_array( $langs ) && !empty( $langs ) ) {
-        $ln = isset( $_SESSION['lang'] ) ? $_SESSION['lang'] : 'en';
+        $ln = $_SESSION['lang'] ?? 'en';
         foreach( $langs as $l => $n ){
             $c = $l == $ln ? 'selected' : '';
             echo '<option value="'.$l.'" '.$c.'>'.$n.'</option>';

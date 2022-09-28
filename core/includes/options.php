@@ -193,6 +193,34 @@ class OPTIONS {
     function map_options(): void {
         $f = new FORM();
         $db = new DB();
+        $options_array = [ 'font_1', 'font_1_weights', 'font_2', 'font_2_weights' ];
+        $ops = $db->get_options( $options_array );
+        echo '<div class="row"';
+        $f->option_params('fonts', 2, 2 );
+        echo '>';
+        $font_1 = $ops['font_1'] ?? 'Lato';
+        $font_1_weights = $ops['font_1_weights'] ?? '400';
+        $font_2 = $ops['font_2'] ?? '';
+        $font_2_weights = $ops['font_2_weights'] ?? '';
+        $attr = 'data-fonts';
+        $fonts =
+        /* $f->text('google_maps_key','Google Maps - API Key','Ex: AIvcDfDtd04QuAYdfgRN-aZBF5DuSFhMUnbdehD9',$key,$attr,12);
+        $f->map( '[data-key=default_map_lat]', '[data-key=default_map_long]', '', '', '', '', '', 12 );
+        $f->text('default_map_lat','Default Map Latitude','Ex: 12.34233',$lat,$attr,3);
+        $f->text('default_map_long','Default Map Longitude','Ex: 24.43555',$long,$attr,3);
+        $f->select2('default_map_zoom','Default Zoom Level','Select Level...',range(0,19),$zoom,$attr,3);
+        $f->select2('default_map_type','Default Map Type','Select Type...',['roadmap','satellite','hybrid','terrain'],$type,$attr,3); */
+        $f->process_options('Save Map Options','store grad','','col-12 tac');
+        echo '</div>';
+    }
+
+    /**
+     * Renders Maps Options
+     * @return void
+     */
+    function map_options(): void {
+        $f = new FORM();
+        $db = new DB();
         $options_array = [ 'google_maps_key', 'default_map_lat', 'default_map_long', 'default_map_zoom', 'default_map_type' ];
         $ops = $db->get_options( $options_array );
         echo '<div class="row"';

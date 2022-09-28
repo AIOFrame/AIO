@@ -40,6 +40,7 @@ class CONTENT {
         $font1 = $options['font_1'] ?? 'Lato';
         $weight1 = $options['font_1_weights'] ?? '300,400';
         $fonts[] = [ $font1, $weight1 ];
+        // TODO: Properly Reset
         reset_styles( $font1, $weight1 );
         if( !empty( $options['font_2'] ) ) {
             $weight2 = $options['font_2_weights'] ?? '300,400';
