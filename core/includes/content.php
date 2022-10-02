@@ -85,10 +85,10 @@ class CONTENT {
 
     }
 
-    function post_html( string|array $scripts = [] ): void {
+    function post_html( string|array $scripts = [], string $alert_position = 'top right' ): void {
         get_scripts( $scripts );
         get_script( PAGEPATH );
-        echo '<div class="notices t r"></div></body></html>';
+        echo '<div class="'.$alert_position.'" data-alerts></div></body></html>';
     }
 
     function manage_templates(): void {

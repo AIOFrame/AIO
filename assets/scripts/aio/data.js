@@ -50,10 +50,10 @@ function get_values( parent, attribute, prepend ) {
             let arr = $(this).data('array');
             let v =  $(this).val();
             if ( $(this).hasClass('slide') ) {
-                elog(0);
+                //elog(0);
                 value = $(this).is(':checked') ? 1 : 2;
             } else if ( arr !== undefined ) {
-                elog(1);
+                //elog(1);
                 if( data[pre_key] === undefined || !$.isArray( data[pre_key] ) ) {
                     data[pre_key] = [];
                 }
@@ -61,14 +61,14 @@ function get_values( parent, attribute, prepend ) {
                     data[pre_key].push( v );
                 }
             } else if (m.length > 1) {
-                elog(2);
+                //elog(2);
                 value = $( '[name=' + $(this).attr('name') + ']' ).map(function () {
                     if( t ) {
                         return $(this).val();
                     }
                 }).toArray();
             } else {
-                elog(3);
+                //elog(3);
                 value = t === true ? 1 : 2;
             }
         }
@@ -83,7 +83,7 @@ function get_values( parent, attribute, prepend ) {
             value = $(this).val().join(", ");
         }
         if( $(this).data('array') !== undefined ) {
-            elog(pre_key);
+            //elog(pre_key);
             let arr = $(this).data('array');
             key = $(this).val() !== '' ? $(this).attr('name') : '';
             key = key === '' ? $(this).attr('id') : key;
@@ -96,17 +96,15 @@ function get_values( parent, attribute, prepend ) {
             data[ pre_key ] = value;
         }
 
-
-
-        elog(key);
+        /* elog(key);
         elog( 'Updated:' );
-        elog( data );
+        elog( data ); */
 
     });
     $.each(data,function(a,b){
         if( typeof b === 'object' && b !== null ) {
-            elog( b );
-            elog( JSON.stringify(b) );
+            /* elog( b );
+            elog( JSON.stringify(b) ); */
             data[a] = JSON.stringify(b);
         }
     });

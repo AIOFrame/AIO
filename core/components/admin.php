@@ -24,9 +24,9 @@
 <header>
     <div class="logo"></div>
     <div class="options">
-        <div class="ico nav" data-t=".menu"><i class="tip"><?php E('Toggle Menu'); ?></i></div>
-        <div class="ico lang" data-t=".languages"><i class="tip"><?php E('Change Language'); ?></i></div>
-        <div class="ico dark" data-dark><i class="tip"><?php E('Toggle Dark Mode'); ?></i></div>
+        <div class="ico" data-t=".menu"><div class="mat-ico">menu</div><i class="tip"><?php E('Toggle Menu'); ?></i></div>
+        <div class="ico" data-t=".languages"><div class="mat-ico">translate</div><i class="tip"><?php E('Change Language'); ?></i></div>
+        <div class="ico dark" data-dark><div class="mat-ico">dark_mode</div><i class="tip"><?php E('Toggle Dark Mode'); ?></i></div>
     </div>
 <!--    <div class="actions">-->
 <!--        <a href="" id="brand">--><?php //E('DATABASE BACKUP'); ?><!--</a>-->

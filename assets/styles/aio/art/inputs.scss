@@ -22,6 +22,8 @@ $color-light: var(--input_color_light);
 $color-active-light: var(--input_color_active_light);
 
 // Dark Options
+$primary-dark: var(--primary_color_dark);
+$secondary-dark: var(--secondary_color_dark);
 $bg-dark: var(--input_bg_dark);
 $border-color-dark: var(--input_border_color_dark);
 $border-color-active-dark: var(--input_border_color_active_dark);
@@ -642,8 +644,34 @@ input + .valid.on {
 /* DARK MODE */
 
 body.d {
-  input, button, select, textarea {
-    border:1px solid #444;
+  label, .air-datepicker-body--day-name {
+    background: -webkit-linear-gradient( 45deg, $primary-dark, $secondary-dark );
+  }
+  label.beta {
+    background: -webkit-linear-gradient( $primary-dark, $secondary-dark );
+  }
+  [type=radio]:not(.slide,.switch):checked:after, [type=checkbox]:not(.slide,.switch):checked:after {
+    background: $primary-dark;
+    background: linear-gradient(160deg, $primary-dark 0%, $secondary-dark 100%);
+  }
+  [type=checkbox]:checked.slide:before, [type=radio]:checked.slide:before,
+  [type=checkbox]:checked.switch:before, [type=radio]:checked.switch:before {
+    background: $primary-dark;
+    background: linear-gradient(160deg, $primary-dark 0%, $secondary-dark 100%);
+  }
+  .select2-container--default {
+    .select2-results__option--highlighted[aria-selected] {
+      background-color:$primary-dark;
+    }
+  }
+  .air-datepicker-cell.-selected-, .air-datepicker-cell.-selected-.-focus- {
+    color: $color-dark;
+    background: $primary-dark;
+    background: -webkit-linear-gradient( 45deg, $primary-dark, $secondary-dark );
+  }
+  .air-datepicker-cell.-current- {
+    color: $primary-dark;
+    border: 1px solid $primary-dark;
   }
   select {
     color:#fff;

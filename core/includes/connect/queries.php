@@ -451,22 +451,22 @@ class DB {
      * @param string $group Group data rows
      * @return array
      */
-    function total( string $table, $cols = '*', $where = '', $limit = 0, $offset = 0 , $group='' ) {
+    function total( string $table, string $cols = '*', string $where = '', int $limit = 0, int $offset = 0, string $group='' ): array {
         return $this->select( $table, $cols, $where, $limit, $offset, $group, true );
     }
 
     /**
      * Queries PDO statement
      * @param string $query Query
-     * @return Exception|false|PDOException|PDOStatement
      */
-    function query( string $query ) {
+    function query( string $query ): array {
         $db = $this->connect();
         try {
             $e = $db->query( $query );
             return $e->fetchAll();
         } catch ( PDOException $e ) {
-            return $db->errorInfo();
+            elog( $db->errorInfo() );
+            return [ 0, $e ];
         }
     }
 

@@ -1,7 +1,3 @@
-body, div, p, input, select, button {
-  font-family: "Lato", sans-serif;
-}
-
 body {
   max-height: calc(100vh - 40px);
   position: relative;
@@ -25,7 +21,7 @@ article {
 /* HEADER */
 header {
   position: fixed;
-  height: calc(100vh - 40px);
+  height: calc( 100vh - 40px );
   top: 20px;
   left: 20px;
   width: 80px;
@@ -62,19 +58,29 @@ header .options {
 header .options .ico {
   width: 60px;
   height: 60px;
+  background: -webkit-linear-gradient(45deg, var(--primary_color), var(--secondary_color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   display: block;
   margin: 8px 0;
-  border-radius: 15px;
+  border-radius: var(--input_radius);
   -webkit-transition: 0.6s;
   transition: 0.6s;
   position: relative;
   cursor: pointer;
   box-shadow: none;
 }
-header .options .ico:hover {
+header .options .ico .mat-ico {
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  font-size: 2.6rem;
+  text-align: center;
+}
+header .options .mat-ico:hover {
   transform: none;
 }
-header .options .ico:hover .tip {
+header .options .mat-ico:hover .tip {
   opacity: 1;
 }
 header .drop {
@@ -164,7 +170,7 @@ i.tip {
   z-index: 10;
 }
 .page_head .title {
-  color: #00a99d;
+  color: var(--primary_color);
   text-transform: uppercase;
   font-weight: bold;
   font-size: 24px;
@@ -225,18 +231,12 @@ header select {
 }
 
 button {
-  border-radius: 6px;
+  border-radius: var(--input_radius);
   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
   cursor: pointer;
   transition: 0.6s;
   text-transform: uppercase;
-  color: #00a99d;
   font-weight: normal;
-}
-
-button.main {
-  background: #00a99d;
-  color: #fff;
 }
 
 button:hover {
@@ -323,8 +323,8 @@ button:hover {
 }
 
 body.d .b {
-  background: rgb(20, 20, 20);
-  border: 1px solid rgb(40, 40, 40);
+  background: #141414;
+  border: 1px solid #282828;
 }
 
 .b > .l {
@@ -395,51 +395,11 @@ body.d .b {
 }
 
 body.d .c .ft > div {
-  border-top: 1px solid rgb(35, 35, 35);
+  border-top: 1px solid #232323;
 }
 
 .b .ft > div:last-child {
   text-align: right;
-}
-
-/* ICONS */
-.ico {
-  background: #000;
-}
-
-.ico.nav {
-  mask: url("../../icons/menu.svg") no-repeat center/30px;
-  -webkit-mask: url("../../icons/menu.svg") no-repeat center/30px;
-}
-
-.ico.lang {
-  mask: url("../../icons/lang.svg") no-repeat center/30px;
-  -webkit-mask: url("../../icons/lang.svg") no-repeat center/30px;
-}
-
-.ico.filter {
-  mask: url("../../icons/filter.svg") no-repeat center/30px;
-  -webkit-mask: url("../../icons/filter.svg") no-repeat center/30px;
-}
-
-.ico.dark {
-  mask: url("../../icons/night.svg") no-repeat center/30px;
-  -webkit-mask: url("../../icons/night.svg") no-repeat center/30px;
-}
-
-.ico.reload {
-  mask: url("../../icons/refresh.svg") no-repeat center/30px;
-  -webkit-mask: url("../../icons/refresh.svg") no-repeat center/30px;
-}
-
-.ico.delete {
-  mask: url("../../icons/trash.svg") no-repeat center/30px;
-  -webkit-mask: url("../../icons/trash.svg") no-repeat center/30px;
-}
-
-.ico.back {
-  mask: url("../../icons/back.svg") no-repeat center/30px;
-  -webkit-mask: url("../../icons/back.svg") no-repeat center/30px;
 }
 
 /* DARK MODE */
@@ -449,17 +409,20 @@ body.d {
   /* DARK ICONS */
 }
 body.d header {
-  background: rgb(25, 25, 25);
+  background: #191919;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
   border: 1px solid #333;
 }
+body.d header .options .ico {
+  background: -webkit-linear-gradient(45deg, var(--primary_color_dark), var(--secondary_color_dark));
+}
 body.d article {
-  background: rgb(15, 15, 15);
+  background: #0f0f0f;
   border: 1px solid #444;
 }
 body.d aside .scroll {
-  background: rgb(15, 15, 15);
-  box-shadow: 0 0 50px rgb(0, 0, 0);
+  background: #0f0f0f;
+  box-shadow: 0 0 50px black;
 }
 body.d [type=search], body.d input[data-color-picker] {
   background-color: #212121;
@@ -476,10 +439,6 @@ body.d .logo {
 body.d [type=text], body.d [type=search], body.d [type=password], body.d [type=number], body.d textarea {
   color: #fff;
 }
-body.d .ico {
-  background: #fff;
-}
-
 /* RESPONSIVE */
 @media only screen and (max-width: 1024px) {
   article {

@@ -32,8 +32,8 @@ $form = new FORM();
         <div class="logo"></div>
         <div class="options_toggle"></div>
         <div class="options">
-            <div class="ico lang" data-t=".languages"><i class="tip">Change Language</i></div>
-            <div class="ico dark" data-t><i class="tip">Toggle Dark Mode</i></div>
+            <div class="ico" data-t=".languages"><div class="mat-ico">language</div><i class="tip">Change Language</i></div>
+            <div class="ico dark" data-t><div class="mat-ico">dark_mode</div><i class="tip">Toggle Dark Mode</i></div>
         </div>
     </header>
     <aside>
