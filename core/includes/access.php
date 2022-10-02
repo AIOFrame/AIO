@@ -79,13 +79,13 @@ class ACCESS {
     }
 
 
-    function clear_local_sessions() {
+    function clear_local_sessions(): void {
         setcookie( session_name(), "", time() - 3600, '/', APPURL, '', true );
         session_unset();
         session_destroy();
     }
 
-    function clear_live_sessions() {
+    function clear_live_sessions(): void {
         $db = new DB();
         $cry = Encrypt::initiate();
         $session_id = isset( $_SESSION['db_session'] ) ? $cry->decrypt( $_SESSION['db_session'] ) : '';
@@ -94,7 +94,7 @@ class ACCESS {
         }
     }
 
-    function clear_current_sessions() {
+    function clear_current_sessions(): void {
         $this->clear_live_sessions();
         $this->clear_local_sessions();
     }
@@ -220,6 +220,7 @@ class ACCESS {
      */
     function login( string $login, string $pass ): array {
         $db = new DB();
+        $login = strip_tags( preg_replace('/\s+/', '', $login ) );
 
         // Checks if user with same login name or email exists
         $user = $db->select( 'users', '', '(user_login = \'' . $login . '\' OR user_email = \'' . $login . '\') AND user_status = \'1\'', 1 );
