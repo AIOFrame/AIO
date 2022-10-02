@@ -221,12 +221,6 @@ class OPTIONS {
         $f->select2('font_1_weights','Primary Font Weights','Select Weights...',$weights,$font_1_weights,$attr.' multiple',6);
         $f->select2('font_2','Primary Font','Select Font...',$fonts,$font_2,$attr,6);
         $f->select2('font_2_weights','Primary Font Weights','Select Weights...',$weights,$font_2_weights,$attr.' multiple',6);
-        /* $f->text('google_maps_key','Google Maps - API Key','Ex: AIvcDfDtd04QuAYdfgRN-aZBF5DuSFhMUnbdehD9',$key,$attr,12);
-        $f->map( '[data-key=default_map_lat]', '[data-key=default_map_long]', '', '', '', '', '', 12 );
-        $f->text('default_map_lat','Default Map Latitude','Ex: 12.34233',$lat,$attr,3);
-        $f->text('default_map_long','Default Map Longitude','Ex: 24.43555',$long,$attr,3);
-
-        $f->select2('default_map_type','Default Map Type','Select Type...',['roadmap','satellite','hybrid','terrain'],$type,$attr,3); */
         $f->process_options('Save Map Options','store grad','','col-12 tac');
         echo '</div>';
     }
