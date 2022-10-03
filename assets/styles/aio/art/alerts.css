@@ -45,7 +45,7 @@
 [data-alerts] .alert .data .ico {
   position: absolute;
   left: 0;
-  height: calc( 100% - 10px );
+  height: calc(100% - 10px);
   width: 50px;
 }
 [data-alerts] .alert .data .ico .mat-ico {

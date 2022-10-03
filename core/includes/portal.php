@@ -3,89 +3,42 @@
 class PORTAL {
 
     /**
+     * @param string $class Class for <body> tag
      * @param string $attrs Attributes for <body> tag
      * @param string|array $ex_styles External Styles
      * @param string|array $styles Styles to be linked
      * @param string|array $scripts Scripts to be added
      * @return void
      */
-    function pre_html( string $attrs = '', string|array $ex_styles = [], string|array $styles = [], string|array $scripts = [] ): void {
-
-        // Defines
-        // $db = new DB();
-        global $is_light;
-        $is_light = true;
-        $class = isset( $_GET['add'] ) ? 'add' : '';
-
-        // Load Options
-        global $options;
-        //skel( $options );
-
-        // <head>
-        echo '<!doctype html><html ';
-        html_class();
-        echo '><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"><meta http-equiv="X-UA-Compatible" content="ie=edge">';
-
-        // Fav Icon
-        $favicon = isset( $options['fav'] ) ? storage_url( $options['fav'] ) : 'fav';
-        favicon( $favicon );
-
-        // Fonts
-        $fonts = [ [ 'MaterialIcons' ] ];
-        $font1 = $options['font_1'] ?? 'Lato';
-        $weight1 = $options['font_1_weights'] ?? '300,400';
-        $fonts[] = [ $font1, $weight1 ];
-        reset_styles( $font1, $weight1 );
-        if( !empty( $options['font_2'] ) ) {
-            $weight2 = $options['font_2_weights'] ?? '300,400';
-            $fonts[] = [ $options['font_2'], $weight2 ];
-        }
-        fonts( $fonts );
+    function pre_html( string $class = '', string $attrs = '', string|array $ex_styles = [], string|array $styles = [], string|array $scripts = [] ): void {
 
         // Appearance
-        $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'jquery' ] ) : $scripts . ',jquery';
-        get_styles( $ex_styles );
-        get_scripts( $scripts );
         $theme = $options['default_theme'] ?? '';
         $theme = $options['theme'] ?? $theme;
+        $class = '';
         if( str_contains( $theme, 'dark' ) ) {
             $class .= $theme . ' d';
             $is_light = false;
         } else {
             $class .= $theme . ' l';
         }
-        art('icons,cards,modal,buttons,inputs,icons,tabs,steps,color,table,alerts');
-        //skel( $options );
+
         if( is_array( $styles ) ) {
+            array_unshift( $styles, 'bootstrap/css/bootstrap-grid' );
             array_unshift( $styles, 'portal/portal' );
             array_unshift( $styles, 'portal/ui/'.$theme );
         } else {
-            $styles = 'portal/portal,portal/ui/'.$theme.','.$styles;
+            $styles = 'bootstrap/css/bootstrap-grid,portal/portal,portal/ui/'.$theme.','.$styles;
         }
-        get_styles( $styles );
-        get_styles( [ PAGEPATH, 'micro' ] );
-
-        get_title();
-
-
-        $f = new FORM();
-        $c = Encrypt::initiate();
-
-        // Attributes
-        $attrs = $attrs.' data-out="'. $c->encrypt('logout_ajax').'"';
-
-        // </head>
-        echo '</head><body ';
-        body_class( $class );
-        echo $attrs . '>';
+        $c = new CONTENT();
+        $c->pre_html($class,$attrs,$ex_styles,'icons,cards,modal,buttons,inputs,icons,tabs,steps,color,table,alerts',$styles,$scripts);
 
     }
 
     function post_html( string|array $scripts = [] ): void {
         $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'iro', 'scrollto', 'data', 'portal/portal' ] ) : $scripts.',iro,data,portal/portal';
-        get_scripts( $scripts );
-        get_script( PAGEPATH );
-        echo '<div class="notices t r"></div></body></html>';
+        $c = new CONTENT();
+        $c->post_html( $scripts );
     }
 
     function login_html( string $login_redirect_url = '', string $attrs = '', string|array $ex_styles = [], string|array $styles = [], string|array $scripts = [] ): void {
