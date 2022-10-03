@@ -83,7 +83,7 @@ class DB {
      * Create Table
      * @param string $name Name of the table
      * @param array $columns [ [ string 'col_name', string 'type', int 'length', bool 'not null', string 'default' ], ... ]
-     * @param string $pre String to append to title of column names Ex: user_
+     * @param string $pre String to append to title of column names Ex: user (without underscore)
      * @param bool $auto_id Automatically creates first column of id Ex: user_id
      * @return array
      */

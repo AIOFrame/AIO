@@ -178,6 +178,90 @@ class PORTAL {
     }
 
     /**
+     * @param bool $show_navigation Show Navigation
+     * @param bool $show_alerts Show Alerts Icons and Dropdown
+     * @param bool $show_languages Show Languages Toggle / Dropdown
+     * @param bool $show_user Show User Dropdown
+     * @return void
+     */
+    function render_header( bool $show_navigation = false, bool $show_alerts = false, bool $show_languages = false, bool $show_user = false ): void {
+        $db = new DB();
+        global $options;
+        global $is_light;
+
+        if( $is_light ) {
+            $logo = isset( $options['logo_light'] ) ? 'style="background:url(\''.storage_url( $options['logo_light'] ).'\') no-repeat center / contain"' : '';
+        } else {
+            $logo = isset( $options['logo_dark'] ) ? 'style="background:url(\''.storage_url( $options['logo_dark'] ).'\') no-repeat center / contain"' : '';
+        }
+        ?>
+        <header>
+            <div id="brand_panel">
+                <?php echo $show_navigation ? '<div id="menu" class="nav_ico"></div>' : ''; ?>
+                <a href="<?php echo APPURL.'admin' ?>" class="brand" <?php echo $logo; ?>></a>
+                <?php if( is_mobile() || is_tablet() ){?>
+                    <div id="expand" class="nav_ico"></div>
+                <?php } ?>
+            </div>
+            <?php if( !is_mobile() && !is_tablet() ){?>
+                <div id="user_panel">
+                    <?php
+
+                    // Show Alerts
+                    if( $show_alerts ) {
+                        $alerts = $db->select( 'alerts', '', 'alert_user = "'.get_user_id().'" AND alert_seen = "0"' );
+                        echo '<div id="alert" class="nav_ico" title="View Notifications"><span>';
+                        echo !empty( $alerts ) ? count( $alerts ) : 0;
+                        echo '</span><div class="events drop"><div class="n_events">';
+                        if( !empty( $alerts )) {
+                            foreach( $alerts as $a ){
+                                echo '<div class="n_event" data-type="'.$a['alert_type'].'">'.$a['alert_msg'].'</div>';
+                            }
+                        }
+                        echo '</div></div></div>';
+                    }
+
+                    // Show Languages
+                    if( $show_languages ) {
+                        echo '<div id="lang" class="nav_ico" title="Change Language"><div class="drop">';
+                        // TODO: Get Languages
+                        foreach( [] as $l => $n ){
+                            $class = !empty( $_SESSION['lang'] ) ? $_SESSION['lang'] == $l ? ' on' : '' : '';
+                            echo '<div class="ln list'.$class.'" data-lang="'.$l.'">'.$n.'</div>';
+                        }
+                        echo '</div></div>';
+                    }
+
+                    // Show User
+
+                    if( $show_user ) {
+                        $user_pic = $_SESSION['user']['picture'] ?? '';
+                        $user_name = $_SESSION['user']['name'] ?? 'Developer';
+                        $user_role = $_SESSION['user']['role'] ?? '-';
+                        //$user_ = $_SESSION['user']['name'] ?? '';
+                        ?>
+                        <div class="user_drop nav_ico mr20">
+                            <div class="user_pic" <?php echo !empty( $user_pic ) ? 'style="background-image:url('. storage_url($user_pic) .')" class="bg"' : ''; ?>></div>
+                            <div class="user_name"><?php echo $user_name; ?></div>
+                            <div class="user_details">
+                                <div class="pic" <?php echo !empty( $user_pic ) ? 'style="background-image:url('. storage_url($user_pic) .')" class="bg"' : ''; ?>></div>
+                                <h4 class="name"><?php echo $user_name; ?></h4>
+                                <h4 class="role"><?php echo $user_role; ?></h4>
+                                <div class="row">
+                                    <div class="col tal"><a href="<?php echo APPURL; ?>admin/profile" class="r5 bsn s btn m0"><?php E('My Profile'); ?></a></div>
+                                    <div class="col tar"><button class="red r5 bsn s m0" onclick="logout()"><?php E('Log out'); ?></button></div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
+                    <div id="log_off" class="nav_ico dn" onclick="log_off()"></div>
+                </div>
+            <?php } ?>
+        </header>
+        <?php
+    }
+
+    /**
      * Renders Side Menu
      * @param array $menus Array set of [ 'title' => 'Contacts', 'url' => 'contacts', 'icon' => 'users', 'perm' => 'view_contacts', 'type' => 'admin', 'col' => 4, 'group' => 'Contacts', 'data' => 'contacts' ];
      * @param string $root_url URL of root Dashboard
