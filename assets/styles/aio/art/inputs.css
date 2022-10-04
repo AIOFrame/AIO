@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /* Inputs */
 label {
   font-size: 0.9rem;
@@ -274,7 +273,7 @@ select.mb0 + .select2-container {
 }
 .select2-container--default .select2-selection--single .select2-selection__arrow:after {
   font-family: "MaterialIcons", sans-serif;
-  content: "";
+  content: "\e5cf";
   font-size: 1.6rem;
   line-height: 26px;
 }
@@ -314,7 +313,7 @@ select.mb0 + .select2-container {
   left: 10px;
   top: 50%;
   transform: translateY(-50%);
-  content: "";
+  content: "\e8b6";
   box-shadow: none;
   font-size: 1.2rem;
   font-family: "MaterialIcons", sans-serif;
@@ -551,7 +550,7 @@ input + .valid.on {
   padding-left: 30px;
 }
 .auto_filters .filter:after {
-  content: "";
+  content: "\e8b6";
   position: absolute;
   top: 50%;
   transform: translateY(-50%);

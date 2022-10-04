@@ -7,6 +7,8 @@ class CONTENT {
     }
 
     /**
+     * Renders HTML5 Template
+     * @param string $class Class for <body> tag
      * @param string $attrs Attributes for <body> tag
      * @param string|array $ex_styles External Styles
      * @param string $art Art Components to be added
@@ -14,13 +16,13 @@ class CONTENT {
      * @param string|array $scripts Scripts to be added
      * @return void
      */
-    function pre_html( string $attrs = '', string|array $ex_styles = [], string $art = '', string|array $styles = [], string|array $scripts = [] ): void {
+    function pre_html( string $class = '', string $attrs = '', string|array $ex_styles = [], string $art = '', string|array $styles = [], string|array $scripts = [] ): void {
 
         // Defines
         // $db = new DB();
         global $is_light;
         $is_light = true;
-        $class = isset( $_GET['add'] ) ? 'add' : '';
+        $class = isset( $_GET['add'] ) ? $class.' add' : $class;
 
         // Load Options
         global $options;
@@ -41,7 +43,6 @@ class CONTENT {
         $weight1 = $options['font_1_weights'] ?? '400';
         $fonts[] = [ $font1, $weight1 ];
         $weights = explode( ',', $weight1 );
-        // TODO: Properly Reset
         if( !empty( $options['font_2'] ) ) {
             reset_styles( $font1.','.$options['font_2'], $weights[0] );
             $weight2 = $options['font_2_weights'] ?? '400';
@@ -55,14 +56,7 @@ class CONTENT {
         $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'jquery' ] ) : $scripts . ',jquery';
         get_styles( $ex_styles );
         get_scripts( $scripts );
-        $theme = $options['default_theme'] ?? '';
-        $theme = $options['theme'] ?? $theme;
-        if( str_contains( $theme, 'dark' ) ) {
-            $class .= $theme . ' d';
-            $is_light = false;
-        } else {
-            $class .= $theme . ' l';
-        }
+
         if( !empty( $art ) ) {
             art( $art );
         }

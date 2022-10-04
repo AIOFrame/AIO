@@ -21,7 +21,7 @@ article {
 /* HEADER */
 header {
   position: fixed;
-  height: calc( 100vh - 40px );
+  height: calc(100vh - 40px);
   top: 20px;
   left: 20px;
   width: 80px;
