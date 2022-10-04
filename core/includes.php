@@ -14,6 +14,7 @@ $initials = [
     //'icons',                            // Individual icon renderer - Will be deprecated or improved // Deprecated
     'content',                          // Logs issues to error log file
     'dependencies',                     // Improves or Includes most of the third-party dependencies
+    'curl',                             // CURL Functions
     'translation/strings',              // Translation functions
 ];
 

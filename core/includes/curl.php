@@ -29,7 +29,7 @@ class CURL {
         return $server_output;
     }
 
-    function post( string $url = '', array $post_params = [] ): bool|string {
+    function post( string $url = '', array $headers = [], array $post_params = [], string $username = '', string $password = '' ): bool|string {
 
         $ch = curl_init();
 
@@ -44,6 +44,12 @@ class CURL {
 
         curl_setopt( $ch, CURLOPT_URL, $url );
         curl_setopt( $ch, CURLOPT_POST, 1);
+        curl_setopt( $ch, CURLOPT_HTTPHEADER, $headers );
+        curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false);
+        if( !empty( $username ) && !empty( $password ) ) {
+            curl_setopt( $ch, CURLOPT_USERPWD, $username . ':' . $password );
+        }
         curl_setopt( $ch, CURLOPT_POSTFIELDS, http_build_query( $post_params ) );
 
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );

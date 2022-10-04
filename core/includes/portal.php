@@ -256,7 +256,7 @@ class PORTAL {
                     if( $show_user ) {
                         $user_pic = $_SESSION['user']['picture'] ?? '';
                         $user_name = $_SESSION['user']['name'] ?? 'Developer';
-                        $user_role = $_SESSION['user']['role'] ?? '-';
+                        $user_role = $_SESSION['user']['role'] ?? $_SESSION['user']['type'];
                         //$user_ = $_SESSION['user']['name'] ?? '';
                         ?>
                         <div class="user_drop nav_ico mr20">
