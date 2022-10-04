@@ -1,5 +1,6 @@
-$c1: var(--primary_color);
-$c2: var(--secondary_color);
+$primary: var(--primary_color);
+$secondary: var(--secondary_color);
+$color: var(--color);
 $radius: var(--input_radius);
 $border-top: var(--input_border_top);
 $border-right: var(--input_border_right);
@@ -59,7 +60,7 @@ $color-active-dark: var(--input_color_active_dark);
 .aio_upload {
   border: 2px solid #eee;
   background: none;
-  color: $c1;
+  color: $primary;
   box-shadow: none;
   border-radius:30px;
   margin: 0;
@@ -210,8 +211,8 @@ $color-active-dark: var(--input_color_active_dark);
     top: 0;
     width: 100%;
     height: 100%;
-    background: $c1;
-    background: linear-gradient(320deg, $c1 0%, $c2 100%);
+    background: $primary;
+    background: linear-gradient(320deg, $primary 0%, $secondary 100%);
   }
   .banner_bg:after {
     content:'';
@@ -398,6 +399,12 @@ article.fade > div {
   vertical-align: top;
   cursor: pointer;
   position: relative;
+  .ico, .mat-ico {
+    width: 50px;
+    height: 100%;
+    line-height: 70px;
+    text-align: center;
+  }
   .drop {
     position: absolute;
     top: calc(100% - 16px);
@@ -431,13 +438,20 @@ article.fade > div {
   display: block;
 }
 #menu {
-  background: #000;
-  mask: url('../../icons/menu.svg') no-repeat center / 50%;
-  -webkit-mask: url('../../icons/menu.svg') no-repeat center / 50%;
+  .menu {
+    display: block;
+  }
+  .close {
+    display: none;
+  }
 }
 #menu.on {
-  mask: url('../../icons/close.svg') no-repeat center / 50%;
-  -webkit-mask: url('../../icons/close.svg') no-repeat center / 50%;
+  .menu {
+    display: none;
+  }
+  .close {
+    display: block;
+  }
 }
 .brand {
   display:block;
@@ -494,31 +508,23 @@ article.fade > div {
   -webkit-mask: url('../../icons/power.svg') no-repeat center / 60%;
 }
 #alert {
-  background: #000;
-  mask: url('../../icons/alert.svg') no-repeat center / 70%;
-  -webkit-mask: url('../../icons/alert.svg') no-repeat center / 70%;
-  background-size:70%;
-}
-#lang {
-  background: #000;
-  mask: url('../../icons/lang.svg') no-repeat center / 65%;
-  -webkit-mask: url('../../icons/lang.svg') no-repeat center / 65%;
-}
-#alert span {
-  font-size:12px;
-  color:#fff;
-  background:#000;
-  border-radius:50%;
-  position: absolute;
-  right:5px;
-  bottom:15px;
-  width:10px;
-  height:10px;
-  text-align: center;
-  padding: 4px;
-  box-sizing: content-box;
-  line-height: 100%;
-  font-weight: bold;
+  span {
+    font-size:12px;
+    color: $color;
+    background: $primary;
+    background: linear-gradient(160deg, $primary 0%, $secondary 100%);
+    border-radius:50%;
+    position: absolute;
+    right:5px;
+    bottom:15px;
+    width:10px;
+    height:10px;
+    text-align: center;
+    padding: 4px;
+    box-sizing: content-box;
+    line-height: 100%;
+    font-weight: bold;
+  }
 }
 #back {
   background:url('../../icons/back.svg') center no-repeat;
@@ -545,7 +551,7 @@ article.fade > div {
     color:#fff;
     padding:5px;
     z-index: 101;
-    background:$c1 url('../../images/user.svg') no-repeat center / cover;
+    background:$primary url('../../images/user.svg') no-repeat center / cover;
   }
   .user_pic.bg {
     color:transparent;
@@ -579,7 +585,7 @@ article.fade > div {
     padding:20px;
     text-align: left;
     .name {
-      color:$c1;
+      color:$primary;
       font-weight: 500;
       margin: 10px 0;
       text-align: center;
@@ -927,7 +933,7 @@ aside::-webkit-scrollbar {
   }
   input:focus, textarea:focus, select:focus {
     border: 0;
-    //border-bottom: 2px solid $c1;
+    //border-bottom: 2px solid $primary;
   }
   button, .btn {
     box-shadow: none;
@@ -1017,8 +1023,8 @@ aside::-webkit-scrollbar {
     font-weight: lighter;
     font-size: 1.1rem;
     letter-spacing: 2px;
-    background: $c1;
-    background: linear-gradient(320deg, $c1 0%, $c2 100%);
+    background: $primary;
+    background: linear-gradient(320deg, $primary 0%, $secondary 100%);
   }
   h2, h3, h4 {
     text-transform: uppercase;
@@ -1060,8 +1066,8 @@ aside::-webkit-scrollbar {
 }
 .acts {
   [title=View] {
-    background: $c1;
-    background: linear-gradient(160deg, $c1 0%, $c2 100%);
+    background: $primary;
+    background: linear-gradient(160deg, $primary 0%, $secondary 100%);
   }
   [title=Edit] {
     background-color: #FAD961;

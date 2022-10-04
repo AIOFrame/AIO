@@ -1,4 +1,3 @@
-@charset "UTF-8";
 .aio_fsp.aio_files {
   border: 2px solid #eee;
   background: #eee;
@@ -42,7 +41,7 @@
 }
 
 .aio_upload:after {
-  content: "";
+  content: "\e9fc";
   position: absolute;
   right: 6px;
   top: 50%;
@@ -281,7 +280,7 @@ button:after, .btn:after {
 body {
   background: #f3f3f3;
   margin: 120px 0 90px;
-  min-height: calc( 100vh - 210px);
+  min-height: calc(100vh - 210px);
 }
 
 .invoice_view {
@@ -373,6 +372,12 @@ article.fade > div {
   cursor: pointer;
   position: relative;
 }
+.nav_ico .ico, .nav_ico .mat-ico {
+  width: 50px;
+  height: 100%;
+  line-height: 70px;
+  text-align: center;
+}
 .nav_ico .drop {
   position: absolute;
   top: calc(100% - 16px);
@@ -406,15 +411,18 @@ article.fade > div {
   display: block;
 }
 
-#menu {
-  background: #000;
-  mask: url("../../icons/menu.svg") no-repeat center/50%;
-  -webkit-mask: url("../../icons/menu.svg") no-repeat center/50%;
+#menu .menu {
+  display: block;
+}
+#menu .close {
+  display: none;
 }
 
-#menu.on {
-  mask: url("../../icons/close.svg") no-repeat center/50%;
-  -webkit-mask: url("../../icons/close.svg") no-repeat center/50%;
+#menu.on .menu {
+  display: none;
+}
+#menu.on .close {
+  display: block;
 }
 
 .brand {
@@ -475,23 +483,11 @@ article.fade > div {
   -webkit-mask: url("../../icons/power.svg") no-repeat center/60%;
 }
 
-#alert {
-  background: #000;
-  mask: url("../../icons/alert.svg") no-repeat center/70%;
-  -webkit-mask: url("../../icons/alert.svg") no-repeat center/70%;
-  background-size: 70%;
-}
-
-#lang {
-  background: #000;
-  mask: url("../../icons/lang.svg") no-repeat center/65%;
-  -webkit-mask: url("../../icons/lang.svg") no-repeat center/65%;
-}
-
 #alert span {
   font-size: 12px;
-  color: #fff;
-  background: #000;
+  color: var(--color);
+  background: var(--primary_color);
+  background: linear-gradient(160deg, var(--primary_color) 0%, var(--secondary_color) 100%);
   border-radius: 50%;
   position: absolute;
   right: 5px;
@@ -1061,28 +1057,28 @@ aside::-webkit-scrollbar {
   line-height: 45px;
 }
 .acts i.edit:after {
-  content: "";
+  content: "\e3c9";
 }
 .acts i.view:after {
-  content: "";
+  content: "\e8a0";
 }
 .acts i.delete:after, .acts i.trash:after {
-  content: "";
+  content: "\e872";
 }
 .acts i.inspect:after {
-  content: "";
+  content: "\ea9b";
 }
 .acts i.pay:after {
-  content: "";
+  content: "\ef63";
 }
 .acts i.map:after {
-  content: "";
+  content: "\e55f";
 }
 .acts i.up:after, .acts i.upload:after {
-  content: "";
+  content: "\f09b";
 }
 .acts i.down:after, .acts i.download:after {
-  content: "";
+  content: "\e2c4";
 }
 
 /* Tabs */

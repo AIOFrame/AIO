@@ -1,3 +1,7 @@
+$primary: var(--primary_color);
+$secondary: var(--secondary_color);
+$color: var(--color);
+
 $margin-top: var(--input_margin_top);
 $margin-right: var(--input_margin_right);
 $margin-bottom: var(--input_margin_bottom);
@@ -11,9 +15,9 @@ $radius: var(--input_radius);
 /* Buttons */
 
 button, .btn {
-  background:var(--primary_color);
-  background: linear-gradient(160deg, var(--primary_color) 0%, var(--secondary_color) 100%);
-  color:#fff;
+  background:$primary;
+  background: linear-gradient(160deg, $primary 0%, $secondary 100%);
+  color: $color;
   letter-spacing: 1px;
   transition:.6s;
   border-radius: $radius;

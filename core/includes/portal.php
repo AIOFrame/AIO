@@ -63,7 +63,7 @@ class PORTAL {
 
         // Head
         $styles = is_array( $styles ) ? array_merge( $styles, [ 'portal/login', 'login' ] ) : $styles . ',portal/login,login';
-        $this->pre_html( $attrs, $ex_styles, $styles, $scripts );
+        $this->pre_html( '', $attrs, $ex_styles, $styles, $scripts );
 
         // Content
         global $options;
@@ -216,7 +216,7 @@ class PORTAL {
         ?>
         <header>
             <div id="brand_panel">
-                <?php echo $show_navigation ? '<div id="menu" class="nav_ico"></div>' : ''; ?>
+                <?php echo $show_navigation ? '<div id="menu" class="nav_ico"><div class="mat-ico menu">menu</div><div class="mat-ico close">west</div></div>' : ''; ?>
                 <a href="<?php echo APPURL.'admin' ?>" class="brand" <?php echo $logo; ?>></a>
                 <?php if( is_mobile() || is_tablet() ){?>
                     <div id="expand" class="nav_ico"></div>
@@ -229,7 +229,7 @@ class PORTAL {
                     // Show Alerts
                     if( $show_alerts ) {
                         $alerts = $db->select( 'alerts', '', 'alert_user = "'.get_user_id().'" AND alert_seen = "0"' );
-                        echo '<div id="alert" class="nav_ico" title="View Notifications"><span>';
+                        echo '<div id="alert" class="nav_ico" title="View Notifications"><div class="mat-ico">notifications</div><span>';
                         echo !empty( $alerts ) ? count( $alerts ) : 0;
                         echo '</span><div class="events drop"><div class="n_events">';
                         if( !empty( $alerts )) {
@@ -242,7 +242,7 @@ class PORTAL {
 
                     // Show Languages
                     if( $show_languages ) {
-                        echo '<div id="lang" class="nav_ico" title="Change Language"><div class="drop">';
+                        echo '<div id="lang" class="nav_ico" title="Change Language"><div class="mat-ico">translate</div><div class="drop">';
                         // TODO: Get Languages
                         foreach( [] as $l => $n ){
                             $class = !empty( $_SESSION['lang'] ) ? $_SESSION['lang'] == $l ? ' on' : '' : '';
@@ -273,7 +273,7 @@ class PORTAL {
                             </div>
                         </div>
                     <?php } ?>
-                    <div id="log_off" class="nav_ico dn" onclick="log_off()"></div>
+<!--                    <div id="log_off" class="nav_ico" onclick="log_off()"></div>-->
                 </div>
             <?php } ?>
         </header>
