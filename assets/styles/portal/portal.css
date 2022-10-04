@@ -20,7 +20,10 @@
 }
 
 [type=text].dater {
-  background: url("../../icons/calendar.svg") no-repeat calc(100% - 10px) center/20px;
+  background-image: url("../../icons/calendar.svg");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 10px) center;
+  background-size: 20px;
   padding-right: 36px;
 }
 
@@ -1048,8 +1051,8 @@ aside::-webkit-scrollbar {
   background-image: linear-gradient(145deg, #FAD961 0%, #F76B1C 100%);
 }
 .acts [title=Delete] {
-  background-color: #FFE53B;
-  background-image: linear-gradient(147deg, #FFE53B 0%, #FF2525 74%);
+  background-color: #be0909;
+  background-image: linear-gradient(147deg, #be0909 0%, #9d1d1d 74%);
 }
 .acts i:after {
   color: #fff;

@@ -54,8 +54,8 @@ class OPTIONS {
         'pin' => 'Pinterest',
         'sk' => 'Skype',
         'ln' => 'LinkedIn',
-        'mob' => 'Mobile Number',
-        'll' => 'Land Line'
+        //'mob' => 'Mobile Number',
+        //'ll' => 'Land Line'
     ];
     public array $communication_options = [
         'phone' => 'Phone',
