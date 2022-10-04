@@ -3,6 +3,7 @@
 class PORTAL {
 
     /**
+     * Renders Admin Portal
      * @param string $class Class for <body> tag
      * @param string $attrs Attributes for <body> tag
      * @param string|array $ex_styles External Styles
@@ -34,12 +35,25 @@ class PORTAL {
 
     }
 
+    /**
+     * @param string|array $scripts
+     * @return void
+     */
     function post_html( string|array $scripts = [] ): void {
         $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'iro', 'scrollto', 'data', 'portal/portal' ] ) : $scripts.',iro,data,portal/portal';
         $c = new CONTENT();
         $c->post_html( $scripts );
     }
 
+    /**
+     * Renders Admin Portal Login HTML
+     * @param string $login_redirect_url URL to redirect after login
+     * @param string $attrs Attributes to add to the login wrapper
+     * @param string|array $ex_styles External styles to add
+     * @param string|array $styles Internal styles to add
+     * @param string|array $scripts Scripts to add
+     * @return void
+     */
     function login_html( string $login_redirect_url = '', string $attrs = '', string|array $ex_styles = [], string|array $styles = [], string|array $scripts = [] ): void {
 
         if( user_logged_in() ) {
@@ -69,6 +83,10 @@ class PORTAL {
         $this->post_html( $scripts );
     }
 
+    /**
+     * Renders User Profile HTML
+     * @return void
+     */
     function user_profile(): void {
         $f = new FORM();
         $c = Encrypt::initiate();
@@ -178,6 +196,7 @@ class PORTAL {
     }
 
     /**
+     * Renders Admin Portal Header HTML
      * @param bool $show_navigation Show Navigation
      * @param bool $show_alerts Show Alerts Icons and Dropdown
      * @param bool $show_languages Show Languages Toggle / Dropdown
