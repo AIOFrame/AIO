@@ -370,6 +370,13 @@ class PORTAL {
                                             }
                                         }
                                     }
+                                    if( isset( $menu['type'] ) ) {
+                                        $user_types = explode( ',', $menu['type'] );
+                                        $user_type = $_SESSION['user']['type'] ?? '';
+                                        if( !in_array( $user_type, $user_types ) ) {
+                                            $restricted[] = 1;
+                                        }
+                                    }
                                     if( empty( $restricted ) ) {
                                     ?>
                                     <div class="<?php echo $col; ?>">
