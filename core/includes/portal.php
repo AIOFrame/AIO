@@ -69,9 +69,9 @@ class PORTAL {
         global $options;
         global $is_light;
         if( $is_light ) {
-            $logo = isset( $options['logo_light'] ) ? 'style="background:url(\''.storage_url( $options['logo_light'] ).'\') no-repeat center / contain"' : '';
+            $logo = isset( $options['logo_light'] ) && !empty( $options['logo_light'] ) ? 'style="background:url(\''.storage_url( $options['logo_light'] ).'\') no-repeat center / contain"' : '';
         } else {
-            $logo = isset( $options['logo_dark'] ) ? 'style="background:url(\''.storage_url( $options['logo_dark'] ).'\') no-repeat center / contain"' : '';
+            $logo = isset( $options['logo_dark'] ) && !empty( $options['logo_dark'] ) ? 'style="background:url(\''.storage_url( $options['logo_dark'] ).'\') no-repeat center / contain"' : '';
         }
         echo '<article><div class="access_wrap"><div class="access_panel">';
         echo '<a href="'. APPURL . $login_redirect_url . '" class="brand" '.$logo.'></a>';
@@ -209,9 +209,9 @@ class PORTAL {
         global $is_light;
 
         if( $is_light ) {
-            $logo = isset( $options['logo_light'] ) ? 'style="background:url(\''.storage_url( $options['logo_light'] ).'\') no-repeat center / contain"' : '';
+            $logo = !empty( $options['logo_light'] ) ? 'style="background:url(\''.storage_url( $options['logo_light'] ).'\') no-repeat center / contain"' : '';
         } else {
-            $logo = isset( $options['logo_dark'] ) ? 'style="background:url(\''.storage_url( $options['logo_dark'] ).'\') no-repeat center / contain"' : '';
+            $logo = !empty( $options['logo_dark'] ) ? 'style="background:url(\''.storage_url( $options['logo_dark'] ).'\') no-repeat center / contain"' : '';
         }
         ?>
         <header>
