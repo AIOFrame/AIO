@@ -27,6 +27,7 @@ class PORTAL {
         if( is_array( $styles ) ) {
             array_unshift( $styles, 'portal/portal' );
             array_unshift( $styles, 'portal/ui/'.$theme );
+            array_unshift( $styles, 'bootstrap/css/bootstrap-grid' );
         } else {
             $styles = 'bootstrap/css/bootstrap-grid,portal/portal,portal/ui/'.$theme.','.$styles;
         }

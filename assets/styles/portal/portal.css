@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .aio_fsp.aio_files {
   border: 2px solid #eee;
   background: #eee;
@@ -41,7 +42,7 @@
 }
 
 .aio_upload:after {
-  content: "\e9fc";
+  content: "";
   position: absolute;
   right: 6px;
   top: 50%;
@@ -280,7 +281,7 @@ button:after, .btn:after {
 body {
   background: #f3f3f3;
   margin: 120px 0 90px;
-  min-height: calc(100vh - 210px);
+  min-height: calc( 100vh - 210px);
 }
 
 .invoice_view {
@@ -1057,28 +1058,28 @@ aside::-webkit-scrollbar {
   line-height: 45px;
 }
 .acts i.edit:after {
-  content: "\e3c9";
+  content: "";
 }
 .acts i.view:after {
-  content: "\e8a0";
+  content: "";
 }
 .acts i.delete:after, .acts i.trash:after {
-  content: "\e872";
+  content: "";
 }
 .acts i.inspect:after {
-  content: "\ea9b";
+  content: "";
 }
 .acts i.pay:after {
-  content: "\ef63";
+  content: "";
 }
 .acts i.map:after {
-  content: "\e55f";
+  content: "";
 }
 .acts i.up:after, .acts i.upload:after {
-  content: "\f09b";
+  content: "";
 }
 .acts i.down:after, .acts i.download:after {
-  content: "\e2c4";
+  content: "";
 }
 
 /* Tabs */
