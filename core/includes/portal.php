@@ -57,31 +57,11 @@ class PORTAL {
      */
     function login_html( string $login_redirect_url = '', string $attrs = '', string|array $ex_styles = [], string|array $styles = [], string|array $scripts = [] ): void {
 
-        if( user_logged_in() ) {
-            header('Location:'.APPURL.$login_redirect_url);
-            exit;
-        }
-
-        // Head
         $styles = is_array( $styles ) ? array_merge( $styles, [ 'portal/login', 'login' ] ) : $styles . ',portal/login,login';
-        $this->pre_html( '', $attrs, $ex_styles, $styles, $scripts );
-
-        // Content
-        global $options;
-        global $is_light;
-        if( $is_light ) {
-            $logo = isset( $options['logo_light'] ) && !empty( $options['logo_light'] ) ? 'style="background:url(\''.storage_url( $options['logo_light'] ).'\') no-repeat center / contain"' : '';
-        } else {
-            $logo = isset( $options['logo_dark'] ) && !empty( $options['logo_dark'] ) ? 'style="background:url(\''.storage_url( $options['logo_dark'] ).'\') no-repeat center / contain"' : '';
-        }
-        echo '<article><div class="access_wrap"><div class="access_panel">';
-        echo '<a href="'. APPURL . $login_redirect_url . '" class="brand" '.$logo.'></a>';
-        login_html( 'User Login / Email', 'Password', 2, 2, $login_redirect_url );
-        echo '</div></div></article>';
-
-        // Foot
         $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'portal/login', 'login' ] ) : $scripts . ',portal/login,login';
-        $this->post_html( $scripts );
+
+        $c = new CONTENT();
+        $c->login_html( $login_redirect_url, $attrs, $ex_styles, $styles, $scripts );
     }
 
     /**

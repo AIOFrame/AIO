@@ -85,6 +85,43 @@ class CONTENT {
         echo '<div class="'.$alert_position.'" data-alerts></div></body></html>';
     }
 
+    /**
+     * Renders Admin Login HTML
+     * @param string $login_redirect_url URL to redirect after login
+     * @param string $attrs Attributes to add to the login wrapper
+     * @param string|array $ex_styles External styles to add
+     * @param string|array $styles Internal styles to add
+     * @param string|array $scripts Scripts to add
+     * @return void
+     */
+    function login_html( string $login_redirect_url = '', string $attrs = '', string|array $ex_styles = [], string|array $styles = [], string|array $scripts = [] ): void {
+
+        if( user_logged_in() ) {
+            header('Location:'.APPURL.$login_redirect_url);
+            exit;
+        }
+
+        // Head
+        $this->pre_html( '', $attrs, $ex_styles, 'inputs,buttons,alerts', $styles, $scripts );
+
+        // Content
+        global $options;
+        global $is_light;
+        if( $is_light ) {
+            $logo = isset( $options['logo_light'] ) && !empty( $options['logo_light'] ) ? 'style="background:url(\''.storage_url( $options['logo_light'] ).'\') no-repeat center / contain"' : '';
+        } else {
+            $logo = isset( $options['logo_dark'] ) && !empty( $options['logo_dark'] ) ? 'style="background:url(\''.storage_url( $options['logo_dark'] ).'\') no-repeat center / contain"' : '';
+        }
+        echo '<article><div class="access_wrap"><div class="access_panel">';
+        echo '<a href="'. APPURL . $login_redirect_url . '" class="brand" '.$logo.'></a>';
+        login_html( 'User Login / Email', 'Password', 2, 2, $login_redirect_url );
+        echo '</div></div></article>';
+
+        // Foot
+        $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'data', 'login' ] ) : $scripts . ',data,login';
+        $this->post_html( $scripts );
+    }
+
     function manage_templates(): void {
         if( file_exists( APPPATH . 'templates' ) ) {
             $templates = glob( APPPATH . 'templates/*' );
