@@ -6,17 +6,17 @@ class PORTAL {
      * Renders Admin Portal
      * @param string $class Class for <body> tag
      * @param string $attrs Attributes for <body> tag
-     * @param string|array $ex_styles External Styles
      * @param string|array $styles Styles to be linked
      * @param string|array $scripts Scripts to be added
      * @return void
      */
-    function pre_html( string $class = '', string $attrs = '', string|array $ex_styles = [], string|array $styles = [], string|array $scripts = [] ): void {
+    function pre_html( string $class = '', string $attrs = '', string|array $styles = [], string|array $scripts = [] ): void {
 
         // Appearance
         $theme = $options['default_theme'] ?? '';
         $theme = $options['theme'] ?? $theme;
         $class = '';
+        global $is_light;
         if( str_contains( $theme, 'dark' ) ) {
             $class .= $theme . ' d';
             $is_light = false;
@@ -24,15 +24,26 @@ class PORTAL {
             $class .= $theme . ' l';
         }
 
-        if( is_array( $styles ) ) {
-            array_unshift( $styles, 'portal/portal' );
-            array_unshift( $styles, 'portal/ui/'.$theme );
-            array_unshift( $styles, 'bootstrap/css/bootstrap-grid' );
-        } else {
-            $styles = 'bootstrap/css/bootstrap-grid,portal/portal,portal/ui/'.$theme.','.$styles;
+        // Prepare Pre Styles
+        $pre_styles = [];
+        $pre_styles[] = 'bootstrap/css/bootstrap-grid';
+        $pre_styles[] = 'select2';
+        $pre_styles[] = 'air-datepicker';
+
+        // Prepare Post Styles
+        $styles = is_array( $styles ) ? $styles : explode( ',', $styles );
+        $styles[] = 'portal/portal';
+        $styles[] = 'portal/ui/'.$theme;
+
+        // Prepare Scripts
+        if( !empty( $scripts ) ) {
+            $scripts = is_array( $scripts ) ? $scripts : explode( ',', $scripts );
+            $scripts[] = 'jquery';
         }
+
+
         $c = new CONTENT();
-        $c->pre_html($class,$attrs,$ex_styles,'icons,cards,modal,buttons,inputs,icons,tabs,steps,color,table,alerts',$styles,$scripts);
+        $c->pre_html($class,$attrs,$pre_styles,'icons,cards,modal,buttons,inputs,icons,tabs,steps,color,table,alerts',$styles,$scripts);
 
     }
 
@@ -197,7 +208,7 @@ class PORTAL {
         ?>
         <header>
             <div id="brand_panel">
-                <?php echo $show_navigation ? '<div id="menu" class="nav_ico"><div class="mat-ico menu">menu</div><div class="mat-ico close">west</div></div>' : ''; ?>
+                <?php echo $show_navigation ? '<div id="menu" class="nav_ico"><div class="mat-ico menu">menu</div><div class="mat-ico close">close</div></div>' : ''; ?>
                 <a href="<?php echo APPURL.'admin' ?>" class="brand" <?php echo $logo; ?>></a>
                 <?php if( is_mobile() || is_tablet() ){?>
                     <div id="expand" class="nav_ico"></div>

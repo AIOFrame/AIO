@@ -10,13 +10,13 @@ class CONTENT {
      * Renders HTML5 Template
      * @param string $class Class for <body> tag
      * @param string $attrs Attributes for <body> tag
-     * @param string|array $ex_styles External Styles
+     * @param string|array $pre_styles Pre Styles
      * @param string $art Art Components to be added
      * @param string|array $styles Styles to be linked
      * @param string|array $scripts Scripts to be added
      * @return void
      */
-    function pre_html( string $class = '', string $attrs = '', string|array $ex_styles = [], string $art = '', string|array $styles = [], string|array $scripts = [] ): void {
+    function pre_html( string $class = '', string $attrs = '', string|array $pre_styles = [], string $art = '', string|array $styles = [], string|array $scripts = [] ): void {
 
         // Defines
         // $db = new DB();
@@ -54,7 +54,7 @@ class CONTENT {
 
         // Appearance
         $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'jquery' ] ) : $scripts . ',jquery';
-        get_styles( $ex_styles );
+        get_styles( $pre_styles );
         get_scripts( $scripts );
 
         if( !empty( $art ) ) {
@@ -96,8 +96,11 @@ class CONTENT {
      */
     function login_html( string $login_redirect_url = '', string $attrs = '', string|array $ex_styles = [], string|array $styles = [], string|array $scripts = [] ): void {
 
+        $redirect = 'Location:'.APPURL.$login_redirect_url;
+        echo $redirect;
         if( user_logged_in() ) {
-            header('Location:'.APPURL.$login_redirect_url);
+            elog( $redirect );
+            header($redirect);
             exit;
         }
 
