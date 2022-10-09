@@ -1243,6 +1243,15 @@ body .trumbowyg-box, body .trumbowyg-editor {
   margin: 0;
 }
 
+/* RESPONSIVE */
+@media (min-width: 320px) and (max-width: 1024px) {
+  .user_drop .user_pic {
+    left: auto;
+    top: calc(50% - 15px);
+    position: inherit;
+    margin: 0 10px;
+  }
+}
 /* Dark More */
 body.d {
   color: #fff;

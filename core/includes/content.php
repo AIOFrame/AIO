@@ -19,7 +19,6 @@ class CONTENT {
     function pre_html( string $class = '', string $attrs = '', string|array $pre_styles = [], string $art = '', string|array $styles = [], string|array $scripts = [] ): void {
 
         // Defines
-        // $db = new DB();
         global $is_light;
         $is_light = true;
         $class = isset( $_GET['add'] ) ? $class.' add' : $class;
@@ -89,23 +88,21 @@ class CONTENT {
      * Renders Admin Login HTML
      * @param string $login_redirect_url URL to redirect after login
      * @param string $attrs Attributes to add to the login wrapper
-     * @param string|array $ex_styles External styles to add
+     * @param string|array $pre_styles Pre styles to add
      * @param string|array $styles Internal styles to add
      * @param string|array $scripts Scripts to add
      * @return void
      */
-    function login_html( string $login_redirect_url = '', string $attrs = '', string|array $ex_styles = [], string|array $styles = [], string|array $scripts = [] ): void {
+    function login_html( string $login_redirect_url = '', string $attrs = '', string|array $pre_styles = [], string|array $styles = [], string|array $scripts = [] ): void {
 
-        $redirect = 'Location:'.APPURL.$login_redirect_url;
-        echo $redirect;
         if( user_logged_in() ) {
-            elog( $redirect );
-            header($redirect);
+            $redirect = 'Location:'.APPURL.$login_redirect_url;
+            header( $redirect );
             exit;
         }
 
         // Head
-        $this->pre_html( '', $attrs, $ex_styles, 'inputs,buttons,alerts', $styles, $scripts );
+        $this->pre_html( '', $attrs, $pre_styles, 'inputs,buttons,alerts', $styles, $scripts );
 
         // Content
         global $options;
