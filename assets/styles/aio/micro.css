@@ -1024,6 +1024,23 @@ select.tar {
   padding-bottom: 140px;
 }
 
+/* Backgrounds */
+.bgw {
+  background: #fff;
+}
+
+.bgb {
+  background: #000;
+}
+
+.bglg {
+  background: #ccc;
+}
+
+.bgg {
+  background: grey;
+}
+
 /* Bootstrap Columns */
 .row.ng {
   margin-left: 0;

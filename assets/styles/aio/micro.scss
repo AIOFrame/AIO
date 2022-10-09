@@ -273,6 +273,20 @@ select.tar { text-align-last: right; }
 .py120, .pv120 { padding-top: 120px; padding-bottom: 130px; }
 .py140, .pv140 { padding-top: 140px; padding-bottom: 140px; }
 
+/* Backgrounds */
+.bgw {
+  background: #fff;
+}
+.bgb {
+  background: #000;
+}
+.bglg {
+  background: #ccc;
+}
+.bgg {
+  background: grey
+}
+
 /* Bootstrap Columns */
 
 .row.ng {

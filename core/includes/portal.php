@@ -89,17 +89,14 @@ class PORTAL {
         <div class="row">
             <?php echo !is_mobile() ? '<div class="col-2"></div>' : ''; ?>
             <div class="col-12 col-lg-8">
-                <div class="tabs">
+                <div class="tabs two">
                     <div class="tab_heads" data-store>
                         <div class="tab on" data-t="#looks"><?php is_mobile() ? E('UI') : E('Appearance'); ?></div>
                         <div class="tab" data-t="#basic"><?php is_mobile() ? E('User') : E('User Details'); ?></div>
                         <div class="tab" data-t="#pass"><?php is_mobile() ? E('Pass') : E('Change Password'); ?></div>
                         <div class="tab" data-t="#sess"><?php is_mobile() ? E('Sessions') : E('Active Sessions'); ?><?php echo ' ('.count($ss).')'; ?></div>
-                        <?php if( APPDEBUG ) { ?>
-                            <div class="tab" data-t="#status">Log</div>
-                        <?php } ?>
                     </div>
-                    <div class="tab_data wbg <?php echo is_mobile() ? 'p20' : 'p40'; ?>">
+                    <div class="tab_data bgw <?php echo is_mobile() ? 'p20' : 'p40'; ?>">
 
                         <div id="looks" <?php $f->option_params('data',2,2,'','theme,input_theme'); ?>>
                             <div class="row">
@@ -256,7 +253,7 @@ class PORTAL {
                     $user_name = $_SESSION['user']['name'] ?? 'Developer';
                     $user_role = $_SESSION['user']['role'] ?? $_SESSION['user']['type'];
                     ?>
-                    <div class="user_drop">
+                    <div class="user_drop mr20">
                         <?php if( !is_mobile() && !is_tablet() ) { ?>
                         <div class="user_pic" <?php echo !empty( $user_pic ) ? 'style="background-image:url('. storage_url($user_pic) .')" class="bg"' : ''; ?>></div>
                         <div class="user_name"><?php echo $user_name; ?></div>
