@@ -192,10 +192,10 @@ class PORTAL {
      * @param bool $show_languages Show Languages Toggle / Dropdown
      * @param bool $link_to_front Shows a hyperlink to front-end
      * @param bool $show_user Show User Dropdown
-     * @param string $login_url Login URL for user icon
+     * @param string $profile_url Profile URL for user icon
      * @return void
      */
-    function render_header( bool $show_navigation = false, string $logo_url = 'admin', bool $show_alerts = false, bool $show_languages = false, bool $link_to_front = false, bool $show_user = false, string $login_url = '' ): void {
+    function render_header( bool $show_navigation = false, string $logo_url = 'admin', bool $show_alerts = false, bool $show_languages = false, bool $link_to_front = false, bool $show_user = false, string $profile_url = '' ): void {
         $db = new DB();
         global $options;
         global $is_light;
@@ -262,12 +262,12 @@ class PORTAL {
                             <h4 class="name"><?php echo $user_name; ?></h4>
                             <h4 class="role"><?php echo $user_role; ?></h4>
                             <div class="row">
-                                <div class="col tal"><a href="<?php echo APPURL.$login_url; ?>" class="r5 bsn s btn m0"><?php E('My Profile'); ?></a></div>
+                                <div class="col tal"><a href="<?php echo APPURL.$profile_url; ?>" class="r5 bsn s btn m0"><?php E('My Profile'); ?></a></div>
                                 <div class="col tar"><button class="red r5 bsn s m0" onclick="logout()"><?php E('Log out'); ?></button></div>
                             </div>
                         </div>
                         <?php } else { ?>
-                            <a href="<?php echo APPURL.$login_url; ?>" class="user_pic" <?php echo !empty( $user_pic ) ? 'style="background-image:url('. storage_url($user_pic) .')" class="bg"' : ''; ?>></a>
+                            <a href="<?php echo APPURL.$profile_url; ?>" class="user_pic" <?php echo !empty( $user_pic ) ? 'style="background-image:url('. storage_url($user_pic) .')" class="bg"' : ''; ?>></a>
                         <?php } ?>
                     </div>
                 <?php } ?>
