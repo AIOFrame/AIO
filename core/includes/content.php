@@ -14,9 +14,11 @@ class CONTENT {
      * @param string $art Art Components to be added
      * @param string|array $styles Styles to be linked
      * @param string|array $scripts Scripts to be added
+     * @param string|array $font1
+     * @param string|array $font2
      * @return void
      */
-    function pre_html( string $class = '', string $attrs = '', string|array $pre_styles = [], string $art = '', string|array $styles = [], string|array $scripts = [] ): void {
+    function pre_html( string $class = '', string $attrs = '', string|array $pre_styles = [], string $art = '', string|array $styles = [], string|array $scripts = [], string|array $font_1 = [], string|array $font_2 = [] ): void {
 
         // Defines
         global $is_light;
@@ -38,17 +40,29 @@ class CONTENT {
 
         // Fonts
         $fonts = [ [ 'MaterialIcons' ] ];
-        $font1 = $options['font_1'] ?? 'Lato';
-        $weight1 = $options['font_1_weights'] ?? '400';
-        $fonts[] = [ $font1, $weight1 ];
-        $weights = explode( ',', $weight1 );
-        if( !empty( $options['font_2'] ) ) {
-            reset_styles( $font1.','.$options['font_2'], $weights[0] );
-            $weight2 = $options['font_2_weights'] ?? '400';
-            $fonts[] = [ $options['font_2'], $weight2 ];
+        if( !empty( $font_1 ) ) {
+            $font1 = is_array( $font_1 ) ? $font_1[0] : $font_1;
+            $weight1 = is_array( $font_1 ) ? $font_1[1] : '400';
         } else {
-            reset_styles( $font1, $weights[0] );
+            $font1 = $options['font_1'] ?? 'Lato';
+            $weight1 = $options['font_1_weights'] ?? '400';
         }
+        $fonts[] = [ $font1, $weight1 ];
+        if( !empty( $font2 ) ) {
+            $font2 = is_array( $font2 ) ? $font2[0] : $font2;
+            $weight2 = is_array( $font2 ) ? $font2[1] : '400';
+        } else {
+            $font2 = $options['font_2'] ?? '';
+            $weight2 = $options['font_2_weights'] ?? '';
+        }
+        if( !empty( $font2 ) ) {
+            $fonts[] = [ $font2, $weight2 ];
+            $weights = explode( ',', $weight1 );
+            reset_styles( $font1.','.$font2, $weights[0] );
+        } else {
+            reset_styles( $font1, $weight1 );
+        }
+        //skel( $fonts );
         fonts( $fonts );
 
         // Appearance
