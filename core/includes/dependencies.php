@@ -78,7 +78,7 @@ function file_upload(): void {
  */
 function render_image( string|null $image = '', string $name = '', string $class = '', string $element = 'div' ): void {
     //skel( !file_exists( APPPATH . $logo ) );
-    $n = !file_exists( APPPATH . $image ) && !empty( $name ) ? '<span>'.$name[0].'</span>' : '';
+    $n = ''; //!file_exists( APPPATH . $image ) && !empty( $name ) ? '<span>'.$name[0].'</span>' : '';
     $image = !empty( $image ) ? ( $element == 'div' ? ' style="background-image:url(\''.storage_url( $image ).'\')"' : storage_url( $image ) ) : '';
     echo $element == 'div' ? '<div class="image '.$class.'"'.$image.'>'.$n.'</div>' : '<img class="'.$class.'" src="'.$image.'" alt="'.$name.'">';
 }

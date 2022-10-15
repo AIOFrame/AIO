@@ -283,7 +283,7 @@ select.mb0 + .select2-container {
 }
 .select2-container--default {
   .select2-selection--single {
-    padding: 12px;
+    padding: $padding-top $padding-right $padding-bottom $padding-left;
     box-sizing: border-box;
     height:auto;
     .select2-selection__arrow {

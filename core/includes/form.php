@@ -401,7 +401,7 @@ class FORM {
             echo $wrap_inputs_pre;
             if( is_assoc( $values ) ) {
                 foreach ($values as $val => $title) {
-                    $tip = $title !== '' ? 'title="'.$title.'"' : '';
+                    $tip = $title !== '' ? 'title="'.strip_tags($title).'"' : '';
                     $k = $valued ? $val . $x . '_' . $uq : str_replace(' ', '', $name) . $x;
                     $value = $valued ? $val : $title;
                     $checked = is_array( $checked ) ? $checked : explode(',',$checked);

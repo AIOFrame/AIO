@@ -113,6 +113,7 @@ class OPTIONS {
             $f->color('color_dark','Content Color on Gradient - Dark','Ex: A2A2A2',$dc3,$attr,3,'','[data-key=color_dark]');
         }
         $f->process_options('Save Brand Options','store grad','','col-12 tac');
+        file_upload();
         echo '</div>';
     }
 
