@@ -64,8 +64,6 @@ function art( array|string $arts = '', string $color1 = '222', string $color2 = 
     //$color2 = str_contains( $color2, '#' ) ? str_replace( '#', '', $color2 ) : $color2;
     //$color2 = strlen( $color2 ) == 6 ? '#' . $color2 : $color2;
 
-    $o = new OPTIONS();
-
     // Loop for Art Styles and Scripts
     $art_ui = $art_ux = '';
     $ui_dir = ROOTPATH . 'assets/styles/aio/art/';
@@ -82,7 +80,10 @@ function art( array|string $arts = '', string $color1 = '222', string $color2 = 
     }
     echo '<style>:root {';
     echo '--primary_color:'.$color1.';--secondary_color:'.$color2.';--color:'.$color.';';
-    $input_options = $o->input_options;
+    if( defined('DB_TYPE') ) {
+        $o = new OPTIONS();
+        $input_options = $o->input_options;
+    }
     //skel( $options );
     if( !empty( $input_options ) ){
         $default_options = [
