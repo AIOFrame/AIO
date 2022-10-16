@@ -93,9 +93,9 @@ class WORLD {
      * @param string $country Country to get states
      * @return array
      */
-    function states( string $country = 'AE' ): array {
+    /* function states( string $country = 'AE' ): array {
         return [];
-    }
+    } */
 
     /**
      * Returns cities of a given state and country
@@ -103,10 +103,10 @@ class WORLD {
      * @param string $country_code ISO2 code of the country Ex: AE
      * @return array
      */
-    function cities( string $state_name = '', string $country_code = 'AE' ): array {
+    /* function cities( string $state_name = '', string $country_code = 'AE' ): array {
         /* Use input instead of dropdown for now */
-        return [];
-    }
+        /* return [];
+    } */
 
     /**
      * Returns array of currencies
