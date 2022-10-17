@@ -54,6 +54,26 @@
 .mat-ico.xxl {
   font-size: 3.2rem;
 }
+.mat-ico.orange, .mat-ico.green, .mat-ico.red, .mat-ico.blue {
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent;
+}
+.mat-ico.orange {
+  background: rgb(208, 112, 0);
+  background: linear-gradient(160deg, rgb(255, 132, 0) 0%, rgb(208, 112, 0) 100%);
+}
+.mat-ico.green {
+  background: rgb(0,127,0);
+  background: linear-gradient(160deg, rgb(38,163,0) 0%,rgb(0,127,0) 100%);
+}
+.mat-ico.red {
+  background: rgb(153,1,1);
+  background: linear-gradient(160deg, rgb(153,1,1) 0%, rgb(119,0,24) 100%);
+}
+.mat-ico.blue {
+  background: rgb(0,125,204);
+  background: linear-gradient(160deg, rgb(0, 125, 204) 0%, rgb(1, 77, 122) 100%);
+}
 .ico.c {
   display: block;
   margin:auto;

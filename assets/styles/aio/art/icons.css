@@ -61,6 +61,31 @@
   font-size: 3.2rem;
 }
 
+.mat-ico.orange, .mat-ico.green, .mat-ico.red, .mat-ico.blue {
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent;
+}
+
+.mat-ico.orange {
+  background: #d07000;
+  background: linear-gradient(160deg, #ff8400 0%, #d07000 100%);
+}
+
+.mat-ico.green {
+  background: #007f00;
+  background: linear-gradient(160deg, #26a300 0%, #007f00 100%);
+}
+
+.mat-ico.red {
+  background: #990101;
+  background: linear-gradient(160deg, #990101 0%, #770018 100%);
+}
+
+.mat-ico.blue {
+  background: #007dcc;
+  background: linear-gradient(160deg, #007dcc 0%, #014d7a 100%);
+}
+
 .ico.c {
   display: block;
   margin: auto;
