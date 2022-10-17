@@ -114,6 +114,7 @@ class OPTIONS {
         }
         $f->process_options('Save Brand Options','store grad','','col-12 tac');
         file_upload();
+        get_scripts('iro,color');
         echo '</div>';
     }
 
