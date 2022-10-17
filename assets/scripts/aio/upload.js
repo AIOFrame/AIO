@@ -262,20 +262,20 @@ function file_upload(e){
         // Show or Hide previous uploads
         if( $(e).data('history') === undefined ) {
             $('#aio_up .f,#aio_up .search').hide();
-            $('.fb').click();
+            $('.fb.browse').click();
         } else {
             if( $(e).data('force-browse') !== undefined ) {
-                $('.fb').click();
+                $('.fb.browse').click();
             }
             $('#aio_up .f,#aio_up .search').show();
         }
         // Sets a custom color
         let title = $('#aio_up .files_head h3');
-        if( $(e).data('color') !== undefined && $(e).data('color') !== '' ) {
+        /*if( $(e).data('color') !== undefined && $(e).data('color') !== '' ) {
             title.css({'background-color':$(e).data('color')});
         } else {
             title.css({'background-color':'#333'});
-        }
+        } */
         // Sets a custom title
         if( $(e).data('title') !== undefined && $(e).data('title') !== '' ) {
             $('#aio_up').data('title_backup',title.html());
