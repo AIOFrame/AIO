@@ -50,13 +50,6 @@ $color-active-dark: var(--input_color_active_dark);
   }
 
 }
-[type=text].dater {
-  background-image: url('../../icons/calendar.svg');
-  background-repeat: no-repeat;
-  background-position: calc(100% - 10px) center;
-  background-size: 20px;
-  padding-right: 36px;
-}
 .aio_upload {
   border: 2px solid #eee;
   background: none;

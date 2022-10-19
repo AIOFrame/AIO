@@ -171,6 +171,13 @@ label.slide_label.on {
 input.load, input.loading {
   background:url('../../assets/loaders/tadpole.svg') no-repeat center;
 }
+[type=text].dater {
+  background-image: url('../../assets/icons/calendar.svg');
+  background-repeat: no-repeat;
+  background-position: calc(100% - 10px) center;
+  background-size: 20px;
+  padding-right: 36px;
+}
 
 /* Input Checkbox Slider */
 
