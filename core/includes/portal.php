@@ -283,9 +283,10 @@ class PORTAL {
      * @param string $root_url URL of root Dashboard
      * @param string $content Any HTML content to be shown after Search Bar
      * @param string $class Class for the wrapper aside element
+     * @param bool $gradient_icons Gradient Icons
      * @return void
      */
-    function render_menu( array $menus = [], string $root_url = 'portal', string $content = '', string $class = '' ): void {
+    function render_menu( array $menus = [], string $root_url = 'portal', string $content = '', string $class = '', bool $gradient_icons = false ): void {
         //$menus = !empty( $menus ) ? array_group_by( $menus, 'group' ) : [];
         ?>
         <aside class="menu <?php echo $class; ?>">
@@ -346,10 +347,11 @@ class PORTAL {
                                         }
                                     }
                                     if( empty( $restricted ) ) {
+                                        $ico_class = $gradient_icons ? 'mat-ico l grad-bg' : 'mat-ico l';
                                     ?>
                                     <div class="<?php echo $col; ?>">
                                         <a href="<?php echo APPURL.$url; ?>">
-                                            <?php echo '<i class="mat-ico l bg">'.$icon.'</i>' ?>
+                                            <?php echo '<i class="'.$ico_class.'">'.$icon.'</i>' ?>
                                             <div class="title"><?php E( $title ); ?></div>
                                         </a>
                                     </div>
