@@ -22,15 +22,15 @@ if( defined( 'DB_TYPE' ) ) {
     array_push(
         $initials,
         'connect/queries',              // Database query functions
-        'access',                       // User access functions like login, register
+        //'access',                       // User access functions like login, register
         'structure',                    // Basic database structure tables
-        'alerts',                       // Notifications to users
-        'data',                         // Common used data - Will be deprecated or improved
-        'files',                         // File uploader functions
-        'translation/functions',        // Translation functions
+        //'alerts',                       // Notifications to users
+        //'data',                         // Common used data - Will be deprecated or improved
+        //'files',                         // File uploader functions
+        //'translation/functions',        // Translation functions
         'components',                   // AIO Components
-        'backup',                       // Database backup / restore functions
-        'options'                       // Pre Coded Options
+        //'backup',                       // Database backup / restore functions
+        //'options'                       // Pre Coded Options
     );
 }
 
@@ -42,10 +42,48 @@ if( defined( 'CONFIG' ) ) {
     // Get functions directory and add to array
     $c = get_config();
     $app_functions_dirs = $c['function_dirs'] ?? ['functions'];
+    $features = $c['features'] ?? [];
+    $path = ROOTPATH . 'core/includes/';
 
-    // Add Portal
-    if( isset( $c['portal'] ) && $c['portal'] ) {
-        include_once( dirname( __FILE__ ) . '/includes/portal.php' );
+    // Common used data - Will be deprecated or improved
+    if( isset( $features['data'] ) ) {
+        include_once( dirname( __FILE__ ) . '/includes/data.php' );
+    }
+
+    if( defined( 'DB_TYPE' ) ) {
+
+        // Create User tables if featured
+        if( in_array( 'users', $features ) || in_array( 'auth', $features ) || in_array( 'authentication', $features ) ) {
+            include_once( $path . 'access.php' );
+            include_once( $path . 'alerts.php' );
+            include_once( $path . 'options.php' );
+        }
+
+        // Translation functions
+        if( in_array( 'translations', $features ) || in_array( 'languages', $features ) ) {
+            include_once( $path . 'translation/functions.php' );
+        }
+
+        // Portal functions
+        if( in_array( 'portal', $features ) ) {
+            include_once( $path . 'portal.php' );
+        }
+
+        // Create File uploader tables if featured
+        if( in_array( 'storage', $features ) || in_array( 'uploads', $features ) ) {
+            include_once( $path . 'files.php' );
+        }
+
+        // User Options
+        if( in_array( 'options', $features ) ) {
+            include_once( $path . 'options.php' );
+        }
+
+        // Backup Functions
+        if( in_array( 'backup', $features ) ) {
+            include_once( $path . 'backup.php' );
+        }
+
     }
 
     // Get in config and include pages if user logged in

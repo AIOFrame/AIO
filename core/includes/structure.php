@@ -28,9 +28,9 @@ if( is_array( $feats ) ) {
     }
 
     // Create File uploader tables if featured
-    if( in_array( 'log', $feats ) || in_array( 'uploads', $feats ) ) {
+    /* if( in_array( 'log', $feats ) || in_array( 'uploads', $feats ) ) {
         include_once( $path . 'storage.php' );
-    }
+    } */
 
     // Create Countries and Currencies data
     //if( in_array( 'data', $feats ) || in_array( 'countries', $feats ) || in_array( 'world', $feats ) ) {
