@@ -54,6 +54,8 @@ class OPTIONS {
         'pin' => 'Pinterest',
         'sk' => 'Skype',
         'ln' => 'LinkedIn',
+        'ps' => 'Play Store',
+        'as' => 'App Store',
         //'mob' => 'Mobile Number',
         //'ll' => 'Land Line'
     ];
