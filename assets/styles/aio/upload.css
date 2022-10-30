@@ -1,4 +1,3 @@
-@charset "UTF-8";
 .file_modal, .file_notify {
   position: fixed;
   z-index: 999;
@@ -133,7 +132,7 @@ body.d .file_modal, body.d .file_notify {
   line-height: 40px;
 }
 .file_modal .files_head .expand {
-  content: "";
+  content: "\f1ce";
 }
 .file_modal .files_head .close {
   left: auto;
@@ -396,13 +395,13 @@ body.d .file_modal .files_head {
   z-index: 3;
 }
 .files_actions .i.select:after {
-  content: "";
+  content: "\e86c";
 }
 .files_actions .i.browse:after {
-  content: "";
+  content: "\e9fc";
 }
 .files_actions .i.trash:after {
-  content: "";
+  content: "\e872";
 }
 .files_actions .i.disabled {
   background: none;
@@ -499,7 +498,7 @@ td .aio_fsp {
 
 .aio_files > .f {
   display: block;
-  padding: var(--input_padding_top) var(--input_padding_right) var(--input_padding_bottom) var(--input_padding_left);
+  padding: var(--input_padding_top) 35px var(--input_padding_bottom) var(--input_padding_left);
   background-color: var(--input_bg_light);
   border-top: var(--input_border_top) solid #888;
   border-right: var(--input_border_right) solid #888;
@@ -513,7 +512,7 @@ td .aio_fsp {
 }
 .aio_files .f > .f {
   font-size: 12px;
-  max-width: calc(100% - 34px);
+  /* max-width: calc(100% - 34px); */
   overflow: hidden;
   height: 16px;
   display: inline-block;

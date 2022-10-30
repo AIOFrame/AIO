@@ -46,7 +46,7 @@ if( defined( 'CONFIG' ) ) {
     $path = ROOTPATH . 'core/includes/';
 
     // Common used data - Will be deprecated or improved
-    if( isset( $features['data'] ) ) {
+    if( in_array( 'data', $features ) ) {
         include_once( dirname( __FILE__ ) . '/includes/data.php' );
     }
 
@@ -70,7 +70,7 @@ if( defined( 'CONFIG' ) ) {
         }
 
         // Create File uploader tables if featured
-        if( in_array( 'storage', $features ) || in_array( 'uploads', $features ) ) {
+        if( in_array( 'storage', $features ) || in_array( 'uploads', $features ) || in_array( 'upload', $features ) ) {
             include_once( $path . 'files.php' );
         }
 

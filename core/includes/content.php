@@ -232,6 +232,14 @@ class CONTENT {
         $this->post_html();
     }
 
+    function logout_html( string $tag = 'div', string $class = '', string $text = 'Logout', string $confirm = 'Are you sure to Logout?' ): void {
+        $e = Encrypt::initiate();
+        $action = 'data-action="' . $e->encrypt('logout_ajax') . '"';
+        $click = 'onclick="process_data(this)"';
+        $confirm = !empty( $confirm ) ? 'data-confirm="' . T($confirm) . '"' : '';
+        echo '<' . $tag . ' class="' . $class . '" ' . $action . ' ' . $click . ' ' . $confirm . ' data-reload="4" data-notify="4">' . $text . '</' . $tag . '>';
+    }
+
 }
 
 function store_template_ajax(): void {

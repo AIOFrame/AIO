@@ -477,7 +477,7 @@ td .aio_fsp {
 .aio_files {
   >.f {
     display:block;
-    padding: $padding-top $padding-right $padding-bottom $padding-left;
+    padding: $padding-top 35px $padding-bottom $padding-left;
     //border: 2px solid #888;
     background-color: $bg_light;
     border-top:$border-top solid #888;
@@ -493,7 +493,7 @@ td .aio_fsp {
   }
   .f>.f {
     font-size: 12px;
-    max-width: calc(100% - 34px);
+    /* max-width: calc(100% - 34px); */
     overflow: hidden;
     height: 16px;
     display:inline-block;

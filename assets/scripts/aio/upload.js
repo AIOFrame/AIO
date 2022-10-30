@@ -383,8 +383,8 @@ function process_upload(fs) {
                     return [ 1, $('#aio_up .upload_success').html(), d ];
                 } else {
                     console.log(data);
-                    if( r[1] !== undefined ) {
-                        uploader_notify( r[1] );
+                    if( d[1] !== undefined ) {
+                        uploader_notify( d[1] );
                     }
                     return [ 1, 'File Uploaded Failed', 'There was an issue while sending file to server, please try again' ];
                 }
