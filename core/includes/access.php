@@ -320,7 +320,7 @@ class ACCESS {
                 $this->mail($user['user_email'], 'Your password has been updated!', $content);
                 return $update ? [ 1, T('Password updated successfully!') ] : [ 0, T('Failed to update password, please try again later') ];
             } else {
-                return [ 0, T('The password do not match registered user password!') ];
+                return [ 0, T('The current password do not match registered user password!') ];
             }
         } else {
             return [ 0, T('User not found!') ];
