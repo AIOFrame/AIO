@@ -232,12 +232,20 @@ class CONTENT {
         $this->post_html();
     }
 
+    /**
+     * Logout HTML
+     * @param string $tag HTML element type
+     * @param string $class Class for the logout element
+     * @param string $text Logout text
+     * @param string $confirm Confirmation message if needed
+     * @return void
+     */
     function logout_html( string $tag = 'div', string $class = '', string $text = 'Logout', string $confirm = 'Are you sure to Logout?' ): void {
         $e = Encrypt::initiate();
         $action = 'data-action="' . $e->encrypt('logout_ajax') . '"';
         $click = 'onclick="process_data(this)"';
         $confirm = !empty( $confirm ) ? 'data-confirm="' . T($confirm) . '"' : '';
-        echo '<' . $tag . ' class="' . $class . '" ' . $action . ' ' . $click . ' ' . $confirm . ' data-reload="4" data-notify="4">' . $text . '</' . $tag . '>';
+        echo '<' . $tag . ' class="' . $class . '" ' . $action . ' ' . $click . ' ' . $confirm . ' data-reload="2" data-notify="2">' . $text . '</' . $tag . '>';
     }
 
 }
