@@ -316,6 +316,13 @@ class PORTAL {
                             }
                         }
                     }
+                    if( !empty( $menu_set['type'] ) ) {
+                        $user_types_set = explode( ',', $menu_set['type'] );
+                        $user_type = $_SESSION['user']['type'] ?? '';
+                        if( !in_array( $user_type, $user_types_set ) ) {
+                            $group_restricted[] = 1;
+                        }
+                    }
                     if( empty( $group_restricted ) ) {
                         //skel( $menu_set );
                     ?>
@@ -341,7 +348,6 @@ class PORTAL {
                                     }
                                     if( isset( $menu['type'] ) ) {
                                         $user_types = explode( ',', $menu['type'] );
-                                        $user_type = $_SESSION['user']['type'] ?? '';
                                         if( !in_array( $user_type, $user_types ) ) {
                                             $restricted[] = 1;
                                         }
