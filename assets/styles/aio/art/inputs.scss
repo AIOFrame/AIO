@@ -272,6 +272,7 @@ textarea {
     .select2-selection__rendered {
       padding-left: 0;
       padding-right: 12px;
+      line-height: 1.4rem;
     }
   }
   .select2-dropdown {
@@ -361,9 +362,6 @@ select.mb0 + .select2-container {
   .select2-selection--multiple {
     border:1px solid #ddd;
   }
-}
-.select2-selection__rendered {
-  line-height:normal !important;
 }
 .select2-selection {
   outline:none;

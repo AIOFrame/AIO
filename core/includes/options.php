@@ -334,6 +334,16 @@ class OPTIONS {
     }
 
     /**
+     * Returns saved social option values
+     * @return array
+     */
+    function get_social_options(): array {
+        $keys = $this->social_options;
+        $db = new DB();
+        return $db->get_options( $keys );
+    }
+
+    /**
      * Renders Stripe API Options
      * @return void
      */
