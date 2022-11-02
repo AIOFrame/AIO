@@ -138,15 +138,16 @@ class FORM {
             $post = '</div>';
         }
         $ph = $placeholder !== '' ? ' placeholder="'.$placeholder.'"' : '';
-        $at = $attrs !== '' ? 'title="'.$label.'" '.$attrs : 'title="'.$label.'"';
-        $id = !empty( $identity ) ? ( is_array($identity) ? $identity[0] : $identity.'_'.$rand ) : '';
         $name = is_array( $identity ) ? $identity[1] : $identity;
+        $id = !empty( $identity ) ? ( is_array($identity) ? $identity[0] : $identity.'_'.$rand ) : '';
+        $n = $name !== '' ? $name : $id;
+        $hidden_label = empty( $label ) ? $n : $label;
+        $at = $attrs !== '' ? 'title="'.$hidden_label.'" '.$attrs : 'title="'.$hidden_label.'"';
         if( $type == 'textarea' ) {
             $va = $value !== '' ? $value : '';
         } else {
             $va = $value !== '' ? ' value="'.$value.'"' : '';
         }
-        $n = $name !== '' ? $name : $id;
         $nn = str_contains( $attrs, 'no_post' ) ? '' : ' name="'.$n.'"';
         switch( $type ){
             case 'textarea':

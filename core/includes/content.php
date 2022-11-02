@@ -83,7 +83,7 @@ class CONTENT {
         $c = Encrypt::initiate();
 
         // Attributes
-        $attrs = $attrs.' data-out="'. $c->encrypt('logout_ajax').'"';
+        //$attrs = $attrs.' data-out="'. $c->encrypt('logout_ajax').'"';
 
         // </head>
         echo '</head><body ';

@@ -335,10 +335,12 @@ function process_data( e ){
         $(p).removeClass('load');
         console.log(required);
         $(e).attr('disabled',false).removeClass('load');
-        let empty_note = $(p).data('empty') !== undefined ? $(p).data('empty') : 'The following fields seem to be empty!';
+        let empty_note = $(p).data('empty') !== undefined ? $(p).data('empty') : 'The highlighted fields seem to be empty!';
         empty_note += '<div class="fields">';
         $(required).each(function(i,req){
-            empty_note += '<div class="field">'+req+'</div>';
+            if( req !== '' && req !== undefined ) {
+                empty_note += '<div class="field">'+req+'</div>';
+            }
         });
         empty_note += '</div>';
         notify( empty_note );
@@ -350,10 +352,12 @@ function process_data( e ){
         $(p).removeClass('load');
         console.log(invalid);
         $(e).attr('disabled',false).removeClass('load');
-        let invalid_note = $(p).data('invalid') !== undefined ? $(p).data('invalid') : 'The following fields seem to be invalid!';
+        let invalid_note = $(p).data('invalid') !== undefined ? $(p).data('invalid') : 'The highlighted fields seem to be invalid!';
         invalid_note += '<div class="fields">';
         $(invalid).each(function(i,req){
-            invalid_note += '<div class="field">'+req+'</div>';
+            if( req !== '' && req !== undefined ) {
+                invalid_note += '<div class="field">'+req+'</div>';
+            }
         });
         invalid_note += '</div>';
         notify( invalid_note );
@@ -372,8 +376,12 @@ function process_data( e ){
     let d = get_values( p, data, pre );
     elog(d);
     d.action = $(e).data('action');
-    d.t = $(p).data('t');
-    d.pre = pre;
+    if( $(p).data('t') !== '' && $(p).data('t') !== undefined ) {
+        d.t = $(p).data('t');
+    }
+    if( $(p).data('pre') !== '' && $(p).data('pre') !== undefined ) {
+        d.pre = pre;
+    }
     elog(d);
     /* let a = $(p).data('a');
     if( a !== undefined && a !== null ) {
