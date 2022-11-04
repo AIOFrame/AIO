@@ -21,7 +21,7 @@ function get_values( parent, attribute, prepend ) {
 
     let data = {};
 
-    // Loop thru the input elements
+    // Loop through the input elements
     $(parent).find(":input"+a+":not(:button)","select"+a,"textarea"+a).each(function () {
 
         // Define Pre and Key
@@ -30,7 +30,9 @@ function get_values( parent, attribute, prepend ) {
         name = name !== undefined ? name.replace('[]',''): undefined;
         let key = $(this).data('key');
         let id = $(this).attr('id');
-        if( key !== undefined )
+        if( $(this).data('array') !== undefined )
+            pre_key = pre + $(this).data('array');
+        else if( key !== undefined )
             pre_key = pre + key;
         else if ( id !== undefined )
             pre_key = pre + id;
@@ -38,6 +40,8 @@ function get_values( parent, attribute, prepend ) {
             pre_key = pre + name;
         else
             pre_key = pre + $(this).attr('class');
+        console.log("pre Key");
+        console.log(pre_key);
 
         let m = $(parent).find( '[name=' + name + ']' );
 
@@ -83,22 +87,23 @@ function get_values( parent, attribute, prepend ) {
             value = $(this).val().join(", ");
         }
         if( $(this).data('array') !== undefined ) {
+            //elog(key);
             //elog(pre_key);
             let arr = $(this).data('array');
             key = $(this).val() !== '' ? $(this).attr('name') : '';
             key = key === '' ? $(this).attr('id') : key;
             let key2 = $(this).data('key') !== undefined ? $(this).data('key') : key;
-            data[arr] = data[arr] === undefined ? {} : data[arr];
-            $(this).val() !== '' ? data[ arr ][ key2 ] = value : '';
+            data[pre_key] = data[pre_key] === undefined ? {} : data[pre_key];
+            $(this).val() !== '' ? data[ pre_key ][ key2 ] = value : '';
             //return true;
         } else {
             // Finally push the value
             data[ pre_key ] = value;
         }
 
-        /* elog(key);
+        elog(key);
         elog( 'Updated:' );
-        elog( data ); */
+        elog( data );
 
     });
     $.each(data,function(a,b){

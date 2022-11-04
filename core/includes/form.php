@@ -807,6 +807,8 @@ class FORM {
         echo $pre.'<'.$html.' onclick="trash_data(this,\''.$c->encrypt('trash_data_ajax').'\',\''.$c->encrypt($table).'\',\''.$c->encrypt($logic).'\','.$notify_time.','.$reload_time.')" class="'.$class.'" '.$title.' '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$post;
     }
 
+    // TODO: disable_html() similar to trash_html()
+
     /**
      * Renders HTML to disable record from database
      * @param string $table Table name
