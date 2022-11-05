@@ -11,7 +11,8 @@ class FORM {
      * @param bool $translate Translate the option text or not
      */
     function select_options( array $options = [], string|null $selected = '', string $placeholder = '', bool $keyed = false, bool $translate = false ): void {
-        $s = $selected;
+        $s = explode( ',', str_replace( ' ', '', $selected ) );
+        skel( $s );
         $placeholder = $translate ? T($placeholder) : $placeholder;
         if( $placeholder !== '' ){
             echo empty($s) ? '<option disabled selected>'.$placeholder.'</option>' : '<option disabled>'.$placeholder.'</option>';
@@ -35,6 +36,7 @@ class FORM {
                     $text = $translate ? T($data) : $data;
                     $value = $keyed ? $value : $data; //|| $k !== $t
                 }
+                //skel( in_array( $value, $s ) );
                 if( is_array( $s ) && in_array( $value, $s ) ) {
                     $sel = 'selected';
                 } else if( $value == $s ) {

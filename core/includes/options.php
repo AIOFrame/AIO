@@ -293,7 +293,7 @@ class OPTIONS {
         $f->text('city','City','Ex: Burlington',$city,'data-add',3);
         $f->text('state','State','Ex: Burlington',$state,'data-add',3);
         $f->text('postal','Postal Code','Ex: 110250',$post,'data-add',3);
-        $f->select('country','Country','Choose Country...',$countries,$country,'class="select2" data-add',3,'',0,0);
+        $f->select2('country','Country','Choose Country...',$countries,$country,'data-add',3);
         $f->process_options('Save Options','store grad','','col-12 tac');
         echo '</div>';
     }
@@ -350,6 +350,21 @@ class OPTIONS {
     function stripe_options(): void {
         $s = new STRIPE();
         $s->options();
+    }
+
+    function language_options(): void {
+        $f = new FORM();
+        $db = new DB();
+        $all_languages = get_languages();
+        unset( $all_languages['en'] );
+        $languages = $db->get_option('languages');
+        echo '<div class="row"';
+        $f->option_params('al',2,2,['languages','languages_updated']);
+        echo '>';
+        $f->select2('languages','Select Languages for Translations','Choose Languages...',$all_languages,$languages,'data-al multiple',12,1);
+        $f->text('languages_updated','','',1,'hidden data-al');
+        $f->process_options('Save Options','store grad','','col-12 tac');
+        echo '</div>';
     }
 
 }

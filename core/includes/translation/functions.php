@@ -13,10 +13,10 @@ if( !empty( $_SESSION['lang'] ) && defined( 'BASELANG' ) && $_SESSION['lang'] !=
 
     // Load translations from database
     $db_trans = !is_array( $l ) ? $db->select( 'translations', 't_base, t_'.$l ) : [];
-    $db_trans = !empty( $db_trans ) && is_array( $db_trans ) ? $db_trans : [];
+    $db_trans = !empty( $db_trans ) ? $db_trans : [];
 
     // Add translations to global variable $translated
-    if( !empty( $db_trans ) && is_array( $db_trans ) ){
+    if(!empty( $db_trans )){
 
         $new_data = [];
         foreach( $db_trans as $t) {
@@ -32,7 +32,7 @@ if( !empty( $_SESSION['lang'] ) && defined( 'BASELANG' ) && $_SESSION['lang'] !=
 }
 
 
-function save_untranslated( $string ){
+function save_untranslated( $string ): void {
     if( isset( $_SESSION['lang'] ) ) {
         global $untranslated_words;
         $untranslated_words[] = $string;
@@ -171,16 +171,16 @@ function app_languages() {
     return $final_languages; */
     $db = new DB();
     global $options;
-    $app_langs = $options['app_languages'] ?? '';
+    $languages = $options['languages'] ?? '';
 
-    if( !empty( $app_langs ) ) {
-        $n = unserialize( $app_langs );
+    if( !empty( $languages ) ) {
+        $n = explode( ',', str_replace( ' ', '', $languages ) );
         if( is_array( $n ) ) {
-            $langs = get_languages();
-            if (is_array($langs)) {
+            $all_languages = get_languages();
+            if( !empty( $all_languages ) ) {
                 $data['en'] = 'English';
                 foreach ($n as $ln) {
-                    $data[$ln] = $langs[$ln];
+                    $data[$ln] = $all_languages[$ln];
                 }
                 return array_unique( $data );
             } else {
@@ -190,6 +190,29 @@ function app_languages() {
     } else {
         return [];
     }
+}
+
+/**
+ * Renders languages picker from preset languages in options
+ * @param string $wrap_class Wrap class for languages
+ * @param string $class Each language of the app
+ * @param bool $full_title Toggle full title or half
+ * @return void
+ */
+function language_picker( string $wrap_class = 'languages', string $class = '', bool $full_title = true ): void {
+    $c = Encrypt::initiate();
+    $i18ns = app_languages();
+    echo '<div class="'.$wrap_class.'" data-language="'.$c->encrypt('set_language_ajax').'">';
+    if( !empty( $i18ns ) ) {
+        $i18ns = array_unique($i18ns);
+        foreach ($i18ns as $v => $t) {
+            $lang = $_SESSION['lang'] ?? 'en';
+            $c = $lang == $v ? 'on cp' : 'cp';
+            $t = $full_title ? $t : $v;
+            echo '<div class="'.$c.' '.$class.'" data-lang="' . $v . '">' . $t . '</div>';
+        }
+    }
+    echo '</div>';
 }
 
 /**

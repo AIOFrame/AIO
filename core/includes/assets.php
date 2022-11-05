@@ -628,24 +628,6 @@ function render_details( string $title = '', array $data = [], int $col = 4 ) {
     echo '</div></div>';
 }
 
-function language_picker(): void {
-    $db = new DB();
-    $c = Encrypt::initiate();
-    global $options;
-    $i18ns = $options['languages'] ?? '';
-    $i18ns = !empty( $i18ns ) ? explode( ',', str_replace( ' ', '', $i18ns ) ) : [];
-    $base = $options['base_language'] ?? 'English';
-    $i18ns = array_merge( [ $base ], $i18ns );
-    echo '<div class="languages" data-language="'.$c->encrypt('set_language_ajax').'">';
-    if( !empty( $i18ns ) ) {
-        $i18ns = array_unique($i18ns);
-        foreach ($i18ns as $v) {
-            echo '<div data-lang="' . $v . '">' . $v . '</div>';
-        }
-    }
-    echo '</div>';
-}
-
 /**
  * Renders pagination
  * @param int $page Current page

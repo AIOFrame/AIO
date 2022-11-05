@@ -41,3 +41,7 @@ function elog( string|array $log, string $type = 'log', string $line = '', strin
     //$log = is_object( $log ) ? var_dump( $log ) : $log;
 
 }
+
+function clear_log_ajax(): void {
+    unlink( APPPATH . 'events.log' ) ? es('Successfully removed log file!') : ef('Failed to remove log file!');
+}

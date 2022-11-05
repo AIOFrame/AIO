@@ -342,6 +342,11 @@ select.mb0 + .select2-container {
   outline: none;
 }
 
+.select2-hidden-accessible {
+  font-size: 0;
+  display: none;
+}
+
 /* COLOR PICKER */
 [data-color-picker] {
   cursor: pointer;

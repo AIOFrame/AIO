@@ -28,7 +28,7 @@ if( defined( 'DB_TYPE' ) ) {
         //'data',                         // Common used data - Will be deprecated or improved
         //'files',                         // File uploader functions
         //'translation/functions',        // Translation functions
-        'components',                   // AIO Components
+        //'components',                   // AIO Components
         //'backup',                       // Database backup / restore functions
         //'options'                       // Pre Coded Options
     );

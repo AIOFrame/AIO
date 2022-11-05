@@ -5,7 +5,8 @@ $(document).ready(function(){
         let title = $(this).data('store') !== '' ? $(this).data('store') + '_' : '_';
         let tab = localStorage[ page_path + title + 'tab'];
         if( tab !== undefined ){
-            setTimeout(function(){ $('[data-t="' + tab + '"]').click(); },200);
+
+            setTimeout(function(){ $('[data-tab="' + tab + '"]').click(); },200);
         }
     });
 
@@ -18,10 +19,10 @@ $(document).ready(function(){
             let title = $(this).parent().data('store') !== '' ? $(this).parent().data('store') + '_' : '_';
             localStorage[ page_path + title + 'tab' ] = $(this).data('tab');
         }
-        if( $(this).parent().data('save') !== undefined ){
+        /* if( $(this).parent().data('save') !== undefined ){
             let title = $(this).parent().data('save') !== '' ? $(this).parent().data('save') + '_' : '_';
             localStorage[ page_path + title + 'tab' ] = $(this).data('tab');
-        }
+        } */
     })
     // Next Step
     .on('click', '.tabs .next', function () {
