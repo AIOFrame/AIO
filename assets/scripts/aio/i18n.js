@@ -20,7 +20,7 @@ $(document).ready(function(){
     });*/
 
     // Type in Search
-    $('body').on('keyup','.search input',function(e){
+    $('body').on('keyup','[name=lang_search]',function(e){
         var sv = $(this).val();
         //elog(sv);
         $.each($('#translations > div'),function(a,b){
@@ -47,7 +47,7 @@ $(document).ready(function(){
     // Edit Sentence
     .on('click','#aio_translations > div > div',function(e){
         $('#aio_translations > div').removeClass('on');
-        var tr = $(this).parent('div');
+        let tr = $(this).parent('div');
         tr.addClass('on');
         $('#aio_lang_editor').addClass('on').data('row',tr.index());
         $('#aio_lang_editor #string').val(tr.find('div:nth-child(1)').html());
@@ -121,14 +121,14 @@ function update_translation() {
     }
 
     // Update Translations
-    let ln = $('#lang_select').val();
+    let ln = $('[name=lang_select]').val();
     let d = { 'action': $('#aio_translations').data('update'), 'language': ln, 'string': $('#string').val(), 'translation': $('#translation').val() };
     elog(d);
 
     if( ln !== null ) {
         $.post( location.origin, d, function(re){
             if( re = JSON.parse(re) ){
-                notify(re[1]);
+                notify(re[1],2);
                 if( re[0] === 1 ) {
                     $('#aio_lang_editor').removeClass('on');
                     console.log($(r));
@@ -136,7 +136,7 @@ function update_translation() {
             }
         });
     } else {
-        notify('Please select a language and then add translations!');
+        notify('Please select a language and then add translations!',2);
     }
     //$('#translations tbody tr').data('edited','');
     //}

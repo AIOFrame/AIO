@@ -517,7 +517,7 @@ class MAIL {
             $smtp_port = $os['smtp_port'] ?? '';
             $smtp_username = $os['smtp_username'] ?? '';
             $smtp_password = $os['smtp_password'] ?? '';
-            $f->select('smtp','SMTP Gateway','Choose gateway...', $mail_providers, $smtp,$attr.' class="select2"',4,1);
+            $f->select('smtp','SMTP Gateway','Choose gateway...', $mail_providers, $smtp,$attr.' class="select2"',4,1,0);
             $f->texts([
                 ['smtp_server','SMTP Server','',$smtp_server],
                 ['smtp_port','SMTP Port','',$smtp_port],

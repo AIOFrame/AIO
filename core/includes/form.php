@@ -26,7 +26,7 @@ class FORM {
                 if( is_array( $data ) && isset( $data['text'] ) && isset( $data['value'] ) ) {
                     //skel( $data );
                     $text = $translate ? T( $data['text'] ) : $data['text'];
-                    $value = $keyed ? T( $data['value'] ) : $data['value'];
+                    $value = $data['value'];
                     $attrs = array_diff_key( $data, array_flip( [ 'text', 'value' ] ));
                     //skel( $attrs );
                     foreach( $attrs as $ak => $av ) {
@@ -49,7 +49,7 @@ class FORM {
             foreach( $options as $k => $o ) {
                 $sel = '';
                 if( is_array( $o ) ) {
-                    $k = $translate ? T( $o[0] ) : $o[0];
+                    $k = $o[0];
                     $t = isset( $o[1] ) && $o[1] !== $o[0] ? $o[1] : $o[0];
                     $d = $o[2] ?? '';
                     $d = is_array( $d ) ? 'data-data=\''.json_encode( $d ).'\'' : 'data-data=\''.$d.'\'';
@@ -68,6 +68,7 @@ class FORM {
                         $sel = 'selected';
                     }
                 }
+                $t = $translate ? T( $t ) : $t;
                 if( $t == 'select2_placeholder' ) { echo '<option></option>'; continue; }
                 echo '<option '.$d.' value="' . $k . '" ' . $sel . '>' . $t . '</option>';
             }

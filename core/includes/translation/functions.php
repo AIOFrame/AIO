@@ -57,12 +57,54 @@ function save_untranslated( $string ): void {
  * @param string $page Particular page of this translation
  * @return void
  */
-function update_translation_ajax( string $string = '', string $language = '', string $translation = '', string $page = '' ): void {
+function update_translation( string $string = '', string $language = '', string $translation = '', string $page = '' ): void {
 
     $string = $_POST['string'] ?? $string;
     $language = $_POST['language'] ?? $language;
     $translation = $_POST['translation'] ?? $translation;
     $page = $_POST['page'] ?? $page;
+
+    $db = new DB();
+    $exist = $db->select( 'translations', '', 'BINARY t_base = "'.$string.'"' );
+
+    if( !empty( $language ) && !empty( $translation ) && !empty( $string ) ) {
+
+        if( $exist ) {
+
+            $keys = ['t_base'];
+            $vals = [$string];
+            if( $translation !== '' ){
+                $keys[] = 't_'.$language;
+                $vals[] = $translation;
+            }
+            if( $page !== '' ){
+                $keys[] = 't_page';
+                $vals[] = $page;
+            }
+            $trans = $db->update( 'translations', $keys, $vals, 't_base = "'.$string.'"');
+
+        } else {
+
+            $trans = $db->insert( 'translations', ['t_base','t_'.$language,'trans_page'],[$string,$translation,$page]);
+
+        }
+
+    }
+
+    isset( $trans ) && $trans ? ES('Translation Stored') : EF('Translation Not Added');
+
+}
+
+/**
+ * AJAX Updates as translation string to database
+ * @return void
+ */
+function update_translation_ajax(): void {
+
+    $string = $_POST['string'] ?? '';
+    $language = $_POST['language'] ?? '';
+    $translation = $_POST['translation'] ?? '';
+    $page = $_POST['page'] ?? '';
 
     $db = new DB();
     $exist = $db->select( 'translations', '', 'BINARY t_base = "'.$string.'"' );

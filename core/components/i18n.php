@@ -37,7 +37,7 @@ if( ( isset( $_POST['lang_select'] ) && $_POST['lang_select'] == 'add' ) || empt
         <?php
         $f->select( 'lang_select', 'Select Language', 'Select Language', array_merge( [ 'add'=>'Add Language' ], $app_languages ), $lang, 'onchange="this.form.submit()" class="select2"', 4, 1 );
         $f->text( 'lang_search', 'Search Strings...', 'Search...', '', '', 4 );
-        $f->select( 'lang_page', 'Select Page...', 'Select Page...', array_merge( ['All'] , $pages ), $page, 'onchange="this.form.submit()" class="select2"', 4, '', 1, 0 );
+        $f->select( 'lang_page', 'Select Page...', 'Select Page...', array_merge( ['All'] , $pages ), $page, 'onchange="this.form.submit()" class="select2"', 4 );
         ?>
     </form>
     <div id="i18n_wrap" data-save-scroll>
@@ -60,7 +60,7 @@ if( ( isset( $_POST['lang_select'] ) && $_POST['lang_select'] == 'add' ) || empt
                 echo isset( $ts['t_'.$lang] ) ? '<div>'.$ts['t_'.$lang].'</div>' : '<div></div>';
                 echo isset( $ts['t_page'] ) ? '<div>'.APPURL.$ts['t_page'].'</div>' : '<div></div>';
 
-                echo '<i data-id="'.$cry->encrypt($ts['t_id']).'" class="ico trash"></i>';
+                echo '<i data-id="'.$cry->encrypt($ts['t_id']).'" class="mat-ico red">delete</i>';
                 echo '</div>';
 
             }
