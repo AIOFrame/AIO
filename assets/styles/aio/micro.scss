@@ -316,8 +316,6 @@ select.tar { text-align-last: right; }
 [dir=rtl] {
   .tal { text-align:right }
   .tar { text-align:left }
-  .jcs { justify-content: flex-end; }
-  .jce { justify-content: flex-start; }
   .df.l { justify-content: flex-end }
   .df.r { justify-content: flex-start }
   select.tar { text-align-last: left; }

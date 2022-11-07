@@ -1107,12 +1107,6 @@ select.tar {
 [dir=rtl] .tar {
   text-align: left;
 }
-[dir=rtl] .jcs {
-  justify-content: flex-end;
-}
-[dir=rtl] .jce {
-  justify-content: flex-start;
-}
 [dir=rtl] .df.l {
   justify-content: flex-end;
 }
