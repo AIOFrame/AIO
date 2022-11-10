@@ -292,7 +292,7 @@ class DB {
 
     /**
      * Select data from Table
-     * @param string $table Table Name
+     * @param string|array $table Table name or names with join [ 'customers', [ 'addresses', 'address_customer', 'customer_id' ] ]
      * @param string $cols Columns to get data, Ex: 'user_name,user_dob'
      * @param string $where Where logic, Ex: 'user_id = 12'
      * @param int $limit Limit quantity of rows
@@ -303,36 +303,39 @@ class DB {
      * @param string $sort Sort Order by Column Name
      * @return array
      */
-    function select( string $table, string $cols = '*', string $where = '', int $limit = 0, int $offset = 0 , string $group = '', bool $count = false, string $order_by = '', string $sort = '' ): array {
+    function select( string|array $table, string $cols = '*', string $where = '', int $limit = 0, int $offset = 0 , string $group = '', bool $count = false, string $order_by = '', string $sort = '' ): array {
         $db = $this->connect();
         if( $db ) {
             $cols = $cols == "" ? "*" : $cols;
             if ( !is_array( $table ) ) {
-                $o = $count ? "SELECT COUNT('" . $cols . "') FROM $table " : "SELECT " . $cols . " FROM $table ";
+                $query = $count ? "SELECT COUNT('" . $cols . "') FROM $table " : "SELECT " . $cols . " FROM $table ";
                 $target = $table;
             } else {
-                $o = "SELECT " . $cols . " FROM $table[1] $table[0] $table[2] ON $table[1].$table[3] = $table[2].$table[4] ";
-                $target = $table[1];
+                //skel( $table );
+                $target = $table[0];
+                unset( $table[0] );
+                $query = "SELECT " . $cols . " FROM " . $target . " ";
+                foreach( $table as $t ) {
+                    $query .= "JOIN " . $t[0] . " ON " . $t[0] . "." . $t[1] . " = " . $target . "." . $t[2] . " ";
+                }
             }
             DB_TYPE == 'mssql' ? $where = str_replace( '"', "'", $where ) : '';
-            $o .= !empty($where) && $where !== '' ? ' WHERE ' . $where : '';
-            $o .= !empty($group) ? "GROUP BY " . $group : "";
+            $query .= !empty($where) && $where !== '' ? ' WHERE ' . $where : '';
+            $query .= !empty($group) ? "GROUP BY " . $group : "";
             //$o .= !empty($order_by) && $order_by !== '' ?  $order_by : '';
-            $o .= !empty( $sort ) && $sort !== '' && !empty( $order_by ) && $order_by !== '' ? ' ORDER BY ' . $sort . ' ' . $order_by : '';
-            $o .= $limit >= 1 ? ( DB_TYPE == 'mssql' ? '' : ' LIMIT ' . $limit ) : '';
-            $o .= $offset > 1 ? ( DB_TYPE == 'mssql' ? ' OFFSET ' . $offset . ' ROWS' : ' OFFSET ' . $offset ) : '';
+            $query .= !empty( $sort ) && $sort !== '' && !empty( $order_by ) && $order_by !== '' ? ' ORDER BY ' . $sort . ' ' . $order_by : '';
+            $query .= $limit >= 1 ? ( DB_TYPE == 'mssql' ? '' : ' LIMIT ' . $limit ) : '';
+            $query .= $offset > 1 ? ( DB_TYPE == 'mssql' ? ' OFFSET ' . $offset . ' ROWS' : ' OFFSET ' . $offset ) : '';
 
             $df = debug_backtrace();
 
-            elog( $o, 'select', $df[0]['line'], $df[0]['file'], $target );
+            elog( $query, 'select', $df[0]['line'], $df[0]['file'], $target );
 
-            if( $db ) {
-                try {
-                    $q = $db->query( $o );
-                } catch ( PDOException $e ) {
-                    elog( $e, 'error' );
-                    return [];
-                }
+            try {
+                $q = $db->query( $query );
+            } catch ( PDOException $e ) {
+                elog( $e, 'error' );
+                return [];
             }
             $data = [];
             if( $q ) {
