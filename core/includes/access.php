@@ -681,12 +681,12 @@ function access_change_ajax(): void {
  * Renders frontend code for user login
  * @param string $login_title Replacement text for default "Username" title
  * @param string $pass_title Replacement text for default "Password" title
- * @param string $back_title Replacement text for default "Back to Login" title
  * @param int|string $reload_in Seconds to Reload Page
  * @param int|string $notify_for Seconds to Notify
  * @param string $redirect_to Page to redirect to upon success
+ * @param string $class Login, Forgot Password button class
  */
-function login_html( string $login_title = 'Username or Email', string $pass_title = 'Password', int|string $reload_in = 1, int|string $notify_for = 1, string $redirect_to = '' ): void {
+function login_html( string $login_title = 'Username or Email', string $pass_title = 'Password', int|string $reload_in = 1, int|string $notify_for = 1, string $redirect_to = '', string $class = '' ): void {
     if( user_logged_in() ) {
         return;
     }
@@ -703,7 +703,7 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
             $f->input('password','password',$pass_title,$pass_title,'','onkeyup="aio_login_init(event)" data-log required autocomplete="current-password"','<div class="pass_wrap">','</div>');
             ?>
         </form>
-        <button id="aio_login_init" class="grad" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_login_ajax' ); ?>"><?php E('Login'); ?></button>
+        <button id="aio_login_init" class="grad <?php echo $class; ?>" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_login_ajax' ); ?>"><?php E('Login'); ?></button>
         <div class="more" onclick="aio_forgot_view()"><?php E('Forgot Password ?'); ?></div>
     </div>
     <div class="forgot_wrap" data-t data-pre="forgot_" data-data="forg" data-notify="3" data-reload="3" data-reset="forg" style="display:none;">
@@ -713,7 +713,7 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
             $f->text('username',$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"','<div>','</div>');
             ?>
         </div>
-        <button id="aio_forgot_init" class="grad" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_forgot_ajax' ); ?>"><?php E('Reset my Password'); ?></button>
+        <button id="aio_forgot_init" class="grad <?php echo $class; ?>" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_forgot_ajax' ); ?>"><?php E('Reset my Password'); ?></button>
         <div class="more" onclick="aio_login_view()"><?php E( 'Return to Login' ); ?></div>
     </div>
     <?php
@@ -801,12 +801,9 @@ function register_html_pre( int|string $reload_in = 3, int|string $notify_for = 
 /**
  * Renders frontend post-wrap html for user registration
  **/
-function register_html_post(): void {
+function register_html_post( string $class = '' ): void {
     $cry = Encrypt::initiate();
-    ?>
-        <button onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_register_ajax' ); ?>"><?php E('Register'); ?></button>
-    </div>
-    <?php
+    echo '<button class="'.$class.'" onclick="process_data(this)" data-action="' . $cry->encrypt( 'access_register_ajax' ). '">'. T('Register').'</button></div>';
 }
 
 /**

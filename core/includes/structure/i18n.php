@@ -19,7 +19,7 @@ if( is_array( $i18ns ) && !empty( $i18ns ) ) {
     }
 }
 if( !isset( $options['languages_updated'] ) || $options['languages_updated'] == 1 ) {
-    skel( $tables );
+    //skel( $tables );
     $db->create_tables( $tables );
     $db->update_option( 'languages_updated', 2, 0, 1 );
 }

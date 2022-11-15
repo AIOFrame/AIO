@@ -561,7 +561,7 @@ input + .valid.on {
   padding-left: 30px;
 }
 .auto_filters .filter:after {
-  content: "";
+  content: "filter_alt";
   position: absolute;
   top: 50%;
   transform: translateY(-50%);

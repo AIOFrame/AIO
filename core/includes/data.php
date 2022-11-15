@@ -59,7 +59,7 @@ class RANGE {
 
 // Returns any given date or current date in format
 
-function easy_date( $date = '', $format = 'd M, Y' ) {
+function easy_date( $date = '', $format = 'd M, Y' ): string {
     if( $date == '' ){
         $date = date('Y-m-d H:i:s');
     }

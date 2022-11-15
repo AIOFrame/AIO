@@ -12,7 +12,7 @@ class FORM {
      */
     function select_options( array $options = [], string|null $selected = '', string $placeholder = '', bool $keyed = false, bool $translate = false ): void {
         $s = explode( ',', str_replace( ' ', '', $selected ) );
-        skel( $s );
+        //skel( $s );
         $placeholder = $translate ? T($placeholder) : $placeholder;
         if( $placeholder !== '' ){
             echo empty($s) ? '<option disabled selected>'.$placeholder.'</option>' : '<option disabled>'.$placeholder.'</option>';
@@ -888,7 +888,7 @@ class FORM {
             $type = $f['type'] ?? 'text';
             $id = $f['id'] ??= '';
             $label = $f['label'] ??= ($f['title'] ??= '');
-            $place = $f['place'] ??= $label;
+            $place = $f['place'] ??= ($f['placeholder'] ??= $label);
             $val = $f['value'] ?? ($method == 'POST' ? ($_POST[$id] ?? '') : ($_GET[$id] ?? ''));
             $attrs = $f['attr'] ??= '';
             $pre = $f['pre'] ??= ($f['col'] ??= '');
