@@ -25,11 +25,11 @@ $(document).ready(function(){
         } */
     })
     // Next Step
-    .on('click', '.tabs .next', function () {
+    .on('click', '.tabs [data-next]', function () {
         $($(this).parents('.tabs')).find('[data-tab].on').next().click();
     })
     // Previous Step
-    .on('click', '.tabs .prev', function () {
-        $($(this).parents('.tabs')).find('[data-t].on').prev().click();
+    .on('click', '.tabs [data-prev]', function () {
+        $($(this).parents('.tabs')).find('[data-tab].on').prev().click();
     });
 });
