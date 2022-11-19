@@ -67,6 +67,7 @@ class OPTIONS {
     ];
 
     /**
+     * Renders app branding options
      * @param bool $dark_mode_options Show Dark Mode Options
      * @return void
      */
@@ -121,6 +122,7 @@ class OPTIONS {
     }
 
     /**
+     * Renders input and button design options
      * @param bool $dark_mode_options Show Dark Mode Options
      * @return void
      */
@@ -365,6 +367,51 @@ class OPTIONS {
         $f->text('languages_updated','','',1,'hidden data-al');
         $f->process_options('Save Options','store grad','','col-12 tac');
         echo '</div>';
+    }
+
+    function export_import_options(): void {
+        $f = new FORM();
+        $db = new DB();
+        $e = Encrypt::initiate();
+        $data = [];
+        $options = $db->select('options','option_name,option_value','option_scope = \'0\' && option_load = \'1\'');
+        if( !empty( $options ) ) {
+            foreach( $options as $o ) {
+                $data[ $o['option_name'] ] = $o['option_value'];
+            }
+        }
+        echo '<div class="row"';
+        $f->process_params('','ei','',2,2,[]);
+        echo '>';
+        $f->textarea('export','Export Options','',$e->encrypt_array($data),'rows="5"',6);
+        $f->textarea('import','Import Options','','','data-ei rows="5"',6);
+        echo '<div class="col-6"></div>';
+        $f->process_html('Import Options','store grad','','import_options_ajax','col-6 tac');
+        echo '</div>';
+    }
+
+}
+
+function import_options_ajax(): void {
+    if( isset( $_POST['import'] ) && !empty( $_POST['import'] ) ) {
+        // Parse Import Data
+        $e = Encrypt::initiate();
+        $options = $e->decrypt_array( $_POST['import'] );
+
+        // Import
+        if( !empty( $options ) ) {
+            $db = new DB();
+            $x = 0;
+            foreach( $options as $ok => $ov ) {
+                $update = $db->update_option( $ok, $ov, 0, 1 );
+                $update ? $x++ : '';
+            }
+            es('Successfully updated '.$x.' options!');
+        } else {
+            ef('Import data could not be parsed! Please try again or consult support!!');
+        }
+    } else {
+        ef('Received no data to import! Please try again or consult support!!');
     }
 
 }

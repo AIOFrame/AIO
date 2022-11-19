@@ -45,7 +45,8 @@ class Encrypt {
      * @return array
      */
     public function decrypt_array( string $data ): array {
-        return json_decode( $this->decrypt( $data ), 1 );
+        $decrypt = $this->decrypt( $data );
+        return !empty( $decrypt ) ? json_decode( $decrypt, 1 ) : [];
     }
 
     /**

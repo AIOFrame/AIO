@@ -48,6 +48,17 @@ if( $action_is_ajax ) {
         exit();
     } */
     if( function_exists( $action ) ){
+        // If isset hidden array
+        if( isset( $_POST['h'] ) ) {
+            $e = Encrypt::initiate();
+            $hidden = $e->decrypt_array( $_POST['h'] );
+            if( !empty( $hidden ) ) {
+                foreach( $hidden as $hk => $hv ) {
+                    $_POST[$hk] = $hv;
+                }
+            }
+            unset( $_POST['h'] );
+        }
         $action( $_POST );
     } else {
         elog('AJAX function not found!');
