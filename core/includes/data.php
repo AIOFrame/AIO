@@ -67,6 +67,10 @@ function easy_date( $date = '', $format = 'd M, Y' ): string {
     return date_format( $date, $format );
 }
 
+function easy_dt( $datetime = '', $format = 'd M, Y H:i a' ): string {
+    return easy_date( $datetime, $format );
+}
+
 // Return Timezones
 
 function get_timezones(){
