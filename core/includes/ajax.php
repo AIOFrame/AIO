@@ -50,11 +50,13 @@ if( $action_is_ajax ) {
     if( function_exists( $action ) ){
         // If isset hidden array
         if( isset( $_POST['h'] ) ) {
+            //elog( $_POST );
+            $pre = $_POST['pre'] ?? '';
             $e = Encrypt::initiate();
             $hidden = $e->decrypt_array( $_POST['h'] );
             if( !empty( $hidden ) ) {
                 foreach( $hidden as $hk => $hv ) {
-                    $_POST[$hk] = $hv;
+                    $_POST[$pre.$hk] = $hv;
                 }
             }
             unset( $_POST['h'] );
