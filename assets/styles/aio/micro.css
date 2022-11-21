@@ -1101,6 +1101,42 @@ select.tar {
   cursor: pointer;
 }
 
+.cvr {
+  cursor: ns-resize;
+}
+
+.chr {
+  cursor: ew-resize;
+}
+
+.cm {
+  cursor: move;
+}
+
+.cna {
+  cursor: not-allowed;
+}
+
+.cl {
+  cursor: progress;
+}
+
+.ct {
+  cursor: text;
+}
+
+.czi {
+  cursor: zoom-in;
+}
+
+.czo {
+  cursor: zoom-out;
+}
+
+.cg {
+  cursor: grab;
+}
+
 [dir=rtl] .tal {
   text-align: right;
 }

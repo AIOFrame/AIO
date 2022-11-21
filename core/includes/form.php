@@ -764,11 +764,12 @@ class FORM {
      * @param string $text Text to display
      * @param string $class Class
      * @param string $attr Additional attributes
-     * @param string $i_class Applied class to i element and places before text
+     * @param string $i_class Class for i element positioned before text
+     * @param string $i_text Text for i element
      * @param string|int $pre Pre Wrap HTML or Bootstrap Column
      * @param string|int $post Post Wrap HTML
      */
-    function edit_html( string $element = '.modal', array $array = [], string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', string|int $pre = '', string|int $post = '' ): void {
+    function edit_html( string $element = '.modal', array $array = [], string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): void {
         //$c = Encrypt::initiate();
         if( is_numeric( $pre ) ){
             $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
@@ -776,7 +777,7 @@ class FORM {
             $pre = !empty( $pre ) ? '<div class="'.$pre.'">' : '';
         }
         $post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
-        $i = !empty( $i_class ) ? '<i class="'.$i_class.'"></i>' : '';
+        $i = !empty( $i_class ) || !empty( $i_text ) ? '<i class="'.$i_class.'">'.$i_text.'</i>' : '';
         $title = str_contains( $attr, 'title' ) ? '' : 'title="'.T('Edit').'"';
         echo $pre.'<'.$html.' onclick="edit_data(this,\''.$element.'\')" data-data=\''.$this->_editable_data($array).'\' class="'.$class.'" '.$title.' '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$post;
     }
@@ -789,14 +790,15 @@ class FORM {
      * @param string $text Text to display
      * @param string $class Class
      * @param string $attr Additional attributes
-     * @param string $i_class Applied class to i element and places before text
+     * @param string $i_class Class for i element positioned before text
      * @param int $notify_time Time to notify
      * @param int $reload_time Time to Reload
      * @param string $confirmation Text for confirmation
+     * @param string $i_text Text for i element
      * @param string|int $pre Pre Wrap HTML or Bootstrap Column
      * @param string|int $post Post Wrap HTML
      */
-    function trash_html( string $table, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', int $notify_time = 2, int $reload_time = 2, string $confirmation = '', string|int $pre = '', string|int $post = '' ): void {
+    function trash_html( string $table, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', int $notify_time = 2, int $reload_time = 2, string $confirmation = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): void {
         if( is_numeric( $pre ) ){
             $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
         } else {
@@ -804,7 +806,7 @@ class FORM {
         }
         $post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
         $c = Encrypt::initiate();
-        $i = !empty( $i_class ) ? '<i class="'.$i_class.'"></i>' : '';
+        $i = !empty( $i_class ) || !empty( $i_text ) ? '<i class="'.$i_class.'">'.$i_text.'</i>' : '';
         $attr .= !empty( $confirmation ) ? ' data-confirm="'.T($confirmation).'"' : '';
         $title = str_contains( $attr, 'title' ) ? '' : 'title="'.T('Delete').'"';
         echo $pre.'<'.$html.' onclick="trash_data(this,\''.$c->encrypt('trash_data_ajax').'\',\''.$c->encrypt($table).'\',\''.$c->encrypt($logic).'\','.$notify_time.','.$reload_time.')" class="'.$class.'" '.$title.' '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$post;
