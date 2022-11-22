@@ -536,7 +536,7 @@ function mail_link( string $email = '', string $class = '' ): void {
  * @return bool
  */
 function page_is( string|array $p ): bool {
-    return is_array( $p ) ? in_array(PAGEPATH,$p) : PAGEPATH == $p;
+    return defined('PAGEPATH') && ((is_array($p) ? in_array(PAGEPATH, $p) : PAGEPATH == $p));
 }
 
 /**

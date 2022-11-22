@@ -52,9 +52,8 @@ $(document).ready(function() {
 
 });
 
-function logout( path ) {
+function logout( action, path ) {
     if( confirm('Are you sure to log out?') ) {
-        let action = $('body').data('out');
         path = path === undefined ? '' : path;
         post( action, { 'action': action }, 2, 2, location.origin + '/' + path );
     }

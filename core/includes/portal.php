@@ -193,10 +193,12 @@ class PORTAL {
      * @param bool $link_to_front Shows a hyperlink to front-end
      * @param bool $show_user Show User Dropdown
      * @param string $profile_url Profile URL for user icon
+     * @param string $logout_to URL to direct users to after logout
      * @return void
      */
-    function render_header( bool $show_navigation = false, string $logo_url = 'admin', bool $show_alerts = false, bool $show_languages = false, bool $link_to_front = false, bool $show_user = false, string $profile_url = '' ): void {
+    function render_header( bool $show_navigation = false, string $logo_url = 'admin', bool $show_alerts = false, bool $show_languages = false, bool $link_to_front = false, bool $show_user = false, string $profile_url = '', string $logout_to = '' ): void {
         $db = new DB();
+        $e = Encrypt::initiate();
         global $options;
         global $is_light;
 
@@ -263,7 +265,7 @@ class PORTAL {
                             <h4 class="role"><?php echo $user_role; ?></h4>
                             <div class="row">
                                 <div class="col tal"><a href="<?php echo APPURL.$profile_url; ?>" class="r5 bsn s btn m0"><?php E('My Profile'); ?></a></div>
-                                <div class="col tar"><button class="red r5 bsn s m0" onclick="logout()"><?php E('Log out'); ?></button></div>
+                                <div class="col tar"><button class="red r5 bsn s m0" onclick="logout(<?php echo '\''.$e->encrypt('logout_ajax').'\',\''.$logout_to.'\''; ?>)"><?php E('Log out'); ?></button></div>
                             </div>
                         </div>
                         <?php } else { ?>

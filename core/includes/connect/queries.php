@@ -811,15 +811,17 @@ function prepare_values( array|string $array = '', string $pre = '', bool $remov
 
 function process_data_ajax(): void {
     $a = $_POST;
+    elog( $a );
     if( !empty( $a['t'] ) ){
         $cry = Encrypt::initiate();
         $db = new DB();
         $table = $cry->decrypt( $a['t'] );
         unset( $a['t'] );
 
-        if( !empty( $a['id'] ) ){
-            $id = $cry->decrypt( $a['id'] );
-            unset($a['id']);
+        if( isset( $a[ $a['pre'].'id'] ) ){
+            $id = is_numeric( $a[ $a['pre'].'id'] ) ? $a[ $a['pre'].'id'] : $cry->decrypt( $a[$a['pre'].'id'] );
+            //elog( $id );
+            unset($a[$a['pre'].'id']);
         }
 
         if( !empty( $a['pre'] ) ){

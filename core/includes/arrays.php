@@ -271,9 +271,9 @@ function array_sub_values( $arrays = [] ) {
 /**
  * Turns an array into SQL query
  * @param array $array Array with data values Ex: [ 1, 2, 4, 7 ]
- * @param string $column String that loops for each value Ex: user_id =
+ * @param string $column String that loops for each value Ex: user_id
  * @param string $query Logic that appends between loop Ex: OR, AND
- * @param string $key
+ * @param string $key Key from the array that is equal to column
  * @return string
  */
 function array_to_query( array $array = [], string $column = '', string $query = 'OR', string $key = '' ): string {

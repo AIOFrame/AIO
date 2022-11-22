@@ -197,9 +197,9 @@ class MAIL {
             $smtp_options = $db->get_options(['smtp_server','smtp_port','smtp_username','smtp_password']);
             $smtp_server = !empty( $smtp ) ? $smtp : ( $smtp_options['smtp_server'] ?? '' );
             $smtp_port = $smtp_options['smtp_port'] ?? '';
-            $username = !empty( $username ) ? $username : $smtp_options['smtp_username'];
-            $password = !empty( $password ) ? $password : $smtp_options['smtp_password'];
-            $from = !empty( $from ) ? $from : $smtp_options['from_email'];
+            $username = !empty( $username ) ? $username : ( $smtp_options['smtp_username'] ?? '' );
+            $password = !empty( $password ) ? $password : ( $smtp_options['smtp_password'] ?? '' );
+            $from = !empty( $from ) ? $from : ( $smtp_options['from_email'] ?? '' );
         }
         $smtp_server = !empty( $smtp_server ) ? $smtp_server : get_config('smtp_server');
         $smtp_port = !empty( $smtp_port ) ? $smtp_port : get_config('smtp_port');
