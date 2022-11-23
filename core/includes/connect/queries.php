@@ -932,35 +932,26 @@ function process_data_ajax(): void {
 }
 
 function process_options_ajax(): void {
-    $c = Encrypt::initiate();
-    $h = !empty( $_POST['h'] ) ? $c->decrypt_array( $_POST['h'] ) : [];
-    unset( $_POST['h'] );
     unset( $_POST['t'] );
     unset( $_POST['pre'] );
     $p = $_POST;
     elog( $p );
     if( !empty( $p ) ) {
         $db = new DB();
-        $encrypt = $h['encrypt'] ?? [];
-        $unique = $h['unique'] ?? [];
-        $autoload = $h['autoload'] ?? [];
-        elog( $p );
-        elog( $h );
-        elog( $unique );
+        $encrypt = $p['encrypt'] ?? [];
+        $unique = $p['unique'] ?? [];
+        $autoload = $p['autoload'] ?? [];
         $result = $db->update_options( $p, $encrypt, $unique, $autoload );
-        elog($result);
         $result ? es('Successfully updated!') : ef('No new data is updated!');
     }
 }
 
 function update_data_ajax(): void {
-    $c = Encrypt::initiate();
     $p = $_POST;
-    elog( $p );
-    $target = isset( $p['target'] ) && !empty( $p['target'] ) ? $c->decrypt( $p['target'] ) : '';
-    $keys = isset( $p['keys'] ) && !empty( $p['keys'] ) ? $c->decrypt_array( $p['keys'] ) : '';
-    $values = isset( $p['values'] ) && !empty( $p['values'] ) ? $c->decrypt_array( $p['values'] ) : '';
-    $logic = isset( $p['logic'] ) && !empty( $p['logic'] ) ? $c->decrypt( $p['logic'] ) : '';
+    $target = $p['target'] ?? '';
+    $keys = $p['keys'] ?? '';
+    $values = $p['values'] ?? '';
+    $logic = $p['logic'] ?? '';
     if( !empty( $target ) && is_array( $keys ) && is_array( $values ) && !empty( $logic ) ) {
         $db = new DB();
         $r = $db->update( $target, $keys, $values, $logic );
@@ -974,10 +965,9 @@ function update_data_ajax(): void {
  * Trashes data
  */
 function trash_data_ajax(): void {
-    $c = Encrypt::initiate();
     $p = $_POST;
-    $target = isset( $p['target'] ) && !empty( $p['target'] ) ? $c->decrypt( $p['target'] ) : '';
-    $logic = isset( $p['logic'] ) && !empty( $p['logic'] ) ? $c->decrypt( $p['logic'] ) : '';
+    $target = $p['target'] ?? '';
+    $logic = $p['logic'] ?? '';
     if( !empty( $target ) && !empty( $logic ) ){
         $db = new DB();
         $r = $db->delete( $target, $logic );
