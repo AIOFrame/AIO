@@ -947,11 +947,13 @@ function process_options_ajax(): void {
 }
 
 function update_data_ajax(): void {
+    $c = Encrypt::initiate();
     $p = $_POST;
-    $target = $p['target'] ?? '';
-    $keys = $p['keys'] ?? '';
-    $values = $p['values'] ?? '';
-    $logic = $p['logic'] ?? '';
+    elog( $p );
+    $target = isset( $p['target'] ) && !empty( $p['target'] ) ? $c->decrypt( $p['target'] ) : '';
+    $keys = isset( $p['keys'] ) && !empty( $p['keys'] ) ? $c->decrypt_array( $p['keys'] ) : '';
+    $values = isset( $p['values'] ) && !empty( $p['values'] ) ? $c->decrypt_array( $p['values'] ) : '';
+    $logic = isset( $p['logic'] ) && !empty( $p['logic'] ) ? $c->decrypt( $p['logic'] ) : '';
     if( !empty( $target ) && is_array( $keys ) && is_array( $values ) && !empty( $logic ) ) {
         $db = new DB();
         $r = $db->update( $target, $keys, $values, $logic );
@@ -965,9 +967,10 @@ function update_data_ajax(): void {
  * Trashes data
  */
 function trash_data_ajax(): void {
+    $c = Encrypt::initiate();
     $p = $_POST;
-    $target = $p['target'] ?? '';
-    $logic = $p['logic'] ?? '';
+    $target = isset( $p['target'] ) && !empty( $p['target'] ) ? $c->decrypt( $p['target'] ) : '';
+    $logic = isset( $p['logic'] ) && !empty( $p['logic'] ) ? $c->decrypt( $p['logic'] ) : '';
     if( !empty( $target ) && !empty( $logic ) ){
         $db = new DB();
         $r = $db->delete( $target, $logic );
