@@ -822,6 +822,9 @@ function process_data_ajax(): void {
             $id = is_numeric( $a[ $a['pre'].'id'] ) ? $a[ $a['pre'].'id'] : $cry->decrypt( $a[$a['pre'].'id'] );
             //elog( $id );
             unset($a[$a['pre'].'id']);
+        } else if( isset( $a[ 'id' ] ) ) {
+            $id = is_numeric( $a[ 'id' ] ) ? $a[ 'id' ] : $cry->decrypt( $a[ 'id' ] );
+            unset( $a['id'] );
         }
 
         if( !empty( $a['pre'] ) ){
