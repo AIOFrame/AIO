@@ -46,6 +46,12 @@ AIO Setup
     * AIO Setup to ask for CMS
     * AIO Setup to compare and show version is latest
 
+* Upload Manager - Lets user manage all uploaded files
+* Upload Options - File Upload Options
+* Styles and Scripts Manager - Lets user view all styles and scripts of current app
+* Styles and Scripts Editor - Lets user edit all scss and js files 
+* GIT Manager - Provides user GIT UI to pull and push app updates
+
 FRONTEND
 
 * Plyr JS Integrate
