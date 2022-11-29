@@ -978,8 +978,10 @@ function user_registration_fields( string $pre = 'user_', string $data = '', str
  * @param string $message Message to be displayed
  * @return void
  */
-function no_access( string $message = "You are trying to reach restricted content!", string $class = '', bool $die = true ): void {
-    echo '<div class="no_access '.$class.'"><h1 class="tac">'.T( $message ).'</h1><a onclick="history.back()">'.T('Return to Previous Page').'</a></div>';
+function no_access( string $message = "You are trying to reach restricted content!", string $class = '', bool $show_return = true, bool $die = true ): void {
+    echo '<div class="no_access '.$class.'"><h1 class="tac">'.T( $message ).'</h1>';
+    echo $show_return ? '<a onclick="history.back()">'.T('Return to Previous Page').'</a>' : '';
+    echo '</div>';
     if( $die ) {
         die();
     }
