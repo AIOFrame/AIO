@@ -14,11 +14,11 @@ class CONTENT {
      * @param string $art Art Components to be added
      * @param string|array $styles Styles to be linked
      * @param string|array $scripts Scripts to be added
-     * @param string|array $font1
-     * @param string|array $font2
+     * @param string|array $primary_font Array of primary font and weights Ex: [ 'Lato', '300, 400' ]
+     * @param string|array $secondary_font Array of secondary font and weights Ex: [ 'Cairo', '300, 400' ]
      * @return void
      */
-    function pre_html( string $class = '', string $attrs = '', string|array $pre_styles = [], string $art = '', string|array $styles = [], string|array $scripts = [], string|array $font_1 = [], string|array $font_2 = [] ): void {
+    function pre_html( string $class = '', string $attrs = '', string|array $pre_styles = [], string $art = '', string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [] ): void {
 
         // Defines
         global $is_light;
@@ -40,17 +40,18 @@ class CONTENT {
 
         // Fonts
         $fonts = [ [ 'MaterialIcons' ] ];
-        if( !empty( $font_1 ) ) {
-            $font1 = is_array( $font_1 ) ? $font_1[0] : $font_1;
-            $weight1 = is_array( $font_1 ) ? $font_1[1] : '400';
+        if( !empty( $primary_font ) ) {
+            $font1 = is_array( $primary_font ) ? $primary_font[0] : $primary_font;
+            $weight1 = is_array( $primary_font ) ? $primary_font[1] : '400';
         } else {
             $font1 = $options['font_1'] ?? 'Lato';
             $weight1 = $options['font_1_weights'] ?? '400';
         }
         $fonts[] = [ $font1, $weight1 ];
-        if( !empty( $font2 ) ) {
-            $font2 = is_array( $font2 ) ? $font2[0] : $font2;
-            $weight2 = is_array( $font2 ) ? $font2[1] : '400';
+        //skel( $fonts );
+        if( !empty( $secondary_font ) ) {
+            $font2 = is_array( $secondary_font ) ? $secondary_font[0] : $secondary_font;
+            $weight2 = is_array( $secondary_font ) ? $secondary_font[1] : '400';
         } else {
             $font2 = $options['font_2'] ?? '';
             $weight2 = $options['font_2_weights'] ?? '';
@@ -105,9 +106,11 @@ class CONTENT {
      * @param string|array $pre_styles Pre styles to add
      * @param string|array $styles Internal styles to add
      * @param string|array $scripts Scripts to add
+     * @param array $primary_font Array of primary font and weights Ex: [ 'Lato', '300, 400' ]
+     * @param array $secondary_font Array of secondary font and weights Ex: [ 'Cairo', '300, 400' ]
      * @return void
      */
-    function login_html( string $login_redirect_url = '', string $attrs = '', string|array $pre_styles = [], string|array $styles = [], string|array $scripts = [] ): void {
+    function login_html( string $login_redirect_url = '', string $attrs = '', string|array $pre_styles = [], string|array $styles = [], string|array $scripts = [], array $primary_font = [], array $secondary_font = [] ): void {
 
         if( user_logged_in() ) {
             $redirect = 'Location:'.APPURL.$login_redirect_url;
@@ -116,7 +119,7 @@ class CONTENT {
         }
 
         // Head
-        $this->pre_html( '', $attrs, $pre_styles, 'inputs,buttons,alerts', $styles, $scripts );
+        $this->pre_html( '', $attrs, $pre_styles, 'inputs,buttons,alerts', $styles, $scripts, $primary_font, $secondary_font );
 
         // Content
         global $options;
