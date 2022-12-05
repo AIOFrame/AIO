@@ -380,3 +380,7 @@ class PORTAL {
         <?php
     }
 }
+
+function back_url( string $url = '' ): void {
+    echo '<a class="mat-ico back" href="'.APPURL . $url.'">arrow_back</a>';
+}
