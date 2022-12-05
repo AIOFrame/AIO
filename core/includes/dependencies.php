@@ -86,7 +86,11 @@ function render_image( string|null $image = '', string $name = '', string $class
 }
 
 function storage_url( $url = '' ): string {
-    return mb_substr( $url, 1, 7) == 'storage' || mb_substr( $url, 1, 6) == 'assets' ? APPURL . 'apps/' . APPDIR . $url : $url;
+    if( !empty( $url ) ) {
+        return mb_substr( $url, 1, 7) == 'storage' || mb_substr( $url, 1, 6) == 'assets' ? APPURL . 'apps/' . APPDIR . $url : $url;
+    } else {
+        return '';
+    }
 }
 
 function asset_url( $url = '' ): string {

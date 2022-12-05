@@ -677,6 +677,7 @@ function access_change_ajax(): void {
     }
 }
 
+// TODO: Add language switcher during login
 /**
  * Renders frontend code for user login
  * @param string $login_title Replacement text for default "Username" title
@@ -710,10 +711,10 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
         <div class="inputs">
             <?php
             $rand = rand(0,9999);
-            $f->text('username',$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"','<div>','</div>');
+            $f->text('username',$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"','<div class="forgot_user_wrap">','</div>');
             ?>
         </div>
-        <button id="aio_forgot_init" class="grad <?php echo $class; ?>" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_forgot_ajax' ); ?>"><?php E('Reset my Password'); ?></button>
+        <button id="aio_forgot_init" class="grad <?php echo $class; ?>" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_forgot_ajax' ); ?>"><?php E('Reset Password'); ?></button>
         <div class="more" onclick="aio_login_view()"><?php E( 'Return to Login' ); ?></div>
     </div>
     <?php
