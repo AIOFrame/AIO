@@ -474,6 +474,20 @@ class DB {
     }
 
     /**
+     * Fetches the total of data in column of a table
+     * @param string $table Name of the table
+     * @param string $column Name of the column to sum the data
+     * @return int|float
+     */
+    function sum( string $table = '', string $column = '' ): int|float {
+        $db = $this->connect();
+        $query = $db->query('SELECT SUM('.$column.') '.$column.' FROM '.$table);
+        $data = $query->fetchAll();
+        //skel( $data );
+        return is_array( $data ) && isset( $data[0][0] ) ? $data[0][0] : 0;
+    }
+
+    /**
      * Prepares PDO statement
      * @param string $query
      * @return Exception|false|PDOException|PDOStatement
@@ -647,7 +661,7 @@ class DB {
     }
 
     // Test and remove
-    function save_post_option( $option, $user = false ){
+    function save_post_option( $option, $user = false ):void {
         $db = new DB();
         if( isset( $_POST[$option] ) ){
             $v = $_POST[$option];
@@ -661,7 +675,7 @@ class DB {
      * @param string|array $options
      * @return void
      */
-    function save_post_options( string|array $options ){
+    function save_post_options( string|array $options ): void {
         $options = is_array( $options ) ? $options : explode( ',', $options );
         elog( $options );
         foreach( $options as $op ){
