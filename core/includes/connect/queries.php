@@ -382,9 +382,9 @@ class DB {
      * @param $cols
      * @param $values
      * @param string $where
-     * @return bool
+     * @return array
      */
-    function update( $table, $cols, $values, $where = '' ): bool {
+    function update( $table, $cols, $values, string $where = '' ): array {
         $logic  = "";
         $cols = is_string( $cols ) ? explode( ',', $cols ) : $cols;
         $values = is_string( $values ) ? explode( ',', $values ) : $values;
@@ -407,11 +407,13 @@ class DB {
         elog( $q, 'update', $df[0]['line'], $df[0]['file'], $table );
 
         $dq = $db->prepare( $q );
-        if ( $dq->execute() && $dq->rowCount() > 0 ){
-            return true;
-        } else {
+        try {
+            $did = $dq->execute() && $dq->rowCount() > 0;
+            return [ 1, $did ];
+        } catch ( PDOException $e ) {
             elog( $q, 'error', $df[0]['line'], $df[0]['file'], $table );
-            return false;
+            elog( $db->errorInfo(), 'error', $df[0]['line'], $df[0]['file'], $table );
+            return [ 0, $db->errorInfo() ];
         }
     }
 

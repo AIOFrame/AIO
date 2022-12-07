@@ -144,7 +144,7 @@ function email_valid( id ) {
     let v = _email_valid( id );
     !v ? $(id).removeClass('empty') : $(id).addClass('empty');
     if( v && $(id).data('valid-email-notify') !== undefined && $(id).data('valid-email-notify') !== '' ) {
-        notify( $(id).data('valid-email-notify') );
+        notify( $(id).data('valid-email-notify'), 5, 'error', 'warning' );
     }
     return v;
 }
@@ -348,7 +348,7 @@ function process_data( e ){
             }
         });
         empty_note += '</div>';
-        notify( empty_note );
+        notify( empty_note, 5, 'error', 'warning' );
         breaker.push(1);
     }
 
@@ -365,7 +365,7 @@ function process_data( e ){
             }
         });
         invalid_note += '</div>';
-        notify( invalid_note );
+        notify( invalid_note, 5, 'error', 'warning' );
         breaker.push(1);
     }
 
@@ -540,15 +540,15 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
         //elog(r);
         try {
             r = JSON.parse( r );
-            //elog(r);
+            elog(r);
             elog( notify_time );
             if( notify_time !== undefined && notify_time !== '' ) {
                 elog(r);
                 elog($(p).data('success'));
                 if( r[0] === 1 && $(p).data('success') !== undefined ) {
-                    notify( $(p).data('success'), notify_time );
+                    notify( $(p).data('success'), notify_time, '', 'check_circle' );
                 } else {
-                    notify( r[1], notify_time );
+                    notify( r[1], notify_time, '', 'error' );
                 }
             }
             if( r[0] !== 0 && reload_time !== undefined && reload_time !== '' && reload_time !== '0' ) {
