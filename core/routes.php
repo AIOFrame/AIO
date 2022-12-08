@@ -16,15 +16,23 @@ foreach( $range as $p ){
 }
 define( 'PAGE', !empty( $url_routes ) ? $url_routes[count($url_routes) - 1] : 'index' );
 
-$t = !empty( $sd ) ? $sd : APPDIR; // Sets if sub domain or prime domain url browsing
+$t = !empty( $sd ) ? $sd : APPDIR; // Sets if subdomain or prime domain url browsing
+
+// Fetch Manual Routing
+
+$c = !empty( CONFIG ) ? json_decode( CONFIG, 1 ) : [];
+$routes = $c['router'] ?? ( $c['routing'] ?? ( $c['routes'] ?? ( $c['map'] ?? ( $c['mapping'] ?? ( $c['urls'] ?? ( $c['pages'] ?? [] ) ) ) ) ) );
 
 // Directory Hierarchy
 
 $x = 1;
-
 $page_link = APPPATH . 'pages/';
 $page = '';
-if( !empty( $url_routes ) ){
+if( isset( $routes[ implode( '/', $url_routes ) ] ) ) {
+    $page = implode( '/', $url_routes );
+    $page_link .= $routes[ implode( '/', $url_routes ) ] . '.php';
+    !defined( 'PAGENAME' ) ? define( 'PAGENAME', $url_routes[ count($url_routes) - 1 ] ) : '';
+} else if( !empty( $url_routes ) ){
     // Loop pages till we reach last page, then append .php
     foreach( $url_routes as $n ){
         if( $x == count( $url_routes ) ){
@@ -46,7 +54,9 @@ if( !empty( $url_routes ) ){
 } else {
     $page_link .= 'index.php';
     $page = 'index';
+    !defined( 'PAGENAME' ) ? define( 'PAGENAME', 'index' ) : '';
 }
+//print_r( $page );
 $group_page = str_replace( '.php', '', $page_link ) . '/index.php';
 
 $paths = explode( '/', $page_link );
@@ -60,7 +70,7 @@ if( !empty( $parent_page ) && $parent_page !== '' ) {
 }
 !defined( 'PAGENAME' ) ? define( 'PAGENAME', 'home') : '';
 
-function define_path( $title, $parent = 0 ){
+function define_path( $title, $parent = 0 ): void {
     if( $parent ){
         $array = explode( '/', $title );
         unset($array[count($array)-1]);
@@ -70,7 +80,7 @@ function define_path( $title, $parent = 0 ){
     !defined( 'PAGEPATH' ) ? define( 'PAGEPATH', str_replace(' ','', $title) ) : '';
 }
 
-function define_page( $page ) {
+function define_page( $page ): void {
     !defined( 'PAGELOAD' ) ? define( 'PAGELOAD', $page ) : '';
 }
 

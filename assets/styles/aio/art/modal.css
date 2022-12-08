@@ -16,6 +16,7 @@
   transition: 0.6s;
   backdrop-filter: blur(8px) saturate(2);
   -webkit-backdrop-filter: blur(8px) saturate(2);
+  border-radius: var(--input_radius);
 }
 .modal .t, .modal .title {
   margin: 0 auto 15px;

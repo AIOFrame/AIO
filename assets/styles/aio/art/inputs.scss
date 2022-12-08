@@ -278,6 +278,15 @@ textarea {
     }
   }
   .select2-dropdown {
+    .select2-results__option {
+      text-align: center;
+      opacity: .5;
+    }
+    .select2-results__option:before {
+      content: '';
+      display: block;
+      font-family: 'MaterialIcons',sans-serif;
+    }
     .select2-results__options {
       overflow-x:hidden;
     }

@@ -1,5 +1,6 @@
 $primary: var(--primary_color);
 $secondary: var(--secondary_color);
+$radius: var(--input_radius);
 
 /* Modal */
 
@@ -20,6 +21,7 @@ $secondary: var(--secondary_color);
   transition:.6s;
   backdrop-filter: blur(8px) saturate(2);
   -webkit-backdrop-filter: blur(8px) saturate(2);
+  border-radius: $radius;
   .t, .title {
     margin: 0 auto 15px;
     letter-spacing: 1px;
