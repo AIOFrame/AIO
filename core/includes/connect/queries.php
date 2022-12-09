@@ -535,7 +535,7 @@ class DB {
             } else {
                 $c = $this->insert( 'options', [ 'option_name', 'option_value', 'option_scope', 'option_load' ], [ $name, $value, $user_id, $autoload ] );
             }
-            return $c;
+            return is_array( $c ) ? json_encode( $c ) : $c;
         } else {
             return 0;
         }
