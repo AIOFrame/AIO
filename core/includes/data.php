@@ -49,7 +49,7 @@ class RANGE {
      * @param string $date Date to start counting years till now
      * @return false|string
      */
-    function years_from_date( string $date ){
+    function years_from_date( string $date ): false|string {
         $then = date('Ymd', strtotime( $date ));
         $diff = date('Ymd') - $then;
         return substr($diff, 0, -4);
@@ -59,11 +59,19 @@ class RANGE {
 
 // Returns any given date or current date in format
 
-function easy_date( $date = '', $format = 'd M, Y' ): string {
+function easy_date( $date = '', $format = '', bool $show_time = false ): string {
     if( $date == '' ){
         $date = date('Y-m-d H:i:s');
     }
     $date = date_create( $date );
+    if( empty( $format ) ) {
+        global $options;
+        $format = $options['date_format'] ?? '';
+        if( empty( $format ) ) {
+            $c = json_decode(CONFIG, 1);
+            $format = is_array($c) && isset($c['date_format']) ? $c['date_format'] : 'd M, Y';
+        }
+    }
     return date_format( $date, $format );
 }
 
@@ -79,27 +87,27 @@ function get_timezones(){
 
 
 
-function __fn( $num, $decimals = 2, $locale = 'AE' ) {
+function __fn( $num, $decimals = 2, $locale = 'AE' ): void {
     echo _fn( $num, $decimals, $locale );
 }
 
-function _fn( $num, $decimals = 2, $locale = 'AE' ) {
+function _fn( $num, $decimals = 2, $locale = 'AE' ): string {
     $fmt = new NumberFormatter($locale = 'en_'.$locale, NumberFormatter::CURRENCY);
     $fmt->setAttribute(\NumberFormatter::MAX_FRACTION_DIGITS, $decimals);
     return str_replace( 'AED', '', $fmt->format( $num ) );
 }
 
-function nth( $num ){
+function nth( $num ): void {
     $fmt = new NumberFormatter($locale = 'en', 6);
     echo $fmt->format( $num );
 }
 
-function _nth( $num ){
+function _nth( $num ): string {
     $fmt = new NumberFormatter($locale = 'en', 6);
     return $fmt->format( $num );
 }
 
-function pre( $text ) {
+function pre( $text ): void {
     $text = str_replace( '<', '&lt;', $text );
     $text = str_replace( '>', '&gt;', $text );
     echo $text;

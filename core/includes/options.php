@@ -311,12 +311,43 @@ class OPTIONS {
         $reg = $os['reg'] ?? '';
         $trn = $os['trn'] ?? '';
         $tax = $os['tax'] ?? '';
-        $f->text('reg_name','Registered Name','Ex: ABC Trading LLC.',$reg_name,'data-cd',5);
+        $f->text('reg_name','Registered Name','Ex: ABC Trading LLC.',$reg_name,'data-cd',4);
         $f->text('reg','Registration No.','Ex: 120-12565-132665',$reg,'data-cd',3);
         $f->text('trn','TRN No.','Ex: 3562-2654-8954',$trn,'data-cd',3);
-        $f->input('number','tax','Tax%','Ex: 5',$tax,'min="0" max="50" data-cd',1);
+        $f->input('number','tax','Tax%','Ex: 5',$tax,'min="0" max="50" data-cd',2);
         $f->process_options('Save Options','store grad','','col-12 tac');
         echo '</div>';
+        // TODO : Add Regional Options [ 'Country', 'Timezone', 'Currency', 'Currency Symbol', 'Tax', 'Date Format', 'Time Format' ]
+    }
+
+    function region_options(): void {
+        $f = new FORM();
+        $db = new DB();
+        $regions = $db->select( 'regions' );
+        echo '<div';
+        $f->process_params('regions','reg','reg_',2,2);
+        echo '>';
+        $countries = get_countries('iso2');
+        $zones = timezone_identifiers_list();
+        $currencies = get_currencies('name');
+        //skel( $currencies );
+        $a = 'data-reg';
+        echo '<div class="row">';
+        $f->select2('country','Country','Select Region...',$countries,'',$a.' required',2,1);
+        $f->text('name','Registered Name','Ex: ABC Trading LLC.','',$a,3);
+        $f->text('company_code','Registration No.','Ex: 1202-1256-1326','',$a,0);
+        $f->upload('company_doc','Reg. Doc.','Browse','',0,0,'',$a,'jpg,jpeg,png,pdf',2,1,'',0);
+        $f->text('tax_code','TRN No.','Ex: 3562-2654-8954','',$a,0);
+        $f->upload('tax_doc','TRN Doc.','Browse','',0,0,'',$a,'jpg,jpeg,png,pdf',2,1,'',0);
+        $f->text('tax','Tax%','Ex: 5','',$a,1);
+        echo '</div><div class="row">';
+        $f->select2('timezone','Timezone','Select zone...',$zones,'',$a,2);
+        $f->select2('currency_code','Currency','Select currency...',$currencies,'',$a,3);
+        $f->text('currency_symbol','Currency Symbol','Ex: ₹','',$a,1);
+        $f->text('currency_rate','Currency Rate','Ex: ₹','',$a,1);
+        $f->text('time_format','Time Format <a href=\'https://www.php.net/manual/en/datetime.formats.time.php"\'>?</a>','d M, Y','',$a,2);
+        $f->process_options('Save Options','store grad','','col-12 tac');
+        echo '</div></div>';
     }
 
     function social_options(): void {
@@ -334,6 +365,24 @@ class OPTIONS {
         $f->process_options('Save Options','store grad','','col-12 tac');
         echo '</div>';
     }
+
+    /* function region_options(): void {
+        $options = [  ];
+        $f = new FORM();
+        $db = new DB();
+        $os = $db->get_options( $options );
+        echo '<div class="row"';
+        $f->option_params('soc',2,2);
+        echo '>';
+        if( !empty( $options ) ) {
+            foreach( $options as $ok => $ov ) {
+                $val = $os[ $ok ] ?? '';
+                $f->text( $ok, $ov, 'Ex: '.$ov.' Details', $val, 'data-soc', 3 );
+            }
+        }
+        $f->process_options('Save Options','store grad','','col-12 tac');
+        echo '</div>';
+    } */
 
     /**
      * Returns saved social option values
@@ -388,6 +437,32 @@ class OPTIONS {
         echo '<div class="col-6"></div>';
         $f->process_html('Import Options','store grad','','import_options_ajax','col-6 tac');
         echo '</div>';
+    }
+
+    /**
+     * @param int $display_type 1 = Tabbed, 2 = Accordion, 3 = Normal
+     * @param string $enterprise
+     * @param string $brand
+     * @param string $input
+     * @param string $social
+     * @param string $languages
+     * @return void
+     */
+    function render_options( int $display_type = 1, string $enterprise = '', string $brand = '', string $input = '', string $social = '', string $languages = '' ): void {
+        if( $display_type == 1 ) {
+            echo '<div class="tabs"><div class="tab_heads" data-store>';
+            echo !empty( $enterprise ) ? '<div data-t="#aio_enterprise_options">'.T($enterprise).'</div>' : '';
+            echo !empty( $brand ) ? '<div data-t="#aio_brand_options">'.T($brand).'</div>' : '';
+            echo !empty( $input ) ? '<div data-t="#aio_input_options">'.T($input).'</div>' : '';
+            echo !empty( $social ) ? '<div data-t="#aio_social_options">'.T($social).'</div>' : '';
+            echo !empty( $languages ) ? '<div data-t="#aio_languages_options">'.T($languages).'</div>' : '';
+            echo '</div></div>';
+        }
+        // Company Options
+        // Brand Options
+        // Input
+        // Social
+        // Languages
     }
 
 }

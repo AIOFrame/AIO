@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * Creates file upload database
+ */
+
 $storage_struct[] = [ 'storage', [
     [ 'name', 'VARCHAR', 512, 1 ],
     [ 'url', 'VARCHAR', 512, 1 ],

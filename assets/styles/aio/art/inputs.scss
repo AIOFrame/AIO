@@ -186,7 +186,7 @@ input.load, input.loading {
 [type=checkbox]:checked.slide:before, [type=radio]:checked.slide:before,
 [type=checkbox]:checked.switch:before, [type=radio]:checked.switch:before {
   background: $primary;
-  background: linear-gradient(160deg, $primary 0%, $secondary 100%);
+  //background: linear-gradient(160deg, $primary 0%, $secondary 100%);
 }
 [type=checkbox].slide, [type=checkbox].slide:active, [type=checkbox].slide:checked, [type=radio].slide, [type=radio].slide:active, [type=radio].slide:checked,
 [type=checkbox].switch, [type=checkbox].switch:active, [type=checkbox].switch:checked, [type=radio].switch, [type=radio].switch:active, [type=radio].switch:checked {
@@ -279,8 +279,9 @@ textarea {
   }
   .select2-dropdown {
     .select2-results__option {
-      text-align: center;
-      opacity: .5;
+      font-weight: normal;
+      //text-align: center;
+      //opacity: .5;
     }
     .select2-results__option:before {
       content: '';

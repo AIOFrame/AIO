@@ -67,9 +67,9 @@ class WORLD {
             $r = $c['name']['common'];
         elseif( $p == 'official_name' )
             $r = $c['name']['official'];
-        else if( $p == 'iso2')
+        else if( $p == 'iso2' || $p == 'ISO2' )
             $r = $c['cca2'];
-        else if( $p == 'iso3')
+        else if( $p == 'iso3' || $p == 'ISO3' )
             $r = !empty( $c['cioc'] ) ? $c['cioc'] : $c['cca3'];
         else if( $p == 'calling_code')
             $r = $c['callingCodes'][0] ?? '';
