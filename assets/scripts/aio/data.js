@@ -5,6 +5,15 @@ if (typeof window.elog === 'undefined' ) {
     }
 }
 
+$(document).ready(function(){
+    $(document).on('change', '[data-process-change],[data-change-action]', function (e) {
+        let action = $(this).data('process-change') !== undefined ? $(this).data('change-action') : '';
+        if( action !== '' ) {
+            post($(this).data('process-change'),{'data':$(this).val()},'','','','',$(this).data('callback'));
+        }
+    });
+})
+
 /**
  * Gets values of all inputs of specific data attribute within an element
  * @param parent HTML Element Selector
