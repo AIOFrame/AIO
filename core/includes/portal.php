@@ -91,10 +91,10 @@ class PORTAL {
             <div class="col-12 col-lg-8">
                 <div class="tabs two">
                     <div class="tab_heads" data-store>
-                        <div class="tab on" data-t="#looks"><?php is_mobile() ? E('UI') : E('Appearance'); ?></div>
-                        <div class="tab" data-t="#basic"><?php is_mobile() ? E('User') : E('User Details'); ?></div>
-                        <div class="tab" data-t="#pass"><?php is_mobile() ? E('Pass') : E('Change Password'); ?></div>
-                        <div class="tab" data-t="#sess"><?php is_mobile() ? E('Sessions') : E('Active Sessions'); ?><?php echo ' ('.count($ss).')'; ?></div>
+                        <div class="tab on" data-tab="#looks"><?php is_mobile() ? E('UI') : E('Appearance'); ?></div>
+                        <div class="tab" data-tab="#basic"><?php is_mobile() ? E('User') : E('User Details'); ?></div>
+                        <div class="tab" data-tab="#pass"><?php is_mobile() ? E('Pass') : E('Change Password'); ?></div>
+                        <div class="tab" data-tab="#sess"><?php is_mobile() ? E('Sessions') : E('Active Sessions'); ?><?php echo ' ('.count($ss).')'; ?></div>
                     </div>
                     <div class="tab_data bgw <?php echo is_mobile() ? 'p20' : 'p40'; ?>">
 
