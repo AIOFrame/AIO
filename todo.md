@@ -17,7 +17,6 @@ AIO Core
     * Restrict AJAX Requests thru config file <- IMP
     * Code an AIO Login / Register System with Social Login (output thru single function with config)
     * Improve the alert system
-    * Code Inputs CSS into art() type func
     * Config functions array to add feature to login functions file by page
 
 AIO Admin
@@ -27,7 +26,7 @@ AIO Admin
     * AIO to have an interface to show AIO version, update automatically
     * AIO to support installation, enable/disable, un-installation of internal plugins
     * AIO to have e-Commerce feature as plugin
-    * AIO to have uploaded file browser
+    * AIO to have uploaded media manager / file browser
 
 AIO Backup
     * AIO Auto Backup option

@@ -57,10 +57,25 @@ if( defined( 'CONFIG' ) ) {
             include_once( $path . 'access.php' );
             include_once( $path . 'alerts.php' );
             include_once( $path . 'options.php' );
+
+            // Mobile REST Features
+            if( in_array( 'mobile', $features ) ) {
+                include_once( $path . 'mobile.php' );
+            }
+        }
+
+        // Option Features
+        if( in_array( 'options', $features ) ) {
+            include_once( $path . 'options.php' );
+        }
+
+        // Alerts System
+        if( in_array( 'alert', $features ) || in_array( 'alerts', $features ) || in_array( 'notifications', $features ) ) {
+            include_once( $path . 'alerts.php' );
         }
 
         // Translation functions
-        if( in_array( 'translations', $features ) || in_array( 'languages', $features ) ) {
+        if( in_array( 'translations', $features ) || in_array( 'languages', $features ) || in_array( 'lang', $features ) ) {
             include_once( $path . 'translation/functions.php' );
         }
 
@@ -74,9 +89,9 @@ if( defined( 'CONFIG' ) ) {
             include_once( $path . 'files.php' );
         }
 
-        // User Options
-        if( in_array( 'options', $features ) ) {
-            include_once( $path . 'options.php' );
+        // Regional Limitations Feature
+        if( in_array( 'region', $features ) || in_array( 'regions', $features ) ) {
+            include_once( $path . 'region.php' );
         }
 
         // Backup Functions
