@@ -1,40 +1,48 @@
-TODO:
-
-BACKEND
-
-Experimental:
-    * Database Seeding and Database Migration
-    * AIO to add image compression settings
-    * AIO to have practical code writer that converts to output realtime
-
-Libraries:
-    * PHP Library Faker
-    * PHP Ratchet for Sockets
-    * Have a look into PHPUnit
-    * CACHE System based on App Mode // PHPFastCache
-
-AIO Core
-    * Restrict AJAX Requests thru config file <- IMP
-    * Code an AIO Login / Register System with Social Login (output thru single function with config)
-    * Improve the alert system
-    * Config functions array to add feature to login functions file by page
-
 AIO Admin
     * AIO Admin panel feature with PHP info stats
-    * Pages: App Configurator, App Designer, Translations, Backup, Plugins, DB, About
+    * Pages: App Configurator, Translations, Backup, Plugins, DB, About
     * AIO config panel editor inside admin panel
-    * AIO to have an interface to show AIO version, update automatically
     * AIO to support installation, enable/disable, un-installation of internal plugins
     * AIO to have e-Commerce feature as plugin
     * AIO to have uploaded media manager / file browser
 
-AIO Backup
+AIO DB
+    * Integrate PHP Library Faker
+    * DB Insert Fake Data Functions
     * AIO Auto Backup option
     * AIO Backups to zip database and storage with config password
+    * Database Seeding and Database Migration
 
 AIO Translation
     * Translator to have export and import feature
     * AIO to read internal language files then database language
+
+AIO Login
+    * Social Login
+    * OTP login via SMS
+    * OTP login via Email
+
+AIO Mobile
+    * Notification Manager + DB + Firebase Integration
+    * Individual Notifications
+    * iOS Simulator
+    * Android Simulator
+
+AIO Chat
+    * PHP Ratchet for Sockets
+    * Firebase Integration and DB for chat (User:User, User:Guest)
+    * Chat Manager Backend
+    * Chat Frontend
+    * Chat Automated Responses
+
+AIO CMS
+    * Page Management System + Routes
+    * Menu Designer
+    * Content Editor / Website Elements Designer - Custom (Refer to VvvebJs, Novi)
+    * Template Manager
+
+AIO Commerce
+    * Implement a robust commerce module
 
 AIO Setup
     * AIO Setup to include font selector
@@ -45,24 +53,9 @@ AIO Setup
     * AIO Setup to ask for CMS
     * AIO Setup to compare and show version is latest
 
-* Upload Manager - Lets user manage all uploaded files
-* Upload Options - File Upload Options
-* Styles and Scripts Manager - Lets user view all styles and scripts of current app
-* Styles and Scripts Editor - Lets user edit all scss and js files 
-* GIT Manager - Provides user GIT UI to pull and push app updates
-
-FRONTEND
-
-* Plyr JS Integrate
-* Advanced context menu
-* Block access to ASYNC Functions
-* Elements to be dynamic like icons
-* Tour / Guide like Shepherd
-* BotUI js integration
-* Different config per app by domain
-* Simpler JSON Request Func
-
-File Uploader
+AIO Media
+    * Upload Manager - Lets user manage all uploaded files
+    * Upload Options - File Upload Options
     * File Uploader issues on mobile (ex: trash button)
     * List and Icons View Toggle
     * File Uploader to have more controls like copy file url, or create share url
@@ -76,13 +69,34 @@ File Uploader
     * File Upload Errors to be present in notify translated and trigger show
     * File Uploader multiple selects multiple files and on delete does one
     * Uploaded files not accessible publicly by default but serve if user is logged in
+    * AIO to add image compression settings
+
+AIO Dev
+    * AIO to have code editor for app files
+    * Update CMD to run app update via GIT
+    * Update CMD to run AIO update via GIT (this might break app, so only notify update available)
+    * GIT Manager - Provides user GIT UI to pull and push app updates
+    * AIO to App compatibility config
+    * Have a look into PHPUnit
+    * CACHE System based on App Mode // PHPFastCache
+    * Restrict AJAX Requests via config file <- IMP
+
+* Styles and Scripts Manager - Lets user view all styles and scripts of current app
+* Styles and Scripts Editor - Lets user edit all scss and js files 
+
+
+FRONTEND
+
+* Block access to ASYNC Functions
+* Elements to be dynamic like icons
+* Tour / Guide like Shepherd
+* Simpler JSON Request Func
 
 Payment Gateways Integration
 
 International
 
 * Paypal
-* Stripe
 * 2Checkout
 * Authorize.Net
 * Skrill
@@ -111,9 +125,9 @@ SMS Gateways Integration
 * MSG91
 * Twilio
 
-EXTRA THINGS
+OPTIONAL
 
-1. Website Elements Designer (5 Days)
+1.  (5 Days)
 2. Page Builder (5 Days)
 3. Domain Registrar API (4 Days)
 4. CentOS WebPanel API / Custom WebPanel (10 Days)
@@ -123,3 +137,11 @@ EXTRA THINGS
 8. Backend CMS UI (6 Days)
 9. Backend Programming (30 Days)
 10. Frontend Website
+
+IMPLEMENTED
+    * Different config per app by domain
+    * Stripe Gateway
+    * Code an AIO Login / Register System with Social Login (output thru single function with config)
+    * Improve the alert system
+    * Config functions array to add feature to login functions file by page
+    * AIO to have practical code writer that converts to output realtime

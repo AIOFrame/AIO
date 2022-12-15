@@ -18,6 +18,9 @@ $features = $c['features'] ?? '';
         'data' => 'World Data (Countries, Cities, Currencies)',
         'backup' => 'Database Backup / Restore Feature',
         'region' => 'Regional Allowance / Restrictions',
+        'cms' => 'Content Management System',
+        'commerce' => 'E-Commerce System',
+        'chat' => 'Chat System and Features',
     ];
     $f->checkboxes('features','Chosen features loads classed functions that enables respective features',$features_list,$features,'data-c',0,12,'','',6);
     ?>

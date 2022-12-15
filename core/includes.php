@@ -69,6 +69,21 @@ if( defined( 'CONFIG' ) ) {
             include_once( $path . 'options.php' );
         }
 
+        // CMS Features
+        if( in_array( 'cms', $features ) || in_array( 'pages', $features ) ) {
+            include_once( $path . 'cms.php' );
+        }
+
+        // Commerce Features
+        if( in_array( 'commerce', $features ) || in_array( 'store', $features ) ) {
+            include_once( $path . 'commerce.php' );
+        }
+
+        // Chat Features
+        if( in_array( 'chat', $features ) ) {
+            include_once( $path . 'chat.php' );
+        }
+
         // Alerts System
         if( in_array( 'alert', $features ) || in_array( 'alerts', $features ) || in_array( 'notifications', $features ) ) {
             include_once( $path . 'alerts.php' );
