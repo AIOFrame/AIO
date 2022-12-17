@@ -11,10 +11,15 @@ $(document).ready(function(){
 
     // Close Alert
     $('body').on('click','.alert .close',function(){
+        let alert = $(this).parents('.alert');
+        let timer = $(alert).data('timer');
+        clearInterval(timer);
         // Prepare for Removal
-        $(this).parents('.alert').addClass('out');
+        $(alert).addClass('out');
         // Remove Alert
-        setTimeout(function(){ $(this).parents('.alert').remove() }, 2000 );
+        setTimeout( function(){
+            $(alert).remove();
+        }, 600 );
     })
 
     // Clear AIO Alert
@@ -56,7 +61,13 @@ function notify( text, duration, type, icon ) {
     setTimeout(function(){ clearInterval(timer) },duration);
 
     // Add Notification
-    ns.hasClass('b') ? ns.prepend(n) : ns.append(n);
+    if( ns.hasClass('b') ){
+        ns.prepend(n);
+        $(ns).find('>div:first-child').data('timer',timer).attr('timer',timer);
+    } else {
+        ns.append(n);
+        $(ns).find('>div:last-child').data('timer',timer).attr('timer',timer);
+    }
     setTimeout(function(){ $(id).removeClass('in') },100);
 
     // Prepare for Removal

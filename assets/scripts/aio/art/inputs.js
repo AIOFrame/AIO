@@ -37,7 +37,12 @@ $(document).ready(function(){
     // Select2
     if( $.fn.select2 !== undefined ){
         $('select.easy, select.select2').each(function (a,b) {
-            $(b).select2({ width:'100%' });
+            let select_config = { width:'100%' };
+            if( $(b).data('no-search') !== undefined ) {
+                select_config.minimumResultsForSearch = -1;
+            }
+            console.log(select_config);
+            $(b).select2(select_config);
         });
     }
 
