@@ -32,8 +32,8 @@ $(document).ready(function(){
 
 });
 
-function alert( text, duration ) {
-    notify( text, duration );
+function alert( text, duration, type, icon ) {
+    notify( text, duration, type, icon );
 }
 
 function notify( text, duration, type, icon ) {
