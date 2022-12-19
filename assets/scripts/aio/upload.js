@@ -261,13 +261,13 @@ function file_upload(e){
     if( ( $(e).data('url') !== '' && $(e).data('url') !== undefined ) || ( $(e).data('id') !== '' && $(e).data('id') !== undefined ) ) {
         // Show or Hide previous uploads
         if( $(e).data('history') === undefined ) {
-            $('#aio_up .f,#aio_up .search').hide();
+            $('#aio_up .uploaded_files,#aio_up .search_wrap').hide();
             $('.fb.browse').click();
         } else {
             if( $(e).data('force-browse') !== undefined ) {
                 $('.fb.browse').click();
             }
-            $('#aio_up .f,#aio_up .search').show();
+            $('#aio_up .uploaded_files,#aio_up .search_wrap').show();
         }
         // Sets a custom color
         let title = $('#aio_up .files_head h3');

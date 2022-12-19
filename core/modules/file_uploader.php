@@ -18,7 +18,9 @@ class FUP {
                 <input type="file" id="file_input">
             </div>
             <div class="files_body">
-                <input type="search" placeholder="<?php E('Search'); ?>" class="search">
+                <div class="search_wrap">
+                    <input type="search" placeholder="<?php E('Search'); ?>" class="search">
+                </div>
                 <div class="uploaded_files">
                     <?php
                     $db = new DB();

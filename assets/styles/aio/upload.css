@@ -1,8 +1,9 @@
+@charset "UTF-8";
 .file_modal, .file_notify {
   position: fixed;
   z-index: 999;
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
+  border-radius: var(--input_radius);
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -63,8 +64,11 @@ body.d .file_modal, body.d .file_notify {
   background: rgba(255, 255, 255, 0.75);
 }
 
-.file_modal .uploaded_files {
+.file_modal .files_body {
+  position: relative;
   min-height: 260px;
+}
+.file_modal .uploaded_files {
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
@@ -72,6 +76,8 @@ body.d .file_modal, body.d .file_notify {
   max-height: 50vh;
   overflow-y: auto;
   padding: 0 5px;
+  background: #fff;
+  z-index: 2;
 }
 .file_modal .no_uploaded_files {
   min-height: 260px;
@@ -86,24 +92,35 @@ body.d .file_modal, body.d .file_notify {
   display: block;
   transform: translate(-50%, -50%);
 }
+.file_modal .search_wrap {
+  background: #eee;
+  z-index: 2;
+  position: relative;
+}
+.file_modal .search_wrap:after {
+  font-family: "MaterialIcons", sans-serif;
+  content: "search";
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.6rem;
+}
 .file_modal .search {
   box-shadow: none;
   border: 0;
-  background: #ddd url(../../icons/search.svg) no-repeat 10px center/20px;
-  border-radius: 8px;
-  width: calc(100% - 20px);
-  font-size: 16px;
+  width: 100%;
+  font-size: 1.2rem;
   padding: 12px 12px 12px 40px;
-  margin: 10px;
-  letter-spacing: 1px;
-}
-.file_modal .files_body {
-  position: relative;
+  border-radius: 0;
+  background: none;
+  margin: 0;
 }
 .file_modal .files_head {
-  background: #333;
+  background: var(--primary_color);
+  background: linear-gradient(160deg, var(--primary_color) 0%, var(--secondary_color) 100%);
   position: relative;
-  color: #fff;
+  color: var(--color);
 }
 .file_modal .files_head h3 {
   display: block;
@@ -132,7 +149,7 @@ body.d .file_modal, body.d .file_notify {
   line-height: 40px;
 }
 .file_modal .files_head .expand {
-  content: "\f1ce";
+  content: "";
 }
 .file_modal .files_head .close {
   left: auto;
@@ -142,17 +159,15 @@ body.d .file_modal, body.d .file_notify {
   position: absolute;
   left: 5px;
   bottom: 5px;
+  top: 5px;
   font-size: 22px;
   width: calc(100% - 10px);
-  height: calc(100% - 60px);
+  height: calc(100% - 10px);
   text-align: center;
-  background: rgba(0, 0, 0, 0.05);
-  z-index: 999;
-  backdrop-filter: blur(10px) saturate(2);
-  -webkit-backdrop-filter: blur(10px) saturate(2);
-  opacity: 0;
+  opacity: 0.6;
   pointer-events: none;
   transition: 1s;
+  border: 5px dashed #eee;
 }
 .file_modal .drop_files span {
   position: absolute;
@@ -364,11 +379,7 @@ body.d .file_modal .files_head {
   font-size: 16px;
   text-transform: none;
   color: #000;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   display: block;
-  background: #fff;
-  -webkit-background-clip: unset;
-  -webkit-text-fill-color: #000;
 }
 .files_actions .disabled {
   color: #ccc;
@@ -391,17 +402,14 @@ body.d .file_modal .files_head {
   height: 50px;
   transform: translateY(-50%);
 }
-.files_actions .i.select {
-  z-index: 3;
-}
 .files_actions .i.select:after {
-  content: "\e86c";
+  content: "";
 }
 .files_actions .i.browse:after {
-  content: "\e9fc";
+  content: "";
 }
 .files_actions .i.trash:after {
-  content: "\e872";
+  content: "";
 }
 .files_actions .i.disabled {
   background: none;
@@ -527,6 +535,8 @@ td .aio_fsp {
   right: 5px;
   width: 30px;
   height: 30px;
+  font-size: 1.2rem;
+  line-height: 30px;
 }
 .aio_files .i.file {
   height: 20px;
