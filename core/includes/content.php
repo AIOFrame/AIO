@@ -119,7 +119,7 @@ class CONTENT {
         }
 
         // Head
-        $this->pre_html( '', $attrs, $pre_styles, 'inputs,buttons,alerts', $styles, $scripts, $primary_font, $secondary_font );
+        $this->pre_html( '', $attrs, $pre_styles, 'icons,inputs,buttons,alerts', $styles, $scripts, $primary_font, $secondary_font );
 
         // Content
         global $options;
@@ -135,7 +135,7 @@ class CONTENT {
         echo '</div></div></article>';
 
         // Foot
-        $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'data', 'login' ] ) : $scripts . ',data,login';
+        $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'data', 'validator', 'login' ] ) : $scripts . ',data,validator,login';
         $this->post_html( $scripts );
     }
 

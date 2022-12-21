@@ -693,7 +693,6 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
     }
     $cry = Encrypt::initiate();
     $f = new FORM();
-    $rand = rand(0,9999);
     $redirect = !empty( $redirect_to ) ? ' data-redirect="'.$redirect_to.'"' : '';
     $callback = !empty( $callback ) ? ' data-redirect="'.$callback.'"' : '';
     ?>
@@ -704,17 +703,16 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
             $f->input('password','password',$pass_title,$pass_title,'','onkeyup="aio_login_init(event)" data-log required autocomplete="current-password"','<div class="pass_wrap">','</div>');
             ?>
         </form>
-        <button id="aio_login_init" class="grad <?php echo $class; ?>" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_login_ajax' ); ?>"><?php E('Login'); ?></button>
+        <button id="aio_login_init" class="grad <?php echo $class; ?>" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_login_ajax' ); ?>"><span class="loader"></span><?php E('Login'); ?></button>
         <div class="more" onclick="aio_forgot_view()"><?php E('Forgot Password ?'); ?></div>
     </div>
     <div class="forgot_wrap" data-t data-pre="forgot_" data-data="forg" data-notify="3" data-reload="3" data-reset="forg" style="display:none;">
         <div class="inputs">
             <?php
-            $rand = rand(0,9999);
             $f->text('username',$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"','<div class="forgot_user_wrap">','</div>');
             ?>
         </div>
-        <button id="aio_forgot_init" class="grad <?php echo $class; ?>" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_forgot_ajax' ); ?>"><?php E('Reset Password'); ?></button>
+        <button id="aio_forgot_init" class="grad <?php echo $class; ?>" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_forgot_ajax' ); ?>"><span class="loader"></span><?php E('Reset Password'); ?></button>
         <div class="more" onclick="aio_login_view()"><?php E( 'Return to Login' ); ?></div>
     </div>
     <?php
