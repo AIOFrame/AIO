@@ -93,6 +93,10 @@ $(document).ready(function(){
         // TODO: Text suggestion
         // TODO: Password strength meter
     })
+    .on('keyup','input[data-format-number]',function(){
+        let val = parseInt( $(this).val().replace(/,/g, '') ).toLocaleString();
+        $(this).val( val.toLocaleString() );
+    })
     .on('keydown','[data-no-space]',function(e){
         if (e.which === 32)
             return false;
