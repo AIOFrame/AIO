@@ -12,7 +12,7 @@ if( isset( $_GET['type'] ) && $_GET['type'] == 'ux' ) {
     $type = 'ui';
     $header = 'Content-type: text/css; charset: UTF-8';
 }
-$v = isset( $_GET['v'] ) && !empty( $_GET['v'] ) ? $_GET['v'] : '14400';
+$v = isset( $_GET['v'] ) && !empty( $_GET['v'] ) ? $_GET['v'] : '31536000';
 header( $header );
 header( 'Cache-Control: max-age=' . $v );
 

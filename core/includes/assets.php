@@ -110,7 +110,7 @@ function art( array|string $arts = '', string $color1 = '222', string $color2 = 
     }
     echo '}.c1{color:'.$color1.'}.c2{color:'.$color2.'}.bg1{background:'.$color1.'}.bg2{background:'.$color2.'}.bs{border:1px solid '.$color1.'}.bf:focus{border:1px solid var(--primary_color)}.grad{color:var(--color);background-color:var(--primary_color);background:-moz-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background:-webkit-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background-image:linear-gradient(45deg,var(--primary_color) 0%,var(--secondary_color) 100%);}.grad-text{background: -webkit-linear-gradient(var(--primary_color), var(--secondary_color));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}</style>';
     echo '<link rel="stylesheet" href="'.APPURL.'assets/art.php?arts='.rtrim($art_ui,',').'&fc='.$color1.'&sc='.$color2. $v . '">';
-    echo '<script src="'.APPURL.'assets/art.php?type=ux&arts='.rtrim($art_ux,',').$v.'"></script>';
+    echo '<script src="'.APPURL.'assets/art.php?type=ux&arts='.rtrim($art_ux,',').$v.'" defer></script>';
 
 }
 
@@ -188,13 +188,14 @@ function get_styles( $ar = '', $page_of = '' ) {
  * @param string $f style file name excluding extension
  * @param array $params ['color'=>'red'] becomes ?color=red in link
  * @param string $page_of loads the stylesheet only if you are on this page
+ * @param string $load_mode 'async' or 'defer' tag to load the script
  * @author Shaikh <hey@shaikh.dev>
  */
-function get_script(string $f, array $params = [], string $page_of = ''): void {
+function get_script(string $f, array $params = [], string $page_of = '', string $load_mode = 'defer' ): void {
 
     // Gets cache config
     $cache = get_config( 'cache' );
-    $v = $cache ? '?v=' . round( time() / ( $cache * 60 ) ) : '';
+    $v = $cache ? '?v=' . round( time() / ( $cache * 60 ) ) : '?v=31536000';
 
     // Process GET parameters
     $p = '';
@@ -227,16 +228,16 @@ function get_script(string $f, array $params = [], string $page_of = ''): void {
             $site_key = get_config('recaptcha_site_key');
             if( !empty( $site_key ) ) {
                 $url = 'https://www.google.com/recaptcha/api.js?render='.$site_key;
-                echo '<script data-recaptcha src="' . $url . '"></script>';
+                echo '<script data-recaptcha src="' . $url . '" '.$load_mode.'></script>';
                 return;
             }
         } else if( $f == 'stripe' ) {
-            echo '<script src="https://js.stripe.com/v3/"></script>';
+            echo '<script src="https://js.stripe.com/v3/" '.$load_mode.'></script>';
         }
         if( $page_of !== '' ){
-            echo page_of( $page_of ) && $url !== '' ? '<script src="' . $url . $v . '"></script>' : '';
+            echo page_of( $page_of ) && $url !== '' ? '<script src="' . $url . $v . '" '.$load_mode.'></script>' : '';
         } else {
-            echo $url !== '' ? '<script src="' . $url . '"></script>' : '';
+            echo $url !== '' ? '<script src="' . $url . $v . '" '.$load_mode.'></script>' : '';
         }
 
     }
@@ -410,7 +411,7 @@ function favicon( string $icon ): void {
                     echo file_exists( APPPATH . 'assets/images/' . $icon . '-' . $s . '.png' ) ? '<link rel="apple-touch-icon" href="'.APPURL . 'apps/' . APPDIR . 'assets/images/'.$icon.'-'.$s.'.png"/>' : '';
                 }
             }
-        } else {
+        } else if( str_contains( $icon, 'http' ) ) {
             echo '<link rel="shortcut icon" href="'.$icon.'">';
         }
     }

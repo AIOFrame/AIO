@@ -1,7 +1,7 @@
 <?php
 
 header("Content-type: text/css; charset: UTF-8");
-header("Cache-Control: max-age=14400");
+header("Cache-Control: max-age=31536000");
 
 if( file_exists( __DIR__ . '/reset.min.css' ) ){
     $reset = file_get_contents( __DIR__ . '/reset.min.css' );

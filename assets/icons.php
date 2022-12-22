@@ -1,7 +1,7 @@
 <?php
 
 header("Content-type: text/css; charset: UTF-8");
-header("Cache-Control: max-age=14400");
+header("Cache-Control: max-age=31536000");
 
 if( is_array( $_GET ) ) {
     foreach( $_GET as $a => $f ) {

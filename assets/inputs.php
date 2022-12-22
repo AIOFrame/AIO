@@ -1,6 +1,6 @@
 <?php
 
-$v = isset( $_GET['v'] ) && !empty( $_GET['v'] ) ? $_GET['v'] : '14400';
+$v = isset( $_GET['v'] ) && !empty( $_GET['v'] ) ? $_GET['v'] : '31536000';
 
 header("Content-type: text/css; charset: UTF-8");
 header("Cache-Control: max-age=".$v);

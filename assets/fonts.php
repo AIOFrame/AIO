@@ -10,7 +10,7 @@ if( is_array( $_GET ) ) {
 }
 
 header("Content-type: text/css; charset: UTF-8");
-header("Cache-Control: max-age=14400");
+header("Cache-Control: max-age=31536000");
 
 global $fonts;
 $fonts = [];
@@ -55,7 +55,7 @@ foreach( glob( dirname( __FILE__ ) . '/fonts/*', GLOB_ONLYDIR ) as $f ){
                     $fonts_exist[] = 'woff';
                     $fonts_css .= file_exists($f . $fp. '.woff') ? ',url(\'fonts/'.$fn . $fp . '.woff\') format(\'woff\')' : '';
                 }
-                $css_post = 'font-weight:' . $w . ';font-style:normal;}';
+                $css_post = 'font-weight:' . $w . ';font-style:normal;font-display: swap;}';
                 if( !empty( $fonts_css ) ) {
                     echo $css_pre.$fonts_css.';'.$css_post;
                 }
@@ -90,7 +90,7 @@ foreach( glob( dirname( __DIR__ ) . '/apps/' . $app . '/assets/fonts/*', GLOB_ON
                     echo file_exists($f . $fp. '.woff') ? ',url(\'../apps/'.$app.'/assets/fonts/'.$fn . $fp . '.woff\') format(\'woff\')' : '';
                 }
                 echo ';font-weight:' . $w . ';';
-                echo 'font-style:normal';
+                echo 'font-style:normal;font-display: swap;';
                 echo '}';
             }
         }

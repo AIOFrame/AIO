@@ -3,7 +3,7 @@
 class CONTENT {
 
     function __construct() {
-
+        // TODO: Automate Pages
     }
 
     /**
@@ -32,7 +32,12 @@ class CONTENT {
         // <head>
         echo '<!doctype html><html ';
         html_class();
-        echo '><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"><meta http-equiv="X-UA-Compatible" content="ie=edge">';
+        echo '><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0"><meta http-equiv="X-UA-Compatible" content="ie=edge">';
+
+        // SEO
+        $c = get_config();
+        $seo = $c['seo'][PAGEPATH] ?? ( $options['seo'][PAGEPATH] ?? '' );
+        echo !empty( $seo ) ? '<meta name="description" content="'.T( $seo ).'">' : '';
 
         // Fav Icon
         $favicon = isset( $options['fav'] ) ? storage_url( $options['fav'] ) : 'fav';
@@ -79,12 +84,16 @@ class CONTENT {
 
         get_title();
 
-
-        $f = new FORM();
-        $c = Encrypt::initiate();
+        //$f = new FORM();
+        //$c = Encrypt::initiate();
 
         // Attributes
         //$attrs = $attrs.' data-out="'. $c->encrypt('logout_ajax').'"';
+
+        // Google Analytics
+        if( isset( CONFIG['api']['google_analytics'] ) ) {
+            echo '<script async src="https://www.googletagmanager.com/gtag/js?id=UA-'.str_replace('UA-','',CONFIG['api']['google_analytics'])."></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-".str_replace('UA-','',CONFIG['api']['google_analytics'])."');</script>";
+        }
 
         // </head>
         echo '</head><body ';
@@ -249,6 +258,16 @@ class CONTENT {
         $click = 'onclick="process_data(this)"';
         $confirm = !empty( $confirm ) ? 'data-confirm="' . T($confirm) . '"' : '';
         echo '<' . $tag . ' class="' . $class . '" ' . $action . ' ' . $click . ' ' . $confirm . ' data-reload="2" data-notify="2">' . $text . '</' . $tag . '>';
+    }
+
+    // TODO: Page Management
+    function page_management(): void {
+
+    }
+
+    // TODO: SEO Options
+    function seo_options(): void {
+
     }
 
 }

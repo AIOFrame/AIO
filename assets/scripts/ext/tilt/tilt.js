@@ -173,7 +173,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
             // If option pre-render is enabled we assume all html/css is present for an optimal glare effect.
             if (!glarePrerender)
-            // Create glare element
+                // Create glare element
                 $(this).append('<div class="js-tilt-glare"><div class="js-tilt-glare-inner"></div></div>');
 
             // Store glare selector if glare is enabled
