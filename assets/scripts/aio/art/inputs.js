@@ -15,6 +15,21 @@ $(document).ready(function(){
         $( $(this).data('alt') ).val( [('0'+date.getDate()).slice(-2), ('0'+date.getMonth()).slice(-2), date.getFullYear()].join('-') ).trigger('change');
     })
 
+    .on('change','[type=number][data-step]',function (e) {
+        let step = $(this).data('step');
+        let val = parseInt($(this).val());
+        console.log(step);
+        console.log(val);
+        console.log(e.key);
+        if( e.key === 'ArrowUp' ){
+            e.preventDefault();
+            $(this).val( val + step );
+        } else if( e.key === 'ArrowDown' ){
+            e.preventDefault();
+            $(this).val( val - step );
+        }
+    })
+
     /* .on('change','[data-visible-date]',function(){
         elog( $(this) );
         let date = new Date( $(this).val() );

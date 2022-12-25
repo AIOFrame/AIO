@@ -520,6 +520,7 @@ td .aio_fsp {
 }
 .aio_files .f > .f {
   font-size: 12px;
+  max-width: 100%;
   /* max-width: calc(100% - 34px); */
   overflow: hidden;
   height: 16px;
