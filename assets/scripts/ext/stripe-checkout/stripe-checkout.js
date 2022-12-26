@@ -1,134 +1,155 @@
-// Get API Key
-let STRIPE_PUBLISHABLE_KEY = $('[data-stripe-public-key]').data('stripe-public-key');
-
-// Create an instance of the Stripe object and set your publishable API key
-const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
-
-let elements = stripe.elements();
-let ir = $($('[type=text]')[0]);
-let style = {
-    base: {
-        iconColor: ir.css('color'),
-        border: ir.css('border'),
-        height: ir.css('height'),
-        borderRadius: ir.css('border-radius'),
-        color: ir.css('color'),
-        fontWeight: ir.css('font-weight'),
-        fontFamily: ir.css('font-family'),
-        fontSize: ir.css('font-size'),
-        backgroundColor: ir.css('background-color'),
-        letterSpacing: ir.css('letter-spacing'),
-        fontSmoothing: 'antialiased',
-        padding: ir.css('padding'),
-    },
-    invalid: {
-        iconColor: 'firebrick',
-        color: 'firebrick',
-    },
-};
-let cardElement = elements.create('card', { style: style });
-cardElement.mount('#card-element');
-
-cardElement.on('change', function (event) {
-    displayError(event);
-});
-
-function displayError(event) {
-    if (event.error) {
-        notify(event.error.message);
+let elements;
+let stripe;
+let payment_intent_id;
+let clientSecret;
+let payment_form;
+document.addEventListener("DOMContentLoaded", function(event) {
+    let key = document.querySelector('#payment-form').getAttribute('data-stripe');
+    stripe = Stripe( key );
+    payment_form = document.querySelector("#payment-element");
+    const clientSecretParam = new URLSearchParams(window.location.search).get(
+        "payment_intent_client_secret"
+    );
+    setProcessing(true);
+    if(!clientSecretParam){
+        setProcessing(false);
+        post( document.querySelector('#payment-form').getAttribute('data-pre'), { request_type:'create_payment_intent' }, '', '', '', '', 'init');
     }
+    checkStatus();
+    payment_form.addEventListener("submit", handleSubmit);
+})
+
+function init(r) {
+    console.log(r);
+    payment_intent_id = r.id;
+    clientSecret = r.secret;
+    const appearance = {
+        theme: 'stripe',
+        rules: {
+            '.Label': {
+                fontWeight: 'bold',
+                textTransform: 'uppercase',
+            }
+        }
+    };
+    elements = stripe.elements({ clientSecret: clientSecret, appearance: appearance });
+    const paymentElement = elements.create("payment");
+    paymentElement.mount("#paymentElement");
 }
 
-/*
-function init_subscription(e) {
+// Card form submit handler
+async function handleSubmit(e) {
+    e.preventDefault();
     setLoading(true);
 
-    let plan_id = $('[data-key=plan]').val();
-    let customer_name = $('[data-key=name]').val();
-    let customer_email = $('[data-key=email]').val();
+    let customer_name = document.getElementById("name").value;
+    let customer_email = document.getElementById("email").value;
 
-    // Post the subscription info to the server-side script
-    fetch( location.href, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ request_type: 'create_customer_subscription', plan_id: plan_id, name: customer_name, email: customer_email }),
-    })
-    .then(function(response){
-        console.log(response);
-        response.json();
-    }).then(function(data){
-        console.log(data);
-        if (data.subscriptionId && data.clientSecret) {
-            paymentProcess(data.subscriptionId, data.clientSecret, data.customerId);
-        } else {
-            notify(data.error);
-        }
-        setLoading(false);
-    })
-    .catch(console.error);
+    post(document.querySelector('#payment-form').getAttribute('data-post'),
+        {
+            request_type: 'create_customer',
+            payment_intent_id: payment_intent_id,
+            name: customer_name,
+            email: customer_email
+        },
+        0, 0, '', '', 'handle_init');
 }
-*/
 
-
-function process_payment( d ){
-
-    let subscriptionId;
-    let clientSecret;
-    let customerId;
-    if( d[0] === 1 ) {
-        notify('Subscription created with Stripe, proceeding to process payment!');
-        let data = JSON.parse( d[1] );
-        console.log(data);
-        subscriptionId = data['subscription_id'];
-        clientSecret = data['client_secret'];
-        customerId = data['customer_id'];
-    }
-    setProcessing(true);
-
-    let plan_id = $('[data-key=plan]').val();
-    let customer_name = $('[data-key=name]').val();
-
-    // Create payment method and confirm payment intent.
-    stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-            card: cardElement,
-            billing_details: {
-                name: customer_name,
-            },
-        }
-    }).then(function( r ) {
-        if( r.error ) {
-            notify( r.error.message );
-            setProcessing(false);
-            setLoading(false);
-        } else {
-            post( $('#payment_response').data('action'), { subscription_id: subscriptionId, customer_id: customerId, plan_id: plan_id, payment_intent: r.paymentIntent }, 2, 2 );
-        }
+async function handle_init(r) {
+    const {error} = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+            return_url: window.location.href + '?customer_id=' + r.customer_id,
+        },
     });
+
+    if (error.type === "card_error" || error.type === "validation_error") {
+        notify(error.message, 8, 'error', 'report');
+    } else {
+        notify('An unexpected error prevent from payment processing!', 8, 'red', 'report');
+    }
+    setLoading(false);
+}
+
+// Fetch the PaymentIntent status after payment submission
+async function checkStatus() {
+    const clientSecret = new URLSearchParams(window.location.search).get(
+        "payment_intent_client_secret"
+    );
+    const customerID = new URLSearchParams(window.location.search).get(
+        "customer_id"
+    );
+    if (!clientSecret) {
+        return;
+    }
+    const { paymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
+    if (paymentIntent) {
+        switch (paymentIntent.status) {
+            case "succeeded":
+                post(
+                    document.querySelector('#payment-form').getAttribute('payment'),
+                    { request_type:'payment_insert', payment_intent: paymentIntent, customer_id: customerID },
+                    '','','','','process_response');
+                break;
+            case "processing":
+                showMessage("Your payment is processing.");
+                setTimeout(function(){ location.reload() },5000);
+                break;
+            case "requires_payment_method":
+                showMessage("Your payment was not successful, please try again.");
+                setTimeout(function(){ location.reload() },5000);
+                break;
+            default:
+                showMessage("Something went wrong.");
+                setTimeout(function(){ location.reload() },5000);
+                break;
+        }
+    } else {
+        showMessage("Something went wrong.");
+        setTimeout(function(){ location.reload() },5000);
+    }
+}
+
+function process_response(r) {
+    console.log(r);
+    console.log(r.payment_txn_id);
+}
+
+
+// Display message
+function showMessage(messageText) {
+    const messageContainer = document.querySelector("#paymentResponse");
+
+    messageContainer.classList.remove("hidden");
+    messageContainer.textContent = messageText;
+
+    setTimeout(function () {
+        messageContainer.classList.add("hidden");
+        messageText.textContent = "";
+    }, 5000);
 }
 
 // Show a spinner on payment submission
 function setLoading(isLoading) {
     if (isLoading) {
         // Disable the button and show a spinner
-        $('#submit_button').attr('disabled',true);
-        $('#spinner').removeClass('dn');
-        $('#buttonText').addClass('dn');
+        document.querySelector("#submitBtn").disabled = true;
+        document.querySelector("#spinner").classList.remove("hidden");
+        document.querySelector("#buttonText").classList.add("hidden");
     } else {
         // Enable the button and hide spinner
-        $('#submit_button').attr('disabled',false);
-        $('#spinner').addClass('dn');
-        $('#buttonText').removeClass('dn');
+        document.querySelector("#submitBtn").disabled = false;
+        document.querySelector("#spinner").classList.add("hidden");
+        document.querySelector("#buttonText").classList.remove("hidden");
     }
 }
 
-// Show a spinner on payment form processing
 function setProcessing(isProcessing) {
     if (isProcessing) {
-        //$(subscrFrm).addClass('dn');
-        //$('#frmProcess').removeClass('dn');
+        payment_form.classList.add('dn');
+        payment_form.classList.remove('load');
     } else {
-        //$(subscrFrm).removeClass('dn');
-        //$('#frmProcess').addClass('dn');
+        payment_form.classList.remove('dn');
+        payment_form.classList.add('load');
     }
 }

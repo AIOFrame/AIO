@@ -6,7 +6,7 @@ class STRIPE {
     function __construct() {
 
         // Subscriptions Plans
-        $tables[] = [ 'stripe_subscription_plans', [
+        /*$tables[] = [ 'stripe_subscription_plans', [
             [ 'name', 'VARCHAR', 128, 1 ],
             [ 'price', 'FLOAT', '', 1 ],
             [ 'interval', 'VARCHAR', 128, 1 ],
@@ -45,7 +45,7 @@ class STRIPE {
         ], 'sub', 1 ];
 
         $db = new DB();
-        $db->automate_tables( $tables );
+        $db->automate_tables( $tables );*/
     }
 
     function get_stripe_key(): string {
@@ -77,14 +77,14 @@ class STRIPE {
         $pri_test = $ops['stripe_test_private_key'] ?? '';
         $test = $ops['stripe_test'] ?? '';
         $f->texts([
-            [ 'stripe_public_key', 'Public Key', '', $pub ],
-            [ 'stripe_private_key', 'Private Key', '', $pri ],
+            [ 'stripe_public_key', 'Publishable Key', '', $pub ],
+            [ 'stripe_private_key', 'Secret Key', '', $pri ],
         ], $attr, 3 );
         echo '<div class="col-12 col-md-6"><div class="row">';
         $f->checkboxes( 'stripe_test', 'Test Mode', [1=>''], $test, $attr.' class="slide"', 0, 2 );
         $f->texts([
-            [ 'stripe_test_public_key', 'Public Key - Test Mode', '', $pub_test ],
-            [ 'stripe_test_private_key', 'Private Key - Test Mode', '', $pri_test ],
+            [ 'stripe_test_public_key', 'Publishable Key - Test Mode', '', $pub_test ],
+            [ 'stripe_test_private_key', 'Secret Key - Test Mode', '', $pri_test ],
         ], $attr, 5);
         echo '</div></div>';
         $f->process_options('Save Stripe Options','store grad','','col-12 tac');
