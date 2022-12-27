@@ -398,5 +398,27 @@ button.load span.loader:before, .btn.load span.loader:before {
     -webkit-transform: rotate(360deg);
   }
 }
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.pagination .page_btn {
+  margin: 0 5px;
+  padding: 12px;
+  font-size: 1rem;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  cursor: pointer;
+  display: block;
+  border-radius: var(--input_radius);
+  border: 2px solid #eee;
+}
+.pagination .page_btn.on {
+  color: var(--primary_color);
+  border: 2px solid var(--primary_color);
+}
 
 /*# sourceMappingURL=buttons.css.map */

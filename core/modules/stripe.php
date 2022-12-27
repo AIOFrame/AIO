@@ -314,6 +314,103 @@ class STRIPE {
 
 }
 
+function stripe_payment_intent_ajax(): void {
+    $db = new DB();
+    $stripe = $db->get_options(['stripe_public_key','stripe_private_key','stripe_test','stripe_test_public_key','stripe_test_private_key']);
+    $s_private = $stripe['stripe_private_key'] ?? '';
+    $s_test = $stripe['stripe_test'] ?? '';
+    $st_private = $stripe['stripe_test_private_key'] ?? '';
+    $stripe_key = !empty( $s_test ) && $s_test == 1 ? $st_private : $s_private;
+    \Stripe\Stripe::setApiKey( $stripe_key );
+
+    // Parse Data
+    $e = Encrypt::initiate();
+    $data = $e->decrypt_array( $_POST['data'] );
+    elog( $stripe );
+    elog( $data );
+
+    header('Content-Type: application/json');
+
+    try {
+        // retrieve JSON from POST body
+        $jsonStr = file_get_contents('php://input');
+        $jsonObj = json_decode($jsonStr);
+
+        // Create a PaymentIntent with amount and currency
+        $paymentIntent = \Stripe\PaymentIntent::create([
+            'amount' => $data['amount'],
+            'currency' => $data['currency'],
+            'automatic_payment_methods' => [
+                'enabled' => true,
+            ],
+        ]);
+
+        $output = [
+            'id' => $paymentIntent->id,
+            'clientSecret' => $paymentIntent->client_secret,
+        ];
+        echo json_encode($output);
+    } catch (Error $e) {
+        //http_response_code(500);
+        elog( $e->getMessage() );
+        echo json_encode(['error' => $e->getMessage()]);
+    }
+}
+
+function stripe_create_customer_ajax(): void {
+
+    $api_error = '';
+
+    $db = new DB();
+    $stripe = $db->get_options(['stripe_public_key','stripe_private_key','stripe_test','stripe_test_public_key','stripe_test_private_key']);
+    $s_private = $stripe['stripe_private_key'] ?? '';
+    $s_test = $stripe['stripe_test'] ?? '';
+    $st_private = $stripe['stripe_test_private_key'] ?? '';
+    $stripe_key = !empty( $s_test ) && $s_test == 1 ? $st_private : $s_private;
+    \Stripe\Stripe::setApiKey( $stripe_key );
+
+    // Parse Data
+    $e = Encrypt::initiate();
+    $data = $e->decrypt_array( $_POST['data'] );
+
+    $payment_intent_id = $_POST['payment_intent_id'] ?? '';
+    $name = $data['name'] ?? '';
+    $email = $data['email'] ?? '';
+
+    // Add customer to stripe
+    try {
+        $customer = \Stripe\Customer::create(array(
+            'name' => $name,
+            'email' => $email
+        ));
+    } catch(Exception $e) {
+        $api_error = $e->getMessage();
+        elog( $e->getMessage() );
+    }
+
+    if( empty($api_error) && $customer){
+        try {
+            // Update PaymentIntent with the customer ID
+            $paymentIntent = \Stripe\PaymentIntent::update($payment_intent_id, [
+                'customer' => $customer->id
+            ]);
+        } catch (Exception $e) {
+            $api_error = $e->getMessage();
+            elog( $e->getMessage() );
+            echo json_encode(['error' => $api_error]);
+        }
+
+        $output = [
+            'id' => $payment_intent_id,
+            'customer_id' => $customer->id
+        ];
+        echo json_encode($output);
+    } else {
+        //http_response_code(500);
+        echo json_encode(['error' => $api_error]);
+    }
+}
+
 function update_subscription_product_ajax( int|array $sid ): array {
     $db = new DB();
 
