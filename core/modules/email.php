@@ -543,44 +543,50 @@ class MAIL {
             </div>
             <div class="tac"><button class="store"><?php E('Build Template'); ?></button></div>
         </form>
-
+        <?php
+        get_style('https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.21.0/ui/trumbowyg.min.css');
+        get_scripts(['ace','https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.21.0/trumbowyg.min.js']);
+        ?>
         <script>
-            $(document).ready(function(){
-                /* $('body').on('keyup focus','.editor', function(e){
-                    let f = $('iframe');
-                    let url = $(f).attr('src').split('?')[0]+'?all&text='+encodeURIComponent($(this).val());
-                    $('#test_content').val($(this).val());
-                    $(f).attr('src',url);
-                    setTimeout(frame_height,1000);
-                }); */
+            window.onload = function () {
+                $(document).ready(function () {
+                    /* $('body').on('keyup focus','.editor', function(e){
+                        let f = $('iframe');
+                        let url = $(f).attr('src').split('?')[0]+'?all&text='+encodeURIComponent($(this).val());
+                        $('#test_content').val($(this).val());
+                        $(f).attr('src',url);
+                        setTimeout(frame_height,1000);
+                    }); */
 
-                $('body').on('change','[data-key=smtp]',function(){
-                    let d = $(this).find(':selected');
-                    let port = d.data('port') !== undefined ? d.data('port') : 465;
-                    $('[data-key=smtp_server]').val( d.val() );
-                    $('[data-key=smtp_port]').val( port );
-                });
+                    $('body').on('change', '[data-key=smtp]', function () {
+                        let d = $(this).find(':selected');
+                        let port = d.data('port') !== undefined ? d.data('port') : 465;
+                        $('[data-key=smtp_server]').val(d.val());
+                        $('[data-key=smtp_port]').val(port);
+                    });
 
-                $('.editor').trumbowyg({ autogrow: true }).on('tbwchange tbwfocus', function(e){
-                    let f = $('iframe');
-                    let url = $(f).attr('src').split('?')[0]+'?all&text='+encodeURIComponent($(this).val());
-                    $('[data-key=test_content]').val( $( e.currentTarget ).val() );
-                    $(f).attr('src',url);
-                    setTimeout( frame_height, 1000 );
+                    $('.editor').trumbowyg({autogrow: true}).on('tbwchange tbwfocus', function (e) {
+                        let f = $('iframe');
+                        let url = $(f).attr('src').split('?')[0] + '?all&text=' + encodeURIComponent($(this).val());
+                        $('[data-key=test_content]').val($(e.currentTarget).val());
+                        $(f).attr('src', url);
+                        setTimeout(frame_height, 1000);
+                    });
+                    let head_editor = ace.edit('head_code');
+                    head_editor.session.setMode("ace/mode/html");
+                    head_editor.session.setValue($('[data-key=template_head]').val(), -1);
+                    head_editor.session.on('change', function (d) {
+                        $('[data-key=template_head]').val(head_editor.getValue());
+                    });
+                    let foot_editor = ace.edit('foot_code');
+                    foot_editor.session.setMode("ace/mode/html");
+                    foot_editor.session.setValue($('[data-key=template_foot]').val(), -1);
+                    foot_editor.session.on('change', function (d) {
+                        $('[data-key=template_foot]').val(foot_editor.getValue());
+                    });
                 });
-                let head_editor = ace.edit( 'head_code' );
-                head_editor.session.setMode("ace/mode/html");
-                head_editor.session.setValue($('[data-key=template_head]').val(),-1);
-                head_editor.session.on('change', function(d) {
-                    $('[data-key=template_head]').val( head_editor.getValue() );
-                });
-                let foot_editor = ace.edit( 'foot_code' );
-                foot_editor.session.setMode("ace/mode/html");
-                foot_editor.session.setValue($('[data-key=template_foot]').val(),-1);
-                foot_editor.session.on('change', function(d) {
-                    $('[data-key=template_foot]').val( foot_editor.getValue() );
-                });
-            });
+                ace.config.set("basePath", "<?php echo APPURL; ?>assets/ext/ace/" );
+            }
             function frame_height() {
                 let f = $('iframe');
                 //console.log( $(f).contents().find('html').height() );
@@ -595,9 +601,6 @@ class MAIL {
             }
         </style>
         <?php
-        get_style('https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.21.0/ui/trumbowyg.min.css');
-        get_scripts(['ace','https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.21.0/trumbowyg.min.js']);
-        echo '<script>ace.config.set("basePath", "'. APPURL . 'assets/ext/ace/" );</script>';
     }
 
     function render_template(): void {
