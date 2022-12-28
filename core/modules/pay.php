@@ -48,6 +48,17 @@ class PAY {
         }
     }
 
+    /**
+     * @param float $amount Total amount to charge
+     * @param string $currency Currency of the order
+     * @param string $email Email of the buyer
+     * @param string $name Name of the buyer
+     * @param string $process_payment_response_backend PHP AJAX Function that processes stripe response
+     * @param string $process_payment_response_frontend JS Function that processes the stripe response
+     * @param string $button_text Payment button text
+     * @param string $button_wrap_class Payment button wrap class
+     * @return void
+     */
     function render_stripe_payment( float $amount, string $currency, string $email, string $name, string $process_payment_response_backend, string $process_payment_response_frontend, string $button_text = 'Proceed to Pay', string $button_wrap_class = 'tac' ): void {
         $db = new DB();
         $e = Encrypt::initiate();
