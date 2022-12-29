@@ -224,7 +224,10 @@ function get_script(string $f, array $params = [], string $page_of = '', string 
         $url = asset_exists( $script_paths, $f, 'js' );
 
         // If script is recaptcha, get recaptcha key and link to google recaptcha
-        if( $f == 'recaptcha' ) {
+        if( str_contains( $f, 'http' ) ) {
+            echo '<script src="' . $f . '" '.$load_mode.'></script>';
+            return;
+        } else if( $f == 'recaptcha' ) {
             $site_key = get_config('recaptcha_site_key');
             if( !empty( $site_key ) ) {
                 $url = 'https://www.google.com/recaptcha/api.js?render='.$site_key;
@@ -245,18 +248,19 @@ function get_script(string $f, array $params = [], string $page_of = '', string 
 
 /**
  * Finds .js files and outputs <script>'s
- * @param string|array string $ar JS files separated by ,
+ * @param string|array $ar JS files separated by ,
  * @param string|array $page_of Load only if current page is of
+ * @param string $load_mode 'async' or 'defer' tag to load the script
  * @author Shaikh <hey@shaikh.dev>
  */
-function get_scripts( string|array $ar = '', string|array $page_of = '' ): void {
+function get_scripts( string|array $ar = '', string|array $page_of = '', string $load_mode = 'defer' ): void {
     if( !empty( $ar ) ){
         $ar = is_array( $ar ) ? $ar : explode( ',', str_replace( ' ', '', $ar ) );
         foreach( $ar as $f ){
             if( $page_of !== '' ){
-                page_of( $page_of ) ? get_script( $f ) : '';
+                page_of( $page_of ) ? get_script( $f, [], '', $load_mode ) : '';
             } else {
-                get_script( $f );
+                get_script( $f, [], '', $load_mode );
             }
         }
     }

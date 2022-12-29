@@ -155,6 +155,7 @@ class MAIL {
                 }
             }
         } else {
+            elog( 'VIA SMTP: To:' . $to . ', From: ' . $from . ', Sub: ' . $subject );
             $smtp = $this->smtp( $to, $subject, $content, $from, '', '', '', '', 0 );
             if( !$smtp ) {
                 $headers = "MIME-Version: 1.0" . "\r\n" . "Content-type:text/html;charset=UTF-8" . "\r\n" . "From: " . $from . "\r\n" . "Reply-To: " . $from;
@@ -503,7 +504,7 @@ class MAIL {
         <div class="mail_view">
             <iframe class="template_preview" src="<?php echo $template_url; ?>" frameborder="0"></iframe>
         </div>
-        <div class="row" <?php $f->process_params('','email','',3,0,[],'Successfully Saved Settings'); ?>>
+        <div class="row" <?php $f->process_params('','email','',3); ?>>
             <?php
             $os = $db->get_options(['from_email','smtp','smtp_server','smtp_port','smtp_username','smtp_password']);
             $attr = 'data-email';

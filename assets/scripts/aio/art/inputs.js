@@ -1,6 +1,6 @@
 //let debug = !!$('body').hasClass('debug');
 
-$(document).ready(function(){
+window.addEventListener('DOMContentLoaded',function () {
 
     // Changes checkbox value to 1 or 2
     $(document).on('change','[type=checkbox].slide,[data-check],[data-bool],[data-boolean]',function(){
@@ -50,15 +50,16 @@ $(document).ready(function(){
     }
 
     // Select2
+    $('select.easy, select.select2').each(function (a,b) {
+        let select_config = { width:'100%' };
+        if( $(b).data('no-search') !== undefined ) {
+            select_config.minimumResultsForSearch = -1;
+        }
+        console.log(select_config);
+        $(b).select2(select_config);
+    });
     if( $.fn.select2 !== undefined ){
-        $('select.easy, select.select2').each(function (a,b) {
-            let select_config = { width:'100%' };
-            if( $(b).data('no-search') !== undefined ) {
-                select_config.minimumResultsForSearch = -1;
-            }
-            console.log(select_config);
-            $(b).select2(select_config);
-        });
+
     }
 
     if( $.fn.tagComplete !== undefined ){

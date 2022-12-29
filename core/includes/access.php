@@ -291,7 +291,7 @@ class ACCESS {
             // Email that password to user
             $content = T('Your have successfully reset your password, your new password is ').'<span style="font-weight:bold">' . $pass . '</span><br/><br/>' . T('You can login with your new password and change to a new password from profile.');
             $mail = $this->mail($user['user_email'], 'Your password has been Reset!', $content);
-            elog( $mail );
+            //elog( $mail );
             return [ 1, T('Password successfully reset! Please check your registered email.') ];
         } else {
             return [ 0, T('Failed to reset user password!') ];
