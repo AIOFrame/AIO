@@ -27,6 +27,11 @@ if( is_array( $feats ) ) {
         include_once( $path . 'storage.php' );
     }
 
+    // Create CMS tables if featured
+    if( in_array( 'cms', $feats ) ) {
+        include_once( $path . 'cms.php' );
+    }
+
     // Create regions if featured
     if( in_array( 'regions', $feats ) || in_array( 'regional', $feats ) ) {
         include_once( $path . 'regions.php' );

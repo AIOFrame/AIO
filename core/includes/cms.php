@@ -6,10 +6,16 @@
 
 class CMS {
 
+    public array $page_statuses = [ 1 => 'Active', 2 => 'Inactive', 3 => 'Draft', 4 => 'History' ];
+
     function __construct() {
 
     }
 
+    // TODO: Pages List Table
 
+    // TODO: Pages List Cards
+
+    // TODO: Page Editor
 
 }
