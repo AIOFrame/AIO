@@ -619,9 +619,10 @@ class MAIL {
 
 function send_test_email_ajax(): void {
     elog( $_POST );
-    if( isset( $_POST['test_email'] ) && $_POST['test_content'] ) {
+    if( isset( $_POST['test_email'] ) ) {
         $m = new MAIL();
-        $m->send( $_POST['test_email'], 'Test Email Template', $_POST['test_content'] );
+        $content = $_POST['test_content'] ?? '';
+        $m->send( $_POST['test_email'], 'Test Email Template', $content );
         es('Test Email Send!');
     } else {
         ef('Test Email failed because of empty email or template content');
