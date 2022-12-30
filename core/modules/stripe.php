@@ -337,13 +337,15 @@ function stripe_payment_intent_ajax(): void {
         $jsonObj = json_decode($jsonStr);
 
         // Create a PaymentIntent with amount and currency
-        $paymentIntent = \Stripe\PaymentIntent::create([
-            'amount' => $data['amount'],
+        $data = [
+            'amount' => $data['amount'].'00',
             'currency' => $data['currency'],
             'automatic_payment_methods' => [
                 'enabled' => true,
             ],
-        ]);
+        ];
+        elog( $data );
+        $paymentIntent = \Stripe\PaymentIntent::create($data);
 
         $output = [
             'id' => $paymentIntent->id,

@@ -49,7 +49,7 @@ class PAY {
     }
 
     /**
-     * @param float $amount Total amount to charge
+     * @param int $amount Total amount to charge
      * @param string $currency Currency of the order
      * @param string $email Email of the buyer
      * @param string $name Name of the buyer
@@ -59,7 +59,7 @@ class PAY {
      * @param string $button_wrap_class Payment button wrap class
      * @return void
      */
-    function render_stripe_payment( float $amount, string $currency, string $email, string $name, string $process_payment_response_backend, string $process_payment_response_frontend, string $button_text = 'Proceed to Pay', string $button_wrap_class = 'tac' ): void {
+    function render_stripe_payment( int $amount, string $currency, string $email, string $name, string $process_payment_response_backend, string $process_payment_response_frontend, string $button_text = 'Proceed to Pay', string $button_wrap_class = 'tac' ): void {
         $db = new DB();
         $e = Encrypt::initiate();
         global $options;

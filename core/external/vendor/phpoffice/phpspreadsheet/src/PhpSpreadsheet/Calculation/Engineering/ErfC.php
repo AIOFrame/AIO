@@ -4,6 +4,7 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\Engineering;
 
 use PhpOffice\PhpSpreadsheet\Calculation\ArrayEnabled;
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
 
 class ErfC
 {
@@ -39,7 +40,7 @@ class ErfC
             return self::erfcValue($value);
         }
 
-        return Functions::VALUE();
+        return ExcelError::VALUE();
     }
 
     //
@@ -58,7 +59,7 @@ class ErfC
         $a = $n = 1;
         $b = $c = $value;
         $d = ($value * $value) + 0.5;
-        $q1 = $q2 = $b / $d;
+        $q2 = $b / $d;
         do {
             $t = $a * $n + $b * $value;
             $a = $b;

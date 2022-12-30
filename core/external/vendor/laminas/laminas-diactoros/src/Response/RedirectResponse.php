@@ -8,7 +8,6 @@ use Laminas\Diactoros\Exception;
 use Laminas\Diactoros\Response;
 use Psr\Http\Message\UriInterface;
 
-use function get_class;
 use function gettype;
 use function is_object;
 use function is_string;
@@ -36,8 +35,8 @@ class RedirectResponse extends Response
         if (! is_string($uri) && ! $uri instanceof UriInterface) {
             throw new Exception\InvalidArgumentException(sprintf(
                 'Uri provided to %s MUST be a string or Psr\Http\Message\UriInterface instance; received "%s"',
-                __CLASS__,
-                (is_object($uri) ? get_class($uri) : gettype($uri))
+                self::class,
+                is_object($uri) ? $uri::class : gettype($uri)
             ));
         }
 

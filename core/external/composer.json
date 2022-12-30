@@ -8,6 +8,7 @@
         "mailjet/mailjet-apiv3-php": "^1.5.5",
         "guzzlehttp/guzzle": "^7.4",
         "phpmailer/phpmailer": "^6.5",
-        "vonage/client": "^2.4"
+        "vonage/client": "^2.4",
+        "cboden/ratchet": "^0.4.4"
     }
 }
