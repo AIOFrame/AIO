@@ -89,7 +89,7 @@ class DB {
      */
     function create_table( string $name, array $columns, string $pre = '', bool $auto_id = true ): array {
         $result = [];
-        if( is_array( $columns ) && defined('APPCON') && APPCON ){
+        if( defined('APPCON') && APPCON ){
 
             // Prerequisites
             $debug = debug_backtrace();
@@ -97,7 +97,7 @@ class DB {
             $pre = !empty( $pre ) ? $pre . '_' : '';
             $columns_query = $auto_id ? ( DB_TYPE == 'mssql' ? $pre . 'id INT NOT NULL IDENTITY(1, 1)' : $pre . 'id INT AUTO_INCREMENT PRIMARY KEY' ) : '';
 
-            // Create Table
+            // Create Table if it doesn't exist
             if( DB_TYPE == 'mssql' ) {
                 $query = 'IF NOT EXISTS (  SELECT [name] FROM sys.tables WHERE [name] = \''.$name.'\' ) CREATE TABLE ' . $name . ' ( ' . $columns_query . ' ) ';
             } else {
@@ -199,26 +199,32 @@ class DB {
         $file = str_replace( '/', '_', str_replace( '.php', '', $file_path ) );
         $md5 = md5_file( $file_path );
         global $options;
-        $exist = $options[ $file . '_md5' ] ?? '';
+        $current_md5 = $options[ $file . '_md5' ] ?? '';
 
-        if( empty( $exist ) || $exist !== $md5 ) {
+        //$exist = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$column'";
+        elog('HERE!');
+        if( empty( $current_md5 ) || $current_md5 !== $md5 ) {
             $type == 'BOOLEAN' ? $type = 'TINYINT' : '';
             $length = in_array($type, ['BOOLEAN', 'DATETIME', 'DATE', 'TIME', 'TINYTEXT', 'DOUBLE']) ? '' : $length;
             $null = $null ? 'NOT NULL' : 'NULL';
             $length = !empty($length) ? '(' . $length . ')' : '';
-            //$exist = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$column'";
-            $query = "ALTER TABLE $table ADD COLUMN $column $type$length $null";
+            $exist = $this->query( "SHOW COLUMNS FROM $table LIKE '$column';" );
+            if( !$exist ) {
+                $query = "ALTER TABLE $table ADD COLUMN $column $type$length $null";
+            } else {
+                $query = "ALTER TABLE $table MODIFY COLUMN $column $type$length $null";
+            }
             $query .= !empty($default) ? ' default "' . $default . '"' : '';
+        }
 
-            $df = debug_backtrace();
-            $table_exist = $this->table_exists($table);
-            if( $table_exist ) {
-                $db = $this->connect();
-                try {
-                    $r = $db->query($query);
-                } catch (PDOException $e) {
-                    elog(json_encode($e) . ' - ' . $query, 'column', $df[0]['line'], $df[0]['file'], $table . '-' . $column);
-                }
+        $df = debug_backtrace();
+        $table_exist = $this->table_exists($table);
+        if( $table_exist ) {
+            $db = $this->connect();
+            try {
+                $r = $db->query($query);
+            } catch (PDOException $e) {
+                elog(json_encode($e) . ' - ' . $query, 'column', $df[0]['line'], $df[0]['file'], $table . '-' . $column);
             }
         }
     }
