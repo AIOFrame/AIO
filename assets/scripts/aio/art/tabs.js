@@ -13,8 +13,8 @@ $(document).ready(function(){
     $('body').on('click', '.steps [data-tab],.tabs [data-tab]', function () {
         $(this).parent().children().removeClass('on');
         $(this).addClass('on');
-        $($(this).data('tab')).parent().children().hide();
-        $($(this).data('tab')).show();
+        $($(this).data('tab')).parent().children().removeClass('on').hide();
+        $($(this).data('tab')).addClass('on').show();
         if( $(this).parent().data('store') !== undefined ){
             let title = $(this).parent().data('store') !== '' ? $(this).parent().data('store') + '_' : '_';
             localStorage[ page_path + title + 'tab' ] = $(this).data('tab');

@@ -8,29 +8,29 @@ if( defined( 'CONFIG' ) && !empty( CONFIG ) ) {
     $type = $host = $base = $user = $pass = '';
 
     // Assign Database Type
-    $type = isset( $d['type'] ) ? $d['type'] : $type;
+    $type = $d['type'] ?? $type;
 
     // Assign Database Host
-    $host = isset( $d['server'] ) ? $d['server'] : $host;
-    $host = isset( $d['host'] ) ? $d['host'] : $host;
-    $host = isset( $d['url'] ) ? $d['url'] : $host;
+    $host = $d['server'] ?? $host;
+    $host = $d['host'] ?? $host;
+    $host = $d['url'] ?? $host;
 
     // Assign Database Name
-    $base = isset( $d['database'] ) ? $d['database'] : $base;
-    $base = isset( $d['name'] ) ? $d['name'] : $base;
-    $base = isset( $d['base'] ) ? $d['base'] : $base;
-    $base = isset( $d['db'] ) ? $d['db'] : $base;
-    $base = isset( $d['d'] ) ? $d['d'] : $base;
+    $base = $d['database'] ?? $base;
+    $base = $d['name'] ?? $base;
+    $base = $d['base'] ?? $base;
+    $base = $d['db'] ?? $base;
+    $base = $d['d'] ?? $base;
 
     // Assign Database Username
-    $user = isset( $d['username'] ) ? $d['username'] : $user;
-    $user = isset( $d['user'] ) ? $d['user'] : $user;
-    $user = isset( $d['u'] ) ? $d['u'] : $user;
+    $user = $d['username'] ?? $user;
+    $user = $d['user'] ?? $user;
+    $user = $d['u'] ?? $user;
 
     // Assign Database Password
-    $pass = isset( $d['password'] ) ? $d['password'] : $pass;
-    $pass = isset( $d['pass'] ) ? $d['pass'] : $pass;
-    $pass = isset( $d['p'] ) ? $d['p'] : $pass;
+    $pass = $d['password'] ?? $pass;
+    $pass = $d['pass'] ?? $pass;
+    $pass = $d['p'] ?? $pass;
 
     // Connect to Database
     if( !empty( $type ) && !empty( $host ) && !empty( $base ) ) {
