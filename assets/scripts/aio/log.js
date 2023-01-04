@@ -6,7 +6,6 @@ $(document).ready( function(){
     $('body').on('click',filter,function(e){
         filter.removeClass('on');
         $(e.target).addClass('on');
-        console.log(e);
         let type = $(e.target).data('type');
         if( type === 'a' ){
             b.show();

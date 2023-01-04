@@ -203,9 +203,15 @@ article .events_log {
     flex: 0 0 100%;
     max-width: 100%;
     padding: 5px;
+    border: 0;
   }
   .b .ft .l {
     flex: 0 0 30%;
+  }
+  .b .ft .f {
+    font-size: 0.65rem;
+    text-align: center;
+    border-top: 1px solid #ebebeb;
   }
   .b .ft .d {
     position: absolute;

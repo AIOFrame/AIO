@@ -1,7 +1,5 @@
 $primary: var(--primary_color);
 $secondary: var(--secondary_color);
-$primary-dark: var(--primary_color_dark);
-$secondary-dark: var(--secondary_color_dark);
 $radius: var(--input_radius);
 $mobile_icon_size: 40px;
 
@@ -66,9 +64,6 @@ header {
     .ico {
       width:60px;
       height:60px;
-      background: -webkit-linear-gradient( 45deg, $primary, $secondary );
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
       display: block;
       margin:8px 0;
       border-radius: $radius;
@@ -78,6 +73,9 @@ header {
       cursor:pointer;
       box-shadow:none;
       .mat-ico {
+        background: -webkit-linear-gradient( 45deg, $primary, $secondary );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         width:60px;
         height:60px;
         line-height: 60px;
@@ -426,15 +424,16 @@ body.d {
     //border-bottom:1px solid rgb(40,40,40);
     box-shadow:0 0 50px rgba(0,0,0,.8);
     border:1px solid #333;
-    .options {
-      .ico {
-        background: -webkit-linear-gradient( 45deg, $primary-dark, $secondary-dark );
-      }
-    }
   }
   article {
     background:rgb(15,15,15);
     border:1px solid #444;
+  }
+  .options {
+    color: #fff;
+  }
+  .controls {
+    background: rgba(0,0,0,.8);
   }
   aside .scroll {
     background:rgb(15,15,15);
@@ -446,6 +445,11 @@ body.d {
   .list {
     > div, > a {
       border-bottom: 1px solid #222;
+    }
+  }
+  .b {
+    .ft > div {
+      border-top: 1px solid #303030;
     }
   }
   label {
@@ -528,7 +532,6 @@ body.d {
     box-shadow: none;
     max-width: 100vw;
     border-radius: 0;
-    border: 0;
   }
   .search, header select {
     display: block;

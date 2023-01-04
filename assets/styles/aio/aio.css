@@ -60,9 +60,6 @@ header .options {
 header .options .ico {
   width: 60px;
   height: 60px;
-  background: -webkit-linear-gradient(45deg, var(--primary_color), var(--secondary_color));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   display: block;
   margin: 8px 0;
   border-radius: var(--input_radius);
@@ -73,6 +70,9 @@ header .options .ico {
   box-shadow: none;
 }
 header .options .ico .mat-ico {
+  background: -webkit-linear-gradient(45deg, var(--primary_color), var(--secondary_color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   width: 60px;
   height: 60px;
   line-height: 60px;
@@ -428,12 +428,15 @@ body.d header {
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
   border: 1px solid #333;
 }
-body.d header .options .ico {
-  background: -webkit-linear-gradient(45deg, var(--primary_color_dark), var(--secondary_color_dark));
-}
 body.d article {
   background: rgb(15, 15, 15);
   border: 1px solid #444;
+}
+body.d .options {
+  color: #fff;
+}
+body.d .controls {
+  background: rgba(0, 0, 0, 0.8);
 }
 body.d aside .scroll {
   background: rgb(15, 15, 15);
@@ -444,6 +447,9 @@ body.d [type=search], body.d input[data-color-picker] {
 }
 body.d .list > div, body.d .list > a {
   border-bottom: 1px solid #222;
+}
+body.d .b .ft > div {
+  border-top: 1px solid #303030;
 }
 body.d label {
   color: #ddd;
@@ -512,7 +518,6 @@ body.d [type=text], body.d [type=search], body.d [type=password], body.d [type=n
     box-shadow: none;
     max-width: 100vw;
     border-radius: 0;
-    border: 0;
   }
   .search, header select {
     display: block;
