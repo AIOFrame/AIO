@@ -323,8 +323,8 @@ button:hover {
 }
 
 body.d .b {
-  background: #141414;
-  border: 1px solid #282828;
+  background: rgb(20, 20, 20);
+  border: 1px solid rgb(40, 40, 40);
 }
 
 .b > .l {
@@ -374,14 +374,10 @@ body.d .b {
   margin-left: 15px;
 }
 
-.b .c > div:hover, .b .c > button:hover {
-  background: #5691b0;
-  color: #fff;
-}
-
 .b .ft {
   display: flex;
   font-size: 13px;
+  position: relative;
 }
 
 .b .ft > div {
@@ -395,7 +391,7 @@ body.d .b {
 }
 
 body.d .c .ft > div {
-  border-top: 1px solid #232323;
+  border-top: 1px solid rgb(35, 35, 35);
 }
 
 .b .ft > div:last-child {
@@ -409,7 +405,7 @@ body.d {
   /* DARK ICONS */
 }
 body.d header {
-  background: #191919;
+  background: rgb(25, 25, 25);
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
   border: 1px solid #333;
 }
@@ -417,12 +413,12 @@ body.d header .options .ico {
   background: -webkit-linear-gradient(45deg, var(--primary_color_dark), var(--secondary_color_dark));
 }
 body.d article {
-  background: #0f0f0f;
+  background: rgb(15, 15, 15);
   border: 1px solid #444;
 }
 body.d aside .scroll {
-  background: #0f0f0f;
-  box-shadow: 0 0 50px black;
+  background: rgb(15, 15, 15);
+  box-shadow: 0 0 50px rgb(0, 0, 0);
 }
 body.d [type=search], body.d input[data-color-picker] {
   background-color: #212121;
@@ -441,50 +437,66 @@ body.d [type=text], body.d [type=search], body.d [type=password], body.d [type=n
 }
 /* RESPONSIVE */
 @media only screen and (max-width: 1024px) {
-  article {
-    margin: 20px 0 20px 120px;
-  }
-}
-@media only screen and (max-width: 600px) {
   header {
-    height: auto;
     flex-wrap: wrap;
-    padding: 10px;
+    padding: 10px 10px 20px;
     position: relative;
+    width: 100%;
+    height: auto;
+    display: flex;
+    left: 0;
+    box-shadow: none;
   }
-
+  header .logo {
+    position: relative;
+    width: 65px;
+    height: 65px;
+    margin: 0 10px;
+  }
+  header .title {
+    top: 65px;
+  }
+  header .options {
+    display: flex;
+    top: 0;
+    right: 0;
+    left: auto;
+    transform: none;
+    justify-content: flex-end;
+    height: 100%;
+    align-items: center;
+  }
+  header .options .ico {
+    width: 40px;
+    height: 40px;
+    margin: 0 5px;
+  }
+  header .options .ico .mat-ico {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 2rem;
+  }
   body {
     margin: 0;
   }
-
-  header > div {
-    flex: 0 0 100%;
-    max-width: none !important;
-    flex-wrap: wrap;
-  }
-
-  header > div:first-child {
-    margin-bottom: 10px;
-  }
-
   article {
     padding: 10px;
+    margin: 0;
+    box-shadow: none;
+    max-width: 100vw;
   }
-
   .search, header select {
     display: block;
     width: 100%;
     margin: 0 0 10px;
   }
-
   .search {
     text-align: left;
   }
-
   header select:last-child {
     margin: 0;
   }
-
   header form {
     display: flex;
   }

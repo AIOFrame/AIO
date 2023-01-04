@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /* Inputs */
 label {
   font-size: 0.9rem;
@@ -292,7 +291,7 @@ select.mb0 + .select2-container {
 }
 .select2-container--default .select2-selection--single .select2-selection__arrow:after {
   font-family: "MaterialIcons", sans-serif;
-  content: "";
+  content: "\e5cf";
   font-size: 1.6rem;
   line-height: 26px;
 }
@@ -332,7 +331,7 @@ select.mb0 + .select2-container {
   left: 10px;
   top: 50%;
   transform: translateY(-50%);
-  content: "";
+  content: "\e8b6";
   box-shadow: none;
   font-size: 1.2rem;
   font-family: "MaterialIcons", sans-serif;
@@ -395,7 +394,7 @@ select.mb0 + .select2-container {
 .color_picker_wrap .trans .grad {
   height: 100%;
   width: 100%;
-  background: linear-gradient(90deg, white 0%, rgba(255, 255, 255, 0) 100%);
+  background: linear-gradient(90deg, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%);
 }
 .color_picker_wrap .trans .set {
   height: 16px;
@@ -493,6 +492,7 @@ input + .valid {
   padding: 0;
   border-radius: 8px;
   background: #fff;
+  color: #000;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
   border: 2px solid #eee;
   opacity: 0;
@@ -657,7 +657,7 @@ body.d [type=checkbox].switch, body.d [type=radio].switch {
 }
 body.d [type=radio]:not(:checked):not(.slide), body.d [type=checkbox]:not(:checked):not(.slide),
 body.d [type=radio]:not(:checked):not(.switch), body.d [type=checkbox]:not(:checked):not(.switch) {
-  background: #1e1e1e;
+  background: rgb(30, 30, 30);
 }
 body.d [type=checkbox]:not(:checked).slide:before, body.d [type=radio]:not(:checked).slide:before,
 body.d [type=checkbox]:not(:checked).switch:before, body.d [type=radio]:not(:checked).switch:before {
@@ -667,7 +667,7 @@ body.d .color_picker_wrap {
   background: rgba(0, 0, 0, 0.8);
 }
 body.d .color_picker_wrap input {
-  background: #1e1e1e;
+  background: rgb(30, 30, 30);
 }
 body.d .color_picker_wrap .close {
   color: #fff;

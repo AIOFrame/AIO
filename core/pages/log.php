@@ -104,9 +104,9 @@ if( $file = fopen( $url, 'r' ) ) {
                                     <?php echo isset($target) && $target !== '' ? '<div class="t">' . $target . '</div>' : ''; ?>
                                 </div>
                                 <div class="c">
-                                    <div class="co" data-clipboard-target="#l<?php echo $x; ?>">COPY</div>
-                                    <div class="go">GOOGLE</div>
-                                    <div class="so">STACK OF</div>
+                                    <div class="co" data-clipboard-target="#l<?php echo $x; ?>" title="<?php E('Copy syntax'); ?>"></div>
+                                    <div class="go" title="<?php E('Search syntax on Google'); ?>"></div>
+                                    <div class="so" title="<?php E('Search on Stackoverflow'); ?>"></div>
                                 </div>
                                 <div id="l<?php echo $x; ?>" class="l"><pre><?php echo is_array( $log ) || is_object( $log ) ? print_r( $log ) : $log; ?></pre></div>
                                 <div class="ft">
