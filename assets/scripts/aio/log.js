@@ -1,12 +1,13 @@
 $(document).ready( function(){
 
     // Filter
-    let filters = $('.filters i');
+    let filter = $('.filters [data-type]');
     let b = $('.b');
-    filters.on('click',function(){
-        filters.removeClass('on');
-        $(this).addClass('on');
-        let type = $(this).data('type');
+    $('body').on('click',filter,function(e){
+        filter.removeClass('on');
+        $(e.target).addClass('on');
+        console.log(e);
+        let type = $(e.target).data('type');
         if( type === 'a' ){
             b.show();
         } else {

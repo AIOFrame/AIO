@@ -9,7 +9,7 @@ if( $file = fopen( $url, 'r' ) ) {
     ?>
     <header>
         <div class="logo"></div>
-        <div class="title">LOG</div>
+        <div class="title"><?php echo APPNAME; ?> LOG</div>
         <div class="options">
             <div id="back" class="ico" onclick="window.history.back();"><div class="mat-ico">arrow_back</div><i class="tip">Return to Previous Page</i></div>
             <div class="ico" onclick="location.reload()"><div class="mat-ico">refresh</div><i class="tip">Reload</i></div>
@@ -20,19 +20,24 @@ if( $file = fopen( $url, 'r' ) ) {
     <article id="aio_log">
         <div class="df controls">
             <div class="filters">
-                <label>Filter</label>
                 <div class="df">
-                    <i data-type="a" class="on">All</i>
+                    <div data-type="a" class="on"><div class="mat-ico">format_align_justify</div> <?php E('All'); ?></div>
                     <?php
-                    $types = [ 'l' => 'Log', 'e' => 'Error', 'i' => 'Insert', 's' => 'Select', 'u' => 'Update', 'd' => 'Delete'];
-                    foreach( $types as $tk => $tv ) {
-                        echo '<i data-type="'.$tk.'">'.$tv.'</i>';
+                    $types = [
+                        [ 'l', 'Log', 'view_list' ],
+                        [ 'e', 'Error', 'warning' ],
+                        [ 'i', 'Insert', 'add_box' ],
+                        [ 's', 'Select', 'storage' ],
+                        [ 'u', 'Update', 'cloud_upload' ],
+                        [ 'd', 'Delete', 'remove_circle' ]
+                    ];
+                    foreach( $types as $t ) {
+                        echo '<div data-type="'.$t[0].'"><div class="mat-ico">'.$t[2].'</div>'.T($t[1]).'</div>';
                     }
                     ?>
                 </div>
             </div>
             <div class="search_wrap">
-                <label for="search_log">Search</label>
                 <input id="search_log" type="search" placeholder="Search">
             </div>
         </div>
@@ -100,18 +105,18 @@ if( $file = fopen( $url, 'r' ) ) {
                             ?>
                             <div class="b <?php echo isset( $type[0] ) ? strtolower( $type )[0] : ''; ?>">
                                 <div class="a">
-                                    <div class="s"><?php echo isset( $type ) ? $type : ''; ?></div>
+                                    <div class="s"><?php echo $type ?? ''; ?></div>
                                     <?php echo isset($target) && $target !== '' ? '<div class="t">' . $target . '</div>' : ''; ?>
                                 </div>
                                 <div class="c">
                                     <div class="co" data-clipboard-target="#l<?php echo $x; ?>" title="<?php E('Copy syntax'); ?>"></div>
-                                    <div class="go" title="<?php E('Search syntax on Google'); ?>"></div>
+                                    <div class="go" title="<?php E('Search on Google'); ?>"></div>
                                     <div class="so" title="<?php E('Search on Stackoverflow'); ?>"></div>
                                 </div>
                                 <div id="l<?php echo $x; ?>" class="l"><pre><?php echo is_array( $log ) || is_object( $log ) ? print_r( $log ) : $log; ?></pre></div>
                                 <div class="ft">
                                     <div class="l"><?php echo !empty($line) ? 'Line - ' . $line : ''; ?></div>
-                                    <div class="f"><?php echo isset( $doc ) ? $doc : ''; ?></div>
+                                    <div class="f"><?php echo $doc ?? ''; ?></div>
                                     <div class="d"><?php echo $date; ?></div>
                                 </div>
                             </div>
