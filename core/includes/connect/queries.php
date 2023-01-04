@@ -202,7 +202,6 @@ class DB {
         $current_md5 = $options[ $file . '_md5' ] ?? '';
 
         //$exist = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$column'";
-        elog('HERE!');
         if( empty( $current_md5 ) || $current_md5 !== $md5 ) {
             $type == 'BOOLEAN' ? $type = 'TINYINT' : '';
             $length = in_array($type, ['BOOLEAN', 'DATETIME', 'DATE', 'TIME', 'TINYTEXT', 'DOUBLE']) ? '' : $length;
@@ -219,7 +218,7 @@ class DB {
 
         $df = debug_backtrace();
         $table_exist = $this->table_exists($table);
-        if( $table_exist ) {
+        if( $table_exist && !empty( $query ) ) {
             $db = $this->connect();
             try {
                 $r = $db->query($query);
