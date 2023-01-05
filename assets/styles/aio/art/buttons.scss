@@ -298,45 +298,25 @@ button.load, .btn.load {
 button.load span.loader {
   position: absolute;
   z-index: 2;
-  /* background: rgba(255,255,255,.6);
+  background: rgba(255,255,255,.2);
   -webkit-backdrop-filter: blur(15px);
-  backdrop-filter: blur(15px); */
+  backdrop-filter: blur(15px);
   left: 50%;
   top: 50%;
   width: 50px;
-  height: 100%;
-  //border-radius: 15px;
+  height: calc(100% - 10px);
+  border-radius: 5px;
   transform: translate(-50%,-50%);
 }
 button.load span.loader:before, .btn.load span.loader:before {
-  content:'\e863';
-  font-family: 'MaterialIcons', sans-serif;
-  font-size: 2rem;
-  line-height:125%;
+  content: '';
+  height: 100%;
+  width: 100%;
+  background: url('../../../assets/icons/tadpole.svg') no-repeat center / 50%;
   color: inherit;
   display: inline-block;
   -webkit-animation: loading 2s linear infinite;
   animation: loading 2s linear infinite;
-}
-@keyframes loading {
-  from {
-    transform: rotate(0deg);
-    -webkit-transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-    -webkit-transform: rotate(360deg);
-  }
-}
-@-webkit-keyframes loading {
-  from {
-    transform: rotate(0deg);
-    -webkit-transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-    -webkit-transform: rotate(360deg);
-  }
 }
 .pagination {
   display: flex;
