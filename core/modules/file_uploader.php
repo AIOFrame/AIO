@@ -61,7 +61,7 @@ class FUP {
             </div>
             <div class="translations">
                 <div class="extension_limit"><?php E('The file should be one of the extensions'); ?></div>
-                <div class="size_limit"><?php E('Selected file exceeds file size limit!'); ?></div>
+                <div class="size_limit"><?php E('Selected file size exceeds file size limit of '); ?></div>
                 <div class="file_select"><?php E('File Selected Successfully!'); ?></div>
                 <div class="no_file_select"><?php E('NO FILE SELECTED! File Uploader Closed!!'); ?></div>
                 <div class="remove_confirm"><?php E('Are you sure to remove attached file ?'); ?></div>

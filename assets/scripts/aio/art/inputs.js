@@ -10,7 +10,7 @@ window.addEventListener('DOMContentLoaded',function () {
     })
 
     .on('change','[data-hidden-date]',function(){
-        elog( $(this) );
+        //elog( $(this) );
         let date = new Date( $(this).val() );
         $( $(this).data('alt') ).val( [('0'+date.getDate()).slice(-2), ('0'+date.getMonth()).slice(-2), date.getFullYear()].join('-') ).trigger('change');
     })
@@ -18,9 +18,9 @@ window.addEventListener('DOMContentLoaded',function () {
     .on('change','[type=number][data-step]',function (e) {
         let step = $(this).data('step');
         let val = parseInt($(this).val());
-        console.log(step);
+        /* console.log(step);
         console.log(val);
-        console.log(e.key);
+        console.log(e.key); */
         if( e.key === 'ArrowUp' ){
             e.preventDefault();
             $(this).val( val + step );
@@ -44,8 +44,8 @@ window.addEventListener('DOMContentLoaded',function () {
         });
 
         clipboard.on('error', function(e) {
-            console.log('Action:', e.action);
-            console.log('Trigger:', e.trigger);
+            //console.log('Action:', e.action);
+            //console.log('Trigger:', e.trigger);
         });
     }
 
@@ -55,7 +55,7 @@ window.addEventListener('DOMContentLoaded',function () {
         if( $(b).data('no-search') !== undefined ) {
             select_config.minimumResultsForSearch = -1;
         }
-        console.log(select_config);
+        //console.log(select_config);
         $(b).select2(select_config);
     });
     if( $.fn.select2 !== undefined ){

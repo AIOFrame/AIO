@@ -101,24 +101,24 @@ class OPTIONS {
             }
         }
         $f->text('app_name','Web App / Site Name','Ex: AIO University...',$name,$attr,8);
-        $f->upload('fav','Fav Icon','Upload',$fav,0,0,'upload',$attr,'png,jpg,doc',5,1,'',4);
+        $f->upload('fav','Fav Icon','Upload',$fav,0,0,'upload',$attr,'png',.1,1,'',4);
         $f->textarea('app_desc','Web App / Site Description','Ex: We provide...',$desc,$attr,12);
         $f->select2( 'default_theme', 'Default Admin Theme', 'Select Theme...', $uis, $theme, $attr, 12, 1 );
         //$f->select( 'input_theme', 'Input Style', 'Select Theme...', [], '', 'data-data class="select2"', 6, 1 );
-        $f->upload('logo_light','Logo - Light Theme','Upload',$light,0,0,'upload',$attr,$ext,5,1,'',3);
+        $f->upload('logo_light','Logo - Light Theme','Upload',$light,0,0,'upload',$attr,$ext,.2,1,'',3);
         $f->color('primary_color','Primary Color - Light','Ex: F1F1F1',$c1,$attr,3,'','[data-key=primary_color]');
         $f->color('secondary_color','Secondary Color - Light','Ex: A2A2A2',$c2,$attr,3,'','[data-key=secondary_color]');
         $f->color('color_light','Content Color on Gradient - Light','Ex: A2A2A2',$c3,$attr,3,'','[data-key=color_light]');
         if( $dark_mode_options ) {
-            $f->upload('logo_dark','Logo - Dark Theme','Upload',$dark,0,0,'upload',$attr,$ext,5,1,'',3);
+            $f->upload('logo_dark','Logo - Dark Theme','Upload',$dark,0,0,'upload',$attr,$ext,.2,1,'',3);
             $f->color('primary_color_dark','Primary Color - Dark','Ex: F1F1F1',$dc1,$attr,3,'','[data-key=primary_color_dark]');
             $f->color('secondary_color_dark','Secondary Color - Dark','Ex: A2A2A2',$dc2,$attr,3,'','[data-key=secondary_color_dark]');
             $f->color('color_dark','Content Color on Gradient - Dark','Ex: A2A2A2',$dc3,$attr,3,'','[data-key=color_dark]');
         }
         $f->process_options('Save Brand Options','store grad','','col-12 tac');
+        echo '</div>';
         file_upload();
         get_scripts('iro,color');
-        echo '</div>';
     }
 
     /**

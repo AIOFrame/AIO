@@ -11,7 +11,7 @@ $(document).ready(function(){
     // Select or Deselect Uploaded File
     $('body').on('click','.f',function(){
         let limit = $('#aio_up').data('multiple');
-        console.log(limit);
+        //console.log(limit);
         if( limit === undefined ) {
             $('.f').not(this).removeClass('on');
         }
@@ -19,7 +19,7 @@ $(document).ready(function(){
         let count = $('.uploaded_files .f.on').length;
         if( count > limit ) {
             $(this).toggleClass('on');
-            notify('Maximum limit of files reached!')
+            uploader_notify('Maximum limit of files reached!')
         }
         //elog($(this).data('delete'));
         if( $(this).data('delete') !== '' && $(this).data('delete') !== undefined ){
@@ -310,7 +310,7 @@ function file_upload(e){
         } else {
             $('#aio_up .types .types').html('<div class="type">any</div>');
         }
-        console.log($(e).data());
+        //console.log($(e).data());
         //fu.data('exts', $(e).data('exts')).data('files',$(e).data('files')).data('url', $(e).data('url')).data('multiple', $(e).data('multiple')).data('bg', $(e).data('bg')).data('id', $(e).data('id')).data('s_img', $(e).data('s_img')).data('path', $(e).data('path')).data('scope', $(e).data('scope')).data('callback', $(e).data('callback'));
         // If max quantity is defined
         if( $(e).data('files') !== undefined && $(e).data('files') !== '' ) {
@@ -327,7 +327,7 @@ function file_upload(e){
         let measure = ' Mb';
         if( size > 0 ) {
             if( size > 1024 ) {
-                size = Math.round( size / 1024 );
+                size = size / 1024;
             } else {
                 measure = ' Kb';
             }
@@ -335,7 +335,7 @@ function file_upload(e){
             size = 'No Limit';
             measure = '';
         }
-        $('#aio_up .sizes').show().find('.size').html(size).next('.measure').html(measure);
+        $('#aio_up .sizes').show().find('.size').html( Math.round( size ) ).next('.measure').html(measure);
         // Shows or Hides delete button
         if ($(e).data('delete') === undefined) {
             $('.fd').hide();
@@ -358,8 +358,20 @@ function file_upload(e){
 function process_upload(fs) {
     let au = $('#aio_up');
     for (let i = 0, f; f = fs[i]; i++) {
-        //elog(i);
-        //elog(f);
+        elog(au);
+        elog(f);
+        // File Size Validation
+        if( au.data('size') ) {
+            let size = Math.round( au.data('size') * 1024 );
+            if( size < ( f.size / 1024 ) ) {
+                let visible_size = size > 1024 ? size / 1024 : size;
+                let measure = size > 1024 ? ' Mb' : ' Kb';
+                let msg = $('#aio_up .size_limit').html();
+                uploader_notify( msg + ' ' + visible_size + measure );
+                return [ false, 'Size Restricted', 'The file should be within size limit of ' + visible_size + measure ];
+            }
+        }
+        // Extensions Validation
         let exts = au.data('exts');
         if( exts ){
             exts = exts.split(',');
@@ -402,7 +414,7 @@ function process_upload(fs) {
                 return myXhr;
             },
             success: function (data) {
-                console.log(data);
+                //console.log(data);
                 $('#aio_up .uploading').remove();
                 let d = $.parseJSON(data);
                 if (d[0] === 'success') {
@@ -420,7 +432,7 @@ function process_upload(fs) {
                     }
                     return [ 1, $('#aio_up .upload_success').html(), d ];
                 } else {
-                    console.log(data);
+                    //console.log(data);
                     if( d[1] !== undefined ) {
                         uploader_notify( d[1] );
                     }
@@ -428,7 +440,7 @@ function process_upload(fs) {
                 }
             },
             fail: function( error ) {
-                console.log(error);
+                //console.log(error);
             }
         });
     }
