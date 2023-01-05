@@ -715,7 +715,7 @@ class FORM {
         $action = empty( $action ) ? 'process_data_ajax' : $action;
         $a = 'data-action="'.$c->encrypt($action).'"';
         $click = $confirm !== '' ? 'onclick="if(confirm(\''.T($confirm).'\')){process_data(this)}else{event.stopPropagation();event.preventDefault();}"' : 'onclick="process_data(this)"';
-        echo $pre.'<'.$element.' '.$click.' '.$a.' class="'.$class.'" '.$attr.'>'.T( $text ).'</'.$element.'>'.$post;
+        echo $pre.'<'.$element.' '.$click.' '.$a.' class="'.$class.'" '.$attr.'><span class="loader"></span>'.T( $text ).'</'.$element.'>'.$post;
     }
 
     /**
