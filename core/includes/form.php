@@ -510,7 +510,7 @@ class FORM {
      * @param string $label Text for the &lt;label&gt;
      * @param string $button_label Text for the &lt;button&gt;
      * @param string $value Value of the input if any
-     * @param bool $multiple Upload single or multiple files
+     * @param int $multiple Upload single or quantity of multiple files
      * @param bool $show_history Show previously uploaded files
      * @param string $button_class Class for upload button
      * @param string $attrs Attributes like class or data tags
@@ -521,7 +521,7 @@ class FORM {
      * @param string $pre String to wrap before start
      * @param string $post End string to wrap after /&gt;
      */
-    function upload( string|array $identity, string $label, string $button_label = 'Upload', string $value = '', bool $multiple = false, bool $show_history = false, string $button_class = '', string $attrs = '', string $extensions = '', string $size = '', bool $deletable = false, string $path = '', string $pre = '', string $post = '' ): void {
+    function upload( string|array $identity, string $label, string $button_label = 'Upload', string $value = '', int $multiple = 1, bool $show_history = false, string $button_class = '', string $attrs = '', string $extensions = '', string $size = '', bool $deletable = false, string $path = '', string $pre = '', string $post = '' ): void {
         $rand = rand( 0, 99999 );
         $id = $identity.'_'.$rand; // is_array($identity) ? $identity[0] : $identity;
         $name = $identity; // is_array($identity) ? $identity[1] : $identity;
@@ -535,8 +535,8 @@ class FORM {
         $del = $deletable ? ' data-delete' : '';
         $cry = Encrypt::initiate();
         $pat = $path !== '' ? ' data-path="'.$cry->encrypt( $path ).'"' : '';
-        $type = $multiple ? 'files' : 'file';
-        $mul = $multiple ? 'data-files' : 'data-file';
+        $type = $multiple > 1 ? 'files' : 'file';
+        $mul = $multiple > 1 ? 'data-files="'.$multiple.'"' : 'data-file';
         $label = !empty( $label ) ? '<label for="'.$id.'">'.T($label).'</label>' : '';
         echo $pre.$label.'<button type="button" class="aio_upload '.$button_class.'" data-url="#'.$id.'" onclick="file_upload(this)" '.$sh.$ext.$sz.$mul.$del.$pat.'>'.T($button_label).'</button><input id="'.$id.'" name="'.$name.'" data-key="'.$name.'" type="text" data-'.$type.' value="'.$value.'" '.$attrs.'>'.$post;
     }

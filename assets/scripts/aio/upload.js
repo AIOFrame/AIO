@@ -10,10 +10,17 @@ $(document).ready(function(){
 
     // Select or Deselect Uploaded File
     $('body').on('click','.f',function(){
-        if( $('#aio_up').data('multiple') === undefined  ) {
+        let limit = $('#aio_up').data('multiple');
+        console.log(limit);
+        if( limit === undefined ) {
             $('.f').not(this).removeClass('on');
         }
         $(this).toggleClass('on');
+        let count = $('.uploaded_files .f.on').length;
+        if( count > limit ) {
+            $(this).toggleClass('on');
+            notify('Maximum limit of files reached!')
+        }
         //elog($(this).data('delete'));
         if( $(this).data('delete') !== '' && $(this).data('delete') !== undefined ){
             if( $(this).data('delete') === 0 ){
@@ -178,7 +185,7 @@ $(document).ready(function(){
             if( $(b).find('.name').html().toLowerCase().indexOf(s) >= 0 ) {
                 $(b).show();
             } else {
-                $(b).hide();
+                $(b).hide().removeClass('on');
             }
         });
     });
@@ -261,13 +268,13 @@ function file_upload(e){
     if( ( $(e).data('url') !== '' && $(e).data('url') !== undefined ) || ( $(e).data('id') !== '' && $(e).data('id') !== undefined ) ) {
         // Show or Hide previous uploads
         if( $(e).data('history') === undefined ) {
-            $('#aio_up .uploaded_files,#aio_up .search_wrap').hide();
+            $('#aio_up .uploaded_files .f,#aio_up .search_wrap').hide();
             $('.fb.browse').click();
         } else {
             if( $(e).data('force-browse') !== undefined ) {
                 $('.fb.browse').click();
             }
-            $('#aio_up .uploaded_files,#aio_up .search_wrap').show();
+            $('#aio_up .uploaded_files .f,#aio_up .search_wrap').show();
         }
         // Sets a custom color
         let title = $('#aio_up .files_head h3');
@@ -289,15 +296,46 @@ function file_upload(e){
         }
         // Sets data parameters from initializer to modal
         $.each($(e).data(),function(a,b){
-            fu.data(a,b)
+            fu.data(a,b);
         });
+        // If extensions are defined
+        let exs = $(e).data('exts');
+        if( exs !== undefined && exs !== '' ) {
+            let types = exs.split(',');
+            let types_html = '';
+            $.each(types,function(i,ext){
+                types_html += '<div class="type">'+ext+'</div>';
+            });
+            $('#aio_up .types .types').html(types_html);
+        } else {
+            $('#aio_up .types .types').html('<div class="type">any</div>');
+        }
         console.log($(e).data());
         //fu.data('exts', $(e).data('exts')).data('files',$(e).data('files')).data('url', $(e).data('url')).data('multiple', $(e).data('multiple')).data('bg', $(e).data('bg')).data('id', $(e).data('id')).data('s_img', $(e).data('s_img')).data('path', $(e).data('path')).data('scope', $(e).data('scope')).data('callback', $(e).data('callback'));
-        if( $(e).data('files') !== undefined ) {
-            $('#aio_up').addClass('multiple').data('multiple',1);
+        // If max quantity is defined
+        if( $(e).data('files') !== undefined && $(e).data('files') !== '' ) {
+            $('#aio_up').addClass('multiple').data('multiple',$(e).data('files'));
+            $('#aio_up .qty').text( $(e).data('files') );
+            $('#aio_up .max').show();
         } else {
             $('#aio_up').removeClass('multiple');
+            $('#aio_up .max').hide();
         }
+        // If file size is defined
+        let size = parseFloat( $(e).data('size') );
+        size = size * 1024;
+        let measure = ' Mb';
+        if( size > 0 ) {
+            if( size > 1024 ) {
+                size = Math.round( size / 1024 );
+            } else {
+                measure = ' Kb';
+            }
+        } else {
+            size = 'No Limit';
+            measure = '';
+        }
+        $('#aio_up .sizes').show().find('.size').html(size).next('.measure').html(measure);
         // Shows or Hides delete button
         if ($(e).data('delete') === undefined) {
             $('.fd').hide();
@@ -368,11 +406,11 @@ function process_upload(fs) {
                 $('#aio_up .uploading').remove();
                 let d = $.parseJSON(data);
                 if (d[0] === 'success') {
-                    $('#aio_up .no_uploaded_files').remove();
+                    $('#aio_up .no_uploaded_files,#aio_up .drop_files').remove();
                     let size = parseInt(d[6]) > 1024 ? ( parseFloat(d[6]) / 1024 ).toFixed(2) + ' MB' : d[6] + ' KB';
                     let bg = $.inArray( d[5], Array('svg','jpg','png','jpeg') ) > -1 ? 'style="background-image:url(\''+d[7]+'\')"' : '';
                     let del = d[8] === 1 ? 'data-delete="1"' : 'data-delete="0"';
-                    $('#aio_up .uploaded_files').prepend( '<div class="f new '+d[5]+'" data-id="'+d[4]+'" data-url="'+d[3]+'" '+bg+' '+del+'><div class="name">'+d[2]+'</div><div class="size">'+size+'</div></div>' );
+                    $('#aio_up .uploaded_files').prepend( '<div class="f on new '+d[5]+'" data-id="'+d[4]+'" data-url="'+d[3]+'" '+bg+' '+del+'><div class="name">'+d[2]+'</div><div class="size">'+size+'</div></div>' ).show();
                     $('#aio_up .f').removeClass('on');
                     uploader_notify( $('#aio_up .upload_success').html() );
                     setTimeout(function(){ $('.f').removeClass('new') },1000);

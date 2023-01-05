@@ -2,7 +2,7 @@
 
 class FUP {
 
-    function file_uploader() {
+    function file_uploader(): void {
         $cry = Encrypt::initiate();
         get_style('upload');
         get_scripts(['jquery','upload']);
@@ -11,6 +11,24 @@ class FUP {
         <div id="aio_up" class="file_modal" data-dir="<?php echo APPURL.'apps/'.APPDIR; ?>" data-action="<?php echo $cry->encrypt('file_process_ajax'); ?>">
             <div class="files_head">
                 <h3><?php E('File Uploader'); ?></h3>
+                <div class="info">
+                    <div class="sizes">
+                        <div class="mat-ico">sd_card</div>
+                        <div class="title"><?php E('Max File Size'); ?></div>
+                        <div class="size"></div>
+                        <div class="measure">Mb</div>
+                    </div>
+                    <div class="types">
+                        <div class="mat-ico">description</div>
+                        <div class="title"><?php E('Allowed File Types'); ?></div>
+                        <div class="types"></div>
+                    </div>
+                    <div class="max">
+                        <div class="mat-ico">file_copy</div>
+                        <div class="title"><?php E('Files Limit'); ?></div>
+                        <div class="qty">2</div>
+                    </div>
+                </div>
                 <div class="acts">
                     <div class="mat-ico expand"></div>
                     <div class="mat-ico close">close</div>
@@ -19,12 +37,12 @@ class FUP {
             </div>
             <div class="files_body">
                 <div class="search_wrap">
-                    <input type="search" placeholder="<?php E('Search'); ?>" class="search">
+                    <input type="search" placeholder="<?php E('Search in files...'); ?>" class="search">
                 </div>
                 <div class="uploaded_files">
                     <?php
                     $db = new DB();
-                    $fs = $db ? ( !empty( $_SESSION ) && isset( $_SESSION['user_id'] ) ? $db->select( 'storage', '*', 'file_scope = "'.$_SESSION['user_id'].'" OR file_scope = "0"', '40', 0, '', '', 'DESC', 'file_id' ) : $db->select( 'storage', '*', 'file_scope = "0"', '40', 0, '', '', 'DESC', 'file_id' ) ) : '';
+                    $fs = $db ? ( !empty( $_SESSION ) && isset( $_SESSION['user']['id'] ) ? $db->select( 'storage', '*', 'file_scope = "'.$_SESSION['user']['id'].'" OR file_scope = "0"', '40', 0, '', '', 'DESC', 'file_id' ) : $db->select( 'storage', '*', 'file_scope = "0"', '40', 0, '', '', 'DESC', 'file_id' ) ) : '';
                     if( !empty($fs) ){ foreach( $fs as $f ){
                         $bg = in_array($f['file_type'],['svg','jpg','png','jpeg']) ? 'style="background-image:url(\''.storage_url($f['file_url']).'\')"' : '';
                         $size = $f['file_size'] > 1024 ? number_format((float)($f['file_size'] / 1024), 2, '.', '') . ' MB' : $f['file_size'].' KB';

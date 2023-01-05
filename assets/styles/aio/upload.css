@@ -1,4 +1,3 @@
-@charset "UTF-8";
 .file_modal, .file_notify {
   position: fixed;
   z-index: 999;
@@ -93,9 +92,11 @@ body.d .file_modal, body.d .file_notify {
   transform: translate(-50%, -50%);
 }
 .file_modal .search_wrap {
-  background: #eee;
+  background: #fff;
   z-index: 2;
   position: relative;
+  border-bottom: 2px solid #eee;
+  padding: 0 10px;
 }
 .file_modal .search_wrap:after {
   font-family: "MaterialIcons", sans-serif;
@@ -125,7 +126,7 @@ body.d .file_modal, body.d .file_notify {
 .file_modal .files_head h3 {
   display: block;
   margin: 0;
-  padding: 15px;
+  padding: 10px 0;
   text-align: center;
 }
 .file_modal .files_head input {
@@ -149,11 +150,65 @@ body.d .file_modal, body.d .file_notify {
   line-height: 40px;
 }
 .file_modal .files_head .expand {
-  content: "";
+  content: "\f1ce";
 }
 .file_modal .files_head .close {
   left: auto;
   top: auto;
+}
+.file_modal .files_head .info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 -10px;
+  padding: 10px 0;
+  position: relative;
+}
+.file_modal .files_head .info > div {
+  margin: 0 10px;
+  padding: 0 10px 0 50px;
+  display: flex;
+  min-width: calc(33% - 20px);
+  flex-grow: 1;
+  flex-wrap: wrap;
+  position: relative;
+}
+.file_modal .files_head .info > div .types {
+  display: flex;
+  margin: 0 -2px;
+}
+.file_modal .files_head .info > div .types .type {
+  font-size: 0.6rem;
+  background: rgba(255, 255, 255, 0.3);
+  color: #000;
+  padding: 2px 4px;
+  border-radius: 4px;
+  margin: 0 2px;
+  text-transform: uppercase;
+}
+.file_modal .files_head .info .mat-ico {
+  position: absolute;
+  left: 10px;
+  top: 6px;
+  margin: 0 5px;
+  font-size: 1.6rem;
+}
+.file_modal .files_head .info .title {
+  flex: 0 0 100%;
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin: 0 0 5px;
+}
+.file_modal .files_head .info:before {
+  position: absolute;
+  left: 30px;
+  right: 30px;
+  top: 1px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.2);
+  display: block;
+  content: "";
 }
 .file_modal .drop_files {
   position: absolute;
@@ -180,7 +235,7 @@ body.d .file_modal, body.d .file_notify {
 }
 
 body.d .file_modal .files_head {
-  background: #232323;
+  background: rgb(35, 35, 35);
 }
 
 /*.files_head .browse_file {
@@ -403,13 +458,13 @@ body.d .file_modal .files_head {
   transform: translateY(-50%);
 }
 .files_actions .i.select:after {
-  content: "";
+  content: "\e86c";
 }
 .files_actions .i.browse:after {
-  content: "";
+  content: "\e9fc";
 }
 .files_actions .i.trash:after {
-  content: "";
+  content: "\e872";
 }
 .files_actions .i.disabled {
   background: none;
@@ -420,7 +475,7 @@ body.d .file_modal .files_head {
 }
 
 body.d .files_actions {
-  border-top: 1px solid #232323;
+  border-top: 1px solid rgb(35, 35, 35);
 }
 body.d .files_actions div, body.d .files_actions label {
   color: #fff;
@@ -519,7 +574,8 @@ td .aio_fsp {
   font-size: 1rem;
 }
 .aio_files .f > .f {
-  font-size: 12px;
+  font-size: 0.8rem;
+  word-break: break-all;
   max-width: 100%;
   /* max-width: calc(100% - 34px); */
   overflow: hidden;
@@ -628,11 +684,9 @@ body.d .aio_files .trash {
     max-height: none;
     padding-bottom: 20vh;
   }
-
   .file_notify {
     width: 100vw;
   }
-
   .files_actions {
     position: fixed;
     left: 0;
@@ -643,14 +697,12 @@ body.d .aio_files .trash {
     padding: 20px 10px;
     background: #fff !important;
   }
-
   #aio_up .f:after {
     left: 5px;
     top: 5px;
     width: 15px;
     height: 15px;
   }
-
   .aio_fsp > .w {
     margin: 0;
   }

@@ -109,9 +109,11 @@ body.d .file_modal, body.d .file_notify {
     }
   }
   .search_wrap {
-    background:#eee;
+    background:#fff;
     z-index: 2;
     position: relative;
+    border-bottom: 2px solid #eee;
+    padding: 0 10px;
   }
   .search_wrap:after {
     font-family: 'MaterialIcons', sans-serif;
@@ -141,7 +143,7 @@ body.d .file_modal, body.d .file_notify {
     h3 {
       display: block;
       margin: 0;
-      padding: 15px;
+      padding: 10px 0;
       text-align: center;
     }
     input {
@@ -170,6 +172,60 @@ body.d .file_modal, body.d .file_notify {
     .close {
       left:auto;
       top:auto;
+    }
+    .info {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 -10px;
+      padding: 10px 0;
+      position: relative;
+      > div {
+        margin: 0 10px;
+        padding: 0 10px 0 50px;
+        display: flex;
+        min-width: calc(33% - 20px);
+        flex-grow: 1;
+        flex-wrap: wrap;
+        position: relative;
+        .types {
+          display: flex;
+          margin: 0 -2px;
+          .type {
+            font-size: .6rem;
+            background: rgba(255,255,255,.3);
+            color: #000;
+            padding:2px 4px;
+            border-radius: 4px;
+            margin: 0 2px;
+            text-transform: uppercase;
+          }
+        }
+      }
+      .mat-ico {
+        position: absolute;
+        left: 10px;
+        top: 6px;
+        margin: 0 5px;
+        font-size: 1.6rem;
+      }
+      .title {
+        flex: 0 0 100%;
+        font-size: .6rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin: 0 0 5px;
+      }
+    }
+    .info:before {
+      position: absolute;
+      left: 30px;
+      right: 30px;
+      top: 1px;
+      height: 2px;
+      background: rgba(255,255,255,.2);
+      display: block;
+      content: '';
     }
   }
   .drop_files {
@@ -512,7 +568,8 @@ td .aio_fsp {
     //text-align: center;
   }
   .f>.f {
-    font-size: 12px;
+    font-size: .8rem;
+    word-break: break-all;
     max-width: 100%;
     /* max-width: calc(100% - 34px); */
     overflow: hidden;
