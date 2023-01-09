@@ -379,19 +379,27 @@ function stripe_create_customer_ajax(): void {
     $name = $data['name'] ?? '';
     $email = $data['email'] ?? '';
 
+    // Check if customer exists
+    $exist = $db->get_option( 'stripe_account_'.$email );
     // Add customer to stripe
-    try {
-        $customer = \Stripe\Customer::create(array(
-            'name' => $name,
-            'email' => $email
-        ));
-    } catch(Exception $e) {
-        $api_error = $e->getMessage();
-        elog( $e->getMessage() );
+    if( !empty( $exist ) ) {
+        $customer = new stdClass();
+        $customer->id = $exist;
+    } else {
+        try {
+            $customer = \Stripe\Customer::create(array(
+                'name' => $name,
+                'email' => $email
+            ));
+        } catch (Exception $e) {
+            $api_error = $e->getMessage();
+            elog($e->getMessage());
+        }
     }
 
-    if( empty($api_error) && $customer){
+    if( empty($api_error) && !empty( $customer )){
         try {
+            $db->update_option( 'stripe_account_'.$email, $customer->id );
             // Update PaymentIntent with the customer ID
             $paymentIntent = \Stripe\PaymentIntent::update($payment_intent_id, [
                 'customer' => $customer->id
