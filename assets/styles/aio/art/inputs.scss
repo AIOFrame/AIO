@@ -118,26 +118,32 @@ label.beta {
   border-radius: 8px;
   position: relative;
   background:transparent;
-  border: 2px solid #8e8e8e;
+  border: 2px solid $primary;
 }
-
 [type=radio] {
   border-radius:100%;
 }
 [type=radio]:checked, [type=checkbox]:checked {
-  background:transparent;
+  background: $primary;
+  //background: linear-gradient(160deg, $primary 0%, $secondary 100%);
+  border: 2px solid $primary;
+  //mask: ;
+  //-webkit-mask: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAwIDI0IDI0IiB3aWR0aD0iMjRweCIgZmlsbD0iIzAwMDAwMCI+PHBhdGggZD0iTTAgMGgyNHYyNEgwVjB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTkgMTYuMmwtMy41LTMuNWMtLjM5LS4zOS0xLjAxLS4zOS0xLjQgMC0uMzkuMzktLjM5IDEuMDEgMCAxLjRsNC4xOSA0LjE5Yy4zOS4zOSAxLjAyLjM5IDEuNDEgMEwyMC4zIDcuN2MuMzktLjM5LjM5LTEuMDEgMC0xLjQtLjM5LS4zOS0xLjAxLS4zOS0xLjQgMEw5IDE2LjJ6Ii8+PC9zdmc+') center / contain;
 }
 [type=radio]:not(.slide,.switch):checked:after, [type=checkbox]:not(.slide,.switch):checked:after {
   content:'';
   position: absolute;
   left: 3px;
   top: 3px;
+  text-align: center;
   width: calc(100% - 6px);
   height: calc(100% - 6px);
   display: block;
   border-radius:5px;
-  background: $primary;
-  background: linear-gradient(160deg, $primary 0%, $secondary 100%);
+  background-color: #fff;
+  mask: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAwIDI0IDI0IiB3aWR0aD0iMjRweCIgZmlsbD0iIzAwMDAwMCI+PHBhdGggZD0iTTAgMGgyNHYyNEgwVjB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTkgMTYuMmwtMy41LTMuNWMtLjM5LS4zOS0xLjAxLS4zOS0xLjQgMC0uMzkuMzktLjM5IDEuMDEgMCAxLjRsNC4xOSA0LjE5Yy4zOS4zOSAxLjAyLjM5IDEuNDEgMEwyMC4zIDcuN2MuMzktLjM5LjM5LTEuMDEgMC0xLjQtLjM5LS4zOS0xLjAxLS4zOS0xLjQgMEw5IDE2LjJ6Ii8+PC9zdmc+') center / contain;
+  -webkit-mask: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAwIDI0IDI0IiB3aWR0aD0iMjRweCIgZmlsbD0iIzAwMDAwMCI+PHBhdGggZD0iTTAgMGgyNHYyNEgwVjB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTkgMTYuMmwtMy41LTMuNWMtLjM5LS4zOS0xLjAxLS4zOS0xLjQgMC0uMzkuMzktLjM5IDEuMDEgMCAxLjRsNC4xOSA0LjE5Yy4zOS4zOSAxLjAyLjM5IDEuNDEgMEwyMC4zIDcuN2MuMzktLjM5LjM5LTEuMDEgMC0xLjQtLjM5LS4zOS0xLjAxLS4zOS0xLjQgMEw5IDE2LjJ6Ii8+PC9zdmc+') center / contain;
+  //background: linear-gradient(160deg, $primary 0%, $secondary 100%);
 }
 [type=radio]:not(.slide,.switch):checked:after {
   border-radius:100%;

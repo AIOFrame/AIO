@@ -694,19 +694,20 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
     $cry = Encrypt::initiate();
     $f = new FORM();
     $redirect = !empty( $redirect_to ) ? ' data-redirect="'.$redirect_to.'"' : '';
-    $callback = !empty( $callback ) ? ' data-redirect="'.$callback.'"' : '';
+    $reload = !empty( $reload_in ) ? ' data-reload="'.$reload_in.'"' : '';
+    $notify = !empty( $notify_for ) ? ' data-notify="'.$notify_for.'"' : '';
     ?>
-    <div class="login_wrap" data-t data-pre="login_" data-data="log"<?php echo $redirect.$callback; ?> data-notify="<?php echo $notify_for; ?>" data-reload="<?php echo $reload_in; ?>" data-reset="log">
+    <div class="login_wrap" data-t data-pre="login_" data-data="log"<?php echo $redirect.$reload.$notify; ?> data-reset="log">
         <form class="inputs">
             <?php
             $f->text('username',$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-log required autocomplete="username"','<div class="user_wrap">','</div>');
-            $f->input('password','password',$pass_title,$pass_title,'','onkeyup="aio_login_init(event)" data-log required autocomplete="current-password"','<div class="pass_wrap">','</div>');
+            $f->input('password','password',$pass_title,$pass_title,'','onkeyup="aio_login_init(event)" data-log data-help required autocomplete="current-password"','<div class="pass_wrap">','</div>');
             ?>
         </form>
         <button id="aio_login_init" class="grad <?php echo $class; ?>" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_login_ajax' ); ?>"><span class="loader"></span><?php E('Login'); ?></button>
         <div class="more" onclick="aio_forgot_view()"><?php E('Forgot Password ?'); ?></div>
     </div>
-    <div class="forgot_wrap" data-t data-pre="forgot_" data-data="forg" data-notify="3" data-reload="3" data-reset="forg" style="display:none;">
+    <div class="forgot_wrap" data-t data-pre="forgot_" data-data="forg" <?php echo $redirect.$reload.$notify; ?> data-reset="forg" style="display:none;">
         <div class="inputs">
             <?php
             $f->text('username',$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"','<div class="forgot_user_wrap">','</div>');
