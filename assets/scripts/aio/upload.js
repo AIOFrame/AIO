@@ -1,8 +1,8 @@
 $(document).ready(function(){
 
     // Close Uploader on click outside
+    let c = $('#aio_up');
     $(document).mouseup(function(e) {
-        let c = $('#aio_up');
         if (!c.is(e.target) && c.has(e.target).length === 0) {
             close_uploader();
         }
@@ -31,11 +31,11 @@ $(document).ready(function(){
         }
     })
 
-    // Delete a file from Uploaded Files
+    // Delete a file or files from Uploaded Files
     .on('click','.fd',function(){
         let df = $('.f.on');
         if( df.length > 0 && df.data('id') !== undefined && df !== '' ) {
-            $.post(location.origin,{'action':'file_delete','id':df.data('id')},function(r){
+            $.post(location.origin,{'action':$(c).data('delete-action'),'id':df.data('id')},function(r){
                 if( r = JSON.parse(r) ) {
                     uploader_notify(r[1]);
                     if( r[0] === 1 ){
@@ -241,7 +241,12 @@ function files_ui() {
 
         if( !$(b).next().hasClass('aio_fsp') ){
             let id = $(b).prev('button').data('url');
-            $(b).after('<div class="aio_fsp aio_files" data-url="'+ id +'"></div>');
+            //let wrap = getComputedStyle( b );
+            let w = Math.round( $(b).parent().width() );
+            console.log( w );
+            let col = w > 1024 ? 'quarter' : ( w > 512 ? 'half' : 'full' );
+            console.log( col );
+            $(b).after('<div class="aio_fsp aio_files" data-col="' + col + '" data-url="'+ id +'"></div>');
         }
 
         //elog( files_ui );
@@ -323,19 +328,21 @@ function file_upload(e){
         }
         // If file size is defined
         let size = parseFloat( $(e).data('size') );
-        size = size * 1024;
+        size = !isNaN(size) ? size * 1024 : 0;
+        elog(size);
         let measure = ' Mb';
         if( size > 0 ) {
             if( size > 1024 ) {
-                size = size / 1024;
+                size = Math.round( size / 1024 );
             } else {
+                size = Math.round( size );
                 measure = ' Kb';
             }
         } else {
             size = 'No Limit';
             measure = '';
         }
-        $('#aio_up .sizes').show().find('.size').html( Math.round( size ) ).next('.measure').html(measure);
+        $('#aio_up .sizes').show().find('.size').html(size).next('.measure').html(measure);
         // Shows or Hides delete button
         if ($(e).data('delete') === undefined) {
             $('.fd').hide();

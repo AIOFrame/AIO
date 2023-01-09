@@ -47,26 +47,29 @@ class CONTENT {
         $fonts = [ [ 'MaterialIcons' ] ];
         if( !empty( $primary_font ) ) {
             $font1 = is_array( $primary_font ) ? $primary_font[0] : $primary_font;
-            $weight1 = is_array( $primary_font ) ? $primary_font[1] : '400';
+            $weights1 = $primary_font[1] ?? '400';
+            $weight = $primary_font[2] ?? '400';
         } else {
             $font1 = $options['font_1'] ?? 'Lato';
-            $weight1 = $options['font_1_weights'] ?? '400';
+            $weights1 = $options['font_1_weights'] ?? '400';
+            $weight = $options['font_weight'] ?? '400';
         }
-        $fonts[] = [ $font1, $weight1 ];
+        $fonts[] = [ $font1, $weights1 ];
         //skel( $fonts );
         if( !empty( $secondary_font ) ) {
             $font2 = is_array( $secondary_font ) ? $secondary_font[0] : $secondary_font;
-            $weight2 = is_array( $secondary_font ) ? $secondary_font[1] : '400';
+            $weights2 = is_array( $secondary_font ) ? $secondary_font[1] : '400';
+            //$weight2 = is_array( $secondary_font ) ? $secondary_font[2] : '400';
         } else {
             $font2 = $options['font_2'] ?? '';
-            $weight2 = $options['font_2_weights'] ?? '';
+            $weights2 = $options['font_2_weights'] ?? '';
+            //$weight2 = $options['font_2_weight'] ?? '';
         }
         if( !empty( $font2 ) ) {
-            $fonts[] = [ $font2, $weight2 ];
-            $weights = explode( ',', $weight1 );
-            reset_styles( $font1.','.$font2, $weights[0] );
+            $fonts[] = [ $font2, $weights2 ];
+            reset_styles( $font1.','.$font2, $weight );
         } else {
-            reset_styles( $font1, $weight1 );
+            reset_styles( $font1, $weight );
         }
         //skel( $fonts );
         fonts( $fonts );

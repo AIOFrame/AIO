@@ -167,7 +167,7 @@ function get_image_data() {
 
 // Delete an uploaded document
 
-function file_delete_ajax() {
+function file_delete_ajax(): void {
 
     if( isset( $_POST['id'] ) && $_POST['id'] !== '' ) {
 

@@ -199,13 +199,14 @@ class OPTIONS {
     function font_options(): void {
         $f = new FORM();
         $db = new DB();
-        $options_array = [ 'font_1', 'font_1_weights', 'font_2', 'font_2_weights' ];
+        $options_array = [ 'font_1', 'font_1_weights', 'font_weight', 'font_2', 'font_2_weights' ];
         $ops = $db->get_options( $options_array );
         echo '<div class="row"';
         $f->option_params('fonts', 2, 2, $options_array );
         echo '>';
         $font_1 = $ops['font_1'] ?? 'Lato';
         $font_1_weights = $ops['font_1_weights'] ?? '400';
+        $font_weight = $ops['font_weight'] ?? '400';
         $font_2 = $ops['font_2'] ?? '';
         $font_2_weights = $ops['font_2_weights'] ?? '';
         $attr = 'data-fonts';
@@ -224,9 +225,11 @@ class OPTIONS {
             }
         }
         $f->select2('font_1','Primary Font','Select Font...',$fonts,$font_1,$attr,6);
-        $f->select2('font_1_weights','Primary Font Weights','Select Weights...',$weights,$font_1_weights,$attr.' multiple',6);
-        $f->select2('font_2','Primary Font','Select Font...',$fonts,$font_2,$attr,6);
-        $f->select2('font_2_weights','Primary Font Weights','Select Weights...',$weights,$font_2_weights,$attr.' multiple',6);
+        $f->select2('font_1_weights','Font Weights','Select Weights...',$weights,$font_1_weights,$attr.' multiple',4);
+        $f->select2('font_weight','Default Weight','Select...',$weights,$font_weight,$attr,2);
+        $f->select2('font_2','Secondary Font','Select Font...',$fonts,$font_2,$attr,6);
+        $f->select2('font_2_weights','Secondary Font Weights','Select Weights...',$weights,$font_2_weights,$attr.' multiple',4);
+        //$f->select2('font_2_weight','Default Weight','Select...',$weights,$font_2_weight,$attr,2);
         $f->process_options('Save Map Options','store grad','','col-12 tac');
         echo '</div>';
     }

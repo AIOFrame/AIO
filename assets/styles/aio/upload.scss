@@ -177,7 +177,7 @@ body.d .file_modal, body.d .file_notify {
     }
     .info {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       margin: 0 -10px;
       padding: 10px 0;
@@ -485,19 +485,25 @@ body.d .files_actions {
 }
 .aio_fsp {
   /*box-shadow: 0 0 10px rgba(0,0,0,.05) inset;*/
-  border-radius: 5px;
   position:relative;
-  min-height:40px;
-  margin-bottom: 15px;
-  border:1px solid #888;
+  min-height:45px;
+  border-top: $border-top solid $border-color-light;
+  border-right: $border-right solid $border-color-light;
+  border-bottom: $border-bottom solid $border-color-light;
+  border-left: $border-left solid $border-color-light;
+  margin-top: var(--input_margin_top);
+  margin-right: var(--input_margin_right);
+  margin-bottom: var(--input_margin_bottom);
+  margin-left: var(--input_margin_left);
+  border-radius: var(--input_radius);
   padding: 10px 10px 0 10px;
   > .w {
     display: flex;
     flex-wrap: wrap;
-    margin-right: 50px;
+    margin-right: 30px;
     > .f {
-      flex:0 0 calc(25% - 10px);
-      max-width:calc(25% - 10px);
+      flex:0 0 calc(100% - 10px);
+      max-width:calc(100% - 10px);
       margin:0 10px 10px 0;
       position: relative;
       border:1px solid #eee;
@@ -510,18 +516,24 @@ body.d .files_actions {
     top: -1px;
     right: -1px;
     height: calc(100% + 2px);
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
     border: 0 !important;
     background:#888;
     color:#fff !important;
     font-size:24px;
-    width: 60px;
+    width: 42px;
     margin: 0;
   }
   .i.file {
     margin:6px auto;
   }
+}
+[data-col=half]>.w>.f {
+  flex:0 0 calc(50% - 10px);
+  max-width:calc(50% - 10px);
+}
+[data-col="quarter"]>.W>.f {
+  flex:0 0 calc(25% - 10px);
+  max-width:calc(25% - 10px);
 }
 [disabled] + .aio_fsp {
   > .w {
@@ -553,9 +565,19 @@ td .aio_fsp {
   }
   > button {
     width:100%;
+    min-height: 46px;
   }
   .aio_upload {
     margin: 0;
+    border-top: $border-top solid $border-color-light;
+    border-right: $border-right solid $border-color-light;
+    border-bottom: $border-bottom solid $border-color-light;
+    border-left: $border-left solid $border-color-light;
+    padding-right: 36px;
+    position: relative;
+    text-transform: none;
+    //box-shadow: none;
+    background: none;
   }
 }
 .aio_files {
@@ -628,44 +650,44 @@ td .aio_fsp {
     max-width: 220px !important;
   }
 }
-.aio_df {
-  display: block;
-  padding: 10px 40px 10px 40px;
-  border:1px solid #ddd;
-  border-radius:5px;
-  position: relative;
-  background:url('../../icons/uploader/download.svg') no-repeat calc(100% - 6px) center / 30px;
-  margin-bottom: 10px;
-  .name {
-    overflow:hidden;
-    font-size: 14px;
-  }
-  .size {
-    color:#aaa;
-    font-size: 12px;
-  }
-  i {
-    width: 30px;
-    height:30px;
-    position: absolute;
-    left:6px;
-    background:url('../../icons/uploader/file.svg') no-repeat center / contain;
-    span {
-      background:#aaa;
-      color:#fff;
-      padding: 2px;
-      font-size: 6px;
-      text-transform: uppercase;
-      border-radius:2px;
-      font-weight: bold;
-      margin-top: 10px;
-      display:inline-block;
-    }
-  }
-}
-.aio_df:last-child {
-  margin: 0;
-}
+//.aio_df {
+//  display: block;
+//  padding: 10px 40px 10px 40px;
+//  border:1px solid #ddd;
+//  border-radius:5px;
+//  position: relative;
+//  background:url('../../icons/uploader/download.svg') no-repeat calc(100% - 6px) center / 30px;
+//  margin-bottom: 10px;
+//  .name {
+//    overflow:hidden;
+//    font-size: 14px;
+//  }
+//  .size {
+//    color:#aaa;
+//    font-size: 12px;
+//  }
+//  i {
+//    width: 30px;
+//    height:30px;
+//    position: absolute;
+//    left:6px;
+//    background:url('../../icons/uploader/file.svg') no-repeat center / contain;
+//    span {
+//      background:#aaa;
+//      color:#fff;
+//      padding: 2px;
+//      font-size: 6px;
+//      text-transform: uppercase;
+//      border-radius:2px;
+//      font-weight: bold;
+//      margin-top: 10px;
+//      display:inline-block;
+//    }
+//  }
+//}
+//.aio_df:last-child {
+//  margin: 0;
+//}
 
 body.d {
   .aio_files {
@@ -727,7 +749,7 @@ body.d {
         }
       }
     }
-    button {
+    .aio_upload {
       position: relative;
       top:auto;
       height:auto;
