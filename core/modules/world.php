@@ -35,7 +35,16 @@ class WORLD {
             $x = 0;
             foreach( $data as $c ){
                 $k = $key !== 'id' ? $this->get_property( $c, $key ) : $x;
-                $v = $this->get_property( $c, $value );
+                if( str_contains( $value, ' ' ) ) {
+                    $values = explode(' ',$value);
+                    $v = '';
+                    foreach( $values as $vs ) {
+                        $v .= $this->get_property( $c, $vs ).' ';
+                    }
+                    $v = rtrim( $v );
+                } else {
+                    $v = $this->get_property( $c, $value );
+                }
                 if( !empty( $k ) && !empty( $v ) ) {
                     $r[$k] = $v;
                 }

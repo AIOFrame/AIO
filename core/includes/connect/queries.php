@@ -640,6 +640,7 @@ class DB {
                     }
                 }
             } else {
+                $options = is_array( $options ) ? $options : explode(',',$options);
                 foreach( $options as $op ){
                     if( $key == 'id' ){
                         $q .= 'option_id = \''.$op.'\' OR ';

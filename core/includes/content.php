@@ -103,9 +103,10 @@ class CONTENT {
     }
 
     function post_html( string|array $scripts = [], string $alert_position = 'top right' ): void {
+        echo '<div class="'.$alert_position.'" data-alerts></div>';
         get_scripts( $scripts );
         get_script( PAGEPATH );
-        echo '<div class="'.$alert_position.'" data-alerts></div></body></html>';
+        echo '</body></html>';
     }
 
     /**

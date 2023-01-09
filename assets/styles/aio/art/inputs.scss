@@ -117,12 +117,10 @@ label.beta {
   vertical-align: middle;
   border-radius: 8px;
   position: relative;
-  border-top: $border-top solid $border-color-light;
-  border-right: $border-right solid $border-color-light;
-  border-bottom: $border-bottom solid $border-color-light;
-  border-left: $border-left solid $border-color-light;
   background:transparent;
+  border: 2px solid #8e8e8e;
 }
+
 [type=radio] {
   border-radius:100%;
 }
@@ -510,6 +508,31 @@ select.mb0 + .select2-container {
 [type=text] + .valid.on, [type=email] + .valid.on, [type=password] + .valid.on, select + .valid.on, textarea + .valid.on {
   opacity: 1;
   height: auto;
+}
+[type=password] {
+  appearance: none;
+  -webkit-appearance: none;
+}
+.show_password {
+  .password_visibility {
+    .on {
+      display: none;
+    }
+    .off {
+      display: block;
+    }
+  }
+}
+[type=password] + .password_visibility {
+  cursor: pointer;
+  .on {
+    display: block;
+  }
+  .off {
+    display: none;
+  }
+}
+[type=password] + .password_visibility.on {
 }
 
 /* Validator */

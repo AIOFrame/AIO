@@ -129,7 +129,7 @@ function get_languages( $lang_keys = [] ): array {
     }
 }
 
-function get_countries( string $key = 'id', string $value = 'name' ): array {
+function get_countries( string $key = 'id', string $value = 'flag name' ): array {
     $w = new WORLD();
     return $w->countries( $key, $value );
 }

@@ -1,4 +1,3 @@
-@charset "UTF-8";
 .file_modal, .file_notify {
   position: fixed;
   z-index: 999;
@@ -152,7 +151,7 @@ body.d .file_modal, body.d .file_notify {
   line-height: 40px;
 }
 .file_modal .files_head .expand {
-  content: "";
+  content: "\f1ce";
 }
 .file_modal .files_head .close {
   left: auto;
@@ -244,7 +243,7 @@ body.d .file_modal, body.d .file_notify {
 }
 
 body.d .file_modal .files_head {
-  background: #232323;
+  background: rgb(35, 35, 35);
 }
 
 /*.files_head .browse_file {
@@ -467,13 +466,13 @@ body.d .file_modal .files_head {
   transform: translateY(-50%);
 }
 .files_actions .i.select:after {
-  content: "";
+  content: "\e86c";
 }
 .files_actions .i.browse:after {
-  content: "";
+  content: "\e9fc";
 }
 .files_actions .i.trash:after {
-  content: "";
+  content: "\e872";
 }
 .files_actions .i.disabled {
   background: none;
@@ -484,7 +483,7 @@ body.d .file_modal .files_head {
 }
 
 body.d .files_actions {
-  border-top: 1px solid #232323;
+  border-top: 1px solid rgb(35, 35, 35);
 }
 body.d .files_actions div, body.d .files_actions label {
   color: #fff;
@@ -693,11 +692,9 @@ body.d .aio_files .trash {
     max-height: none;
     padding-bottom: 20vh;
   }
-
   .file_notify {
     width: 100vw;
   }
-
   .files_actions {
     position: fixed;
     left: 0;
@@ -708,14 +705,12 @@ body.d .aio_files .trash {
     padding: 20px 10px;
     background: #fff !important;
   }
-
   #aio_up .f:after {
     left: 5px;
     top: 5px;
     width: 15px;
     height: 15px;
   }
-
   .aio_fsp > .w {
     margin: 0;
   }

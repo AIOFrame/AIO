@@ -111,4 +111,17 @@ $(document).ready(function(){
             $(this).next('.valid').removeClass('on');
         }
     })
+    .on('click','.password_visibility',function(){
+        let attr = $(this).parent().hasClass('show_password') ? 'password' : 'text';
+        $(this).parent().toggleClass('show_password').find('input').attr('type',attr);
+    })
+    $('[type=password][data-help]').each(function (i,f) {
+        let input_css = $('html').attr('dir') === 'ltr' ? {'margin-right':'50px'} : {'margin-left':'50px'};
+        input_css.width = 'calc(100% - 50px)';
+        let parent_css = {'position':'relative'};
+        //$(f).parent().find('label').height() + $(f).height()
+        let visibility_css = {'position':'absolute','transform':'translateY(-50%)','top':'calc(50%)'};
+        $('html').attr('dir') === 'ltr' ? visibility_css.right = '5px' : visibility_css.left = '5px';
+        $(f).css(input_css).parent().css(parent_css).append('<div class="password_visibility"><i class="mat-ico on">visibility</i><i class="mat-ico off">visibility_off</i></div>').find('.password_visibility').css(visibility_css);
+    })
 })

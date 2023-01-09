@@ -23,6 +23,28 @@
   top: 0;
 }
 
+.abs.pl5 {
+  left: 5px;
+}
+
+.abs.pr5 {
+  right: 5px;
+}
+
+.abs.pt5 {
+  top: 5px;
+}
+
+.abs.hc {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.abs.vc {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .t5 {
   top: 5px;
 }
