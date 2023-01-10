@@ -323,6 +323,21 @@ class OPTIONS {
         // TODO : Add Regional Options [ 'Country', 'Timezone', 'Currency', 'Currency Symbol', 'Tax', 'Date Format', 'Time Format' ]
     }
 
+    function content_options(): void {
+        $f = new FORM();
+        $db = new DB();
+        $os = $db->get_options(['no_access_image','no_content_image']);
+        echo '<div class="row"';
+        $f->option_params('cn',2,2);
+        echo '>';
+        $no_access_image = $os['no_access_image'] ?? '';
+        $no_content_image = $os['no_content_image'] ?? '';
+        $f->upload('no_access_image','Image to show when user has no access!','Upload',$no_access_image,1,0,'','data-cn','jpg,png,svg',.1,0,'',6);
+        $f->upload('no_content_image','Image to show when there is no content!','Upload',$no_content_image,1,0,'','data-cn','jpg,png,svg',.1,0,'',6);
+        $f->process_options('Save Options','store grad','','col-12 tac');
+        echo '</div>';
+    }
+
     function region_options(): void {
         $f = new FORM();
         $db = new DB();

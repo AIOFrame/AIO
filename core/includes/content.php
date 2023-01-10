@@ -276,6 +276,23 @@ class CONTENT {
 
 }
 
+/**
+ * Displays a NO ACCESS content and end further code execution
+ * @param string $message Message to be displayed
+ * @param string $suggestion Suggestions like Try clearing filters or reload page!
+ * @param string $class Wrapping class
+ * @return void
+ */
+function no_content( string $message = "No data found!", string $suggestion = "", string $class = '' ): void {
+    $db = new DB();
+    $image = $db->get_option('no_content_image') ?? '';
+    $message = T( $message );
+    echo '<div class="no_content '.$class.'"><h1 class="tac">'.$message.'</h1>';
+    echo !empty( $suggestion ) ? '<h4>'.T($suggestion).'</h4>' : '';
+    echo !empty( $image ) ? '<img src="'.storage_url($image).'" alt="'.$message.'" class="no_content_image" />' : '';
+    echo '</div>';
+}
+
 function store_template_ajax(): void {
     elog( $_POST );
 }

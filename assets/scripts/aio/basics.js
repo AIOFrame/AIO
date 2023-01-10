@@ -59,6 +59,14 @@ $(document).ready(function(){
             notify('Language Changed!');
             reload(3);
         });
+    })
+
+    // Auto hide on click outside
+    .mouseup(function(e) {
+        let el = $('[data-auto-off]');
+        if (!el.is(e.target) && el.has(e.target).length === 0) { el.removeClass('on'); }
+        let eh = $('[data-auto-hide]');
+        if (!eh.is(e.target) && eh.has(e.target).length === 0) { eh.hide(); }
     });
 
     // Load Dark Mode

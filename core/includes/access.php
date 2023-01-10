@@ -976,10 +976,17 @@ function user_registration_fields( string $pre = 'user_', string $data = '', str
 /**
  * Displays a NO ACCESS content and end further code execution
  * @param string $message Message to be displayed
+ * @param string $class Wrapping class
+ * @param bool $show_return To show return to previous page
+ * @param bool $die To end loading PHP
  * @return void
  */
 function no_access( string $message = "You are trying to reach restricted content!", string $class = '', bool $show_return = true, bool $die = true ): void {
-    echo '<div class="no_access '.$class.'"><h1 class="tac">'.T( $message ).'</h1>';
+    $db = new DB();
+    $image = $db->get_option('no_access_image') ?? '';
+    $message = T( $message );
+    echo '<div class="no_access '.$class.'"><h1 class="tac">'.$message.'</h1>';
+    echo !empty( $image ) ? '<img src="'.storage_url($image).'" alt="'.$message.'" class="no_access_image" />' : '';
     echo $show_return ? '<a onclick="history.back()">'.T('Return to Previous Page').'</a>' : '';
     echo '</div>';
     if( $die ) {
