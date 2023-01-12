@@ -95,6 +95,9 @@ class FORM {
         if( is_numeric( $pre ) ){
             $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-md-'.$pre.'">';
             $post = '</select></div>';
+        } else if( str_contains( $pre, '.' ) ) {
+            $pre = '<div class="'.str_replace('.','',$pre).'">';
+            $post = '</div>';
         }
         $post = empty( $post ) ? '</select>' : '</select>' . $post;
         $at = $attr !== '' ? ' '.$attr : '';
@@ -102,7 +105,8 @@ class FORM {
         $name = is_array( $identity ) ? $identity[1] : $identity;
         echo $pre;
         $label = !empty( $label ) ? T( $label ) : '';
-        echo !empty( $label ) ? '<label for="'.$id.'">'. $label .'</label>' : '';
+        $req = str_contains( $attr, 'required' ) ? '<i>*</i>' : '';
+        echo !empty( $label ) ? '<label for="'.$id.'">'. $label .$req.'</label>' : '';
         $ph = !empty( $placeholder ) ? ' placeholder="'.$placeholder.'" data-placeholder="'.$placeholder.'"' : '';
         echo '<select name="'.$name.'" title="'.$label.'" data-key="'.$name.'" id="'.$id.'"'.$at.$ph.'>';
         //if( str_contains( $attr, 'select2' ) ) {
@@ -139,6 +143,9 @@ class FORM {
         if( is_numeric( $pre ) ){
             $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-md-'.$pre.'">';
             $post = '</div>';
+        } else if( str_contains( $pre, '.' ) ) {
+            $pre = '<div class="'.str_replace('.','',$pre).'">';
+            $post = '</div>';
         }
         $ph = $placeholder !== '' ? ' placeholder="'.$placeholder.'"' : '';
         $name = is_array( $identity ) ? $identity[1] : $identity;
@@ -166,8 +173,9 @@ class FORM {
                 $input = '<input type="'.$type.'" id="'.$id.'" data-key="'.$n.'" '.$at.$ph.$va.$nn.'>';
                 break;
         }
+        $req = str_contains( $attrs, 'required' ) ? '<i>*</i>' : '';
         echo $pre;
-        echo !empty( $label ) ? '<label for="'.$id.'">'.T($label).'</label>' : '';
+        echo !empty( $label ) ? '<label for="'.$id.'">'.T($label).$req.'</label>' : '';
         echo $input.$post;
     }
 
@@ -299,6 +307,9 @@ class FORM {
         if( is_numeric( $pre ) ){
             $pre = $pre == 0 ? '<div class="map_col col">' : '<div class="map_col col-12 col-md-'.$pre.'">';
             $post = '</div>';
+        } else if( str_contains( $pre, '.' ) ) {
+            $pre = '<div class="'.str_replace('.','',$pre).'">';
+            $post = '</div>';
         }
         if( ( empty( $latitude_value ) || empty( $longitude_value ) ) && defined( 'DB_TYPE' ) ) {
             $db = new DB();
@@ -385,6 +396,9 @@ class FORM {
             if( is_numeric( $pre ) ){
                 $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-md-'.$pre.'">';
                 $post = '</div>';
+            } else if( str_contains( $pre, '.' ) ) {
+                $pre = '<div class="'.str_replace('.','',$pre).'">';
+                $post = '</div>';
             }
             $wrap_inputs_pre = !empty( $inputs_wrap ) ? '<div class="'.$inputs_wrap.'">' : '';
             $wrap_inputs_post = !empty( $inputs_wrap ) ? '</div>' : '';
@@ -393,6 +407,9 @@ class FORM {
                 $inputs_post = '</div>';
                 $wrap_inputs_pre = '<div class="row '.$inputs_wrap.'">';
                 $wrap_inputs_post = '</div>';
+            } else if( str_contains( $inputs_pre, '.' ) ) {
+                $inputs_pre = '<div class="'.str_replace('.','',$inputs_pre).'">';
+                $inputs_post = '</div>';
             }
             $key = 'data-key="'.$name.'"';
             if( $type !== 'type="radio"' && strpos( $attr, 'data-array') !== false ) {
@@ -401,7 +418,8 @@ class FORM {
             $uq = rand(1,999);
             echo $pre;
             $label = !empty( $label ) ? T( $label ) : '';
-            echo !empty($label) ? '<label class="db">'. $label .'</label>' : '';
+            $req = str_contains( $attr, 'required' ) ? '<i>*</i>' : '';
+            echo !empty($label) ? '<label class="db">'. $label .$req.'</label>' : '';
             echo $wrap_inputs_pre;
             if( is_assoc( $values ) ) {
                 foreach ($values as $val => $title) {
@@ -493,6 +511,9 @@ class FORM {
         if( is_numeric( $pre ) ){
             $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-md-'.$pre.'">';
             $post = '</div>';
+        } else if( str_contains( $pre, '.' ) ) {
+            $pre = '<div class="'.str_replace('.','',$pre).'">';
+            $post = '</div>';
         }
         $key = 'data-key="'.$name.'"';
         $tip = $label !== '' ? 'title="'.$label.'"' : '';
@@ -528,6 +549,9 @@ class FORM {
         if( is_numeric( $pre ) ){
             $pre = $pre == 0 ? '<div class="upload_set col">' : '<div class="upload_set col-12 col-lg-'.$pre.'">';
             $post = '</div>';
+        } else if( str_contains( $pre, '.' ) ) {
+            $pre = '<div class="upload_set '.str_replace('.','',$pre).'">';
+            $post = '</div>';
         }
         $sh = $show_history ? ' data-history' : '';
         $ext = $extensions !== '' ? ' data-exts="'.$extensions.'"' : '';
@@ -537,7 +561,8 @@ class FORM {
         $pat = $path !== '' ? ' data-path="'.$cry->encrypt( $path ).'"' : '';
         $type = $multiple > 1 ? 'files' : 'file';
         $mul = $multiple > 1 ? 'data-files="'.$multiple.'"' : 'data-file';
-        $label = !empty( $label ) ? '<label for="'.$id.'">'.T($label).'</label>' : '';
+        $req = str_contains( $attrs, 'required' ) ? '<i>*</i>' : '';
+        $label = !empty( $label ) ? '<label for="'.$id.'">'.T($label).$req.'</label>' : '';
         echo $pre.$label.'<button type="button" class="aio_upload '.$button_class.'" data-url="#'.$id.'" onclick="file_upload(this)" '.$sh.$ext.$sz.$mul.$del.$pat.'>'.T($button_label).'</button><input id="'.$id.'" name="'.$name.'" data-key="'.$name.'" type="text" data-'.$type.' value="'.$value.'" '.$attrs.'>'.$post;
     }
 
@@ -555,6 +580,9 @@ class FORM {
         echo '<script>ace.config.set("basePath", "'. APPURL . 'assets/ext/ace/" );</script>';
         if( is_numeric( $pre ) ){
             $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-md-'.$pre.'">';
+            $post = '</div>';
+        } else if( str_contains( $pre, '.' ) ) {
+            $pre = '<div class="'.str_replace('.','',$pre).'">';
             $post = '</div>';
         }
         echo $pre;
@@ -589,6 +617,9 @@ class FORM {
         get_script('https://cdn.jsdelivr.net/npm/trumbowyg/dist/trumbowyg.min.js');
         if( is_numeric( $pre ) ){
             $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-md-'.$pre.'">';
+            $post = '</div>';
+        } else if( str_contains( $pre, '.' ) ) {
+            $pre = '<div class="'.str_replace('.','',$pre).'">';
             $post = '</div>';
         }
         echo $pre;
@@ -707,10 +738,12 @@ class FORM {
     function process_html( string $text = '', string $class = '', string $attr = '', string $action = '', string|int $pre = '', int|string $post = '', string $element = 'button', string $confirm = '' ): void {
         if( is_numeric( $pre ) ){
             $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
-        } else {
-            $pre = !empty( $pre ) ? '<div class="'.$pre.'">' : '';
+            $post = '</div>';
+        }  else if( str_contains( $pre, '.' ) ) {
+            $pre = '<div class="'.str_replace('.','',$pre).'">';
+            $post = '</div>';
         }
-        $post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
+        //$post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
         $c = Encrypt::initiate();
         $action = empty( $action ) ? 'process_data_ajax' : $action;
         $a = 'data-action="'.$c->encrypt($action).'"';
@@ -746,11 +779,13 @@ class FORM {
     function view_html( string $url = '', string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', string|int $pre = '', string|int $post = '' ): void {
         if( is_numeric( $pre ) ){
             $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
-        } else {
-            $pre = !empty( $pre ) ? '<div class="'.$pre.'">' : '';
+            $post = '</div>';
+        }  else if( str_contains( $pre, '.' ) ) {
+            $pre = '<div class="'.str_replace('.','',$pre).'">';
+            $post = '</div>';
         }
-        $post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
-        $c = Encrypt::initiate();
+        //$post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
+        //$c = Encrypt::initiate();
         $i = !empty( $i_class ) ? '<i class="'.$i_class.'"></i>' : '';
         $title = str_contains( $attr, 'title' ) ? '' : 'title="'.T('View').'"';
         echo $pre.'<'.$html.' data-href="'.$url.'" '.$title.' class="'.$class.'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$post;
@@ -773,10 +808,12 @@ class FORM {
         //$c = Encrypt::initiate();
         if( is_numeric( $pre ) ){
             $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
-        } else {
-            $pre = !empty( $pre ) ? '<div class="'.$pre.'">' : '';
+            $post = '</div>';
+        } else if( str_contains( $pre, '.' ) ) {
+            $pre = '<div class="'.str_replace('.','',$pre).'">';
+            $post = '</div>';
         }
-        $post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
+        //$post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
         $i = !empty( $i_class ) || !empty( $i_text ) ? '<i class="'.$i_class.'">'.$i_text.'</i>' : '';
         $title = str_contains( $attr, 'title' ) ? '' : 'title="'.T('Edit').'"';
         echo $pre.'<'.$html.' onclick="edit_data(this,\''.$element.'\')" data-data=\''.$this->_editable_data($array).'\' class="'.$class.'" '.$title.' '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$post;
@@ -801,10 +838,12 @@ class FORM {
     function trash_html( string $table, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', int $notify_time = 2, int $reload_time = 2, string $confirmation = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): void {
         if( is_numeric( $pre ) ){
             $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
-        } else {
-            $pre = !empty( $pre ) ? '<div class="'.$pre.'">' : '';
+            $post = '</div>';
+        } else if( str_contains( $pre, '.' ) ) {
+            $pre = '<div class="'.str_replace('.','',$pre).'">';
+            $post = '</div>';
         }
-        $post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
+        //$post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
         $c = Encrypt::initiate();
         $i = !empty( $i_class ) || !empty( $i_text ) ? '<i class="'.$i_class.'">'.$i_text.'</i>' : '';
         $attr .= !empty( $confirmation ) ? ' data-confirm="'.T($confirmation).'"' : '';
@@ -834,10 +873,12 @@ class FORM {
     function update_html( string $table, array $keys, array $values, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', int $notify_time = 2, int $reload_time = 2, string $confirmation = '', string|int $pre = '', string|int $post = '' ): void {
         if( is_numeric( $pre ) ){
             $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
-        } else {
-            $pre = !empty( $pre ) ? '<div class="'.$pre.'">' : '';
+            $post = '</div>';
+        } else if( str_contains( $pre, '.' ) ) {
+            $pre = '<div class="'.str_replace('.','',$pre).'">';
+            $post = '</div>';
         }
-        $post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
+        //$post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
         $c = Encrypt::initiate();
         $i = !empty( $i_class ) ? '<i class="'.$i_class.'"></i>' : '';
         $attr .= !empty( $confirmation ) ? ' data-confirm="'.T($confirmation).'"' : '';

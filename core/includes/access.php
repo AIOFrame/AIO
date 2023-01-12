@@ -701,7 +701,7 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
         <form class="inputs">
             <?php
             $f->text('username',$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-log required autocomplete="username"','<div class="user_wrap">','</div>');
-            $f->input('password','password',$pass_title,$pass_title,'','onkeyup="aio_login_init(event)" data-log data-help required autocomplete="current-password"','<div class="pass_wrap">','</div>');
+            $f->input('password','password',$pass_title,$pass_title,'','onkeyup="aio_login_init(event)" data-log required autocomplete="current-password"','<div class="pass_wrap">','</div>');
             ?>
         </form>
         <button id="aio_login_init" class="grad <?php echo $class; ?>" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_login_ajax' ); ?>"><span class="loader"></span><?php E('Login'); ?></button>

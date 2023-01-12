@@ -111,7 +111,7 @@ class PORTAL {
                                 }
                                 $f->select( 'theme', 'Dashboard Style', 'Select Theme...', $uis, '', 'data-data class="select2"', 6, 1 );
                                 $f->select( 'input_theme', 'Input Style', 'Select Theme...', [], '', 'data-data class="select2"', 6, 1 );
-                                $f->process_options('Update Preferences','r5 xl mb0','','col-12 tar');
+                                $f->process_options('Update Preferences','r5 xl mb0','','.col-12 tar');
                                 //skel( $uis );
                                 //$f->texts([['']])
                                 ?>

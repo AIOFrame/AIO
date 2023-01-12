@@ -9,6 +9,12 @@ label {
   font-weight: bold;
   margin: 0 0 10px;
 }
+label i {
+  color: firebrick;
+  font-weight: bold;
+  font-style: normal;
+  margin: 0 5px;
+}
 
 [type=radio] + label, [type=checkbox] + label {
   font-size: 1rem;
@@ -460,25 +466,25 @@ select.mb0 + .select2-container {
 }
 
 /* Helper */
-[type=text] + .valid, [type=email] + .valid, [type=password] + .valid, select + .valid, textarea + .valid {
+.aio_valid {
   font-size: 12px;
   pointer-events: none;
   height: 0;
 }
-[type=text] + .valid > div, [type=email] + .valid > div, [type=password] + .valid > div, select + .valid > div, textarea + .valid > div {
+.aio_valid > div {
   display: flex;
 }
-[type=text] + .valid .value, [type=email] + .valid .value, [type=password] + .valid .value, select + .valid .value, textarea + .valid .value {
+.aio_valid .value {
   margin-left: 10px;
 }
-[type=text] + .valid .green, [type=email] + .valid .green, [type=password] + .valid .green, select + .valid .green, textarea + .valid .green {
+.aio_valid .green .value {
   color: forestgreen;
 }
-[type=text] + .valid .red, [type=email] + .valid .red, [type=password] + .valid .red, select + .valid .red, textarea + .valid .red {
+.aio_valid .red .value {
   color: firebrick;
 }
 
-[type=text] + .valid.on, [type=email] + .valid.on, [type=password] + .valid.on, select + .valid.on, textarea + .valid.on {
+.aio_valid.on {
   opacity: 1;
   height: auto;
 }
@@ -506,7 +512,7 @@ select.mb0 + .select2-container {
 }
 
 /* Validator */
-input + .valid {
+.aio_valid {
   position: absolute;
   top: calc(100% - 10px);
   left: 15px;
@@ -524,23 +530,23 @@ input + .valid {
   z-index: 999;
   text-align: center;
 }
-input + .valid > div {
+.aio_valid > div {
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
 }
-input + .valid > div span {
+.aio_valid > div span {
   font-size: 0.9rem;
   margin: 0 4px;
   min-width: 80px;
 }
-input + .valid span.title + .value {
+.aio_valid span.title + .value {
   margin: 0 5px;
   font-size: 1rem;
 }
 
-input + .valid:after {
+.aio_valid:after {
   content: "";
   width: 0;
   height: 0;
@@ -556,18 +562,10 @@ input + .valid:after {
   pointer-events: none;
 }
 
-input + .valid.on {
+.aio_valid.on {
   opacity: 1;
   padding: 10px;
   font-size: 1rem;
-}
-
-.green .value {
-  color: forestgreen;
-}
-
-.red .value {
-  color: crimson;
 }
 
 /* Auto Filters */
