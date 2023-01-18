@@ -41,6 +41,12 @@ label {
   text-transform: uppercase;
   font-weight: bold;
   margin: 0 0 10px;
+  i {
+    color: firebrick;
+    font-weight: bold;
+    font-style: normal;
+    margin:0 5px;
+  }
   //display: block;
 }
 [type=radio]+label, [type=checkbox]+label {
@@ -493,7 +499,7 @@ select.mb0 + .select2-container {
 
 /* Helper */
 
-[type=text] + .valid, [type=email] + .valid, [type=password] + .valid, select + .valid, textarea + .valid {
+.aio_valid {
   font-size: 12px;
   pointer-events: none;
   height: 0;
@@ -504,14 +510,14 @@ select.mb0 + .select2-container {
   .value {
     margin-left: 10px;
   }
-  .green {
+  .green .value {
     color:forestgreen;
   }
-  .red {
+  .red .value {
     color:firebrick;;
   }
 }
-[type=text] + .valid.on, [type=email] + .valid.on, [type=password] + .valid.on, select + .valid.on, textarea + .valid.on {
+.aio_valid.on {
   opacity: 1;
   height: auto;
 }
@@ -545,7 +551,7 @@ select.mb0 + .select2-container {
 
 /* Validator */
 
-input + .valid {
+.aio_valid {
   position: absolute;
   top:calc(100% - 10px);
   left:15px;
@@ -579,7 +585,7 @@ input + .valid {
     font-size: 1rem;
   }
 }
-input + .valid:after {
+.aio_valid:after {
   content: "";
   width: 0;
   height: 0;
@@ -594,20 +600,10 @@ input + .valid:after {
   opacity: 1;
   pointer-events: none;
 }
-input + .valid.on {
+.aio_valid.on {
   opacity: 1;
   padding: 10px;
   font-size: 1rem;
-}
-.green {
-  .value {
-    color: forestgreen;
-  }
-}
-.red {
-  .value {
-    color:crimson;
-  }
 }
 
 /* Auto Filters */

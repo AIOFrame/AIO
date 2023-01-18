@@ -526,7 +526,7 @@ class MAIL {
                 ['smtp_username','SMTP Email','',$smtp_username],
             ],$attr,4);
             $f->input('password','smtp_password','SMTP Password','',$smtp_password,$attr,4);
-            $f->process_html('Save API Details','store grad','','process_options_ajax','col-12 tac');
+            $f->process_html('Save API Details','store grad','','process_options_ajax','.col-12 tac');
             ?>
         </div>
         <form id="template" method="post">

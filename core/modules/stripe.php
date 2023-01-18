@@ -87,7 +87,7 @@ class STRIPE {
             [ 'stripe_test_private_key', 'Secret Key - Test Mode', '', $pri_test ],
         ], $attr, 5);
         echo '</div></div>';
-        $f->process_options('Save Stripe Options','store grad','','col-12 tac');
+        $f->process_options('Save Stripe Options','store grad','','.col-12 tac');
         echo '</div>';
     }
 

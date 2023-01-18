@@ -115,7 +115,7 @@ class OPTIONS {
             $f->color('secondary_color_dark','Secondary Color - Dark','Ex: A2A2A2',$dc2,$attr,3,'','[data-key=secondary_color_dark]');
             $f->color('color_dark','Content Color on Gradient - Dark','Ex: A2A2A2',$dc3,$attr,3,'','[data-key=color_dark]');
         }
-        $f->process_options('Save Brand Options','store grad','','col-12 tac');
+        $f->process_options('Save Brand Options','store grad','','.col-12 tac');
         echo '</div>';
         file_upload();
         get_scripts('iro,color');
@@ -188,7 +188,7 @@ class OPTIONS {
             $f->color('input_color_dark','Text Color','Ex: F1F1F1',$cd,$attr,2,'','[data-key=input_color_dark]');
             $f->color('input_color_active_dark','Text Color - Active','Ex: F1F1F1',$cad,$attr,2,'','[data-key=input_color_active_dark]');
         }
-        $f->process_options('Save Brand Options','store grad','','col-12 tac');
+        $f->process_options('Save Brand Options','store grad','','.col-12 tac');
         echo '</div>';
     }
 
@@ -230,7 +230,7 @@ class OPTIONS {
         $f->select2('font_2','Secondary Font','Select Font...',$fonts,$font_2,$attr,6);
         $f->select2('font_2_weights','Secondary Font Weights','Select Weights...',$weights,$font_2_weights,$attr.' multiple',4);
         //$f->select2('font_2_weight','Default Weight','Select...',$weights,$font_2_weight,$attr,2);
-        $f->process_options('Save Map Options','store grad','','col-12 tac');
+        $f->process_options('Save Map Options','store grad','','.col-12 tac');
         echo '</div>';
     }
 
@@ -258,7 +258,7 @@ class OPTIONS {
         $f->text('default_map_long','Default Map Longitude','Ex: 24.43555',$long,$attr,3);
         $f->select2('default_map_zoom','Default Zoom Level','Select Level...',range(0,19),$zoom,$attr,3);
         $f->select2('default_map_type','Default Map Type','Select Type...',['roadmap','satellite','hybrid','terrain'],$type,$attr,3);
-        $f->process_options('Save Map Options','store grad','','col-12 tac');
+        $f->process_options('Save Map Options','store grad','','.col-12 tac');
         echo '</div>';
     }
 
@@ -277,7 +277,7 @@ class OPTIONS {
         $f->text('mobile','Mobile No. for Social Media','Ex: 503334444',$mobile,'data-com',3);
         $f->text('email','Official Email','Ex: hello@company.com',$email,'data-com',3);
         $f->text('website','Official Website','Ex: company.com',$website,'data-com',3);
-        $f->process_options('Save Options','store grad','','col-12 tac');
+        $f->process_options('Save Options','store grad','','.col-12 tac');
         echo '</div>';
     }
 
@@ -299,7 +299,7 @@ class OPTIONS {
         $f->text('state','State','Ex: Burlington',$state,'data-add',3);
         $f->text('postal','Postal Code','Ex: 110250',$post,'data-add',3);
         $f->select2('country','Country','Choose Country...',$countries,$country,'data-add',3);
-        $f->process_options('Save Options','store grad','','col-12 tac');
+        $f->process_options('Save Options','store grad','','.col-12 tac');
         echo '</div>';
     }
 
@@ -318,7 +318,7 @@ class OPTIONS {
         $f->text('reg','Registration No.','Ex: 120-12565-132665',$reg,'data-cd',3);
         $f->text('trn','TRN No.','Ex: 3562-2654-8954',$trn,'data-cd',3);
         $f->input('number','tax','Tax%','Ex: 5',$tax,'min="0" max="50" data-cd',2);
-        $f->process_options('Save Options','store grad','','col-12 tac');
+        $f->process_options('Save Options','store grad','','.col-12 tac');
         echo '</div>';
         // TODO : Add Regional Options [ 'Country', 'Timezone', 'Currency', 'Currency Symbol', 'Tax', 'Date Format', 'Time Format' ]
     }
@@ -334,7 +334,7 @@ class OPTIONS {
         $no_content_image = $os['no_content_image'] ?? '';
         $f->upload('no_access_image','Image to show when user has no access!','Upload',$no_access_image,1,0,'','data-cn','jpg,png,svg',.1,0,'',6);
         $f->upload('no_content_image','Image to show when there is no content!','Upload',$no_content_image,1,0,'','data-cn','jpg,png,svg',.1,0,'',6);
-        $f->process_options('Save Options','store grad','','col-12 tac');
+        $f->process_options('Save Options','store grad','','.col-12 tac');
         echo '</div>';
     }
 
@@ -364,7 +364,7 @@ class OPTIONS {
         $f->text('currency_symbol','Currency Symbol','Ex: ₹','',$a,1);
         $f->text('currency_rate','Currency Rate','Ex: ₹','',$a,1);
         $f->text('time_format','Time Format <a href=\'https://www.php.net/manual/en/datetime.formats.time.php"\'>?</a>','d M, Y','',$a,2);
-        $f->process_options('Save Options','store grad','','col-12 tac');
+        $f->process_options('Save Options','store grad','','.col-12 tac');
         echo '</div></div>';
     }
 
@@ -380,7 +380,7 @@ class OPTIONS {
             $val = $os[ $ok ] ?? '';
             $f->text( $ok, $ov, 'Ex: '.$ov.' Details', $val, 'data-soc', 3 );
         }
-        $f->process_options('Save Options','store grad','','col-12 tac');
+        $f->process_options('Save Options','store grad','','.col-12 tac');
         echo '</div>';
     }
 
@@ -398,7 +398,7 @@ class OPTIONS {
                 $f->text( $ok, $ov, 'Ex: '.$ov.' Details', $val, 'data-soc', 3 );
             }
         }
-        $f->process_options('Save Options','store grad','','col-12 tac');
+        $f->process_options('Save Options','store grad','','.col-12 tac');
         echo '</div>';
     } */
 
@@ -432,7 +432,7 @@ class OPTIONS {
         echo '>';
         $f->select2('languages','Select Languages for Translations','Choose Languages...',$all_languages,$languages,'data-al multiple',12,1);
         $f->text('languages_updated','','',1,'hidden data-al');
-        $f->process_options('Save Options','store grad','','col-12 tac');
+        $f->process_options('Save Options','store grad','','.col-12 tac');
         echo '</div>';
     }
 
