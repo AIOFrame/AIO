@@ -51,30 +51,15 @@ AIO Setup
     * AIO Setup to ask for CMS
     * AIO Setup to compare and show version is latest
 
-AIO Media
-    * Upload Manager - Lets user manage all uploaded files
-    * Upload Options - File Upload Options
-    * File Uploader issues on mobile (ex: trash button)
-    * List and Icons View Toggle in File Manager
-    * File Manager to have more controls like copy file url, or create share url
-    * Uploaded file thumbnail if size is below 512kb else load button
-    * Image editor
-    * Image compress engine + options
-    * File upload renaming logic
-    * Files in a page
-    * Encrypted and Sharable files
-    * Add URL along with file upload
-    * File Upload Errors to be present in notify translated and trigger show
-    * File Uploader multiple selects multiple files and on delete does one
-    * Uploaded files not accessible publicly by default but serve if user is logged in
-
 AIO Dev
+    * Better interface for incorrect db credentials
+    * Option to lt user update db credentials
     * AIO to have code editor for app files
     * Versioning and update app via GIT command
     * Versioning and update AIO via GIT command (this might break app, so only notify update available)
     * GIT Manager - Provides user GIT UI to pull and push app updates
     * App compatibility by AIO version
-    * Have a look into PHPUnit
+    * PHPUnit
     * CACHE System based on App Mode // PHPFastCache
     * Restrict AJAX Requests via config file <- IMP
 

@@ -519,6 +519,9 @@ select.mb0 + .select2-container {
   appearance: none;
   -webkit-appearance: none;
 }
+.password_visibility {
+  cursor: pointer;
+}
 .show_password {
   .password_visibility {
     .on {
@@ -530,7 +533,6 @@ select.mb0 + .select2-container {
   }
 }
 [type=password] + .password_visibility {
-  cursor: pointer;
   .on {
     display: block;
   }

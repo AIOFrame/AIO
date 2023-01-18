@@ -20,7 +20,7 @@ class FUP {
                     </div>
                     <div class="types">
                         <div class="mat-ico">description</div>
-                        <div class="title"><?php E('Allowed File Types'); ?></div>
+                        <div class="title"><?php E('File Types'); ?></div>
                         <div class="types"></div>
                     </div>
                     <div class="max">

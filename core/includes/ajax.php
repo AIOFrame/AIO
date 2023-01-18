@@ -31,8 +31,7 @@ if (array_key_exists('HTTP_ORIGIN', $_SERVER)) {
 $url = !empty( $origin ) && $origin . '/' == APPURL; */
 
 // Action is set
-$cry = Encrypt::initiate();
-$action = isset( $_POST['action'] ) && !empty( $_POST['action'] ) ? $cry->decrypt( $_POST['action'] ) : '';
+$action = $_POST['action'];
 unset( $_POST['action'] );
 $action_is_ajax = !empty( $action ) && str_contains($action, '_ajax');
 

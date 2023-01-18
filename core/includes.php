@@ -4,7 +4,7 @@ if( !defined( 'ROOTPATH' ) ) { exit(); }
 
 $db = defined('DB_TYPE') ? DB_TYPE : '';
 
-$initials = [
+$base_load = [
     'log',                              // Logs issues to error log file
     'assets',                           // Lets you easily add styles and scripts related assets
     'encrypt',                          // Most powerful encryption functions
@@ -18,24 +18,37 @@ $initials = [
     'translation/strings',              // Translation functions
 ];
 
-if( defined( 'DB_TYPE' ) ) {
-    array_push(
-        $initials,
-        'connect/queries',              // Database query functions
-        //'access',                       // User access functions like login, register
-        'structure',                    // Basic database structure tables
-        //'alerts',                       // Notifications to users
-        //'data',                         // Common used data - Will be deprecated or improved
-        //'files',                         // File uploader functions
-        //'translation/functions',        // Translation functions
-        //'components',                   // AIO Components
-        //'backup',                       // Database backup / restore functions
-        //'options'                       // Pre Coded Options
-    );
+foreach( $base_load as $bl ) {
+    include_once( dirname( __FILE__ ) . '/includes/'. $bl . '.php' );
 }
 
-foreach( $initials as $i ) {
-    include_once( dirname( __FILE__ ) . '/includes/'. $i . '.php' );
+$e = Encrypt::initiate();
+$action = isset( $_POST['action'] ) && !empty( $_POST['action'] ) ? $e->decrypt( $_POST['action'] ) : '';
+$_POST['action'] = $action;
+
+//if( !empty( $action ) && str_contains( $action, '_base_ajax' ) ) {
+//    include_once( dirname( __FILE__ ) . '/includes/ajax.php' );
+//}
+
+if( defined( 'DB_TYPE' ) ) {
+    include_once( dirname( __FILE__ ) . '/includes/connect/queries.php' );
+    if( !empty( $action ) && str_contains( $action, '_base_ajax' ) ) {
+        include_once( dirname( __FILE__ ) . '/includes/ajax.php' );
+    }
+    include_once( dirname( __FILE__ ) . '/includes/structure.php' );
+//    array_push(
+//        $initials,
+//        'connect/queries',              // Database query functions
+//        //'access',                       // User access functions like login, register
+//        'structure',                    // Basic database structure tables
+//        //'alerts',                       // Notifications to users
+//        //'data',                         // Common used data - Will be deprecated or improved
+//        //'files',                         // File uploader functions
+//        //'translation/functions',        // Translation functions
+//        //'components',                   // AIO Components
+//        //'backup',                       // Database backup / restore functions
+//        //'options'                       // Pre Coded Options
+//    );
 }
 
 if( defined( 'CONFIG' ) ) {

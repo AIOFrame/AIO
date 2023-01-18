@@ -47,13 +47,9 @@
     ?>
 </div>
 <h2>TODO</h2>
-<ul>
-    <li>Uploader title to change as per field</li>
-    <li>Multiple delete</li>
-    <li></li>
-    <li></li>
-</ul>
 <?php
+$todo = file_get_contents(ROOTPATH . 'core/todo/media.md');
+skel( $todo );
 get_styles('bootstrap/css/bootstrap-grid');
 file_upload();
 ?>
