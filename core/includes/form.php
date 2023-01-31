@@ -435,9 +435,9 @@ class FORM {
                         $c = $value == $checked ? 'checked="true"' : '';
                     } */
                     if ($label_first) {
-                        echo $inputs_pre . '<label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . '</label><input ' . $tip . $attr . ' ' . $type . ' name="' . $name . '" '.$key.' id="' . $k . '" value="' . $value . '" '. $c .' >' . $inputs_post;
+                        echo $inputs_pre . '<label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . $req . '</label><input ' . $tip . $attr . ' ' . $type . ' name="' . $name . '" '.$key.' id="' . $k . '" value="' . $value . '" '. $c .' >' . $inputs_post;
                     } else {
-                        echo $inputs_pre . '<input ' . $tip . $attr . ' ' . $type . ' name="' . $name . '" '.$key.' id="' . $k . '" value="' . $value . '" '. $c .' ><label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . '</label>' . $inputs_post;
+                        echo $inputs_pre . '<input ' . $tip . $attr . ' ' . $type . ' name="' . $name . '" '.$key.' id="' . $k . '" value="' . $value . '" '. $c .' ><label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . $req . '</label>' . $inputs_post;
                     }
                     $x++;
                 }
@@ -627,7 +627,7 @@ class FORM {
         $this->input( 'textarea', $id, $label, '', $value, $attrs );
         ?>
         <script>
-            $(document).ready(function(){
+            document.addEventListener('DOMContentLoaded',function(){
                 $('[data-key=<?php echo $id; ?>]').trumbowyg({ autogrow: true }).on('tbwchange tbwfocus', function(e){
                     $('[data-key=<?php echo $id; ?>]').val( $( e.currentTarget ).val() );
                 });

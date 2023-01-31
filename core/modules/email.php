@@ -457,11 +457,68 @@ class MAIL {
         return file_exists( $template_path . $template . '.html' ) ? file_get_contents( $template_path . $template . '.html' ) : '';
     }
 
-    function email_template_fields( array $fields = [], array $options = [], string|int $pre = 12 ): void {
+    /**
+     * Renders email subject field and template editor
+     * @param array $fields Email fields as assoc array [ 'welcome_student' => 'Welcome Student' ]
+     * @param string $type
+     * @param string|int $pre
+     * @return void
+     */
+    function email_template_fields( array $fields = [], string $type = 'richtext', string|int $pre = 12 ): void {
         $f = new FORM();
+        $db = new DB();
+        $pre =  $pre == 0 ? '<div class="col mb20">' : '<div class="col-12 col-md-'.$pre.' mb20">';
+        $post = '</div>';
         foreach( $fields as $fk => $fv ) {
-            $val = $options[ $fk ] ?? '';
-            $f->textarea( $fk, $fv, '', $val, 'data-data class="editor"', $pre );
+            echo $pre;
+            $options = $db->get_options([$fk,$fk.'_subject']);
+            $subject_val = $options[ $fk.'_subject' ] ?? '';
+            $template_val = $options[ $fk ] ?? '';
+            $f->text( $fk.'_subject', $fv.' - '.T('Subject'), '', $subject_val, 'data-data class="subject"' );
+            if( $type == 'richtext' ) {
+                $f->richtext( $fk, $fv.' - '.T('Content'), $template_val, 'data-data class="editor"' );
+            } else if( $type == 'code' ) {
+                $f->code( $fk, $fv, $template_val, 'data-data class="editor"' );
+            } else if( $type == 'textarea' ) {
+                $f->textarea( $fk, $fv, '', $template_val, 'data-data class="editor"' );
+            }
+            echo $post;
+        }
+        ?>
+        <script>
+            document.addEventListener('DOMContentLoaded',function(){
+                if( $('.template_preview').length ) {
+                    $('.editor').trumbowyg({autogrow: true}).on('tbwchange tbwfocus', function (e) {
+                        let f = $('iframe.template_preview');
+                        let url = location.origin + $(f).data('url') + '?all&text=' + encodeURIComponent($(this).val());
+                        console.log(url);
+                        $('[data-key=test_content]').val($(e.currentTarget).val());
+                        $(f).attr('src', url);
+                        setTimeout(frame_height, 1000);
+                    });
+                }
+            });
+            function frame_height() {
+                let f = $('iframe');
+                $(f).height( $(f).contents().find('html').height() );
+            }
+        </script>
+        <?php
+    }
+
+    function template_viewer( string $url = APPURL, string $wrap_class = '' ): void {
+        echo '<div class="mail_view '.$wrap_class.'"><iframe style="width: 100%; margin-bottom: 30px;" class="template_preview" data-url="'.$url.'" src="'.$url.'" frameborder="0"></iframe></div>';
+        global $template_strings;
+        if( !empty( $template_strings ) && is_array( $template_strings ) ) {
+            echo '<div class="template_strings">';
+            echo '<h4>'.T('Template Strings').'</h4>';
+            echo '<div class="desc mb20">'.T('Copy the code within {{}} to replace with actual data!').'</div>';
+            foreach( $template_strings as $code => $replace ) {
+                echo '<div class="fz14 mb10">';
+                pre( $code . ' = ' . $replace );
+                echo '</div>';
+            }
+            echo '</div>';
         }
     }
 
@@ -500,10 +557,8 @@ class MAIL {
         }
         $foot = $m->get_template('foot');
         $f = new FORM();
+        $this->template_viewer( $template_url );
         ?>
-        <div class="mail_view">
-            <iframe class="template_preview" src="<?php echo $template_url; ?>" frameborder="0"></iframe>
-        </div>
         <div class="row" <?php $f->process_params('','email','',3); ?>>
             <?php
             $os = $db->get_options(['from_email','smtp','smtp_server','smtp_port','smtp_username','smtp_password']);
@@ -567,8 +622,8 @@ class MAIL {
                     });
 
                     $('.editor').trumbowyg({autogrow: true}).on('tbwchange tbwfocus', function (e) {
-                        let f = $('iframe');
-                        let url = $(f).attr('src').split('?')[0] + '?all&text=' + encodeURIComponent($(this).val());
+                        let f = $('iframe.template_preview');
+                        let url = location.origin + '/' + $(f).data('url') + '?all&text=' + encodeURIComponent($(this).val());
                         $('[data-key=test_content]').val($(e.currentTarget).val());
                         $(f).attr('src', url);
                         setTimeout(frame_height, 1000);
