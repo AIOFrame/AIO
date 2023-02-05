@@ -724,6 +724,16 @@ class FORM {
         //skel( $h );
     }
 
+    function option_params_wrap( string $data = '', int $notify = 0, int $reload = 0, array|string $autoload = [], array|string $unique = [], array|string $encrypt = [], string $success_text = 'Successfully Updated Preferences!', string $callback = '', string $confirm = '' ): void {
+        $h = [];
+        !empty( $autoload ) ? $h['autoload'] = $autoload : '';
+        !empty( $unique ) ? $h['unique'] = $unique : '';
+        !empty( $encrypt ) ? $h['encrypt'] = $encrypt : '';
+        echo '<div class="row"';
+        $this->process_params( '', $data, '', $notify, $reload, $h, $success_text, $callback, $confirm );
+        echo '>';
+    }
+
     /**
      * Renders HTML to process data
      * @param string $text Button text

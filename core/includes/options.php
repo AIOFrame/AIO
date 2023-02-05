@@ -19,6 +19,7 @@ class OPTIONS {
         'color_dark',
         'fav'
     ];
+    public array $colors = [ 'progress_color', 'warning_color', 'error_color', 'success_color' ];
     public array $input_options = [
         'input_radius',
         'input_border_top',
@@ -76,9 +77,7 @@ class OPTIONS {
         $db = new DB();
         $brands = $this->brand_options;
         $ops = $db->get_options( $brands );
-        echo '<div class="row"';
-        $f->option_params( 'brand', 2, 2, $brands );
-        echo '>';
+        $f->option_params_wrap( 'brand', 2, 2, $brands );
         $attr = 'data-brand';
         $ext = 'jpg,svg,png';
         $name = $ops['app_name'] ?? '';
@@ -121,6 +120,21 @@ class OPTIONS {
         get_scripts('iro,color');
     }
 
+    function color_options(): void {
+        $f = new FORM();
+        $db = new DB();
+        $attr = 'data-colors';
+        $colors = $this->colors;
+        $ops = $db->get_options( $colors );
+        $f->option_params_wrap( 'colors', 2, 2, $colors );
+        foreach( $colors as $c ) {
+            $f->color($c,ucwords(str_replace('_',' ',$c)),'Ex: F1F1F1',$ops[$c]??'',$attr,3,'','[data-key='.$c.']');
+        }
+        $f->process_options('Save Color Options','store grad','','.col-12 tac');
+        echo '</div>';
+        get_scripts('iro,color');
+    }
+
     /**
      * Renders input and button design options
      * @param bool $dark_mode_options Show Dark Mode Options
@@ -131,9 +145,7 @@ class OPTIONS {
         $db = new DB();
         $options = $this->input_options;
         $ops = $db->get_options( $options );
-        echo '<div class="row"';
-        $f->option_params( 'input', 2, 2, $options );
-        echo '>';
+        $f->option_params_wrap( 'input', 2, 2, $options );
         $attr = 'data-input';
         $radius = $ops['input_radius'] ?? 8;
         $bt = $ops['input_border_top'] ?? 2;
@@ -201,9 +213,7 @@ class OPTIONS {
         $db = new DB();
         $options_array = [ 'font_1', 'font_1_weights', 'font_weight', 'font_2', 'font_2_weights' ];
         $ops = $db->get_options( $options_array );
-        echo '<div class="row"';
-        $f->option_params('fonts', 2, 2, $options_array );
-        echo '>';
+        $f->option_params_wrap('fonts', 2, 2, $options_array );
         $font_1 = $ops['font_1'] ?? 'Lato';
         $font_1_weights = $ops['font_1_weights'] ?? '400';
         $font_weight = $ops['font_weight'] ?? '400';
@@ -243,9 +253,7 @@ class OPTIONS {
         $db = new DB();
         $options_array = [ 'google_maps_key', 'default_map_lat', 'default_map_long', 'default_map_zoom', 'default_map_type' ];
         $ops = $db->get_options( $options_array );
-        echo '<div class="row"';
-        $f->option_params('google-map', 2, 2 );
-        echo '>';
+        $f->option_params_wrap('google-map', 2, 2 );
         $key = $ops['google_maps_key'] ?? '';
         $lat = $ops['default_map_lat'] ?? '';
         $long = $ops['default_map_long'] ?? '';
@@ -266,9 +274,7 @@ class OPTIONS {
         $f = new FORM();
         $db = new DB();
         $os = $db->get_options( $this->communication_options );
-        echo '<div class="row"';
-        $f->option_params('com',2,2);
-        echo '>';
+        $f->option_params_wrap('com',2,2);
         $phone = $os['phone'] ?? '';
         $mobile = $os['mobile'] ?? '';
         $email = $os['email'] ?? '';
@@ -285,9 +291,7 @@ class OPTIONS {
         $f = new FORM();
         $db = new DB();
         $os = $db->get_options(['address','city','state','post','country']);
-        echo '<div class="row"';
-        $f->option_params('add',2,2);
-        echo '>';
+        $f->option_params_wrap('add',2,2);
         $address = $os['address'] ?? '';
         $city = $os['city'] ?? '';
         $state = $os['state'] ?? '';
@@ -307,9 +311,7 @@ class OPTIONS {
         $f = new FORM();
         $db = new DB();
         $os = $db->get_options(['reg_name','reg','trn','tax']);
-        echo '<div class="row"';
-        $f->option_params('cd',2,2);
-        echo '>';
+        $f->option_params_wrap('cd',2,2);
         $reg_name = $os['reg_name'] ?? '';
         $reg = $os['reg'] ?? '';
         $trn = $os['trn'] ?? '';
@@ -327,9 +329,7 @@ class OPTIONS {
         $f = new FORM();
         $db = new DB();
         $os = $db->get_options(['no_access_image','no_content_image']);
-        echo '<div class="row"';
-        $f->option_params('cn',2,2);
-        echo '>';
+        $f->option_params_wrap('cn',2,2);
         $no_access_image = $os['no_access_image'] ?? '';
         $no_content_image = $os['no_content_image'] ?? '';
         $f->upload('no_access_image','Image to show when user has no access!','Upload',$no_access_image,1,0,'','data-cn','jpg,png,svg',.1,0,'',6);
@@ -373,9 +373,7 @@ class OPTIONS {
         $f = new FORM();
         $db = new DB();
         $os = $db->get_options( $options );
-        echo '<div class="row"';
-        $f->option_params('soc',2,2);
-        echo '>';
+        $f->option_params_wrap('soc',2,2);
         foreach( $options as $ok => $ov ) {
             $val = $os[ $ok ] ?? '';
             $f->text( $ok, $ov, 'Ex: '.$ov.' Details', $val, 'data-soc', 3 );
@@ -422,14 +420,13 @@ class OPTIONS {
     }
 
     function language_options(): void {
+        // TODO: Move language options to languages php
         $f = new FORM();
         $db = new DB();
         $all_languages = get_languages();
         unset( $all_languages['en'] );
         $languages = $db->get_option('languages');
-        echo '<div class="row"';
-        $f->option_params('al',2,2,['languages','languages_updated']);
-        echo '>';
+        $f->option_params_wrap('al',2,2,['languages','languages_updated']);
         $f->select2('languages','Select Languages for Translations','Choose Languages...',$all_languages,$languages,'data-al multiple',12,1);
         $f->text('languages_updated','','',1,'hidden data-al');
         $f->process_options('Save Options','store grad','','.col-12 tac');

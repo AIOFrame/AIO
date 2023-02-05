@@ -129,7 +129,7 @@ function get_languages( $lang_keys = [] ): array {
     }
 }
 
-function get_countries( string $key = 'id', string $value = 'flag name' ): array {
+function get_countries( string $key = 'id', string $value = 'name flag' ): array {
     $w = new WORLD();
     return $w->countries( $key, $value );
 }
@@ -139,7 +139,7 @@ function get_currencies( string $key = 'code', string $value = 'name' ): array {
     return $w->currencies( $key, $value );
 }
 
-function get_calling_codes( string $key = 'calling_code', string $value = 'calling_code' ): array {
+function get_calling_codes( string $key = 'calling_code', string $value = 'calling_code flag' ): array {
     $w = new WORLD();
     return $w->calling_codes( $key, $value );
 }

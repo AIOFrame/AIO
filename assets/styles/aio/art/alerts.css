@@ -40,8 +40,14 @@
   padding: 6px 12px;
   font-size: 0.9rem;
   color: #fff;
-  background: firebrick;
+  background: var(--error_color);
   border-radius: 6px;
+}
+[data-alerts] .alert .data .invalid_fields {
+  display: block;
+}
+[data-alerts] .alert .data .invalid_fields .invalid {
+  display: flex;
 }
 [data-alerts] .alert .data .ico {
   position: absolute;

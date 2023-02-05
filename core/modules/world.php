@@ -24,10 +24,11 @@ class WORLD {
      * Returns array of countries
      * @param string $key Choose key 'name','iso2','iso3','calling_code','currency','currency_name','currency_symbol','currency_code','capital','flag','languages','gps','lat','long'
      * @param string $value Choose value 'name','iso2','iso3','calling_code','currency','currency_name','currency_symbol','currency_code','capital','flag','languages','gps','lat','long'
+     * @param bool $sort Sorts by alphabetical order
      * @param string $logic iso2=AE
      * @return array
      */
-    function countries( string $key = 'id', string $value = 'name', string $logic = '' ): array {
+    function countries( string $key = 'id', string $value = 'name', bool $sort = true, string $logic = '' ): array {
         $r = [];
         //$logic = !empty( $logic ) ? explode( '=', $logic ) : [];
         $data = $this->countries;
@@ -51,17 +52,23 @@ class WORLD {
                 $x++;
             }
         }
+        if( $sort ) {
+            asort( $r );
+        }
         return $r;
     }
 
 
-    function languages(): array {
+    function languages( bool $sort = true ): array {
         $r = [];
         $data = $this->languages;
         if( !empty( $data ) && is_array( $data ) ){
             foreach( $data as $l ){
                 $r[ $l['code'] ] = $l['name'];
             }
+        }
+        if( $sort ) {
+            asort( $r );
         }
         return $r;
     }
@@ -121,10 +128,11 @@ class WORLD {
      * Returns array of currencies
      * @param string $key Choose key 'name','symbol','code'
      * @param string $value Choose value 'name','symbol','code'
+     * @param bool $sort Sorts by value
      * @param string $country Name
      * @return array
      */
-    function currencies( string $key = 'symbol', string $value = 'name', string $country = '' ): array {
+    function currencies( string $key = 'symbol', string $value = 'name', bool $sort = true, string $country = '' ): array {
         $key = !empty( $key ) ? 'currency_'.$key : $key;
         $value = !empty( $value ) ? 'currency_'.$value : $value;
 
@@ -138,6 +146,9 @@ class WORLD {
                     $r[ $k ] = $v;
             }
         }
+        if( $sort ) {
+            asort( $r );
+        }
         return $r;
     }
 
@@ -145,20 +156,34 @@ class WORLD {
      * Returns array of calling codes
      * @param string $key Choose key 'calling_code','flag'
      * @param string $value Choose value 'calling_code','flag'
+     * @param bool $sort Sorts by value name
      * @param string $country Name
      * @return array
      */
-    function calling_codes( string $key = 'calling_code', string $value = 'calling_code', string $country = '' ): array {
+    function calling_codes( string $key = 'calling_code', string $value = 'calling_code', bool $sort = true, string $country = '' ): array {
 
         $r = [];
         $countries_data = $this->countries;
         if( !empty( $countries_data ) ){
             foreach( $countries_data as $c ){
                 $k = $this->get_property( $c, $key );
-                $v = $this->get_property( $c, $value );
-                if( !empty( $k ) && !empty( $v ) )
+                if( str_contains( $value, ' ' ) ) {
+                    $values = explode(' ',$value);
+                    $v = '';
+                    foreach( $values as $vs ) {
+                        $v .= $this->get_property( $c, $vs ).' ';
+                    }
+                    $v = rtrim( $v );
+                } else {
+                    $v = $this->get_property( $c, $value );
+                }
+                if( !empty( $k ) && !empty( $v ) ) {
                     $r[ $k ] = $v;
+                }
             }
+        }
+        if( $sort ) {
+            asort( $r );
         }
         return $r;
     }

@@ -38,10 +38,10 @@ foreach( glob( dirname( __FILE__ ) . '/fonts/*', GLOB_ONLYDIR ) as $f ){
         if( strtolower( $fn ) == strtolower( $font[0] ) ){
             $ws = !empty( $font[1] ) ? explode( ',', $font[1] ) : [ 400 ];
             foreach( $ws as $w ){
-                $weight = is_numeric( $w ) ? $weights[ $w ] : $w;
+                $weight = is_numeric( $w ) && isset( $weights[ $w ] ) ? $weights[ $w ] : $w;
                 $fp = '/' . $fn . '-' . $weight;
                 $css_pre = '@font-face{font-family:\'' . $fn . '\';';
-                $fonts_css = '';
+                $fonts_css = $fn == 'NotoColorEmoji' ? 'unicode-range: U+1F1E6-1F1FF;' : '';
                 if( file_exists( $f . $fp.'.eot' ) ) {
                     $fonts_exist[] = 'eot';
                     $fonts_css .= file_exists($f . $fp . '.eot') ? 'src:url(\'fonts/' . $fn . $fp . '.eot\'),' : '';

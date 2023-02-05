@@ -2,6 +2,12 @@ $primary: var(--primary_color);
 $secondary: var(--secondary_color);
 $radius: var(--input_radius);
 
+// Colors
+$progress: var(--progress_color);
+$warning: var(--warning_color);
+$error: var(--error_color);
+$success: var(--success_color);
+
 /* Cards */
 
 .card {
@@ -179,6 +185,14 @@ $radius: var(--input_radius);
     left:auto;
     right:10px;
   }
+  .status.orange, .status.in-progress, .status.progress {
+    color: $progress;
+    border:1px solid $progress;
+  }
+  .status.bg.orange, .status.bg.in-progress, .status.bg.progress {
+    background: $progress;
+    border:1px solid $progress;
+  }
   .status.blue {
     color: #1b7dbb;
     border:1px solid #1b7dbb;
@@ -188,23 +202,23 @@ $radius: var(--input_radius);
     background: #1b7dbb;
     border:1px solid #1b7dbb;
   }
-  .status.green {
-    color:darkolivegreen;
-    border:1px solid darkolivegreen;
+  .status.green, .status.success {
+    color: $success;
+    border:1px solid $success;
   }
-  .status.bg.green {
+  .status.bg.green, .status.bg.success {
     color:#fff;
-    background:darkolivegreen;
-    border:1px solid darkolivegreen;
+    background: $success;
+    border:1px solid $success;
   }
-  .status.red {
-    color:firebrick;
-    border:1px solid firebrick
+  .status.red, .status.error {
+    color: $error;
+    border:1px solid $error
   }
-  .status.bg.red {
+  .status.bg.red, .status.bg.error {
     color:#fff;
-    background:firebrick;
-    border:1px solid firebrick
+    background: $error;
+    border:1px solid $error
   }
 }
 .card[data-on], .card[data-off], .card[data-show], .card[data-hide] {

@@ -57,8 +57,8 @@ class CONTENT {
         $fonts[] = [ $font1, $weights1 ];
         //skel( $fonts );
         if( !empty( $secondary_font ) ) {
-            $font2 = is_array( $secondary_font ) ? $secondary_font[0] : $secondary_font;
-            $weights2 = is_array( $secondary_font ) ? $secondary_font[1] : '400';
+            $font2 = is_array( $secondary_font ) && isset( $secondary_font[0] ) ? $secondary_font[0] : $secondary_font;
+            $weights2 = is_array( $secondary_font ) && isset( $secondary_font[1] ) ? $secondary_font[1] : 400;
             //$weight2 = is_array( $secondary_font ) ? $secondary_font[2] : '400';
         } else {
             $font2 = $options['font_2'] ?? '';

@@ -15,6 +15,12 @@ $padding-right: var(--input_padding_right);
 $padding-bottom: var(--input_padding_bottom);
 $padding-left: var(--input_padding_left);
 
+// Colors
+$progress: var(--progress_color);
+$warning: var(--warning_color);
+$error: var(--error_color);
+$success: var(--success_color);
+
 // Light Options
 $bg-light: var(--input_bg_light);
 $border-color-light: var(--input_border_color_light);
@@ -42,7 +48,7 @@ label {
   font-weight: bold;
   margin: 0 0 10px;
   i {
-    color: firebrick;
+    color: $error;
     font-weight: bold;
     font-style: normal;
     margin:0 5px;
@@ -81,10 +87,10 @@ input.invalid, select.invalid, select.invalid+.select2 .select2-selection--singl
 input[data-hidden-date].empty + div > input,
 input[data-file].empty + div > button
 {
-  border-top:$border-top solid firebrick;
-  border-right:$border-right solid firebrick;
-  border-bottom:$border-bottom solid firebrick;
-  border-left:$border-left solid firebrick;
+  border-top:$border-top solid $error;
+  border-right:$border-right solid $error;
+  border-bottom:$border-bottom solid $error;
+  border-left:$border-left solid $error;
 }
 .select2-container--default, .select2-container--default.select2-container--focus {
   .select2-search--dropdown {
@@ -511,15 +517,33 @@ select.mb0 + .select2-container {
     margin-left: 10px;
   }
   .green .value {
-    color:forestgreen;
+    color:$success;
   }
   .red .value {
-    color:firebrick;;
+    color:$error;;
   }
 }
 .aio_valid.on {
   opacity: 1;
   height: auto;
+}
+.aio_strength_meter {
+  position: relative;
+  height: 4px;
+  background: #f1f1f1;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 4px;
+  i {
+    transition: .6s;
+    background: $success;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 4px;
+    display: block;
+    min-width: auto;
+  }
 }
 [type=password] {
   appearance: none;

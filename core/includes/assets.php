@@ -80,11 +80,19 @@ function art( array|string $arts = '', string $color1 = '222', string $color2 = 
     }
     echo '<style>:root {';
     echo '--primary_color:'.$color1.';--secondary_color:'.$color2.';--color:'.$color.';';
+    // Loop colors
+
     if( defined('DB_TYPE') ) {
         $o = new OPTIONS();
         $input_options = $o->input_options;
+        $colors = $o->colors;
     }
     //skel( $options );
+    if( !empty( $colors ) ) {
+        foreach( $colors as $c ) {
+            echo isset( $options[$c] ) ? '--'.$c.':'.$options[$c].';' : '';
+        }
+    }
     if( !empty( $input_options ) ){
         $default_options = [
             'input_radius' => 4,

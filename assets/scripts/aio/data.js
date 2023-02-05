@@ -218,18 +218,20 @@ function validator( e, d ) {
     if( $(e)[0] && ( $(e)[0].localName === 'div' || $(e)[0].localName === 'tr' || $(e)[0].localName === 'form' ) ){
         invalid = [];
         $.each($(e).find('input'+d+',select'+d+',textarea'+d),function(a,b){
-            if( valid_field( b ) ) {
-                invalid.push( $(b).attr('title') );
+            let validation = valid_field( b );
+            if( validation.length > 0 ) {
+                invalid.push( [ $(b).attr('title'), validation ] );
                 $(b).addClass('invalid');
             } else {
-                console.log('removed empty');
+                //console.log('removed empty');
                 $(b).removeClass('invalid');
             }
         });
     // else If validating a single input
     } else {
-        if( valid_field( e ) ){
-            invalid.push( $(e).attr('title') );
+        let validation = valid_field( e );
+        if( validation.length > 0 ){
+            invalid.push( [ $(e).attr('title'), validation ] );
             $(e).addClass('invalid');
         } else {
             $(e).removeClass('invalid');
@@ -239,28 +241,55 @@ function validator( e, d ) {
 }
 
 function valid_field( field ) {
-    console.log( $(field) );
-    let invalid = [];
+    //console.log( $(field) );
+    let invalid_reasons = [];
     // Minimum Number / Amount Validation
-    if( $(field) !== undefined && $(field).attr('min') !== undefined && $(field).val() < parseInt( $(field).attr('min') ) ) {
-        invalid.push( 1 );
+    let min = $(field).attr('min');
+    if( $(field) !== undefined && min !== undefined && $(field).val() < parseInt( min ) ) {
+        let notice = $(field).data('min_notice');
+        let message = notice !== undefined ? notice.replaceAll('{min}',min) : 'Number should be more than '+min+'!';
+        invalid_reasons.push(message);
     }
     // Maximum Number / Amount Validation
-    if( $(field) !== undefined && $(field).attr('max') !== undefined && $(field).val() > parseInt( $(field).attr('max') ) ) {
-        invalid.push( 1 );
+    let max = $(field).attr('max');
+    if( $(field) !== undefined && max !== undefined && $(field).val() > parseInt( max ) ) {
+        let notice = $(field).data('max_notice');
+        let message = notice !== undefined ? notice.replaceAll('{max}',min) : 'Number should be less than '+min+'!';
+        invalid_reasons.push(message);
     }
     // Characters Minimum Length Validation
-    if( $(field) !== undefined && $(field).attr('minlength') !== undefined && $(field).val().length < parseInt( $(field).attr('minlength') ) ) {
-        invalid.push( 1 );
+    let minlength = $(field).attr('minlength');
+    if( $(field) !== undefined && minlength !== undefined && $(field).val().length < parseInt( minlength ) ) {
+        let notice = $(field).data('minlength_notice');
+        let message = notice !== undefined ? notice.replaceAll('{min}',min) : 'Char should be more than '+minlength+' characters!';
+        invalid_reasons.push(message);
     }
     // Characters Maximum Length Validation
-    if( $(field) !== undefined && $(field).attr('maxlength') !== undefined && $(field).val().length > parseInt( $(field).attr('maxlength') ) ) {
-        invalid.push( 1 );
+    let maxlength = $(field).attr('maxlength');
+    if( $(field) !== undefined && maxlength !== undefined && $(field).val().length > parseInt( maxlength ) ) {
+        let notice = $(field).data('maxlength_notice');
+        let message = notice !== undefined ? notice.replaceAll('{max}',min) : 'Char should be less than '+maxlength+' characters!';
+        invalid_reasons.push(message);
     }
-    console.log(invalid);
-    // TODO: Validate Email
+    //console.log(invalid);
     // TODO: Validate Password
-    return invalid.length > 0;
+    if( $(field).attr('type') === 'email' ) {
+        // Validate Email
+        if( _email_valid( field ) ) {
+            let notice = $(field).data('invalid_notice');
+            let message = notice !== undefined ? notice : 'Email format is not valid!';
+            invalid_reasons.push(message);
+        }
+        // Restrict Emails
+        let domain = $(field).val().split('@')[1];
+        let restrict_domains = $(field).data('restrict_domains');
+        if( $(field) !== undefined && domain !== undefined && restrict_domains !== undefined && restrict_domains.indexOf(domain) >= 0 ) {
+            let notice = $(field).data('restrict_domains_notice');
+            let message = notice !== undefined ? notice : 'Email domain is restricted!';
+            invalid_reasons.push(message);
+        }
+    }
+    return invalid_reasons;
 }
 
 /**
@@ -368,14 +397,19 @@ function process_data( e ){
         console.log(invalid);
         $(e).attr('disabled',false).removeClass('load');
         let invalid_note = $(p).data('invalid') !== undefined ? $(p).data('invalid') : 'The highlighted fields seem to be invalid!';
-        invalid_note += '<div class="fields">';
-        $(invalid).each(function(i,req){
-            if( req !== '' && req !== undefined ) {
-                invalid_note += '<div class="field">'+req+'</div>';
+        invalid_note += '<div class="fields invalid_fields">';
+        $(invalid).each(function(i,validation){
+            let field_title = validation[0];
+            let reasons = validation[1];
+            if( reasons.length > 0 ) {
+                $(reasons).each(function (a,reason) {
+                    let reasons_note = '<div class="reason">'+reason+'</div>';
+                    invalid_note += '<div class="invalid"><div class="field">'+field_title+'</div>'+reasons_note+'</div>';
+                });
             }
         });
         invalid_note += '</div>';
-        notify( invalid_note, 5, 'error', 'warning' );
+        notify( invalid_note, 99, 'error', 'warning' );
         breaker.push(1);
     }
 

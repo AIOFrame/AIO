@@ -1,6 +1,7 @@
 $primary: var(--primary_color);
 $secondary: var(--secondary_color);
 $radius: var(--input_radius);
+$error: var(--error_color);
 
 /* Alerts */
 
@@ -41,8 +42,14 @@ $radius: var(--input_radius);
           padding: 6px 12px;
           font-size: .9rem;
           color: #fff;
-          background: firebrick;
+          background: $error;
           border-radius: 6px;
+        }
+      }
+      .invalid_fields {
+        display: block;
+        .invalid {
+          display: flex;
         }
       }
       .ico {

@@ -27,7 +27,7 @@
   width: 20px;
   height: 20px;
   border-radius: 15px;
-  background: firebrick;
+  background: var(--error_color);
   color: #fff;
   text-align: center;
   font-size: 12px;
