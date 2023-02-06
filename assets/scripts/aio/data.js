@@ -598,7 +598,7 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
                 if( r[0] === 1 && $(p).data('success') !== undefined ) {
                     notify( $(p).data('success'), notify_time, '', 'check_circle' );
                 } else {
-                    notify( r[1], notify_time, '', 'error' );
+                    notify( r[1], notify_time, 'error', 'error' );
                 }
             }
             if( r[0] !== 0 && reload_time !== undefined && reload_time !== '' && reload_time !== '0' ) {
