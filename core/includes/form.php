@@ -687,8 +687,9 @@ class FORM {
      * @param string $success_text Text to notify upon successfully storing data
      * @param string $callback A JS Function to callback on results
      * @param string $confirm A confirmation popup will execute further code
+     * @param string $validation Frontend JS script to add custom validation to the form data
      */
-    function process_params( string $target = '', string $data = '', string $pre = '', int $notify = 0, int $reload = 0, array $hidden = [], string $success_text = '', string $callback = '', string $confirm = '' ): void {
+    function process_params( string $target = '', string $data = '', string $pre = '', int $notify = 0, int $reload = 0, array $hidden = [], string $success_text = '', string $callback = '', string $confirm = '', string $validation = '' ): void {
         $c = Encrypt::initiate();
         $t = !empty( $target ) ? ' data-t="'.$c->encrypt( $target ).'"' : 'data-t';
         $nt = $notify > 0 ? ' data-notify="'.$notify.'"' : '';
@@ -698,8 +699,9 @@ class FORM {
         $h = !empty( $hidden ) ? ' data-h="'.$c->encrypt_array( $hidden ).'"' : '';
         $st = !empty( $success_text ) ? ' data-success="'.T($success_text).'"' : '';
         $cb = !empty( $callback ) ? ( str_contains( $callback, '_ajax' ) ? ' data-callback="'.$c->encrypt($callback).'"' : ' data-callback="'.$callback.'"') : '';
+        $v = !empty( $validation ) ? ' data-validation="'.$validation.'"' : '';
         $cn = !empty( $confirm ) ? ' data-confirm="'.T($confirm).'"' : '';
-        echo $t.$nt.$rl.$d.$p.$h.$st.$cb.$cn;
+        echo $t.$nt.$rl.$d.$p.$h.$st.$cb.$v.$cn;
     }
 
     /**

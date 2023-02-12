@@ -56,10 +56,15 @@ class PAY {
      * @param string $process_payment_response_backend PHP AJAX Function that processes stripe response
      * @param string $process_payment_response_frontend JS Function that processes the stripe response
      * @param string $button_text Payment button text
+     * @param string $success_element Success element that is displayed when payment processes successfully
+     * @param string $failure_element Failure element that is display when payment fails
+     * @param string $failure_message_element Message element within success or failure to display payment process response
+     * @param string $hide_elements Elements that needs to be hidden on success
+     * @param string $redirect_url URL to redirect to after 8 seconds
      * @param string $button_wrap_class Payment button wrap class
      * @return void
      */
-    function render_stripe_payment( int $amount, string $currency, string $email, string $name, string $process_payment_response_backend, string $process_payment_response_frontend, string $button_text = 'Proceed to Pay', string $button_wrap_class = 'tac' ): void {
+    function render_stripe_payment( int $amount, string $currency, string $email, string $name, string $process_payment_response_backend, string $process_payment_response_frontend, string $button_text = 'Proceed to Pay', string $success_element = '', string $failure_element = '', string $failure_message_element = '', string $hide_elements = '', string $redirect_url = '', string $button_wrap_class = 'tac' ): void {
         $db = new DB();
         $e = Encrypt::initiate();
         global $options;
@@ -78,6 +83,11 @@ class PAY {
             let create_customer_action = '<?php $e->enc('stripe_create_customer_ajax'); ?>';
             let process_payment_response_backend = '<?php $e->enc($process_payment_response_backend); ?>';
             let process_payment_response_frontend = '<?php echo $process_payment_response_frontend; ?>';
+            let success_element = '<?php echo $success_element; ?>';
+            let failure_element = '<?php echo $failure_element; ?>';
+            let hide_elements = '<?php echo $hide_elements; ?>';
+            let failure_message_element = '<?php echo $failure_message_element; ?>';
+            let redirect_url = '<?php echo $redirect_url; ?>';
         </script>
         <?php
         echo '<div id="stripe_payment_wrapper"><div id="payment_response" class="tac"></div>';
@@ -134,8 +144,7 @@ class PAY {
                         }
                     };
                     //console.log(appearance);
-                })
-
+                });
             </script>
             <?php
             $s_test = $db->get_option('stripe_test');

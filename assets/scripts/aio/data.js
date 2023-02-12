@@ -453,6 +453,9 @@ function process_data( e ){
     });
     elog(d);
 
+    // Validation Function, Note: Validation here means no validation in post function
+    let validation = p.data('validation') !== '' && p.data('validation') !== undefined ? p.data('validation') : '';
+
     // Callback Function
     let cb = '';
     if( p.data('callback') !== '' && p.data('callback') !== undefined ) {
@@ -461,7 +464,7 @@ function process_data( e ){
     } else {
         cb = 'process_end';
     }
-    post( d.action, d, p.data('notify'), p.data('reload'), p.data('redirect'), 0, cb, p.data('reset'), p );
+    post( d.action, d, p.data('notify'), p.data('reload'), p.data('redirect'), 0, cb, p.data('reset'), p, validation );
 
 }
 
@@ -583,8 +586,25 @@ function trash_data( e, action, target, logic, notify_time, reload_time ) {
     post( action, data, n, r );
 }
 
-function post( action, data, notify_time, reload_time, redirect, redirect_time, callback, reset, p ) {
+function post( action, data, notify_time, reload_time, redirect, redirect_time, callback, reset, p, validation ) {
     //elog(callback);
+
+    // Custom Validation
+    if( validation !== undefined && validation !== '' ) {
+        let validations = validation.split(',');
+        let invalid = [];
+        $.each( validations, function(i,v_func){
+            let vr = eval( v_func + '(' + JSON.stringify( data ) + ')' );
+            console.log(vr);
+            if( !vr ) {
+                invalid.push(1);
+            }
+        });
+        if( invalid.length > 0 ) {
+            return;
+        }
+    }
+
     let d = $.extend({}, { 'action' : action }, data);
     $.post( location.origin, d, function(r) {
         //elog(r);

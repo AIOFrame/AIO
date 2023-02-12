@@ -527,6 +527,10 @@ select.mb0 + .select2-container {
   opacity: 1;
   height: auto;
 }
+.aio_valid.on.nope {
+  opacity: 0;
+  height: 0;
+}
 .aio_strength_meter {
   position: relative;
   height: 4px;

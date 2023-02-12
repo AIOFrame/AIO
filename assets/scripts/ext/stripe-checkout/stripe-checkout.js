@@ -19,6 +19,12 @@ document.addEventListener("DOMContentLoaded", function(e) {
     if( stripe_form !== null ) {
         stripe_form.addEventListener("submit", handleSubmit);
     }
+    if( success_element !== '' ) {
+        document.querySelectorAll(success_element)[0].style.display = 'none';
+    }
+    if( failure_element !== '' ) {
+        document.querySelectorAll(failure_element)[0].style.display = 'none';
+    }
 })
 
 function initialize(r) {
@@ -37,12 +43,14 @@ async function handleSubmit(e) {
 }
 
 async function handle_init(r) {
+    //console.log(r);
     const {error} = await stripe.confirmPayment({
         elements,
         confirmParams: {
             return_url: window.location.href + '?customer_id=' + r.customer_id,
         },
     });
+    //console.log(error);
     if (error.type === "card_error" || error.type === "validation_error") {
         notify(error.message, 8, 'error', 'report');
     } else {
@@ -60,27 +68,47 @@ async function checkStatus() {
     }
     const { paymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
     if (paymentIntent) {
+        console.log( paymentIntent );
         switch (paymentIntent.status) {
             case "succeeded":
                 post(process_payment_response_backend, { payment_intent: paymentIntent, customer_id: customerID },'','','','',process_payment_response_frontend);
-                showMessage("Your payment is processed successfully.");
+                if( hide_elements !== '' ) {
+                    document.querySelectorAll(hide_elements)[0].style.display = 'hide';
+                }
+                if( success_element !== '' ) {
+                    document.querySelectorAll(success_element)[0].style.display = 'block';
+                }
+                if( redirect_url !== '' ) {
+                    setTimeout( function () {
+                        window.location.href = redirect_url;
+                    }, 8000 );
+                }
                 break;
             case "processing":
                 showMessage("Your payment is processing.");
                 setTimeout(function(){ location.reload() },5000);
                 break;
             case "requires_payment_method":
-                showMessage("Your payment was not successful, please try again.");
-                setTimeout(function(){ location.reload() },5000);
+                if( failure_element !== '' ) {
+                    document.querySelectorAll(failure_element)[0].style.display = 'block';
+                    document.querySelectorAll(failure_message_element)[0].innerHTML = 'Payment method not selected!';
+                }
+                setTimeout(function(){ location.reload() },10000);
                 break;
             default:
-                showMessage("Something went wrong.");
-                setTimeout(function(){ location.reload() },5000);
+                if( failure_element !== '' ) {
+                    document.querySelectorAll(failure_element)[0].style.display = 'block';
+                    document.querySelectorAll(failure_message_element)[0].innerHTML = 'Something went wrong! Please consult support!';
+                }
+                setTimeout(function(){ location.reload() },10000);
                 break;
         }
     } else {
-        showMessage("Something went wrong.");
-        setTimeout(function(){ location.reload() },5000);
+        if( failure_element !== '' ) {
+            document.querySelectorAll(failure_element)[0].style.display = 'block';
+            document.querySelectorAll(failure_message_element)[0].innerHTML = 'Unable to register payment intent with Stripe! Please consult support!';
+        }
+        setTimeout(function(){ location.reload() },10000);
     }
 }
 
