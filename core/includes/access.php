@@ -960,7 +960,7 @@ function user_registration_fields( string $pre = 'user_', string $data = '', str
     $data = $data ?? 'data';
     $attr = $array !== '' ? 'data-'.$data.' data-empty data-array="'.$array.'"' : 'data-'.$data.' data-empty';
     //$f->text([$pre.'login', 'login'], '', 'Ex: john_doe', '', $attr.' hidden required', 12 );
-    !empty( $name ) ? $f->text('name', 'Full Name', 'Ex: John Doe', '', $attr.' required', $name ) : '';
+    !empty( $name ) ? $f->text('name', 'First Name & Last Name', 'Ex: John Doe', '', $attr.' required', $name ) : '';
     !empty( $email ) ? $f->input('email','login', 'Login Email Address', 'Ex: john_doe@gmail.com', '', $attr.'  data-help required', $email ) : '';
     !empty( $pass ) ? $f->input('password', 'pass', 'Login Password', '***********', '', $attr.' data-help autocomplete="new-password"', $pass ) : '';
     !empty( $gender ) ? $f->select('gender', 'Gender', 'Choose Gender...', $genders, 'Male', $attr.' class="select2"', $gender ) : '';

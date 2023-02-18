@@ -125,7 +125,7 @@ class PORTAL {
                                 $f->texts([['name','Full Name','Ex: John Doe',$user['user_name']]],'required data-user','6');
                                 $f->input('email','email','E Mail','Ex: john@company.com',$user['user_email'],'data-help',6);
                                 $f->upload('picture','Upload Picture','Upload',$user['user_picture'],0,0,'upload','data-user','svg,jpg,png',10,1,'',4);
-                                $f->process_html('Update Profile','r5 xl mb0','','update_profile_ajax','col-12 tar');
+                                $f->process_html('Update Profile','r5 xl mb0','','update_profile_ajax','.col-12 tar');
                                 ?>
                             </div>
                         </div>
@@ -135,7 +135,7 @@ class PORTAL {
                                 <?php
                                 $min_string = T('Minimum Characters');
                                 $f->inputs('password',[['pass_old','Old Password'],['pass','New Password','','','data-length-notify="Password minimum length is 8 Characters"']],'data-ps minlength="8" data-minlength="'.$min_string.'" data-help required',6);
-                                $f->process_html('Change Password','r5 xl mb0','','change_password_ajax','col-12 tar');
+                                $f->process_html('Change Password','r5 xl mb0','','change_password_ajax','.col-12 tar');
                                 ?>
                             </div>
                         </div>

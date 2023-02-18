@@ -10,14 +10,14 @@ $(document).ready(function(){
 
     // Select or Deselect Uploaded File
     $('body').on('click','.f',function(){
-        let limit = $('#aio_up').data('multiple');
+        let limit = parseInt( $('#aio_up').data('multiple') );
         //console.log(limit);
-        if( limit === undefined ) {
+        if( limit === undefined || limit === 0 ) {
             $('.f').not(this).removeClass('on');
         }
         $(this).toggleClass('on');
         let count = $('.uploaded_files .f.on').length;
-        if( count > limit ) {
+        if( limit > 1 && count > limit ) {
             $(this).toggleClass('on');
             uploader_notify('Maximum limit of files reached!')
         }

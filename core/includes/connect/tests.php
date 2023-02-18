@@ -3,7 +3,7 @@
 $db = new DB();
 
 // Create Table Tests
-$tables = [
+/* $tables = [
     [ 'test1', 't1_', [
         [ 't1_name', 'VARCHAR', 15, 1 ],
         [ 't1_age', 'INT', 10, 1 ],
@@ -13,5 +13,5 @@ $tables = [
         [ 't1_status', 'BOOL', 10, 0 ],
     ] ],
 ];
-echo 'Testing Create Tables'.PHP_EOL;
+echo 'Testing Create Tables'.PHP_EOL; */
 //$created_tables = $db->create_tables( $tables );

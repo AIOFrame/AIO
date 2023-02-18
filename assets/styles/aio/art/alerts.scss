@@ -9,8 +9,6 @@ $error: var(--error_color);
   position: fixed;
   max-width:40vw;
   z-index:9999;
-  display: flex;
-  flex-wrap: wrap;
   .notify.in {
     opacity: 0;
     transform:translateY(20px);
@@ -18,17 +16,15 @@ $error: var(--error_color);
   }
   .alert {
     position:relative;
-    background:rgba(255,255,255,.97);
-    box-shadow:0 10px 30px rgba(0,0,0,.2);
     transition:.6s;
     max-width:100%;
     margin-top:20px;
-    border:1px solid $primary;
     cursor:pointer;
     min-width:250px;
     opacity: 1;
     pointer-events: all;
     transform:none;
+    border-radius: $radius;
     .data {
       transition:.6s;
       position: relative;
@@ -68,12 +64,15 @@ $error: var(--error_color);
       .message {
         border-radius: $radius;
         padding:12px 30px 20px 12px;
+        border:1px solid $primary;
+        background:rgba(255,255,255,.97);
+        box-shadow:0 10px 30px rgba(0,0,0,.2);
       }
       .ico + .message {
         padding:12px 30px 20px 50px;
       }
     }
-    .data:before {
+    /* .data:before {
       content:'';
       display: block;
       z-index: -1;
@@ -85,7 +84,7 @@ $error: var(--error_color);
       background: $primary;
       background: linear-gradient(160deg, $primary 0%, $secondary 100%);
       border-radius: $radius;
-    }
+    } */
     .close {
       font-family: 'MaterialIcons', sans-serif;
       position: absolute;
@@ -139,11 +138,9 @@ $error: var(--error_color);
 }
 [data-alerts].r, [data-alerts].right {
   right:20px;
-  justify-content: flex-end;
 }
 [data-alerts].l, [data-alerts].left {
   left: 20px;
-  justify-content: flex-start;
 }
 
 @media all and (min-width: 0px) and (max-width: 800px) {
