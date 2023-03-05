@@ -13,6 +13,7 @@ class PORTAL {
     function pre_html( string $class = '', string $attrs = '', string|array $styles = [], string|array $scripts = [] ): void {
 
         // Appearance
+        global $options;
         $theme = $options['default_theme'] ?? '';
         $theme = $options['theme'] ?? $theme;
         $class = '';
@@ -23,6 +24,7 @@ class PORTAL {
         } else {
             $class .= $theme . ' l';
         }
+        //skel( $options );
 
         // Prepare Pre Styles
         $pre_styles = [];
@@ -96,7 +98,7 @@ class PORTAL {
                         <div class="tab" data-tab="#pass"><?php is_mobile() ? E('Pass') : E('Change Password'); ?></div>
                         <div class="tab" data-tab="#sess"><?php is_mobile() ? E('Sessions') : E('Active Sessions'); ?><?php echo ' ('.count($ss).')'; ?></div>
                     </div>
-                    <div class="tab_data bgw <?php echo is_mobile() ? 'p20' : 'p40'; ?>">
+                    <div class="tab_data tab_data_box <?php echo is_mobile() ? 'p20' : 'p40'; ?>">
 
                         <div id="looks" <?php $f->option_params('data',2,2,'','theme,input_theme'); ?>>
                             <div class="row">

@@ -177,12 +177,15 @@ table.px0 td {
 }
 
 /* Dark */
+body.d table thead {
+  background: rgba(255, 255, 255, 0.06);
+}
 body.d table tbody {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
 }
 body.d table tr {
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 body.d table.plain thead, body.d table.plain tbody, body.d table.plain tfoot, body.d table.plain tr, body.d table.plain td, body.d table.plain th {
   background: 0;

@@ -3,6 +3,10 @@
   display: flex;
 }
 
+.tab_data_box {
+  background: #fff;
+}
+
 .tab {
   display: block;
   padding: 12px 15px;
@@ -154,7 +158,6 @@ body.d .tab:not(.on) {
     display: flex;
     overflow-x: auto;
   }
-
   .tab {
     white-space: nowrap;
   }

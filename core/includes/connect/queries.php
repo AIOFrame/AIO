@@ -484,11 +484,14 @@ class DB {
      * Fetches the total of data in column of a table
      * @param string $table Name of the table
      * @param string $column Name of the column to sum the data
+     * @param string $where Where logic
      * @return int|float
      */
-    function sum( string $table = '', string $column = '' ): int|float {
+    function sum( string $table = '', string $column = '', string $where = '' ): int|float {
         $db = $this->connect();
-        $query = $db->query('SELECT SUM('.$column.') '.$column.' FROM '.$table);
+        $line = 'SELECT SUM('.$column.') '.$column.' FROM '.$table;
+        $line .= !empty( $where ) ? ' WHERE '.$where : '';
+        $query = $db->query($line);
         $data = $query->fetchAll();
         //skel( $data );
         return is_array( $data ) && isset( $data[0][0] ) ? $data[0][0] : 0;

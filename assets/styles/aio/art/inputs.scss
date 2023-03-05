@@ -1,3 +1,4 @@
+$dark: var(--dark_mode);
 $primary: var(--primary_color);
 $secondary: var(--secondary_color);
 $color: var(--color);
@@ -21,12 +22,12 @@ $warning: var(--warning_color);
 $error: var(--error_color);
 $success: var(--success_color);
 
-// Light Options
-$bg-light: var(--input_bg_light);
-$border-color-light: var(--input_border_color_light);
-$border-color-active-light: var(--input_border_color_active_light);
-$color-light: var(--input_color_light);
-$color-active-light: var(--input_color_active_light);
+// Input Options
+$input_bg: var(--input_bg);
+$border-color: var(--input_border_color);
+$border-color-active: var(--input_border_color_active);
+$color: var(--input_color);
+$color-active: var(--input_color_active);
 
 // Dark Options
 $primary-dark: var(--primary_color_dark);
@@ -64,22 +65,22 @@ label {
   line-height: 1.4rem;
   padding: $padding-top $padding-right $padding-bottom $padding-left;
   transition: .6s;
-  background-color: $bg_light;
-  border-top: $border-top solid $border-color-light;
-  border-right: $border-right solid $border-color-light;
-  border-bottom: $border-bottom solid $border-color-light;
-  border-left: $border-left solid $border-color-light;
+  background-color: $input_bg;
+  border-top: $border-top solid $border-color;
+  border-right: $border-right solid $border-color;
+  border-bottom: $border-bottom solid $border-color;
+  border-left: $border-left solid $border-color;
   border-radius: $radius;
-  color: $color-light;
+  color: $color;
   margin: $margin-top $margin-right $margin-bottom $margin-left;
   //border: $border-top $border-right $border-bottom $border-left;
 }
 [type=text]:focus, [type=search]:focus, [type=number]:focus, [type=email]:focus, [type=date]:focus, [type=time]:focus, [type=password]:focus, [type=file]:focus, select:focus, textarea:focus {
-  border-top:$border-top solid $border-color-active-light;
-  border-right:$border-right solid $border-color-active-light;
-  border-bottom:$border-bottom solid $border-color-active-light;
-  border-left:$border-left solid $border-color-active-light;
-  color: $color-active-light;
+  border-top:$border-top solid $border-color-active;
+  border-right:$border-right solid $border-color-active;
+  border-bottom:$border-bottom solid $border-color-active;
+  border-left:$border-left solid $border-color-active;
+  color: $color-active;
 }
 input.empty, select.empty, select.empty+.select2 .select2-selection--single,
 input.required, select.required, select.required+.select2 .select2-selection--single,
@@ -99,11 +100,11 @@ input[data-file].empty + div > button
     }
   }
   .select2-selection--single, .select2-selection--multiple, .select2-selection--multiple {
-    border-top: $border-top solid $border-color-light;
-    border-right: $border-right solid $border-color-light;
-    border-bottom: $border-bottom solid $border-color-light;
-    border-left: $border-left solid $border-color-light;
-    color: $color-light;
+    border-top: $border-top solid $border-color;
+    border-right: $border-right solid $border-color;
+    border-bottom: $border-bottom solid $border-color;
+    border-left: $border-left solid $border-color;
+    color: $color;
     transition: .6s;
   }
 }
@@ -115,7 +116,7 @@ input[data-file].empty + div > button
   border-radius: $radius;
   font-size: 1rem;
   height: auto;
-  background-color: $bg_light;
+  background-color: $input_bg;
 }
 label.beta {
   background: -webkit-linear-gradient( $primary, $secondary );
@@ -405,7 +406,7 @@ select.mb0 + .select2-container {
   cursor:pointer;
   padding-right: 35px;
   position: relative;
-  background:var(--input_bg_light) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"><rect rx="12" ry="12" width="22" height="22" style="fill:grey"/></svg>') no-repeat calc(100% - 5px) / 22px;
+  background:$input_bg url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"><rect rx="12" ry="12" width="22" height="22" style="fill:grey"/></svg>') no-repeat calc(100% - 5px) / 22px;
 }
 .color_picker_wrap {
   position: fixed;
@@ -479,7 +480,7 @@ select.mb0 + .select2-container {
   -webkit-text-fill-color: transparent;
 }
 .air-datepicker-cell.-selected-, .air-datepicker-cell.-selected-.-focus- {
-  color: $color-light;
+  color: $color;
   background: $primary;
   background: -webkit-linear-gradient( 45deg, $primary, $secondary );
 }
@@ -723,36 +724,36 @@ select.mb0 + .select2-container {
 
 body.d {
   label, .air-datepicker-body--day-name {
-    background: -webkit-linear-gradient( 45deg, $primary-dark, $secondary-dark );
+    //background: -webkit-linear-gradient( 45deg, $primary-dark, $secondary-dark );
   }
   label.beta {
-    background: -webkit-linear-gradient( $primary-dark, $secondary-dark );
+    //background: -webkit-linear-gradient( $primary-dark, $secondary-dark );
   }
   [type=radio]:not(.slide,.switch):checked:after, [type=checkbox]:not(.slide,.switch):checked:after {
-    background: $primary-dark;
-    background: linear-gradient(160deg, $primary-dark 0%, $secondary-dark 100%);
+    //background: $primary-dark;
+    //background: linear-gradient(160deg, $primary-dark 0%, $secondary-dark 100%);
   }
   [type=checkbox]:checked.slide:before, [type=radio]:checked.slide:before,
   [type=checkbox]:checked.switch:before, [type=radio]:checked.switch:before {
-    background: $primary-dark;
-    background: linear-gradient(160deg, $primary-dark 0%, $secondary-dark 100%);
+    //background: $primary-dark;
+    //background: linear-gradient(160deg, $primary-dark 0%, $secondary-dark 100%);
   }
   .select2-container--default {
     .select2-results__option--highlighted[aria-selected] {
-      background-color:$primary-dark;
+      //background-color:$primary-dark;
     }
   }
   .air-datepicker-cell.-selected-, .air-datepicker-cell.-selected-.-focus- {
-    color: $color-dark;
-    background: $primary-dark;
-    background: -webkit-linear-gradient( 45deg, $primary-dark, $secondary-dark );
+    //color: $color-dark;
+    //background: $primary-dark;
+    //background: -webkit-linear-gradient( 45deg, $primary-dark, $secondary-dark );
   }
   .air-datepicker-cell.-current- {
-    color: $primary-dark;
-    border: 1px solid $primary-dark;
+    //color: $primary-dark;
+    //border: 1px solid $primary-dark;
   }
   select {
-    color:#fff;
+    //color:#fff;
   }
   [type=radio], [type=checkbox] {
     border:1px solid #444;

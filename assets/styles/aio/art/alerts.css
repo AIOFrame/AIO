@@ -61,7 +61,7 @@
 [data-alerts] .alert .data .ico {
   position: absolute;
   left: 0;
-  height: calc( 100% - 10px );
+  height: calc(100% - 10px);
   width: 50px;
   z-index: 2;
 }
@@ -74,8 +74,8 @@
 [data-alerts] .alert .data .message {
   border-radius: var(--input_radius);
   padding: 12px 30px 20px 12px;
-  border: 1px solid var(--primary_color);
-  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid var(--input_border_color);
+  background: var(--input_bg);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 [data-alerts] .alert .data .ico + .message {

@@ -1299,18 +1299,18 @@ body.d {
     color: rgba(255,255,255,.6);
   }
   [type=text], [type=search], [type=number], [type=email], [type=date], [type=password], [type=file], select, textarea {
-    color: #fff;
-    border: 2px solid rgba(255,255,255,.1);
+    //color: #fff;
+    //border: 2px solid rgba(255,255,255,.1);
   }
   [type=text]::placeholder, [type=search]::placeholder, [type=number]::placeholder, [type=email]::placeholder, [type=date]::placeholder, [type=password]::placeholder, [type=file]::placeholder, select::placeholder, textarea::placeholder {
-    color: rgba(255,255,255,.3)
+    //color: rgba(255,255,255,.3)
   }
   [type=text]:focus, [type=search]:focus, [type=number]:focus, [type=email]:focus, [type=date]:focus, [type=password]:focus, [type=file]:focus, select:focus, textarea:focus {
-    border: 2px solid rgba(255,255,255,.5);
+    //border: 2px solid rgba(255,255,255,.5);
   }
   .select2-container--default, .select2-container--default.select2-container--focus {
     .select2-selection--single, .select2-selection--multiple, .select2-selection--multiple {
-      border:2px solid rgba(255,255,255,.1);
+      //border:2px solid rgba(255,255,255,.1);
     }
   }
   .select2-selection:after {
@@ -1324,8 +1324,13 @@ body.d {
   .select2-container--default .select2-selection--single .select2-selection__rendered {
     color:#fff;
   }
-  aside [type=search] {
-    background-color: rgba(0,0,0,.1);
+  aside {
+    [type=search] {
+      background-color: rgba(0,0,0,.1);
+    }
+    .set:not(:last-child) {
+      border-bottom:2px solid rgba(255,255,255,.1);
+    }
   }
   .aio_upload {
     color: #fff;
