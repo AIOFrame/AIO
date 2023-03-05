@@ -23,11 +23,7 @@ aside .set {
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 aside .set > .title {
-  color: white;
-}
-
-#menu {
-  background: white;
+  color: rgb(255, 255, 255);
 }
 
 .card {
@@ -68,6 +64,9 @@ body.d .step {
 }
 body.d .step:after {
   border-left: 10px solid #1c2038;
+}
+body.d .tab_data_box {
+  background: #38416f;
 }
 
 .modal {

@@ -33,17 +33,14 @@ class OPTIONS {
         'input_padding_top',
         'input_padding_right',
         'input_padding_bottom',
-        'input_padding_left',
-        'input_bg_light',
-        'input_border_color_light',
-        'input_border_color_active_light',
-        'input_color_light',
-        'input_color_active_light',
-        'input_bg_dark',
-        'input_border_color_dark',
-        'input_border_color_active_dark',
-        'input_color_dark',
-        'input_color_active_dark',
+        'input_padding_left'
+    ];
+    public array $themed_options = [
+        'input_bg',
+        'input_border_color',
+        'input_border_color_active',
+        'input_color',
+        'input_color_active',
     ];
     public array $social_options = [
         'fb' => 'Facebook',
@@ -144,6 +141,12 @@ class OPTIONS {
         $f = new FORM();
         $db = new DB();
         $options = $this->input_options;
+        $themed_options = $this->themed_options;
+        foreach( $themed_options as $to ) {
+            $options[] = $to.'_light';
+            $options[] = $to.'_dark';
+        }
+        //skel( $options );
         $ops = $db->get_options( $options );
         $f->option_params_wrap( 'input', 2, 2, $options );
         $attr = 'data-input';

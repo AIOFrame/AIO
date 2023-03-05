@@ -8,6 +8,9 @@ $error: var(--error_color);
 .tab_heads {
   display: flex;
 }
+.tab_data_box {
+  background: #fff;
+}
 .tab {
   display: block;
   padding: 12px 15px;

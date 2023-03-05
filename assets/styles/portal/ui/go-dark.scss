@@ -30,9 +30,6 @@ aside {
     }
   }
 }
-#menu {
-  background: $wf;
-}
 .card {
   background: #38406e;
 }
@@ -75,6 +72,9 @@ body.d {
   }
   .step:after {
     border-left: 10px solid #1c2038;
+  }
+  .tab_data_box {
+    background: #38416f;
   }
 }
 .modal {
