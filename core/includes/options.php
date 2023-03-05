@@ -350,25 +350,25 @@ class OPTIONS {
         echo '>';
         $countries = get_countries('iso2');
         $zones = timezone_identifiers_list();
-        $currencies = get_currencies('name');
-        //skel( $currencies );
+        $currencies = get_currencies('code','name code');
         $a = 'data-reg';
         echo '<div class="row">';
-        $f->select2('country','Country','Select Region...',$countries,'',$a.' required',2,1);
+        $f->text('domain','Domain','Ex: website.com','',$a,4);
+        $f->select2('country','Country','Select Region...',$countries,'',$a.' required',4,1);
+        $f->select2('timezone','Timezone','Select zone...',$zones,'',$a,4);
+        $f->select2('currency_code','Currency','Select currency...',$currencies,'',$a,4);
+        $f->text('currency_symbol','Currency Symbol','Ex: ₹','',$a,2);
+        $f->text('currency_rate','Currency Rate','Ex: 20.45','',$a,2);
+        $f->text('date_format',"Date Format",'d M, Y','',$a,2);
+        $f->text('time_format',"Time Format",'H:i:s','',$a,2);
         $f->text('name','Registered Name','Ex: ABC Trading LLC.','',$a,3);
+        $f->text('tax','Tax %','Ex: 5','',$a,1);
         $f->text('company_code','Registration No.','Ex: 1202-1256-1326','',$a,0);
         $f->upload('company_doc','Reg. Doc.','Browse','',0,0,'',$a,'jpg,jpeg,png,pdf',2,1,'',0);
         $f->text('tax_code','TRN No.','Ex: 3562-2654-8954','',$a,0);
         $f->upload('tax_doc','TRN Doc.','Browse','',0,0,'',$a,'jpg,jpeg,png,pdf',2,1,'',0);
-        $f->text('tax','Tax%','Ex: 5','',$a,1);
-        echo '</div><div class="row">';
-        $f->select2('timezone','Timezone','Select zone...',$zones,'',$a,2);
-        $f->select2('currency_code','Currency','Select currency...',$currencies,'',$a,3);
-        $f->text('currency_symbol','Currency Symbol','Ex: ₹','',$a,1);
-        $f->text('currency_rate','Currency Rate','Ex: ₹','',$a,1);
-        $f->text('time_format','Time Format <a href=\'https://www.php.net/manual/en/datetime.formats.time.php"\'>?</a>','d M, Y','',$a,2);
         $f->process_options('Save Options','store grad','','.col-12 tac');
-        echo '</div></div>';
+        echo '</div><div class="help tac"><a href="https://www.php.net/manual/en/datetime.formats.date.php" target="_blank">'.T('Date Format Help').'</a> <a href="https://www.php.net/manual/en/datetime.formats.time.php" target="_blank">'.T('Time Format Help').'</a></div>';
     }
 
     function social_options(): void {

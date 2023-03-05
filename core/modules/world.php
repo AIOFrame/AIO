@@ -134,14 +134,23 @@ class WORLD {
      */
     function currencies( string $key = 'symbol', string $value = 'name', bool $sort = true, string $country = '' ): array {
         $key = !empty( $key ) ? 'currency_'.$key : $key;
-        $value = !empty( $value ) ? 'currency_'.$value : $value;
+        //$value = !empty( $value ) ? 'currency_'.$value : $value;
 
         $r = [];
         $countries_data = $this->countries;
         if( !empty( $countries_data ) ){
             foreach( $countries_data as $c ){
                 $k = $this->get_property( $c, $key );
-                $v = $this->get_property( $c, $value );
+                if( str_contains( $value, ' ' ) ) {
+                    $values = explode(' ', $value);
+                    $v = '';
+                    foreach( $values as $vs ) {
+                        $v .= $this->get_property( $c, 'currency_'.$vs ).' ';
+                    }
+                    $v = rtrim( $v );
+                } else {
+                    $v = !empty( $value ) ? $this->get_property( $c, 'currency_'.$value ) : $this->get_property( $c );
+                }
                 if( !empty( $k ) && !empty( $v ) )
                     $r[ $k ] = $v;
             }
