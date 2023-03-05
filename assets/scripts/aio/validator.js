@@ -187,6 +187,13 @@ $(document).ready(function(){
         if (e.which === 32)
             return false;
     })
+    .on('keydown','[data-only-numbers],[data-only-numeric]',function(e){
+        let key = e.keyCode;
+        //console.log(key);
+        if( (key > 64 && key < 91) ){
+            e.preventDefault();
+        }
+    })
     .on('focus','[data-help]',function(){
         if( $(this).parent().find('.aio_valid').length ) {
             $(this).parent().find('.aio_valid:not(.green)').addClass('on');
