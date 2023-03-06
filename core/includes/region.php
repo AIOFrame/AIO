@@ -10,7 +10,7 @@ $d = new DB();
 $region_by_domain = $d->select( 'regions', '', 'reg_domain LIKE \'%'.$domain.'\'%', 1 );
 
 // Detect by Regional IP - Overrides domain region because one domain could be serving multiple regions
-require_once( ROOTPATH . 'core/modules/geoip.php' );
+require_once( ROOTPATH . 'core/modules/region.php' );
 $r = new REGION();
 $code = $r->get_country_code();
 $region_by_ip = $d->select( 'regions', '', 'reg_country = \''.$code.'\'', 1 );
