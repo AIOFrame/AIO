@@ -7,7 +7,7 @@
 $dex = explode( '.', rtrim($_SERVER['HTTP_HOST'],'/') );
 $domain = implode( '.', $dex );
 $d = new DB();
-$region_by_domain = $d->select( 'regions', '', 'reg_domain LIKE \''.$domain.'\'', 1 );
+$region_by_domain = $d->select( 'regions', '', 'reg_domain LIKE \'%'.$domain.'\'%', 1 );
 
 // Detect by Regional IP - Overrides domain region because one domain could be serving multiple regions
 require_once( ROOTPATH . 'core/modules/geoip.php' );
