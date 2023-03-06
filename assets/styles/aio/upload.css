@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .file_modal, .file_notify {
   position: fixed;
   z-index: 999;
@@ -151,7 +152,7 @@ body.d .file_modal, body.d .file_notify {
   line-height: 40px;
 }
 .file_modal .files_head .expand {
-  content: "\f1ce";
+  content: "";
 }
 .file_modal .files_head .close {
   left: auto;
@@ -243,7 +244,7 @@ body.d .file_modal, body.d .file_notify {
 }
 
 body.d .file_modal .files_head {
-  background: rgb(35, 35, 35);
+  background: #232323;
 }
 
 /*.files_head .browse_file {
@@ -466,13 +467,13 @@ body.d .file_modal .files_head {
   transform: translateY(-50%);
 }
 .files_actions .i.select:after {
-  content: "\e86c";
+  content: "";
 }
 .files_actions .i.browse:after {
-  content: "\e9fc";
+  content: "";
 }
 .files_actions .i.trash:after {
-  content: "\e872";
+  content: "";
 }
 .files_actions .i.disabled {
   background: none;
@@ -483,7 +484,7 @@ body.d .file_modal .files_head {
 }
 
 body.d .files_actions {
-  border-top: 1px solid rgb(35, 35, 35);
+  border-top: 1px solid #232323;
 }
 body.d .files_actions div, body.d .files_actions label {
   color: #fff;
@@ -493,10 +494,10 @@ body.d .files_actions div, body.d .files_actions label {
   /*box-shadow: 0 0 10px rgba(0,0,0,.05) inset;*/
   position: relative;
   min-height: 45px;
-  border-top: var(--input_border_top) solid var(--input_border_color_light);
-  border-right: var(--input_border_right) solid var(--input_border_color_light);
-  border-bottom: var(--input_border_bottom) solid var(--input_border_color_light);
-  border-left: var(--input_border_left) solid var(--input_border_color_light);
+  border-top: var(--input_border_top) solid var(--input_border_color);
+  border-right: var(--input_border_right) solid var(--input_border_color);
+  border-bottom: var(--input_border_bottom) solid var(--input_border_color);
+  border-left: var(--input_border_left) solid var(--input_border_color);
   margin-top: var(--input_margin_top);
   margin-right: var(--input_margin_right);
   margin-bottom: var(--input_margin_bottom);
@@ -580,20 +581,19 @@ td .aio_fsp {
 }
 .aio_fp .aio_upload {
   margin: 0;
-  border-top: var(--input_border_top) solid var(--input_border_color_light);
-  border-right: var(--input_border_right) solid var(--input_border_color_light);
-  border-bottom: var(--input_border_bottom) solid var(--input_border_color_light);
-  border-left: var(--input_border_left) solid var(--input_border_color_light);
+  border-top: var(--input_border_top) solid var(--input_border_color);
+  border-right: var(--input_border_right) solid var(--input_border_color);
+  border-bottom: var(--input_border_bottom) solid var(--input_border_color);
+  border-left: var(--input_border_left) solid var(--input_border_color);
   padding-right: 36px;
   position: relative;
   text-transform: none;
-  background: none;
 }
 
 .aio_files > .f {
   display: block;
   padding: var(--input_padding_top) 35px var(--input_padding_bottom) var(--input_padding_left);
-  background-color: var(--input_bg_light);
+  background-color: var(--input_bg);
   border-top: var(--input_border_top) solid #888;
   border-right: var(--input_border_right) solid #888;
   border-bottom: var(--input_border_bottom) solid #888;
@@ -675,9 +675,11 @@ body.d .aio_files .trash {
     max-height: none;
     padding-bottom: 20vh;
   }
+
   .file_notify {
     width: 100vw;
   }
+
   .files_actions {
     position: fixed;
     left: 0;
@@ -688,12 +690,14 @@ body.d .aio_files .trash {
     padding: 20px 10px;
     background: #fff !important;
   }
+
   #aio_up .f:after {
     left: 5px;
     top: 5px;
     width: 15px;
     height: 15px;
   }
+
   .aio_fsp > .w {
     margin: 0;
   }

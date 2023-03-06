@@ -841,7 +841,7 @@ function user_logged_in(): bool {
     return ( isset( $_SESSION['user']['login'] ) && isset( $_SESSION['user']['id'] ) );
 }
 
-
+// Obsolete
 function verify_user_logged_in(): bool {
     // TODO: Change define to global vars
     if( !defined('LOGGED_IN') ){

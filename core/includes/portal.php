@@ -203,6 +203,7 @@ class PORTAL {
         $e = Encrypt::initiate();
         global $options;
         global $is_light;
+        $c = json_decode( CONFIG, 1 );
 
         if( $is_light ) {
             $logo = !empty( $options['logo_light'] ) ? 'style="background:url(\''.storage_url( $options['logo_light'] ).'\') no-repeat center / contain"' : '';
@@ -236,7 +237,7 @@ class PORTAL {
                 }
 
                 // Show Languages
-                if( $show_languages ) {
+                if( $show_languages && in_array( 'languages', $c ) ) {
                     echo '<div id="lang" class="nav_ico" title="Change Language"><div class="mat-ico">translate</div><div class="drop">';
                     // TODO: Get Languages
                     foreach( [] as $l => $n ){

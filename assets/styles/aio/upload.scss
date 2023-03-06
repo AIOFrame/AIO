@@ -11,13 +11,8 @@ $padding-right: var(--input_padding_right);
 $padding-bottom: var(--input_padding_bottom);
 $padding-left: var(--input_padding_left);
 
-// Light Options
-$bg-light: var(--input_bg_light);
-$border-color-light: var(--input_border_color_light);
-
-// Dark Options
-$bg-dark: var(--input_bg_dark);
-$border-color-dark: var(--input_border_color_dark);
+$bg: var(--input_bg);
+$border-color: var(--input_border_color);
 
 .file_modal, .file_notify {
   position:fixed;
@@ -487,10 +482,10 @@ body.d .files_actions {
   /*box-shadow: 0 0 10px rgba(0,0,0,.05) inset;*/
   position:relative;
   min-height:45px;
-  border-top: $border-top solid $border-color-light;
-  border-right: $border-right solid $border-color-light;
-  border-bottom: $border-bottom solid $border-color-light;
-  border-left: $border-left solid $border-color-light;
+  border-top: $border-top solid $border-color;
+  border-right: $border-right solid $border-color;
+  border-bottom: $border-bottom solid $border-color;
+  border-left: $border-left solid $border-color;
   margin-top: var(--input_margin_top);
   margin-right: var(--input_margin_right);
   margin-bottom: var(--input_margin_bottom);
@@ -569,15 +564,15 @@ td .aio_fsp {
   }
   .aio_upload {
     margin: 0;
-    border-top: $border-top solid $border-color-light;
-    border-right: $border-right solid $border-color-light;
-    border-bottom: $border-bottom solid $border-color-light;
-    border-left: $border-left solid $border-color-light;
+    border-top: $border-top solid $border-color;
+    border-right: $border-right solid $border-color;
+    border-bottom: $border-bottom solid $border-color;
+    border-left: $border-left solid $border-color;
     padding-right: 36px;
     position: relative;
     text-transform: none;
     //box-shadow: none;
-    background: none;
+    //background: none;
   }
 }
 .aio_files {
@@ -585,7 +580,7 @@ td .aio_fsp {
     display:block;
     padding: $padding-top 35px $padding-bottom $padding-left;
     //border: 2px solid #888;
-    background-color: $bg_light;
+    background-color: $bg;
     border-top:$border-top solid #888;
     border-right:$border-right solid #888;
     border-bottom:$border-bottom solid #888;

@@ -9,6 +9,7 @@
         "guzzlehttp/guzzle": "^7.4",
         "phpmailer/phpmailer": "^6.5",
         "vonage/client": "^2.4",
-        "cboden/ratchet": "^0.4.4"
+        "cboden/ratchet": "^0.4.4",
+        "geoip2/geoip2": "^2.13"
     }
 }

@@ -32,7 +32,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '2261ca0b4dc68aea0d068d6aa5b8923ddf891093',
+    'reference' => 'f1ffe5563b96e1cb0a98d664bcb57d3ffa94ce36',
     'name' => '__root__',
   ),
   'versions' => 
@@ -44,7 +44,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '2261ca0b4dc68aea0d068d6aa5b8923ddf891093',
+      'reference' => 'f1ffe5563b96e1cb0a98d664bcb57d3ffa94ce36',
     ),
     'cboden/ratchet' => 
     array (
@@ -54,6 +54,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '5012dc954541b40c5599d286fd40653f5716a38f',
+    ),
+    'composer/ca-bundle' => 
+    array (
+      'pretty_version' => '1.3.5',
+      'version' => '1.3.5.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '74780ccf8c19d6acb8d65c5f39cd72110e132bbd',
     ),
     'composer/package-versions-deprecated' => 
     array (
@@ -81,6 +90,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '523407fb06eb9e5f3d59889b3978d5bfe94299c8',
+    ),
+    'geoip2/geoip2' => 
+    array (
+      'pretty_version' => 'v2.13.0',
+      'version' => '2.13.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '6a41d8fbd6b90052bc34dff3b4252d0f88067b23',
     ),
     'guzzlehttp/guzzle' => 
     array (
@@ -180,6 +198,24 @@ private static $installed = array (
       array (
       ),
       'reference' => '728434227fe21be27ff6d86621a1b13107a2562c',
+    ),
+    'maxmind-db/reader' => 
+    array (
+      'pretty_version' => 'v1.11.0',
+      'version' => '1.11.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'b1f3c0699525336d09cc5161a2861268d9f2ae5b',
+    ),
+    'maxmind/web-service-common' => 
+    array (
+      'pretty_version' => 'v0.9.0',
+      'version' => '0.9.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '4dc5a3e8df38aea4ca3b1096cee3a038094e9b53',
     ),
     'myclabs/php-enum' => 
     array (

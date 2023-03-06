@@ -1,5 +1,5 @@
 <?php
-require ROOTPATH . 'core/external/vendor/autoload.php';
+require_once ROOTPATH . 'core/external/vendor/autoload.php';
 
 class STRIPE {
 

@@ -60,7 +60,7 @@ label {
   font-size: 1rem;
   margin: 0;
 }
-[type=text], [type=search], [type=number], [type=email], [type=date], [type=time], [type=password], [type=file], select, textarea {
+[type=text], [type=search], [type=number], [type=email], [type=date], [type=time], [type=password], [type=file], select, textarea, select.empty+.select2 .select2-selection--single {
   font-size: 1rem;
   line-height: 1.4rem;
   padding: $padding-top $padding-right $padding-bottom $padding-left;
