@@ -363,23 +363,16 @@ class OPTIONS {
         echo '</div>';
     }
 
-    /* function region_options(): void {
-        $options = [  ];
+    function region_switch( string $label = '', string $load_text = 'Go' ): void {
         $f = new FORM();
-        $db = new DB();
-        $os = $db->get_options( $options );
-        echo '<div class="row"';
-        $f->option_params('soc',2,2);
-        echo '>';
-        if( !empty( $options ) ) {
-            foreach( $options as $ok => $ov ) {
-                $val = $os[ $ok ] ?? '';
-                $f->text( $ok, $ov, 'Ex: '.$ov.' Details', $val, 'data-soc', 3 );
-            }
-        }
-        $f->process_options('Save Options','store grad','','.col-12 tac');
+        $d = new DB();
+        $regions = $d->select( 'regions' );
+        $regions = !empty( $regions ) ? array_to_assoc( $regions, 'reg_id', 'reg_country' ) : [];
+        echo '<div data-t class="row">';
+        $f->select2( 'option_region', $label, 'Select...', $regions, $_SESSION['option_region'] ?? '', '', 8, 1 );
+        $f->process_html( $load_text, 'store grad', '', 'set_option_region_ajax', 4 );
         echo '</div>';
-    } */
+    }
 
     /**
      * Returns saved social option values
@@ -461,6 +454,13 @@ class OPTIONS {
         // Languages
     }
 
+}
+
+function set_option_region_ajax(): void {
+    if( isset( $_POST['option_region'] ) && !empty( $_POST['option_region'] ) ) {
+        $_SESSION['option_region'] = $_POST['option_region'];
+        es('Successfully changed option region! Now you can change settings!!');
+    }
 }
 
 function import_options_ajax(): void {
