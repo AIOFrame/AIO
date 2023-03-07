@@ -78,30 +78,35 @@ class WORLD {
      * @param array $c Country Array
      * @param string $p 'name','iso2','iso3','calling_code','currency','currency_name','currency_symbol','currency_code','capital','flag','languages','gps','lat','long'
      */
-    private function get_property( array $c, string $p ) {
-        if( $p == 'name' )
-            $r = $c['name']['common'];
-        elseif( $p == 'official_name' )
-            $r = $c['name']['official'];
-        else if( $p == 'iso2' || $p == 'ISO2' )
-            $r = $c['cca2'];
-        else if( $p == 'iso3' || $p == 'ISO3' )
-            $r = !empty( $c['cioc'] ) ? $c['cioc'] : $c['cca3'];
-        else if( $p == 'calling_code')
-            $r = $c['callingCodes'][0] ?? '';
-        else if( $p == 'currency' || $p == 'currency_name' )
-            $r = isset($c['currencies'][array_key_first($c['currencies'])]['name']) ? $c['currencies'][array_key_first($c['currencies'])]['name'] : '';
-        else if( $p == 'currency_code')
-            $r = array_key_first($c['currencies']);
-        else if( $p == 'currency_symbol')
-            $r = array_key_first( $c['currencies'] ) !== null ? $c['currencies'][array_key_first($c['currencies'])]['symbol'] : '';
-        else if( $p == 'capital')
-            $r = $c['capital'][0] ?? '';
-        else if( $p == 'gps' )
-            $r = $c['lat'].','.$c['long'];
-        else
-            $r = $c[$p] ?? '';
-        return $r;
+    public function get_property( array $c, string $properties ) {
+        $properties = explode( ' ', $properties );
+        $r = '';
+        foreach( $properties as $p ) {
+            if( $p == 'name' )
+                $r .= $c['name']['common'];
+            elseif( $p == 'official_name' )
+                $r .= $c['name']['official'];
+            else if( $p == 'iso2' || $p == 'ISO2' )
+                $r .= $c['cca2'];
+            else if( $p == 'iso3' || $p == 'ISO3' )
+                $r .= !empty( $c['cioc'] ) ? $c['cioc'] : $c['cca3'];
+            else if( $p == 'calling_code')
+                $r .= $c['callingCodes'][0] ?? '';
+            else if( $p == 'currency' || $p == 'currency_name' )
+                $r .= isset($c['currencies'][array_key_first($c['currencies'])]['name']) ? $c['currencies'][array_key_first($c['currencies'])]['name'] : '';
+            else if( $p == 'currency_code')
+                $r .= array_key_first($c['currencies']);
+            else if( $p == 'currency_symbol')
+                $r .= array_key_first( $c['currencies'] ) !== null ? $c['currencies'][array_key_first($c['currencies'])]['symbol'] : '';
+            else if( $p == 'capital')
+                $r .= $c['capital'][0] ?? '';
+            else if( $p == 'gps' )
+                $r .= $c['lat'].','.$c['long'];
+            else
+                $r .= $c[$p] ?? '';
+            $r .= ' ';
+        }
+        return rtrim( $r );
     }
 
     /**

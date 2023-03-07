@@ -56,13 +56,15 @@ class REGION {
         $zones = timezone_identifiers_list();
         $currencies = get_currencies('code','name code');
         $languages = get_languages();
+        $this->region_options_form( [], $countries, $zones, $currencies, $languages );
         if( !empty( $regions ) ) {
             foreach( $regions as $i => $r ) {
+                echo '<div class="accordion"><div class="accordion_head">'.T( $r['reg_country'] ).'</div><div class="accordion_body">';
                 $this->region_options_form( $r, $countries, $zones, $currencies, $languages );
-                echo '<hr>';
+                echo '</div></div><hr>';
             }
         }
-        $this->region_options_form( [], $countries, $zones, $currencies, $languages );
+        echo '<div class="help tac"><a href="https://www.php.net/manual/en/datetime.formats.date.php" target="_blank">'.T('Date Format Help').'</a> <a href="https://www.php.net/manual/en/datetime.formats.time.php" target="_blank">'.T('Time Format Help').'</a></div>';
     }
 
     function region_options_form( $r, $countries, $zones, $currencies, $languages ): void {
@@ -76,7 +78,7 @@ class REGION {
         $f->process_params('regions','reg','reg_',6,2,$h);
         echo '>';
         $a = 'data-reg';
-        echo '<div class="row py-4">';
+        echo '<div class="row">';
         $f->text('domain','Domains','Ex: website.com, website.net',$r['domain']??'',$a.' required',3);
         $f->select2('country','Default Country','Select Region...',$countries,$r['country']??'',$a.' required',3,1);
         $f->select2('language','Default Language','Select Language...',$languages,$r['language']??'',$a.' required',3,1);
@@ -93,8 +95,31 @@ class REGION {
         $f->upload('company_doc','Reg. Doc.','Browse','',0,0,'',$a,'jpg,jpeg,png,pdf',2,1,'',0);
         $f->text('tax_code','TRN No.','Ex: 3562-2654-8954','',$a,0);
         $f->upload('tax_doc','TRN Doc.','Browse','',0,0,'',$a,'jpg,jpeg,png,pdf',2,1,'',0);*/
-        $f->process_html('Save Options','store grad','','','.col-12 tac');
-        echo '<div class="col-12 help tac"><a href="https://www.php.net/manual/en/datetime.formats.date.php" target="_blank">'.T('Date Format Help').'</a> <a href="https://www.php.net/manual/en/datetime.formats.time.php" target="_blank">'.T('Time Format Help').'</a></div></div></div>';
+        echo '<div class="col-12 tac">';
+        if( !empty( $r ) ) {
+            $f->trash_html('regions','reg_id = \''.$r['id'].'\'','button','Remove Region','store grad red');
+        }
+        $f->process_html('Save Region','store grad');
+        echo '</div></div></div>';
     }
 
+}
+
+function get_region_countries( string $key = 'id', string $value = 'name flag' ): array {
+    $d = new DB();
+    $w = new WORLD();
+    $regions = $d->select( 'regions', 'reg_country' );
+    $data = [];
+    //skel( $regions );
+    if( !empty( $regions ) ) {
+        foreach( $regions as $r ) {
+            $country = $w->get_country( $r['reg_country'] );
+            //skel( $country );
+            $k = $w->get_property( $country, $key );
+            $v = $w->get_property( $country, $value );
+            $data[ $k ] = $v;
+        }
+    }
+    //skel( $data );
+    return $data;
 }
