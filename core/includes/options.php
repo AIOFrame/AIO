@@ -342,8 +342,8 @@ class OPTIONS {
     }
 
     function region_options(): void {
-        $c = defined( CONFIG ) && !empty( CONFIG ) ? json_decode( CONFIG, 1 ) : [];
-        if( in_array( 'region', $c['features'] ) ) {
+        $c = defined( 'CONFIG' ) && !empty( CONFIG ) ? json_decode( CONFIG, 1 ) : [];
+        if( !empty( $c['features'] ) && in_array( 'region', $c['features'] ) ) {
             $r = new REGION();
             $r->region_options();
         }
