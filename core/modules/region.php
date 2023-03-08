@@ -32,6 +32,8 @@ class REGION {
             if( $this->ip !== '127.0.0.1' ) {
                 $this->countryReader = $reader->country( $this->ip );
                 return $this->countryReader->country->isoCode;
+            } else {
+                return false;
             }
         } catch (\MaxMind\Db\Reader\InvalidDatabaseException|\GeoIp2\Exception\AddressNotFoundException $e) {
             elog($e);
