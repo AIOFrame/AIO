@@ -967,7 +967,7 @@ function user_registration_fields( string $pre = 'user_', string $data = '', str
     !empty( $dob ) ? $f->date('dob', 'Date of Birth', 'Ex: 15-05-1990', '', $attr, 'top center', $dob ) : '';
     if( !empty( $phone ) ) {
         echo $phone == 0 ? '<div class="col"><div class="row">' : '<div class="col-12 col-md-' . $phone . '"><div class="row">';
-        $f->select('phone_code', 'Code', 'Ex: +61', $codes, $phone_code, $attr.' class="select2" required', 5 );
+        $f->select('phone_code', 'Code', 'Ex: +61', $codes, $phone_code, $attr.' class="select2" required', 5, 1 );
         $f->text('phone', 'Phone Number', 'Ex: 501122333', '', $attr.' required', 7 );
         echo '</div></div>';
     }
