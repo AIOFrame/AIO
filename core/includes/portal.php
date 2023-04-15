@@ -45,7 +45,7 @@ class PORTAL {
 
 
         $c = new CONTENT();
-        $c->pre_html($class,$attrs,$pre_styles,'icons,cards,modal,buttons,inputs,icons,tabs,steps,color,table,alerts',$styles,$scripts);
+        $c->pre_html($class,$attrs,$pre_styles,'icons,cards,modal,buttons,inputs,icons,tabs,steps,color,table,alerts,accordion',$styles,$scripts);
 
     }
 

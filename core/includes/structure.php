@@ -33,7 +33,7 @@ if( is_array( $feats ) ) {
     }
 
     // Create regions if featured
-    if( in_array( 'regions', $feats ) || in_array( 'regional', $feats ) ) {
+    if( in_array( 'region', $feats ) || in_array( 'regions', $feats ) || in_array( 'regional', $feats ) ) {
         include_once( $path . 'regions.php' );
     }
 

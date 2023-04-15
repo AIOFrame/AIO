@@ -629,9 +629,10 @@ class DB {
      * @param array|string $options Option Names ['theme_color','dark_mode']
      * @param int $user_id User ID optional
      * @param string $key Get option by 'name' or 'id'
+     * @param int|null $region Get for specific region
      * @return array
      */
-    function get_options( array|string $options, int $user_id = 0, string $key = 'name' ): array {
+    function get_options( array|string $options, int $user_id = 0, string $key = 'name', int|null $region = null ): array {
         $q = '';
         if( !empty( $options ) ){
             if( is_assoc($options) ) {
@@ -661,7 +662,7 @@ class DB {
         }
         $q = !empty( $q ) ? substr($q, 0, -3) : $q;
         $query = $user_id ? '('. $q . ') AND option_scope = \''.$user_id.'\'' : $q;
-        $o = $this->select( 'options', 'option_name, option_value', $query );
+        $o = $this->select( 'options', 'option_name, option_value', $query . ' AND option_region = \''.$region.'\'' );
         $d = [];
         if( !empty( $o ) ){
             foreach( $o as $k => $v ){
