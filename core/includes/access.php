@@ -963,11 +963,11 @@ function user_registration_fields( string $pre = 'user_', string $data = '', str
     !empty( $name ) ? $f->text('name', 'First Name & Last Name', 'Ex: John Doe', '', $attr.' required', $name ) : '';
     !empty( $email ) ? $f->input('email','login', 'Login Email Address', 'Ex: john_doe@gmail.com', '', $attr.'  data-help required', $email ) : '';
     !empty( $pass ) ? $f->input('password', 'pass', 'Login Password', '***********', '', $attr.' data-help autocomplete="new-password"', $pass ) : '';
-    !empty( $gender ) ? $f->select('gender', 'Gender', 'Choose Gender...', $genders, 'Male', $attr.' class="select2"', $gender ) : '';
+    !empty( $gender ) ? $f->select2('gender', 'Gender', 'Choose Gender...', $genders, 'Male', $attr, $gender ) : '';
     !empty( $dob ) ? $f->date('dob', 'Date of Birth', 'Ex: 15-05-1990', '', $attr, 'top center', $dob ) : '';
     if( !empty( $phone ) ) {
         echo $phone == 0 ? '<div class="col"><div class="row">' : '<div class="col-12 col-md-' . $phone . '"><div class="row">';
-        $f->select('phone_code', 'Code', 'Ex: +61', $codes, $phone_code, $attr.' class="select2" required', 5 );
+        $f->select2('phone_code', 'Code', 'Ex: +61', $codes, $phone_code, $attr.' required', 5, 1 );
         $f->text('phone', 'Phone Number', 'Ex: 501122333', '', $attr.' required', 7 );
         echo '</div></div>';
     }

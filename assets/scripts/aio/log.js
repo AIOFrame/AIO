@@ -1,10 +1,10 @@
 $(document).ready( function(){
 
     // Filter
-    let filter = $('.filters [data-type]');
+    let filter = '.filters [data-type]';
     let b = $('.b');
     $('body').on('click',filter,function(e){
-        filter.removeClass('on');
+        $(filter).removeClass('on');
         $(e.target).addClass('on');
         let type = $(e.target).data('type');
         if( type === 'a' ){

@@ -214,9 +214,9 @@ $(document).ready(function(){
         //input_css.width = 'calc(100% - 50px)';
         let parent_css = {'position':'relative'};
         let label = $(f).prev('label').length > 0 ? $(f).prev().height() + parseFloat( $(f).prev().css('margin-top') )  + parseFloat( $(f).prev().css('margin-bottom') ) : 0;
-        //let top = label + ( $(f).height() / 2 );
+        let top = label + ( $(f).height() / 2 );
         //console.log( top );
-        let visibility_css = {'position':'absolute'}; //'transform':'translateY(-20%)','top':top+'px'
+        let visibility_css = {'position':'absolute','transform':'translateY(-20%)','top':top+'px'};
         dir === 'ltr' ? visibility_css.right = '15px' : visibility_css.left = '15px';
         $(f).css(input_css).parent().css(parent_css).append('<div class="password_visibility"><i class="mat-ico p10 s on">visibility</i><i class="mat-ico p10 s off">visibility_off</i></div>').find('.password_visibility').css(visibility_css);
     })

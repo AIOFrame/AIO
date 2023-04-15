@@ -15,7 +15,7 @@ $(document).ready(function(){
 })
 
 /**
- * Gets values of all inputs of specific data attribute within an element
+ * Gets values of all inputs within an element (of specific data attribute if)
  * @param parent HTML Element Selector
  * @param attribute Data param to choose inputs
  * @param prepend Add a pre text to keys

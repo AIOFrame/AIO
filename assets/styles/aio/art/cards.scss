@@ -266,19 +266,6 @@ $success: var(--success_color);
   }
 }
 
-/* Pagination */
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  a {
-    display: block;
-    margin: 0 10px;
-    padding: 12px;
-  }
-}
-
 /* RTL */
 
 [dir=rtl] {
