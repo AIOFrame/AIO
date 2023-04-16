@@ -23,7 +23,7 @@ aside .set {
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 aside .set > .title {
-  color: white;
+  color: rgb(255, 255, 255);
 }
 
 .card {
@@ -90,6 +90,10 @@ body.d .tab_data_box {
 
 .credit {
   color: #eee;
+}
+
+.pagination .page_link {
+  background: rgba(255, 255, 255, 0.06);
 }
 
 /*# sourceMappingURL=go-dark.css.map */

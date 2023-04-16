@@ -671,13 +671,15 @@ function render_details( string $title = '', array $data = [], int $col = 4 ) {
  * @param int $page Current page
  * @param int $records Number of total records in database
  * @param int $limit Maximum items limit per page
- * @param string $class Class for buttons
+ * @param string $wrap_class = '' Class for page links wrapper element
+ * @param string $class Class for page links
  */
-function pagination( int $page, int $records, int $limit = 24, string $class = 'page_btn' ): void {
+function pagination( int $page, int $records, int $limit = 24, string $wrap_class = '', string $class = 'page_link' ): void {
     $url = APPURL . PAGEPATH;
     if( $limit > 0 ) {
+        $wrap_class = !empty( $wrap_class ) ? $wrap_class . ' pagination' : 'pagination';
         ?>
-        <div class="pagination">
+        <div class="<?php echo $wrap_class; ?>">
             <?php
             $total_pages = !empty( $records ) ? ceil( $records / $limit ) : 0;
             //skel( $total_pages );
