@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'f1ffe5563b96e1cb0a98d664bcb57d3ffa94ce36',
+    'reference' => '2cdfb462a903c6891d856b1b2b4b9b182ff18c57',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'f1ffe5563b96e1cb0a98d664bcb57d3ffa94ce36',
+      'reference' => '2cdfb462a903c6891d856b1b2b4b9b182ff18c57',
     ),
     'cboden/ratchet' => 
     array (
@@ -94,30 +94,30 @@
     ),
     'guzzlehttp/psr7' => 
     array (
-      'pretty_version' => '2.4.3',
-      'version' => '2.4.3.0',
+      'pretty_version' => '2.4.4',
+      'version' => '2.4.4.0',
       'aliases' => 
       array (
       ),
-      'reference' => '67c26b443f348a51926030c83481b85718457d3d',
+      'reference' => '3cf1b6d4f0c820a2cf8bcaec39fc698f3443b5cf',
     ),
     'knplabs/knp-snappy' => 
     array (
-      'pretty_version' => 'v1.4.1',
-      'version' => '1.4.1.0',
+      'pretty_version' => 'v1.4.2',
+      'version' => '1.4.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => '5126fb5b335ec929a226314d40cd8dad497c3d67',
+      'reference' => 'b66f79334421c26d9c244427963fa2d92980b5d3',
     ),
     'laminas/laminas-diactoros' => 
     array (
-      'pretty_version' => '2.24.0',
-      'version' => '2.24.0.0',
+      'pretty_version' => '2.25.1',
+      'version' => '2.25.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '6028af6c3b5ced4d063a680d2483cce67578b902',
+      'reference' => '13f45e5ba09c9b27752247d3be186fc49c2ca3a5',
     ),
     'lcobucci/clock' => 
     array (
@@ -130,12 +130,12 @@
     ),
     'lcobucci/jwt' => 
     array (
-      'pretty_version' => '4.2.1',
-      'version' => '4.2.1.0',
+      'pretty_version' => '4.3.0',
+      'version' => '4.3.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '72ac6d807ee51a70ad376ee03a2387e8646e10f3',
+      'reference' => '4d7de2fe0d51a96418c0d04004986e410e87f6b4',
     ),
     'maennchen/zipstream-php' => 
     array (
@@ -209,21 +209,21 @@
     ),
     'phpmailer/phpmailer' => 
     array (
-      'pretty_version' => 'v6.7.1',
-      'version' => '6.7.1.0',
+      'pretty_version' => 'v6.8.0',
+      'version' => '6.8.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '49cd7ea3d2563f028d7811f06864a53b1f15ff55',
+      'reference' => 'df16b615e371d81fb79e506277faea67a1be18f1',
     ),
     'phpoffice/phpspreadsheet' => 
     array (
-      'pretty_version' => '1.26.0',
-      'version' => '1.26.0.0',
+      'pretty_version' => '1.28.0',
+      'version' => '1.28.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '5b6ceea9705b068f993e268e4debc566c2637063',
+      'reference' => '6e81cf39bbd93ebc3a4e8150444c41e8aa9b769a',
     ),
     'psr/cache' => 
     array (
@@ -254,12 +254,12 @@
     ),
     'psr/http-client' => 
     array (
-      'pretty_version' => '1.0.1',
-      'version' => '1.0.1.0',
+      'pretty_version' => '1.0.2',
+      'version' => '1.0.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => '2dfb5f6c5eff0e91e20e913f8c5452ed95b86621',
+      'reference' => '0955afe48220520692d2d09f7ab7e0f93ffd6a31',
     ),
     'psr/http-client-implementation' => 
     array (
@@ -270,12 +270,12 @@
     ),
     'psr/http-factory' => 
     array (
-      'pretty_version' => '1.0.1',
-      'version' => '1.0.1.0',
+      'pretty_version' => '1.0.2',
+      'version' => '1.0.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => '12ac7fcd07e5b077433f5f2bee95b3a771bf61be',
+      'reference' => 'e616d01114759c4c489f93b099585439f795fe35',
     ),
     'psr/http-factory-implementation' => 
     array (
@@ -286,12 +286,12 @@
     ),
     'psr/http-message' => 
     array (
-      'pretty_version' => '1.0.1',
-      'version' => '1.0.1.0',
+      'pretty_version' => '1.1',
+      'version' => '1.1.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'f6561bf28d520154e4b0ec72be95418abe6d9363',
+      'reference' => 'cb6ce4845ce34a8ad9e68117c10ee90a29919eba',
     ),
     'psr/http-message-implementation' => 
     array (
@@ -462,12 +462,12 @@
     ),
     'symfony/http-foundation' => 
     array (
-      'pretty_version' => 'v6.0.17',
-      'version' => '6.0.17.0',
+      'pretty_version' => 'v6.0.20',
+      'version' => '6.0.20.0',
       'aliases' => 
       array (
       ),
-      'reference' => '22fe17e40b0481d39212e7165e004eb26422085d',
+      'reference' => 'e16b2676a4b3b1fa12378a20b29c364feda2a8d6',
     ),
     'symfony/polyfill-mbstring' => 
     array (
@@ -480,21 +480,21 @@
     ),
     'symfony/process' => 
     array (
-      'pretty_version' => 'v6.0.11',
-      'version' => '6.0.11.0',
+      'pretty_version' => 'v6.0.19',
+      'version' => '6.0.19.0',
       'aliases' => 
       array (
       ),
-      'reference' => '44270a08ccb664143dede554ff1c00aaa2247a43',
+      'reference' => '2114fd60f26a296cc403a7939ab91478475a33d4',
     ),
     'symfony/routing' => 
     array (
-      'pretty_version' => 'v6.0.17',
-      'version' => '6.0.17.0',
+      'pretty_version' => 'v6.0.19',
+      'version' => '6.0.19.0',
       'aliases' => 
       array (
       ),
-      'reference' => '61687a0aa80f6807c52e116ee64072f6ec53780c',
+      'reference' => 'e56ca9b41c1ec447193474cd86ad7c0b547755ac',
     ),
     'vonage/client' => 
     array (
@@ -516,12 +516,12 @@
     ),
     'vonage/nexmo-bridge' => 
     array (
-      'pretty_version' => '0.1.1',
-      'version' => '0.1.1.0',
+      'pretty_version' => '0.1.2',
+      'version' => '0.1.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => '36490dcc5915f12abeaa233c6098e0dce14bbb0a',
+      'reference' => 'e9f63cd468b7e0edd73d0c90d0406d6b961f9eb7',
     ),
     'whichbrowser/parser' => 
     array (
