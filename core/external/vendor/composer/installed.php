@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '2cdfb462a903c6891d856b1b2b4b9b182ff18c57',
+    'reference' => 'f6fa69f4cc9ddad602b7c430c20dee2854a962f6',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '2cdfb462a903c6891d856b1b2b4b9b182ff18c57',
+      'reference' => 'f6fa69f4cc9ddad602b7c430c20dee2854a962f6',
     ),
     'cboden/ratchet' => 
     array (
@@ -64,6 +64,15 @@
       array (
       ),
       'reference' => '523407fb06eb9e5f3d59889b3978d5bfe94299c8',
+    ),
+    'fakerphp/faker' => 
+    array (
+      'pretty_version' => 'v1.21.0',
+      'version' => '1.21.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '92efad6a967f0b79c499705c69b662f738cc9e4d',
     ),
     'geoip2/geoip2' => 
     array (

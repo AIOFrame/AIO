@@ -38,6 +38,7 @@ final class Versions
   'composer/package-versions-deprecated' => '1.11.99.5@b4f54f74ef3453349c24a845d22392cd31e65f1d',
   'evenement/evenement' => 'v3.0.1@531bfb9d15f8aa57454f5f0285b18bec903b8fb7',
   'ezyang/htmlpurifier' => 'v4.16.0@523407fb06eb9e5f3d59889b3978d5bfe94299c8',
+  'fakerphp/faker' => 'v1.21.0@92efad6a967f0b79c499705c69b662f738cc9e4d',
   'geoip2/geoip2' => 'v2.13.0@6a41d8fbd6b90052bc34dff3b4252d0f88067b23',
   'guzzlehttp/guzzle' => '7.5.0@b50a2a1251152e43f6a37f0fa053e730a67d25ba',
   'guzzlehttp/promises' => '1.5.2@b94b2807d85443f9719887892882d0329d1e2598',
@@ -86,7 +87,7 @@ final class Versions
   'vonage/client-core' => '2.7.1@c9bd01868339fc1c74e631d73d7333250b8eccbd',
   'vonage/nexmo-bridge' => '0.1.2@e9f63cd468b7e0edd73d0c90d0406d6b961f9eb7',
   'whichbrowser/parser' => 'v2.1.7@1044880bc792dbce5948fbff22ae731c43c280d9',
-  '__root__' => 'dev-master@2cdfb462a903c6891d856b1b2b4b9b182ff18c57',
+  '__root__' => 'dev-master@f6fa69f4cc9ddad602b7c430c20dee2854a962f6',
 );
 
     private function __construct()
