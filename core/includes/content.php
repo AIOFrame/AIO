@@ -144,7 +144,7 @@ class CONTENT {
         }
         echo '<article><div class="access_wrap"><div class="access_panel">';
         echo '<a href="'. APPURL . $login_redirect_url . '" class="brand" '.$logo.'></a>';
-        login_html( 'User Login / Email', 'Password', 2, 2, $login_redirect_url );
+        login_html( 'User Login / Email', 'Password', 'Remember for', 'Login', 2, 2, $login_redirect_url );
         echo '</div></div></article>';
 
         // Foot

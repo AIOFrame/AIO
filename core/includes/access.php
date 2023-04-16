@@ -75,6 +75,10 @@ class ACCESS {
                 session_destroy();
             }
         }
+
+        // Destroy sessions if exceeded time
+        $db = new DB();
+        $db->delete( 'sessions', 'session_expiry < \''.date('Y-m-d H:i:s').'\'' );
         ob_end_clean();
     }
 
@@ -214,11 +218,12 @@ class ACCESS {
 
     /**
      * Verifies and logs in user!
-     * @param string $login
-     * @param string $pass
+     * @param string $login User Login
+     * @param string $pass User Password
+     * @param int $time Login session expiry time in hours
      * @return array
      */
-    function login( string $login, string $pass ): array {
+    function login( string $login, string $pass, int $time = 1 ): array {
         $db = new DB();
         $login = strip_tags( preg_replace('/\s+/', '', $login ) );
 
@@ -239,9 +244,11 @@ class ACCESS {
             $db->update( 'access', [ 'access_recent' ], [ date('Y-m-d H-i-s') ], 'access_uid = \''.$user['user_id'].'\'' );
             // Set database sessions
             $cry = Encrypt::initiate();
+            $expiry = date('Y-m-d H:i:s', strtotime( date('Y-m-d H:i:s') ) + ( $time * 60 * 60 ) );
             $session_data = [
                 'uid' => $user['user_id'],
                 'time' => date('Y-m-d H-i-s'),
+                'expiry' => $expiry,
                 'code' => session_id(),
                 'os' => get_user_os(),
                 'client' => get_user_browser(),
@@ -506,12 +513,13 @@ class ACCESS {
 }
 
 function access_login_ajax(): void {
-    $login = isset( $_POST['login_username'] ) && !empty( $_POST['login_username'] ) ? $_POST['login_username'] : '';
-    $pass = isset( $_POST['login_password'] ) && !empty( $_POST['login_password'] ) ? $_POST['login_password'] : '';
+    $login = !empty( $_POST['login_username'] ) ? $_POST['login_username'] : '';
+    $pass = !empty( $_POST['login_password'] ) ? $_POST['login_password'] : '';
+    $time = !empty( $_POST['login_remember'] ) ? $_POST['login_remember'] : '';
 
     if( !empty( $login ) && !empty( $pass ) ) {
         $a = new ACCESS();
-        $login = $a->login($login, $pass);
+        $login = $a->login($login, $pass, $time);
         echo json_encode( $login );
     } else {
         ef('User login or password is empty!');
@@ -682,38 +690,37 @@ function access_change_ajax(): void {
  * Renders frontend code for user login
  * @param string $login_title Replacement text for default "Username" title
  * @param string $pass_title Replacement text for default "Password" title
+ * @param string $session_title Replacement text for default "Remember access for" title
+ * @param string $login_button_title Replacement text for "Login" button title
  * @param int|string $reload_in Seconds to Reload Page
  * @param int|string $notify_for Seconds to Notify
  * @param string $redirect_to Page to redirect to upon success
  * @param string $class Login, Forgot Password button class
  */
-function login_html( string $login_title = 'Username or Email', string $pass_title = 'Password', int|string $reload_in = 1, int|string $notify_for = 1, string $redirect_to = '', string $class = '' ): void {
+function login_html( string $login_title = 'Username or Email', string $pass_title = 'Password', string $session_title = 'Remember access for', string $login_button_title = 'Login', int|string $reload_in = 1, int|string $notify_for = 1, string $redirect_to = '', string $class = '' ): void {
     if( user_logged_in() ) {
         return;
     }
-    $cry = Encrypt::initiate();
     $f = new FORM();
-    $redirect = !empty( $redirect_to ) ? ' data-redirect="'.$redirect_to.'"' : '';
-    $reload = !empty( $reload_in ) ? ' data-reload="'.$reload_in.'"' : '';
-    $notify = !empty( $notify_for ) ? ' data-notify="'.$notify_for.'"' : '';
     ?>
-    <div class="login_wrap" data-t data-pre="login_" data-data="log"<?php echo $redirect.$reload.$notify; ?> data-reset="log">
+    <div class="login_wrap" <?php $f->process_params('','log','login_',$notify_for,$reload_in,[],'','','',$redirect_to,'',1); ?>>
         <form class="inputs">
             <?php
             $f->text('username',$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-log required autocomplete="username"','<div class="user_wrap">','</div>');
             $f->input('password','password',$pass_title,$pass_title,'','onkeyup="aio_login_init(event)" data-assist data-log required autocomplete="current-password"','<div class="pass_wrap">','</div>');
+            $f->radios('remember',$session_title,[1=>'1 Hour',8=>'8 Hours',24=>'1 Day',168=>'1 Week'],1,'data-log',0,'.mb20','','row df fg','.col')
             ?>
         </form>
-        <button id="aio_login_init" class="grad <?php echo $class; ?>" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_login_ajax' ); ?>"><span class="loader"></span><?php E('Login'); ?></button>
+        <?php $f->process_html( $login_button_title, 'grad '. $class, 'id="aio_login_init"', 'access_login_ajax' ); ?>
         <div class="more" onclick="aio_forgot_view()"><?php E('Forgot Password ?'); ?></div>
     </div>
-    <div class="forgot_wrap" data-t data-pre="forgot_" data-data="forg" <?php echo $redirect.$reload.$notify; ?> data-reset="forg" style="display:none;">
+    <div class="forgot_wrap" <?php $f->process_params('','forg','forgot_',$notify_for,$reload_in,[],'','','',$redirect_to,'',1); ?> style="display:none;">
         <div class="inputs">
             <?php
             $f->text('username',$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"','<div class="forgot_user_wrap">','</div>');
             ?>
         </div>
-        <button id="aio_forgot_init" class="grad <?php echo $class; ?>" onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_forgot_ajax' ); ?>"><span class="loader"></span><?php E('Reset Password'); ?></button>
+        <?php $f->process_html( 'Reset Password', 'grad '. $class, 'id="aio_forgot_init"', 'access_forgot_ajax' ); ?>
         <div class="more" onclick="aio_login_view()"><?php E( 'Return to Login' ); ?></div>
     </div>
     <?php
@@ -733,18 +740,17 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
  * @param int|string $reload_in Seconds to Reload Page
  * @param int|string $notify_for Seconds to Notify
  * @param string $redirect_to Page to redirect to upon success
+ * @param string $callback JS Callback
  */
-function register_html( array $columns = [], bool $columns_before = true, array $data = [], array $access = [], array $hide = [], array $compulsory = [], int|string $reload_in = 3, int|string $notify_for = 3, string $redirect_to = '' ) {
+function register_html( array $columns = [], bool $columns_before = true, array $data = [], array $access = [], array $hide = [], array $compulsory = [], int|string $reload_in = 3, int|string $notify_for = 3, string $redirect_to = '', string $callback = '' ): void {
     if( user_logged_in() ) {
         return;
     }
     $rand = rand( 0, 9999 );
     $cry = Encrypt::initiate();
     $f = new FORM();
-    $redirect = !empty( $redirect_to ) ? ' data-redirect="'.$redirect_to.'"' : '';
-    $callback = !empty( $callback ) ? ' data-callback="'.$callback.'"' : '';
     ?>
-    <div class="register_wrap" data-t data-pre="register_" data-data="reg"<?php echo $redirect.$callback; ?> data-notify="<?php echo $notify_for; ?>" data-reload="<?php echo $reload_in; ?>" data-reset="register">
+    <div class="register_wrap" <?php $f->process_params('','reg','register_',$notify_for,$reload_in,[],'',$callback,'',$redirect_to,'',1); ?>>
         <div class="inputs">
             <?php
             $columns_html = '';
@@ -776,7 +782,7 @@ function register_html( array $columns = [], bool $columns_before = true, array 
             echo !$columns_before ? $columns_html : '';
             ?>
         </div>
-        <button onclick="process_data(this)" data-action="<?php echo $cry->encrypt( 'access_register_ajax' ); ?>"><?php E('Register'); ?></button>
+        <?php $f->process_html( 'Register', 'grad', 'id="aio_forgot_init"', 'access_register_ajax' ); ?>
     </div>
     <?php
 }
@@ -789,21 +795,21 @@ function register_html( array $columns = [], bool $columns_before = true, array 
  * @param string $callback Callback a JS Function with response
  * @return void
  */
-function register_html_pre( int|string $reload_in = 3, int|string $notify_for = 3, string $redirect_to = '', string $callback = '' ) {
+function register_html_pre( int|string $reload_in = 3, int|string $notify_for = 3, string $redirect_to = '', string $callback = '' ): void {
     if( user_logged_in() ) {
         return;
     }
-    $redirect = !empty( $redirect_to ) ? ' data-redirect="'.$redirect_to.'"' : '';
-    $callback = !empty( $callback ) ? ' data-redirect="'.$callback.'"' : '';
-    echo '<div class="register_wrap" data-t data-pre="register_" data-data="reg"'.$redirect.$callback.' data-notify="'.$notify_for.'" data-reload="'.$reload_in.'" data-reset="register">';
+    $f = new FORM();
+    echo '<div class="register_wrap" '.$f->process_params('','reg','register_',$notify_for,$reload_in,[],'',$callback,'',$redirect_to).'>';
 }
 
 /**
  * Renders frontend post-wrap html for user registration
  **/
 function register_html_post( string $class = '' ): void {
-    $cry = Encrypt::initiate();
-    echo '<button class="'.$class.'" onclick="process_data(this)" data-action="' . $cry->encrypt( 'access_register_ajax' ). '">'. T('Register').'</button></div>';
+    $f = new FORM();
+    $f->process_html( 'Register', $class, '', 'access_register_ajax' );
+    echo '</div>';
 }
 
 /**

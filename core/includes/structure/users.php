@@ -23,6 +23,7 @@ $user_struct[] = [ 'access', [
 $user_struct[] = [ 'sessions', [
     [ 'uid', 'INT', 13, 1 ],
     [ 'time', 'DATETIME', '', 1 ],
+    [ 'expiry', 'DATETIME', '', 1 ],
     [ 'code', 'VARCHAR', 256, 1 ],
     [ 'os', 'VARCHAR', 256, 1 ],
     [ 'client', 'VARCHAR', 256, 1 ],
