@@ -27,11 +27,11 @@ aside .set {
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 aside .set > .title {
-  color: rgb(255, 255, 255);
+  color: white;
 }
 
 #menu {
-  background: rgb(255, 255, 255);
+  background: white;
 }
 
 .card {

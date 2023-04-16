@@ -9,34 +9,26 @@
 function get_domain( string $t = 'main' ): string {
     $dex = explode( '.', rtrim($_SERVER['HTTP_HOST'],'/') );
     if(count($dex) > 3){
-        if( $t == 'sub' ){
-            return $dex[1];
-        } else {
-            return $dex[1].'.'.$dex[2];
-        }
+        return $t == 'sub' ? $dex[1] : $dex[1].'.'.$dex[2];
     } else if(count($dex) == 3) {
         if($dex[0] !== 'www' && $dex[0] !== 'http://www' && $dex[0] !== 'https://www'){
-            if( $t == 'sub' ){
-                return $dex[0];
-            } else {
-                return $dex[1].'.'.$dex[2];
-            }
+            return $t == 'sub' ? $dex[0] : $dex[1].'.'.$dex[2];
         } else {
             return $dex[1];
         }
     } else if(count($dex) == 2) {
         if($dex[0] !== 'www' && $dex[0] !== 'http://www' && $dex[0] !== 'https://www'){
-            if( $t == 'sub' ){
-                return false;
-            } else {
-                return $dex[0];
-            }
+            return $t == 'sub' ? false : $dex[0];
         } else {
             return $dex[0];
         }
     } else if( count($dex) == 1 ){
         return strpos($dex[0], ':') !== false ? substr($dex[0], 0, strpos($dex[0],':')) : $dex[0];
     }
+}
+
+function i( $not_empty, $fallback ) {
+    return !empty( $not_empty ) && $not_empty !== '' ? $not_empty : $fallback;
 }
 
 /**
@@ -81,6 +73,12 @@ if( file_exists( ROOTPATH . 'map.php' ) ){
 !defined( 'APPURI' ) ? define( 'APPURI', APPURL . 'apps/' . $app . '/' ) : '';
 
 /**
+ * Define Vendor Path
+ */
+!defined( 'VENDORPATH' ) ? define( 'VENDORPATH', ROOTPATH . 'core/external/' ) : '';
+!defined( 'VENDORLOAD' ) ? define( 'VENDORLOAD', ROOTPATH . 'core/external/vendor/autoload.php' ) : '';
+
+/**
  * Load Error page if web app not found
  */
 if( empty( $app ) || !file_exists( ROOTPATH . 'apps/' . $app ) ) {
@@ -96,6 +94,7 @@ if( empty( $app ) || !file_exists( ROOTPATH . 'apps/' . $app ) ) {
 if( file_exists( ROOTPATH . 'apps/' . $app . '/config.php' ) ) {
     $c = include ROOTPATH . 'apps/' . $app . '/config.php';
     !defined( 'CONFIG' ) ? define( 'CONFIG', json_encode( $c ) ) : '';
+    isset( $c['faker_locale'] ) && !defined( 'FAKER' ) ? define( 'FAKER', $c['faker_locale'] ) : '';
 }
 
 /**

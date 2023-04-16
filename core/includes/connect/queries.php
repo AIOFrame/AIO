@@ -662,7 +662,7 @@ class DB {
         }
         $q = !empty( $q ) ? substr($q, 0, -3) : $q;
         $query = $user_id ? '('. $q . ') AND option_scope = \''.$user_id.'\'' : $q;
-        $o = $this->select( 'options', 'option_name, option_value', $query . ' AND option_region = \''.$region.'\'' );
+        $o = $this->select( 'options', 'option_name, option_value', $query ); //' AND option_region = \''.$region.'\''
         $d = [];
         if( !empty( $o ) ){
             foreach( $o as $k => $v ){

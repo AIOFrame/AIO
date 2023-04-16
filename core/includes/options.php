@@ -77,18 +77,19 @@ class OPTIONS {
         $f->option_params_wrap( 'brand', 2, 2, $brands );
         $attr = 'data-brand';
         $ext = 'jpg,svg,png';
-        $name = $ops['app_name'] ?? '';
-        $desc = $ops['app_desc'] ?? '';
-        $theme = $ops['default_theme'] ?? '';
-        $c1 = $ops['primary_color'] ?? '';
-        $c2 = $ops['secondary_color'] ?? '';
-        $c3 = $ops['color_light'] ?? '';
-        $dc1 = $ops['primary_color_dark'] ?? '';
-        $dc2 = $ops['secondary_color_dark'] ?? '';
-        $dc3 = $ops['color_dark'] ?? '';
-        $light = $ops['logo_light'] ?? '';
-        $dark = $ops['logo_dark'] ?? '';
-        $fav = $ops['fav'] ?? '';$uis = [ 'default' => 'Default - Light' ];
+        $name = i( $ops['app_name'], 'fake_name' );
+        $desc = i( $ops['app_desc'], 'fake_text' );
+        $theme = i( $ops['default_theme'], '' );
+        $c1 = i( $ops['primary_color'], 'fake_hex' );
+        $c2 = i( $ops['secondary_color'], 'fake_hex' );
+        $c3 = i( $ops['color_light'], 'fake_hex' );
+        $dc1 = i( $ops['primary_color_dark'], 'fake_hex' );
+        $dc2 = i( $ops['secondary_color_dark'], 'fake_hex' );
+        $dc3 = i( $ops['color_dark'], 'fake_hex' );
+        $light = i( $ops['logo_light'], '' );
+        $dark = i( $ops['logo_dark'], '' );
+        $fav = i( $ops['fav'], '' );
+        $uis = [ 'default' => 'Default - Light' ];
         $ui_list = scandir( ROOTPATH . 'assets/styles/portal/ui' );
         foreach( $ui_list as $ui ) {
             if( str_contains( $ui, '.scss' ) ) {
@@ -117,6 +118,10 @@ class OPTIONS {
         get_scripts('iro,color');
     }
 
+    /**
+     * Renders Color Options
+     * @return void
+     */
     function color_options(): void {
         $f = new FORM();
         $db = new DB();
@@ -258,8 +263,8 @@ class OPTIONS {
         $ops = $db->get_options( $options_array );
         $f->option_params_wrap('google-map', 2, 2 );
         $key = $ops['google_maps_key'] ?? '';
-        $lat = $ops['default_map_lat'] ?? '';
-        $long = $ops['default_map_long'] ?? '';
+        $lat = $ops['default_map_lat'] ?? 'fake_lat';
+        $long = $ops['default_map_long'] ?? 'fake_long';
         $zoom = $ops['default_map_zoom'] ?? 13;
         $type = $ops['default_map_type'] ?? 'terrain';
         $attr = 'data-google-map';
@@ -278,10 +283,10 @@ class OPTIONS {
         $db = new DB();
         $os = $db->get_options( $this->communication_options );
         $f->option_params_wrap('com',2,2);
-        $phone = $os['phone'] ?? '';
-        $mobile = $os['mobile'] ?? '';
-        $email = $os['email'] ?? '';
-        $website = $os['website'] ?? '';
+        $phone = i( $os['phone'], 'fake_phone' );
+        $mobile = i( $os['mobile'], 'fake_phone' );
+        $email = i( $os['email'], 'fake_email' );
+        $website = i( $os['website'], 'fake_site' );
         $f->text('phone','Official Phone No.','Ex: 403334444',$phone,'data-com',3);
         $f->text('mobile','Mobile No. for Social Media','Ex: 503334444',$mobile,'data-com',3);
         $f->text('email','Official Email','Ex: hello@company.com',$email,'data-com',3);
@@ -295,10 +300,10 @@ class OPTIONS {
         $db = new DB();
         $os = $db->get_options(['address','city','state','post','country']);
         $f->option_params_wrap('add',2,2);
-        $address = $os['address'] ?? '';
-        $city = $os['city'] ?? '';
-        $state = $os['state'] ?? '';
-        $post = $os['post'] ?? '';
+        $address = i( $os['address'], 'fake_address' );
+        $city = i( $os['city'], 'fake_city' );
+        $state = i( $os['state'], 'fake_state' );
+        $post = i( $os['post'], 'fake_po' );
         $country = $os['country'] ?? 'United Arab Emirates';
         $countries = get_countries();
         $f->text('address','Address','Ex: Office 1100, Building Name, Street Name...',$address,'data-add',12);

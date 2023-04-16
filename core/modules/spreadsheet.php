@@ -12,7 +12,7 @@ class SPREADSHEET {
     }
 
     private function __construct() {
-        require_once ROOTPATH . 'core/external/vendor/autoload.php';
+        require_once VENDORLOAD;
     }
 
     /**

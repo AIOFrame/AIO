@@ -153,6 +153,7 @@ class FORM {
         $n = $name !== '' ? $name : $id;
         $hidden_label = empty( $label ) ? $n : $label;
         $at = $attrs !== '' ? 'title="'.$hidden_label.'" '.$attrs : 'title="'.$hidden_label.'"';
+        $value = APPDEBUG && str_contains( $value, 'fake_' ) ? $this->fake( $value ) : $value;
         if( $type == 'textarea' ) {
             $va = $value !== '' ? $value : '';
         } else {
@@ -991,5 +992,42 @@ class FORM {
             }
         }
         return $query;
+    }
+
+    /**
+     * Fetches fake data only for debugging purposes
+     * @param string $key Key of fake data needed
+     */
+    function fake( string $key = '' ) {
+        $locale = defined('FAKER') ? FAKER : 'en_US';
+        require_once VENDORLOAD;
+        $fk = Faker\Factory::create( $locale );
+        $key = str_replace( 'fake_', '', $key );
+        $replacements = [
+            'freeEmail' => [ 'email' ],
+            'domainName' => [ 'site', 'website' ],
+            'phoneNumber' => [ 'phone', 'mobile', 'contact' ],
+            'jobTitle' => [ 'design', 'title', 'job_title', 'designation' ],
+            'userName' => [ 'username', 'login' ],
+            'macAddress' => [ 'mac' ],
+            'creditCardType' => [ 'card_type' ],
+            'creditCardNumber' => [ 'card_no', 'card', 'card_number' ],
+            'swiftBicNumber' => [ 'swift', 'swift_no', 'swift_code' ],
+            'hexcolor' => [ 'hex', 'color' ],
+            'rgbCssColor' => [ 'rgb' ],
+            'colorName' => [ 'color_name' ],
+            'streetAddress' => [ 'street', 'address' ],
+            'postcode' => [ 'postal', 'po_box', 'po', 'post' ],
+            'streetName' => [ 'street', 'street_name' ],
+            'countryCode' => [ 'country_code' ],
+            'latitude' => [ 'lat' ],
+            'longitude' => [ 'long' ],
+        ];
+        foreach( $replacements as $r => $keys ) {
+            if( in_array( $key, $keys ) ) {
+                $key = $r;
+            }
+        }
+        return $fk->{ $key };
     }
 }

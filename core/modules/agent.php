@@ -3,8 +3,8 @@
 class AGENT {
 
     function __construct() {
-        if( file_exists( ROOTPATH . 'core/external/vendor/autoload.php' ) )
-            require ROOTPATH . 'core/external/vendor/autoload.php';
+        if( file_exists( VENDORLOAD ) )
+            require VENDORLOAD;
     }
 
     /**

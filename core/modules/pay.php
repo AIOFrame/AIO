@@ -1,10 +1,10 @@
 <?php
-require ROOTPATH . 'core/external/vendor/autoload.php';
+require VENDORLOAD;
 
 class PAY {
 
     function __construct() {
-        require_once ROOTPATH . 'core/external/vendor/autoload.php';
+        require_once VENDORLOAD;
     }
 
     function render_2checkout_api( string $pre = '' ): void {

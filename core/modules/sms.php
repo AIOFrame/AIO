@@ -49,7 +49,7 @@ class SMS {
         }
 
         if( !empty( $key ) && !empty( $secret ) ) {
-            include_once( ROOTPATH . 'core/external/vendor/autoload.php' );
+            include_once( VENDORLOAD );
             $basic  = new \Vonage\Client\Credentials\Basic($key, $secret);
             $client = new \Vonage\Client($basic);
 

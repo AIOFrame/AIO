@@ -183,7 +183,7 @@ class MAIL {
 
         elog('Email initiated thru SMTP');
 
-        require ROOTPATH . 'core/external/vendor/autoload.php';
+        require VENDORLOAD;
         /* require 'path/to/PHPMailer/src/Exception.php';
         require 'path/to/PHPMailer/src/PHPMailer.php';
         require 'path/to/PHPMailer/src/SMTP.php'; */
@@ -303,7 +303,7 @@ class MAIL {
 
         if( !empty( $key ) ) {
 
-            require ROOTPATH . 'core/external/vendor/autoload.php';
+            require VENDORLOAD;
 
             $email = new \SendGrid\Mail\Mail();
             $email->setFrom( $from );
@@ -345,7 +345,7 @@ class MAIL {
         $key = empty( $key ) ? get_config( 'mailersend_key' ) : $key;
 
         if( !empty( $key ) ) {
-            require ROOTPATH . 'core/external/vendor/autoload.php';
+            require VENDORLOAD;
             $client = new GuzzleHttp\Client(['base_uri' => 'https://api.mailersend.com/v1/']);
             $options = [
                 'headers' => [
@@ -385,7 +385,7 @@ class MAIL {
         $private_key = !empty( $private_key ) ? $private_key : get_config( 'mailjet_private_key' );
         if( !empty( $public_key ) || !empty( $private_key ) ) {
 
-            require ROOTPATH . 'core/external/vendor/autoload.php';
+            require VENDORLOAD;
 
             // Use your saved credentials, specify that you are using Send API v3.1
             $mj = new \Mailjet\Client(getenv( $public_key ), getenv( $private_key ), true, ['version' => 'v3.1']);
