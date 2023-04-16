@@ -322,8 +322,7 @@ button.load span.loader:before, .btn.load span.loader:before {
   display: flex;
   justify-content: center;
   align-items: center;
-  .page_btn {
-    margin: 0 5px;
+  .page_link {
     font-size: 1rem;
     width: 40px;
     height: 40px;
@@ -331,11 +330,48 @@ button.load span.loader:before, .btn.load span.loader:before {
     text-align: center;
     cursor: pointer;
     display: block;
+    padding: 0;
+    background: #fff;
+  }
+  .page_link.on {
+    color: var(--primary_color);
+    border: 2px solid var(--primary_color);
+  }
+  .page_link:first-child {
+    border-radius: 5px 0 0 5px;
+  }
+  .page_link:last-child {
+    border-radius: 0 5px 5px 0;
+  }
+}
+.pagination.r {
+  .page_link:first-child {
+    border-radius: 20px 0 0 20px;
+    padding-left: 5px;
+    width: 50px;
+  }
+  .page_link:last-child {
+    border-radius: 0 20px 20px 0;
+    padding-right: 5px;
+    width: 50px;
+  }
+  .page_link.on:first-child {
+    border-radius: 20px 5px 5px 20px;
+  }
+  .page_link.on:last-child {
+    border-radius: 5px 20px 20px 5px;
+  }
+  .page_link:not(:first-child):not(:last-child).on {
+    border-radius: 5px;
+  }
+}
+.pagination.split {
+  .page_link {
+    margin: 0 5px;
     border-radius: var(--input_radius);
     border: 2px solid #eee;
   }
-  .page_btn.on {
-    color: var(--primary_color);
+  .page_link.on {
     border: 2px solid var(--primary_color);
   }
 }
