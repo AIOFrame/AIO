@@ -1006,7 +1006,7 @@ class FORM {
         $replacements = [
             'freeEmail' => [ 'email' ],
             'domainName' => [ 'site', 'website' ],
-            'phoneNumber' => [ 'phone', 'mobile', 'contact' ],
+            'e164PhoneNumber' => [ 'phone', 'mobile', 'contact' ],
             'jobTitle' => [ 'design', 'title', 'job_title', 'designation' ],
             'userName' => [ 'username', 'login' ],
             'macAddress' => [ 'mac' ],
@@ -1028,6 +1028,16 @@ class FORM {
                 $key = $r;
             }
         }
-        return $fk->{ $key };
+        if( $key == 'e164PhoneNumber' ) {
+            return str_replace( '+1', '', $fk->{ $key } );
+        } else if( str_contains( $key, 'words' ) ) {
+            $s = explode( '_', $key );
+            return $fk->words( $s[1] ?? 3, 1 );
+        } else if( str_contains( $key, 'actions' ) ) {
+            $s = explode( '_', $key );
+            return str_replace( ' ', ',', $fk->words( $s[1] ?? 3, 1 ) );
+        } {
+            return $fk->{ $key };
+        }
     }
 }

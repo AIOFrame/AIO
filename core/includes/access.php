@@ -139,14 +139,15 @@ class ACCESS {
      * @param string $name User Full Name
      * @param string $picture User Picture
      * @param array $columns User meta to be stored in independent columns, columns must exist
-     * @param array $data User meta to be stored in user_data column
+     * @param string|array $data User meta to be stored in user_data column
      * @param array $access User Permissions, Custom array with permission name key and boolean value
      * @param string $status User status, 1 for active and 0 for inactive, default 1
      * @param string $email_subject Subject for automated email
      * @param string $email_content Content placeholder for automated email, also adds header and footer templates
      * @return array
      */
-    function register( string $login, string $pass, string $email = '', string $name = '', string $picture = '', array $columns = [], array $data = [], array $access = [], string $status = '1', string $email_subject = '', string $email_content = '' ) : array {
+    function register( string $login, string $pass, string $email = '', string $name = '', string $picture = '', array $columns = [], string|array $data = [], array $access = [], string $status = '1', string $email_subject = '', string $email_content = '' ) : array {
+        $data = !is_array( $data ) ? json_decode( $data, 1 ) : $data;
         // User login restrictions
         $login = strtolower( $login );
         $valid_name = $this->valid_name( $login );
@@ -579,7 +580,7 @@ function access_ajax(): void {
         $status = $_POST['status'] ?? '';
         $data_bypass = ['login','pass','email','name','dob','picture','gender','phone','phone_code','type','role','access','callback','h','status','pre','t','id','acs','action'];
         $data = $_POST['data'] ?? array_diff_key( $_POST, array_flip($data_bypass));
-        $columns_bypass = ['login','pass','email','name','picture','callback','h','pre','t','id','acs','access','action'];
+        $columns_bypass = ['login','pass','email','name','picture','data','callback','h','pre','t','id','acs','access','action'];
         $register_columns = array_diff_key( $_POST, array_flip($columns_bypass));
         $update_columns = [ 'name' => $name, 'email' => $email, 'gender' => $gender, 'dob' => $dob, 'phone' => $phone, 'phone_code' => $phone_code, 'role' => $role, 'type' => $type, 'status' => $status ];
 
@@ -966,11 +967,11 @@ function user_registration_fields( string $pre = 'user_', string $data = '', str
     $data = $data ?? 'data';
     $attr = $array !== '' ? 'data-'.$data.' data-empty data-array="'.$array.'"' : 'data-'.$data.' data-empty';
     //$f->text([$pre.'login', 'login'], '', 'Ex: john_doe', '', $attr.' hidden required', 12 );
-    !empty( $name ) ? $f->text('name', 'First Name & Last Name', 'Ex: John Doe', '', $attr.' required', $name ) : '';
-    !empty( $email ) ? $f->input('email','login', 'Login Email Address', 'Ex: john_doe@gmail.com', '', $attr.'  data-help required', $email ) : '';
-    !empty( $pass ) ? $f->input('password', 'pass', 'Login Password', '***********', '', $attr.' data-help autocomplete="new-password"', $pass ) : '';
+    !empty( $name ) ? $f->text('name', 'First Name & Last Name', 'Ex: John Doe', 'fake_name', $attr.' required', $name ) : '';
+    !empty( $email ) ? $f->input('email','login', 'Login Email Address', 'Ex: john_doe@gmail.com', 'fake_email', $attr.'  data-help required', $email ) : '';
+    !empty( $pass ) ? $f->input('password', 'pass', 'Login Password', '***********', 'fake_password', $attr.' data-help autocomplete="new-password"', $pass ) : '';
     !empty( $gender ) ? $f->select2('gender', 'Gender', 'Choose Gender...', $genders, 'Male', $attr, $gender ) : '';
-    !empty( $dob ) ? $f->date('dob', 'Date of Birth', 'Ex: 15-05-1990', '', $attr, 'top center', $dob ) : '';
+    !empty( $dob ) ? $f->date('dob', 'Date of Birth', 'Ex: 15-05-1990', 'fake_date', $attr, 'top center', $dob ) : '';
     if( !empty( $phone ) ) {
         echo $phone == 0 ? '<div class="col"><div class="row">' : '<div class="col-12 col-md-' . $phone . '"><div class="row">';
         $f->select2('phone_code', 'Code', 'Ex: +61', $codes, $phone_code, $attr.' required', 5, 1 );
