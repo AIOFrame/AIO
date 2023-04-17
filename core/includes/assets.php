@@ -509,13 +509,13 @@ function body_class( string $class = '' ): void {
  * @param bool $join_app_name
  */
 function get_title( string $title = '', bool $join_app_name = true ): void {
-    $app_name = defined('APP_NAME') ? APP_NAME : APPNAME;
+    $app_name = defined( 'APP_NAME' ) ? APP_NAME : ( defined( 'APPNAME' ) ? APPNAME : '' );
     $add = $join_app_name ? ' - '.T( $app_name ) : '';
     if( !empty( $title ) ) {
         echo '<title>'.$title.$add.'</title>';
         return;
     }
-    if( !empty( PAGE ) ) {
+    if( defined( 'PAGE' ) && !empty( PAGE ) ) {
         $p = PAGE == 'index' ? 'Welcome' : PAGE;
         $pp = explode('/',PAGEPATH);
         $p = is_numeric( $p ) ? $pp[count($pp)-1] : $p;

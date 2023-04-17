@@ -1,28 +1,10 @@
 <?php
-$includes = ['arrays','crypt','form','translation/strings','data','setup'];
+$includes = ['arrays','encrypt','form','content','translation/strings','data','setup'];
 foreach( $includes as $inc )
     include_once( ROOTPATH . 'core/includes/' . $inc . '.php' );
-?>
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <?php
-    get_title( 'AIO Web App Builder', 0 );
-    reset_styles('Lato,Helvetica Neue',300,5);
-    favicon( APPURL.'assets/images/aio.png' );
-    fonts([['Lato','100,300']]);
-    get_styles(['select2','aio']);
-    get_script('jquery');
-    art('inputs,tabs','00A99D','047267');
-    get_styles(['setup','micro']);
-    ?>
-</head>
-<body>
-<?php
+
+$c = new CONTENT();
+$c->pre_html( '', '', 'select2,aio', 'inputs,tabs', 'setup,micro', 'jquery', ['Lato','300,500'] );
 $appdir = !empty( get_domain('sub') ) ? get_domain( 'sub' ) : get_domain();
 $p = $_POST;
 $cry = Encrypt::initiate();

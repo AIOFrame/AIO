@@ -36,8 +36,10 @@ class CONTENT {
 
         // SEO
         $c = get_config();
-        $seo = $c['seo'][PAGEPATH] ?? ( $options['seo'][PAGEPATH] ?? '' );
-        echo !empty( $seo ) ? '<meta name="description" content="'.T( $seo ).'">' : '';
+        if( defined( 'PAGEPATH' ) ) {
+            $seo = !empty( $c['seo'] ) && !empty( $c['seo'][PAGEPATH] ) ?? ( $options['seo'][PAGEPATH] ?? '' );
+            echo !empty( $seo ) ? '<meta name="description" content="'.T( $seo ).'">' : '';
+        }
 
         // Fav Icon
         $favicon = isset( $options['fav'] ) ? storage_url( $options['fav'] ) : 'fav';
@@ -83,7 +85,7 @@ class CONTENT {
             art( $art );
         }
         get_styles( $styles );
-        get_styles( [ PAGEPATH, 'micro' ] );
+        get_styles( defined( 'PAGEPATH' ) ? PAGEPATH . ',micro' : 'micro' );
 
         get_title();
 
@@ -94,7 +96,7 @@ class CONTENT {
         //$attrs = $attrs.' data-out="'. $c->encrypt('logout_ajax').'"';
 
         // Google Analytics
-        if( isset( CONFIG['api']['google_analytics'] ) ) {
+        if( defined( 'CONFIG' ) && isset( CONFIG['api']['google_analytics'] ) ) {
             echo '<script async src="https://www.googletagmanager.com/gtag/js?id=UA-'.str_replace('UA-','',CONFIG['api']['google_analytics'])."></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-".str_replace('UA-','',CONFIG['api']['google_analytics'])."');</script>";
         }
 
