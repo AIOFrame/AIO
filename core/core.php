@@ -27,10 +27,6 @@ function get_domain( string $t = 'main' ): string {
     }
 }
 
-function i( $not_empty, $fallback ) {
-    return !empty( $not_empty ) && $not_empty !== '' ? $not_empty : $fallback;
-}
-
 /**
  * Get sub domain if
  * @return string
