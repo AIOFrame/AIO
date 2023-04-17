@@ -153,7 +153,7 @@ class FORM {
         $n = $name !== '' ? $name : $id;
         $hidden_label = empty( $label ) ? $n : $label;
         $at = $attrs !== '' ? 'title="'.$hidden_label.'" '.$attrs : 'title="'.$hidden_label.'"';
-        $value = APPDEBUG && str_contains( $value, 'fake_' ) ? $this->fake( $value ) : $value;
+        $value = APPDEBUG && str_contains( $value, 'fake_' ) ? $this->fake( $value ) : ( str_contains( $value, 'fake_' ) ? '' : $value );
         if( $type == 'textarea' ) {
             $va = $value !== '' ? $value : '';
         } else {
