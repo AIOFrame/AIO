@@ -1,15 +1,17 @@
 /* LAYOUT */
 
 article {
-  margin:20px 80px 20px 100px;
+  margin:20px 100px;
   overflow-x:hidden;
+  background: #fff;
+  padding: 20px;
 }
 nav {
-  width: 120px;
+  width: 80px;
   height:calc(100vh - 40px);
   justify-content: center;
   position: fixed;
-  right:0;
+  right: 20px;
   top:20px;
   display: flex;
   flex-wrap:wrap;
@@ -19,30 +21,23 @@ nav {
     width: 100%;
     margin:20px 0;
     cursor:pointer;
-  }
-  .p {
-    background:url('../../icons/prev.svg') no-repeat center / contain;
-  }
-  .n {
-    background:url('../../icons/next.svg') no-repeat center / contain;
-  }
-  .f {
-    background:url('../../icons/okay.svg') no-repeat center / contain;
+    line-height: 50px;
+    text-align: center;
+    .mat-ico {
+      font-size: 3rem;
+    }
   }
 }
 
 /* BASICS */
 
-button {
-  cursor:pointer;
-  padding:8px 20px;
-  text-transform: uppercase;
-  margin:20px 10px;
-}
 input[type=text], [type=number] {
   border:0;
   border-bottom:1px solid #ddd;
   box-shadow:none;
+  font-size: 22px;
+  padding:12px 0;
+  font-weight: 100;
 }
 input.empty {
   border-bottom:1px solid firebrick;
@@ -51,6 +46,17 @@ input[type=text]:focus, [type=number]:focus {
   transition:.9s;
   border-bottom:1px solid #000;
 }
+.row > div {
+  margin-bottom: 35px;
+}
+
+/* button {
+  cursor:pointer;
+  padding:8px 20px;
+  text-transform: uppercase;
+  margin:20px 10px;
+}
+
 select {
   font-size: 22px;
   border:0;
@@ -65,7 +71,7 @@ select {
   background-repeat: no-repeat !important;
   background-position: center !important;
   cursor: pointer;
-}
+} */
 
 /* Setup UI */
 
@@ -84,25 +90,17 @@ select {
     opacity: 0;
     pointer-events: none;
   }
-  .data {
-    max-height:calc(100vh - 220px);
-    overflow-y:auto;
-    .scroll-content {
-      padding:40px 0;
-    }
-    .scrollbar-track-y {
-      transform:translateX(10px);
-    }
-  }
   .head {
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 25px;
   }
-  label {
+  label:not(.slide_label) {
+    text-transform: none;
+    font-weight: bold;
+    display: block;
     cursor:pointer;
     position: relative;
     color:#000;
-    font-weight: 200;
     font-size:18px;
     i.tip {
       position: absolute;
@@ -126,83 +124,6 @@ select {
     }
     i.tip.on {
       opacity: 1;
-    }
-  }
-  .q {
-    margin-bottom: 40px;
-    input[type=radio] + label, input[type=checkbox] + label {
-      display: inline-block;
-      font-size: 16px;
-    }
-    > div {
-      position: relative;
-    }
-    input[type=text], input[type=number] {
-      margin: 0;
-    }
-    input[type=text], input[type=number] {
-      font-size: 22px;
-      padding:12px 0;
-      font-weight: 100;
-    }
-  }
-  .q:first-child {
-    i.tip {
-      bottom: auto;
-      top: 250%;
-    }
-  }
-  .q:last-child {
-    margin-bottom: 0;
-  }
-  .row {
-    display: flex;
-    flex-wrap:wrap;
-    //margin-left:-10px;
-    //margin-right:-10px;
-    > div {
-      margin:0 10px;
-    }
-    > div:nth-child(1) {
-      margin-left: 0;
-    }
-    > div:last-child {
-      margin-right: 0;
-    }
-    .col {
-      flex-grow:1;
-    }
-    .col-6, .col-lg-6 {
-      flex:0 0 calc(50% - 20px);
-      max-width:calc(50% - 20px);
-    }
-    .col-3, .col-lg-3 {
-      flex:0 0 calc(25% - 20px);
-      max-width:calc(25% - 20px);
-    }
-    .col-4, .col-lg-4 {
-      flex:0 0 calc(33.333333% - 20px);
-      max-width:calc(33.333333% - 20px);
-    }
-    .col-6:nth-child(2n + 1), .col-lg-6:nth-child(2n + 1) {
-      margin-left: 0;
-      flex:0 0 calc(50% - 10px);
-      max-width:calc(50% - 10px);
-    }
-    .col-4:nth-child(3n + 1), .col-lg-4:nth-child(3n + 1) {
-      margin-left: 0;
-      flex:0 0 calc(33.333333% - 10px);
-      max-width:calc(33.333333% - 10px);
-    }
-    .col-6:nth-child(2n), .col-lg-6:nth-child(2n) {
-      margin-right: 0;
-      max-width:calc(50% - 10px);
-      flex:0 0 calc(50% - 10px);
-    }
-    .col-4:nth-child(3n), .col-lg-4:nth-child(3n) {
-      margin-right: 0;
-      max-width:calc(33.333333% - 10px);
-      flex:0 0 calc(33.333333% - 10px);
     }
   }
   i.tip {

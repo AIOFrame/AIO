@@ -8,15 +8,16 @@ class PORTAL {
      * @param string $attrs Attributes for <body> tag
      * @param string|array $styles Styles to be linked
      * @param string|array $scripts Scripts to be added
+     * @param string|array $primary_font Array of primary font and weights Ex: [ 'Lato', '300, 400' ]
+     * @param string|array $secondary_font Array of secondary font and weights Ex: [ 'Cairo', '300, 400' ]
      * @return void
      */
-    function pre_html( string $class = '', string $attrs = '', string|array $styles = [], string|array $scripts = [] ): void {
+    function pre_html( string $class = '', string $attrs = '', string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [] ): void {
 
         // Appearance
         global $options;
         $theme = $options['default_theme'] ?? '';
         $theme = $options['theme'] ?? $theme;
-        $class = '';
         global $is_light;
         if( str_contains( $theme, 'dark' ) ) {
             $class .= $theme . ' d';
@@ -27,25 +28,16 @@ class PORTAL {
         //skel( $options );
 
         // Prepare Pre Styles
-        $pre_styles = [];
-        $pre_styles[] = 'bootstrap/css/bootstrap-grid';
-        $pre_styles[] = 'select2';
-        $pre_styles[] = 'air-datepicker';
+        $pre_styles = ['bootstrap/css/bootstrap-grid','select2','air-datepicker'];
 
         // Prepare Post Styles
-        $styles = is_array( $styles ) ? $styles : explode( ',', $styles );
-        $styles[] = 'portal/portal';
-        $styles[] = 'portal/ui/'.$theme;
+        !empty( $styles ) ? ( is_array( $styles ) ? array_merge( $styles, [ 'portal/portal', 'portal/ui/'.$theme ] ) : $styles .= ',portal/portal,portal/ui/'.$theme ) : '';
 
         // Prepare Scripts
-        if( !empty( $scripts ) ) {
-            $scripts = is_array( $scripts ) ? $scripts : explode( ',', $scripts );
-            $scripts[] = 'jquery';
-        }
-
+        !empty( $scripts ) ? ( is_array( $scripts ) ? $scripts[] = 'jquery' : $scripts .= ',jquery' ) : '';
 
         $c = new CONTENT();
-        $c->pre_html($class,$attrs,$pre_styles,'icons,cards,modal,buttons,inputs,icons,tabs,steps,color,table,alerts,accordion',$styles,$scripts);
+        $c->pre_html($class,$attrs,$pre_styles,'icons,cards,modal,buttons,inputs,icons,tabs,steps,color,table,alerts,accordion',$styles,$scripts,$primary_font,$secondary_font,'MaterialIcons');
 
     }
 

@@ -1,15 +1,17 @@
 /* LAYOUT */
 article {
-  margin: 20px 80px 20px 100px;
+  margin: 20px 100px;
   overflow-x: hidden;
+  background: #fff;
+  padding: 20px;
 }
 
 nav {
-  width: 120px;
+  width: 80px;
   height: calc(100vh - 40px);
   justify-content: center;
   position: fixed;
-  right: 0;
+  right: 20px;
   top: 20px;
   display: flex;
   flex-wrap: wrap;
@@ -20,29 +22,21 @@ nav > div {
   width: 100%;
   margin: 20px 0;
   cursor: pointer;
+  line-height: 50px;
+  text-align: center;
 }
-nav .p {
-  background: url("../../icons/prev.svg") no-repeat center/contain;
-}
-nav .n {
-  background: url("../../icons/next.svg") no-repeat center/contain;
-}
-nav .f {
-  background: url("../../icons/okay.svg") no-repeat center/contain;
+nav > div .mat-ico {
+  font-size: 3rem;
 }
 
 /* BASICS */
-button {
-  cursor: pointer;
-  padding: 8px 20px;
-  text-transform: uppercase;
-  margin: 20px 10px;
-}
-
 input[type=text], [type=number] {
   border: 0;
   border-bottom: 1px solid #ddd;
   box-shadow: none;
+  font-size: 22px;
+  padding: 12px 0;
+  font-weight: 100;
 }
 
 input.empty {
@@ -54,13 +48,23 @@ input[type=text]:focus, [type=number]:focus {
   border-bottom: 1px solid #000;
 }
 
-select {
-  font-size: 22px;
-  border: 0;
-  border-bottom: 1px solid #ddd;
-  box-shadow: none;
+.row > div {
+  margin-bottom: 35px;
 }
 
+/* button {
+  cursor:pointer;
+  padding:8px 20px;
+  text-transform: uppercase;
+  margin:20px 10px;
+}
+
+select {
+  font-size: 22px;
+  border:0;
+  border-bottom:1px solid #ddd;
+  box-shadow:none;
+}
 .ico {
   display: inline-block;
   vertical-align: top;
@@ -69,8 +73,7 @@ select {
   background-repeat: no-repeat !important;
   background-position: center !important;
   cursor: pointer;
-}
-
+} */
 /* Setup UI */
 .setup {
   position: relative;
@@ -88,28 +91,20 @@ select {
   opacity: 0;
   pointer-events: none;
 }
-.setup .data {
-  max-height: calc(100vh - 220px);
-  overflow-y: auto;
-}
-.setup .data .scroll-content {
-  padding: 40px 0;
-}
-.setup .data .scrollbar-track-y {
-  transform: translateX(10px);
-}
 .setup .head {
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 25px;
 }
-.setup label {
+.setup label:not(.slide_label) {
+  text-transform: none;
+  font-weight: bold;
+  display: block;
   cursor: pointer;
   position: relative;
   color: #000;
-  font-weight: 200;
   font-size: 18px;
 }
-.setup label i.tip {
+.setup label:not(.slide_label) i.tip {
   position: absolute;
   white-space: normal;
   width: 300px;
@@ -129,81 +124,8 @@ select {
   left: 20px;
   word-break: normal;
 }
-.setup label i.tip.on {
+.setup label:not(.slide_label) i.tip.on {
   opacity: 1;
-}
-.setup .q {
-  margin-bottom: 40px;
-}
-.setup .q input[type=radio] + label, .setup .q input[type=checkbox] + label {
-  display: inline-block;
-  font-size: 16px;
-}
-.setup .q > div {
-  position: relative;
-}
-.setup .q input[type=text], .setup .q input[type=number] {
-  margin: 0;
-}
-.setup .q input[type=text], .setup .q input[type=number] {
-  font-size: 22px;
-  padding: 12px 0;
-  font-weight: 100;
-}
-.setup .q:first-child i.tip {
-  bottom: auto;
-  top: 250%;
-}
-.setup .q:last-child {
-  margin-bottom: 0;
-}
-.setup .row {
-  display: flex;
-  flex-wrap: wrap;
-}
-.setup .row > div {
-  margin: 0 10px;
-}
-.setup .row > div:nth-child(1) {
-  margin-left: 0;
-}
-.setup .row > div:last-child {
-  margin-right: 0;
-}
-.setup .row .col {
-  flex-grow: 1;
-}
-.setup .row .col-6, .setup .row .col-lg-6 {
-  flex: 0 0 calc(50% - 20px);
-  max-width: calc(50% - 20px);
-}
-.setup .row .col-3, .setup .row .col-lg-3 {
-  flex: 0 0 calc(25% - 20px);
-  max-width: calc(25% - 20px);
-}
-.setup .row .col-4, .setup .row .col-lg-4 {
-  flex: 0 0 calc(33.333333% - 20px);
-  max-width: calc(33.333333% - 20px);
-}
-.setup .row .col-6:nth-child(2n+1), .setup .row .col-lg-6:nth-child(2n+1) {
-  margin-left: 0;
-  flex: 0 0 calc(50% - 10px);
-  max-width: calc(50% - 10px);
-}
-.setup .row .col-4:nth-child(3n+1), .setup .row .col-lg-4:nth-child(3n+1) {
-  margin-left: 0;
-  flex: 0 0 calc(33.333333% - 10px);
-  max-width: calc(33.333333% - 10px);
-}
-.setup .row .col-6:nth-child(2n), .setup .row .col-lg-6:nth-child(2n) {
-  margin-right: 0;
-  max-width: calc(50% - 10px);
-  flex: 0 0 calc(50% - 10px);
-}
-.setup .row .col-4:nth-child(3n), .setup .row .col-lg-4:nth-child(3n) {
-  margin-right: 0;
-  max-width: calc(33.333333% - 10px);
-  flex: 0 0 calc(33.333333% - 10px);
 }
 .setup i.tip {
   position: absolute;

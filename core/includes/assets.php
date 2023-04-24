@@ -479,10 +479,10 @@ function html_class( string $class = '' ): void {
 function body_class( string $class = '' ): void {
 
     // Is Debug
-    $dc = APPDEBUG ? 'debug ' : '';
+    $dc = defined('APPDEBUG') && APPDEBUG ? 'debug ' : '';
 
     // Page path
-    $pc = str_replace('/',' ',PAGEPATH);
+    $pc = defined('PAGEPATH') && PAGEPATH ? str_replace('/',' ',PAGEPATH) : '';
 
     // Custom class
     $ec = !empty( $class ) ? ' '.$class : '';
@@ -492,12 +492,14 @@ function body_class( string $class = '' ): void {
     $dm = !empty( $dm ) ? ' d' : '';
 
     // Get Client Info
-    $client = new AGENT();
-    $dev = strtolower(str_replace(' ','_',$client->get_device_type()));
-    $os = strtolower(str_replace(' ','_',$client->get_os()));
-    $brow = strtolower(str_replace(' ','_',$client->get_browser()));
-
-    $dd = 'data-device="'.$dev.'" data-os="'.$os.'" data-browser="'.$brow.'"';
+    $dd = '';
+    if( class_exists('AGENT') ) {
+        $client = new AGENT();
+        $dev = strtolower(str_replace(' ', '_', $client->get_device_type()));
+        $os = strtolower(str_replace(' ', '_', $client->get_os()));
+        $brow = strtolower(str_replace(' ', '_', $client->get_browser()));
+        $dd = 'data-device="'.$dev.'" data-os="'.$os.'" data-browser="'.$brow.'"';
+    }
 
     // Final output
     echo 'class="'.$dc.$pc.$ec.$dm.'" '.$dd;

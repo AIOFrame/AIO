@@ -16,9 +16,10 @@ class CONTENT {
      * @param string|array $scripts Scripts to be added
      * @param string|array $primary_font Array of primary font and weights Ex: [ 'Lato', '300, 400' ]
      * @param string|array $secondary_font Array of secondary font and weights Ex: [ 'Cairo', '300, 400' ]
+     * @param string|array $icon_fonts Icon Fonts Ex: [ 'MaterialIcons', 'BootstrapIcons' ]
      * @return void
      */
-    function pre_html( string $class = '', string $attrs = '', string|array $pre_styles = [], string $art = '', string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [] ): void {
+    function pre_html( string $class = '', string $attrs = '', string|array $pre_styles = [], string $art = '', string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [], string|array $icon_fonts = [] ): void {
 
         // Defines
         global $is_light;
@@ -46,7 +47,8 @@ class CONTENT {
         favicon( $favicon );
 
         // Fonts
-        $fonts = [ [ 'MaterialIcons' ] ];
+        $fonts = [];
+        // Primary Font
         if( !empty( $primary_font ) ) {
             $font1 = is_array( $primary_font ) ? $primary_font[0] : $primary_font;
             $weights1 = $primary_font[1] ?? '400';
@@ -57,7 +59,7 @@ class CONTENT {
             $weight = $options['font_weight'] ?? '400';
         }
         $fonts[] = [ $font1, $weights1 ];
-        //skel( $fonts );
+        // Secondary Font
         if( !empty( $secondary_font ) ) {
             $font2 = is_array( $secondary_font ) && isset( $secondary_font[0] ) ? $secondary_font[0] : $secondary_font;
             $weights2 = is_array( $secondary_font ) && isset( $secondary_font[1] ) ? $secondary_font[1] : 400;
@@ -73,6 +75,8 @@ class CONTENT {
         } else {
             reset_styles( $font1, $weight );
         }
+        // Icon Fonts
+        is_array( $icon_fonts ) ? $fonts = array_merge( $fonts, [ $icon_fonts ] ) : $fonts[] = [ $icon_fonts ];
         //skel( $fonts );
         fonts( $fonts );
 

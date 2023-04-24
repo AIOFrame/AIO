@@ -2,9 +2,8 @@
 $includes = ['arrays','encrypt','form','content','translation/strings','data','setup'];
 foreach( $includes as $inc )
     include_once( ROOTPATH . 'core/includes/' . $inc . '.php' );
-
 $c = new CONTENT();
-$c->pre_html( '', '', 'select2,aio', 'inputs,tabs', 'setup,micro', 'jquery', ['Lato','300,500'] );
+$c->pre_html( '', '', 'bootstrap/css/bootstrap-grid,select2,aio', 'inputs,tabs,icons', 'setup,micro', 'jquery,select2', ['Lato','300,500'], ['Cairo','500'], 'MaterialIcons' );
 $appdir = !empty( get_domain('sub') ) ? get_domain( 'sub' ) : get_domain();
 $p = $_POST;
 $cry = Encrypt::initiate();
@@ -32,54 +31,29 @@ $form = new FORM();
         </div>
         <div class="filters"></div>
     </aside>
-
     <article data-off=".scroll">
         <div class="setup_wrap">
             <div class="setup one on">
                 <div class="content">
                     <div class="head">
-                        <h2>STEP 1 of 5</h2>
-                        <h3>Basic Configuration</h3>
+                        <h2><?php E('STEP 1 of 5'); ?></h2>
+                        <h3><?php E('Basic Configuration'); ?></h3>
                     </div>
                     <div class="data">
-                        <div class="q">
-                            <label for="name"><span>Name your Web App</span></label>
-                            <input type="text" id="name" name="name" data-one placeholder="Ex: Food Delivery, Events, CRM, <?php echo ucfirst( $appdir ); ?> App, <?php echo ucfirst( $appdir ); ?> etc.">
-                        </div>
-                        <div class="q">
-                            <div class="row">
-                                <div class="col-6">
-                                    <label for="fssl"><span>Do you want to force SSL ?</span><i class="tip">Enabling Force SSL will re-direct http to https always.</i></label>
-                                </div>
-                                <div class="col-6"><input type="checkbox" id="fssl" name="fssl" class="slide s" data-one></div>
-                            </div>
-                        </div>
-                        <div class="q">
-                            <div class="row">
-                                <div class="col-6">
-                                    <label for="debug"><span>Do you prefer debug mode ?</span><i class="tip">Enabling Debug mode will display PHP errors on screen, runs console logs for AIO scripts, log activities to AIO Log.</i></label>
-                                </div>
-                                <div class="col-6"><input type="checkbox" id="debug" name="debug" class="slide s" data-one checked></div>
-                            </div>
-                        </div>
-                        <div class="q dn">
-                            <div class="row">
-                                <div class="col-6"><label for="key"><span>Set a key for encryption</span><i class="tip">An encryption key will help in data crypto for security reasons, you don't need to remember this</i></label></div>
-                                <div class="col-6"><input type="text" id="key" name="key" placeholder="********" value="<?php echo $cry->random(10); ?>" data-one></div>
-                            </div>
-                        </div>
-                        <div class="q">
-                            <div class="row">
-                                <div class="col-6">
-                                    <label for="gitignore"><span>Create a default .gitignore for your app?</span><i class="tip">Creates a basic .gitignore for your app including a default list to ignore like min files, storage etc.</i></label>
-                                </div>
-                                <div class="col-6"><input type="checkbox" id="gitignore" name="gitignore" class="slide s" data-one checked></div>
-                            </div>
+                        <div class="row">
+                            <?php
+                            $f = new FORM();
+                            $f->text('name','Name your Web App','Ex: Food Delivery, Events, CRM, '.ucfirst( $appdir ).' App, '.ucfirst( $appdir ).' etc.','','',12);
+                            $f->slide('force_ssl','Do you want to force SSL ?','Off','On',1,'','',4);
+                            $f->slide('debug','Do you prefer debug mode ?','Off','On',1,'','',4);
+                            $f->slide('git_ignore','Create a default .gitignore ?','Off','On',1,'','',4);
+                            $f->text('name','Set a key for basic encryption','Ex: AwesomeApp etc.','','',12);
+                            ?>
                         </div>
                     </div>
                 </div>
                 <nav>
-                    <div class="n"></div>
+                    <div class="n"><div class="mat-ico">arrow_circle_right</div></div>
                 </nav>
             </div>
             <div class="setup two">
