@@ -3,7 +3,7 @@ $margin-bottom: 20px;
 body {
   margin: 0;
   height: 100vh;
-  background:#eee;
+  background-color: #eee;
 }
 
 /* Inputs */
@@ -134,5 +134,14 @@ input.empty {
   }
   .access #set_access {
     padding:10px 0;
+  }
+}
+
+/* Dark Mode */
+body.d {
+  background-color: #111;
+  color: #fff;
+  .access_panel {
+    background-color: rgba(255,255,255,0.1)
   }
 }

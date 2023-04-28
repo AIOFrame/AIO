@@ -10,22 +10,23 @@ class PORTAL {
      * @param string|array $scripts Scripts to be added
      * @param string|array $primary_font Array of primary font and weights Ex: [ 'Lato', '300, 400' ]
      * @param string|array $secondary_font Array of secondary font and weights Ex: [ 'Cairo', '300, 400' ]
+     * @param string|array $icon_fonts Icon Fonts Ex: 'MaterialIcons' or [ 'MaterialIcons', 'BootstrapIcons' ]
      * @return void
      */
-    function pre_html( string $class = '', string $attrs = '', string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [] ): void {
+    function pre_html( string $class = '', string $attrs = '', string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [], string|array $icon_fonts = '' ): void {
 
         // Appearance
         global $options;
         $theme = $options['default_theme'] ?? '';
         $theme = $options['theme'] ?? $theme;
-        global $is_light;
+        global $dark_mode;
         if( str_contains( $theme, 'dark' ) ) {
             $class .= $theme . ' d';
-            $is_light = false;
+            $dark_mode = 1;
         } else {
             $class .= $theme . ' l';
+            $dark_mode = 0;
         }
-        //skel( $options );
 
         // Prepare Pre Styles
         $pre_styles = ['bootstrap/css/bootstrap-grid','select2','air-datepicker'];
@@ -37,7 +38,7 @@ class PORTAL {
         !empty( $scripts ) ? ( is_array( $scripts ) ? $scripts[] = 'jquery' : $scripts .= ',jquery' ) : '';
 
         $c = new CONTENT();
-        $c->pre_html($class,$attrs,$pre_styles,'icons,cards,modal,buttons,inputs,icons,tabs,steps,color,table,alerts,accordion',$styles,$scripts,$primary_font,$secondary_font,'MaterialIcons');
+        $c->pre_html($class,$attrs,$pre_styles,'icons,cards,modal,buttons,inputs,icons,tabs,steps,color,table,alerts,accordion',$styles,$scripts,$primary_font,$secondary_font,$icon_fonts);
 
     }
 
@@ -58,15 +59,18 @@ class PORTAL {
      * @param string|array $pre_styles Pre styles to add
      * @param string|array $styles Internal styles to add
      * @param string|array $scripts Scripts to add
+     * @param string|array $primary_font Array of primary font and weights Ex: [ 'Lato', '300, 400' ]
+     * @param string|array $secondary_font Array of secondary font and weights Ex: [ 'Cairo', '300, 400' ]
+     * @param string|array $icon_fonts Icon Fonts Ex: 'MaterialIcons' or [ 'MaterialIcons', 'BootstrapIcons' ]
      * @return void
      */
-    function login_html( string $login_redirect_url = '', string $attrs = '', string|array $pre_styles = [], string|array $styles = [], string|array $scripts = [] ): void {
+    function login_html( string $login_redirect_url = '', string $attrs = '', string|array $pre_styles = [], string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [], string|array $icon_fonts = '' ): void {
 
         $styles = is_array( $styles ) ? array_merge( $styles, [ 'portal/login', 'login' ] ) : $styles . ',portal/login,login';
         $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'portal/login', 'login' ] ) : $scripts . ',portal/login,login';
 
         $c = new CONTENT();
-        $c->login_html( $login_redirect_url, $attrs, $pre_styles, $styles, $scripts );
+        $c->login_html( $login_redirect_url, $attrs, $pre_styles, $styles, $scripts, $primary_font, $secondary_font, $icon_fonts );
     }
 
     /**

@@ -22,13 +22,12 @@ class CONTENT {
     function pre_html( string $class = '', string $attrs = '', string|array $pre_styles = [], string $art = '', string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [], string|array $icon_fonts = [] ): void {
 
         // Defines
-        global $is_light;
-        $is_light = true;
-        $class = isset( $_GET['add'] ) ? $class.' add' : $class;
-
-        // Load Options
+        global $dark_mode;
         global $options;
-        //skel( $options );
+        $theme = !empty( $options['theme'] ) ? $options['theme'] : ( !empty( $options['default_theme'] ) ? $options['default_theme'] : '' );
+        $dark_mode = !empty( $theme ) ? ( str_contains( $theme, 'dark' ) ? 1 : 0 ) : 0;
+        $class = $dark_mode ? $class . ' d' : $class;
+        $class = isset( $_GET['add'] ) ? $class.' add' : $class;
 
         // <head>
         echo '<!doctype html><html ';
@@ -58,7 +57,7 @@ class CONTENT {
             $weights1 = $options['font_1_weights'] ?? '400';
             $weight = $options['font_weight'] ?? '400';
         }
-        $fonts[] = [ $font1, $weights1 ];
+        $fonts[ $font1 ] = $weights1;
         // Secondary Font
         if( !empty( $secondary_font ) ) {
             $font2 = is_array( $secondary_font ) && isset( $secondary_font[0] ) ? $secondary_font[0] : $secondary_font;
@@ -70,13 +69,19 @@ class CONTENT {
             //$weight2 = $options['font_2_weight'] ?? '';
         }
         if( !empty( $font2 ) ) {
-            $fonts[] = [ $font2, $weights2 ];
+            $fonts[ $font2 ] = $weights2;
             reset_styles( $font1.','.$font2, $weight );
         } else {
             reset_styles( $font1, $weight );
         }
         // Icon Fonts
-        is_array( $icon_fonts ) ? $fonts = array_merge( $fonts, [ $icon_fonts ] ) : $fonts[] = [ $icon_fonts ];
+        if( is_array( $icon_fonts ) ) {
+            foreach( $icon_fonts as $if ) {
+                $fonts[ $if ] = '';
+            }
+        } else if( !empty( $icon_fonts ) ) {
+            $fonts[ $icon_fonts ] = '';
+        }
         //skel( $fonts );
         fonts( $fonts );
 
@@ -127,9 +132,10 @@ class CONTENT {
      * @param string|array $scripts Scripts to add
      * @param array $primary_font Array of primary font and weights Ex: [ 'Lato', '300, 400' ]
      * @param array $secondary_font Array of secondary font and weights Ex: [ 'Cairo', '300, 400' ]
+     * @param string|array $icon_fonts Icon Fonts Ex: 'MaterialIcons' or [ 'MaterialIcons', 'BootstrapIcons' ]
      * @return void
      */
-    function login_html( string $login_redirect_url = '', string $attrs = '', string|array $pre_styles = [], string|array $styles = [], string|array $scripts = [], array $primary_font = [], array $secondary_font = [] ): void {
+    function login_html( string $login_redirect_url = '', string $attrs = '', string|array $pre_styles = [], string|array $styles = [], string|array $scripts = [], array $primary_font = [], array $secondary_font = [], string|array $icon_fonts = '' ): void {
 
         if( user_logged_in() ) {
             $redirect = 'Location:'.APPURL.$login_redirect_url;
@@ -138,16 +144,13 @@ class CONTENT {
         }
 
         // Head
-        $this->pre_html( '', $attrs, $pre_styles, 'icons,inputs,buttons,alerts', $styles, $scripts, $primary_font, $secondary_font );
+        $this->pre_html( '', $attrs, $pre_styles, 'icons,inputs,buttons,alerts', $styles, $scripts, $primary_font, $secondary_font, $icon_fonts );
 
         // Content
         global $options;
-        global $is_light;
-        if( $is_light ) {
-            $logo = isset( $options['logo_light'] ) && !empty( $options['logo_light'] ) ? 'style="background:url(\''.storage_url( $options['logo_light'] ).'\') no-repeat center / contain"' : '';
-        } else {
-            $logo = isset( $options['logo_dark'] ) && !empty( $options['logo_dark'] ) ? 'style="background:url(\''.storage_url( $options['logo_dark'] ).'\') no-repeat center / contain"' : '';
-        }
+        global $dark_mode;
+        $logo_img = $dark_mode ? $options['logo_dark'] : $options['logo_light'];
+        $logo = !empty( $logo_img ) ? 'style="background:url(\''.storage_url( $logo_img ).'\') no-repeat center / contain"' : '';
         echo '<article><div class="access_wrap"><div class="access_panel">';
         echo '<a href="'. APPURL . $login_redirect_url . '" class="brand" '.$logo.'></a>';
         login_html( 'User Login / Email', 'Password', 'Remember for', 'Login', 2, 2, $login_redirect_url );

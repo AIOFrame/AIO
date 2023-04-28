@@ -38,6 +38,7 @@ function reset_styles( string $font = 'Lato', string|int $weight = 'normal', int
 function art( array|string $arts = '', string $color1 = '222', string $color2 = '000' ): void {
     global $options;
     global $universal_assets;
+    global $dark_mode;
 
     $cache = get_config( 'cache' );
     $v = $cache ? '&v=' . round( time() / ( $cache * 60 ) ) : '';
@@ -103,11 +104,18 @@ function art( array|string $arts = '', string $color1 = '222', string $color2 = 
         $default_options = [
             'input_radius' => 4,
             'input_bg_light' => '#efefef',
-            'input_bg_dark' => 'rgba(0,0,0,.2)',
+            'input_bg_dark' => 'rgba(0,0,0,.05)',
+            'input_border_top' => 1,
+            'input_border_right' => 1,
+            'input_border_bottom' => 1,
+            'input_border_left' => 1,
             'input_border_color_light' => 'rgba(0,0,0,0.1)',
+            'input_border_color_active_light' => '#000',
             'input_border_color_dark' => 'rgba(255,255,255,0.1)',
+            'input_border_color_active_dark' => '#aaa',
             'input_color_light' => '#000',
             'input_color_dark' => '#fff',
+            'input_color_active_dark' => '#fff',
             'input_padding_top' => 8,
             'input_padding_right' => 12,
             'input_padding_bottom' => 8,
@@ -117,26 +125,34 @@ function art( array|string $arts = '', string $color1 = '222', string $color2 = 
             'input_margin_bottom' => 20,
             'input_margin_left' => 0,
         ];
-        foreach( $input_options as $io ){
-            $css_var = '';
-            if( isset( $options[$io] ) && !empty( $options[$io] ) ) {
-                $css_var = strlen( $options[$io] ) > 2 ? $options[$io].';' : $options[$io].'px;';
-            } else if( isset( $default_options[$io] ) ) {
-                $css_var = strlen( $default_options[$io] ) > 2 ? $default_options[$io].';' : $default_options[$io].'px;';
+        $rendered = [];
+        // Loop through input options from DB
+        foreach( $input_options as $ik ){
+            $iv = !empty( $options[ $ik ] ) ? $options[ $ik ] : $default_options[ $ik ];
+            $iv = strlen( $iv ) > 2 ? $iv.';' : $iv.'px;';
+            if( !empty( $iv ) ) {
+                echo '--'.$ik.':'.$iv;
+                $rendered[] = $ik;
             }
-            echo !empty( $css_var ) ? '--'.$io.':'.$css_var : '';
         }
-        //skel( $themed_options );
-        //skel( $options );
-        foreach( $themed_options as $to ) {
-            $ato = $dark_mode ? $to.'_dark' : $to.'_light';
-            $css_var = '';
-            if( isset( $options[$ato] ) && !empty( $options[$ato] ) ) {
-                $css_var = strlen( $options[$ato] ) > 2 ? $options[$ato].';' : $options[$ato].'px;';
-            } else if( isset( $default_options[$ato] ) && !empty( $default_options[$ato] ) ) {
-                $css_var = strlen( $default_options[$ato] ) > 2 ? $default_options[$ato].';' : $default_options[$ato].'px;';
+        // Loop through themed options
+        if( !empty( $themed_options ) ) {
+            foreach( $themed_options as $to ) {
+                $tk = $dark_mode ? $to.'_dark' : $to.'_light';
+                $tv = !empty( $options[ $tk ] ) ? $options[ $tk ] : $default_options[ $tk ];
+                $tv = strlen( $tv ) > 2 ? $tv.';' : $tv.'px;';
+                if( !empty( $tv ) ) {
+                    echo '--'.$to.':'.$tv;
+                    $rendered[] = $to;
+                }
             }
-            echo !empty( $css_var ) ? '--'.$to.':'.$css_var : '';
+        }
+        //skel( $rendered );
+        // Loop through left out default options
+        foreach( $default_options as $do => $dv ) {
+            if( !in_array( $do, $rendered ) ) {
+                echo '--'.$do.':'.( strlen( $dv ) > 2 ? $dv.';' : $dv.'px;' );
+            }
         }
     }
     echo '}.c1{color:'.$color1.'}.c2{color:'.$color2.'}.bg1{background:'.$color1.'}.bg2{background:'.$color2.'}.bs{border:1px solid '.$color1.'}.bf:focus{border:1px solid var(--primary_color)}.grad{color:var(--color);background-color:var(--primary_color);background:-moz-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background:-webkit-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background-image:linear-gradient(45deg,var(--primary_color) 0%,var(--secondary_color) 100%);}.grad-text{background: -webkit-linear-gradient(var(--primary_color), var(--secondary_color));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}</style>';
@@ -324,7 +340,7 @@ function asset_exists( array $paths = [], string $f = '', string $ext = '' ): st
 
 /**
  * Stylesheet <link> to load multiple Fonts
- * @param array $array Fonts array Ex: [['Lato','300,500'],['Dubai','Light']]
+ * @param array $array Fonts array Ex: [ 'Lato' => '300,500', 'Dubai' => 'Light' ]
  * @author Shaikh <hey@shaikh.dev>
  */
 function fonts( array $array = [] ): void {
@@ -332,9 +348,9 @@ function fonts( array $array = [] ): void {
     !defined( 'APPDIR' ) ? define( 'APPDIR', $appdir ) : '';
 
     $fonts = [];
-    foreach( $array as $f ){
-        $weights = isset( $f[1] ) && !empty( $f[1] ) ? $f[1] : '400';
-        $fonts[] = $f[0].':'.$weights;
+    foreach( $array as $font => $weights ){
+        $weights = $weights ?? '400';
+        $fonts[] = $font.':'.$weights;
     }
     echo !empty( $fonts ) ? '<link rel="stylesheet" href="' . APPURL . 'assets/fonts.php?'.APPDIR.'='. implode( '|', $fonts ) .'">' : '';
 }
