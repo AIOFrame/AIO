@@ -435,6 +435,50 @@ class OPTIONS {
     }
 
     /**
+     * Renders ACCESS page options
+     * @param string $default_background Default repeating background
+     * @param bool $show_register Show register link
+     * @param int $reload_seconds Seconds to reload page after login / register
+     * @param int $hours Default hours to remember access
+     * @param bool $show_remember Show remember options
+     * @param string $login_button_text Login button text
+     * @param string $username_text Username label text
+     * @param string $password_text Password label text
+     * @param string $forgot_password_text Forgot password text
+     * @param string $reset_pass_text Reset password button text
+     * @param string $return_to_login_text Return to Log in link text
+     * @return void
+     */
+    function access_options( string $default_background = '', bool $show_register = false, int $reload_seconds = 2, int $hours = 24, bool $show_remember = false, string $login_button_text = 'LOGIN', string $username_text = 'User Login / Email', string $password_text = 'Password', string $forgot_password_text = 'Forgot Password ?', string $reset_pass_text = 'RESET PASSWORD', string $return_to_login_text = 'Return to Login' ): void {
+        // TODO: Move access options to access php
+        $f = new FORM();
+        $db = new DB();
+        $ao_keys = [ 'default_background', 'hours', 'show_remember', 'login_button_text', 'username_text', 'password_text', 'forgot_password_text', 'reset_pass_text', 'return_to_login_text' ];
+        //$options = $db->select('options','option_name,option_value','option_scope = \'0\' && option_load = \'1\'');
+        $param_array = $this->options_query( $ao_keys );
+        $ops = $db->select( 'options', '', $param_array );
+
+        echo '<div class="row"';
+        $f->process_params('','ei','',2,2,[]);
+        echo '>';
+        if( !empty( $options ) )
+        $f->textarea('import','Import Options','','','data-ei rows="5"',6);
+        echo '<div class="col-6"></div>';
+        $f->process_html('Import Options','store grad','','import_options_ajax','col-6 tac');
+        echo '</div>';
+    }
+
+    /**
+     * Returns Query statement to fetch multiple options
+     * @param array $options_array
+     * @param string $relation
+     * @return string
+     */
+    function options_query( array $options_array = [], string $relation = 'OR' ): string {
+        return 'option_name = \'' . implode( '\' ' . $relation . ' option_name = \'', $options_array ) . '\'';
+    }
+
+    /**
      * @param int $display_type 1 = Tabbed, 2 = Accordion, 3 = Normal
      * @param string $enterprise
      * @param string $brand
