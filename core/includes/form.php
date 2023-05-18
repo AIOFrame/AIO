@@ -224,12 +224,12 @@ class FORM {
      * @param string $label
      * @param string $placeholder
      * @param string|null $value
-     * @param string $attrs
+     * @param string $attrs Hidden Field Attributes
      * @param string $position
      * @param string $pre
      * @param bool $range
      * @param bool $multiple
-     * @param string $view
+     * @param string $view Visible Field Attributes
      * @param string $min Minimum Date yyyy-mm-dd
      * @param string $max Maximum Date yyyy-mm-dd
      * @param string $post
@@ -251,11 +251,19 @@ class FORM {
         $visible_attr .= str_contains( $attrs, 'disabled' ) ? ' disabled' : '';
 
         // Hidden Input - Renders date format as per backend
-        $value_ymd = !empty( $value ) ? easy_date( $value, 'Y-m-d' ) : '';
+        $value_ymd = !empty( $value ) ? ( $value !== 'fake_date' ? easy_date( $value, 'Y-m-d' ) : $value ) : '';
         $this->text( [ $id.'_'.$rand, $id ], '', '', $value_ymd, $attrs.' hidden data-hidden-date' );
         // Visible Input - Render date for easier user grasp
-        $value_dmy = !empty( $value ) ? easy_date( $value, 'd-m-Y' ) : '';
+        $value_dmy = !empty( $value ) ? ( $value !== 'fake_date' ? easy_date( $value, 'd-m-Y' ) : $value ) : '';
         $this->text( $alt_id, $label, $placeholder, $value_dmy, $visible_attr.$range_attr.$multiple_attr.$view_attr.' data-visible-date no_post', $pre, $post );
+    }
+
+    function phone( string $code_id, string $phone_id, string $code_label = 'Code', string $phone_label = 'Phone',  string $code_placeholder = '', string $phone_placeholder = '', string $code_default = '', string $phone_default = '', string $attr = '', string $pre = '' ): void {
+        $codes = get_calling_codes();
+        echo $pre == 0 ? '<div class="col"><div class="row">' : '<div class="col-12 col-md-' . $pre . '"><div class="row">';
+        $this->select2( $code_id, $code_label, $code_placeholder, $codes, $code_default, $attr, 5, 1 );
+        $this->text( $phone_id, $phone_label, $phone_placeholder, $phone_default, $attr, 7 );
+        echo '</div></div>';
     }
 
     /**

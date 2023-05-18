@@ -950,6 +950,7 @@ function user_role_is( $role = '' ): bool {
  * @param string $data data attribute to get values
  * @param string $array if the data has to be grouped as array
  * @param int $name
+ * @param int $last_name
  * @param int $email
  * @param int $pass
  * @param int $gender
@@ -957,8 +958,8 @@ function user_role_is( $role = '' ): bool {
  * @param int $phone
  * @return void
  */
-function user_registration_fields( string $pre = 'user_', string $data = '', string $array = '', int $name = 4, int $email = 4, int $pass = 4, int $gender = 0, int $dob = 0, int $phone = 0 ): void {
-    $codes = get_calling_codes();
+function user_registration_fields( string $pre = 'user_', string $data = '', string $array = '', int $name = 2, int $last_name = 2, int $email = 4, int $pass = 4, int $gender = 0, int $dob = 0, int $phone = 0 ): void {
+
     $f = new FORM();
     global $genders;
     $genders = $genders ?? [ 'Male', 'Female', 'Others', 'No Specify' ];
@@ -967,17 +968,13 @@ function user_registration_fields( string $pre = 'user_', string $data = '', str
     $data = $data ?? 'data';
     $attr = $array !== '' ? 'data-'.$data.' data-empty data-array="'.$array.'"' : 'data-'.$data.' data-empty';
     //$f->text([$pre.'login', 'login'], '', 'Ex: john_doe', '', $attr.' hidden required', 12 );
-    !empty( $name ) ? $f->text('name', 'First Name & Last Name', 'Ex: John Doe', 'fake_name', $attr.' required', $name ) : '';
+    !empty( $name ) ? $f->text('name', ( $last_name == 0 ? 'Full Name' : 'First Name' ), 'Ex: John', 'fake_name', $attr.' required', $name ) : '';
+    !empty( $last_name ) ? $f->text('last_name', 'Last Name', 'Ex: Doe', 'fake_name', $attr.' required', $name ) : '';
     !empty( $email ) ? $f->input('email','login', 'Login Email Address', 'Ex: john_doe@gmail.com', 'fake_email', $attr.'  data-help required', $email ) : '';
     !empty( $pass ) ? $f->input('password', 'pass', 'Login Password', '***********', 'fake_password', $attr.' data-help autocomplete="new-password"', $pass ) : '';
     !empty( $gender ) ? $f->select2('gender', 'Gender', 'Choose Gender...', $genders, 'Male', $attr, $gender ) : '';
-    !empty( $dob ) ? $f->date('dob', 'Date of Birth', 'Ex: 15-05-1990', 'fake_date', $attr, 'top center', $dob ) : '';
-    if( !empty( $phone ) ) {
-        echo $phone == 0 ? '<div class="col"><div class="row">' : '<div class="col-12 col-md-' . $phone . '"><div class="row">';
-        $f->select2('phone_code', 'Code', 'Ex: +61', $codes, $phone_code, $attr.' required', 5, 1 );
-        $f->text('phone', 'Phone Number', 'Ex: 501122333', '', $attr.' required', 7 );
-        echo '</div></div>';
-    }
+    !empty( $dob ) ? $f->date('dob', 'Date of Birth', 'Ex: 15-05-1990', 'fake_date', $attr, 'top center', $dob, 0, 0, '', '', date('Y-m-d', strtotime('-18 year', time())) ) : '';
+    !empty( $phone ) ? $f->phone( 'phone_code', 'phone', 'Code', 'Phone', 'Ex: +1', 'Ex: 50012345', $phone_code, '', $attr. ' required', $phone ) : '';
 }
 
 /**
