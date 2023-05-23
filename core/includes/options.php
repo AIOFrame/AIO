@@ -424,9 +424,8 @@ class OPTIONS {
                 $data[ $o['option_name'] ] = $o['option_value'];
             }
         }
-        echo '<div class="row"';
-        $f->process_params('','ei','',2,2,[]);
-        echo '>';
+        $f->option_params_wrap( 'ei', 2, 2 );
+        //$f->process_params('','ei','',2,2,[],'Successfully imported options!','','','','','','row');
         $f->textarea('export','Export Options','',$e->encrypt_array($data),'rows="5"',6);
         $f->textarea('import','Import Options','','','data-ei rows="5"',6);
         echo '<div class="col-6"></div>';
@@ -450,48 +449,8 @@ class OPTIONS {
      * @return void
      */
     function access_options( string $default_background = '', bool $show_register = false, int $reload_seconds = 2, int $hours = 24, bool $show_remember = false, string $login_button_text = 'LOGIN', string $username_text = 'User Login / Email', string $password_text = 'Password', string $forgot_password_text = 'Forgot Password ?', string $reset_pass_text = 'RESET PASSWORD', string $return_to_login_text = 'Return to Login' ): void {
-        // TODO: Move access options to access php
-        $f = new FORM();
-        $db = new DB();
-        $ao_keys = [
-            [ 'default_background', 'upload', 'Default Background' ],
-            [ 'show_register', 'slide', 'Show Register Option' ],
-            [ 'hours', 'select', 'Store Login (Hours)' ],
-            [ 'show_remember', 'slide', 'Show Remember Hours' ],
-            [ 'login_button_text', 'text', 'Login Button Text' ],
-            [ 'username_text', 'text', 'Username Text' ],
-            [ 'password_text', 'text', 'Password Text' ],
-            [ 'forgot_password_text', 'text', 'Forgot Password Text' ],
-            [ 'reset_pass_text', 'text', 'Reset Password Text' ],
-            [ 'return_to_login_text', 'text', 'Return to Login Text' ],
-        ];
-        $param_array = '';
-        foreach( $ao_keys as $aok ) {
-            $param_array .= 'option_name = \'access_' . $aok[0] . '\' OR ';
-        }
-        $param_array = rtrim( $param_array, ' OR ' );
-        //$options = $db->select('options','option_name,option_value','option_scope = \'0\' && option_load = \'1\'');
-        //$param_array = $this->options_query( $ao_keys );
-        $ops = $db->select( 'options', '', $param_array );
-
-        echo '<div class="row"';
-        $f->process_params('','ei','',2,2,[]);
-        echo '>';
-        foreach( $ao_keys as $aok ) {
-            $v = $ops[ $aok[0] ] ?? '';
-            if( $aok[1] == 'text' ) {
-                $f->text( $aok[0], $aok[2], $aok[2], $v, 'data-ao', 6 );
-            } else if( $aok[1] == 'upload' ) {
-                $f->upload( $aok[0], $aok[1], 'Upload', $v, 0, 0, 'upload', 'data-ao', 'jpg,png,svg,bmp', '0.2', 1, '', 6 );
-            } else if( $aok[1] == 'slide' ) {
-                $f->slide( $aok[0], $aok[2], 'No', 'Yes', ( $ops[ $aok[0] ] ?? 0 ), 'm', 'data-ao', 6 );
-            }
-        }
-        if( !empty( $options ) )
-        $f->textarea('import','Import Options','','','data-ei rows="5"',6);
-        echo '<div class="col-6"></div>';
-        $f->process_html('Save Access Options','store grad','','import_options_ajax','.col-6 tac');
-        echo '</div>';
+        $a = new ACCESS();
+        $a->access_options();
     }
 
     /**
