@@ -569,7 +569,7 @@ class FORM {
         $cry = Encrypt::initiate();
         $pat = $path !== '' ? ' data-path="'.$cry->encrypt( $path ).'"' : '';
         $type = $multiple > 0 ? 'files' : 'file';
-        $mul = $multiple > 0 ? 'data-files="'.$multiple.'"' : 'data-file';
+        $mul = $multiple > 0 ? ' data-files="'.$multiple.'" ' : ' data-file ';
         $req = str_contains( $attrs, 'required' ) ? '<i>*</i>' : '';
         $label = !empty( $label ) ? '<label for="'.$id.'">'.T($label).$req.'</label>' : '';
         echo $pre.$label.'<button type="button" class="aio_upload '.$button_class.'" data-url="#'.$id.'" onclick="file_upload(this)" '.$sh.$ext.$sz.$mul.$del.$pat.'>'.T($button_label).'</button><input id="'.$id.'" name="'.$name.'" data-key="'.$name.'" type="text" data-'.$type.' value="'.$value.'" '.$attrs.'>'.$post;
@@ -700,8 +700,9 @@ class FORM {
      * @param string $validation Frontend JS script to add custom validation to the form data
      * @param string $reset_fields Reset input fields with data attribute (Tip: Use 1 to reset provided data fields)
      */
-    function process_params( string $target = '', string $data = '', string $pre = '', int $notify = 0, int $reload = 0, array $hidden = [], string $success_text = '', string $callback = '', string $confirm = '', string $redirect = '', string $validation = '', string $reset_fields = '' ): void {
+    function process_params( string $target = '', string $data = '', string $pre = '', int $notify = 0, int $reload = 0, array $hidden = [], string $success_text = '', string $callback = '', string $confirm = '', string $redirect = '', string $validation = '', string $reset_fields = '', string $class = '' ): void {
         $c = Encrypt::initiate();
+        echo !empty( $class ) ? '<div class="'.$class.'" ' : '';
         $t = !empty( $target ) ? ' data-t="'.$c->encrypt( $target ).'"' : 'data-t';
         $nt = $notify > 0 ? ' data-notify="'.$notify.'"' : '';
         $rl = $reload > 0 ? ' data-reload="'.$reload.'"' : '';
@@ -715,6 +716,7 @@ class FORM {
         $r = !empty( $reset_fields ) ? ( $reset_fields == 1 ? ' data-reset="'.$data.'"' : ' data-reset="'.$reset_fields.'"' ) : '';
         $cn = !empty( $confirm ) ? ' data-confirm="'.T($confirm).'"' : '';
         echo $t.$nt.$rl.$d.$p.$h.$st.$cb.$v.$rd.$cn.$r;
+        echo !empty( $class ) ? '>' : '';
     }
 
     /**

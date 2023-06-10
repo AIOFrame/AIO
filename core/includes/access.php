@@ -511,6 +511,61 @@ class ACCESS {
     function valid_email( string $email = '' ): string {
         return '';
     }
+
+    /**
+     * Renders ACCESS page options
+     * @param string $default_background Default repeating background
+     * @param bool $show_register Show register link
+     * @param int $reload_seconds Seconds to reload page after login / register
+     * @param int $hours Default hours to remember access
+     * @param bool $show_remember Show remember options
+     * @param string $login_button_text Login button text
+     * @param string $username_text Username label text
+     * @param string $password_text Password label text
+     * @param string $forgot_password_text Forgot password text
+     * @param string $reset_pass_text Reset password button text
+     * @param string $return_to_login_text Return to Log in link text
+     * @return void
+     */
+    function access_options( string $default_background = '', bool $show_register = false, int $reload_seconds = 2, int $hours = 24, bool $show_remember = false, string $login_button_text = 'LOGIN', string $username_text = 'User Login / Email', string $password_text = 'Password', string $forgot_password_text = 'Forgot Password ?', string $reset_pass_text = 'RESET PASSWORD', string $return_to_login_text = 'Return to Login' ): void {
+        $f = new FORM();
+        $db = new DB();
+        $ao_keys = [
+            [ 'id' => 'default_background', 'type' => 'upload', 'title' => 'Default Background' ],
+            [ 'id' => 'show_register', 'type' => 'slide', 'title' => 'Show Register Option', 'col' => 3 ],
+            [ 'id' => 'hours', 'type' => 'select', 'title' => 'Store Login (Hours)' ],
+            [ 'id' => 'show_remember', 'type' => 'slide', 'title' => 'Show Remember Hours', 'col' => 3 ],
+            [ 'id' => 'login_button_text', 'type' => 'text', 'title' => 'Login Button Text' ],
+            [ 'id' => 'username_text', 'type' => 'text', 'title' => 'Username Text' ],
+            [ 'id' => 'password_text', 'type' => 'text', 'title' => 'Password Text' ],
+            [ 'id' => 'forgot_password_text', 'type' => 'text', 'title' => 'Forgot Password Text' ],
+            [ 'id' => 'reset_pass_text', 'type' => 'text', 'title' => 'Reset Password Text' ],
+            [ 'id' => 'return_to_login_text', 'type' => 'text', 'title' => 'Return to Login Text' ],
+        ];
+        $param_array = '';
+        foreach( $ao_keys as $aok ) {
+            $param_array .= 'option_name = \'access_' . $aok['id'] . '\' OR ';
+        }
+        $param_array = rtrim( $param_array, ' OR ' );
+        //$options = $db->select('options','option_name,option_value','option_scope = \'0\' && option_load = \'1\'');
+        //$param_array = $this->options_query( $ao_keys );
+        $ops = $db->select( 'options', '', $param_array );
+
+        $f->option_params_wrap('ao',2,2);
+        //$f->process_params('','ei','',2,2,[],'Successfully saved user access options!','','Are you sure to save user access options','','','','row');
+        foreach( $ao_keys as $aok ) {
+            $v = $ops[ $aok['id'] ] ?? '';
+            if( $aok['type'] == 'text' ) {
+                $f->text( $aok['id'], $aok['title'], $aok['title'], $v, 'data-ao', 6 );
+            } else if( $aok['type'] == 'upload' ) {
+                $f->upload( $aok['id'], $aok['title'], 'Upload', $v, 0, 0, 'upload', 'data-ao', 'jpg,png,svg,bmp', '0.2', 1, '', 6 );
+            } else if( $aok['type'] == 'slide' ) {
+                $f->slide( $aok['id'], $aok['title'], 'No', 'Yes', ( $ops[ $aok['id'] ] ?? 0 ), 'm', 'data-ao', 3 );
+            }
+        }
+        $f->process_options('Save Access Options','store grad','','.col-12 tac');
+        echo '</div>';
+    }
 }
 
 function access_login_ajax(): void {
