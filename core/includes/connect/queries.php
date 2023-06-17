@@ -797,10 +797,10 @@ function prepare_keys( array|string $array = '', string $pre = '', bool $remove_
         foreach( $array as $k => $v ){
             if( $remove_empty ){
                 if($v !== '' ){
-                    $keys[] = $pre.$k;
+                    $keys[] = !str_contains( $k, $pre ) ? $pre.$k : $k;
                 }
             } else {
-                $keys[] = $pre.$k;
+                $keys[] = !str_contains( $k, $pre   ) ? $pre.$k : $k;
             }
         }
     }
