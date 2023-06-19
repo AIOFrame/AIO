@@ -77,15 +77,12 @@ select {
 /* Setup UI */
 .setup {
   position: relative;
-}
-.setup .content {
-  width: 100%;
   opacity: 0;
-  pointer-events: none;
-  transform: translate(0, 0);
+  height: 0;
   transition: 0.6s;
-  position: absolute;
-  max-height: calc(100vh - 40px);
+  pointer-events: none;
+  transform: translateY(50px);
+  overflow-y: hidden;
 }
 .setup nav {
   opacity: 0;
@@ -153,10 +150,11 @@ select {
   margin-top: 60px;
 }
 
-.setup.on .content {
+.setup.on {
   opacity: 1;
-  pointer-events: all;
-  transform: translate(0, 0);
+  height: auto;
+  transform: none;
+  overflow-y: visible;
 }
 .setup.on nav {
   opacity: 1;
@@ -277,4 +275,4 @@ body.d nav .n {
   background: url("../../icons/w/next.svg") no-repeat center/contain;
 }
 
-/*# sourceMappingURL=setup.css.map */
+/*# sourceMappingURL=builder.css.map */

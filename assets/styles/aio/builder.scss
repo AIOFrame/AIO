@@ -77,15 +77,12 @@ select {
 
 .setup {
   position: relative;
-  .content {
-    width: 100%;
-    opacity: 0;
-    pointer-events: none;
-    transform:translate(0,0);
-    transition:.6s;
-    position: absolute;
-    max-height:calc(100vh - 40px);
-  }
+  opacity: 0;
+  height: 0;
+  transition:.6s;
+  pointer-events: none;
+  transform:translateY(50px);
+  overflow-y: hidden;
   nav {
     opacity: 0;
     pointer-events: none;
@@ -154,11 +151,10 @@ select {
   }
 }
 .setup.on {
-  .content {
-    opacity: 1;
-    pointer-events: all;
-    transform:translate(0,0);
-  }
+  opacity: 1;
+  height: auto;
+  transform: none;
+  overflow-y: visible;
   nav {
     opacity: 1;
     pointer-events: all;

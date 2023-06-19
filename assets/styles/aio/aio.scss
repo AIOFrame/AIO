@@ -132,11 +132,21 @@ aside {
   position: fixed;
   width:400px;
   top: 20px;
-  left: 140px;
+  left: 100px;
   //border:1px solid red;
   height:calc(100vh - 40px);
   z-index:89;
   pointer-events: none;
+  [type=search] {
+    margin: 10px;
+    border-radius: 25px;
+    height:45px;
+    padding: 10px 40px;
+    font-size: 1.2rem;
+    text-align: center;
+    width: calc(100% - 20px);
+    background:#f1f1f1 url('../../icons/search.svg') no-repeat 15px center / 25px;
+  }
   .scroll {
     position: absolute;
     left: 0;

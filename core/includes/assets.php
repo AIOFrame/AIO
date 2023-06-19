@@ -52,15 +52,18 @@ function art( array|string $arts = '', string $color1 = '222', string $color2 = 
         $dark_mode = str_contains( $theme, 'dark' );
         if( $dark_mode ) {
             $color = $options['color_dark'] ?? '#fff';
+            $filled_color = $options['filled_color_dark'] ?? '#fff';
             $color1 = $options['primary_color_dark'] ?? $color1;
             $color2 = $options['secondary_color_dark'] ?? $color2;
         } else {
             $color = $options['color_light'] ?? '#000';
+            $filled_color = $options['filled_color_dark'] ?? '#fff';
             $color1 = $options['primary_color'] ?? '#111';
             $color2 = $options['secondary_color'] ?? '#222';
         }
     } else {
-        $color = '#fff';
+        $color = '#000';
+        $filled_color = '#fff';
     }
     //$color1 = str_contains( $color1, '#' ) ? str_replace( '#', '', $color1 ) : $color1;
     //$color1 = strlen( $color1 ) == 6 ? '#' . $color1 : $color1;
@@ -84,7 +87,7 @@ function art( array|string $arts = '', string $color1 = '222', string $color2 = 
     echo '<style>:root {';
     //skel( $options );
     echo $dark_mode ? '--dark_mode:1;' : '--dark_mode:0;';
-    echo '--primary_color:'.$color1.';--secondary_color:'.$color2.';--color:'.$color.';';
+    echo '--primary_color:'.$color1.';--secondary_color:'.$color2.';--color:'.$color.';--filled_color:'.$filled_color.';';
     // Loop colors
 
     if( defined('DB_TYPE') ) {
@@ -485,7 +488,7 @@ function html_class( string $class = '' ): void {
     $ec = !empty( $class ) ? 'class="'.$class.' '.$dc.'"' : '';
 
     // Final Output
-    echo 'lang="'.$lang.'"' . $dir . ' ' . $ec;
+    echo 'lang="'.$lang.'" ' . $dir . ' ' . $ec;
 }
 
 /**

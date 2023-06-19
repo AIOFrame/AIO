@@ -12,11 +12,13 @@ class OPTIONS {
         'primary_color',
         'secondary_color',
         'color_light',
+        'filled_color_light',
         'logo_light',
         'logo_dark',
         'primary_color_dark',
         'secondary_color_dark',
         'color_dark',
+        'filled_color_dark',
         'fav'
     ];
     public array $colors = [ 'progress_color', 'warning_color', 'error_color', 'success_color' ];
@@ -83,9 +85,11 @@ class OPTIONS {
         $c1 = !empty( $ops['primary_color'] ) ? $ops['primary_color'] : 'fake_hex';
         $c2 = !empty( $ops['secondary_color'] ) ? $ops['secondary_color'] : 'fake_hex';
         $c3 = !empty( $ops['color_light'] ) ? $ops['color_light'] : 'fake_hex';
+        $c4 = !empty( $ops['filled_color_light'] ) ? $ops['filled_color_light'] : 'fake_hex';
         $dc1 = !empty( $ops['primary_color_dark'] ) ? $ops['primary_color_dark'] : 'fake_hex';
         $dc2 = !empty( $ops['secondary_color_dark'] ) ? $ops['secondary_color_dark'] : 'fake_hex';
         $dc3 = !empty( $ops['color_dark'] ) ? $ops['color_dark'] : 'fake_hex';
+        $dc4 = !empty( $ops['filled_color_dark'] ) ? $ops['filled_color_dark'] : 'fake_hex';
         $light = !empty( $ops['logo_light'] ) ? $ops['logo_light'] : '';
         $dark = !empty( $ops['logo_dark'] ) ? $ops['logo_dark'] : '';
         $fav = !empty( $ops['fav'] ) ? $ops['fav'] : '';
@@ -102,15 +106,17 @@ class OPTIONS {
         $f->textarea('app_desc','Web App / Site Description','Ex: We provide...',$desc,$attr,12);
         $f->select2( 'default_theme', 'Default Admin Theme', 'Select Theme...', $uis, $theme, $attr, 12, 1 );
         //$f->select( 'input_theme', 'Input Style', 'Select Theme...', [], '', 'data-data class="select2"', 6, 1 );
-        $f->upload('logo_light','Logo - Light Theme','Upload',$light,0,0,'upload',$attr,$ext,.2,1,'',3);
-        $f->color('primary_color','Primary Color - Light','Ex: F1F1F1',$c1,$attr,3,'','[data-key=primary_color]');
-        $f->color('secondary_color','Secondary Color - Light','Ex: A2A2A2',$c2,$attr,3,'','[data-key=secondary_color]');
-        $f->color('color_light','Content Color on Gradient - Light','Ex: A2A2A2',$c3,$attr,3,'','[data-key=color_light]');
+        $f->upload('logo_light','Logo - Light Theme','Upload',$light,0,0,'upload',$attr,$ext,.2,1,'',4);
+        $f->color('primary_color','Primary Color - Light','Ex: F1F1F1',$c1,$attr,2,'','[data-key=primary_color]');
+        $f->color('secondary_color','Secondary Color - Light','Ex: A2A2A2',$c2,$attr,2,'','[data-key=secondary_color]');
+        $f->color('color_light','Content Color','Ex: A2A2A2',$c3,$attr,2,'','[data-key=color_light]');
+        $f->color('filled_color_light','Filled Content Color','Ex: A2A2A2',$c4,$attr,2,'','[data-key=filled_color_light]');
         if( $dark_mode_options ) {
-            $f->upload('logo_dark','Logo - Dark Theme','Upload',$dark,0,0,'upload',$attr,$ext,.2,1,'',3);
-            $f->color('primary_color_dark','Primary Color - Dark','Ex: F1F1F1',$dc1,$attr,3,'','[data-key=primary_color_dark]');
-            $f->color('secondary_color_dark','Secondary Color - Dark','Ex: A2A2A2',$dc2,$attr,3,'','[data-key=secondary_color_dark]');
-            $f->color('color_dark','Content Color on Gradient - Dark','Ex: A2A2A2',$dc3,$attr,3,'','[data-key=color_dark]');
+            $f->upload('logo_dark','Logo - Dark Theme','Upload',$dark,0,0,'upload',$attr,$ext,.2,1,'',4);
+            $f->color('primary_color_dark','Primary Color - Dark','Ex: F1F1F1',$dc1,$attr,2,'','[data-key=primary_color_dark]');
+            $f->color('secondary_color_dark','Secondary Color - Dark','Ex: A2A2A2',$dc2,$attr,2,'','[data-key=secondary_color_dark]');
+            $f->color('color_dark','Content Color','Ex: A2A2A2',$dc3,$attr,2,'','[data-key=color_dark]');
+            $f->color('filled_color_dark','Content Color on Gradient','Ex: A2A2A2',$dc4,$attr,2,'','[data-key=filled_color_dark]');
         }
         $f->process_options('Save Brand Options','store grad','','.col-12 tac');
         echo '</div>';

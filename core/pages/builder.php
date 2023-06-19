@@ -3,7 +3,7 @@ $includes = ['arrays','encrypt','form','content','translation/strings','data','s
 foreach( $includes as $inc )
     include_once( ROOTPATH . 'core/includes/' . $inc . '.php' );
 $c = new CONTENT();
-$c->pre_html( '', '', 'bootstrap/css/bootstrap-grid,select2,aio', 'inputs,tabs,icons', 'setup,micro', 'jquery,select2', ['Lato','300,500'], ['Cairo','500'], 'MaterialIcons' );
+$c->pre_html( '', '', 'bootstrap/css/bootstrap-grid,select2,aio', 'inputs,tabs,icons', 'builder,micro', 'jquery,select2', ['Lato','300,500'], ['Cairo','500'], 'MaterialIcons' );
 $appdir = !empty( get_domain('sub') ) ? get_domain( 'sub' ) : get_domain();
 $p = $_POST;
 $cry = Encrypt::initiate();
@@ -13,8 +13,8 @@ $form = new FORM();
         <div class="logo"></div>
         <div class="options_toggle"></div>
         <div class="options">
-            <div class="ico" data-t=".languages"><div class="mat-ico">language</div><i class="tip">Change Language</i></div>
-            <div class="ico dark" data-t><div class="mat-ico">dark_mode</div><i class="tip">Toggle Dark Mode</i></div>
+            <div class="ico" data-on=".languages"><div class="mat-ico">language</div><i class="tip">Change Language</i></div>
+            <div class="ico dark" data-dark><div class="mat-ico">dark_mode</div><i class="tip">Toggle Dark Mode</i></div>
         </div>
     </header>
     <aside>
@@ -32,7 +32,7 @@ $form = new FORM();
         <div class="filters"></div>
     </aside>
     <article data-off=".scroll">
-        <div class="setup_wrap">
+        <div class="setup_wrap" data-tabs>
             <div class="setup one on">
                 <div class="content">
                     <div class="head">
@@ -53,7 +53,7 @@ $form = new FORM();
                     </div>
                 </div>
                 <nav>
-                    <div class="n"><div class="mat-ico">arrow_circle_right</div></div>
+                    <div class="n" data-next><div class="mat-ico">arrow_circle_right</div></div>
                 </nav>
             </div>
             <div class="setup two">
@@ -205,7 +205,7 @@ $form = new FORM();
                                     'oracle'=>'Oracle',
                                     'pg_sql'=>'Post-gre SQL',
                                 ];
-                                $form->radios('type',$bases,'','',0,4);
+                                $form->radios('type','',$bases,'','',0,4);
                                 ?>
                             </div>
                         </div>
@@ -266,7 +266,7 @@ $form = new FORM();
                                     'cms'=>'AIO Content Management System',
                                     'commerce'=>'AIO Commerce',
                                 ];
-                                $form->checkboxes( 'feats', $feats, '', 'data-one', 0, 6 );
+                                $form->checkboxes( 'feats', '', $feats, '', 'data-one', 0, 6 );
                                 ?>
                             </div>
                         </div>
@@ -443,5 +443,5 @@ return [
         echo '<p>Setup Complete :)</p><br/><form method="post"><button>Reload</button></form>';*/
     ?>
 </body>
-<?php get_scripts(['select2','smooth-scrollbar','iro','core','aio','setup']); ?>
+<?php get_scripts(['select2','smooth-scrollbar','iro','basics','aio','setup']); ?>
 </html>

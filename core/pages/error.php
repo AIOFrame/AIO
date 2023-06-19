@@ -17,7 +17,7 @@ if( $id == '00' && ( isset( $_POST['setup'] ) ) ) {
         $f = ROOTPATH . 'core/includes/' . $dep . '.php';
         file_exists( $f ) ? include_once( $f ) : '';
     }
-    include_once(ROOTPATH . 'core/pages/build.php');
+    include_once(ROOTPATH . 'core/pages/builder.php');
     return;
 }
 ?>

@@ -23,7 +23,7 @@ article {
 /* HEADER */
 header {
   position: fixed;
-  height: calc(100vh - 40px);
+  height: calc( 100vh - 40px );
   top: 20px;
   left: 20px;
   width: 80px;
@@ -128,10 +128,20 @@ aside {
   position: fixed;
   width: 400px;
   top: 20px;
-  left: 140px;
+  left: 100px;
   height: calc(100vh - 40px);
   z-index: 89;
   pointer-events: none;
+}
+aside [type=search] {
+  margin: 10px;
+  border-radius: 25px;
+  height: 45px;
+  padding: 10px 40px;
+  font-size: 1.2rem;
+  text-align: center;
+  width: calc(100% - 20px);
+  background: #f1f1f1 url("../../icons/search.svg") no-repeat 15px center/25px;
 }
 aside .scroll {
   position: absolute;
@@ -342,8 +352,8 @@ button:hover {
 }
 
 body.d .b {
-  background: rgb(20, 20, 20);
-  border: 1px solid rgb(40, 40, 40);
+  background: #141414;
+  border: 1px solid #282828;
 }
 
 .b > .l {
@@ -410,7 +420,7 @@ body.d .b {
 }
 
 body.d .c .ft > div {
-  border-top: 1px solid rgb(35, 35, 35);
+  border-top: 1px solid #232323;
 }
 
 .b .ft > div:last-child {
@@ -424,12 +434,12 @@ body.d {
   /* DARK ICONS */
 }
 body.d header {
-  background: rgb(25, 25, 25);
+  background: #191919;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
   border: 1px solid #333;
 }
 body.d article {
-  background: rgb(15, 15, 15);
+  background: #0f0f0f;
   border: 1px solid #444;
 }
 body.d .options {
@@ -439,8 +449,8 @@ body.d .controls {
   background: rgba(0, 0, 0, 0.8);
 }
 body.d aside .scroll {
-  background: rgb(15, 15, 15);
-  box-shadow: 0 0 50px rgb(0, 0, 0);
+  background: #0f0f0f;
+  box-shadow: 0 0 50px black;
 }
 body.d [type=search], body.d input[data-color-picker] {
   background-color: #212121;
@@ -505,13 +515,16 @@ body.d [type=text], body.d [type=search], body.d [type=password], body.d [type=n
     line-height: 40px;
     font-size: 2rem;
   }
+
   .controls {
     height: auto;
     padding: 10px;
   }
+
   body {
     margin: 0;
   }
+
   article {
     padding: 10px;
     margin: 0;
@@ -519,20 +532,25 @@ body.d [type=text], body.d [type=search], body.d [type=password], body.d [type=n
     max-width: 100vw;
     border-radius: 0;
   }
+
   .search, header select {
     display: block;
     width: 100%;
     margin: 0 0 10px;
   }
+
   .search {
     text-align: left;
   }
+
   header select:last-child {
     margin: 0;
   }
+
   header form {
     display: flex;
   }
+
   .b {
     margin: 0 0 10px;
   }
