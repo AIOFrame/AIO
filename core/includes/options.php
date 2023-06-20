@@ -120,7 +120,7 @@ class OPTIONS {
         $ops = $db->get_options( $colors );
         $f->option_params_wrap( 'colors', 2, 2, $colors );
         foreach( $colors as $c => $cv ) {
-            $f->color($c,ucwords(str_replace('_',' ',$c)),'Ex: F1F1F1',$ops[$c]??$cv,$attr,3,'','[data-key='.$c.']');
+            $f->color($c,ucwords(str_replace('_',' ',$c)),'Ex: F1F1F1',$ops[$c]??$cv,$attr,0,'','[data-key='.$c.']');
         }
         $f->process_options('Save Color Options','store grad','','.col-12 tac');
         echo '</div>';
