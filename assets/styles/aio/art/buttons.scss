@@ -38,255 +38,255 @@ button:not(.nf):hover, .btn:not(.nf):hover {
 .btn {
   display: inline-block;
 }
-button.r2, .btn.r2, .br2 button, .br2 .btn {
+button.r2, .btn.r2, .btn-br2 button, .btn-br2 .btn {
   border-radius:2px;
 }
-button.r5, .btn.r5, .br5 button, .br5 .btn {
+button.r5, .btn.r5, .btn-br5 button, .btn-br5 .btn {
   border-radius:5px;
 }
-button.r8, .btn.r8, .br8 button, .br8 .btn {
+button.r8, .btn.r8, .btn-br8 button, .btn-br8 .btn {
   border-radius:8px;
 }
-button.r1, .btn.r1, .br1 button, .br1 .btn {
+button.r1, .btn.r1, .btn-br1 button, .btn-br1 .btn {
   border-radius:10px;
 }
-button.r, .btn.r, .br button, .br .btn {
+button.r, .btn.r, .btn-br button, .btn-br .btn {
   border-radius:30px;
 }
-button.xxl, .btn.xxl, .bxxl button, .bxxl .btn, .xxl button, .xxl .btn {
+button.xxl, .btn.xxl, .bxxl button, .bxxl .btn, .btn-xxl button, .btn-xxl .btn {
   font-size:22px;
   padding:18px 30px;
 }
-button.b.xxl, .btn.b.xxl, .xxl.b button, .xxl.b .btn {
+button.b.xxl, .btn.b.xxl, .btn-xxl.b button, .btn-xxl.b .btn {
   padding:17px 30px;
 }
-button.xl, .btn.xl, .bxl button, .bxl .btn, .xl button, .xl .btn {
+button.xl, .btn.xl, .bxl button, .bxl .btn, .btn-xl button, .btn-xl .btn {
   font-size:18px;
   padding:14px 24px;
 }
-button.b.xl, .btn.b.xl, .xl.b button, .xl.b .btn {
+button.b.xl, .btn.b.xl, .btn-xl.b button, .btn-xl.b .btn {
   padding:13px 24px;
 }
-button.l, .btn.l, .bl button, .bl .btn, .l button, .l .btn {
+button.l, .btn.l, .bl button, .bl .btn, .btn-l button, .btn-l .btn {
   font-size:15px;
   padding:12px 20px;
 }
-button.b.l, .btn.b.l, .l.b button, .l.b .btn {
+button.b.l, .btn.b.l, .btn-l.b button, .btn-l.b .btn {
   padding:9px 20px;
 }
-button.m, .btn.m, .bm button, .bm .btn, .m button, .m .btn {
+button.m, .btn.m, .bm button, .bm .btn, .btn-m button, .btn-m .btn {
   font-size:13px;
   padding: 8px 15px;
 }
-button.b.m, .btn.b.m, .m.b button, .m.b .btn {
+button.b.m, .btn.b.m, .btn-m.b button, .btn-m.b .btn {
   padding: 7px 15px;
 }
-button.s, .btn.s, .bs button, .bs .btn, .s button, .s .btn {
+button.s, .btn.s, .bs button, .bs .btn, .btn-s button, .btn-s .btn {
   font-size:12px;
   padding: 6px 12px;
 }
-button.b.s, .btn.b.s, .s.b button, .s.b .btn {
+button.b.s, .btn.b.s, .btn-s.b button, .btn-s.b .btn {
   padding: 5px 12px;
 }
-button.xs, .btn.xs, .bxs button, .bxs .btn, .xs button, .xs .btn {
+button.xs, .btn.xs, .bxs button, .bxs .btn, .btn-xs button, .btn-xs .btn {
   font-size:10px;
   padding: 5px 8px;
 }
-button.b.xs, .btn.b.xs, .xs.b button, .xs.b .btn {
+button.b.xs, .btn.b.xs, .btn-xs.b button, .btn-xs.b .btn {
   padding: 4px 8px;
 }
-button.xxs, .btn.xxs, .bxxs button, .bxxs .btn, .xxs button, .xxs .btn {
+button.xxs, .btn.xxs, .bxxs button, .bxxs .btn, .btn-xxs button, .btn-xxs .btn {
   font-size:8px;
   padding: 3px 6px;
 }
-button.b.xxs, .btn.b.xxs, .xxs.b button, .xxs.b .btn {
+button.b.xxs, .btn.b.xxs, .btn-xxs.b button, .btn-xxs.b .btn {
   padding: 2px 6px;
 }
-button.w, .btn.w, .bw button, .bw .btn {
+button.w, .btn.w, .btn-w button, .btn-w .btn {
   width:100%;
 }
 .bm0 button, .bm0 .btn {
   margin: 0;
 }
-button.red, .btn.red, .red button, .red .btn, .gr_red {
+button.red, .btn.red, .btn-red button, .btn-red .btn, .gr_red {
   background: rgb(153,1,1);
   background: linear-gradient(160deg, rgb(153,1,1) 0%, rgb(119,0,24) 100%);
   box-shadow:0 0 20px rgba(153,1,1,.2), 0 10px 30px rgba(0,0,0,.2);
 }
-button.red:hover, .btn.red:hover, .red button:hover, .red .btn:hover {
+button.red:hover, .btn.red:hover, .btn-red button:hover, .btn-red .btn:hover {
   box-shadow:0 0 30px rgba(153,1,1,.3),0 10px 30px rgba(153,1,1,.3);
 }
-button.red:active, .btn.red:active, .red button:active, .red .btn:active {
+button.red:active, .btn.red:active, .btn-red button:active, .btn-red .btn:active {
   box-shadow:0 0 20px rgba(153,1,1,.3),0 0 10px rgba(0,0,0,.2);
 }
-button.b.red, .btn.b.red, .red.b button, .red.b .btn {
+button.b.red, .btn.b.red, .btn-red.b button, .btn-red.b .btn {
   color:rgb(153,1,1);
   border:1px solid rgb(153,1,1);
 }
-button.blue, .btn.blue, .blue button, .blue .btn, .gr_blue {
+button.blue, .btn.blue, .btn-blue button, .btn-blue .btn, .gr_blue {
   background: rgb(0,125,204);
   background: linear-gradient(160deg, rgb(0, 125, 204) 0%, rgb(1, 77, 122) 100%);
   box-shadow:0 0 20px rgba(0,125,204,.2), 0 10px 30px rgba(0,0,0,.2);
 }
-button.blue:hover, .btn.blue:hover, .blue button:hover, .blue .btn:hover {
+button.blue:hover, .btn.blue:hover, .btn-blue button:hover, .btn-blue .btn:hover {
   box-shadow:0 0 30px rgba(0,125,204,.3), 0 10px 30px rgba(0,125,204,.3);
 }
-button.blue:active, .btn.blue:active, .blue button:active, .blue .btn:active {
+button.blue:active, .btn.blue:active, .btn-blue button:active, .btn-blue .btn:active {
   box-shadow:0 0 20px rgba(0,125,204,.3), 0 0 10px rgba(0,0,0,.2);
 }
-button.b.blue, .btn.b.blue, .blue.b button, .blue.b .btn {
+button.b.blue, .btn.b.blue, .btn-blue.b button, .btn-blue.b .btn {
   color:rgb(0,125,204);
   border:1px solid rgb(0,125,204);
 }
-button.skyblue, .btn.skyblue, .skyblue button, .skyblue .btn {
+button.skyblue, .btn.skyblue, .btn-skyblue button, .btn-skyblue .btn {
   background: rgb(85, 201, 255);
   background: linear-gradient(160deg, rgb(85, 201, 255) 0%, rgb(0, 161, 217) 100%);
   box-shadow:0 0 20px rgba(2,107,146,.2), 0 10px 30px rgba(0,0,0,.2);
 }
-button.skyblue:hover, .btn.skyblue:hover, .skyblue button:hover, .skyblue .btn:hover {
+button.skyblue:hover, .btn.skyblue:hover, .btn-skyblue button:hover, .btn-skyblue .btn:hover {
   box-shadow:0 0 30px rgba(0,125,204,.3), 0 10px 30px rgba(0,125,204,.3);
 }
-button.skyblue:active, .btn.skyblue:active, .skyblue button:active, .skyblue .btn:active {
+button.skyblue:active, .btn.skyblue:active, .btn-skyblue button:active, .btn-skyblue .btn:active {
   box-shadow:0 0 20px rgba(0,125,204,.3), 0 0 10px rgba(0,0,0,.2);
 }
-button.b.skyblue, .btn.b.skyblue, .skyblue.b button, .skyblue.b .btn {
+button.b.skyblue, .btn.b.skyblue, .btn-skyblue.b button, .btn-skyblue.b .btn {
   color: rgb(85, 201, 255);
   border:1px solid rgb(85, 201, 255);
 }
-button.ocean,  .btn.ocean, .ocean button, .ocean .btn {
+button.ocean,  .btn.ocean, .btn-ocean button, .btn-ocean .btn {
   background: #8ea096;
   background: linear-gradient(160deg,#8ea096 0,#8eb59f 100%);
   box-shadow: 0 0 20px rgba(142, 160, 150, 0.3), 0 10px 30px rgba(0,0,0,.2);
 }
-button.b.ocean, .btn.b.ocean, .ocean.b button, .ocean.b .btn {
+button.b.ocean, .btn.b.ocean, .btn-ocean.b button, .btn-ocean.b .btn {
   color: #8ea096;
   border:1px solid #8ea096;
 }
-button.silver, .btn.silver, .silver button, .silver .btn {
+button.silver, .btn.silver, .btn-silver button, .btn-silver .btn {
   background: #7099b3;
   background: linear-gradient(160deg,#7099b3 0,#4a7b9a 100%);
   box-shadow: 0 0 20px rgba(74, 123, 154, 0.2), 0 10px 30px rgba(0,0,0,.2);
 }
-button.b.silver, .btn.b.silver, .silver.b button, .silver.b .btn {
+button.b.silver, .btn.b.silver, .btn-silver.b button, .btn-silver.b .btn {
   color: #7099b3;
   border:1px solid #7099b3;
 }
-button.teal, .btn.teal, .teal button, .teal .btn {
+button.teal, .btn.teal, .btn-teal button, .btn-teal .btn {
   background: rgb(0,177,193);
   background: linear-gradient(160deg, rgb(0,213,224) 0%,rgb(0,177,193) 100%);
   box-shadow:0 0 20px rgba(0,213,224,.2), 0 10px 30px rgba(0,0,0,.2);
 }
-button.teal:hover, .btn.teal:hover, .teal button:hover, .teal .btn:hover {
+button.teal:hover, .btn.teal:hover, .btn-teal button:hover, .btn-teal .btn:hover {
   box-shadow:0 0 30px rgba(0,177,193,.3),0 10px 30px rgba(0,177,193,.3);
 }
-button.teal:active, .btn.teal:active, .teal button:active, .teal .btn:active {
+button.teal:active, .btn.teal:active, .btn-teal button:active, .btn-teal .btn:active {
   box-shadow:0 0 20px rgba(0,213,224,.3),0 0 10px rgba(0,0,0,.2);
 }
-button.b.teal, .btn.b.teal, .teal.b button, .teal.b .btn {
+button.b.teal, .btn.b.teal, .btn-teal.b button, .btn-teal.b .btn {
   color:rgb(0,177,193);
   border:1px solid rgb(0,177,193);
 }
-button.green, .btn.green, .green button, .green .btn {
+button.green, .btn.green, .btn-green button, .btn-green .btn {
   background: rgb(0,127,0);
   background: linear-gradient(160deg, rgb(38,163,0) 0%,rgb(0,127,0) 100%);
   box-shadow:0 0 20px rgba(38,163,0,.2), 0 10px 30px rgba(0,0,0,.2);
 }
-button.green:hover, .btn.green:hover, .green button:hover, .green .btn:hover {
+button.green:hover, .btn.green:hover, .btn-green button:hover, .btn-green .btn:hover {
   box-shadow:0 0 30px rgba(38,163,0,.3), 0 10px 30px rgba(38,163,0,.3);
 }
-button.green:active, .btn.green:active, .green button:active, .green .btn:active {
+button.green:active, .btn.green:active, .btn-green button:active, .btn-green .btn:active {
   box-shadow:0 0 20px rgba(38,163,0,.3), 0 0 30px rgba(0,0,0,.2);
 }
-button.b.green, .btn.b.green, .green.b button, .green.b .btn {
+button.b.green, .btn.b.green, .btn-green.b button, .btn-green.b .btn {
   color:rgb(0,127,0);
   border:1px solid rgb(0,127,0);
 }
-button.gold, .btn.gold, .gold button, .gold .btn {
+button.gold, .btn.gold, .btn-gold button, .btn-gold .btn {
   background: rgb(173,149,114);
   background: linear-gradient(160deg, rgb(211,187,139) 0%,rgb(173,149,114) 100%);
   box-shadow:0 0 20px rgba(211,187,139,.2), 0 10px 30px rgba(0,0,0,.2);
 }
-button.gold:hover, .btn.gold:hover, .gold button:hover, .gold .btn:hover {
+button.gold:hover, .btn.gold:hover, .btn-gold button:hover, .btn-gold .btn:hover {
   box-shadow:0 0 30px rgba(211,187,139,.3), 0 10px 30px rgba(211,187,139,.5);
 }
-button.gold:active, .btn.gold:active, .gold button:active, .gold .btn:active {
+button.gold:active, .btn.gold:active, .btn-gold button:active, .btn-gold .btn:active {
   box-shadow:0 0 20px rgba(211,187,139,.3), 0 0 30px rgba(0,0,0,.2);
 }
-button.b.gold, .btn.b.gold, .gold.b button, .gold.b .btn {
+button.b.gold, .btn.b.gold, .btn-gold.b button, .btn-gold.b .btn {
   color:rgb(173,149,114);
   border:1px solid rgb(173,149,114);
 }
-button.grey, .btn.grey, .grey button, .grey .btn {
+button.grey, .btn.grey, .btn-grey button, .btn-grey .btn {
   background: rgb(173,173,173);
   background: linear-gradient(160deg, rgb(196,196,196) 0%,rgb(173,173,173) 100%);
   box-shadow:0 0 20px rgba(196,196,196,.2), 0 10px 30px rgba(0,0,0,.2);
 }
-button.grey:hover, .btn.grey:hover, .grey button:hover, .grey .btn:hover {
+button.grey:hover, .btn.grey:hover, .btn-grey button:hover, .btn-grey .btn:hover {
   box-shadow:0 0 30px rgba(196,196,196,.3), 0 10px 30px rgba(0,0,0,.1);
 }
-button.b.grey, .btn.b.grey, .grey.b button, .grey.b .btn {
+button.b.grey, .btn.b.grey, .btn-grey.b button, .btn-grey.b .btn {
   color:rgb(150, 150, 150);
   border:1px solid rgb(150, 150, 150);
 }
-button.darkgrey, .btn.darkgrey, .darkgrey button, .darkgrey .btn {
+button.darkgrey, .btn.darkgrey, .btn-darkgrey button, .btn-darkgrey .btn {
   background: rgb(90,90,90);
   background: linear-gradient(160deg, rgb(90,90,90) 0%,rgb(60,60,60) 100%);
   box-shadow:0 0 20px rgba(50,50,50,.2), 0 10px 30px rgba(0,0,0,.2);
 }
-button.b.darkgrey, .btn.b.darkgrey, .darkgrey.b button, .darkgrey.b .btn {
+button.b.darkgrey, .btn.b.darkgrey, .btn-darkgrey.b button, .btn-darkgrey.b .btn {
   color:rgb(90,90,90);
   border:1px solid rgb(90,90,90);
 }
-button.black, .btn.black, .black button, .black .btn {
+button.black, .btn.black, .btn-black button, .btn-black .btn {
   background: rgb(0,0,0);
   background: linear-gradient(160deg, rgb(50,50,50) 0%,rgb(0,0,0) 100%);
   box-shadow:0 0 20px rgba(91,91,91,.2), 0 10px 30px rgba(0,0,0,.2);
 }
-button.black:hover, .btn.black:hover, .black button:hover, .black .btn:hover {
+button.black:hover, .btn.black:hover, .btn-black button:hover, .btn-black .btn:hover {
   box-shadow:0 0 30px rgba(91,91,91,.3), 0 10px 30px rgba(0,0,0,.3);
 }
-button.black:active, .btn.black:active, .black button:active, .black .btn:active {
+button.black:active, .btn.black:active, .btn-black button:active, .btn-black .btn:active {
   box-shadow:0 0 20px rgba(91,91,91,.3), 0 0 30px rgba(0,0,0,.2);
 }
-button.b.black, .btn.b.black, .black.b button, .black.b .btn {
+button.b.black, .btn.b.black, .btn-black.b button, .btn-black.b .btn {
   color:rgb(0,0,0);
   border:1px solid rgb(0,0,0);
 }
-button.violet, .btn.violet, .violet button, .violet .btn {
+button.violet, .btn.violet, .btn-violet button, .btn-violet .btn {
   background: rgb(98,0,219);
   background: linear-gradient(160deg, rgb(154,42,252) 0%,rgb(98,0,219) 100%);
   box-shadow:0 0 20px rgba(154,42,252,.2), 0 10px 30px rgba(0,0,0,.2);
 }
-button.violet:hover, .btn.violet:hover, .violet button:hover, .violet .btn:hover {
+button.violet:hover, .btn.violet:hover, .btn-violet button:hover, .btn-violet .btn:hover {
   box-shadow:0 0 30px rgba(154,42,252,.3), 0 10px 30px rgba(154,42,252,.2);
 }
-button.violet:active, .btn.violet:active, .violet button:active, .violet .btn:active {
+button.violet:active, .btn.violet:active, .btn-violet button:active, .btn-violet .btn:active {
   box-shadow:0 0 20px rgba(154,42,252,.3), 0 0 30px rgba(0,0,0,.2);
 }
-button.b.violet, .btn.b.violet, .violet.b button, .violet.b .btn {
+button.b.violet, .btn.b.violet, .btn-violet.b button, .btn-violet.b .btn {
   color:rgb(98,0,219);
   border:1px solid rgb(98,0,219);
 }
-button.orange, .btn.orange, .orange button, .orange .btn {
+button.orange, .btn.orange, .btn-orange button, .btn-orange .btn {
   background: rgb(208, 112, 0);
   background: linear-gradient(160deg, rgb(255, 132, 0) 0%, rgb(208, 112, 0) 100%);
   box-shadow:0 0 20px rgba(255,157,0,.2), 0 10px 30px rgba(0,0,0,.2);
 }
-button.orange:hover, .btn.orange:hover, .orange button:hover, .orange .btn:hover {
+button.orange:hover, .btn.orange:hover, .btn-orange button:hover, .btn-orange .btn:hover {
   box-shadow:0 0 30px rgba(156, 98, 0,.3), 0 10px 30px rgba(156, 98, 0, 0.49);
 }
-button.orange:active, .btn.orange:active, .orange button:active, .orange .btn:active {
+button.orange:active, .btn.orange:active, .btn-orange button:active, .btn-orange .btn:active {
   box-shadow:0 0 20px rgba(156, 98, 0,.3), 0 0 30px rgba(0,0,0,.2);
 }
-button.b.orange, .btn.b.orange, .orange.b button, .orange.b .btn {
+button.b.orange, .btn.b.orange, .btn-orange.b button, .btn-orange.b .btn {
   color:rgb(206,134,0);
   border:1px solid rgb(206,134,0);
 }
-button.b, .btn.b, .b button, .b .btn {
+button.b, .btn.b, .btn-b button, .btn-b .btn {
   background:transparent;
   border: 1px solid grey;
 }
-button.bsn, .btn.bsn, button.bsn:hover, .btn.bsn:hover, button.ns, .btn.ns, .bsn button, .bsn .btn, .ns button, .ns .btn {
+button.bsn, .btn.bsn, button.bsn:hover, .btn.bsn:hover, button.ns, .btn.ns, .btn-bsn button, .btn-bsn .btn, .btn-ns button, .btn-ns .btn {
   box-shadow:none;
 }
 .sl.wide>div {
