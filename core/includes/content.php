@@ -149,7 +149,7 @@ class CONTENT {
         // Content
         global $options;
         global $dark_mode;
-        $logo_img = $dark_mode ? $options['logo_dark'] : $options['logo_light'];
+        $logo_img = $dark_mode ? ( $options['logo_dark'] ?? '' ) : ( $options['logo_light'] ?? '' );
         $logo = !empty( $logo_img ) ? 'style="background:url(\''.storage_url( $logo_img ).'\') no-repeat center / contain"' : '';
         echo '<article><div class="access_wrap"><div class="access_panel">';
         echo '<a href="'. APPURL . $login_redirect_url . '" class="brand" '.$logo.'></a>';
