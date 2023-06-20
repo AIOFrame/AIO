@@ -92,11 +92,11 @@ function art( array|string $arts = '', string $color1 = '222', string $color2 = 
 
     if( defined('DB_TYPE') ) {
         $o = new OPTIONS();
-        $themed_options = $o->themed_options;
         $colors = $o->colors;
     }
     $f = new FORM();
     $input_options = $f->input_options;
+    $themed_options = $f->themed_options;
     //skel( $options );
     if( !empty( $colors ) ) {
         foreach( $colors as $c ) {

@@ -21,7 +21,13 @@ class OPTIONS {
         'filled_color_dark',
         'fav'
     ];
-    public array $colors = [ 'progress_color', 'warning_color', 'error_color', 'success_color' ];
+    public array $colors = [
+        'disabled_color' => '#e6e6e6',
+        'progress_color' => '#ff6b00',
+        'warning_color' => '#fb0000',
+        'error_color' => '#a70000',
+        'success_color' => '#03a700',
+    ];
     public array $social_options = [
         'fb' => 'Facebook',
         'tw' => 'Twitter',
