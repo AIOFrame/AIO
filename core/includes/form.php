@@ -2,6 +2,40 @@
 
 class FORM {
 
+    public array $input_options = [
+        'input_radius' => 8,
+        'input_border_top' => 2,
+        'input_border_right' => 2,
+        'input_border_bottom' => 2,
+        'input_border_left' => 2,
+        'input_margin_top' => 0,
+        'input_margin_right' => 0,
+        'input_margin_bottom' => 20,
+        'input_margin_left' => 0,
+        'input_padding_top' => 12,
+        'input_padding_right' => 12,
+        'input_padding_bottom' => 12,
+        'input_padding_left' => 12,
+        'input_bg_light' => '#fff',
+        'input_border_color_light' => '#eee',
+        'input_border_color_active_light' => '#000',
+        'input_color_light' => '#eee',
+        'input_color_active_light' => '#000',
+        'input_bg_dark' => '#222',
+        'input_border_color_dark' => '#333',
+        'input_border_color_active_dark' => '#444',
+        'input_color_dark' => '#444',
+        'input_color_active_dark' => '#fff',
+    ];
+
+    public array $themed_options = [
+        'input_bg',
+        'input_border_color',
+        'input_border_color_active',
+        'input_color',
+        'input_color_active',
+    ];
+
     /**
      * Renders &lt;select&gt; options
      * @param array $options Indexed or Associative Array of options

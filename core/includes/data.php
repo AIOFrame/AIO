@@ -107,10 +107,12 @@ function _nth( $num ): string {
     return $fmt->format( $num );
 }
 
+function prer( $text ): string {
+    return str_replace( '<', '&lt;', str_replace( '>', '&gt;', $text ) );
+}
+
 function pre( $text ): void {
-    $text = str_replace( '<', '&lt;', $text );
-    $text = str_replace( '>', '&gt;', $text );
-    echo $text;
+    echo prer( $text );
 }
 
 // Returns Languages

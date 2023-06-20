@@ -22,28 +22,6 @@ class OPTIONS {
         'fav'
     ];
     public array $colors = [ 'progress_color', 'warning_color', 'error_color', 'success_color' ];
-    public array $input_options = [
-        'input_radius',
-        'input_border_top',
-        'input_border_right',
-        'input_border_bottom',
-        'input_border_left',
-        'input_margin_top',
-        'input_margin_right',
-        'input_margin_bottom',
-        'input_margin_left',
-        'input_padding_top',
-        'input_padding_right',
-        'input_padding_bottom',
-        'input_padding_left'
-    ];
-    public array $themed_options = [
-        'input_bg',
-        'input_border_color',
-        'input_border_color_active',
-        'input_color',
-        'input_color_active',
-    ];
     public array $social_options = [
         'fb' => 'Facebook',
         'tw' => 'Twitter',
@@ -151,68 +129,44 @@ class OPTIONS {
     function input_options( bool $dark_mode_options = true ): void {
         $f = new FORM();
         $db = new DB();
-        $options = $this->input_options;
-        $themed_options = $this->themed_options;
-        foreach( $themed_options as $to ) {
-            $options[] = $to.'_light';
-            $options[] = $to.'_dark';
-        }
+        $v = [];
+        $options = $f->input_options;
         //skel( $options );
         $ops = $db->get_options( $options );
         $f->option_params_wrap( 'input', 2, 2, $options );
         $attr = 'data-input';
-        $radius = $ops['input_radius'] ?? 8;
-        $bt = $ops['input_border_top'] ?? 2;
-        $br = $ops['input_border_right'] ?? 2;
-        $bb = $ops['input_border_bottom'] ?? 2;
-        $bl = $ops['input_border_left'] ?? 2;
-        $mt = $ops['input_margin_top'] ?? 0;
-        $mr = $ops['input_margin_right'] ?? 0;
-        $mb = $ops['input_margin_bottom'] ?? 15;
-        $ml = $ops['input_margin_left'] ?? 0;
-        $pt = $ops['input_padding_top'] ?? 12;
-        $pr = $ops['input_padding_right'] ?? 12;
-        $pb = $ops['input_padding_bottom'] ?? 12;
-        $pl = $ops['input_padding_left'] ?? 12;
-        $bgl = $ops['input_bg_light'] ?? '#ffffff';
-        $bcl = $ops['input_border_color_light'] ?? '#eeeeee';
-        $bal = $ops['input_border_color_active_light'] ?? '#eeeeee';
-        $cl = $ops['input_color_light'] ?? '#000000';
-        $cal = $ops['input_color_active_light'] ?? '#000000';
-        $bgd = $ops['input_bg_dark'] ?? '';
-        $bcd = $ops['input_border_color_dark'] ?? '';
-        $bad = $ops['input_border_color_active_dark'] ?? '';
-        $cd = $ops['input_color_dark'] ?? '';
-        $cad = $ops['input_color_active_dark'] ?? '';
-        $f->input('number','input_radius','Corner Radius (Px)','Ex: 5',$radius,$attr,4);
-        $f->input('number','input_border_top','Border - Top (Px)','Ex: 2',$bt,$attr,2);
-        $f->input('number','input_border_right','Border - Right (Px)','Ex: 2',$br,$attr,2);
-        $f->input('number','input_border_bottom','Border - Bottom (Px)','Ex: 2',$bb,$attr,2);
-        $f->input('number','input_border_left','Border - Left (Px)','Ex: 2',$bl,$attr,2);
+        foreach( $options as $iok => $iov ) {
+            $v[] = $ops[ $iok ] ?? $iov;
+        }
+        $f->input('number','input_radius','Corner Radius (Px)','Ex: 5',$v['input_radius'],$attr,4);
+        $f->input('number','input_border_top','Border - Top (Px)','Ex: 2',$v['input_border_top'],$attr,2);
+        $f->input('number','input_border_right','Border - Right (Px)','Ex: 2',$v['input_border_right'],$attr,2);
+        $f->input('number','input_border_bottom','Border - Bottom (Px)','Ex: 2',$v['input_border_bottom'],$attr,2);
+        $f->input('number','input_border_left','Border - Left (Px)','Ex: 2',$v['input_border_left'],$attr,2);
         echo '<div class="col-6"><h4 class="mt0 ttu">'.T('Padding').' (Px)</h4><div class="row">';
-        $f->input('number','input_padding_top','Top','Ex: 2',$pt,$attr,3);
-        $f->input('number','input_padding_right','Right','Ex: 2',$pr,$attr,3);
-        $f->input('number','input_padding_bottom','Bottom','Ex: 2',$pb,$attr,3);
-        $f->input('number','input_padding_left','Left','Ex: 2',$pl,$attr,3);
+        $f->input('number','input_padding_top','Top','Ex: 2',$v['input_padding_top'],$attr,3);
+        $f->input('number','input_padding_right','Right','Ex: 2',$v['input_padding_right'],$attr,3);
+        $f->input('number','input_padding_bottom','Bottom','Ex: 2',$v['input_padding_bottom'],$attr,3);
+        $f->input('number','input_padding_left','Left','Ex: 2',$v['input_padding_left'],$attr,3);
         echo '</div></div><div class="col-6"><h4 class="mt0 ttu">'.T('Margin').' (Px)</h4><div class="row">';
-        $f->input('number','input_margin_top','Top','Ex: 2',$mt,$attr,3);
-        $f->input('number','input_margin_right','Right','Ex: 2',$mr,$attr,3);
-        $f->input('number','input_margin_bottom','Bottom','Ex: 2',$mb,$attr,3);
-        $f->input('number','input_margin_left','Left','Ex: 2',$ml,$attr,3);
+        $f->input('number','input_margin_top','Top','Ex: 2',$v['input_margin_top'],$attr,3);
+        $f->input('number','input_margin_right','Right','Ex: 2',$v['input_margin_right'],$attr,3);
+        $f->input('number','input_margin_bottom','Bottom','Ex: 2',$v['input_margin_bottom'],$attr,3);
+        $f->input('number','input_margin_left','Left','Ex: 2',$v['input_margin_left'],$attr,3);
         echo '</div></div>';
         echo '<div class="col-12"><h4 class="mt0 ttu">'.T('Light Theme Options').'</h4></div>';
-        $f->color('input_bg_light','Background','Ex: F1F1F1',$bgl,$attr,4,'','[data-key=input_bg_light]');
-        $f->color('input_border_color_light','Border Color','Ex: F1F1F1',$bcl,$attr,2,'','[data-key=input_border_color_light]');
-        $f->color('input_border_color_active_light','Border Color - Active','Ex: F1F1F1',$bal,$attr,2,'','[data-key=input_border_color_active_light]');
-        $f->color('input_color_light','Text Color','Ex: F1F1F1',$cl,$attr,2,'','[data-key=input_color_light]');
-        $f->color('input_color_active_light','Text Color - Active','Ex: F1F1F1',$cal,$attr,2,'','[data-key=input_color_active_light]');
+        $f->color('input_bg_light','Background','Ex: F1F1F1',$v['input_bg_light'],$attr,4,'','[data-key=input_bg_light]');
+        $f->color('input_border_color_light','Border Color','Ex: F1F1F1',$v['input_border_color_light'],$attr,2,'','[data-key=input_border_color_light]');
+        $f->color('input_border_color_active_light','Border Color - Active','Ex: F1F1F1',$v['input_border_color_active_light'],$attr,2,'','[data-key=input_border_color_active_light]');
+        $f->color('input_color_light','Text Color','Ex: F1F1F1',$v['input_color_light'],$attr,2,'','[data-key=input_color_light]');
+        $f->color('input_color_active_light','Text Color - Active','Ex: F1F1F1',$v['input_color_active_light'],$attr,2,'','[data-key=input_color_active_light]');
         if( $dark_mode_options ) {
             echo '<div class="col-12"><h4 class="mt0 ttu">'.T('Dark Theme Options').'</h4></div>';
-            $f->color('input_bg_dark','Background','Ex: F1F1F1',$bgd,$attr,4,'','[data-key=input_bg_dark]');
-            $f->color('input_border_color_dark','Border Color','Ex: F1F1F1',$bcd,$attr,2,'','[data-key=input_border_color_dark]');
-            $f->color('input_border_color_active_dark','Border Color - Active','Ex: F1F1F1',$bad,$attr,2,'','[data-key=input_border_color_active_dark]');
-            $f->color('input_color_dark','Text Color','Ex: F1F1F1',$cd,$attr,2,'','[data-key=input_color_dark]');
-            $f->color('input_color_active_dark','Text Color - Active','Ex: F1F1F1',$cad,$attr,2,'','[data-key=input_color_active_dark]');
+            $f->color('input_bg_dark','Background','Ex: F1F1F1',$v['input_bg_dark'],$attr,4,'','[data-key=input_bg_dark]');
+            $f->color('input_border_color_dark','Border Color','Ex: F1F1F1',$v['input_border_color_dark'],$attr,2,'','[data-key=input_border_color_dark]');
+            $f->color('input_border_color_active_dark','Border Color - Active','Ex: F1F1F1',$v['input_border_color_active_dark'],$attr,2,'','[data-key=input_border_color_active_dark]');
+            $f->color('input_color_dark','Text Color','Ex: F1F1F1',$v['input_color_dark'],$attr,2,'','[data-key=input_color_dark]');
+            $f->color('input_color_active_dark','Text Color - Active','Ex: F1F1F1',$v['input_color_active_dark'],$attr,2,'','[data-key=input_color_active_dark]');
         }
         $f->process_options('Save Brand Options','store grad','','.col-12 tac');
         echo '</div>';

@@ -92,10 +92,11 @@ function art( array|string $arts = '', string $color1 = '222', string $color2 = 
 
     if( defined('DB_TYPE') ) {
         $o = new OPTIONS();
-        $input_options = $o->input_options;
         $themed_options = $o->themed_options;
         $colors = $o->colors;
     }
+    $f = new FORM();
+    $input_options = $f->input_options;
     //skel( $options );
     if( !empty( $colors ) ) {
         foreach( $colors as $c ) {
@@ -103,35 +104,11 @@ function art( array|string $arts = '', string $color1 = '222', string $color2 = 
         }
     }
     if( !empty( $input_options ) ){
-        //skel( $input_options );
-        $default_options = [
-            'input_radius' => 4,
-            'input_bg_light' => '#efefef',
-            'input_bg_dark' => 'rgba(0,0,0,.05)',
-            'input_border_top' => 1,
-            'input_border_right' => 1,
-            'input_border_bottom' => 1,
-            'input_border_left' => 1,
-            'input_border_color_light' => 'rgba(0,0,0,0.1)',
-            'input_border_color_active_light' => '#000',
-            'input_border_color_dark' => 'rgba(255,255,255,0.1)',
-            'input_border_color_active_dark' => '#aaa',
-            'input_color_light' => '#000',
-            'input_color_dark' => '#fff',
-            'input_color_active_dark' => '#fff',
-            'input_padding_top' => 8,
-            'input_padding_right' => 12,
-            'input_padding_bottom' => 8,
-            'input_padding_left' => 12,
-            'input_margin_top' => 0,
-            'input_margin_right' => 0,
-            'input_margin_bottom' => 20,
-            'input_margin_left' => 0,
-        ];
+        skel( 'ma sha' );
         $rendered = [];
         // Loop through input options from DB
-        foreach( $input_options as $ik ){
-            $iv = !empty( $options[ $ik ] ) ? $options[ $ik ] : $default_options[ $ik ];
+        foreach( $input_options as $ik => $div ){
+            $iv = !empty( $options[ $ik ] ) ? $options[ $ik ] : $div;
             $iv = strlen( $iv ) > 2 ? $iv.';' : $iv.'px;';
             if( !empty( $iv ) ) {
                 echo '--'.$ik.':'.$iv;
@@ -142,7 +119,7 @@ function art( array|string $arts = '', string $color1 = '222', string $color2 = 
         if( !empty( $themed_options ) ) {
             foreach( $themed_options as $to ) {
                 $tk = $dark_mode ? $to.'_dark' : $to.'_light';
-                $tv = !empty( $options[ $tk ] ) ? $options[ $tk ] : $default_options[ $tk ];
+                $tv = !empty( $options[ $tk ] ) ? $options[ $tk ] : $input_options[ $tk ];
                 $tv = strlen( $tv ) > 2 ? $tv.';' : $tv.'px;';
                 if( !empty( $tv ) ) {
                     echo '--'.$to.':'.$tv;
@@ -152,11 +129,11 @@ function art( array|string $arts = '', string $color1 = '222', string $color2 = 
         }
         //skel( $rendered );
         // Loop through left out default options
-        foreach( $default_options as $do => $dv ) {
+        /* foreach( $default_options as $do => $dv ) {
             if( !in_array( $do, $rendered ) ) {
                 echo '--'.$do.':'.( strlen( $dv ) > 2 ? $dv.';' : $dv.'px;' );
             }
-        }
+        } */
     }
     echo '}.c1{color:'.$color1.'}.c2{color:'.$color2.'}.bg1{background:'.$color1.'}.bg2{background:'.$color2.'}.bs{border:1px solid '.$color1.'}.bf:focus{border:1px solid var(--primary_color)}.grad{color:var(--color);background-color:var(--primary_color);background:-moz-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background:-webkit-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background-image:linear-gradient(45deg,var(--primary_color) 0%,var(--secondary_color) 100%);}.grad-text{background: -webkit-linear-gradient(var(--primary_color), var(--secondary_color));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}</style>';
     echo '<link rel="stylesheet" href="'.APPURL.'assets/art.php?arts='.rtrim($art_ui,',').'&fc='.$color1.'&sc='.$color2. $v . '">';
