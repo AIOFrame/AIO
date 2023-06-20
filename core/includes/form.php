@@ -19,7 +19,7 @@ class FORM {
         'input_bg_light' => '#fff',
         'input_border_color_light' => '#eee',
         'input_border_color_active_light' => '#000',
-        'input_color_light' => '#eee',
+        'input_color_light' => '#666',
         'input_color_active_light' => '#000',
         'input_bg_dark' => '#222',
         'input_border_color_dark' => '#333',

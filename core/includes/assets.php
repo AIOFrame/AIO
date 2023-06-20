@@ -104,7 +104,6 @@ function art( array|string $arts = '', string $color1 = '222', string $color2 = 
         }
     }
     if( !empty( $input_options ) ){
-        skel( 'ma sha' );
         $rendered = [];
         // Loop through input options from DB
         foreach( $input_options as $ik => $div ){
