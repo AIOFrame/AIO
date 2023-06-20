@@ -90,17 +90,19 @@ class OPTIONS {
         $f->textarea('app_desc','Web App / Site Description','Ex: We provide...',$desc,$attr,12);
         $f->select2( 'default_theme', 'Default Admin Theme', 'Select Theme...', $uis, $theme, $attr, 12, 1 );
         //$f->select( 'input_theme', 'Input Style', 'Select Theme...', [], '', 'data-data class="select2"', 6, 1 );
-        $f->upload('logo_light','Logo - Light Theme','Upload',$light,0,0,'upload',$attr,$ext,.2,1,'',4);
-        $f->color('primary_color','Primary Color - Light','Ex: F1F1F1',$c1,$attr,2,'','[data-key=primary_color]');
-        $f->color('secondary_color','Secondary Color - Light','Ex: A2A2A2',$c2,$attr,2,'','[data-key=secondary_color]');
+        echo '<h3 class="col-12">'.T('Light Color Options').'</h3>';
+        $f->upload('logo_light','Logo','Upload',$light,0,0,'upload',$attr,$ext,.2,1,'',4);
+        $f->color('primary_color','Primary','Ex: F1F1F1',$c1,$attr,2,'','[data-key=primary_color]');
+        $f->color('secondary_color','Secondary','Ex: A2A2A2',$c2,$attr,2,'','[data-key=secondary_color]');
         $f->color('color_light','Content Color','Ex: A2A2A2',$c3,$attr,2,'','[data-key=color_light]');
         $f->color('filled_color_light','Filled Content Color','Ex: A2A2A2',$c4,$attr,2,'','[data-key=filled_color_light]');
         if( $dark_mode_options ) {
-            $f->upload('logo_dark','Logo - Dark Theme','Upload',$dark,0,0,'upload',$attr,$ext,.2,1,'',4);
-            $f->color('primary_color_dark','Primary Color - Dark','Ex: F1F1F1',$dc1,$attr,2,'','[data-key=primary_color_dark]');
-            $f->color('secondary_color_dark','Secondary Color - Dark','Ex: A2A2A2',$dc2,$attr,2,'','[data-key=secondary_color_dark]');
+            echo '<h3 class="col-12">'.T('Dark Color Options').'</h3>';
+            $f->upload('logo_dark','Logo','Upload',$dark,0,0,'upload',$attr,$ext,.2,1,'',4);
+            $f->color('primary_color_dark','Primary','Ex: F1F1F1',$dc1,$attr,2,'','[data-key=primary_color_dark]');
+            $f->color('secondary_color_dark','Secondary','Ex: A2A2A2',$dc2,$attr,2,'','[data-key=secondary_color_dark]');
             $f->color('color_dark','Content Color','Ex: A2A2A2',$dc3,$attr,2,'','[data-key=color_dark]');
-            $f->color('filled_color_dark','Content Color on Gradient','Ex: A2A2A2',$dc4,$attr,2,'','[data-key=filled_color_dark]');
+            $f->color('filled_color_dark','Filled Content Color','Ex: A2A2A2',$dc4,$attr,2,'','[data-key=filled_color_dark]');
         }
         $f->process_options('Save Brand Options','store grad','','.col-12 tac');
         echo '</div>';
