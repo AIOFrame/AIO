@@ -136,7 +136,7 @@ class OPTIONS {
         $f->option_params_wrap( 'input', 2, 2, $options );
         $attr = 'data-input';
         foreach( $options as $iok => $iov ) {
-            $v[] = $ops[ $iok ] ?? $iov;
+            $v[ $iok ] = $ops[ $iok ] ?? $iov;
         }
         $f->input('number','input_radius','Corner Radius (Px)','Ex: 5',$v['input_radius'],$attr,4);
         $f->input('number','input_border_top','Border - Top (Px)','Ex: 2',$v['input_border_top'],$attr,2);
