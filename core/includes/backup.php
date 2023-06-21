@@ -1,8 +1,16 @@
 <?php
 
-class DBB {
+class BACKUP {
 
-    function backup( $database = '', $tables = '*', $location = APPPATH . '/storage/backups/', $gzip = true ) {
+    // TODO: Update the backup script
+    /**
+     * Backups up database
+     * @param string $database Database name
+     * @param string|array $tables Tables to back up 'contacts,users' or ['contacts','users']
+     * @param string $location Location to store the backup (Default is storage/backups)
+     * @param bool $gzip Zip the back
+     */
+    function backup( string $database = '', string|array $tables = '*', string $location = APPPATH . '/storage/backups/', bool $gzip = true ) {
 
         global $db;
 
@@ -10,9 +18,12 @@ class DBB {
 
         if( $tables == '*' ) {
             $tables = [];
-            $result = query( 'SHOW TABLES' );
-            while($row = mysqli_fetch_row($result)) {
-                $tables[] = $row[0];
+            $results = $db->query( 'SHOW TABLES' );
+            //skel( $results );
+            if( !empty( $results ) ) {
+                foreach( $results as $r ){
+                    $tables[] = $r[0];
+                }
             }
         } else {
             $tables = is_array($tables) ? $tables : explode(',', str_replace(' ', '', $tables));
@@ -35,11 +46,14 @@ class DBB {
 
             // CREATE TABLE
             $sql .= 'DROP TABLE IF EXISTS `'.$table.'`;';
-            $row = mysqli_fetch_row(mysqli_query($db, 'SHOW CREATE TABLE `'.$table.'`'));
+            $row = $db->query( $db->prepare( 'SHOW CREATE TABLE `'.$table.'`') );
+            skel( $row );
             $sql .= "\n\n".$row[1].";\n\n";
 
             // INSERT INTO
-            $row = mysqli_fetch_row(mysqli_query($db, 'SELECT COUNT(*) FROM `'.$table.'`'));
+            /* $select_query = $db->query( 'SELECT COUNT(*) FROM `'.$table.'`' );
+            $row =
+            $row = mysqli_fetch_row(mysqli_query($db, ));
             $numRows = $row[0];
 
             // Split table in batches in order to not exhaust system memory
@@ -94,7 +108,7 @@ class DBB {
                     $this->saveFile( $sql, $backupfile, $location );
                     $sql = '';
                 }
-            }
+            } */
 
             $sql.="\n\n";
             //$this->obfPrint('OK');
@@ -120,26 +134,30 @@ class DBB {
 
     }
 
-    function restore( $file, $location = APPPATH . '/storage/backups/' ) {
+    // TODO: Update the export script
+    /**
+     * Restores backed up file to database
+     * @param string $file_path Path to the backed up file
+     * @return bool
+     */
+    function restore( string $file_path ): bool {
         global $db;
         try {
             $sql = '';
             $multiLineComment = false;
-            $backupDir = $location;
-            $backupFile = $file;
             /**
              * Gunzip file if gzipped
              */
-            $backupFileIsGzipped = substr($backupFile, -3, 3) == '.gz' ? true : false;
-            if ($backupFileIsGzipped) {
-                if (!$backupFile = $this->gunzipBackupFile( $file, $location )) {
-                    throw new Exception("ERROR: couldn't gunzip backup file " . $backupDir . '/' . $backupFile);
+            $backupFileIsGzipped = substr( $file_path, -3, 3 ) == '.gz' ? true : false;
+            if ( $backupFileIsGzipped ) {
+                if (!$backupFile = $this->gunzipBackupFile( $file_path )) {
+                    throw new Exception("ERROR: couldn't gunzip backup file " . $file_path );
                 }
             }
             /**
              * Read backup file line by line
              */
-            $handle = fopen($backupDir . '/' . $backupFile, "r");
+            $handle = fopen( $file_path, 'r' );
             if ($handle) {
                 while (($line = fgets($handle)) !== false) {
                     $line = ltrim(rtrim($line));
@@ -173,7 +191,7 @@ class DBB {
                 fclose($handle);
                 echo json_encode([1, T('Database restored successfully!')]);
             } else {
-                echo json_encode([0, T('Couldn\'t open backup file ').$backupDir . '/' . $backupFile]);
+                echo json_encode([0, T('Couldn\'t open backup file '). $file_path ]);
             }
         } catch (Exception $e) {
             echo json_encode([0, $e->getMessage()]);
@@ -181,12 +199,60 @@ class DBB {
             return false;
         }
         if ( $backupFileIsGzipped ) {
-            unlink( $backupDir . '/' . $backupFile );
+            unlink( $file_path );
         }
         return true;
     }
 
-    protected function saveFile( &$sql, $file, $location = APPPATH . '/storage/backups/' ) {
+    /**
+     * Renders a visual html to manage backups
+     * @param string $backup_path Path where current backups exist
+     * @return void
+     */
+    function manage( string $backup_path = APPPATH . 'storage/backups/' ): void {
+        $f = new FORM();
+        global $ui_params;
+        $backup_path = !empty( $ui_params ) && isset( $ui_params['location'] ) ? $ui_params['location'] : ( !empty( $backup_path ) ? $backup_path . '/*' : APPPATH . 'storage/backups/*' );
+        get_style('aio/art/cards,aio/art/buttons');
+        get_script('aio/backup');
+        echo '<div class="aio_backups">';
+        $backups = glob( $backup_path );
+        if( isset( $_POST['initiate'] ) ) {
+            $this->backup();
+        }
+        if( !empty( $backups ) ) {
+            foreach( $backups as $bk ) {
+                $res = T('RESTORE');
+                $del = T('DELETE');
+
+                $fa = explode( '/', $bk );
+                $fn = $fa[count($fa)-1];
+
+                $na = explode( '-', $fn );
+                $t = $na[count($na)-1];
+
+                $t = str_replace( '.sql', '', str_replace( '.sql.gz', '', $t ) );
+                $ed = DateTime::createFromFormat( 'h_i_a_d_M_Y', $t )->format('h:i a d M, Y'); ?>
+
+                <div class="card">
+                    <div class="b">
+                        <button class="res"><?php echo $res; ?></button>
+                        <button class="del"><?php echo $del; ?></button>
+                    </div>
+                    <div class="l"><?php echo $fn; ?></div>
+                    <div class="ft">
+                        <div><?php echo 'Location - ' . $bk; ?></div>
+                        <div class="dt"><?php echo 'Date - ' . $ed; ?></div>
+                    </div>
+                </div>
+            <?php }
+        } else {
+            no_content('You do not have any data backed up yet!','Try to add initiate new backup by clicking the button in the bottom','no_backup');
+        }
+        echo '<form method="post" class="actions float"><button name="initiate" class="m0">'.T('Initiate New Backup').'</button></form></div>';
+    }
+
+    protected function saveFile( $sql, $file, $location = APPPATH . '/storage/backups/' ) {
         if (!$sql) return false;
         try {
             if (!file_exists( $location . '' )) {
@@ -200,12 +266,11 @@ class DBB {
         return true;
     }
 
-    protected function gzipBackupFile($file, $location = APPPATH . '/storage/backups/',$level = 9) {
+    protected function gzipBackupFile( string $source, $level = 9) {
         /* if (!$this->gzipBackupFile) {
             return true;
         } */
-        $source = $location . '/' . $file;
-        $dest =  $source . '.gz';
+        $dest =  str_contains( $source, '.gz' ) ? $source : $source . '.gz';
         //$this->obfPrint('Gzipping backup file to ' . $dest . '... ', 1, 0);
         $mode = 'wb' . $level;
         if ($fpOut = gzopen($dest, $mode)) {

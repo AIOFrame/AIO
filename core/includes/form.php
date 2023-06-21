@@ -546,8 +546,9 @@ class FORM {
         $this->render_options( 'checkbox', $label, $name, $values, $checked, $attr, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post );
     }
 
-    function slide( string|array $key, string $label = '', string $off_text = '', string $on_text = '', bool $checked = true, string $size = 'm', string $attr = '', string $pre = '', string $post = '' ): void {
-        $checked = $checked ? 'checked' : '';
+    function slide( string|array $key, string $label = '', string $off_text = '', string $on_text = '', string $checked = '1', string $size = 'm', string $attr = '', string $pre = '', string $post = '' ): void {
+        //skel( $checked );
+        $checked = $checked == 1 ? 'checked' : '';
         $rand = rand( 0, 99999 );
         $id = is_array( $key ) ? $key[0] : $key.'_'.$rand;
         $name = is_array( $key ) ? $key[1] : $key;

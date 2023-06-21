@@ -192,6 +192,7 @@ body.d .file_modal, body.d .file_notify {
         .types {
           display: flex;
           margin: 0 -2px;
+          flex-wrap: wrap;
           .type {
             font-size: .6rem;
             background: rgba(255,255,255,.3);
@@ -215,6 +216,7 @@ body.d .file_modal, body.d .file_notify {
         flex: 0 0 100%;
         font-size: .6rem;
         font-weight: 600;
+        text-align: left;
         text-transform: uppercase;
         margin: 0 0 5px;
         color: $color;

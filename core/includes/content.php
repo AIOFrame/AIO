@@ -296,7 +296,7 @@ function no_content( string $message = "No data found!", string $suggestion = ""
     $db = new DB();
     $image = $db->get_option('no_content_image') ?? '';
     $message = T( $message );
-    echo '<div class="no_content '.$class.'"><h1 class="tac">'.$message.'</h1>';
+    echo '<div class="no_content '.$class.'" style="padding: 20px; text-align: center"><h1 class="tac">'.$message.'</h1>';
     echo !empty( $suggestion ) ? '<h4>'.T($suggestion).'</h4>' : '';
     echo !empty( $image ) ? '<img src="'.storage_url($image).'" alt="'.$message.'" class="no_content_image" />' : '';
     echo '</div>';
