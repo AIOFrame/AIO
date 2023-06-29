@@ -580,7 +580,7 @@ class ACCESS {
 function access_login_ajax(): void {
     $login = !empty( $_POST['login_username'] ) ? $_POST['login_username'] : '';
     $pass = !empty( $_POST['login_password'] ) ? $_POST['login_password'] : '';
-    $time = !empty( $_POST['login_remember'] ) ? $_POST['login_remember'] : '';
+    $time = !empty( $_POST['login_remember'] ) ? $_POST['login_remember'] : 2;
 
     if( !empty( $login ) && !empty( $pass ) ) {
         $a = new ACCESS();
