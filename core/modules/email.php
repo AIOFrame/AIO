@@ -193,6 +193,13 @@ class MAIL {
             $content = $head . $content . $foot;
         }
         //$def = $this->mail_providers;
+        $config = get_config( 'smtp' );
+        if( is_array( $config ) ) {
+            $smtp_server = !empty($smtp_server) ? $smtp_server : $config['server'];
+            $smtp_port = !empty($smtp_port) ? $smtp_port : $config['port'];
+            $username = !empty($username) ? $username : $config['username'];
+            $password = !empty($password) ? $password : $config['password'];
+        }
         if( class_exists( 'DB' ) ) {
             $db = new DB();
             $smtp_options = $db->get_options(['smtp_server','smtp_port','smtp_username','smtp_password']);
@@ -202,10 +209,10 @@ class MAIL {
             $password = !empty( $password ) ? $password : ( $smtp_options['smtp_password'] ?? '' );
             $from = !empty( $from ) ? $from : ( $smtp_options['from_email'] ?? '' );
         }
-        $smtp_server = !empty( $smtp_server ) ? $smtp_server : get_config('smtp_server');
-        $smtp_port = !empty( $smtp_port ) ? $smtp_port : get_config('smtp_port');
-        $username = !empty( $username ) ? $username : get_config('smtp_username');
-        $password = !empty( $password ) ? $password : get_config('smtp_password');
+        if( empty( $smtp_server ) ) {
+            elog( 'Need to configure SMTP credentials!' );
+            return 0;
+        }
         elog( 'SMTP -> '. $smtp_server );
         /* $smtp = is_array( $smtp ) ? $smtp : ($def[$smtp] ?? []);
         elog( 'SMTP -> '. json_encode( $smtp ) );
@@ -338,7 +345,7 @@ class MAIL {
 
         elog('Email initiated thru MailerSend');
 
-        if( empty( $key ) ) {
+        if( empty( $key ) && defined( 'DB_TYPE' ) ) {
             $db = new DB();
             $key = $db->get_option( 'mailersend_key' );
         }

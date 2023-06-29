@@ -143,8 +143,8 @@ class PORTAL {
                                 <thead>
                                 <tr>
                                     <th><?php E('OS'); ?></th>
-                                    <th><?php E('Date'); ?></th>
-                                    <th><?php E('Time'); ?></th>
+                                    <th><?php E('Start'); ?></th>
+                                    <th><?php E('Expiry'); ?></th>
                                     <th><?php E('Browser'); ?></th>
                                 </tr>
                                 </thead>
@@ -157,8 +157,8 @@ class PORTAL {
                                         ?>
                                         <tr class="tac">
                                             <td><?php echo $s['session_os']; ?></td>
-                                            <td><?php echo easy_date($s['session_time']); ?></td>
-                                            <td><?php echo easy_date($s['session_time'],'h:i a'); ?></td>
+                                            <td><?php echo easy_date($s['session_time'],'d M, Y H:i:s'); ?></td>
+                                            <td><?php echo easy_date($s['session_expiry'],'d M, Y H:i:s'); ?></td>
                                             <td><?php echo $s['session_client']; ?></td>
                                         </tr>
                                         <?php
