@@ -76,8 +76,8 @@ function define_path( $title, $parent = 0 ): void {
         unset($array[count($array)-1]);
         $title = implode('/',$array);
     }
-
     !defined( 'PAGEPATH' ) ? define( 'PAGEPATH', str_replace(' ','', $title) ) : '';
+    !defined( 'APPURI' ) ? define( 'APPURI', APPURL . PAGEPATH ) : '';
 }
 
 function define_page( $page ): void {

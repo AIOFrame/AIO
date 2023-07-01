@@ -63,12 +63,6 @@ if( file_exists( ROOTPATH . 'map.php' ) ){
 !defined( 'APPPATH' ) ? define( 'APPPATH', ROOTPATH . 'apps/' . $app . '/' ) : '';
 
 /**
- * Defines Application URI
- * Ex: https://ecommerce.mainapp.com/apps/ecommerce
- */
-!defined( 'APPURI' ) ? define( 'APPURI', APPURL . 'apps/' . $app . '/' ) : '';
-
-/**
  * Define Vendor Path
  */
 !defined( 'EXTPATH' ) ? define( 'EXTPATH', ROOTPATH . 'core/external/' ) : '';
