@@ -1,6 +1,15 @@
 <?php
 
 /**
+ * Loads config file if exists
+ */
+if( file_exists( ROOTPATH . 'apps/' . APPDIR . '/config.php' ) ) {
+    $c = include ROOTPATH . 'apps/' . APPDIR . '/config.php';
+    !defined( 'CONFIG' ) ? define( 'CONFIG', json_encode( $c ) ) : '';
+    isset( $c['faker_locale'] ) && !defined( 'FAKER' ) ? define( 'FAKER', $c['faker_locale'] ) : '';
+}
+
+/**
  * Gets config setting value
  * @param string $name App config setting name
  */

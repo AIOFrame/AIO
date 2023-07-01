@@ -6,13 +6,13 @@ class WORLD {
     public array $languages = [];
 
     function __construct() {
-        $c_json = VENDORPATH . 'countries.json';
+        $c_json = EXTPATH . 'countries.json';
         if( file_exists( $c_json ) ) {
             $data = file_get_contents( $c_json );
             if( !empty( $data ) )
                 $this->countries = json_decode( $data, 1 );
         }
-        $l_json = VENDORPATH . 'languages.json';
+        $l_json = EXTPATH . 'languages.json';
         if( file_exists( $l_json ) ) {
             $data = file_get_contents( $l_json );
             if( !empty( $data ) )

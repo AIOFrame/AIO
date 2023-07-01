@@ -71,7 +71,8 @@ if( file_exists( ROOTPATH . 'map.php' ) ){
 /**
  * Define Vendor Path
  */
-!defined( 'VENDORPATH' ) ? define( 'VENDORPATH', ROOTPATH . 'core/external/' ) : '';
+!defined( 'EXTPATH' ) ? define( 'EXTPATH', ROOTPATH . 'core/external/' ) : '';
+!defined( 'VENDORPATH' ) ? define( 'VENDORPATH', ROOTPATH . 'core/external/vendor' ) : '';
 !defined( 'VENDORLOAD' ) ? define( 'VENDORLOAD', ROOTPATH . 'core/external/vendor/autoload.php' ) : '';
 
 /**
@@ -85,13 +86,13 @@ if( empty( $app ) || !file_exists( ROOTPATH . 'apps/' . $app ) ) {
 }
 
 /**
- * Loads config file if exists
+ * Loads Basic Necessary Functions
  */
-if( file_exists( ROOTPATH . 'apps/' . $app . '/config.php' ) ) {
-    $c = include ROOTPATH . 'apps/' . $app . '/config.php';
-    !defined( 'CONFIG' ) ? define( 'CONFIG', json_encode( $c ) ) : '';
-    isset( $c['faker_locale'] ) && !defined( 'FAKER' ) ? define( 'FAKER', $c['faker_locale'] ) : '';
-}
+//if( !defined( 'CONFIG' ) ) {
+require_once ROOTPATH . 'core/includes/config.php';
+//}
+//$c = CONFIG;
+//skel( $c );
 
 /**
  * Defines Timezone if set in config
@@ -131,13 +132,6 @@ if( APPDEBUG ) {
     ini_set( 'error_log', $log );
 } else {
     error_reporting(0);
-}
-
-/**
- * Loads Basic Necessary Functions
- */
-if( defined( 'CONFIG' ) ) {
-    require_once ROOTPATH . 'core/includes/config.php';
 }
 
 /**

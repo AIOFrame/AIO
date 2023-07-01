@@ -6,6 +6,8 @@
  */
 !defined( 'ROOTPATH' ) ? define( 'ROOTPATH', dirname( __FILE__ ) . '/' ) : '';
 !defined( 'ROOTPATH' ) ? define( 'ROOTPATH', __DIR__ . '/' ) : '';
+!defined( 'COREPATH' ) ? define( 'COREPATH', ROOTPATH . '/core/' ) : '';
+!defined( 'INCPATH' ) ? define( 'INCPATH', COREPATH . '/includes/' ) : '';
 
 $pre = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on" ? "https://" : "http://";
 

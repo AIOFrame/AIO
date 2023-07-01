@@ -28,7 +28,7 @@ class REGION {
 
     function get_country_code(): ?string {
         try {
-            $reader = new Reader( VENDORPATH . 'GeoLite2-Country.mmdb');
+            $reader = new Reader( EXTPATH . 'GeoLite2-Country.mmdb');
             if( $this->ip !== '127.0.0.1' ) {
                 $this->countryReader = $reader->country( $this->ip );
                 return $this->countryReader->country->isoCode;
