@@ -78,6 +78,7 @@ function define_path( $title, $parent = 0 ): void {
     }
     !defined( 'PAGEPATH' ) ? define( 'PAGEPATH', str_replace(' ','', $title) ) : '';
     !defined( 'APPURI' ) ? define( 'APPURI', APPURL . PAGEPATH ) : '';
+    !defined( 'ASSETURI' ) ? define( 'ASSETURI', APPURL . 'apps/' . APPDIR . '/assets/' ) : '';
 }
 
 function define_page( $page ): void {
