@@ -123,7 +123,6 @@ class FORM {
      * @param bool $keyed Yes if option value should be array key
      * @param bool $translate Translate the option text or not
      */
-
     function select( string|array $identity = '', string $label = '', string $placeholder = '', array $options = [], string|null $selected = '', string $attr = '', string $pre = '', bool $keyed = false, bool $translate = false, string $post = '' ): void {
         $rand = rand( 0, 999999 );
         if( is_numeric( $pre ) ){
