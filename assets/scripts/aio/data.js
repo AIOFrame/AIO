@@ -334,7 +334,9 @@ function clear( e, d ){
 
 // AJAX Data
 
-function process_data( e ){
+function process_data( e, ne ){
+    console.log(e);
+    console.log(ne);
     //$(e).attr('disabled',true);
     let p;
     if( $(e).parents('[data-t]') !== undefined && $(e).parents('[data-t]') !== null && $(e).parents('[data-t]').length > 0 ) {
@@ -361,6 +363,9 @@ function process_data( e ){
     }
     //elog('testtt');
     elog(p);
+    if( p.hasClass('load') ) {
+        return;
+    }
     p = ( p.length !== 0 && p[0].tagName === 'DIV' ) ? p : $(e).parents('[data-data]');
     p.addClass('load');
 
