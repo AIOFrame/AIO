@@ -418,3 +418,27 @@ function easy_date( $date = '', $format = '', bool $show_time = false ): string 
 function easy_dt( $datetime = '', $format = 'd M, Y H:i a' ): string {
     return easy_date( $datetime, $format );
 }
+
+/**
+ * Converts a text to image
+ * @param string $text
+ * @param string $type
+ * @param int $break
+ * @param int $size
+ * @param int $rotate
+ * @param int $padding
+ * @param bool $transparent
+ * @param array $color
+ * @param array $bg_color
+ * @return string
+ */
+function text_to_image( string $text, string $type = 'img', int $break = 40, int $size = 24, int $rotate = 0, int $padding = 2, bool $transparent = false, array $color = ['r'=>255,'g'=>255,'b'=>255], array $bg_color = ['r'=>0,'g'=>0,'b'=>0] ): string {
+    $e = Encrypt::initiate();
+    $text = $e->encrypt( $text );
+    $url = APPURL . 'core/modules/tti.php?t='.$text.'&b='.$break.'&s='.$size.'&r='.$rotate.'&p='.$padding.'&tr='.$transparent.'&c='.json_encode($color).'&bg='.json_encode($bg_color);
+    if( $type == 'img' ) {
+        return '<img class=\'text_to_image\' src=\''.$url.'\' title=\'Encrypted Text\' />';
+    } else {
+        return '<div class=\'text_to_image\' style=\'background-image: url(\''.$url.'\')\' title=\'Encrypted Text\'></div>';
+    }
+}
