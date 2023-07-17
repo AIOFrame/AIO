@@ -22,73 +22,78 @@ class Encrypt {
 
     /**
      * Encrypt a text string
-     * @param string $data Text to Encrypt
+     * @param string $string Text to Encrypt
      * @return string
      */
-    public function encrypt( string $data ): string {
+    public function encrypt( string $string ): string {
         $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($this->method));
-        return base64_encode(openssl_encrypt($data, $this->method, $this->key, 0, $iv) . $this->separator . base64_encode($iv));
+        return base64_encode(openssl_encrypt( $string, $this->method, $this->key, 0, $iv) . $this->separator . base64_encode($iv));
     }
 
     /**
      * Encrypt an array
-     * @param array $data Array to Encrypt
+     * @param array $array Array to Encrypt
      * @return string
      */
-    public function encrypt_array( array $data ): string {
-        return $this->encrypt( json_encode( $data ) );
+    public function encrypt_array( array $array ): string {
+        return $this->encrypt( json_encode( $array ) );
     }
 
     /**
      * Decrypt an array
-     * @param string $data Array to Decrypt
+     * @param string $encryptedString Encrypted Text
      * @return array
      */
-    public function decrypt_array( string $data ): array {
-        $decrypt = $this->decrypt( $data );
+    public function decrypt_array( string $encryptedString ): array {
+        $decrypt = $this->decrypt( $encryptedString );
         return !empty( $decrypt ) ? json_decode( $decrypt, 1 ) : [];
     }
 
     /**
      * Decrypt an encrypted string
-     * @param string $dataAndVector Encrypted string
+     * @param string $encryptedString Encrypted text
      * @return string
      */
-    public function decrypt( string $dataAndVector ): string {
-        $parts = explode($this->separator, base64_decode($dataAndVector));
+    public function decrypt( string $encryptedString ): string {
+        $parts = explode( $this->separator, base64_decode( $encryptedString ) );
         return is_array($parts) && count($parts) > 1 ? openssl_decrypt($parts[0], $this->method, $this->key, 0, base64_decode($parts[1])) : false;
     }
 
-    public function true(){
+    public function true(): void {
         echo $this->enc('true');
     }
 
-    public function false() {
+    public function false(): void  {
         echo $this->enc('false');
     }
 
-    public function check( $data ) {
-        if( $this->decrypt( $data ) == 'true' ){
+    /**
+     * Checks if string is encrypted or not
+     * @param string $string Text to check
+     * @return bool|void
+     */
+    public function check( string $string = '' ) {
+        if( $this->decrypt( $string ) == 'true' ){
             return true;
-        } else if ( $this->decrypt( $data ) == 'false' ) {
+        } else if ( $this->decrypt( $string ) == 'false' ) {
             return false;
         }
     }
 
     /**
      * Echo a plain string to decrypted string
-     * @param string $data String to be encrypted
+     * @param string $string String to be encrypted
      */
-    public function enc( string $data ){
-        echo $this->encrypt( $data );
+    public function enc( string $string ): void {
+        echo $this->encrypt( $string );
     }
 
     /**
      * Echo a string after decryption
-     * @param string $data Encrypted string to be decrypted
+     * @param string $encryptedString Encrypted text to be decrypted
      */
-    public function dec( string $data ){
-        echo $this->decrypt( $data );
+    public function dec( string $encryptedString ): void {
+        echo $this->decrypt( $encryptedString );
     }
 
     /**
