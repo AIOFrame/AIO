@@ -769,7 +769,7 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
     $f = new FORM();
     $a = new ACCESS();
     $ops = $a->get_access_options();
-    skel( $ops );
+    //skel( $ops );
     $login_title = !empty( $login_title ) ? $login_title : ( $ops['username_text'] ?? '' );
     $pass_title = !empty( $pass_title ) ? $pass_title : ( $ops['password_text'] ?? '' );
     $login_button_title = !empty( $login_button_title ) ? $login_button_title : ( $ops['login_button_text'] ?? '' );
@@ -790,10 +790,10 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
         <?php
         $f->process_html( T( $login_button_title ), 'grad '. $class, 'id="aio_login_init"', 'access_login_ajax' );
         if( $show_reset == 1 ) { ?>
-        <div class="more" onclick="aio_forgot_view()"><?php E( $forgot_pass_title ); ?></div>
+        <div class="more" data-hide=".login_wrap" data-show=".forgot_wrap"><?php E( $forgot_pass_title ); ?></div>
         <?php }
         if( !empty( $ops ) && isset( $ops['show_register'] ) && $ops['show_register'] == 1 ) { ?>
-            <div class="more" onclick="aio_register_view()"><?php E( $forgot_pass_title ); ?></div>
+            <div class="more" data-hide=".login_wrap" data-show=".register_outer_wrap"><?php E( $register_title ); ?></div>
         <?php } ?>
     </div>
     <?php if( $show_reset == 1 ) { ?>
@@ -804,11 +804,13 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
             ?>
         </div>
         <?php $f->process_html( 'Reset Password', 'grad '. $class, 'id="aio_forgot_init"', 'access_forgot_ajax' ); ?>
-        <div class="more" onclick="aio_login_view()"><?php E( 'Return to Login' ); ?></div>
+        <div class="more" data-hide=".forgot_wrap" data-show=".login_wrap"><?php E( 'Return to Login' ); ?></div>
     </div>
     <?php }
     if( !empty( $ops ) && isset( $ops['show_register'] ) && $ops['show_register'] == 1 ) {
+        echo '<div class="register_outer_wrap" style="display: none;">';
         register_html();
+        echo '</div>';
     }
     get_script('access');
     $a->config_users();

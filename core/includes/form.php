@@ -776,10 +776,11 @@ class FORM {
      * @param string $redirect Redirect user to page on successful submission
      * @param string $validation Frontend JS script to add custom validation to the form data
      * @param string $reset_fields Reset input fields with data attribute (Tip: Use 1 to reset provided data fields)
+     * @param string $class Wrapper element class
      */
     function process_params( string $target = '', string $data = '', string $pre = '', int $notify = 0, int $reload = 0, array $hidden = [], string $success_text = '', string $callback = '', string $confirm = '', string $redirect = '', string $validation = '', string $reset_fields = '', string $class = '' ): void {
         $c = Encrypt::initiate();
-        echo !empty( $class ) ? '<div class="'.$class.'" ' : '';
+        echo !empty( $class ) ? '<div class="'.$class.'" ' : '<div ';
         $t = !empty( $target ) ? ' data-t="'.$c->encrypt( $target ).'"' : 'data-t';
         $nt = $notify > 0 ? ' data-notify="'.$notify.'"' : '';
         $rl = $reload > 0 ? ' data-reload="'.$reload.'"' : '';

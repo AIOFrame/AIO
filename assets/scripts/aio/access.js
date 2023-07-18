@@ -1,13 +1,9 @@
 function aio_login_init(e) {
-    if( e.keyCode === 13 ) {
-        process_data(document.getElementById('aio_login_init'));
-    }
+
 }
 
 function aio_forgot_init(e) {
-    if( e.keyCode === 13 ) {
-        process_data(document.getElementById('aio_forgot_init'));
-    }
+
 }
 
 function aio_forgot_view() {
