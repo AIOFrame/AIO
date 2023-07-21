@@ -67,7 +67,7 @@ class PORTAL {
     function login_html( string $login_redirect_url = '', string $attrs = '', string|array $pre_styles = [], string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [], string|array $icon_fonts = '' ): void {
 
         $styles = is_array( $styles ) ? array_merge( $styles, [ 'portal/login', 'login' ] ) : $styles . ',portal/login,login';
-        $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'portal/login', 'login' ] ) : $scripts . ',portal/login,login';
+        $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'aio', 'portal/login', 'login' ] ) : $scripts . ',portal/login,login';
 
         $c = new CONTENT();
         $c->login_html( $login_redirect_url, $attrs, $pre_styles, $styles, $scripts, $primary_font, $secondary_font, $icon_fonts );

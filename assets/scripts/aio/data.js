@@ -12,6 +12,12 @@ $(document).ready(function(){
             post($(this).data('process-change'),{'data':$(this).val()},'','','','',$(this).data('callback'));
         }
     });
+
+    $(document).on('keyup','[data-enter-submit]',function (e) {
+        if( e.keyCode === 13 ) {
+            process_data( $(e).parents('[data-t]') );
+        }
+    })
 })
 
 /**
