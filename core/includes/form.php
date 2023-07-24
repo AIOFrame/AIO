@@ -436,8 +436,8 @@ class FORM {
 
     /**
      * Renders color picker
-     * @param string|array $id
-     * @param string $label
+     * @param string|array $id Unique ID of the element
+     * @param string $label Label for the Color Picker
      * @param string $placeholder
      * @param string|null $value
      * @param string $attrs
