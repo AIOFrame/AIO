@@ -143,17 +143,28 @@ class CONTENT {
             exit;
         }
 
+        // Defines
+        global $options;
+        global $dark_mode;
+        $a = new ACCESS();
+        $aos = $a->get_access_options();
+
         // Head
         $this->pre_html( '', $attrs, $pre_styles, 'icons,inputs,buttons,alerts', $styles, $scripts, $primary_font, $secondary_font, $icon_fonts );
 
         // Content
-        global $options;
-        global $dark_mode;
-        $logo_img = $dark_mode ? ( $options['logo_dark'] ?? '' ) : ( $options['logo_light'] ?? '' );
+        $logo_img = $dark_mode ? ( $aos['ac_logo_d'] ?? $options['logo_light'] ) : ( $aos['ac_logo_l'] ?? $options['logo_dark'] );
         $logo = !empty( $logo_img ) ? 'style="background:url(\''.storage_url( $logo_img ).'\') no-repeat center / contain"' : '';
-        echo '<article><div class="access_wrap"><div class="access_panel">';
+        $bg_style = $aos['ac_bg_repeat'] ? 'repeat center / 100%' : 'no-repeat center / contain';
+        $bg_img = $dark_mode ? ( $aos['ac_bg_d'] ?? '' ) : ( $aos['ac_bg_l'] ?? '' );
+        $bg = !empty( $bg ) ? 'style="background:url(\''.storage_url( $bg_img ).'\') '.$bg_style.'"' : '';
+        //$options['ac_bg_repeat']
+        echo '<article '.$bg.'><div class="access_wrap"><div class="access_panel">';
         echo '<a href="'. APPURL . $login_redirect_url . '" class="brand" '.$logo.'></a>';
-        login_html( 'User Login / Email', 'Password', 'Remember for', 'Login', 2, 2, $login_redirect_url );
+        $u_text = $aos['ac_username_text'] ?? 'User Login / Email';
+        $p_text = $aos['ac_password_text'] ?? 'Password';
+        $l_text = $aos['ac_login_btn_text'] ?? 'Login';
+        login_html( $u_text, $p_text, 'Remember for', $l_text, 2, 2, $login_redirect_url );
         echo '</div></div></article>';
 
         // Foot
