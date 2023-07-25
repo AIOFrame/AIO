@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     // Manipulator
-    let elements = document.querySelectorAll('[data-toggle-on],[data-on],[data-off],[data-show],[data-hide],[data-toggle],[data-slide],[data-remove],[data-action],[data-click],[data-href]');
+    let elements = document.querySelectorAll('[data-toggle-on],[data-on],[data-off],[data-show],[data-hide],[data-toggle],[data-slide],[data-remove],[data-action],[data-click],[data-href],[data-click-on-enter]');
     for (let i = 0; i < elements.length; i++) {
         elements[i].addEventListener("click", function(e) {
             let el = e.target;
@@ -79,6 +79,20 @@ document.addEventListener('DOMContentLoaded', function () {
             } */
 
 
+        });
+    }
+
+    let elements2 = document.querySelectorAll('[data-click-on-enter]');
+    for (let i = 0; i < elements2.length; i++) {
+        elements2[i].addEventListener("keyup", function(e) {
+            let el = e.target;
+            // Simulate Click on Enter
+            if( el.getAttribute('data-click-on-enter') !== null && e.code === 'Enter' ) {
+                let targets = document.querySelectorAll( el.getAttribute('data-click-on-enter') );
+                for( let x = 0; x < targets.length; x++ ) {
+                    targets[x].click();
+                }
+            }
         });
     }
 

@@ -90,14 +90,14 @@ input.empty {
 #aio_login_init, #aio_forgot_init {
   width: 100%;
   margin: 0 0 20px;
-  color: #fff;
-  border-radius: 8px;
+  color: var(--filled_color);
+  border-radius: var(--input_radius);
   transition: 0.8s;
   text-transform: uppercase;
   border: 0;
   padding: 20px;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 1.4rem;
   letter-spacing: 2px;
   box-shadow: 0 5px 35px rgba(0, 0, 0, 0.2);
 }

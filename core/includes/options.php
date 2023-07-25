@@ -94,15 +94,15 @@ class OPTIONS {
         $f->upload('logo_light','Logo','Upload',$light,0,0,'upload',$attr,$ext,.2,1,'',4);
         $f->color('primary_color','Primary','Ex: F1F1F1',$c1,$attr,2,'','[data-key=primary_color]');
         $f->color('secondary_color','Secondary','Ex: A2A2A2',$c2,$attr,2,'','[data-key=secondary_color]');
-        $f->color('color_light','Content Color','Ex: A2A2A2',$c3,$attr,2,'','[data-key=color_light]');
-        $f->color('filled_color_light','Filled Content Color','Ex: A2A2A2',$c4,$attr,2,'','[data-key=filled_color_light]');
+        $f->color('color_light','Text Color','Ex: A2A2A2',$c3,$attr,2,'','[data-key=color_light]');
+        $f->color('filled_color_light','Text on Theme BG','Ex: A2A2A2',$c4,$attr,2,'','[data-key=filled_color_light]');
         if( $dark_mode_options ) {
             echo '<h3 class="col-12">'.T('Dark Color Options').'</h3>';
             $f->upload('logo_dark','Logo','Upload',$dark,0,0,'upload',$attr,$ext,.2,1,'',4);
             $f->color('primary_color_dark','Primary','Ex: F1F1F1',$dc1,$attr,2,'','[data-key=primary_color_dark]');
             $f->color('secondary_color_dark','Secondary','Ex: A2A2A2',$dc2,$attr,2,'','[data-key=secondary_color_dark]');
-            $f->color('color_dark','Content Color','Ex: A2A2A2',$dc3,$attr,2,'','[data-key=color_dark]');
-            $f->color('filled_color_dark','Filled Content Color','Ex: A2A2A2',$dc4,$attr,2,'','[data-key=filled_color_dark]');
+            $f->color('color_dark','Text Color','Ex: A2A2A2',$dc3,$attr,2,'','[data-key=color_dark]');
+            $f->color('filled_color_dark','Text on Theme BG','Ex: A2A2A2',$dc4,$attr,2,'','[data-key=filled_color_dark]');
         }
         $f->process_options('Save Brand Options','store grad','','.col-12 tac');
         echo '</div>';
@@ -403,22 +403,29 @@ class OPTIONS {
 
     /**
      * Renders ACCESS page options
-     * @param string $default_background Default repeating background
-     * @param bool $show_register Show register link
-     * @param int $reload_seconds Seconds to reload page after login / register
-     * @param int $hours Default hours to remember access
-     * @param bool $show_remember Show remember options
-     * @param string $login_button_text Login button text
-     * @param string $username_text Username label text
-     * @param string $password_text Password label text
-     * @param string $forgot_password_text Forgot password text
-     * @param string $reset_pass_text Reset password button text
-     * @param string $return_to_login_text Return to Log in link text
      * @return void
      */
-    function access_options( string $default_background = '', bool $show_register = false, int $reload_seconds = 2, int $hours = 24, bool $show_remember = false, string $login_button_text = 'LOGIN', string $username_text = 'User Login / Email', string $password_text = 'Password', string $forgot_password_text = 'Forgot Password ?', string $reset_pass_text = 'RESET PASSWORD', string $return_to_login_text = 'Return to Login' ): void {
+    function access_options(): void {
         $a = new ACCESS();
         $a->access_options();
+    }
+
+    /**
+     * Renders Login page options
+     * @return void
+     */
+    function login_options(): void {
+        $a = new ACCESS();
+        $a->access_options(2);
+    }
+
+    /**
+     * Renders Register page options
+     * @return void
+     */
+    function register_options(): void {
+        $a = new ACCESS();
+        $a->access_options(3);
     }
 
     /**

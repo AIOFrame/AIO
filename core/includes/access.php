@@ -415,9 +415,16 @@ class ACCESS {
 
     private array $access_options = [
         [ 'id' => 'ac_logo_l', 'type' => 'upload', 'title' => 'Brand Logo - Light', 'col' => 3 ],
-        [ 'id' => 'ac_bg_l', 'type' => 'upload', 'title' => 'Background - Light', 'col' => 3 ],
         [ 'id' => 'ac_logo_d', 'type' => 'upload', 'title' => 'Brand Logo - Dark', 'col' => 3 ],
+        [ 'id' => 'ac_show_logo', 'type' => 'slide', 'title' => 'Show Logo ?', 'col' => 3 ],
+        [ 'id' => 'ac_show_a11y', 'type' => 'slide', 'title' => 'Show Accessibility', 'col' => 3 ],
+        [ 'id' => 'ac_bg_l', 'type' => 'upload', 'title' => 'Background - Light', 'col' => 3 ],
         [ 'id' => 'ac_bg_d', 'type' => 'upload', 'title' => 'Background - Dark', 'col' => 3 ],
+        [ 'id' => 'ac_bg_repeat', 'type' => 'slide', 'title' => 'Background Repetitive', 'col' => 3 ],
+        [ 'id' => 'ac_show_dark', 'type' => 'slide', 'title' => 'Show Dark Toggle', 'col' => 3 ],
+        //[ 'id' => 'ac_show_a11y', 'type' => 'slide', 'title' => 'Show Accessibility', 'col' => 4 ],
+    ];
+    private array $login_options = [
         [ 'id' => 'ac_username_text', 'type' => 'text', 'title' => 'Username Text', 'col' => 3 ],
         [ 'id' => 'ac_password_text', 'type' => 'text', 'title' => 'Password Text', 'col' => 3 ],
         [ 'id' => 'ac_forgot_text', 'type' => 'text', 'title' => 'Forgot Pass Text', 'col' => 3 ],
@@ -427,11 +434,11 @@ class ACCESS {
         [ 'id' => 'ac_register_text', 'type' => 'text', 'title' => 'Register Link Text', 'col' => 3 ],
         [ 'id' => 'ac_register_btn_text', 'type' => 'text', 'title' => 'Register Button Text', 'col' => 3 ],
         [ 'id' => 'ac_session_hours', 'type' => 'select', 'title' => 'Login Session Duration', 'options' => [1=>'1 Hour',8=>'8 Hours',24=>'1 Day',168=>'1 Week'], 'col' => 3 ],
-        [ 'id' => 'ac_bg_repeat', 'type' => 'slide', 'title' => 'Background Repetitive', 'col' => 3 ],
         [ 'id' => 'ac_reset', 'type' => 'slide', 'title' => 'Allow Reset Password', 'col' => 3 ],
         [ 'id' => 'ac_remember', 'type' => 'slide', 'title' => 'Show Remember Options', 'col' => 3 ],
         [ 'id' => 'ac_register', 'type' => 'slide', 'title' => 'Allow Registration?', 'col' => 3 ],
-        [ 'type' => 'h2', 'title' => 'Registration Options' ],
+    ];
+    private array $register_options = [
         [ 'id' => 'ac_register_name', 'type' => 'slide', 'title' => 'Ask Full Name?', 'col' => 3 ],
     ];
 
@@ -534,9 +541,9 @@ class ACCESS {
         return '';
     }
 
-    function get_access_options(): array {
+    function get_options( int $type = 1 ): array {
         $db = new DB();
-        $ao_structure = $this->access_options;
+        $ao_structure = $type == 1 ? $this->access_options : ( $type == 2 ? $this->login_options : $this->register_options );
         $param_array = [];
         foreach( $ao_structure as $aok ) {
             if( isset( $aok['id'] ) ) {
@@ -548,25 +555,15 @@ class ACCESS {
 
     /**
      * Renders ACCESS page options
-     * @param string $default_background Default repeating background
-     * @param bool $show_register Show register link
-     * @param int $reload_seconds Seconds to reload page after login / register
-     * @param int $hours Default hours to remember access
-     * @param bool $show_remember Show remember options
-     * @param string $login_button_text Login button text
-     * @param string $username_text Username label text
-     * @param string $password_text Password label text
-     * @param string $forgot_password_text Forgot password text
-     * @param string $reset_pass_text Reset password button text
-     * @param string $return_to_login_text Return to Log in link text
+     * @param int $type
      * @return void
      */
-    function access_options( string $default_background = '', bool $show_register = false, int $reload_seconds = 2, int $hours = 24, bool $show_remember = false, string $login_button_text = 'LOGIN', string $username_text = 'User Login / Email', string $password_text = 'Password', string $forgot_password_text = 'Forgot Password ?', string $reset_pass_text = 'RESET PASSWORD', string $return_to_login_text = 'Return to Login' ): void {
+    function access_options( int $type = 1 ): void {
         $f = new FORM();
-        $ops = $this->get_access_options();
+        $ops = $this->get_options( $type );
         $f->option_params_wrap('ao',2,2);
         //$f->process_params('','ei','',2,2,[],'Successfully saved user access options!','','Are you sure to save user access options','','','','row');
-        $ao_structure = $this->access_options;
+        $ao_structure = $type == 1 ? $this->access_options : ( $type == 2 ? $this->login_options : $this->register_options );
         foreach( $ao_structure as $aok ) {
             $v = isset( $aok['id'] ) && isset( $ops[ $aok['id'] ] ) ? $ops[ $aok['id'] ] : '';
             $c = $aok['col'] ?? '';
@@ -584,7 +581,7 @@ class ACCESS {
                 $f->input( $aok['type'], $aok['id'], $aok['title'], 'No', 'Yes', $check, 'm', 'data-ao', $c );
             }
         }
-        $f->process_options('Save Access Options','store grad','','.col-12 tac');
+        $f->process_options('Save Options','store grad','','.col-12 tac');
         echo '</div>';
     }
 }
@@ -780,8 +777,8 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
     }
     $f = new FORM();
     $a = new ACCESS();
-    $aos = $a->get_access_options();
-    skel( $aos );
+    $aos = $a->get_options(1);
+    //skel( $aos );
     $login_title = $login_title ?? $aos['ac_username_text'];
     $pass_title = $pass_title ?? $aos['ac_password_text'];
     $login_button_title = !empty( $login_button_title ) ? $login_button_title : ( $aos['login_button_text'] ?? '' );
@@ -793,8 +790,8 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
     <div class="login_wrap" <?php $f->process_params('','log','login_',$notify_for,$reload_in,[],'','','',$redirect_to,'',1); ?>>
         <form class="inputs">
             <?php
-            $f->text('username',$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-log required autocomplete="username"','<div class="user_wrap">','</div>');
-            $f->input('password','password',$pass_title,$pass_title,'','onkeyup="aio_login_init(event)" data-assist data-log required autocomplete="current-password"','<div class="pass_wrap">','</div>');
+            $f->text('username',$login_title,$login_title,'','data-log required autocomplete="username" data-click-on-enter="#aio_login_init"','<div class="user_wrap">','</div>');
+            $f->input('password','password',$pass_title,$pass_title,'','data-assist data-log required autocomplete="current-password" data-click-on-enter="#aio_login_init"','<div class="pass_wrap">','</div>');
             if( !empty( $aos ) && isset( $aos['ac_remember'] ) && $aos['ac_remember'] == 1 ) {
                 $f->radios('remember',$session_title,[1=>'1 Hour',8=>'8 Hours',24=>'1 Day',168=>'1 Week'],1,'data-log',0,'.mb20','','row df fg','.col');
             }
@@ -853,7 +850,7 @@ function register_html( array $columns = [], bool $columns_before = true, array 
     $cry = Encrypt::initiate();
     $f = new FORM();
     $a = new ACCESS();
-    $aos = $a->get_access_options();
+    $aos = $a->get_options(2);
     $login_title = $ops['username_text'] ?? 'User Login / Email';
     $pass_title = $ops['password_text'] ?? 'Password';
     $register_button_title = $aos['register_button_text'] ?? '';
