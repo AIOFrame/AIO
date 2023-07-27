@@ -153,16 +153,16 @@ class CONTENT {
         $this->pre_html( '', $attrs, $pre_styles, 'icons,inputs,buttons,alerts', $styles, $scripts, $primary_font, $secondary_font, $icon_fonts );
 
         // Content
-        skel( $aos );
+        //skel( $aos );
         //skel( $options );
-        $logo_img = $dark_mode ? ( !empty( $aos['ac_logo_d'] ) ? $aos['ac_logo_d'] : $options['logo_dark'] ) : ( !empty( $aos['ac_logo_l'] ) ? $aos['ac_logo_l'] : $options['logo_light'] );
+        $logo_img = $dark_mode ? ( !empty( $aos['ac_logo_d'] ) ? $aos['ac_logo_d'] : ( !empty( $options['logo_dark'] ) ? $options['logo_dark'] : '' ) ) : ( !empty( $aos['ac_logo_l'] ) ? $aos['ac_logo_l'] : ( !empty( $options['logo_light'] ) ? $options['logo_light'] : '' ) );
         $logo = !empty( $logo_img ) ? 'style="background:url(\''.storage_url( $logo_img ).'\') no-repeat center / contain"' : '';
-        $bg_style = $aos['ac_bg_repeat'] ? 'repeat center / 100%' : 'no-repeat center / contain';
+        $bg_style = !empty( $aos['ac_bg_repeat'] ) && $aos['ac_bg_repeat'] == 1 ? 'repeat center / 100%' : 'no-repeat center / contain';
         $bg_img = $dark_mode ? ( $aos['ac_bg_d'] ?? '' ) : ( $aos['ac_bg_l'] ?? '' );
         $bg = !empty( $bg ) ? 'style="background:url(\''.storage_url( $bg_img ).'\') '.$bg_style.'"' : '';
         //$options['ac_bg_repeat']
         echo '<article '.$bg.'><div class="access_wrap"><div class="access_panel">';
-        echo $aos['ac_show_logo'] == 1 ? '<a href="'. APPURL . $login_redirect_url . '" class="brand" '.$logo.'></a>' : '';
+        echo isset( $aos['ac_show_logo'] ) && $aos['ac_show_logo'] == 1 ? '<a href="'. APPURL . $login_redirect_url . '" class="brand" '.$logo.'></a>' : '';
         $u_text = $aos['ac_username_text'] ?? 'User Login / Email';
         $p_text = $aos['ac_password_text'] ?? 'Password';
         $l_text = $aos['ac_login_btn_text'] ?? 'Login';
