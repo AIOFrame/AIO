@@ -6,6 +6,8 @@ class PORTAL {
      * Renders Admin Portal
      * @param string $class Class for <body> tag
      * @param string $attrs Attributes for <body> tag
+     * @param string $primary_color Primary color for theme (without #)
+     * @param string $secondary_color Secondary color for theme (without #)
      * @param string|array $styles Styles to be linked
      * @param string|array $scripts Scripts to be added
      * @param string|array $primary_font Array of primary font and weights Ex: [ 'Lato', '300, 400' ]
@@ -13,7 +15,7 @@ class PORTAL {
      * @param string|array $icon_fonts Icon Fonts Ex: 'MaterialIcons' or [ 'MaterialIcons', 'BootstrapIcons' ]
      * @return void
      */
-    function pre_html( string $class = '', string $attrs = '', string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [], string|array $icon_fonts = '' ): void {
+    function pre_html( string $class = '', string $attrs = '', string $primary_color = '00A99D', string $secondary_color = '', string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [], string|array $icon_fonts = '' ): void {
 
         // Appearance
         global $options;
@@ -38,7 +40,7 @@ class PORTAL {
         !empty( $scripts ) ? ( is_array( $scripts ) ? $scripts[] = 'jquery' : $scripts .= ',jquery' ) : '';
 
         $c = new CONTENT();
-        $c->pre_html($class,$attrs,$pre_styles,'icons,cards,modal,buttons,inputs,icons,tabs,steps,color,table,alerts,accordion',$styles,$scripts,$primary_font,$secondary_font,$icon_fonts);
+        $c->pre_html($class,$attrs,$pre_styles,$primary_color,$secondary_color,'icons,cards,modal,buttons,inputs,icons,tabs,steps,color,table,alerts,accordion',$styles,$scripts,$primary_font,$secondary_font,$icon_fonts);
 
     }
 

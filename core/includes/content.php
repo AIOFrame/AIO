@@ -11,6 +11,8 @@ class CONTENT {
      * @param string $class Class for <body> tag
      * @param string $attrs Attributes for <body> tag
      * @param string|array $pre_styles Pre Styles
+     * @param string $primary_color Primary color for theme (without #)
+     * @param string $secondary_color Secondary color for theme (without #)
      * @param string $art Art Components to be added
      * @param string|array $styles Styles to be linked
      * @param string|array $scripts Scripts to be added
@@ -19,7 +21,7 @@ class CONTENT {
      * @param string|array $icon_fonts Icon Fonts Ex: [ 'MaterialIcons', 'BootstrapIcons' ]
      * @return void
      */
-    function pre_html( string $class = '', string $attrs = '', string|array $pre_styles = [], string $art = '', string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [], string|array $icon_fonts = [] ): void {
+    function pre_html( string $class = '', string $attrs = '', string|array $pre_styles = [], string $primary_color = '00A99D', string $secondary_color = '', string $art = '', string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [], string|array $icon_fonts = [] ): void {
 
         // Defines
         global $dark_mode;
@@ -40,6 +42,35 @@ class CONTENT {
             $seo = !empty( $c['seo'] ) && !empty( $c['seo'][PAGEPATH] ) ?? ( $options['seo'][PAGEPATH] ?? '' );
             echo !empty( $seo ) ? '<meta name="description" content="'.T( $seo ).'">' : '';
         }
+
+        // Colors
+        $dark_mode = 0;
+        if( $primary_color == '222' && $secondary_color == '000' ) {
+            $theme = $options['default_theme'] ?? '';
+            $theme = $options['theme'] ?? $theme;
+            $dark_mode = str_contains( $theme, 'dark' );
+            if( $dark_mode ) {
+                $color = $options['color_dark'] ?? '#fff';
+                $filled_color = $options['filled_color_dark'] ?? '#fff';
+                $color1 = $options['primary_color_dark'] ?? $primary_color;
+                $color2 = $options['secondary_color_dark'] ?? $secondary_color;
+            } else {
+                $color = $options['color_light'] ?? '#000';
+                $filled_color = $options['filled_color_dark'] ?? '#fff';
+                $color1 = $options['primary_color'] ?? '#111';
+                $color2 = $options['secondary_color'] ?? '#222';
+            }
+        } else {
+            $color = '#000';
+            $color1 = '#00A99D';
+            $color2 = '#00A99D';
+            $filled_color = '#fff';
+        }
+        echo '<style>:root {';
+        //skel( $options );
+        echo $dark_mode ? '--dark_mode:1;' : '--dark_mode:0;';
+        echo '--primary_color:'.$color1.';--secondary_color:'.$color2.';--color:'.$color.';--filled_color:'.$filled_color.';';
+        echo '}.c1{color:'.$color1.'}.c2{color:'.$color2.'}.bg1{background:'.$color1.'}.bg2{background:'.$color2.'}.bs{border:1px solid '.$color1.'}.bf:focus{border:1px solid var(--primary_color)}.grad{color:var(--color);background-color:var(--primary_color);background:-moz-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background:-webkit-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background-image:linear-gradient(45deg,var(--primary_color) 0%,var(--secondary_color) 100%);}.grad-text{background: -webkit-linear-gradient(var(--primary_color), var(--secondary_color));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}</style>';
 
         // Fav Icon
         $favicon = isset( $options['fav'] ) ? storage_url( $options['fav'] ) : 'fav';
@@ -156,13 +187,14 @@ class CONTENT {
         //skel( $aos );
         //skel( $options );
         $logo_img = $dark_mode ? ( !empty( $aos['ac_logo_d'] ) ? $aos['ac_logo_d'] : ( !empty( $options['logo_dark'] ) ? $options['logo_dark'] : '' ) ) : ( !empty( $aos['ac_logo_l'] ) ? $aos['ac_logo_l'] : ( !empty( $options['logo_light'] ) ? $options['logo_light'] : '' ) );
+        $logo_img = !empty( $logo_img ) ? $logo_img : ( $dark_mode ? APPURL.'assets/images/aio_l.svg' : APPURL.'assets/images/aio_d.svg' );
         $logo = !empty( $logo_img ) ? 'style="background:url(\''.storage_url( $logo_img ).'\') no-repeat center / contain"' : '';
         $bg_style = !empty( $aos['ac_bg_repeat'] ) && $aos['ac_bg_repeat'] == 1 ? 'repeat center / 100%' : 'no-repeat center / contain';
         $bg_img = $dark_mode ? ( $aos['ac_bg_d'] ?? '' ) : ( $aos['ac_bg_l'] ?? '' );
         $bg = !empty( $bg ) ? 'style="background:url(\''.storage_url( $bg_img ).'\') '.$bg_style.'"' : '';
         //$options['ac_bg_repeat']
         echo '<article '.$bg.'><div class="access_wrap"><div class="access_panel">';
-        echo isset( $aos['ac_show_logo'] ) && $aos['ac_show_logo'] == 1 ? '<a href="'. APPURL . $login_redirect_url . '" class="brand" '.$logo.'></a>' : '';
+        echo !isset( $aos['ac_show_logo'] ) || $aos['ac_show_logo'] !== 1 ? '<a href="'. APPURL . $login_redirect_url . '" class="brand" '.$logo.'></a>' : '';
         $u_text = $aos['ac_username_text'] ?? 'User Login / Email';
         $p_text = $aos['ac_password_text'] ?? 'Password';
         $l_text = $aos['ac_login_btn_text'] ?? 'Login';

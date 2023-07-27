@@ -1000,6 +1000,17 @@ if( isset( $_GET['logout'] ) ) {
     }
 }
 
+/**
+ * Function to authorize user logged in else redirect to
+ * @param string $login_page Login page url path without site url Ex: admin/login
+ * @return void
+ */
+function restrict_auth( string $login_page = 'admin/login' ): void {
+    if( !user_logged_in() ) {
+        header('Location: '.APPURL.$login_page);
+    }
+}
+
 // Set autoload user options as session
 /* if( user_logged_in() ) {
     $db = new DB();
