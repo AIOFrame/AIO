@@ -61,7 +61,7 @@ class CONTENT {
                 $color2 = $options['secondary_color'] ?? '#222';
             }
         } else {
-            $color = '#000';
+            $color = '#fff';
             $color1 = '#00A99D';
             $color2 = '#00A99D';
             $filled_color = '#fff';
