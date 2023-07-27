@@ -58,6 +58,8 @@ class PORTAL {
      * Renders Admin Portal Login HTML
      * @param string $login_redirect_url URL to redirect after login
      * @param string $attrs Attributes to add to the login wrapper
+     * @param string $primary_color
+     * @param string $secondary_color
      * @param string|array $pre_styles Pre styles to add
      * @param string|array $styles Internal styles to add
      * @param string|array $scripts Scripts to add
@@ -66,13 +68,13 @@ class PORTAL {
      * @param string|array $icon_fonts Icon Fonts Ex: 'MaterialIcons' or [ 'MaterialIcons', 'BootstrapIcons' ]
      * @return void
      */
-    function login_html( string $login_redirect_url = '', string $attrs = '', string|array $pre_styles = [], string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [], string|array $icon_fonts = 'MaterialIcons' ): void {
+    function auth_page( string $login_redirect_url = '', string $attrs = '', string $primary_color = '', string $secondary_color = '', string|array $pre_styles = [], string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [], string|array $icon_fonts = 'MaterialIcons' ): void {
 
         $styles = is_array( $styles ) ? array_merge( $styles, [ 'portal/login', 'login' ] ) : $styles . ',portal/login,login';
         $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'aio', 'portal/login', 'login' ] ) : $scripts . ',portal/login,login';
 
         $c = new CONTENT();
-        $c->login_html( $login_redirect_url, $attrs, $pre_styles, $styles, $scripts, $primary_font, $secondary_font, $icon_fonts );
+        $c->auth_page( $login_redirect_url, $attrs, $pre_styles, $primary_color, $secondary_color, $styles, $scripts, $primary_font, $secondary_font, $icon_fonts );
     }
 
     /**

@@ -159,6 +159,8 @@ class CONTENT {
      * @param string $login_redirect_url URL to redirect after login
      * @param string $attrs Attributes to add to the login wrapper
      * @param string|array $pre_styles Pre styles to add
+     * @param string $primary_color Primary color for theme (without #)
+     * @param string $secondary_color Secondary color for theme (without #)
      * @param string|array $styles Internal styles to add
      * @param string|array $scripts Scripts to add
      * @param array $primary_font Array of primary font and weights Ex: [ 'Lato', '300, 400' ]
@@ -166,7 +168,7 @@ class CONTENT {
      * @param string|array $icon_fonts Icon Fonts Ex: 'MaterialIcons' or [ 'MaterialIcons', 'BootstrapIcons' ]
      * @return void
      */
-    function login_html( string $login_redirect_url = '', string $attrs = '', string|array $pre_styles = [], string|array $styles = [], string|array $scripts = [], array $primary_font = [], array $secondary_font = [], string|array $icon_fonts = '' ): void {
+    function auth_page( string $login_redirect_url = '', string $attrs = '', string|array $pre_styles = [], string $primary_color = '00A99D', string $secondary_color = '', string|array $styles = [], string|array $scripts = [], array $primary_font = [], array $secondary_font = [], string|array $icon_fonts = '' ): void {
 
         if( user_logged_in() ) {
             $redirect = 'Location:'.APPURL.$login_redirect_url;
@@ -181,7 +183,7 @@ class CONTENT {
         $aos = $a->get_options();
 
         // Head
-        $this->pre_html( '', $attrs, $pre_styles, 'icons,inputs,buttons,alerts', $styles, $scripts, $primary_font, $secondary_font, $icon_fonts );
+        $this->pre_html( '', $attrs, $pre_styles, '', '', 'icons,inputs,buttons,alerts', $styles, $scripts, $primary_font, $secondary_font, $icon_fonts );
 
         // Content
         //skel( $aos );
