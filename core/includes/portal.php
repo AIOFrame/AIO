@@ -282,7 +282,7 @@ class PORTAL {
 
     /**
      * Renders Side Menu
-     * @param array $menus Array set of [ 'title' => 'Contacts', 'url' => 'contacts', 'icon' => 'users', 'perm' => 'view_contacts', 'type' => 'admin', 'col' => 4, 'group' => 'Contacts', 'data' => 'contacts' ];
+     * @param array $menus Array set of [ 'title' => 'Contacts', 'url' => 'contacts', 'icon' => 'users', 'perm' => 'view_contacts', 'type' => 'admin', 'col' => 4, 'group' => 'Contacts', 'data' => 'contacts', 'menu' => [] ];
      * @param string $root_url URL of root Dashboard
      * @param string $content Any HTML content to be shown after Search Bar
      * @param string $class Class for the wrapper aside element
@@ -305,6 +305,7 @@ class PORTAL {
             </div>
             <?php echo $content;
             if( !empty( $menus ) ) {
+                $user_type = isset( $_SESSION['user']['type'] ) && !empty( $_SESSION['user']['type'] ) ? $_SESSION['user']['type'] : '';
                 foreach( $menus as $menu_set ) {
                     //skel( $menu_set );
                     $group_title = $menu_set['group'] ?? '';
@@ -321,8 +322,7 @@ class PORTAL {
                     }
                     if( !empty( $menu_set['type'] ) ) {
                         $user_types_set = explode( ',', $menu_set['type'] );
-                        $user_type = $_SESSION['user']['type'] ?? '';
-                        if( !in_array( $user_type, $user_types_set ) ) {
+                        if( empty( $user_type ) || !in_array( $user_type, $user_types_set ) ) {
                             $group_restricted[] = 1;
                         }
                     }
