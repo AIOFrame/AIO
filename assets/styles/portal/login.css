@@ -1,3 +1,4 @@
+@charset "UTF-8";
 body {
   margin: 0;
   height: 100vh;
@@ -33,11 +34,11 @@ body {
 }
 
 .user_wrap:after {
-  content: "\e7fd";
+  content: "";
 }
 
 .pass_wrap:after {
-  content: "\e897";
+  content: "";
 }
 
 /* Login */
@@ -125,18 +126,22 @@ input.empty {
   .access_wrap {
     width: calc(100vw - 40px);
   }
+
   .access_panel {
     width: 100%;
     max-width: none;
     padding: 20px;
   }
+
   #logo {
     height: 50px;
   }
+
   input, button, select, textarea {
     padding: 10px;
     margin-bottom: 8px;
   }
+
   .access #set_access {
     padding: 10px 0;
   }

@@ -617,9 +617,11 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
     }
 
     let d = $.extend({}, { 'action' : action }, data);
+    //elog(d);
     $.post( location.origin, d, function(r) {
         //elog(r);
         try {
+            elog(r);
             r = JSON.parse( r );
             elog(r);
             elog( notify_time );

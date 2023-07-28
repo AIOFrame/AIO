@@ -236,6 +236,29 @@ class PORTAL {
                     echo '</div></div></div>';
                 }
 
+                // Show Regions
+                if( isset( $c['features'] ) && ( in_array( 'regions', $c['features'] ) || in_array( 'global', $c['features'] ) ) ) {
+                    $countries = get_countries('iso2','flag name');
+                    $regions = $db->get_option( 'regions' );
+                    $cr = $options['region'];
+                    $live = isset( $countries[$cr] ) ? explode( ' ', $countries[$cr] ) : [];
+                    if( !empty( $regions ) ) {
+                        $regions = array_map( 'trim', explode( ',', $regions ) );
+                        $rico = !empty( $cr ) ? '<div class="reg-ico">'.$live[0].'</div>' : '<div class="mat-ico">map</div>';
+                        echo '<div id="region" class="nav_ico" title="Change Region">'.$rico.'<div class="drop" data-action="'.$e->encrypt('set_region_ajax').'">';
+                        foreach( $regions as $r ){
+                            $t = $countries[$r] ?? '';
+                            if( !empty( $cr ) && $cr == $r  ) {
+                                echo '<div class="ln list on">'.$t.'</div>';
+                            } else {
+                                echo '<div class="ln list" data-set-region="'.$r.'">'.$t.'</div>';
+                            }
+                        }
+                        echo '</div></div>';
+                    }
+                    //skel( $regions );
+                }
+
                 // Show Languages
                 if( $show_languages && in_array( 'languages', $c ) ) {
                     echo '<div id="lang" class="nav_ico" title="Change Language"><div class="mat-ico">translate</div><div class="drop">';

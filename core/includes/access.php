@@ -802,7 +802,7 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
         if( $show_reset == 1 ) { ?>
         <div class="more" data-hide=".login_wrap" data-show=".forgot_wrap"><?php E( $forgot_pass_title ); ?></div>
         <?php }
-        if( !empty( $aos ) && isset( $aos['ac_register'] ) && $aos['ac_register'] == 1 ) { ?>
+        if( empty( $aos ) || ( isset( $aos['ac_register'] ) && $aos['ac_register'] == 1 ) ) { ?>
             <div class="more" data-hide=".login_wrap" data-show=".register_outer_wrap"><?php E( $register_title ); ?></div>
         <?php } ?>
     </div>
@@ -819,8 +819,8 @@ function login_html( string $login_title = 'Username or Email', string $pass_tit
         <div class="more" data-hide=".forgot_wrap" data-show=".login_wrap"><?php E( $return_text ); ?></div>
     </div>
     <?php }
-    if( !empty( $aos ) && isset( $aos['ac_register'] ) && $aos['ac_register'] == 1 ) { ?>
-        <div class="register_outer_wrap" style="display: none;">';
+    if( empty( $aos ) || ( isset( $aos['ac_register'] ) && $aos['ac_register'] == 1 ) ) { ?>
+        <div class="register_outer_wrap" style="display: none;">
         <?php register_html(); ?>
         <div class="more" data-hide=".register_outer_wrap" data-show=".login_wrap"><?php E( $return_text ); ?></div>
         </div>
@@ -870,12 +870,19 @@ function register_html( array $columns = [], bool $columns_before = true, array 
             $f->input('password','password',$pass_title,'Password','','data-reg minlength="8" data-minlength="'.$min_string.'" data-help required','<div>','</div>');
             $empty_logic = in_array( 'email', $compulsory ) ? 'required="true"' : '';
             $f->input('email','email','Email','Email','','data-reg data-help required'.$empty_logic,'<div>','</div>');
-            $defs = [ 'name' => 'Name', 'picture' => 'Picture' ];
-            foreach( $defs as $dk => $dv ) {
-                if( !in_array( $dk, $hide ) ) {
-                    $empty_logic = in_array( $dk, $compulsory ) ? 'required="true"' : '';
-                    echo '<div><label for="register_'.$dk.'_'.$rand.'">'.T( $dv ).'</label>';
-                    echo '<input type="text" class="'.$dk.'" data-reg name="'.$dk.'" id="register_'.$dk.'_'.$rand.'" data-key="'.$dk.'" placeholder="'.$dv.'" '.$empty_logic.'></div>';
+            $defs = [ [ 'id' => 'name', 'title' => 'Full Name' ], [ 'id' => 'picture', 'title' => 'Picture', 'type' => 'upload' ], [ 'id' => 'dob', 'title' => 'Date of Birth', 'type' => 'date' ] ];
+            foreach( $defs as $df ) {
+                if( !in_array( $df['id'], $hide ) ) {
+                    $req = in_array( $df['id'], $compulsory ) ? 'required' : '';
+                    if( isset( $df['type'] ) && $df['type'] == 'upload' ) {
+                        $f->upload( $df['id'], $df['title'], 'Upload Profile Picture', '', 0, 0, '', 'data-reg', '.jpg,.jpeg', .2, 0, '', '<div>', '</div>' );
+                    } else if( isset( $df['type'] ) && $df['type'] == 'date' ) {
+                        $f->date( $df['id'], $df['title'], '', '', 'data-reg', 'top center', '<div>', 0, 0, '', '', '', '</div>' );
+                    } else {
+                        $f->text( $df['id'], $df['title'], $df['placeholder'] ?? $df['title'], '', 'data-reg', '<div>', '</div>' );
+                    }
+                    //echo '<div><label for="register_'.$dk.'_'.$rand.'">'.T( $dv ).'</label>';
+                    //echo '<input type="text" class="'.$dk.'" data-reg name="'.$dk.'" id="register_'.$dk.'_'.$rand.'" data-key="'.$dk.'" placeholder="'.$dv.'" '.$empty_logic.'></div>';
                 }
             }
             if( !empty( $data ) ) {
@@ -887,7 +894,9 @@ function register_html( array $columns = [], bool $columns_before = true, array 
             echo !$columns_before ? $columns_html : '';
             ?>
         </div>
-        <?php $f->process_html( 'Register', 'grad', 'id="aio_forgot_init"', 'access_register_ajax' ); ?>
+        <?php
+        file_upload();
+        $f->process_html( 'Register', 'grad', 'id="aio_forgot_init"', 'access_register_ajax' ); ?>
     </div>
     <?php
 }

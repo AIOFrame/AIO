@@ -34,6 +34,15 @@ $(document).ready(function() {
     .on('click','aside ul i',function(){
         $('aside ul li').not($(this).parents('li')).removeClass('open');
         $(this).parents('li').toggleClass('open');
+    })
+
+    // Set Regions
+    .on('click','[data-set-region]',function () {
+        let r = $(this).data('set-region');
+        let a = $(this).parent().data('action');
+        console.log( r );
+        console.log( a );
+        post( a, { 'action': a, 'iso2': r }, 2, 2 );
     });
 
     // Auto Opens Modal

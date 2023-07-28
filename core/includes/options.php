@@ -315,12 +315,25 @@ class OPTIONS {
         echo '</div>';
     }
 
+    /**
+     * Renders options to set operating regions
+     * @return void
+     */
+    function set_regions(): void {
+        $c = !empty( CONFIG ) ? json_decode( CONFIG ) : [];
+        if( in_array( 'regions', $c->features ) || in_array( 'region', $c->features ) ) {
+            $r = new REGION();
+            $r->set_regions();
+            //$f->select2('');
+        }
+    }
+
     function region_options(): void {
-        $c = defined( 'CONFIG' ) && !empty( CONFIG ) ? json_decode( CONFIG, 1 ) : [];
+        /* $c = defined( 'CONFIG' ) && !empty( CONFIG ) ? json_decode( CONFIG, 1 ) : [];
         if( !empty( $c['features'] ) && in_array( 'region', $c['features'] ) ) {
             $r = new REGION();
             $r->region_options();
-        }
+        }*/
     }
 
     function social_options(): void {

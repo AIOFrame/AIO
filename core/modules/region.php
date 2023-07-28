@@ -14,6 +14,10 @@ class REGION {
         return $this->countryReader->country->name;
     }
 
+    function get_country_flag(): ?string {
+        return $this->countryReader->country->flag;
+    }
+
     function get_city_name(): ?string {
         return $this->countryReader->city->name;
     }
@@ -107,6 +111,31 @@ class REGION {
         echo '</div></div></div>';
     }
 
+    /**
+     * Renders options to set operating regions
+     * @return void
+     */
+    function set_regions(): void {
+        $f = new FORM();
+        $db = new DB();
+        $countries = get_countries('iso2');
+        $regions = $db->get_option( 'regions' );
+        $f->option_params_wrap('reg',2,2);
+        $f->select2('regions','Set Operating Regions','Choose countries...',$countries,$regions,'multiple data-reg',12,1);
+        $f->process_options('Save Options','store grad','','.col-12 tac');
+        echo '</div>';
+    }
+
+}
+
+function set_region_ajax(): void {
+    if( isset( $_POST['iso2'] ) ) {
+        $db = new DB();
+        $u = $db->update_option( 'region', $_POST['iso2'], get_user_id(), 1 );
+        $u ? es('Successfully changed current region!') : ef('Failed to change current region!');
+    } else {
+        ef('Failed to change current region! Set country not received in the backend, please consult developer!');
+    }
 }
 
 function get_region_countries( string $key = 'id', string $value = 'name flag' ): array {
