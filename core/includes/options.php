@@ -58,25 +58,26 @@ class OPTIONS {
     function brand_options( bool $dark_mode_options = true ): void {
         $f = new FORM();
         $db = new DB();
-        $brands = $this->brand_options;
+        $r = defined( 'REGION' ) && isset( REGION['cca2'] ) ? strtolower( REGION['cca2'] ).'_' : '';
+        $brands = defined( 'REGION' ) ? pre_keys( $this->brand_options, $r ) : $this->brand_options;
         $ops = $db->get_options( $brands );
         $f->option_params_wrap( 'brand', 2, 2, $brands );
         $attr = 'data-brand';
         $ext = 'jpg,svg,png';
-        $name = !empty( $ops['app_name'] ) ? $ops['app_name'] : 'fake_name';
-        $desc = !empty( $ops['app_desc'] ) ? $ops['app_desc'] : 'fake_text';
-        $theme = !empty( $ops['default_theme'] ) ? $ops['default_theme'] : '';
-        $c1 = !empty( $ops['primary_color'] ) ? $ops['primary_color'] : 'fake_hex';
-        $c2 = !empty( $ops['secondary_color'] ) ? $ops['secondary_color'] : 'fake_hex';
-        $c3 = !empty( $ops['color_light'] ) ? $ops['color_light'] : 'fake_hex';
-        $c4 = !empty( $ops['filled_color_light'] ) ? $ops['filled_color_light'] : 'fake_hex';
-        $dc1 = !empty( $ops['primary_color_dark'] ) ? $ops['primary_color_dark'] : 'fake_hex';
-        $dc2 = !empty( $ops['secondary_color_dark'] ) ? $ops['secondary_color_dark'] : 'fake_hex';
-        $dc3 = !empty( $ops['color_dark'] ) ? $ops['color_dark'] : 'fake_hex';
-        $dc4 = !empty( $ops['filled_color_dark'] ) ? $ops['filled_color_dark'] : 'fake_hex';
-        $light = !empty( $ops['logo_light'] ) ? $ops['logo_light'] : '';
-        $dark = !empty( $ops['logo_dark'] ) ? $ops['logo_dark'] : '';
-        $fav = !empty( $ops['fav'] ) ? $ops['fav'] : '';
+        $name = !empty( $ops[$r.'app_name'] ) ? $ops[$r.'app_name'] : 'fake_name';
+        $desc = !empty( $ops[$r.'app_desc'] ) ? $ops[$r.'app_desc'] : 'fake_text';
+        $theme = !empty( $ops[$r.'default_theme'] ) ? $ops[$r.'default_theme'] : '';
+        $c1 = !empty( $ops[$r.'primary_color'] ) ? $ops[$r.'primary_color'] : 'fake_hex';
+        $c2 = !empty( $ops[$r.'secondary_color'] ) ? $ops[$r.'secondary_color'] : 'fake_hex';
+        $c3 = !empty( $ops[$r.'color_light'] ) ? $ops[$r.'color_light'] : 'fake_hex';
+        $c4 = !empty( $ops[$r.'filled_color_light'] ) ? $ops[$r.'filled_color_light'] : 'fake_hex';
+        $dc1 = !empty( $ops[$r.'primary_color_dark'] ) ? $ops[$r.'primary_color_dark'] : 'fake_hex';
+        $dc2 = !empty( $ops[$r.'secondary_color_dark'] ) ? $ops[$r.'secondary_color_dark'] : 'fake_hex';
+        $dc3 = !empty( $ops[$r.'color_dark'] ) ? $ops[$r.'color_dark'] : 'fake_hex';
+        $dc4 = !empty( $ops[$r.'filled_color_dark'] ) ? $ops[$r.'filled_color_dark'] : 'fake_hex';
+        $light = !empty( $ops[$r.'logo_light'] ) ? $ops[$r.'logo_light'] : '';
+        $dark = !empty( $ops[$r.'logo_dark'] ) ? $ops[$r.'logo_dark'] : '';
+        $fav = !empty( $ops[$r.'fav'] ) ? $ops[$r.'fav'] : '';
         $uis = [ 'default' => 'Default - Light' ];
         $ui_list = scandir( ROOTPATH . 'assets/styles/portal/ui' );
         foreach( $ui_list as $ui ) {
@@ -85,26 +86,27 @@ class OPTIONS {
                 $uis[ $s ] = ucwords( str_replace( '-', ' ', $s ) );
             }
         }
-        $f->text('app_name','Web App / Site Name','Ex: AIO University...',$name,$attr,8);
-        $f->upload('fav','Fav Icon','Upload',$fav,0,0,'upload',$attr,'png',.1,1,'',4);
-        $f->textarea('app_desc','Web App / Site Description','Ex: We provide...',$desc,$attr,12);
-        $f->select2( 'default_theme', 'Default Admin Theme', 'Select Theme...', $uis, $theme, $attr, 12, 1 );
+        $f->text($r.'app_name','Web App / Site Name','Ex: AIO University...',$name,$attr,8);
+        $f->upload($r.'fav','Fav Icon','Upload',$fav,0,0,'upload',$attr,'png',.1,1,'',4);
+        $f->textarea($r.'app_desc','Web App / Site Description','Ex: We provide...',$desc,$attr,12);
+        $f->select2( $r.'default_theme', 'Default Admin Theme', 'Select Theme...', $uis, $theme, $attr, 12, 1 );
         //$f->select( 'input_theme', 'Input Style', 'Select Theme...', [], '', 'data-data class="select2"', 6, 1 );
         echo '<h3 class="col-12">'.T('Light Color Options').'</h3>';
-        $f->upload('logo_light','Logo','Upload',$light,0,0,'upload',$attr,$ext,.2,1,'',4);
-        $f->color('primary_color','Primary','Ex: F1F1F1',$c1,$attr,2,'','[data-key=primary_color]');
-        $f->color('secondary_color','Secondary','Ex: A2A2A2',$c2,$attr,2,'','[data-key=secondary_color]');
-        $f->color('color_light','Text Color','Ex: A2A2A2',$c3,$attr,2,'','[data-key=color_light]');
-        $f->color('filled_color_light','Text on Theme BG','Ex: A2A2A2',$c4,$attr,2,'','[data-key=filled_color_light]');
+        $f->upload($r.'logo_light','Logo','Upload',$light,0,0,'upload',$attr,$ext,.2,1,'',4);
+        $f->color($r.'primary_color','Primary','Ex: F1F1F1',$c1,$attr,2,'','[data-key=primary_color]');
+        $f->color($r.'secondary_color','Secondary','Ex: A2A2A2',$c2,$attr,2,'','[data-key=secondary_color]');
+        $f->color($r.'color_light','Text Color','Ex: A2A2A2',$c3,$attr,2,'','[data-key=color_light]');
+        $f->color($r.'filled_color_light','Text on Theme BG','Ex: A2A2A2',$c4,$attr,2,'','[data-key=filled_color_light]');
         if( $dark_mode_options ) {
             echo '<h3 class="col-12">'.T('Dark Color Options').'</h3>';
-            $f->upload('logo_dark','Logo','Upload',$dark,0,0,'upload',$attr,$ext,.2,1,'',4);
-            $f->color('primary_color_dark','Primary','Ex: F1F1F1',$dc1,$attr,2,'','[data-key=primary_color_dark]');
-            $f->color('secondary_color_dark','Secondary','Ex: A2A2A2',$dc2,$attr,2,'','[data-key=secondary_color_dark]');
-            $f->color('color_dark','Text Color','Ex: A2A2A2',$dc3,$attr,2,'','[data-key=color_dark]');
-            $f->color('filled_color_dark','Text on Theme BG','Ex: A2A2A2',$dc4,$attr,2,'','[data-key=filled_color_dark]');
+            $f->upload($r.'logo_dark','Logo','Upload',$dark,0,0,'upload',$attr,$ext,.2,1,'',4);
+            $f->color($r.'primary_color_dark','Primary','Ex: F1F1F1',$dc1,$attr,2,'','[data-key=primary_color_dark]');
+            $f->color($r.'secondary_color_dark','Secondary','Ex: A2A2A2',$dc2,$attr,2,'','[data-key=secondary_color_dark]');
+            $f->color($r.'color_dark','Text Color','Ex: A2A2A2',$dc3,$attr,2,'','[data-key=color_dark]');
+            $f->color($r.'filled_color_dark','Text on Theme BG','Ex: A2A2A2',$dc4,$attr,2,'','[data-key=filled_color_dark]');
         }
-        $f->process_options('Save Brand Options','store grad','','.col-12 tac');
+        $f->process_options($this->region_flag().'Save Brand Options','store grad','','.col-12 tac');
+        $this->region_notice();
         echo '</div>';
         file_upload();
         get_scripts('iro,color');
@@ -187,7 +189,9 @@ class OPTIONS {
     function font_options(): void {
         $f = new FORM();
         $db = new DB();
+        $r = defined( 'REGION' ) && isset( REGION['cca2'] ) ? strtolower( REGION['cca2'] ).'_' : '';
         $options_array = [ 'font_1', 'font_1_weights', 'font_weight', 'font_2', 'font_2_weights' ];
+        $options_array = defined( 'REGION' ) ? prepare_values( $options_array, $r ) : $options_array;
         $ops = $db->get_options( $options_array );
         $f->option_params_wrap('fonts', 2, 2, $options_array );
         $font_1 = $ops['font_1'] ?? 'Lato';
@@ -210,13 +214,14 @@ class OPTIONS {
                 $fonts[] = $font->getFilename();
             }
         }
-        $f->select2('font_1','Primary Font','Select Font...',$fonts,$font_1,$attr,6);
-        $f->select2('font_1_weights','Font Weights','Select Weights...',$weights,$font_1_weights,$attr.' multiple',4);
-        $f->select2('font_weight','Default Weight','Select...',$weights,$font_weight,$attr,2);
-        $f->select2('font_2','Secondary Font','Select Font...',$fonts,$font_2,$attr,6);
-        $f->select2('font_2_weights','Secondary Font Weights','Select Weights...',$weights,$font_2_weights,$attr.' multiple',4);
+        $f->select2($r.'font_1','Primary Font','Select Font...',$fonts,$font_1,$attr,6);
+        $f->select2($r.'font_1_weights','Font Weights','Select Weights...',$weights,$font_1_weights,$attr.' multiple',4);
+        $f->select2($r.'font_weight','Default Weight','Select...',$weights,$font_weight,$attr,2);
+        $f->select2($r.'font_2','Secondary Font','Select Font...',$fonts,$font_2,$attr,6);
+        $f->select2($r.'font_2_weights','Secondary Font Weights','Select Weights...',$weights,$font_2_weights,$attr.' multiple',4);
         //$f->select2('font_2_weight','Default Weight','Select...',$weights,$font_2_weight,$attr,2);
-        $f->process_options('Save Map Options','store grad','','.col-12 tac');
+        $f->process_options($this->region_flag().'Save Map Options','store grad','','.col-12 tac');
+        $this->region_notice();
         echo '</div>';
     }
 
@@ -227,77 +232,97 @@ class OPTIONS {
     function map_options(): void {
         $f = new FORM();
         $db = new DB();
-        $options_array = [ 'google_maps_key', 'default_map_lat', 'default_map_long', 'default_map_zoom', 'default_map_type' ];
-        $ops = $db->get_options( $options_array );
+        $r = defined( 'REGION' ) && isset( REGION['cca2'] ) ? strtolower( REGION['cca2'] ).'_' : '';
+        $options_array = [ 'default_map_lat', 'default_map_long', 'default_map_zoom', 'default_map_type' ];
+        $options_array = defined( 'REGION' ) ? prepare_values( $options_array, $r ) : $options_array;
+        //skel( $options_array );
+        $ops = $db->get_options( array_merge( $options_array, ['google_maps_key'] ) );
+        //skel( $ops );
         $f->option_params_wrap('google-map', 2, 2 );
         $key = $ops['google_maps_key'] ?? '';
-        $lat = !empty( $ops['default_map_lat'] ) ? $ops['default_map_lat'] : 'fake_lat';
-        $long = !empty( $ops['default_map_long'] ) ? $ops['default_map_long'] : 'fake_long';
-        $zoom = $ops['default_map_zoom'] ?? 13;
-        $type = !empty( $ops['default_map_type'] ) ? $ops['default_map_type'] : 'terrain';
+        $lat = !empty( $ops[$r.'default_map_lat'] ) ? $ops[$r.'default_map_lat'] : 'fake_lat';
+        $v_lat = !empty( $ops[$r.'default_map_lat'] ) ? $ops[$r.'default_map_lat'] : '';
+        $long = !empty( $ops[$r.'default_map_long'] ) ? $ops[$r.'default_map_long'] : 'fake_long';
+        $v_long = !empty( $ops[$r.'default_map_long'] ) ? $ops[$r.'default_map_long'] : '';
+        $zoom = $ops[$r.'default_map_zoom'] ?? 13;
+        $type = !empty( $ops[$r.'default_map_type'] ) ? $ops[$r.'default_map_type'] : 'terrain';
         $attr = 'data-google-map';
         $f->text('google_maps_key','Google Maps - API Key','Ex: AIvcDfDtd04QuAYdfgRN-aZBF5DuSFhMUnbdehD9',$key,$attr,12);
-        $f->map( '[data-key=default_map_lat]', '[data-key=default_map_long]', '', '', '', '', '', 12 );
-        $f->text('default_map_lat','Default Map Latitude','Ex: 12.34233',$lat,$attr,3);
-        $f->text('default_map_long','Default Map Longitude','Ex: 24.43555',$long,$attr,3);
-        $f->select2('default_map_zoom','Default Zoom Level','Select Level...',range(0,19),$zoom,$attr,3);
-        $f->select2('default_map_type','Default Map Type','Select Type...',['roadmap','satellite','hybrid','terrain'],$type,$attr,3);
-        $f->process_options('Save Map Options','store grad','','.col-12 tac');
+        $f->map( '[data-key='.$r.'default_map_lat]', '[data-key='.$r.'default_map_long]', '', '', '', '', '', 12, $v_lat, $v_long, $zoom, $type );
+        $f->text($r.'default_map_lat','Default Map Latitude','Ex: 12.34233',$lat,$attr,3);
+        $f->text($r.'default_map_long','Default Map Longitude','Ex: 24.43555',$long,$attr,3);
+        $f->select2($r.'default_map_zoom','Default Zoom Level','Select Level...',range(0,19),$zoom,$attr,3);
+        $f->select2($r.'default_map_type','Default Map Type','Select Type...',['roadmap','satellite','hybrid','terrain'],$type,$attr,3);
+        $f->process_options($this->region_flag().'Save Map Options','store grad','','.col-12 tac');
+        $this->region_notice();
         echo '</div>';
     }
 
     function communication_options(): void {
         $f = new FORM();
         $db = new DB();
-        $os = $db->get_options( $this->communication_options );
+        $r = defined( 'REGION' ) && isset( REGION['cca2'] ) ? strtolower( REGION['cca2'] ).'_' : '';
+        $comm_options = defined( 'REGION' ) ? pre_keys( $this->communication_options, $r ) : $this->communication_options;
+        //skel( $comm_options );
+        $os = $db->get_options( $comm_options );
+        //skel( $r );
         //skel( $os );
         $f->option_params_wrap('com',2,2);
-        $phone = !empty( $os['phone'] ) ? $os['phone'] : 'fake_phone';
-        $mobile = !empty( $os['mobile'] ) ? $os['mobile'] : 'fake_phone';
-        $email = !empty( $os['email'] ) ? $os['email'] : 'fake_email';
-        $website = !empty( $os['website'] ) ? $os['website'] : 'fake_site';
-        $f->text('phone','Official Phone No.','Ex: 403334444',$phone,'data-com',3);
-        $f->text('mobile','Mobile No. for Social Media','Ex: 503334444',$mobile,'data-com',3);
-        $f->text('email','Official Email','Ex: hello@company.com',$email,'data-com',3);
-        $f->text('website','Official Website','Ex: company.com',$website,'data-com',3);
-        $f->process_options('Save Options','store grad','','.col-12 tac');
+        $phone = !empty( $os[$r.'phone'] ) ? $os[$r.'phone'] : 'fake_phone';
+        $mobile = !empty( $os[$r.'mobile'] ) ? $os[$r.'mobile'] : 'fake_phone';
+        $email = !empty( $os[$r.'email'] ) ? $os[$r.'email'] : 'fake_email';
+        $website = !empty( $os[$r.'website'] ) ? $os[$r.'website'] : 'fake_site';
+        $f->text($r.'phone','Official Phone No.','Ex: 403334444',$phone,'data-com',3);
+        $f->text($r.'mobile','Mobile No. for Social Media','Ex: 503334444',$mobile,'data-com',3);
+        $f->text($r.'email','Official Email','Ex: hello@company.com',$email,'data-com',3);
+        $f->text($r.'website','Official Website','Ex: company.com',$website,'data-com',3);
+        $f->process_options($this->region_flag().'Save Options','store grad','','.col-12 tac');
+        $this->region_notice();
         echo '</div>';
     }
 
     function address_options(): void {
         $f = new FORM();
         $db = new DB();
-        $os = $db->get_options(['address','city','state','post','country']);
+        $r = defined( 'REGION' ) && isset( REGION['cca2'] ) ? strtolower( REGION['cca2'] ).'_' : '';
+        $add_ops = ['address','city','state','post','country'];
+        $add_ops = defined( 'REGION' ) ? prepare_values( $add_ops, $r ) : $add_ops;
+        $os = $db->get_options($add_ops);
         $f->option_params_wrap('add',2,2);
-        $address = !empty( $os['address'] ) ? $os['address'] : 'fake_address';
-        $city = !empty( $os['city'] ) ? $os['city'] : 'fake_city';
-        $state = !empty( $os['state'] ) ? $os['state'] : 'fake_state';
-        $post = !empty( $os['post'] ) ? $os['post'] : 'fake_po';
-        $country = $os['country'] ?? 'United Arab Emirates';
+        $address = !empty( $os[$r.'address'] ) ? $os[$r.'address'] : 'fake_address';
+        $city = !empty( $os[$r.'city'] ) ? $os[$r.'city'] : 'fake_city';
+        $state = !empty( $os[$r.'state'] ) ? $os[$r.'state'] : 'fake_state';
+        $post = !empty( $os[$r.'post'] ) ? $os[$r.'post'] : 'fake_po';
+        $country = $os[$r.'country'] ?? 'United Arab Emirates';
         $countries = get_countries();
-        $f->text('address','Address','Ex: Office 1100, Building Name, Street Name...',$address,'data-add',12);
-        $f->text('city','City','Ex: Burlington',$city,'data-add',3);
-        $f->text('state','State','Ex: Burlington',$state,'data-add',3);
-        $f->text('postal','Postal Code','Ex: 110250',$post,'data-add',3);
-        $f->select2('country','Country','Choose Country...',$countries,$country,'data-add',3);
-        $f->process_options('Save Options','store grad','','.col-12 tac');
+        $f->text($r.'address','Address','Ex: Office 1100, Building Name, Street Name...',$address,'data-add',12);
+        $f->text($r.'city','City','Ex: Burlington',$city,'data-add',3);
+        $f->text($r.'state','State','Ex: Burlington',$state,'data-add',3);
+        $f->text($r.'postal','Postal Code','Ex: 110250',$post,'data-add',3);
+        $f->select2($r.'country','Country','Choose Country...',$countries,$country,'data-add',3);
+        $f->process_options($this->region_flag().'Save Options','store grad','','.col-12 tac');
+        $this->region_notice();
         echo '</div>';
     }
 
-    function tax_options(): void {
+    function finance_options(): void {
         $f = new FORM();
         $db = new DB();
-        $os = $db->get_options(['reg_name','reg','trn','tax']);
+        $r = defined( 'REGION' ) && isset( REGION['cca2'] ) ? strtolower( REGION['cca2'] ).'_' : '';
+        $fin_ops = ['reg_name','reg','trn','tax','sign','rate','spot'];
+        $fin_ops = defined( 'REGION' ) ? prepare_values( $fin_ops, $r ) : $fin_ops;
+        $os = $db->get_options(array_merge($fin_ops,['primary_region']));
         $f->option_params_wrap('cd',2,2);
-        $reg_name = $os['reg_name'] ?? '';
-        $reg = $os['reg'] ?? '';
-        $trn = $os['trn'] ?? '';
-        $tax = $os['tax'] ?? '';
-        $f->text('reg_name','Registered Name','Ex: ABC Trading LLC.',$reg_name,'data-cd',4);
-        $f->text('reg','Registration No.','Ex: 120-12565-132665',$reg,'data-cd',3);
-        $f->text('trn','TRN No.','Ex: 3562-2654-8954',$trn,'data-cd',3);
-        $f->input('number','tax','Tax%','Ex: 5',$tax,'min="0" max="50" data-cd',2);
-        $f->process_options('Save Options','store grad','','.col-12 tac');
+        $pr = $os['primary_region'] ?? 'US';
+        $f->text($r.'reg_name','Registered Name','Ex: ABC Trading LLC.',$os[$r.'reg_name'] ?? '','data-cd',3);
+        $f->text($r.'reg','Registration No.','Ex: 120-12565-132665',$os[$r.'reg'] ?? '','data-cd',3);
+        $f->text($r.'trn','Tax Registration No.','Ex: 3562-2654-8954',$os[$r.'trn'] ?? '','data-cd',3);
+        $f->input('number',$r.'tax','Tax%','Ex: 5',$os[$r.'tax'] ?? '','min="0" max="50" data-cd',3);
+        $f->text($r.'rate','1 ['.$pr.'] = ? '.($os[$r.'sign'] ?? ''),'Ex: 3.67',$os[$r.'rate'] ?? '','data-cd',3);
+        $f->text($r.'sign','Currency Symbol','Ex: $',$os[$r.'sign'] ?? '','data-cd',3);
+        $f->slide($r.'spot','Currency Side','Left','Right',$os[$r.'spot'] ?? '','','data-cd',3);
+        $f->process_options($this->region_flag().'Save Options','store grad','','.col-12 tac');
+        $this->region_notice();
         echo '</div>';
         // TODO : Add Regional Options [ 'Country', 'Timezone', 'Currency', 'Currency Symbol', 'Tax', 'Date Format', 'Time Format' ]
     }
@@ -344,20 +369,9 @@ class OPTIONS {
         $f->option_params_wrap('soc',2,2);
         foreach( $options as $ok => $ov ) {
             $val = $os[ $ok ] ?? '';
-            $f->text( $ok, $ov, 'Ex: '.$ov.' Details', $val, 'data-soc', 3 );
+            $f->text( $ok, $ov, 'Ex: '.$ov.' URL', $val, 'data-soc', 3 );
         }
         $f->process_options('Save Options','store grad','','.col-12 tac');
-        echo '</div>';
-    }
-
-    function region_switch( string $label = '', string $load_text = 'Go' ): void {
-        $f = new FORM();
-        $d = new DB();
-        $regions = $d->select( 'regions' );
-        $regions = !empty( $regions ) ? array_to_assoc( $regions, 'reg_id', 'reg_country' ) : [];
-        echo '<div data-t class="row">';
-        $f->select2( 'option_region', $label, 'Select...', $regions, $_SESSION['option_region'] ?? '', '', 8, 1 );
-        $f->process_html( $load_text, 'store grad', '', 'set_option_region_ajax', 4 );
         echo '</div>';
     }
 
@@ -388,7 +402,7 @@ class OPTIONS {
         unset( $all_languages['en'] );
         $languages = $db->get_option('languages');
         $f->option_params_wrap('al',2,2,['languages','languages_updated']);
-        $f->select2('languages','Select Languages for Translations','Choose Languages...',$all_languages,$languages,'data-al multiple',12,1);
+        $f->select2('languages','Set Languages','Choose Languages...',$all_languages,$languages,'data-al multiple',12,1);
         $f->text('languages_updated','','',1,'hidden data-al');
         $f->process_options('Save Options','store grad','','.col-12 tac');
         echo '</div>';
@@ -410,7 +424,8 @@ class OPTIONS {
         $f->textarea('export','Export Options','',$e->encrypt_array($data),'rows="5"',6);
         $f->textarea('import','Import Options','','','data-ei rows="5"',6);
         echo '<div class="col-6"></div>';
-        $f->process_html('Import Options','store grad','','import_options_ajax','.col-6 tac');
+        $f->process_html('Import Options','store grad','','import_options_ajax','.col-12 tac');
+        //$this->region_notice();
         echo '</div>';
     }
 
@@ -477,13 +492,22 @@ class OPTIONS {
         // Languages
     }
 
-}
-
-function set_option_region_ajax(): void {
-    if( isset( $_POST['option_region'] ) && !empty( $_POST['option_region'] ) ) {
-        $_SESSION['option_region'] = $_POST['option_region'];
-        es('Successfully changed option region! Now you can change settings!!');
+    function region_notice(): void {
+        $c = defined( 'CONFIG' ) ? json_decode( CONFIG, 1 ) : [];
+        $r = defined( 'REGION' ) ? REGION : [];
+        if( !empty( $r ) ) {
+            $n = $r['name']['common'] ?? '';
+            $f = $r['flag'] ?? '';
+            echo '<div style="text-align:center; font-size: .8rem">' . T('Settings apply to region ') . $n . ' ' . $f . '</div>';
+        } else if( in_array( 'regions', $c['features'] ) ) {
+            echo '<div style="text-align:center; font-size: .8rem">' . T('Regions feature enabled! Please set a region on top and then save settings to be applicable!') . '</div>';
+        }
     }
+
+    function region_flag(): string {
+        return defined( 'REGION' ) && isset( REGION['flag'] ) ? ' <i class="reg-flag">'.REGION['flag'].'</i> ' : '';
+    }
+
 }
 
 function import_options_ajax(): void {

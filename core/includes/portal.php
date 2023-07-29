@@ -237,16 +237,17 @@ class PORTAL {
                 }
 
                 // Show Regions
-                if( isset( $c['features'] ) && ( in_array( 'regions', $c['features'] ) || in_array( 'global', $c['features'] ) ) ) {
+                if( !empty( $options['regions'] ) && isset( $c['features'] ) && ( in_array( 'regions', $c['features'] ) || in_array( 'global', $c['features'] ) ) ) {
                     $countries = get_countries('iso2','flag name');
-                    $regions = $db->get_option( 'regions' );
-                    $cr = $options['region'];
+                    //$regions = $db->get_options(['regions','primary_region']);
+                    $set_countries = array_map( 'trim', explode( ',', $options['regions'] ) );
+                    $my_region = $db->get_option('region',get_user_id());
+                    $cr = !empty( $my_region ) ? $my_region : ( !empty( $options['primary_region'] ) ? $options['primary_region'] : $set_countries[ 0 ] );
                     $live = isset( $countries[$cr] ) ? explode( ' ', $countries[$cr] ) : [];
-                    if( !empty( $regions ) ) {
-                        $regions = array_map( 'trim', explode( ',', $regions ) );
+                    if( !empty( $set_countries ) ) {
                         $rico = !empty( $cr ) ? '<div class="reg-ico">'.$live[0].'</div>' : '<div class="mat-ico">map</div>';
                         echo '<div id="region" class="nav_ico" title="Change Region">'.$rico.'<div class="drop" data-action="'.$e->encrypt('set_region_ajax').'">';
-                        foreach( $regions as $r ){
+                        foreach( $set_countries as $r ){
                             $t = $countries[$r] ?? '';
                             if( !empty( $cr ) && $cr == $r  ) {
                                 echo '<div class="ln list on">'.$t.'</div>';

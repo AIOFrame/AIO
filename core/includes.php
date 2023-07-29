@@ -59,7 +59,7 @@ if( defined( 'CONFIG' ) ) {
     $path = ROOTPATH . 'core/includes/';
 
     // Common used data - Will be deprecated or improved
-    if( in_array( 'data', $features ) ) {
+    if( in_array( 'data', $features ) || in_array( 'portal', $features ) ) {
         include_once( dirname( __FILE__ ) . '/includes/data.php' );
     }
 

@@ -2,6 +2,22 @@
 require VENDORLOAD;
 use GeoIp2\Database\Reader;
 
+// Set Region Params
+global $options;
+//skel( $options );
+if( isset( $options['regions'] ) || isset( $options['region'] ) || isset( $options['primary_region'] ) ) {
+    require_once( ROOTPATH . 'core/modules/world.php' );
+    $set_countries = array_map( 'trim', explode( ',', $options['regions'] ) );
+    $r = $options['region'] ?? ( !empty( $options['primary_region'] ) ? $options['primary_region'] : $set_countries[0] );
+    //skel( $r );
+    $w = new WORLD();
+    $region = $w->get_country( $r );
+    if( !empty( $region ) ) {
+        //$options['region_data'] = $region;
+        !defined( 'REGION' ) ? define( 'REGION', $region ) : '';
+    }
+}
+
 class REGION {
 
     private string $ip;
@@ -56,61 +72,6 @@ class REGION {
         return $ip == '::1' ? '127.0.0.1' : $ip;
     }
 
-    function region_options(): void {
-        $db = new DB();
-        //$c = json_decode( CONFIG, 1 );
-        $regions = $db->select( 'regions' );
-        $countries = get_countries('iso2');
-        $zones = timezone_identifiers_list();
-        $currencies = get_currencies('code','name code');
-        $languages = get_languages();
-        $this->region_options_form( [], $countries, $zones, $currencies, $languages );
-        if( !empty( $regions ) ) {
-            foreach( $regions as $i => $r ) {
-                echo '<div class="accordion"><div class="accordion_head">'.T( $r['reg_country'] ).'</div><div class="accordion_body">';
-                $this->region_options_form( $r, $countries, $zones, $currencies, $languages );
-                echo '</div></div><hr>';
-            }
-        }
-        echo '<div class="help tac"><a href="https://www.php.net/manual/en/datetime.formats.date.php" target="_blank">'.T('Date Format Help').'</a> <a href="https://www.php.net/manual/en/datetime.formats.time.php" target="_blank">'.T('Time Format Help').'</a></div>';
-    }
-
-    function region_options_form( $r, $countries, $zones, $currencies, $languages ): void {
-        $f = new FORM();
-        $h = [];
-        if( !empty( $r ) ) {
-            $r = replace_in_keys( $r, 'reg_' );
-            $h['id'] = $r['id'];
-        }
-        echo '<div';
-        $f->process_params('regions','reg','reg_',6,2,$h);
-        echo '>';
-        $a = 'data-reg';
-        echo '<div class="row">';
-        $f->text('domain','Domains','Ex: website.com, website.net',$r['domain']??'',$a.' required',3);
-        $f->select2('country','Default Country','Select Region...',$countries,$r['country']??'',$a.' required',3,1);
-        $f->select2('language','Default Language','Select Language...',$languages,$r['language']??'',$a.' required',3,1);
-        $f->select2('timezone','Timezone','Select zone...',$zones,$r['timezone']??'',$a,3);
-        $f->select2('currency_code','Currency','Select currency...',$currencies,$r['currency_code']??'',$a,3,1);
-        $f->text('currency_symbol','Currency Symbol','Ex: ₹',$r['currency_symbol']??'',$a,2);
-        $f->text('currency_rate','Currency Rate','Ex: 20.45',$r['currency_rate']??1,$a,2);
-        $f->text('date_format',"Date Format",'d M, Y',$r['date_format']??'',$a,2);
-        $f->text('time_format',"Time Format",'H:i:s',$r['time_format']??'',$a,2);
-        $f->slide('status','Status','','',$r['status']??1,'m',$a,1);
-        /*$f->text('name','Registered Name','Ex: ABC Trading LLC.','',$a,3);
-        $f->text('tax','Tax %','Ex: 5','',$a,1);
-        $f->text('company_code','Registration No.','Ex: 1202-1256-1326','',$a,0);
-        $f->upload('company_doc','Reg. Doc.','Browse','',0,0,'',$a,'jpg,jpeg,png,pdf',2,1,'',0);
-        $f->text('tax_code','TRN No.','Ex: 3562-2654-8954','',$a,0);
-        $f->upload('tax_doc','TRN Doc.','Browse','',0,0,'',$a,'jpg,jpeg,png,pdf',2,1,'',0);*/
-        echo '<div class="col-12 tac">';
-        if( !empty( $r ) ) {
-            $f->trash_html('regions','reg_id = \''.$r['id'].'\'','button','Remove Region','store grad red');
-        }
-        $f->process_html('Save Region','store grad');
-        echo '</div></div></div>';
-    }
-
     /**
      * Renders options to set operating regions
      * @return void
@@ -119,9 +80,21 @@ class REGION {
         $f = new FORM();
         $db = new DB();
         $countries = get_countries('iso2');
-        $regions = $db->get_option( 'regions' );
-        $f->option_params_wrap('reg',2,2);
-        $f->select2('regions','Set Operating Regions','Choose countries...',$countries,$regions,'multiple data-reg',12,1);
+        $regions = $db->get_options(['primary_region','regions']);
+
+        // Limit primary region
+        $limit_regions = [];
+        if( !empty( $regions['regions'] ) ) {
+            $rs = array_map( 'trim', explode( ',', $regions['regions'] ) );
+            if( !empty( $rs ) ) {
+                foreach( $rs as $sr ) {
+                    $limit_regions[ $sr ] = $countries[ $sr ];
+                }
+            }
+        }
+        $f->option_params_wrap('reg',0,0,'primary_region,regions');
+        $f->select2('regions','Set Operating Regions','Choose countries...',$countries,$regions['regions']??'','multiple data-reg',12,1);
+        $f->select2('primary_region','Set Primary Region','Choose country...',$limit_regions,$regions['primary_region']??'','data-reg',12,1);
         $f->process_options('Save Options','store grad','','.col-12 tac');
         echo '</div>';
     }
