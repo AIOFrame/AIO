@@ -281,11 +281,13 @@ class OPTIONS {
         echo '</div>';
     }
 
-    function address_options(): void {
+    function geo_options(): void {
         $f = new FORM();
         $db = new DB();
+        $zones = get_timezones();
+        //skel( $zones );
         $r = defined( 'REGION' ) && isset( REGION['cca2'] ) ? strtolower( REGION['cca2'] ).'_' : '';
-        $add_ops = ['address','city','state','post','country'];
+        $add_ops = ['address','add_name','city','state','post','country','date_format','time_format','zone'];
         $add_ops = defined( 'REGION' ) ? prepare_values( $add_ops, $r ) : $add_ops;
         $os = $db->get_options($add_ops);
         $f->option_params_wrap('add',2,2);
@@ -293,13 +295,17 @@ class OPTIONS {
         $city = !empty( $os[$r.'city'] ) ? $os[$r.'city'] : 'fake_city';
         $state = !empty( $os[$r.'state'] ) ? $os[$r.'state'] : 'fake_state';
         $post = !empty( $os[$r.'post'] ) ? $os[$r.'post'] : 'fake_po';
-        $country = $os[$r.'country'] ?? 'United Arab Emirates';
-        $countries = get_countries();
-        $f->text($r.'address','Address','Ex: Office 1100, Building Name, Street Name...',$address,'data-add',12);
+        $country = $os[$r.'country'] ?? 'AE';
+        $countries = get_countries( 'iso2', 'flag name' );
+        $f->text($r.'address','Address','Ex: Office 1100, Building Name, Street Name...',$address,'data-add',9);
+        $f->text($r.'add_name','Name','Ex: Dubai Branch',$os[$r.'add_name'] ?? '','data-add',3);
         $f->text($r.'city','City','Ex: Burlington',$city,'data-add',3);
         $f->text($r.'state','State','Ex: Burlington',$state,'data-add',3);
         $f->text($r.'postal','Postal Code','Ex: 110250',$post,'data-add',3);
-        $f->select2($r.'country','Country','Choose Country...',$countries,$country,'data-add',3);
+        $f->select2($r.'country','Country','Choose Country...',$countries,$country,'data-add',3,1);
+        $f->text($r.'date_format','Date Format','Ex: d M,Y',$os[$r.'date_format'] ?? '','data-add',3);
+        $f->text($r.'time_format','Time Format','Ex: H:i a',$os[$r.'time_format'] ?? '','data-add',3);
+        $f->select2($r.'zone','Timezone','Choose Zone...',$zones,$os[$r.'zone'] ?? '','data-add',3);
         $f->process_options($this->region_flag().'Save Options','store grad','','.col-12 tac');
         $this->region_notice();
         echo '</div>';
@@ -324,7 +330,6 @@ class OPTIONS {
         $f->process_options($this->region_flag().'Save Options','store grad','','.col-12 tac');
         $this->region_notice();
         echo '</div>';
-        // TODO : Add Regional Options [ 'Country', 'Timezone', 'Currency', 'Currency Symbol', 'Tax', 'Date Format', 'Time Format' ]
     }
 
     function content_options(): void {
