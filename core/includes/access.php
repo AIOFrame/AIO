@@ -414,14 +414,14 @@ class ACCESS {
     }
 
     private array $access_options = [
-        [ 'id' => 'ac_logo_l', 'type' => 'upload', 'title' => 'Brand Logo - Light', 'col' => 3 ],
-        [ 'id' => 'ac_logo_d', 'type' => 'upload', 'title' => 'Brand Logo - Dark', 'col' => 3 ],
-        [ 'id' => 'ac_show_logo', 'type' => 'slide', 'title' => 'Show Logo ?', 'col' => 3 ],
-        [ 'id' => 'ac_show_a11y', 'type' => 'slide', 'title' => 'Show Accessibility', 'col' => 3 ],
-        [ 'id' => 'ac_bg_l', 'type' => 'upload', 'title' => 'Background - Light', 'col' => 3 ],
-        [ 'id' => 'ac_bg_d', 'type' => 'upload', 'title' => 'Background - Dark', 'col' => 3 ],
-        [ 'id' => 'ac_bg_repeat', 'type' => 'slide', 'title' => 'Background Repetitive', 'col' => 3 ],
-        [ 'id' => 'ac_show_dark', 'type' => 'slide', 'title' => 'Show Dark Toggle', 'col' => 3 ],
+        //[ 'id' => 'ac_logo_l', 'type' => 'upload', 'title' => 'Brand Logo - Light', 'col' => 3 ],
+        //[ 'id' => 'ac_logo_d', 'type' => 'upload', 'title' => 'Brand Logo - Dark', 'col' => 3 ],
+        [ 'id' => 'ac_bg_l', 'type' => 'upload', 'title' => 'Background - Light', 'col' => 2 ],
+        [ 'id' => 'ac_bg_d', 'type' => 'upload', 'title' => 'Background - Dark', 'col' => 2 ],
+        [ 'id' => 'ac_show_logo', 'type' => 'slide', 'title' => 'Show Logo ?', 'col' => 2 ],
+        [ 'id' => 'ac_show_a11y', 'type' => 'slide', 'title' => 'Show Accessibility', 'col' => 2 ],
+        [ 'id' => 'ac_bg_repeat', 'type' => 'slide', 'title' => 'BG Repeat', 'col' => 2 ],
+        [ 'id' => 'ac_show_dark', 'type' => 'slide', 'title' => 'Show Dark Toggle', 'col' => 2 ],
         //[ 'id' => 'ac_show_a11y', 'type' => 'slide', 'title' => 'Show Accessibility', 'col' => 4 ],
     ];
     private array $login_options = [
