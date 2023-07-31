@@ -13,11 +13,8 @@ $option_struct[] = [ 'options', [
     [ 'load', 'BOOL', '', 0 ],
 ], 'option', 1 ];
 
-if( defined( 'CONFIG' ) && !empty( CONFIG ) ) {
-    $c = json_decode( CONFIG, 1 );
-    if( in_array( 'region', $c['features'] ) ) {
-        $option_struct[0][1][] = [ 'region', 'INT', 13, 0 ];
-    }
-}
+//if( defined( 'FEATURES' ) && in_array( 'region', FEATURES ) ) {
+    //$option_struct[0][1][] = [ 'region', 'INT', 13, 0 ];
+//}
 
 $db->automate_tables( $option_struct );

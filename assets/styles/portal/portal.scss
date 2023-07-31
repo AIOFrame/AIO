@@ -657,12 +657,13 @@ article.fade > div {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 0 10px rgba(0,0,0,.1);
-  padding:13px 10px;
+  padding:10px;
   text-transform: uppercase;
   display: flex;
   align-items: center;
   z-index:20;
   height: 50px;
+  line-height: 50px;
   > div {
     flex: 0 0 33.3333%;
     max-width: 33.3333%;

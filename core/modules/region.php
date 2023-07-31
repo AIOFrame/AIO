@@ -6,6 +6,10 @@ use GeoIp2\Database\Reader;
 global $options;
 //skel( $options );
 if( isset( $options['regions'] ) || isset( $options['region'] ) || isset( $options['primary_region'] ) ) {
+//skel( $options );
+    if( !empty( $options['regions'] ) ) {
+        !defined( 'REGIONS' ) ? define( 'REGIONS', $options['regions'] ) : '';
+    }
     require_once( ROOTPATH . 'core/modules/world.php' );
     $set_countries = array_map( 'trim', explode( ',', $options['regions'] ) );
     $r = $options['region'] ?? ( !empty( $options['primary_region'] ) ? $options['primary_region'] : $set_countries[0] );
@@ -76,7 +80,7 @@ class REGION {
      * Renders options to set operating regions
      * @return void
      */
-    function set_regions(): void {
+    function region_options(): void {
         $f = new FORM();
         $db = new DB();
         $countries = get_countries('iso2');
@@ -92,11 +96,11 @@ class REGION {
                 }
             }
         }
-        $f->option_params_wrap('reg',0,0,'primary_region,regions');
+        $f->option_params_wrap('reg',2,2,'primary_region,regions');
         $f->select2('regions','Set Operating Regions','Choose countries...',$countries,$regions['regions']??'','multiple data-reg',12,1);
         $f->select2('primary_region','Set Primary Region','Choose country...',$limit_regions,$regions['primary_region']??'','data-reg',12,1);
         $f->process_options('Save Options','store grad','','.col-12 tac');
-        echo '</div>';
+        echo '<div style="text-align:center; font-size: .8rem">'.T('Please set and save operating regions, then set primary region.').'</div></div>';
     }
 
 }

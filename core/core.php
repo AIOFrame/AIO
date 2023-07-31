@@ -84,6 +84,7 @@ if( empty( $app ) || !file_exists( ROOTPATH . 'apps/' . $app ) ) {
  */
 //if( !defined( 'CONFIG' ) ) {
 require_once ROOTPATH . 'core/includes/config.php';
+require_once ROOTPATH . 'core/includes/features.php';
 //}
 //$c = CONFIG;
 //skel( $c );

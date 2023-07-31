@@ -349,21 +349,13 @@ class OPTIONS {
      * Renders options to set operating regions
      * @return void
      */
-    function set_regions(): void {
-        $c = !empty( CONFIG ) ? json_decode( CONFIG ) : [];
-        if( in_array( 'regions', $c->features ) || in_array( 'region', $c->features ) ) {
-            $r = new REGION();
-            $r->set_regions();
-            //$f->select2('');
-        }
-    }
-
     function region_options(): void {
-        /* $c = defined( 'CONFIG' ) && !empty( CONFIG ) ? json_decode( CONFIG, 1 ) : [];
-        if( !empty( $c['features'] ) && in_array( 'region', $c['features'] ) ) {
+        //$c = !empty( CONFIG ) ? json_decode( CONFIG ) : [];
+        //if( in_array( 'regions', $c->features ) || in_array( 'region', $c->features ) ) {
+        if( defined( 'REGION' ) || defined( 'REGIONS' ) ) {
             $r = new REGION();
             $r->region_options();
-        }*/
+        }
     }
 
     function social_options(): void {
@@ -410,7 +402,7 @@ class OPTIONS {
         $f->select2('languages','Set Languages','Choose Languages...',$all_languages,$languages,'data-al multiple',12,1);
         $f->text('languages_updated','','',1,'hidden data-al');
         $f->process_options('Save Options','store grad','','.col-12 tac');
-        echo '</div>';
+        echo '<div style="text-align:center; font-size: .8rem">English is default, you can add additional languages.</div></div>';
     }
 
     function export_import_options(): void {

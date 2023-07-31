@@ -3,7 +3,8 @@
 if( defined( 'CONFIG' ) && !empty( CONFIG ) ) {
 
     // Parse App CONFIG
-    $c = json_decode( CONFIG, 1 );
+    //$c = json_decode( CONFIG, 1 );
+    $c = CONFIG;
     $d = !empty( $c['data'] ) && is_array( $c['data'] ) ? $c['data'] : [];
     $type = $host = $base = $user = $pass = '';
 

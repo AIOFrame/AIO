@@ -5,7 +5,7 @@
  */
 if( file_exists( ROOTPATH . 'apps/' . APPDIR . '/config.php' ) ) {
     $c = include ROOTPATH . 'apps/' . APPDIR . '/config.php';
-    !defined( 'CONFIG' ) ? define( 'CONFIG', json_encode( $c ) ) : '';
+    !defined( 'CONFIG' ) ? define( 'CONFIG', $c ) : '';
     isset( $c['faker_locale'] ) && !defined( 'FAKER' ) ? define( 'FAKER', $c['faker_locale'] ) : '';
 }
 
@@ -13,7 +13,7 @@ if( file_exists( ROOTPATH . 'apps/' . APPDIR . '/config.php' ) ) {
  * Gets config setting value
  * @param string $name App config setting name
  */
-function get_config(string $name = '' ) {
+function get_config(string $name = '' ): string|array {
     $v = '';
     if( defined('APPPATH') && file_exists( APPPATH . 'config.php' ) ) {
         $c = include( APPPATH . 'config.php' );
@@ -31,7 +31,7 @@ function get_config(string $name = '' ) {
  * @param string $name Config setting name
  * @param string $value Config setting value
  */
-function set_config(string $name, string $value) {
+function set_config(string $name, string $value): void {
     // TODO: Fix auto generated config issues
     $c = [];
     if( file_exists( APPPATH . 'config.php' ) ) {

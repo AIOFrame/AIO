@@ -20,7 +20,8 @@ $t = !empty( $sd ) ? $sd : APPDIR; // Sets if subdomain or prime domain url brow
 
 // Fetch Manual Routing
 
-$c = defined('CONFIG') && !empty( CONFIG ) ? json_decode( CONFIG, 1 ) : [];
+//$c = defined('CONFIG') && !empty( CONFIG ) ? json_decode( CONFIG, 1 ) : [];
+$c = defined('CONFIG') && !empty( CONFIG ) ? CONFIG : [];
 $routes = $c['router'] ?? ( $c['routing'] ?? ( $c['routes'] ?? ( $c['map'] ?? ( $c['mapping'] ?? ( $c['urls'] ?? ( $c['pages'] ?? [] ) ) ) ) ) );
 
 // Directory Hierarchy

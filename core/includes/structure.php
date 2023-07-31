@@ -32,6 +32,16 @@ if( is_array( $feats ) ) {
         include_once( $path . 'cms.php' );
     }
 
+    // Customer Relationship Manager
+    if( in_array( 'crm', $feats ) ) {
+        include_once( $path . 'crm.php' );
+    }
+
+    // Employee Management System
+    if( in_array( 'ems', $feats ) ) {
+        include_once( $path . 'ems.php' );
+    }
+
     // Create File uploader tables if featured
     /* if( in_array( 'log', $feats ) || in_array( 'uploads', $feats ) ) {
         include_once( $path . 'storage.php' );

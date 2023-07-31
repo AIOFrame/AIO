@@ -2,7 +2,7 @@
 
 if( !defined( 'ROOTPATH' ) ) { exit(); }
 
-$db = defined('DB_TYPE') ? DB_TYPE : '';
+//$db = defined('DB_TYPE') ? DB_TYPE : '';
 
 $base_load = [
     'log',                              // Logs issues to error log file
@@ -12,7 +12,7 @@ $base_load = [
     'form',                             // Input element rendering functions
     'arrays',                           // Advanced array functions
     //'icons',                            // Individual icon renderer - Will be deprecated or improved // Deprecated
-    'content',                          // Logs issues to error log file
+    'code',                             // Provides easy to use html snippets
     'dependencies',                     // Improves or Includes most of the third-party dependencies
     'curl',                             // CURL Functions
     'translation/strings',              // Translation functions
@@ -122,10 +122,20 @@ if( defined( 'CONFIG' ) ) {
             include_once( $path . 'region.php' );
         }
 
-        // Backup Functions
-        if( in_array( 'backup', $features ) ) {
-            include_once( $path . 'backup.php' );
+        // Customer Relationship Manager
+        if( in_array( 'crm', $features ) ) {
+            include_once( $path . 'crm.php' );
         }
+
+        // Employee Management System
+        if( in_array( 'ems', $features ) ) {
+            include_once( $path . 'ems.php' );
+        }
+
+        // Backup Functions
+        //if( in_array( 'backup', $features ) ) {
+            include_once( $path . 'backup.php' );
+        //}
 
     }
 

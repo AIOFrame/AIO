@@ -39,7 +39,7 @@ class PORTAL {
         // Prepare Scripts
         !empty( $scripts ) ? ( is_array( $scripts ) ? $scripts[] = 'jquery' : $scripts .= ',jquery' ) : '';
 
-        $c = new CONTENT();
+        $c = new CODE();
         $c->pre_html($class,$attrs,$pre_styles,$primary_color,$secondary_color,'icons,cards,modal,buttons,inputs,icons,tabs,steps,color,table,alerts,accordion',$styles,$scripts,$primary_font,$secondary_font,$icon_fonts);
 
     }
@@ -50,7 +50,7 @@ class PORTAL {
      */
     function post_html( string|array $scripts = [] ): void {
         $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'iro', 'scrollto', 'data', 'portal/portal' ] ) : $scripts.',iro,data,portal/portal';
-        $c = new CONTENT();
+        $c = new CODE();
         $c->post_html( $scripts );
     }
 
@@ -73,7 +73,7 @@ class PORTAL {
         $styles = is_array( $styles ) ? array_merge( $styles, [ 'portal/login', 'login' ] ) : $styles . ',portal/login,login';
         $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'aio', 'portal/login', 'login' ] ) : $scripts . ',portal/login,login';
 
-        $c = new CONTENT();
+        $c = new CODE();
         $c->auth_page( $login_redirect_url, $attrs, $pre_styles, $primary_color, $secondary_color, $styles, $scripts, $primary_font, $secondary_font, $icon_fonts );
     }
 
@@ -203,7 +203,8 @@ class PORTAL {
         $e = Encrypt::initiate();
         global $options;
         global $is_light;
-        $c = json_decode( CONFIG, 1 );
+        //$c = json_decode( CONFIG, 1 );
+        $c = CONFIG;
 
         if( $is_light ) {
             $logo = !empty( $options['logo_light'] ) ? 'style="background:url(\''.storage_url( $options['logo_light'] ).'\') no-repeat center / contain"' : '';
@@ -405,6 +406,13 @@ class PORTAL {
         </aside>
         <div class="credit"><?php echo T('Copyright ©').' '.date('Y').' '.APPNAME; ?></div>
         <?php
+    }
+
+    function title_bar( string $title = '', string $back_url = '' ): void {
+        echo '<div class="header">';
+        echo !empty( $back_url ) ? '<a class="mat-ico back" href="'.APPURL . $back_url.'">arrow_back</a>' : '';
+        echo !empty( $title ) ? '<h1 class="title">'.T($title).'</div>' : '';
+        echo '</div>';
     }
 }
 

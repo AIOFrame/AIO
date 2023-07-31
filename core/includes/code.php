@@ -1,6 +1,6 @@
 <?php
 
-class CONTENT {
+class CODE {
 
     function __construct() {
         // TODO: Automate Pages
