@@ -20,6 +20,7 @@ $client_struct = [
     [ 'email', 'VARCHAR', 64, 0 ],
     [ 'website', 'VARCHAR', 64, 0 ],
     [ 'type', 'VARCHAR', 32, 0 ], */
+    [ 'progress', 'VARCHAR', 32, 0 ],
     [ 'status', 'TINYINT', 1, 1 ],
     [ 'by', 'INT', 13, 1 ],
     [ 'dt', 'DATETIME', '', 1 ],

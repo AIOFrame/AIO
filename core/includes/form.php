@@ -765,7 +765,7 @@ class FORM {
     /**
      * Renders HTML parameters for automated data saving
      * @param string $target Database Name
-     * @param string $data Data attribute to fetch data
+     * @param string $data Data attribute of inputs to gather data
      * @param string $pre Pre Wrap String for Tables
      * @param int $notify Notification Time in Seconds
      * @param int $reload Reload in Seconds
