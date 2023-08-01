@@ -305,6 +305,41 @@ class CODE {
     }
 
     /**
+     * @param string $title Modal Title singular Ex: Contact, Student...
+     * @param string $size Modal size s = small, m = medium, l = large, xl, f = full, l20, l40, l50, l60, l80, r20, r40, r50, r60, r80
+     * @param string $target Database name if the data is supposed to store directly to db or ajax function name with _ajax at the end
+     * @param array $fields Input fields to render
+     * @param array $hidden Hidden data for Database
+     * @param string $pre String to prepend to keys for database table columns
+     * @param int $notify Notification Time in Seconds
+     * @param int $reload Reload in Seconds
+     * @param string $success_alert Text to notify upon successfully storing data
+     * @param string $callback A JS Function to callback on results
+     * @param string $confirm A confirmation popup will execute further code
+     * @param string $redirect Redirect user to page on successful submission
+     * @param string $validator Frontend JS script to add custom validation to the form data
+     * @param string $reset_fields Reset input fields with data attribute (Tip: Use 1 to reset provided data fields)
+     * @param string $submit_text Text on submit button
+     * @return void
+     */
+    function modal( string $title = '', string $size = 'm', string $target = '', array $fields = [], array $hidden = [], string $pre = '', int $notify = 0, int $reload = 0, string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '', string $submit_text = '' ): void {
+        $f = new FORM();
+        $r = substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 8);
+        $s = strtolower( str_replace( ' ', '_', $title ) );
+        ?>
+        <div id="<?php echo $s.'_modal'; ?>" class="modal <?php echo $size . ' ' . $s.'_modal'; ?>">
+            <h2 class="title" data-add><?php E( 'New '.$title ); ?></h2>
+            <h2 class="title" data-edit style="display: none;"><?php E( 'Update '.$title ); ?></h2>
+            <div class="close"></div>
+            <?php
+            $f->pre_process( $target, $r, $pre, $notify, $reload, $hidden, $success_alert, $callback, $confirm, $redirect, $validator, $reset_fields );
+            $f->form( $fields, 'div', $r );
+            $f->post_process( !empty( $submit_text ) ? $submit_text : 'Save '.$title, 'c' );
+            ?>
+        </div>
+    <?php }
+
+    /**
      * Logout HTML
      * @param string $tag HTML element type
      * @param string $class Class for the logout element

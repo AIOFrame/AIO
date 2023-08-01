@@ -9,36 +9,26 @@ class CRM {
         // TODO: Leads Filters
     }
 
-    function lead_modal( string $title = 'New Lead', string $attr = '' ): void {
-        $f = new FORM();
+    function lead_modal( string $title = 'Lead', string $size = 'm' ): void {
         $db = new DB();
+        $c = new CODE();
+
         $os = $db->get_option('lead_statuses');
         $os = !empty( $os ) ? array_map( 'trim', explode( ',', $os ) ) : [];
-        //skel( APPDEBUG==1&&isset($os[1])?$os[1]:'' );
+        $fields = [
+            [ 't' => 'text', 'i' => 'name', 'n' => 'Name', 'p' => 'Ex: John Doe or John Traders LLC...', 'v' => APPDEBUG==1?'fake_name':'', 'c' => 12 ],
+            [ 't' => 'slide', 'i' => 'status', 'n' => 'Activity Status', 'off' => 'Inactive', 'on' => 'Active', 'a' => 'class="s"', 'v' => APPDEBUG==1?'fake_name':'', 'c' => 6 ],
+            [ 't' => 'select2', 'i' => 'progress', 'n' => 'Lead Status', 'p' => 'Choose status...', 'o' => $os, 'v' => 1, 'c' => 6 ],
+            [ 't' => 'phone', 'i' => 'm_code', 'i2' => 'mobile', 'n' => 'Code', 'n2' => 'Mobile', 'v' => APPDEBUG==1?'fake_phone':'', 'c' => 6 ],
+            [ 't' => 'email', 'i' => 'email', 'n' => 'Email', 'p' => 'Ex: john@website.com...', 'v' => APPDEBUG==1?'fake_email':'', 'c' => 6 ],
+            [ 't' => 'textarea', 'i' => 'note', 'n' => 'Notes', 'p' => 'Ex: Lead has ABC requirements......', 'v' => APPDEBUG==1?'fake_content':'', 'c' => 12 ],
+        ];
         ?>
         <div class="actions">
-            <button data-on="#new_lead"><?php E( $title ); ?></button>
-        </div>
-        <div id="new_lead" class="modal <?php echo $attr; ?>">
-            <h2 class="title"><?php E( $title ); ?></h2>
-            <div class="close"></div>
-            <?php $f->process_params('clients','lead','client_',4,4,['type'=>'lead','by'=>get_user_id()]); ?>
-                <div class="row">
-                    <?php
-                    $f->text('name','Name','Ex: John Doe or John Traders LLC...',APPDEBUG==1?'fake_name':'','data-lead',12);
-                    $f->select2('progress','Lead Status','Choose status...',$os,'New Lead' ,'data-lead',6);
-                    $f->slide('status','Activity Status','Inactive','Active',1,'m','data-lead',6);
-                    $f->phone('m_code','mobile','Code','Mobile','','Ex: 501112222','+971',APPDEBUG==1?'fake_phone':'','data-lead',6);
-                    $f->input('email','email','Email','Ex: john@website.com',APPDEBUG==1?'fake_email':'','data-lead',6);
-                    $f->textarea('note','Notes','Ex: Lead has ABC requirements...',APPDEBUG==1?'fake_content':'','data-lead',12);
-                    ?>
-                </div>
-                <div class="tac">
-                    <?php $f->process_html('Save Lead','mb0'); ?>
-                </div>
-            </div>
+            <button data-on="#lead_modal"><?php E( $title ); ?></button>
         </div>
         <?php
+        $c->modal( 'Lead', $size, 'update_lead_ajax', $fields, ['type'=>'lead','by'=>get_user_id()], 'lead_', 4, 4, 'Successfully saved lead!' );
     }
 
     function render_leads(): void {

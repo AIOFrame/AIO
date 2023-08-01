@@ -359,6 +359,7 @@ function process_data( e, ne ){
             $(p).attr('disabled',false).removeClass('load');
         },5000);
     }
+    elog('here');
 
     // Confirm
     let con = $(p).data('confirm');
