@@ -401,6 +401,7 @@ function process_data( e, ne ){
         notify( empty_note, 5, 'error', 'warning' );
         breaker.push(1);
     }
+    elog('testtt');
 
     let invalid = validator( p );
     if( invalid.length > 0 ) {
@@ -425,6 +426,7 @@ function process_data( e, ne ){
     }
 
     if( breaker.length > 0 ) {
+        notify( 'test' );
         return;
     }
     //}

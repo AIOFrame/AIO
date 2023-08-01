@@ -14,6 +14,7 @@ class CRM {
         $db = new DB();
         $os = $db->get_option('lead_statuses');
         $os = !empty( $os ) ? array_map( 'trim', explode( ',', $os ) ) : [];
+        //skel( APPDEBUG==1&&isset($os[1])?$os[1]:'' );
         ?>
         <div class="actions">
             <button data-on="#new_lead"><?php E( $title ); ?></button>
@@ -21,20 +22,20 @@ class CRM {
         <div id="new_lead" class="modal <?php echo $attr; ?>">
             <h2 class="title"><?php E( $title ); ?></h2>
             <div class="close"></div>
-            <div <?php $f->process_params('clients','lead','client_',4,4,['type'=>'lead','by'=>get_user_id(),]); ?>>
+            <?php $f->process_params('clients','lead','client_',4,4,['type'=>'lead','by'=>get_user_id()]); ?>
                 <div class="row">
                     <?php
-                    $f->text('name','Name','Ex: John Doe or John Traders LLC...','','data-lead',12);
-                    $f->select2('progress','Lead Status','Choose status...',$os,'','data-lead',6);
+                    $f->text('name','Name','Ex: John Doe or John Traders LLC...',APPDEBUG==1?'fake_name':'','data-lead',12);
+                    $f->select2('progress','Lead Status','Choose status...',$os,'New Lead' ,'data-lead',6);
                     $f->slide('status','Activity Status','Inactive','Active',1,'m','data-lead',6);
-                    $f->phone('m_code','mobile','Code','Mobile','','Ex: 501112222','+971','','data-lead',6);
-                    $f->input('email','email','Email','Ex: john@website.com','','data-lead',6);
-                    $f->textarea('note','Notes','Ex: Lead has ABC requirements...','','data-lead',12);
+                    $f->phone('m_code','mobile','Code','Mobile','','Ex: 501112222','+971',APPDEBUG==1?'fake_phone':'','data-lead',6);
+                    $f->input('email','email','Email','Ex: john@website.com',APPDEBUG==1?'fake_email':'','data-lead',6);
+                    $f->textarea('note','Notes','Ex: Lead has ABC requirements...',APPDEBUG==1?'fake_content':'','data-lead',12);
                     ?>
                 </div>
-            </div>
-            <div class="tac">
-                <?php $f->process_html('Save Lead','mb0'); ?>
+                <div class="tac">
+                    <?php $f->process_html('Save Lead','mb0'); ?>
+                </div>
             </div>
         </div>
         <?php

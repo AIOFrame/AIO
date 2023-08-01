@@ -1092,39 +1092,72 @@ class FORM {
         $fk = Faker\Factory::create( $locale );
         $key = str_replace( 'fake_', '', $key );
         $replacements = [
-            'freeEmail' => [ 'email' ],
-            'domainName' => [ 'site', 'website' ],
-            'e164PhoneNumber' => [ 'phone', 'mobile', 'contact' ],
-            'jobTitle' => [ 'design', 'title', 'job_title', 'designation' ],
-            'userName' => [ 'username', 'login' ],
-            'macAddress' => [ 'mac' ],
-            'creditCardType' => [ 'card_type' ],
-            'creditCardNumber' => [ 'card_no', 'card', 'card_number' ],
-            'swiftBicNumber' => [ 'swift', 'swift_no', 'swift_code' ],
-            'hexcolor' => [ 'hex', 'color' ],
-            'rgbCssColor' => [ 'rgb' ],
-            'colorName' => [ 'color_name' ],
-            'streetAddress' => [ 'street', 'address' ],
-            'postcode' => [ 'postal', 'po_box', 'po', 'post' ],
-            'streetName' => [ 'street', 'street_name' ],
-            'countryCode' => [ 'country_code' ],
-            'latitude' => [ 'lat' ],
-            'longitude' => [ 'long' ],
+            'email' => 'freeEmail',
+            'mail' => 'freeEmail',
+            'site' => 'domainName',
+            'website' => 'domainName',
+            'url' => 'domainName',
+            'phone' => 'e164PhoneNumber',
+            'mobile' => 'e164PhoneNumber',
+            'contact' => 'e164PhoneNumber',
+            'design' => 'jobTitle',
+            'title' => 'jobTitle',
+            'job_title' => 'jobTitle',
+            'designation' => 'jobTitle',
+            'username' => 'userName',
+            'login' => 'userName',
+            'mac' => 'macAddress',
+            'card_type' => 'creditCardType',
+            'card_no' => 'creditCardNumber',
+            'card' => 'creditCardNumber',
+            'card_number' => 'creditCardNumber',
+            'swift' => 'swiftBicNumber',
+            'swift_no' => 'swiftBicNumber',
+            'swift_code' => 'swiftBicNumber',
+            'hex' => 'hexcolor',
+            'color' => 'hexcolor',
+            'rgb' => 'rgbCssColor',
+            'color_name' => 'colorName',
+            'address' => 'streetAddress',
+            'postal' => 'postcode',
+            'po_box' => 'postcode',
+            'po' => 'postcode',
+            'post' => 'postcode',
+            'street' => 'streetName',
+            'street_name' => 'streetName',
+            'country_code' => 'countryCode',
+            'country_iso2' => 'countryCode',
+            'country_iso3' => 'countryISOAlpha3',
+            'currency' => 'currencyCode',
+            'lat' => 'latitude',
+            'long' => 'longitude',
+            'ip' => 'ip4',
         ];
-        foreach( $replacements as $r => $keys ) {
+        $key = $replacements[ $key ] ?? $key;
+        /*foreach( $replacements as $r => $keys ) {
             if( in_array( $key, $keys ) ) {
                 $key = $r;
             }
-        }
+        }*/
+        $ka = explode( '_', $key );
+        $x = !empty( $ka ) && count( $ka ) > 1 ? end( $ka ) : 2;
         if( $key == 'e164PhoneNumber' ) {
             return str_replace( '+1', '', $fk->{ $key } );
         } else if( str_contains( $key, 'words' ) ) {
-            $s = explode( '_', $key );
-            return $fk->words( $s[1] ?? 3, 1 );
+            return $fk->words( $x );
         } else if( str_contains( $key, 'actions' ) ) {
-            $s = explode( '_', $key );
-            return str_replace( ' ', ',', $fk->words( $s[1] ?? 3, 1 ) );
-        } {
+            return str_replace( ' ', ',', $fk->words( $x ) );
+        } else if( str_contains( $key, 'content' ) ) {
+            return $fk->sentence( $x );
+        } else if( str_contains( $key, 'para' ) ) {
+            return $fk->paragraphs( $x );
+        } else if( str_contains( $key, 'email' ) ) {
+            return $fk->safeEmail();
+        } else if( str_contains( $key, 'slug' ) ) {
+            return $fk->slug();
+        } else if( str_contains( $key, 'company_email' ) || str_contains( $key, 'org_email' ) ) {
+            return $fk->companyEmail();
+        } else {
             return $fk->{ $key };
         }
     }
