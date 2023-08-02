@@ -1170,6 +1170,7 @@ class FORM {
             'phone' => 'e164PhoneNumber',
             'mobile' => 'e164PhoneNumber',
             'contact' => 'e164PhoneNumber',
+            'slogan' => 'catchPhrase',
             'design' => 'jobTitle',
             'title' => 'jobTitle',
             'job_title' => 'jobTitle',
@@ -1225,6 +1226,9 @@ class FORM {
             return $fk->safeEmail();
         } else if( str_contains( $key, 'slug' ) ) {
             return $fk->slug();
+        } else if( str_contains( $key, 'company_name' ) || str_contains( $key, 'company' ) ) {
+            $ends = [ 'LTD.', 'LLC.', 'Inc.', 'Co.', 'Corp.', 'PBC.', 'LLP.' ];
+            return ucwords( $fk->bs() . ' ' . $ends[array_rand( $ends )] );
         } else if( str_contains( $key, 'company_email' ) || str_contains( $key, 'org_email' ) ) {
             return $fk->companyEmail();
         } else {
