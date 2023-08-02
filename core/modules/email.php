@@ -565,32 +565,30 @@ class MAIL {
         $foot = $m->get_template('foot');
         $f = new FORM();
         $this->template_viewer( $template_url );
+        $f->pre_process('class="row"','','email','',3);
+        $os = $db->get_options(['from_email','smtp','smtp_server','smtp_port','smtp_username','smtp_password']);
+        $attr = 'data-email';
+        $f->text('test_content','','','',$attr.' class="dn"');
+        //$f->text('autoload','','','from_email,smtp,smtp_username,smtp_password',$attr.' class="dn"');
+        $f->input('email','test_email','Send Test Email','Ex: email@website.com', 'installer0001@gmail.com', $attr.' data-help', 10);
+        $f->process_trigger('Send','l w r5 mt30','','send_test_email_ajax',2);
+        $from = $os['from_email'] ?? '';
+        $smtp = $os['smtp'] ?? '';
+        $smtp_server = $os['smtp_server'] ?? '';
+        $smtp_port = $os['smtp_port'] ?? '';
+        $smtp_username = $os['smtp_username'] ?? '';
+        $smtp_password = $os['smtp_password'] ?? '';
+        $f->select('smtp','SMTP Gateway','Choose gateway...', $mail_providers, $smtp,$attr.' class="select2"',4,1,0);
+        $f->texts([
+            ['smtp_server','SMTP Server','',$smtp_server],
+            ['smtp_port','SMTP Port','',$smtp_port],
+            ['from_email','From (Sender) Email','',$from],
+            ['smtp_username','SMTP Email','',$smtp_username],
+        ],$attr,4);
+        $f->input('password','smtp_password','SMTP Password','',$smtp_password,$attr,4);
+        $f->process_trigger('Save API Details','store grad','','process_options_ajax','.col-12 tac');
+        $f->post_process();
         ?>
-        <div class="row" <?php $f->process_params('','email','',3); ?>>
-            <?php
-            $os = $db->get_options(['from_email','smtp','smtp_server','smtp_port','smtp_username','smtp_password']);
-            $attr = 'data-email';
-            $f->text('test_content','','','',$attr.' class="dn"');
-            //$f->text('autoload','','','from_email,smtp,smtp_username,smtp_password',$attr.' class="dn"');
-            $f->input('email','test_email','Send Test Email','Ex: email@website.com', 'installer0001@gmail.com', $attr.' data-help', 10);
-            $f->process_html('Send','l w r5 mt30','','send_test_email_ajax',2);
-            $from = $os['from_email'] ?? '';
-            $smtp = $os['smtp'] ?? '';
-            $smtp_server = $os['smtp_server'] ?? '';
-            $smtp_port = $os['smtp_port'] ?? '';
-            $smtp_username = $os['smtp_username'] ?? '';
-            $smtp_password = $os['smtp_password'] ?? '';
-            $f->select('smtp','SMTP Gateway','Choose gateway...', $mail_providers, $smtp,$attr.' class="select2"',4,1,0);
-            $f->texts([
-                ['smtp_server','SMTP Server','',$smtp_server],
-                ['smtp_port','SMTP Port','',$smtp_port],
-                ['from_email','From (Sender) Email','',$from],
-                ['smtp_username','SMTP Email','',$smtp_username],
-            ],$attr,4);
-            $f->input('password','smtp_password','SMTP Password','',$smtp_password,$attr,4);
-            $f->process_html('Save API Details','store grad','','process_options_ajax','.col-12 tac');
-            ?>
-        </div>
         <form id="template" method="post">
             <div class="row">
                 <?php

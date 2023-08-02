@@ -99,7 +99,6 @@ class PORTAL {
                         <div class="tab" data-tab="#sess"><?php is_mobile() ? E('Sessions') : E('Active Sessions'); ?><?php echo ' ('.count($ss).')'; ?></div>
                     </div>
                     <div class="tab_data tab_data_box <?php echo is_mobile() ? 'p20' : 'p40'; ?>">
-
                         <?php $f->option_params('id="looks"','data',2,2,'','theme,input_theme'); ?>
                             <div class="row">
                                 <?php
@@ -117,8 +116,10 @@ class PORTAL {
                                 //$f->texts([['']])
                                 ?>
                             </div>
-                        <?php $f->process_options('Update Preferences','r5 xl mb0'); ?>
-                        </div>
+                        <?php
+                        $f->process_options('Update Preferences','r5 xl mb0');
+                        $f->post_process();
+                        ?>
 
                         <?php $f->pre_process('id="basic" class="dn"','update_profile_ajax','user','user_',3,3,[],'Successfully updated user details!'); ?>
                         <div class="row">

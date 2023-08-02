@@ -67,9 +67,7 @@ class STRIPE {
         // API Fields
         $options_array = [ 'stripe_public_key', 'stripe_private_key', 'stripe_test_public_key', 'stripe_test_private_key', 'stripe_test' ];
         $ops = $db->get_options( $options_array );
-        echo '<div class="row"';
-        $f->option_params('stripe', 3 );
-        echo '>';
+        $f->option_params('class="row"','stripe', 3 );
         $attr = 'data-stripe';
         $pub = $ops['stripe_public_key'] ?? '';
         $pri = $ops['stripe_private_key'] ?? '';
@@ -88,7 +86,7 @@ class STRIPE {
         ], $attr, 5);
         echo '</div></div>';
         $f->process_options('Save Stripe Options','store grad','','.col-12 tac');
-        echo '</div>';
+        $f->post_process();
     }
 
     function manage_subscription_plans( string $table_class = 'plain c r' ): void {
@@ -129,14 +127,14 @@ class STRIPE {
             ?>
             </tbody>
             <tfoot>
-            <tr <?php $f->process_params('','sp','',2,2); ?>>
+            <tr <?php $f->pre_process('','','sp','',2,2); ?>>
                 <td><?php $f->text('name','','Ex: Platinum Plan','',$a); ?></td>
                 <td><?php $f->select2('interval','','Choose...',$intervals,'month',$a,'',1); ?></td>
                 <td><?php $f->text('price','','Ex: 250','',$a); ?></td>
                 <td><?php $f->text('quantity','','Ex: 10','',$a); ?></td>
                 <td><?php $f->select2('currency','','Choose...',['AED','AUD','USD','EUR','AED','INR'],'USD',$a); ?></td>
                 <td></td>
-                <td><?php $f->process_html('Add','add_plan store grad','','update_subscription_product_ajax'); ?></td>
+                <td><?php $f->process_trigger('Add','add_plan store grad','','update_subscription_product_ajax'); ?></td>
             </tr>
             </tfoot>
         </table>
@@ -172,7 +170,7 @@ class STRIPE {
 
             <div id="payment_response" class="dn" data-action="<?php $e->enc('register_stripe_payment_ajax'); ?>"></div>
 
-            <div id="subscription_form" <?php $f->process_params('','pay','',2,0,[],'','process_payment'); ?> >
+            <?php $f->pre_process('id="subscription_form"','','pay','',2,0,[],'','process_payment'); ?>
 
                 <div class="row">
                     <?php
@@ -205,10 +203,10 @@ class STRIPE {
                 </div>
 
                 <!-- Form submit button -->
-                <?php
-                $f->process_html( 'Subscribe', $button_class . ' submit_button', '', 'update_stripe_subscription_ajax' );
-                ?>
-            </div>
+            <?php
+            $f->process_trigger( 'Subscribe', $button_class . ' submit_button', '', 'update_stripe_subscription_ajax' );
+            $f->post_process();
+            ?>
 
             <div id="frmProcess" class="dn">
                 <span class="ring"></span> Processing...
