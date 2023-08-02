@@ -490,8 +490,8 @@ function easy_date( $date = '', $format = '', bool $show_time = false ): string 
         global $options;
         $format = $options['date_format'] ?? '';
         if( empty( $format ) ) {
-            $c = json_decode(CONFIG, 1);
-            $format = is_array($c) && isset($c['date_format']) ? $c['date_format'] : 'd M, Y';
+            //$c = json_decode(CONFIG, 1);
+            $format = is_array(CONFIG) && isset(CONFIG['date_format']) ? CONFIG['date_format'] : 'd M, Y';
         }
     }
     return date_format( $date, $format );

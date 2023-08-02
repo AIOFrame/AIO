@@ -100,7 +100,7 @@ class PORTAL {
                     </div>
                     <div class="tab_data tab_data_box <?php echo is_mobile() ? 'p20' : 'p40'; ?>">
 
-                        <div id="looks" <?php $f->option_params('data',2,2,'','theme,input_theme'); ?>>
+                        <?php $f->option_params('id="looks"','data',2,2,'','theme,input_theme'); ?>
                             <div class="row">
                                 <?php
                                 $uis = [ 'default' => 'Default - Light' ];
@@ -113,34 +113,39 @@ class PORTAL {
                                 }
                                 $f->select( 'theme', 'Dashboard Style', 'Select Theme...', $uis, '', 'data-data class="select2"', 6, 1 );
                                 $f->select( 'input_theme', 'Input Style', 'Select Theme...', [], '', 'data-data class="select2"', 6, 1 );
-                                $f->process_options('Update Preferences','r5 xl mb0','','.col-12 tar');
                                 //skel( $uis );
                                 //$f->texts([['']])
                                 ?>
                             </div>
+                        <?php $f->process_options('Update Preferences','r5 xl mb0'); ?>
                         </div>
 
-                        <div id="basic" class="dn" <?php $f->process_params('','user','user_',3,3,[],'Successfully updated user details!'); ?>>
-                            <div class="row">
-                                <?php
-                                $f->texts([['login','User Login','',$user['user_login']],['since','User Since','',easy_date($user['user_since'])]],'disabled','6');
-                                $f->texts([['name','Full Name','Ex: John Doe',$user['user_name']]],'required data-user','6');
-                                $f->input('email','email','E Mail','Ex: john@company.com',$user['user_email'],'data-help',6);
-                                $f->upload('picture','Upload Picture','Upload',$user['user_picture'],0,0,'upload','data-user','svg,jpg,png',10,1,'',4);
-                                $f->process_html('Update Profile','r5 xl mb0','','update_profile_ajax','.col-12 tar');
-                                ?>
-                            </div>
+                        <?php $f->pre_process('id="basic" class="dn"','update_profile_ajax','user','user_',3,3,[],'Successfully updated user details!'); ?>
+                        <div class="row">
+                            <?php
+                            $f->texts([['login','User Login','',$user['user_login']],['since','User Since','',easy_date($user['user_since'])]],'disabled','6');
+                            $f->texts([['name','Full Name','Ex: John Doe',$user['user_name']]],'required data-user','6');
+                            $f->input('email','email','E Mail','Ex: john@company.com',$user['user_email'],'data-help',6);
+                            $f->upload('picture','Upload Picture','Upload',$user['user_picture'],0,0,'upload','data-user','svg,jpg,png',10,1,'',4);
+                            //$f->process_html('Update Profile','r5 xl mb0','','update_profile_ajax','.col-12 tar');
+                            ?>
                         </div>
+                        <?php
+                        $f->process_trigger('Update Profile','r5 xl mb0');
+                        $f->post_process();
+                        ?>
 
-                        <div id="pass" class="dn" <?php $f->process_params('','ps','',3,3,[],'Successfully updated user password!'); ?>>
+                        <?php $f->pre_process('id="pass" class="dn"','change_password_ajax','ps','',3,3,[],'Successfully updated user password!'); ?>
                             <div class="row">
                                 <?php
                                 $min_string = T('Minimum Characters');
                                 $f->inputs('password',[['pass_old','Old Password'],['pass','New Password','','','data-length-notify="Password minimum length is 8 Characters"']],'data-ps minlength="8" data-minlength="'.$min_string.'" data-help required',6);
-                                $f->process_html('Change Password','r5 xl mb0','','change_password_ajax','.col-12 tar');
                                 ?>
                             </div>
-                        </div>
+                        <?php
+                        $f->process_trigger('Change Password','r5 xl mb0');
+                        $f->post_process();
+                        ?>
 
                         <div id="sess" class="dn">
                             <table class="">

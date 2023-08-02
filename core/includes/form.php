@@ -764,6 +764,7 @@ class FORM {
 
     /**
      * Renders HTML parameters for automated data saving
+     * @param string $class Wrapper element attribute
      * @param string $target Database name if the data is supposed to store directly to db or ajax function name with _ajax at the end
      * @param string $data Data attribute of inputs to gather data
      * @param string $pre Pre-wrap string for database table columns
@@ -776,13 +777,13 @@ class FORM {
      * @param string $redirect Redirect user to page on successful submission
      * @param string $validator Frontend JS script to add custom validation to the form data
      * @param string $reset_fields Reset input fields with data attribute (Tip: Use 1 to reset provided data fields)
-     * @param string $class Wrapper element class
      */
-    function pre_process( string $target = '', string $data = '', string $pre = '', int $notify = 0, int $reload = 0, array $hidden = [], string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '', string $class = '' ): void {
-        echo $this->_pre_process( $target, $data, $pre, $notify, $reload, $hidden, $success_alert, $callback, $confirm, $redirect, $validator, $reset_fields, $class );
+    function pre_process( string $attr = '', string $target = '', string $data = '', string $pre = '', int $notify = 0, int $reload = 0, array $hidden = [], string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '' ): void {
+        echo $this->_pre_process( $attr, $target, $data, $pre, $notify, $reload, $hidden, $success_alert, $callback, $confirm, $redirect, $validator, $reset_fields );
     }
 
     /**
+     * @param string $attr Wrapper element attribute
      * @param string $target Database name if the data is supposed to store directly to db or ajax function name with _ajax at the end
      * @param string $data Data attribute of inputs to gather data
      * @param array $hidden Hidden data for Database
@@ -795,12 +796,11 @@ class FORM {
      * @param string $redirect Redirect user to page on successful submission
      * @param string $validator Frontend JS script to add custom validation to the form data
      * @param string $reset_fields Reset input fields with data attribute (Tip: Use 1 to reset provided data fields)
-     * @param string $class Wrapper element class
      * @return string
      */
-    function _pre_process( string $target = '', string $data = '', string $pre = '', int $notify = 0, int $reload = 0, array $hidden = [], string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '', string $class = '' ): string {
+    function _pre_process( string $attr = '', string $target = '', string $data = '', string $pre = '', int $notify = 0, int $reload = 0, array $hidden = [], string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '' ): string {
         $c = Encrypt::initiate();
-        $r = !empty( $class ) ? '<div class="'.$class.'" ' : '<div ';
+        $r = !empty( $attr ) ? '<div '.$attr.' ' : '';
         $t = !empty( $target ) ? ' data-t="'.$c->encrypt( $target ).'"' : 'data-t';
         $nt = $notify > 0 ? ' data-notify="'.$notify.'"' : '';
         $rl = $reload > 0 ? ' data-reload="'.$reload.'"' : '';
@@ -814,7 +814,7 @@ class FORM {
         $rf = !empty( $reset_fields ) ? ( $reset_fields == 1 ? ' data-reset="'.$data.'"' : ' data-reset="'.$reset_fields.'"' ) : '';
         $cn = !empty( $confirm ) ? ' data-confirm="'.T($confirm).'"' : '';
         $r .= $t.$nt.$rl.$d.$p.$h.$st.$cb.$v.$rd.$cn.$rf;
-        $r .= '>';
+        $r .= !empty( $attr ) ? '>' : '';
         return $r;
     }
 
@@ -856,6 +856,7 @@ class FORM {
 
     /**
      * Renders HTML for Options Auto Save
+     * @param string $attr
      * @param string $data
      * @param int $notify
      * @param int $reload
@@ -867,22 +868,22 @@ class FORM {
      * @param string $confirm
      * @return void
      */
-    function option_params( string $data = '', int $notify = 0, int $reload = 0, array|string $autoload = [], array|string $unique = [], array|string $encrypt = [], string $success_text = 'Successfully Updated Preferences!', string $callback = '', string $confirm = '' ): void {
+    function option_params( string $attr = '', string $data = '', int $notify = 0, int $reload = 0, array|string $autoload = [], array|string $unique = [], array|string $encrypt = [], string $success_text = 'Successfully Updated Preferences!', string $callback = '', string $confirm = '' ): void {
         $h = [];
         !empty( $autoload ) ? $h['autoload'] = $autoload : '';
         !empty( $unique ) ? $h['unique'] = $unique : '';
         !empty( $encrypt ) ? $h['encrypt'] = $encrypt : '';
-        $this->pre_process( '', $data, '', $notify, $reload, $h, $success_text, $callback, $confirm );
+        $this->pre_process( $attr, '', $data, '', $notify, $reload, $h, $success_text, $callback, $confirm );
         //skel( $h );
     }
 
-    function option_params_wrap( string $data = '', int $notify = 0, int $reload = 0, array|string $autoload = [], array|string $unique = [], array|string $encrypt = [], string $success_text = 'Successfully Updated Preferences!', string $callback = '', string $confirm = '' ): void {
+    function option_params_wrap( string $attr = '', string $data = '', int $notify = 0, int $reload = 0, array|string $autoload = [], array|string $unique = [], array|string $encrypt = [], string $success_text = 'Successfully Updated Preferences!', string $callback = '', string $confirm = '' ): void {
         $h = [];
         !empty( $autoload ) ? $h['autoload'] = $autoload : '';
         !empty( $unique ) ? $h['unique'] = $unique : '';
         !empty( $encrypt ) ? $h['encrypt'] = $encrypt : '';
         //echo '<div class="row"';
-        $this->pre_process( '', $data, '', $notify, $reload, $h, $success_text, $callback, $confirm, '', '', '', 'row' );
+        $this->pre_process( $attr, '', $data, '', $notify, $reload, $h, $success_text, $callback, $confirm, '', '', '', 'row' );
         //echo '>';
     }
 
@@ -897,8 +898,8 @@ class FORM {
      * @param string $element HTML Element
      * @param string $confirm Message to show as confirmation before process
      */
-    function post_process( string $text = '', string $class = '', string $attr = '', string $action = '', string|int $pre = '', int|string $post = '', string $element = 'button', string $confirm = '' ): void {
-        echo $this->_post_process( $text, $class, $attr, $action, $pre, $post, $element, $confirm );
+    function process_trigger( string $text = '', string $class = '', string $attr = '', string $action = '', string|int $pre = '', int|string $post = '', string $element = 'button', string $confirm = '' ): void {
+        echo $this->_process_trigger( $text, $class, $attr, $action, $pre, $post, $element, $confirm );
     }
 
     /**
@@ -912,7 +913,7 @@ class FORM {
      * @param string $element HTML Element
      * @param string $confirm Message to show as confirmation before process
      */
-    function _post_process( string $text = '', string $class = '', string $attr = '', string $action = '', string|int $pre = '', int|string $post = '', string $element = 'button', string $confirm = '' ): string {
+    function _process_trigger( string $text = '', string $class = '', string $attr = '', string $action = '', string|int $pre = '', int|string $post = '', string $element = 'button', string $confirm = '' ): string {
         if( is_numeric( $pre ) ){
             $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
         }  else if( str_contains( $pre, '.' ) ) {
@@ -928,6 +929,14 @@ class FORM {
         return $pre.'<'.$element.' '.$click.' '.$a.' class="'.$class.'" '.$attr.'><span class="loader"></span>'.T( $text ).'</'.$element.'>'.$post;
     }
 
+    function post_process(): void {
+        echo $this->_post_process();
+    }
+
+    function _post_process(): string {
+        return '</div>';
+    }
+
     /**
      * Renders HTML to process options
      * @param string $text Button text
@@ -939,7 +948,7 @@ class FORM {
      * @param string $confirm Message to show as confirmation before process
      */
     function process_options( string $text = '', string $class = '', string $attr = '', string|int $pre = '', int|string $post = '', string $element = 'button', string $confirm = '' ): void {
-        $this->post_process( $text, $class, $attr, 'process_options_ajax', $pre, $post, $element, $confirm );
+        $this->process_trigger( $text, $class, $attr, 'process_options_ajax', $pre, $post, $element, $confirm );
     }
 
     /**
