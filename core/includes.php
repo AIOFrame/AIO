@@ -22,9 +22,9 @@ foreach( $base_load as $bl ) {
     include_once( dirname( __FILE__ ) . '/includes/'. $bl . '.php' );
 }
 
-$e = Encrypt::initiate();
-$action = isset( $_POST['action'] ) && !empty( $_POST['action'] ) ? $e->decrypt( $_POST['action'] ) : '';
-$_POST['action'] = $action;
+//$e = Encrypt::initiate();
+//$action = isset( $_POST['action'] ) && !empty( $_POST['action'] ) ? $e->decrypt( $_POST['action'] ) : '';
+//$_POST['action'] = $action;
 
 //if( !empty( $action ) && str_contains( $action, '_base_ajax' ) ) {
 //    include_once( dirname( __FILE__ ) . '/includes/ajax.php' );

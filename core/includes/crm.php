@@ -17,10 +17,10 @@ class CRM {
         $os = !empty( $os ) ? array_map( 'trim', explode( ',', $os ) ) : [];
         $fields = [
             [ 't' => 'text', 'i' => 'name', 'n' => 'Name', 'p' => 'Ex: John Doe or John Traders LLC...', 'v' => APPDEBUG==1?'fake_name':'', 'c' => 12 ],
+            [ 't' => 'phone', 'i' => 'm_code', 'i2' => 'mobile', 'n' => 'Code', 'n2' => 'Mobile', 'v' => APPDEBUG==1?'+971':'', 'v2' => APPDEBUG==1?'fake_phone':'', 'c' => 6 ],
+            [ 't' => 'email', 'i' => 'email', 'n' => 'Email', 'p' => 'Ex: john@website.com...', 'v' => APPDEBUG==1?'fake_email':'', 'c' => 6 ],
             [ 't' => 'slide', 'i' => 'status', 'n' => 'Activity Status', 'off' => 'Inactive', 'on' => 'Active', 'a' => 'class="s"', 'v' => APPDEBUG==1?'fake_name':'', 'c' => 6 ],
             [ 't' => 'select2', 'i' => 'progress', 'n' => 'Lead Status', 'p' => 'Choose status...', 'o' => $os, 'v' => 1, 'c' => 6 ],
-            [ 't' => 'phone', 'i' => 'm_code', 'i2' => 'mobile', 'n' => 'Code', 'n2' => 'Mobile', 'v' => APPDEBUG==1?'fake_phone':'', 'c' => 6 ],
-            [ 't' => 'email', 'i' => 'email', 'n' => 'Email', 'p' => 'Ex: john@website.com...', 'v' => APPDEBUG==1?'fake_email':'', 'c' => 6 ],
             [ 't' => 'textarea', 'i' => 'note', 'n' => 'Notes', 'p' => 'Ex: Lead has ABC requirements......', 'v' => APPDEBUG==1?'fake_content':'', 'c' => 12 ],
         ];
         ?>
@@ -28,7 +28,7 @@ class CRM {
             <button data-on="#lead_modal"><?php E( $title ); ?></button>
         </div>
         <?php
-        $c->modal( 'Lead', $size, 'update_lead_ajax', $fields, ['type'=>'lead','by'=>get_user_id()], 'lead_', 4, 4, 'Successfully saved lead!' );
+        $c->modal( 'Lead', $size, 'clients', $fields, ['type'=>'lead','by'=>get_user_id()], 'client_', 4, 4, 'Successfully saved lead!' );
     }
 
     function render_leads(): void {

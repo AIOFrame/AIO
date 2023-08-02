@@ -31,39 +31,58 @@ if (array_key_exists('HTTP_ORIGIN', $_SERVER)) {
 $url = !empty( $origin ) && $origin . '/' == APPURL; */
 
 // Action is set
-$action = $_POST['action'];
-unset( $_POST['action'] );
-$action_is_ajax = !empty( $action ) && str_contains($action, '_ajax');
+if( isset( $_POST['action'] ) ) {
+    //elog( $_POST );
+    //$action = $_POST['action'];
+    //unset( $_POST['action'] );
+    //
 
-if( $action_is_ajax ) {
-    if( !$ajax ) {
-        elog('AJAX request is not Asynchronous!');
-        ef('AJAX request is not Asynchronous!');
-        exit();
-    }
-    /* if( !$url ) {
-        elog('AJAX request is not from authorized domain '.$origin );
-        ef('AJAX request is not from authorized domain '.$origin, 0);
-        exit();
-    } */
-    if( function_exists( $action ) ){
-        // If isset hidden array
-        if( isset( $_POST['h'] ) ) {
-            //elog( $_POST );
-            $pre = $_POST['pre'] ?? '';
+    if( !empty( $_POST['action'] ) ) {
+        if( APPDEBUG ) {
+            $action = $_POST['action'];
+        } else {
             $e = Encrypt::initiate();
-            $hidden = $e->decrypt_array( $_POST['h'] );
-            if( !empty( $hidden ) ) {
-                foreach( $hidden as $hk => $hv ) {
-                    $_POST[$pre.$hk] = $hv;
-                }
-            }
-            unset( $_POST['h'] );
+            $action = $e->decrypt( $_POST['action'] );
         }
-        $action( $_POST );
+        unset( $_POST['action'] );
+        $action_is_ajax = str_contains($action, '_ajax');
+        /* if( !$ajax ) {
+            elog('AJAX request is not Asynchronous!');
+            ef('AJAX request is not Asynchronous!');
+            exit();
+        } */
+        /* if( !$url ) {
+            elog('AJAX request is not from authorized domain '.$origin );
+            ef('AJAX request is not from authorized domain '.$origin, 0);
+            exit();
+        } */
+        if( $action_is_ajax ) {
+            if (function_exists($action)) {
+                // If isset hidden array
+                if (isset($_POST['h'])) {
+                    //elog( $_POST );
+                    $pre = $_POST['pre'] ?? '';
+                    $e = Encrypt::initiate();
+                    $hidden = APPDEBUG ? $e->decrypt_array($_POST['h']) : json_decode($_POST['h'], 1);
+                    if (!empty($hidden)) {
+                        foreach ($hidden as $hk => $hv) {
+                            $_POST[$pre . $hk] = $hv;
+                        }
+                    }
+                    unset($_POST['h']);
+                }
+                $action($_POST);
+            } else {
+                elog('AJAX function not found!');
+                ef('Asynchronous function not found');
+            }
+        } else {
+            process_data_ajax();
+        }
+        die();
     } else {
-        elog('AJAX function not found!');
-        ef('Asynchronous function not found');
+        elog('AJAX action requested, but empty!');
+        ef('AJAX action requested, but empty!');
+        die();
     }
-    die();
 }

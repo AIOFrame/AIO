@@ -88,7 +88,7 @@ function define_page( $page ): void {
 
 // This the CORE ROUTING logic
 
-if( !isset( $_POST['action'] ) ) { // Checks if AJAX Action Request is sent so content wont be rendered
+if( !isset( $_POST['action'] ) && !isset( $_POST['t'] ) ) { // Checks if AJAX Action Request is sent so content will not be rendered
 
     /**
      * Sets page by url to page.php if file exists

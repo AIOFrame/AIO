@@ -402,7 +402,7 @@ function process_data( e, ne ){
         notify( empty_note, 5, 'error', 'warning' );
         breaker.push(1);
     }
-    elog('testtt');
+    //elog('testtt');
 
     let invalid = validator( p );
     if( invalid.length > 0 ) {
@@ -438,7 +438,7 @@ function process_data( e, ne ){
 
     let d = get_values( p, data, pre );
     elog(d);
-    d.action = $(e).data('action');
+    d.action = $(e).data('action') !== undefined ? $(e).data('action') : $(p).data('t');
     if( $(p).data('t') !== '' && $(p).data('t') !== undefined ) {
         d.t = $(p).data('t');
     }

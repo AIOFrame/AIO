@@ -143,7 +143,7 @@ require ROOTPATH . 'core/routes.php';
  * Loads includes, which in-turn loads dependencies
  */
 require ROOTPATH . 'core/includes.php';
-
+error_log( json_encode( $_POST ) );
 /**
  * Load Page
  */

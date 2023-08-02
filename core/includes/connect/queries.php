@@ -841,15 +841,15 @@ function process_data_ajax(): void {
     if( !empty( $a['t'] ) ){
         $cry = Encrypt::initiate();
         $db = new DB();
-        $table = $cry->decrypt( $a['t'] );
+        $table = APPDEBUG ? $a['t'] : $cry->decrypt( $a['t'] );
         unset( $a['t'] );
 
         if( isset( $a[ $a['pre'].'id'] ) ){
-            $id = is_numeric( $a[ $a['pre'].'id'] ) ? $a[ $a['pre'].'id'] : $cry->decrypt( $a[$a['pre'].'id'] );
+            $id = is_numeric( $a[ $a['pre'].'id'] ) ? $a[ $a['pre'].'id'] : ( APPDEBUG ? $a[$a['pre'].'id'] : $cry->decrypt( $a[$a['pre'].'id'] ) );
             //elog( $id );
             unset($a[$a['pre'].'id']);
         } else if( isset( $a[ 'id' ] ) ) {
-            $id = is_numeric( $a[ 'id' ] ) ? $a[ 'id' ] : $cry->decrypt( $a[ 'id' ] );
+            $id = is_numeric( $a[ 'id' ] ) ? $a[ 'id' ] : ( APPDEBUG ? $a[ 'id' ] : $cry->decrypt( $a[ 'id' ] ) );
             unset( $a['id'] );
         }
 
@@ -880,9 +880,7 @@ function process_data_ajax(): void {
             unset($a['by']);
         }
         if( !empty( $a['h'] ) ){
-            $cry = Encrypt::initiate();
-            $dec = $cry->decrypt( $a['h'] );
-            $hs = !empty( $dec ) ? json_decode( $dec, 1 ) : [];
+            $hs = APPDEBUG ? $a['h'] : $cry->decrypt_array( $a['h'] );
             if( is_array( $hs ) ){
                 elog( 'Hidden is array' );
                 foreach( $hs as $k => $v ){
@@ -893,18 +891,18 @@ function process_data_ajax(): void {
         }
 
         if( !empty( $a['alerts'] ) ) {
-            $alerts = $cry->decrypt_array( $a['alerts'] );
+            $alerts = APPDEBUG ? json_decode( $a['alerts'], 1 ) : $cry->decrypt_array( $a['alerts'] );
             elog($alerts);
             unset( $a['alerts'] );
         }
 
         if( !empty( $a['emails'] ) ) {
-            $emails = $cry->decrypt_array( $a['emails'] );
+            $emails = APPDEBUG ? json_decode( $a['emails'], 1 ) : $cry->decrypt_array( $a['emails'] );
             unset( $a['emails'] );
         }
 
         if( !empty( $a['post'] ) ) {
-            $post = $cry->decrypt( $a['post'] );
+            $post = APPDEBUG ? json_decode( $a['post'], 1 ) : $cry->decrypt( $a['post'] );
             if( function_exists( $post ) ){
                 $post( $_POST );
             }

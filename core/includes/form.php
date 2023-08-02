@@ -801,12 +801,19 @@ class FORM {
     function _pre_process( string $attr = '', string $target = '', string $data = '', string $pre = '', int $notify = 0, int $reload = 0, array $hidden = [], string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '' ): string {
         $c = Encrypt::initiate();
         $r = !empty( $attr ) ? '<div '.$attr.' ' : '';
-        $t = !empty( $target ) ? ' data-t="'.$c->encrypt( $target ).'"' : 'data-t';
+        if( APPDEBUG ) {
+            $target = !empty( $target ) ? $target : 'process_data_ajax';
+            $hidden = json_encode( $hidden );
+        } else {
+            $target = !empty( $target ) ? $c->encrypt( $target ) : $c->encrypt( 'process_data_ajax' );
+            $hidden = $c->encrypt_array( $hidden );
+        }
+        $t = ' data-t="'.$target.'"';
         $nt = $notify > 0 ? ' data-notify="'.$notify.'"' : '';
         $rl = $reload > 0 ? ' data-reload="'.$reload.'"' : '';
         $d = !empty( $data ) ? ' data-data="'.$data.'"' : '';
         $p = !empty( $pre ) ? ' data-pre="'.$pre.'"' : '';
-        $h = !empty( $hidden ) ? ' data-h="'.$c->encrypt_array( $hidden ).'"' : '';
+        $h = !empty( $hidden ) ? ' data-h=\''.$hidden.'\'' : '';
         $st = !empty( $success_alert ) ? ' data-success="'.T($success_alert).'"' : '';
         $cb = !empty( $callback ) ? ( str_contains( $callback, '_ajax' ) ? ' data-callback="'.$c->encrypt($callback).'"' : ' data-callback="'.$callback.'"') : '';
         $v = !empty( $validator ) ? ' data-validation="'.$validator.'"' : '';
@@ -923,10 +930,10 @@ class FORM {
         }
         $post = !empty( $post ) ? $post : '</div>';
         $c = Encrypt::initiate();
-        $action = empty( $action ) ? 'process_data_ajax' : $action;
-        $a = 'data-action="'.$c->encrypt($action).'"';
-        $click = $confirm !== '' ? 'onclick="if(confirm(\''.T($confirm).'\')){process_data(this)}else{event.stopPropagation();event.preventDefault();}"' : 'onclick="process_data(this)"';
-        return $pre.'<'.$element.' '.$click.' '.$a.' class="'.$class.'" '.$attr.'><span class="loader"></span>'.T( $text ).'</'.$element.'>'.$post;
+        //$action = empty( $action ) ? 'process_data_ajax' : $action;
+        $a = !empty( $action ) ? ' data-action="'.$c->encrypt($action).'"' : '';
+        $click = $confirm !== '' ? ' onclick="if(confirm(\''.T($confirm).'\')){process_data(this)}else{event.stopPropagation();event.preventDefault();}"' : ' onclick="process_data(this)"';
+        return $pre.'<'.$element.$click.$a.' class="'.$class.'" '.$attr.'><span class="loader"></span>'.T( $text ).'</'.$element.'>'.$post;
     }
 
     function post_process(): void {
