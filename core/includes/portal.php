@@ -82,6 +82,10 @@ class PORTAL {
      * @return void
      */
     function user_profile(): void {
+        // TODO: Based on if ecom in features, implement my orders tab
+        // TODO: Based on if ecom in features, implement my addresses tab
+        // TODO: Based on if crm or ems in features, implement my expenses tab
+        // TODO: Based on if ems in features, implement my employee details tab
         $f = new FORM();
         $c = Encrypt::initiate();
         $db = new DB();

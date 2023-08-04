@@ -1,6 +1,0 @@
-<?php
-// TODO:
-
-class COMMERCE {
-
-}

@@ -38,6 +38,10 @@ class CRM {
         // TODO: Leads Kanban
     }
 
+    /**
+     * Renders administration side lead viewer
+     * @return void
+     */
     function render_lead_viewer(): void {
         // TODO: View Lead Popup
     }
