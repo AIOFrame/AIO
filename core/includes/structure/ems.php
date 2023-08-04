@@ -9,6 +9,7 @@ $db = new DB();
 // TODO: Employee user meta regional
 // TODO: Employee Contracts
 // TODO: Employee contracts regional fields
+// TODO: Expenses
 $pages_struct[] = [ 'leads', [
     [ 'user', 'INT', 13, 0 ],
     [ 'date', 'DATETIME', '', 1 ],

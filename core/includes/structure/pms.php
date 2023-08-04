@@ -1,6 +1,12 @@
 <?php
 $db = new DB();
 
+// TODO: projects
+// TODO: project_tasks
+// TODO: project_flows
+// TODO: project_structure - could be structure.php
+// TODO: 
+
 $projects_struct = [
     [ 'client', 'INT', 13, 1 ],
     [ 'note', 'TEXT', 2048, 1 ],

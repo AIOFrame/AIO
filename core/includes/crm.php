@@ -32,7 +32,7 @@ class CRM {
         $c->modal( 'Lead', $size, 'crm_leads_process_data_ajax', $fields, ['type'=>'lead','by'=>get_user_id()], 'client_', 4, 4, 'Successfully saved lead!' );
     }
 
-    function render_leads(): void {
+    function leads(): void {
         // TODO: Leads Table
         // TODO: Leads Cards
         // TODO: Leads Kanban
@@ -42,8 +42,18 @@ class CRM {
      * Renders administration side lead viewer
      * @return void
      */
-    function render_lead_viewer(): void {
+    function lead(): void {
         // TODO: View Lead Popup
+    }
+
+    function get_leads(): array {
+        // TODO: Returns Leads Array
+        return [];
+    }
+
+    function get_lead(): array {
+        // TODO: Returns Lead Array
+        return [];
     }
 
     function customer_filters(): void {
@@ -54,12 +64,12 @@ class CRM {
         // TODO: Add / Edit Customer Modal
     }
 
-    function render_customers(): void {
+    function customers(): void {
         // TODO: Customer Table
         // TODO: Customer Cards
     }
 
-    function render_customer_viewer(): void {
+    function customer(): void {
         // TODO: View Customer Popup
     }
 
