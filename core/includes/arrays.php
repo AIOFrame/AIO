@@ -229,6 +229,26 @@ function replace_in_keys( array $array = [], string $trim = '', string $replace 
 }
 
 /**
+ * Returns if any element of an array exist in another
+ * @param array $needles Array of items to search
+ * @param array $haystack Array to search from
+ * @return bool
+ */
+function in_array_any( array $needles, array $haystack ): bool {
+    return !empty(array_intersect($needles, $haystack));
+}
+
+/**
+ * Returns if all elements of an array exist in another
+ * @param array $needles Array of items to search
+ * @param array $haystack Array to search from
+ * @return bool
+ */
+function in_array_all( array $needles, array $haystack ): bool {
+    return empty(array_diff($needles, $haystack));
+}
+
+/**
  * Append a string to array keys
  * @param array $array Data array that needs string appended to keys
  * @param string $pre String that will be appended to keys

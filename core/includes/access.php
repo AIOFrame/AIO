@@ -1,4 +1,8 @@
 <?php
+// TODO: OTP login via sms
+// TODO: OTP login via email
+// TODO: Social Login (Google, Facebook)
+// TODO: Remember User Name Feature
 if( session_status() === PHP_SESSION_NONE ) {
     session_start();
 }

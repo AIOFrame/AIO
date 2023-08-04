@@ -59,14 +59,16 @@ if( defined( 'CONFIG' ) ) {
     $path = ROOTPATH . 'core/includes/';
 
     // Common used data - Will be deprecated or improved
-    if( in_array( 'data', $features ) || in_array( 'portal', $features ) ) {
+    //if( in_array( 'data', $features ) || in_array( 'portal', $features ) ) {
+    if( in_array_any( [ 'data', 'portal' ], $features ) ) {
         include_once( dirname( __FILE__ ) . '/includes/data.php' );
     }
 
     if( defined( 'DB_TYPE' ) ) {
 
         // Create User tables if featured
-        if( in_array( 'users', $features ) || in_array( 'auth', $features ) || in_array( 'authentication', $features ) ) {
+        //if( in_array( 'users', $features ) || in_array( 'auth', $features ) || in_array( 'authentication', $features ) ) {
+        if( in_array_any( [ 'users', 'auth', 'authentication' ], $features ) ) {
             include_once( $path . 'access.php' );
             include_once( $path . 'alerts.php' );
             include_once( $path . 'options.php' );
@@ -83,13 +85,9 @@ if( defined( 'CONFIG' ) ) {
         }
 
         // CMS Features
-        if( in_array( 'cms', $features ) || in_array( 'pages', $features ) ) {
+        //if( in_array( 'cms', $features ) || in_array( 'pages', $features ) ) {
+        if( in_array_any( [ 'cms', 'pages' ], $features ) ) {
             include_once( $path . 'cms.php' );
-        }
-
-        // Commerce Features
-        if( in_array( 'commerce', $features ) || in_array( 'store', $features ) ) {
-            include_once( $path . 'commerce.php' );
         }
 
         // Chat Features
@@ -98,12 +96,14 @@ if( defined( 'CONFIG' ) ) {
         }
 
         // Alerts System
-        if( in_array( 'alert', $features ) || in_array( 'alerts', $features ) || in_array( 'notifications', $features ) ) {
+        //if( in_array( 'alert', $features ) || in_array( 'alerts', $features ) || in_array( 'notifications', $features ) ) {
+        if( in_array_any( [ 'alert', 'alerts', 'notifications' ], $features ) ) {
             include_once( $path . 'alerts.php' );
         }
 
         // Translation functions
-        if( in_array( 'translations', $features ) || in_array( 'languages', $features ) || in_array( 'lang', $features ) ) {
+        //if( in_array( 'translations', $features ) || in_array( 'languages', $features ) || in_array( 'lang', $features ) ) {
+        if( in_array_any( [ 'translations', 'languages', 'lang' ], $features ) ) {
             include_once( $path . 'translation/functions.php' );
         }
 
@@ -113,12 +113,14 @@ if( defined( 'CONFIG' ) ) {
         }
 
         // Create File uploader tables if featured
-        if( in_array( 'storage', $features ) || in_array( 'uploads', $features ) || in_array( 'upload', $features ) ) {
+        //if( in_array( 'storage', $features ) || in_array( 'uploads', $features ) || in_array( 'upload', $features ) ) {
+        if( in_array_any( [ 'storage', 'uploads', 'upload' ], $features ) ) {
             include_once( $path . 'files.php' );
         }
 
         // Regional Limitations Feature
-        if( in_array( 'region', $features ) || in_array( 'regions', $features ) ) {
+        //if( in_array( 'region', $features ) || in_array( 'regions', $features ) ) {
+        if( in_array_any( [ 'region', 'regions' ], $features ) ) {
             include_once( $path . 'region.php' );
         }
 
@@ -130,6 +132,18 @@ if( defined( 'CONFIG' ) ) {
         // Employee Management System
         if( in_array( 'ems', $features ) ) {
             include_once( $path . 'ems.php' );
+        }
+
+        // Accounting System
+        //if( in_array( 'accounts', $features ) || in_array( 'accounting', $features ) ) {
+        if( in_array_any( [ 'accounts', 'accounting' ], $features ) ) {
+            include_once( $path . 'accounts.php' );
+        }
+
+        // E-Commerce System
+        //if( in_array( 'ecom', $features ) || in_array( 'commerce', $features ) || in_array( 'ecommerce', $features ) || in_array( 'store', $features ) ) {
+        if( in_array_any( [ 'ecom', 'commerce', 'ecommerce', 'store' ], $features ) ) {
+            include_once( $path . 'ecommerce.php' );
         }
 
         // Backup Functions
