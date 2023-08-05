@@ -3,9 +3,9 @@ $db = new DB();
 
 // TODO: projects
 // TODO: project_tasks
+// TODO: project_issues
 // TODO: project_flows
-// TODO: project_structure - could be structure.php
-// TODO: 
+// TODO: project_finances
 
 $projects_struct = [
     [ 'client', 'INT', 13, 1 ],
