@@ -366,6 +366,63 @@ class CODE {
 
     }
 
+    function table( array $content = [], string $class = '' ): void {
+        echo '<table class="'.$class.'">';
+        foreach( $content as $type => $data ) {
+            echo in_array( $type, [ 'thead', 'head', 'h' ] ) ? '<thead>' : ( in_array( $type, [ 'tfoot', 'foot', 'f' ] ) ? '<tfoot>' : '<tbody>' );
+            foreach( $data as $d ) {
+                echo in_array( $type, [ 'thead', 'head', 'h' ] ) ? '<th>'.$d.'</th>' : '<td>'.$d.'</td>';
+            }
+            echo in_array( $type, [ 'thead', 'head', 'h' ] ) ? '</thead>' : ( in_array( $type, [ 'tfoot', 'foot', 'f' ] ) ? '</tfoot>' : '</tbody>' );
+        }
+        echo '</table>';
+    }
+
+    /**
+     * Renders Card
+     * @param string $title Title of the Card
+     * @param string $link Hyperlink for the card to navigate to
+     * @param string $desc Description
+     * @param string $image Image or Logo URL
+     * @param string $image_class Image or Logo class [ 'logo', 'image', 'logo xl', 'image f' ]
+     * @param string $status Status text for the card
+     * @param string $status_class Status class [ 'orange', 'blue', 'green', 'red', 'l', 'r' ]
+     * @param array $data Information to be displayed as table list [ [ 'Age', '25 Years' ], [ 'Gender', 'Male' ] ]
+     * @param array $actions General actions like view a page, print a page [ [ 'url' => '', 'title' => '', 'ico' => 'mat-ico printer' ] ]
+     * @param string $edit_modal Modal identifier to insert editable data json
+     * @param array $edit_data Editable data json
+     * @param string $delete_table Database table name to delete data from Ex: 'contacts'
+     * @param string $delete_logic Database deletion logic Ex: 'contact_id = 5'
+     * @return void
+     */
+    function card( string $title = '', string $link = '', string $desc = '', string $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], array $actions = [], string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '' ): void {
+        $f = new FORM();
+        echo !empty ( $link ) ? '<a class="card" href="'.$link.'">' : '<div class="card">';
+        echo !empty( $image ) ? '<div style="background-image:url(\''.$image.'\')" class="'.$image_class.'"></div>' : '';
+        echo !empty( $title ) ? '<h2 class="title gbg">'.$title.'</h2>' : '';
+        echo !empty( $desc ) ? '<h4 class="desc gbg">'.$desc.'</h4>' : '';
+        echo !empty( $status ) ? '<div class="status '.$status_class.'">'.$status.'</div>' : '';
+        if( !empty( $data ) ) {
+            $this->table( [ 'body' => $data ], 'plain' );
+        }
+        if( !empty( $actions ) || ( !empty( $edit_data ) && !empty( $edit_modal ) ) || ( !empty( $delete_table ) && !empty( $delete_logic ) ) ) {
+            echo '<div class="actions">';
+            if( !empty( $actions ) ) {
+                foreach( $actions as $act ) {
+                    $f->view_html( $act['url'] ?? '', $act['html'] ?? 'div', $act['title'] ?? ( $act['text'] ?? '' ), 'grad', '', $act['ico'] ?? '' );
+                }
+            }
+            if( !empty( $edit_data ) && !empty( $edit_modal ) ) {
+                $f->edit_html( $edit_modal, $edit_data, 'div', '', 'grad', '', 'mat-ico', 'edit' );
+            }
+            if( !empty( $delete_table ) && !empty( $delete_logic ) ) {
+                $f->trash_html( $delete_table, $delete_logic, 'div', '', 'grad', '', 'mat-ico', 2, 2, 'Are you sure to delete?', 'trash' );
+            }
+            echo '</div>';
+        }
+        echo !empty ( $link ) ? '</a>' : '</div>';
+    }
+
 }
 
 class RANGE {

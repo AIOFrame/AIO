@@ -50,6 +50,12 @@ $success: var(--success_color);
       font-weight: bold;
     }
   }
+  .grad-bg, .gbg {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-color: #08aeea;
+    background-image: linear-gradient(45deg,$primary 0,$secondary 100%);
+  }
   .pic {
     border-radius:25px;
   }
@@ -221,6 +227,27 @@ $success: var(--success_color);
     border:1px solid $error
   }
 }
+.card.p1 {
+  padding: 10px;
+  .image.f {
+    width: calc(100% + 20px);
+    margin: -20px -20px 0;
+  }
+}
+.card.p2 {
+  padding: 20px;
+  .image.f {
+    width: calc(100% + 40px);
+    margin: -40px -40px 0;
+  }
+}
+.card.p3 {
+  padding: 30px;
+  .image.f {
+    width: calc(100% + 60px);
+    margin: -60px -60px 0;
+  }
+}
 .card[data-on], .card[data-off], .card[data-show], .card[data-hide] {
   cursor: pointer;
 }
@@ -258,7 +285,7 @@ $success: var(--success_color);
 .plate .body {
   padding: 15px;
 } */
-.card:not(.no-float):hover {
+.card:not(.no-float):hover, .card:not(.nf):hover {
   box-shadow:0 0 30px rgba(0,0,0,.2), 0 10px 30px rgba(0,0,0,.05);
   transform:translateY(-2px);
   .actions {
