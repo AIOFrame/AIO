@@ -350,7 +350,7 @@ class CODE {
      */
     function logout_html( string $tag = 'div', string $class = '', string $text = 'Logout', string $confirm = 'Are you sure to Logout?' ): void {
         $e = Encrypt::initiate();
-        $action = 'data-action="' . $e->encrypt('logout_ajax') . '"';
+        $action = 'data-action="' . ( APPDEBUG ? 'logout_ajax' : $e->encrypt('logout_ajax') ) . '"';
         $click = 'onclick="process_data(this)"';
         $confirm = !empty( $confirm ) ? 'data-confirm="' . T($confirm) . '"' : '';
         echo '<' . $tag . ' class="' . $class . '" ' . $action . ' ' . $click . ' ' . $confirm . ' data-reload="2" data-notify="2">' . $text . '</' . $tag . '>';

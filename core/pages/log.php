@@ -13,7 +13,7 @@ if( $file = fopen( $url, 'r' ) ) {
         <div class="options">
             <div id="back" class="ico" onclick="window.history.back();"><div class="mat-ico">arrow_back</div><i class="tip">Return to Previous Page</i></div>
             <div class="ico" onclick="location.reload()"><div class="mat-ico">refresh</div><i class="tip">Reload</i></div>
-            <div onclick="process_data(this)" data-notify="2" data-reload="2" data-action="<?php $cry->enc('clear_log_ajax'); ?>" class="ico clear"><div class="mat-ico">delete_sweep</div><i class="tip">Clear all Log</i></div>
+            <div onclick="process_data(this)" data-notify="2" data-reload="2" data-action="<?php echo APPDEBUG ? 'clear_log_ajax' : $cry->encrypt('clear_log_ajax'); ?>" class="ico clear"><div class="mat-ico">delete_sweep</div><i class="tip">Clear all Log</i></div>
             <div class="ico dark" data-dark><div class="mat-ico">dark_mode</div><i class="tip">Toggle Dark Mode</i></div>
         </div>
     </header>

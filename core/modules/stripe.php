@@ -168,7 +168,7 @@ class STRIPE {
         ?>
         <div class="subscription_wrap stripe" data-stripe-public-key="<?php echo $public_key; ?>">
 
-            <div id="payment_response" class="dn" data-action="<?php $e->enc('register_stripe_payment_ajax'); ?>"></div>
+            <div id="payment_response" class="dn" data-action="<?php echo APPDEBUG ? 'register_stripe_payment_ajax' : $e->encrypt('register_stripe_payment_ajax'); ?>"></div>
 
             <?php $f->pre_process('id="subscription_form"','','pay','',2,0,[],'','process_payment'); ?>
 

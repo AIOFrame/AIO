@@ -8,7 +8,7 @@ class FUP {
         get_scripts(['jquery','upload']);
         // TODO: Translations as data attr
         ?>
-        <div id="aio_up" class="file_modal" data-dir="<?php echo APPURL.'apps/'.APPDIR; ?>" data-action="<?php echo $cry->encrypt('file_process_ajax'); ?>" data-delete-action="<?php echo $cry->encrypt('file_delete_ajax'); ?>">
+        <div id="aio_up" class="file_modal" data-dir="<?php echo APPURL.'apps/'.APPDIR; ?>" data-action="<?php echo APPDEBUG ? 'file_process_ajax' : $cry->encrypt('file_process_ajax'); ?>" data-delete-action="<?php echo $cry->encrypt('file_delete_ajax'); ?>">
             <div class="files_head">
                 <h3><?php E('File Uploader'); ?></h3>
                 <div class="info">

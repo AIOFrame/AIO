@@ -257,7 +257,7 @@ class PORTAL {
                     $live = isset( $countries[$cr] ) ? explode( ' ', $countries[$cr] ) : [];
                     if( !empty( $set_countries ) ) {
                         $rico = !empty( $cr ) ? '<div class="reg-ico">'.$live[0].'</div>' : '<div class="mat-ico">map</div>';
-                        echo '<div id="region" class="nav_ico" title="Change Region">'.$rico.'<div class="drop" data-action="'.$e->encrypt('set_region_ajax').'">';
+                        echo '<div id="region" class="nav_ico" title="Change Region">'.$rico.'<div class="drop" data-action="'. ( APPDEBUG ? 'set_region_ajax' : $e->encrypt('set_region_ajax') ) .'">';
                         foreach( $set_countries as $r ){
                             $t = $countries[$r] ?? '';
                             if( !empty( $cr ) && $cr == $r  ) {

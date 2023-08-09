@@ -931,7 +931,7 @@ class FORM {
         $post = !empty( $post ) ? $post : '</div>';
         $c = Encrypt::initiate();
         //$action = empty( $action ) ? 'process_data_ajax' : $action;
-        $a = !empty( $action ) ? ' data-action="'.$c->encrypt($action).'"' : '';
+        $a = !empty( $action ) ? ' data-action="'. ( APPDEBUG ? $action : $c->encrypt($action) ) .'"' : '';
         $click = $confirm !== '' ? ' onclick="if(confirm(\''.T($confirm).'\')){process_data(this)}else{event.stopPropagation();event.preventDefault();}"' : ' onclick="process_data(this)"';
         return $pre.'<'.$element.$click.$a.' class="'.$class.'" '.$attr.'><span class="loader"></span>'.T( $text ).'</'.$element.'>'.$post;
     }
