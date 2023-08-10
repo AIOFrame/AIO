@@ -325,6 +325,15 @@ class CODE {
     function modal( string $title = '', string $size = 'm', string $target = '', array $fields = [], array $hidden = [], string $pre = '', int $notify = 0, int $reload = 0, string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '', string $submit_text = '' ): void {
         $f = new FORM();
         $r = substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 8);
+        $this->pre_modal( $title, $size );
+        $f->pre_process( 'data-wrap', $target, $r, $pre, $notify, $reload, $hidden, $success_alert, $callback, $confirm, $redirect, $validator, $reset_fields );
+        $f->form( $fields, 'div', $r );
+        $f->process_trigger( !empty( $submit_text ) ? $submit_text : 'Save '.$title, 'mb0' );
+        $f->post_process();
+        $this->post_modal();
+    }
+
+    function pre_modal( string $title = '', string $size = '' ): void {
         $s = strtolower( str_replace( ' ', '_', $title ) );
         ?>
         <div id="<?php echo $s.'_modal'; ?>" class="modal <?php echo $size . ' ' . $s.'_modal'; ?>">
@@ -332,15 +341,12 @@ class CODE {
             <h2 class="title" data-edit style="display: none;"><?php E( 'Update '.$title ); ?></h2>
             <div class="close"></div>
             <div class="modal_body">
-                <?php
-                $f->pre_process( 'data-wrap', $target, $r, $pre, $notify, $reload, $hidden, $success_alert, $callback, $confirm, $redirect, $validator, $reset_fields );
-                $f->form( $fields, 'div', $r );
-                $f->process_trigger( !empty( $submit_text ) ? $submit_text : 'Save '.$title, 'mb0' );
-                $f->post_process();
-                ?>
-            </div>
-        </div>
-    <?php }
+        <?php
+    }
+
+    function post_modal(): void {
+        echo '</div></div>';
+    }
 
     /**
      * Logout HTML
@@ -583,4 +589,26 @@ function text_to_image( string $text, string $type = 'img', int $break = 40, int
     } else {
         return '<div class=\'text_to_image\' style=\'background-image: url(\''.$url.'\')\' title=\'Encrypted Text\'></div>';
     }
+}
+
+// ACCORDION TAGS
+
+function accordion( string $title = '', string $content = '', string $class = '' ): void {
+    echo "<div class='accordion {$class}'><div class='accordion_head'>{$title}<div class='act'><div class='mat-ico' data-close>expand_less</div><div class='mat-ico' data-open>expand_more</div></div></div><div class='accordion_body'>{$content}</div></div>";
+}
+
+function _r(): void {
+    echo '<div class="row">';
+}
+
+function r_(): void {
+    echo '</div>';
+}
+
+function _c( string|int $column = 12 ): void {
+    echo '<div class="col-12 col-md-'.$column.'">';
+}
+
+function c_(): void {
+    echo '</div>';
 }

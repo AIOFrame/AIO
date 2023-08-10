@@ -13,13 +13,38 @@ class CMS {
     }
 
     function page_modal(): void {
-
-        $fields = [
-
-        ];
-
         $c = new CODE();
-        $c->modal( 'Page', 'l40', 'update_page_ajax', $fields, [], 'page', 2, 2 );
+        $f = new FORM();
+        $publish_fields = [
+            [ 'id' => 'title', 'title' => 'Page Title' ],
+            [ 'id' => 'url', 'title' => 'Hyperlink', 'p' => 'Ex: procedure-to-register', 'a' => 'data-no-space' ],
+            [ 'type' => 'select', 'id' => 'status', 'title' => 'Page Status' ]
+        ];
+        $visibility_fields = [
+            [ 't' => 'date', 'id' => 'birth', 'n' => 'Visible From', 'c' => 6 ],
+            [ 't' => 'date', 'id' => 'expiry', 'n' => 'Visible Till', 'c' => 6 ],
+        ];
+        $seo_fields = [
+            [ 't' => 'textarea', 'id' => 'desc', 'n' => 'Meta Description' ],
+            [ 't' => 'textarea', 'id' => 'desc', 'n' => 'Meta Keywords' ],
+            [ 'id' => 'author', 'n' => 'Meta Author' ],
+        ];
+        $r = substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 8);
+        //$c->pre_modal( 'Page', 'f' );
+        $f->pre_process( 'data-wrap', 'update_page_ajax', $r, 'page', 2, 2 );
+        _r();
+        _c(8);
+        $f->form( [ [ 't' => 'textarea', 'id' => 'content', 'n' => 'Page Content' ] ], '', $r );
+        c_();
+        _c(4);
+        accordion( 'Publish Options', $f->_form( $publish_fields ), 'br15 w on' );
+        accordion( 'Visibility Options', $f->_form( $visibility_fields, 'row', $r ), 'br15 w on' );
+        accordion( 'SEO Options', $f->_form( $seo_fields, 'row', $r ), 'br15 w' );
+        $f->process_trigger('Save Page','w r');
+        c_();
+        r_();
+        $f->post_process();
+        //$c->post_modal();
     }
 
     function pages(): void {

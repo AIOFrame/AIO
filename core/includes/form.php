@@ -45,12 +45,25 @@ class FORM {
      * @param bool $translate Translate the option text or not
      */
     function select_options( array $options = [], string|null $selected = '', string $placeholder = '', bool $keyed = false, bool $translate = false ): void {
+        echo $this->_select_options( $options, $selected, $placeholder, $keyed, $translate );
+    }
+
+    /**
+     * Renders &lt;select&gt; options
+     * @param array $options Indexed or Associative Array of options
+     * @param string|null $selected Selected option or options separated by comma
+     * @param string $placeholder Placeholder text
+     * @param bool $keyed Yes if option value should be array key
+     * @param bool $translate Translate the option text or not
+     */
+    function _select_options( array $options = [], string|null $selected = '', string $placeholder = '', bool $keyed = false, bool $translate = false ): string {
         $s = explode( ',', str_replace( ' ', '', $selected ) );
         //skel( $s );
         $placeholder = $translate ? T($placeholder) : $placeholder;
         if( $placeholder !== '' ){
             echo empty($s) ? '<option disabled selected>'.$placeholder.'</option>' : '<option disabled>'.$placeholder.'</option>';
         }
+        $return = '';
         // TODO: If multi dimensional array then and also add data attr, possibly auto fill logic
         if( is_assoc( $options ) ) {
             foreach ( $options as $value => $data ) {
@@ -77,7 +90,7 @@ class FORM {
                     $sel = 'selected';
                 }
                 if( $data == 'select2_placeholder' ) { echo '<option></option>'; continue; }
-                echo '<option value="' . $value . '" ' . $sel . $attr.'>' . $text . '</option>';
+                $return .= '<option value="' . $value . '" ' . $sel . $attr.'>' . $text . '</option>';
             }
         } else {
             foreach( $options as $k => $o ) {
@@ -104,9 +117,10 @@ class FORM {
                 }
                 $t = $translate ? T( $t ) : $t;
                 if( $t == 'select2_placeholder' ) { echo '<option></option>'; continue; }
-                echo '<option '.$d.' value="' . $k . '" ' . $sel . '>' . $t . '</option>';
+                $return .= '<option '.$d.' value="' . $k . '" ' . $sel . '>' . $t . '</option>';
             }
         }
+        return $return;
         //!empty($sel) ? elog($s) : '';
     }
 
@@ -125,24 +139,37 @@ class FORM {
      * @tip You can run select2() instead that will render select input with js select2 that has searchable dropdown
      */
     function select( string|array $identity = '', string $label = '', string $placeholder = '', array $options = [], string|null $selected = '', string $attr = '', string $pre = '', bool $keyed = false, bool $translate = false, string $post = '' ): void {
+        echo $this->_select( $identity, $label, $placeholder, $options, $selected, $attr, $pre, $keyed, $translate, $post );
+    }
+
+    /**
+     * Renders &lt;select&gt; element and <option>s inside
+     * @param string|array $identity ID and name of the element or array of [id, name]
+     * @param string $label Label for the &lt;label&gt;
+     * @param string $placeholder Placeholder text
+     * @param array $options Indexed or Associative Array of options
+     * @param string|null $selected Selected option or options separated by comma
+     * @param string $attr Attributes like class or data tags
+     * @param string $pre Prepend wrap html or element with class before date Ex: '<div class="wrap">' or '.wrap' or '6'
+     * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
+     * @param bool $keyed Yes if option value should be array key
+     * @param bool $translate Translate the option text or not
+     * @tip You can run select2() instead that will render select input with js select2 that has searchable dropdown
+     */
+    function _select( string|array $identity = '', string $label = '', string $placeholder = '', array $options = [], string|null $selected = '', string $attr = '', string $pre = '', bool $keyed = false, bool $translate = false, string $post = '' ): string {
         $rand = rand( 0, 999999 );
-        if( is_numeric( $pre ) ){
-            $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-md-'.$pre.'">';
-            $post = '</select></div>';
-        } else if( str_contains( $pre, '.' ) ) {
-            $pre = '<div class="'.str_replace('.','',$pre).'">';
-            $post = '</div>';
-        }
+        $pre = $this->_pre( $pre );
+        $post = $this->_post( $pre, $post );
         $post = empty( $post ) ? '</select>' : '</select>' . $post;
         $at = $attr !== '' ? ' '.$attr : '';
         $id = !empty( $identity ) ? ( is_array($identity) ? $identity[0] : $identity.'_'.$rand ) : '';
         $name = is_array( $identity ) ? $identity[1] : $identity;
-        echo $pre;
+        $return = $pre;
         $label = !empty( $label ) ? T( $label ) : '';
         $req = str_contains( $attr, 'required' ) ? '<i>*</i>' : '';
-        echo !empty( $label ) ? '<label for="'.$id.'">'. $label .$req.'</label>' : '';
+        $return .= !empty( $label ) ? '<label for="'.$id.'">'. $label .$req.'</label>' : '';
         $ph = !empty( $placeholder ) ? ' placeholder="'.$placeholder.'" data-placeholder="'.$placeholder.'"' : '';
-        echo '<select name="'.$name.'" title="'.$label.'" data-key="'.$name.'" id="'.$id.'"'.$at.$ph.'>';
+        $return .= '<select name="'.$name.'" title="'.$label.'" data-key="'.$name.'" id="'.$id.'"'.$at.$ph.'>';
         //if( str_contains( $attr, 'select2' ) ) {
         // TODO: Options to check if array is multi dimensional and append accordingly
         if( str_contains( $attr, 'select2') ) {
@@ -151,12 +178,17 @@ class FORM {
             //array_unshift( $options, 'select2_placeholder' );
         }
         //$placeholder = strpos( $attr, 'select2') !== false ? '' : $placeholder;
-        $this->select_options( $options, $selected, $placeholder, $keyed, $translate );
-        echo $post;
+        $return .= $this->select_options( $options, $selected, $placeholder, $keyed, $translate );
+        $return .= $post;
+        return $return;
     }
 
     function select2( string $id = '', string $label = '', string $placeholder = '', array $options = [], string|null $selected = '', string $attr = '', string $pre = '', bool $keyed = false, bool $translate = false, string $post = '' ): void {
         $this->select( $id, $label, $placeholder, $options, $selected, $attr.' class="select2"', $pre, $keyed, $translate, $post );
+    }
+
+    function _select2( string $id = '', string $label = '', string $placeholder = '', array $options = [], string|null $selected = '', string $attr = '', string $pre = '', bool $keyed = false, bool $translate = false, string $post = '' ): string {
+        return $this->_select( $id, $label, $placeholder, $options, $selected, $attr.' class="select2"', $pre, $keyed, $translate, $post );
     }
 
     /**
@@ -172,15 +204,26 @@ class FORM {
      * @param string $name Optional if different name is needed
      */
     function input( string $type, string|array $identity, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '', string $name = '' ): void {
+        echo $this->_input( $type, $identity, $label, $placeholder, $value, $attrs, $pre, $post, $name );
+    }
+
+    /**
+     * Renders an &lt;input&gt; Element
+     * @param string $type Input type, Ex: 'text','radio','checkbox','textarea'
+     * @param string|array $identity ID and name of the element
+     * @param string $label Label for the &lt;label&gt;
+     * @param string $placeholder Placeholder text
+     * @param string|null $value Value of the input if any
+     * @param string $attrs Attributes like class or data tags
+     * @param string $pre Prepend wrap html or element with class before date Ex: '<div class="wrap">' or '.wrap' or '6'
+     * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
+     * @param string $name Optional if different name is needed
+     */
+    function _input( string $type, string|array $identity, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '', string $name = '' ): string {
         $rand = rand( 0, 999999 );
         $type = $type == '' ? 'text' : $type;
-        if( is_numeric( $pre ) ){
-            $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-md-'.$pre.'">';
-            $post = '</div>';
-        } else if( str_contains( $pre, '.' ) ) {
-            $pre = '<div class="'.str_replace('.','',$pre).'">';
-            $post = '</div>';
-        }
+        $pre = $this->_pre( $pre );
+        $post = $this->_post( $pre, $post );
         $ph = $placeholder !== '' ? ' placeholder="'.$placeholder.'"' : '';
         $name = is_array( $identity ) ? $identity[1] : $identity;
         $id = !empty( $identity ) ? ( is_array($identity) ? $identity[0] : $identity.'_'.$rand ) : '';
@@ -209,9 +252,7 @@ class FORM {
                 break;
         }
         $req = str_contains( $attrs, 'required' ) ? '<i>*</i>' : '';
-        echo $pre;
-        echo !empty( $label ) ? '<label for="'.$id.'">'.T($label).$req.'</label>' : '';
-        echo $input.$post;
+        return $pre . ( !empty( $label ) ? '<label for="'.$id.'">'.T($label).$req.'</label>' : '' ) . $input.$post;
     }
 
     /**
@@ -249,7 +290,22 @@ class FORM {
      * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
      */
     function text( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '' ): void {
-        $this->input( 'text', $id, $label, $placeholder, $value, $attrs, $pre, $post );
+        echo $this->_input( 'text', $id, $label, $placeholder, $value, $attrs, $pre, $post );
+    }
+
+    /**
+     * Returns &lt;input type="text"> element
+     * Basically the text input function with $type = 'text' param
+     * @param string|array $id ID and name of the element
+     * @param string $label Label for the &lt;label&gt;
+     * @param string $placeholder Placeholder text
+     * @param string|null $value Value of the input if any
+     * @param string $attrs Attributes like class or data tags
+     * @param string $pre Prepend wrap html or element with class before date Ex: '<div class="wrap">' or '.wrap' or '6'
+     * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
+     */
+    function _text( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '' ): string {
+        return $this->_input( 'text', $id, $label, $placeholder, $value, $attrs, $pre, $post );
     }
 
     /**
@@ -285,6 +341,21 @@ class FORM {
     }
 
     /**
+     * Renders &lt;input type="textarea"&gt; element
+     * Basically the text input function with $type = 'textarea' param
+     * @param string|array $id ID and name of the element
+     * @param string $label Label for the &lt;label&gt;
+     * @param string $placeholder Placeholder text
+     * @param string|null $value Value of the input if any
+     * @param string $attrs Attributes like class or data tags
+     * @param string $pre Prepend wrap html or element with class before date Ex: '<div class="wrap">' or '.wrap' or '6'
+     * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
+     */
+    function _textarea( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '' ): string {
+        return $this->_input( 'textarea', $id, $label, $placeholder, $value, $attrs, $pre, $post );
+    }
+
+    /**
      * Renders &lt;input type="radio"&gt; elements
      * @param string|array $name Name of the input elements
      * @param array $values Array of values
@@ -296,6 +367,20 @@ class FORM {
      */
     function radios( string|array $name, string $label = '', array $values = [], string|array $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ): void {
         $this->render_options( 'radio', $label, $name, $values, $checked, $attr, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post );
+    }
+
+    /**
+     * Renders &lt;input type="radio"&gt; elements
+     * @param string|array $name Name of the input elements
+     * @param array $values Array of values
+     * @param string|array $checked Checked value or values separated by (,) comma
+     * @param string $attr Attributes like class or data tags
+     * @param bool $label_first If label should be before input element
+     * @param string $pre Prepend wrap html or element with class before date Ex: '<div class="wrap">' or '.wrap' or '6'
+     * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
+     */
+    function _radios( string|array $name, string $label = '', array $values = [], string|array $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ): string {
+        return $this->_render_options( 'radio', $label, $name, $values, $checked, $attr, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post );
     }
 
     /**
@@ -313,6 +398,20 @@ class FORM {
     }
 
     /**
+     * Renders &lt;input type="checkbox"&gt; elements
+     * @param string|array $name Name of the input elements
+     * @param string|array $values Array of values
+     * @param array|string $checked Checked value or values separated by (,) comma
+     * @param string $attr Attributes like class or data tags
+     * @param bool $label_first If label should be before input element
+     * @param string $pre Prepend wrap html or element with class before date Ex: '<div class="wrap">' or '.wrap' or '6'
+     * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
+     */
+    function _checkboxes( string|array $name, string $label = '', string|array $values = '', string|array $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ): string {
+        return $this->_render_options( 'checkbox', $label, $name, $values, $checked, $attr, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post );
+    }
+
+    /**
      * Renders checkbox but slide toggle button
      * @param string|array $key
      * @param string $label
@@ -326,26 +425,39 @@ class FORM {
      * @return void
      */
     function slide( string|array $key, string $label = '', string $off_text = '', string $on_text = '', string $checked = '1', string $size = 'm', string $attr = '', string $pre = '', string $post = '' ): void {
+        echo $this->_slide( $key, $label, $off_text, $on_text, $checked, $size, $attr, $pre, $post );
+    }
+
+    /**
+     * Renders checkbox but slide toggle button
+     * @param string|array $key
+     * @param string $label
+     * @param string $off_text
+     * @param string $on_text
+     * @param string $checked
+     * @param string $size
+     * @param string $attr
+     * @param string $pre Prepend wrap html or element with class before date Ex: '<div class="wrap">' or '.wrap' or '6'
+     * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
+     * @return string
+     */
+    function _slide( string|array $key, string $label = '', string $off_text = '', string $on_text = '', string $checked = '1', string $size = 'm', string $attr = '', string $pre = '', string $post = '' ): string {
         //skel( $checked );
         $checked = $checked == 1 ? 'checked' : '';
         $rand = rand( 0, 99999 );
         $id = is_array( $key ) ? $key[0] : $key.'_'.$rand;
         $name = is_array( $key ) ? $key[1] : $key;
-        if( is_numeric( $pre ) ){
-            $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-md-'.$pre.'">';
-            $post = '</div>';
-        } else if( str_contains( $pre, '.' ) ) {
-            $pre = '<div class="'.str_replace('.','',$pre).'">';
-            $post = '</div>';
-        }
+        $pre = $this->_pre( $pre );
+        $post = $this->_post( $pre, $post );
         $key = 'data-key="'.$name.'"';
         $tip = $label !== '' ? 'title="'.$label.'"' : '';
-        echo $pre;
-        echo !empty($label) ? '<label class="db">'.T( $label ).'</label>' : '';
-        echo !empty( $off_text ) ? '<label for="' . $id . '" '.$tip.' class="slide_label off">' . $off_text . '</label>' : '';
-        echo '<input ' . $attr . ' class="slide ' . $size . '" type="checkbox" name="' . $name . '" '.$key.' id="' . $id . '" '. $checked .' >';
-        echo !empty( $on_text ) ? '<label for="' . $id . '" '.$tip.' class="slide_label on">' . $on_text . '</label>' : '';
-        echo $post;
+        $return = $pre;
+        $return .= !empty($label) ? '<label class="db">'.T( $label ).'</label>' : '';
+        $return .= !empty( $off_text ) ? '<label for="' . $id . '" '.$tip.' class="slide_label off">' . $off_text . '</label>' : '';
+        $return .= '<input ' . $attr . ' class="slide ' . $size . '" type="checkbox" name="' . $name . '" '.$key.' id="' . $id . '" '. $checked .' >';
+        $return .= !empty( $on_text ) ? '<label for="' . $id . '" '.$tip.' class="slide_label on">' . $on_text . '</label>' : '';
+        $return .= $post;
+        return $return;
     }
 
     /**
@@ -359,20 +471,42 @@ class FORM {
      * @param string $pre Prepend wrap html or element with class before date Ex: '<div class="wrap">' or '.wrap' or '6'
      * @param bool $range 1 / Yes if the date is range picker between 2 dates, Seperator will be -
      * @param bool $multiple 1 / Yes if multiple dates can be picked
-     * @param string $view Visible Field Attributes
+     * @param string $view_attr Visible Field Attributes
      * @param string $min Minimum Date yyyy-mm-dd
      * @param string $max Maximum Date yyyy-mm-dd
      * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
      * @tip Date picker renders a hidden date field that is POSTed and a visible date field that fits with custom user readable date format
      * @return void
      */
-    function date( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $position = '', string $pre = '', bool $range = false, bool $multiple = false, string $view = '', string $min = '', string $max = '', string $post = '' ): void {
+    function date( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $position = '', string $pre = '', bool $range = false, bool $multiple = false, string $view_attr = '', string $min = '', string $max = '', string $post = '' ): void {
+        echo $this->_date( $id, $label, $placeholder, $value, $attrs, $position, $pre, $range, $multiple, $view_attr, $min, $max, $post );
+    }
+
+    /**
+     * Renders Date Picker
+     * @param string|array $id ID of the date picker element
+     * @param string $label Label for the date picker
+     * @param string $placeholder Default placeholder
+     * @param string|null $value Pre-fill date value if any
+     * @param string $attrs Hidden Field Attributes
+     * @param string $position Position of the date picker popup
+     * @param string $pre Prepend wrap html or element with class before date Ex: '<div class="wrap">' or '.wrap' or '6'
+     * @param bool $range 1 / Yes if the date is range picker between 2 dates, Seperator will be -
+     * @param bool $multiple 1 / Yes if multiple dates can be picked
+     * @param string $view_attr Visible Field Attributes
+     * @param string $min Minimum Date yyyy-mm-dd
+     * @param string $max Maximum Date yyyy-mm-dd
+     * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
+     * @tip Date picker renders a hidden date field that is POSTed and a visible date field that fits with custom user readable date format
+     * @return string
+     */
+    function _date( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $position = '', string $pre = '', bool $range = false, bool $multiple = false, string $view_attr = '', string $min = '', string $max = '', string $post = '' ): string {
         $rand = rand(0,99999);
         $id = !empty( $id ) ? ( is_array( $id ) ? [ $id[0] ] : $id ) : $rand;
         $alt_id = is_array( $id ) ? [ $id[0].'_alt', $id[1].'_alt' ] : $id.'_alt';
         $range_attr = $range ? ' range' : '';
         $multiple_attr = $multiple ? ' multiple' : '';
-        $view_attr = $view ? ' view="'.$view.'"' : '';
+        $view_attr = $view_attr ? ' view="'.$view_attr.'"' : '';
         $position = !empty( $position ) ? $position : 'bottom center';
         $attrs .= is_array( $alt_id ) ? ' data-alt="[data-key='.$alt_id[0].']"' : ' data-alt="[data-key='.$alt_id.']"';
 
@@ -383,10 +517,12 @@ class FORM {
 
         // Hidden Input - Renders date format as per backend
         $value_ymd = !empty( $value ) ? ( $value !== 'fake_date' ? easy_date( $value, 'Y-m-d' ) : $value ) : '';
-        $this->text( [ $id.'_'.$rand, $id ], '', '', $value_ymd, $attrs.' hidden data-hidden-date' );
+        $return = '';
+        $return .= $this->_text( [ $id.'_'.$rand, $id ], '', '', $value_ymd, $attrs.' hidden data-hidden-date' );
         // Visible Input - Render date for easier user grasp
         $value_dmy = !empty( $value ) ? ( $value !== 'fake_date' ? easy_date( $value, 'd-m-Y' ) : $value ) : '';
-        $this->text( $alt_id, $label, $placeholder, $value_dmy, $visible_attr.$range_attr.$multiple_attr.$view_attr.' data-visible-date no_post', $pre, $post );
+        $return .= $this->_text( $alt_id, $label, $placeholder, $value_dmy, $visible_attr.$range_attr.$multiple_attr.$view_attr.' data-visible-date no_post', $pre, $post );
+        return $return;
     }
 
     /**
@@ -401,15 +537,32 @@ class FORM {
      * @return void
      */
     function dates( array $array, string $attrs = '', string $position = '', string $pre = '', bool $range = false, bool $multiple = false, string $post = '' ): void {
+        echo $this->_dates( $array, $attrs, $position, $pre, $range, $multiple, $post );
+    }
+
+    /**
+     * Renders multiple date picker fields
+     * @param array $array
+     * @param string $attrs
+     * @param string $position
+     * @param string $pre Prepend wrap html or element with class before date Ex: '<div class="wrap">' or '.wrap' or '6'
+     * @param bool $range
+     * @param bool $multiple
+     * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
+     * @return string
+     */
+    function _dates( array $array, string $attrs = '', string $position = '', string $pre = '', bool $range = false, bool $multiple = false, string $post = '' ): string {
+        $return = '';
         if( !empty( $array ) ){
             foreach( $array as $f ) {
                 $id = $f[0] ?? '';
                 $label = $f[1] ?? '';
                 $ph = $f[2] ?? '';
                 $value = $f[3] ?? '';
-                $this->date( $id, $label, $ph, $value, $attrs, $position, $pre, $range, $multiple, $post );
+                $return .= $this->_date( $id, $label, $ph, $value, $attrs, $position, $pre, $range, $multiple, $post );
             }
         }
+        return $return;
     }
 
     /**
@@ -427,11 +580,31 @@ class FORM {
      * @return void
      */
     function phone( string $code_id, string $phone_id, string $code_label = 'Code', string $phone_label = 'Phone', string $code_placeholder = '', string $phone_placeholder = '', string $code_default = '', string $phone_default = '', string $attr = '', string $pre = '' ): void {
+        echo $this->_phone( $code_id, $phone_id, $code_label, $phone_label, $code_placeholder, $phone_placeholder, $code_default, $phone_default, $attr, $pre );
+    }
+
+    /**
+     * Renders calling code dropdown and phone number input
+     * @param string $code_id
+     * @param string $phone_id
+     * @param string $code_label
+     * @param string $phone_label
+     * @param string $code_placeholder
+     * @param string $phone_placeholder
+     * @param string $code_default
+     * @param string $phone_default
+     * @param string $attr
+     * @param string $pre Prepend wrap html or element with class before date Ex: '<div class="wrap">' or '.wrap' or '6'
+     * @param string $post
+     * @return string
+     */
+    function _phone( string $code_id, string $phone_id, string $code_label = 'Code', string $phone_label = 'Phone', string $code_placeholder = '', string $phone_placeholder = '', string $code_default = '', string $phone_default = '', string $attr = '', string $pre = '', string $post = '' ): string {
         $codes = get_calling_codes();
-        echo $pre == 0 ? '<div class="col"><div class="row">' : '<div class="col-12 col-md-' . $pre . '"><div class="row">';
-        $this->select2( $code_id, $code_label, $code_placeholder, $codes, $code_default, $attr, 5, 1 );
-        $this->text( $phone_id, $phone_label, $phone_placeholder, $phone_default, $attr, 7 );
-        echo '</div></div>';
+        $return = $this->_pre( $pre );
+        $return .= $this->_select2( $code_id, $code_label, $code_placeholder, $codes, $code_default, $attr, 5, 1, $post );
+        $return .= $this->_text( $phone_id, $phone_label, $phone_placeholder, $phone_default, $attr, 7, $post );
+        $return .= '</div></div>';
+        return $return;
     }
 
     /**
@@ -448,10 +621,27 @@ class FORM {
      * @return void
      */
     function color( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $border = '', string $preview = '', string $post = '' ): void {
+        echo $this->_color( $id, $label, $placeholder, $value, $attrs, $pre, $border, $preview, $post );
+    }
+
+    /**
+     * Returns color picker
+     * @param string|array $id Unique ID of the element
+     * @param string $label Label for the Color Picker
+     * @param string $placeholder
+     * @param string|null $value
+     * @param string $attrs
+     * @param string $pre Prepend wrap html or element with class before date Ex: '<div class="wrap">' or '.wrap' or '6'
+     * @param string $border
+     * @param string $preview
+     * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
+     * @return string
+     */
+    function _color( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $pre = '', string $border = '', string $preview = '', string $post = '' ): string {
         $attrs .= ' data-color-picker';
         $attrs = !empty( $border ) ? $attrs . ' data-border="'.$border.'"' : $attrs;
         $attrs = !empty( $preview ) ? $attrs . ' data-preview="'.$preview.'"' : $attrs;
-        $this->text( $id, $label, $placeholder, $value, $attrs, $pre, $post );
+        return $this->_text( $id, $label, $placeholder, $value, $attrs, $pre, $post );
     }
 
     /**
@@ -472,6 +662,29 @@ class FORM {
      * @return void
      */
     function map( string $latitude_field = '', string $longitude_field = '', string $address_field = '', string $area_field = '', string $city_field = '', string $country_field = '', string $coordinates = '', string $pre = '', string $latitude_value = '', string $longitude_value = '', string $zoom = '13', string $type = 'terrain', string $post = '' ): void {
+        echo $this->_map( $latitude_field, $longitude_field, $address_field, $area_field, $city_field, $country_field, $coordinates, $pre, $latitude_value, $longitude_value, $zoom, $type, $post );
+        $m = new MAPS();
+        $m->google_maps();
+    }
+
+    /**
+     * Returns an interactive Google Map picker with search
+     * @param string $latitude_field Input field ID to be filled with latitude value
+     * @param string $longitude_field Input field ID to be filled with longitude value
+     * @param string $address_field Input field ID to be filled with address
+     * @param string $area_field Input field ID to be filled with area
+     * @param string $city_field Input field ID to be filled with city
+     * @param string $country_field Input field ID to be filled with country
+     * @param string $coordinates Input field ID to be filled with co-ordinates
+     * @param string $pre Prepend wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
+     * @param string $latitude_value Default map starting latitude value
+     * @param string $longitude_value Default map starting longitude value
+     * @param string $zoom Default map zoom level
+     * @param string $type Default map type
+     * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
+     * @return string
+     */
+    function _map( string $latitude_field = '', string $longitude_field = '', string $address_field = '', string $area_field = '', string $city_field = '', string $country_field = '', string $coordinates = '', string $pre = '', string $latitude_value = '', string $longitude_value = '', string $zoom = '13', string $type = 'terrain', string $post = '' ): string {
         if( is_numeric( $pre ) ){
             $pre = $pre == 0 ? '<div class="map_col col">' : '<div class="map_col col-12 col-md-'.$pre.'">';
             $post = '</div>';
@@ -501,14 +714,13 @@ class FORM {
         $lat = !empty( $latitude_field ) ? ' data-lat="'.$latitude_field.'"' : '';
         $long = !empty( $longitude_field ) ? ' data-long="'.$longitude_field.'"' : '';
         $r = rand(0,999);
-        echo $pre;
-        echo '<div class="map_wrap">';
-        $this->text(['search_'.$r,'search_'.$r],'','Search for Address...');
-        echo '<div id="map_'.$r.'" class="google_map" search="search_'.$r.'" data-google-map-render'.$def_zoom.$def_lat.$def_long.$def_type.$def_style.$co.$add.$area.$city.$country.$lat.$long.'>';
-        echo '</div></div>';
-        echo $post;
-        $m = new MAPS();
-        $m->google_maps();
+        $return = $pre;
+        $return .= '<div class="map_wrap">';
+        $return .= $this->_text(['search_'.$r,'search_'.$r],'','Search for Address...');
+        $return .= '<div id="map_'.$r.'" class="google_map" search="search_'.$r.'" data-google-map-render'.$def_zoom.$def_lat.$def_long.$def_type.$def_style.$co.$add.$area.$city.$country.$lat.$long.'>';
+        $return .= '</div></div>';
+        $return .= $post;
+        return $return;
     }
 
     /**
@@ -523,6 +735,22 @@ class FORM {
      * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
      */
     function render_options( string $type = 'radio', string $label = '', string|array $identity = '', string|array $values = [], string|array $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ): void {
+        echo $this->_render_options( $type, $identity, $values, $checked, $attr, $label_first, $pre, $post );
+    }
+
+    /**
+     * Renders &lt;input type="radio"&gt; or &lt;input type="checkbox"&gt;
+     * @param string $type Type either 'radio' or 'checkbox'
+     * @param string|array $identity Name of the input elements
+     * @param string|array $values Array of values
+     * @param string|array $checked Checked value or values separated by (,) comma
+     * @param string $attr Attributes like class or data tags
+     * @param bool $label_first If label should be before input element
+     * @param string $pre Prepend wrap html or element with class before date Ex: '<div class="wrap">' or '.wrap' or '6'
+     * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
+     */
+    function _render_options( string $type = 'radio', string $label = '', string|array $identity = '', string|array $values = [], string|array $checked = '', string $attr = '', bool $label_first = false, string $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ): string {
+        $return = '';
         if( is_array( $values ) ) {
             $rand = rand( 0, 99999 );
             $type = $type == 'radio' ? 'type="radio"' : 'type="checkbox"';
@@ -552,11 +780,11 @@ class FORM {
                 $name = $name . '[]';
             }
             $uq = rand(1,999);
-            echo $pre;
+            $return .= $pre;
             $label = !empty( $label ) ? T( $label ) : '';
             $req = str_contains( $attr, 'required' ) ? '<i>*</i>' : '';
-            echo !empty($label) ? '<label class="db">'. $label .$req.'</label>' : '';
-            echo $wrap_inputs_pre;
+            $return .= !empty($label) ? '<label class="db">'. $label .$req.'</label>' : '';
+            $return .= $wrap_inputs_pre;
             if( is_assoc( $values ) ) {
                 foreach ($values as $val => $title) {
                     $tip = $title !== '' ? 'title="'.strip_tags($title).'"' : '';
@@ -564,16 +792,10 @@ class FORM {
                     $value = $valued ? $val : $title;
                     $checked = is_array( $checked ) ? $checked : explode(',',$checked);
                     $c = in_array( $value, $checked ) ? 'checked' : '';
-                    //skel( $checked );
-                    /* if( is_array( $checked ) ) {
-                        $c = '';
-                    } else {
-                        $c = $value == $checked ? 'checked="true"' : '';
-                    } */
                     if ($label_first) {
-                        echo $inputs_pre . '<label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . $req . '</label><input ' . $tip . $attr . ' ' . $type . ' name="' . $name . '" '.$key.' id="' . $k . '" value="' . $value . '" '. $c .' >' . $inputs_post;
+                        $return .= $inputs_pre . '<label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . $req . '</label><input ' . $tip . $attr . ' ' . $type . ' name="' . $name . '" '.$key.' id="' . $k . '" value="' . $value . '" '. $c .' >' . $inputs_post;
                     } else {
-                        echo $inputs_pre . '<input ' . $tip . $attr . ' ' . $type . ' name="' . $name . '" '.$key.' id="' . $k . '" value="' . $value . '" '. $c .' ><label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . $req . '</label>' . $inputs_post;
+                        $return .= $inputs_pre . '<input ' . $tip . $attr . ' ' . $type . ' name="' . $name . '" '.$key.' id="' . $k . '" value="' . $value . '" '. $c .' ><label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . $req . '</label>' . $inputs_post;
                     }
                     $x++;
                 }
@@ -586,17 +808,16 @@ class FORM {
                     $data = is_array($val) && !empty($val[2]) ? $val[2] : '';
                     $checked = is_array( $checked ) ? $checked : explode(',',$checked);
                     $c = in_array( $value, $checked ) ? 'checked' : '';
-
                     if ($label_first) {
-                        echo $inputs_pre . '<label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . '</label><input ' . $tip . $attr . ' ' . $type . ' ' . $data . ' data-key="'.$name.'" name="' . $name . '" id="' . $k . '" value="' . $value . '" '.$c.'>' . $inputs_post;
+                        $return .= $inputs_pre . '<label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . '</label><input ' . $tip . $attr . ' ' . $type . ' ' . $data . ' data-key="'.$name.'" name="' . $name . '" id="' . $k . '" value="' . $value . '" '.$c.'>' . $inputs_post;
                     } else {
-                        echo $inputs_pre . '<input ' . $tip . $attr . ' ' . $type . ' name="' . $name . '" data-key="'.$name.'" id="' . $k . '" value="' . $value . '" ' . $data . ' '.$c.'><label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . '</label>' . $inputs_post;
+                        $return .= $inputs_pre . '<input ' . $tip . $attr . ' ' . $type . ' name="' . $name . '" data-key="'.$name.'" id="' . $k . '" value="' . $value . '" ' . $data . ' '.$c.'><label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . '</label>' . $inputs_post;
                     }
                     $x++;
                 }
             }
-            echo $wrap_inputs_post;
-            echo $post;
+            $return .= $wrap_inputs_post;
+            $return .= $post;
             /* if (is_assoc( $d )) {
                 foreach ($d as $k => $t) {
                     echo $before . '<label for="cb_' . $k . '" ><input ' . $attrs . '  id="cb_' . $k . '" type="' . $tp . '" value="' . $k . '" ' . (in_array($k, $s) ? "checked" : "") . '>' . $t . '</label>' . $after;
@@ -609,6 +830,7 @@ class FORM {
         } else {
             // TODO: If value is single
         }
+        return $return;
     }
 
     /**
@@ -629,6 +851,27 @@ class FORM {
      * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
      */
     function upload( string|array $identity, string $label, string $button_label = 'Upload', string $value = '', int $multiple = 1, bool $show_history = false, string $button_class = '', string $attrs = '', string $extensions = '', string $size = '', bool $deletable = false, string $path = '', string $pre = '', string $post = '' ): void {
+        echo $this->_upload( $identity, $label, $button_label, $value, $multiple, $show_history, $button_class, $attrs, $extensions, $size, $deletable, $path, $pre, $post );
+    }
+
+    /**
+     * Returns File Uploading Elements
+     * @param string|array $identity ID and name of the element
+     * @param string $label Text for the &lt;label&gt;
+     * @param string $button_label Text for the &lt;button&gt;
+     * @param string $value Value of the input if any
+     * @param int $multiple Upload single or quantity of multiple files, 1 means infinite, 1+ ex. 2 means max 2 files
+     * @param bool $show_history Show previously uploaded files
+     * @param string $button_class Class for upload button
+     * @param string $attrs Attributes like class or data tags
+     * @param string $extensions Permitted file upload extensions separated by (,) comma Ex: jpg,svg
+     * @param string $size Permitted file size in Mb Ex: 10
+     * @param bool $deletable Uploaded files are deletable or not
+     * @param string $path Path to upload, will be encrypted on render
+     * @param string $pre Prepend wrap html or element with class before date Ex: '<div class="wrap">' or '.wrap' or '6'
+     * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
+     */
+    function _upload( string|array $identity, string $label, string $button_label = 'Upload', string $value = '', int $multiple = 1, bool $show_history = false, string $button_class = '', string $attrs = '', string $extensions = '', string $size = '', bool $deletable = false, string $path = '', string $pre = '', string $post = '' ): string {
         $rand = rand( 0, 99999 );
         $id = $identity.'_'.$rand; // is_array($identity) ? $identity[0] : $identity;
         $name = $identity; // is_array($identity) ? $identity[1] : $identity;
@@ -649,7 +892,7 @@ class FORM {
         $mul = $multiple > 0 ? ' data-files="'.$multiple.'" ' : ' data-file ';
         $req = str_contains( $attrs, 'required' ) ? '<i>*</i>' : '';
         $label = !empty( $label ) ? '<label for="'.$id.'">'.T($label).$req.'</label>' : '';
-        echo $pre.$label.'<button type="button" class="aio_upload '.$button_class.'" data-url="#'.$id.'" onclick="file_upload(this)" '.$sh.$ext.$sz.$mul.$del.$pat.'>'.T($button_label).'</button><input id="'.$id.'" name="'.$name.'" data-key="'.$name.'" type="text" data-'.$type.' value="'.$value.'" '.$attrs.'>'.$post;
+        return $pre.$label.'<button type="button" class="aio_upload '.$button_class.'" data-url="#'.$id.'" onclick="file_upload(this)" '.$sh.$ext.$sz.$mul.$del.$pat.'>'.T($button_label).'</button><input id="'.$id.'" name="'.$name.'" data-key="'.$name.'" type="text" data-'.$type.' value="'.$value.'" '.$attrs.'>'.$post;
     }
 
     /**
@@ -663,7 +906,20 @@ class FORM {
      */
     function code( string|array $id, string $label = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '' ): void {
         get_script('ace');
-        echo '<script>ace.config.set("basePath", "'. APPURL . 'assets/ext/ace/" );</script>';
+        echo _code( $id, $label, $value, $attrs, $pre, $post );
+    }
+
+    /**
+     * Returns code editor with hidden &lt;input type="textarea"&gt; element
+     * @param string|array $id ID and name of the element
+     * @param string $label Label for the &lt;label&gt;
+     * @param string|null $value Value of the input if any
+     * @param string $attrs Attributes like class or data tags
+     * @param string $pre Prepend wrap html or element with class before date Ex: '<div class="wrap">' or '.wrap' or '6'
+     * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
+     */
+    function _code( string|array $id, string $label = '', string|null $value = '', string $attrs = '', string $pre = '', string $post = '' ): string {
+        $return = '<script>ace.config.set("basePath", "'. APPURL . 'assets/ext/ace/" );</script>';
         if( is_numeric( $pre ) ){
             $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-md-'.$pre.'">';
             $post = '</div>';
@@ -671,22 +927,12 @@ class FORM {
             $pre = '<div class="'.str_replace('.','',$pre).'">';
             $post = '</div>';
         }
-        echo $pre;
-        $this->input( 'textarea', $id, $label, $value, '', $attrs . ' style="display:none !important"' );
-        echo '<div id="'.$id.'_code" style="min-height: 200px"></div>';
-        ?>
-        <script>
-            $(document).ready(function(){
-                let <?php echo $id; ?>_code = ace.edit( '<?php echo $id; ?>_code' );
-                <?php echo $id; ?>_code.session.setMode("ace/mode/html");
-                <?php echo $id; ?>_code.session.setValue($('[data-key=<?php echo $id; ?>]').val(),-1);
-                <?php echo $id; ?>_code.session.on('change', function(d) {
-                    $('[data-key=<?php echo $id; ?>]').val( <?php echo $id; ?>_code.getValue() );
-                });
-            });
-        </script>
-        <?php
-        echo $post;
+        $return .= $pre;
+        $return .= $this->_input( 'textarea', $id, $label, $value, '', $attrs . ' style="display:none !important"' );
+        $return .= '<div id="'.$id.'_code" style="min-height: 200px"></div>';
+        $return .= '<script>$(document).ready(function(){ let {$id}_code = ace.edit("{$id}_code");{$id}_code.session.setMode("ace/mode/html");{$id}_code.session.setValue($("[data-key="{$id}]").val(),-1);{$id}_code.session.on("change", function(d) {$("[data-key={$id}]").val({$id}_code.getValue());});});</script>';
+        $return .= $post;
+        return $return;
     }
 
     /**
@@ -825,40 +1071,65 @@ class FORM {
         return $r;
     }
 
-    function form( array $fields = [], string $type = '', string $data_attr = '' ): void {
-        echo $type == 'get' || $type == '$_GET' ? '<form method="get">' : ( $type == 'post' || $type == '$_POST' ? '<form method="post">' : '<div class="row">' );
+    /**
+     * Renders Form
+     * @param array $fields Array of an array of field inputs [ [ 'type' => 'textarea', 'id' => 'name', 'title' => 'Contact Name', 'place' => 'Enter name...', 'attr' => 'data-con', 'col' => 8 ] ]
+     * @param string $form_type Type of wrap around the form ( 'get' or 'post' or 'row' )
+     * @param string $data_attr Common data attribute for all inputs
+     */
+    function form( array $fields = [], string $form_type = '', string $data_attr = '' ): void {
+        echo $this->_form( $fields, $form_type, $data_attr );
+    }
+
+    /**
+     * Returns Form
+     * @param array $fields Array of an array of field inputs [ [ 'type' => 'textarea', 'id' => 'name', 'title' => 'Contact Name', 'place' => 'Enter name...', 'attr' => 'data-con', 'col' => 8 ] ]
+     * @param string $form_type Type of wrap around the form ( 'get' or 'post' or 'row' )
+     * @param string $data_attr Common data attribute for all inputs
+     */
+    function _form( array $fields = [], string $form_type = '', string $data_attr = '' ): string {
+        $return = $form_type == 'get' || $form_type == '$_GET' ? '<form method="get">' : ( $form_type == 'post' || $form_type == '$_POST' ? '<form method="post">' : ( $form_type == 'row' || $form_type == 'r' ? '<div class="form row">' : '<div class="form">' ) );
         foreach( $fields as $f ) {
             $type = $f['type'] ?? ( $f['t'] ?? 'text' );
-            $id = $f['id'] ??= ( $f['i'] ??= '' );
-            $label = $f['label'] ??= ( $f['l'] ??= ( $f['title'] ??= ( $f['name'] ??= ( $f['n'] ??= '' ) ) ) );
-            $place = $f['place'] ??= ($f['placeholder'] ??= ( $f['p'] ??= $label));
+            $id = $f['id'] ?? ( $f['i'] ?? '' );
+            $label = $f['label'] ?? ( $f['l'] ?? ( $f['title'] ?? ( $f['name'] ?? ( $f['n'] ?? '' ) ) ) );
+            $place = $f['place'] ?? ($f['placeholder'] ?? ( $f['p'] ?? $label));
             //$val = $f['value'] ?? ($method == 'POST' ? ($_POST[$id] ?? '') : ($_GET[$id] ?? ''));
             $val = $f['value'] ?? ( $f['va'] ?? ( $f['v'] ?? ( $_POST[$id] ?? ( $_GET[$id] ?? '' ) ) ) );
             $data = !empty( $data_attr ) ? 'data-'.$data_attr : '';
-            $attrs = $data . ( $f['attr'] ??= ($f['a'] ??= '') );
-            $pre = $f['pre'] ??= ($f['col'] ??= ( $f['c'] ??= '' ));
+            $attrs = $data . ( $f['attr'] ?? ($f['a'] ?? '') );
+            $pre = $f['pre'] ?? ($f['col'] ?? ( $f['c'] ?? ( $form_type == 'row' || $form_type == 'r' ? 12 : '<div>' ) ));
+            $post = ( !empty( $pre ) && empty( $f['post'] ) ) ? '</div>' : ( $f['post'] ?? 'ted' );
             if( $type == 'select' || $type == 'select2' ) {
                 $options = $f['options'] ?? ( $f['os'] ?? ( $f['o'] ?? [] ) );
                 $value = $_POST[ $id ] ?? ( $_GET[ $id ] ?? '' );
-                $keyed = $f['keyed'] ??= ( $f['k'] ??= 0 );
-                $this->select2( $id, $label, $place, $options, $value, $attrs, $pre, $keyed );
+                $keyed = $f['keyed'] ?? ( $f['k'] ?? 0 );
+                $trans = $f['translate'] ?? ( $f['tr'] ?? 0 );
+                $return .= $this->_select2( $id, $label, $place, $options, $value, $attrs, $pre, $keyed, $trans, $post );
             } else if( $type == 'date' ) {
-                $this->date( $id, $label, $place, $val, $attrs, 'bottom center', $pre );
+                $range = $f['range'] ?? ( $f['r'] ?? '' );
+                $min = $f['min'] ?? '';
+                $max = $f['max'] ?? '';
+                $multiple = $f['multiple'] ?? ( $f['m'] ?? 0 );
+                $return .= $this->_date( $id, $label, $place, $val, $attrs, 'bottom center', $pre, $range, $multiple, '', $min, $max, $post );
             } else if( $type == 'slide' ) {
                 $off_text = $f['off'] ?? '';
                 $on_text = $f['on'] ?? '';
-                $this->slide( $id, $label, $off_text, $on_text, $val, '', $attrs, $pre );
+                $return .= $this->_slide( $id, $label, $off_text, $on_text, $val, '', $attrs, $pre, $post );
             } else if( $type == 'phone' ) {
                 $id_2 = $f['id2'] ?? ( $f['i2'] ?? '' );
-                $label_2 = $f['label2'] ??= ( $f['l2'] ??= ( $f['title2'] ??= ( $f['name2'] ??= ( $f['n2'] ??= '' ) ) ) );
-                $place_2 = $f['place2'] ??= ($f['placeholder2'] ??= ( $f['p2'] ??= $label));
+                $label_2 = $f['label2'] ?? ( $f['l2'] ?? ( $f['title2'] ?? ( $f['name2'] ?? ( $f['n2'] ?? '' ) ) ) );
+                $place_2 = $f['place2'] ?? ($f['placeholder2'] ?? ( $f['p2'] ??= $label));
                 $val_2 = $f['value2'] ?? ( $f['va2'] ?? ( $f['v2'] ?? ( $_POST[$id_2] ?? ( $_GET[$id_2] ?? '' ) ) ) );
-                $this->phone( $id, $id_2, $label, $label_2, $place, $place_2, $val, $val_2, $attrs, $pre );
+                $return .= $this->_phone( $id, $id_2, $label, $label_2, $place, $place_2, $val, $val_2, $attrs, $pre, $post );
             } else {
-                $this->input( $type, $id, $label, $place, $val, $attrs, $pre );
+                //skel( $pre );
+                //skel( !empty( $pre ) && empty( $f['post'] ) );
+                $return .= $this->_input( $type, $id, $label, $place, $val, $attrs, $pre, $post );
             }
         }
-        echo str_contains( $type, 'get' ) || str_contains( $type, 'post' ) || str_contains( $type, 'form' ) ? '</form>' : '</div>';
+        $return .= str_contains( $form_type, 'get' ) || str_contains( $form_type, 'post' ) || str_contains( $form_type, 'form' ) ? '</form>' : '</div>';
+        return $return;
     }
 
     /**
@@ -1234,5 +1505,13 @@ class FORM {
         } else {
             return $fk->{ $key };
         }
+    }
+
+    function _pre( string $pre ): string {
+        return !empty( $pre ) ? ( is_numeric( $pre ) ? ( $pre == 0 ? '<div class="col">' : '<div class="col-12 col-md-'.$pre.'">' ) : ( str_contains( $pre, '.' ) ? '<div class="'.str_replace('.','',$pre).'">' : $pre ) ) : '';
+    }
+
+    function _post( string $pre, string $post = '' ): string {
+        return !empty( $post ) ? $post : ( is_numeric( $pre ) || str_contains( $pre, '.' ) ? '</div>' : '' );
     }
 }

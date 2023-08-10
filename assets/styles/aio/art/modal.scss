@@ -44,6 +44,7 @@ $radius: var(--input_radius);
   .modal_body {
     height: calc(100% - 40px);
     overflow-y: auto;
+    overflow-x: hidden;
   }
 }
 .modal.r5 {

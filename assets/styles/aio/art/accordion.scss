@@ -1,8 +1,9 @@
 .accordion {
+  margin-bottom: 20px;
   .accordion_head {
     padding: 20px;
-    background:url('../../assets/icons/select.svg') no-repeat calc(100% - 10px) center / 18px;
     cursor: pointer;
+    position: relative;
     h1, h2, h3, h4, h5, h6, .title {
       margin: 0;
     }
@@ -11,6 +12,12 @@
       font-weight: bold;
       text-transform: uppercase;
     }
+    .act {
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
   }
   .accordion_body {
     padding: 0 20px;
@@ -18,11 +25,26 @@
     overflow: hidden;
     transition: .6s;
   }
+  [data-close] {
+    display: none;
+  }
 }
 .accordion.on {
   .accordion_body {
     padding: 20px;
     height: auto;
     overflow: visible;
+  }
+  [data-close] {
+    display: block;
+  }
+  [data-open] {
+    display: none;
+  }
+}
+.accordion.w {
+  background: #fff;
+  .accordion_head {
+    box-shadow: 0 0 15px rgba(0,0,0,.1);
   }
 }
