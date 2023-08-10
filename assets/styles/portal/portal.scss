@@ -714,6 +714,9 @@ article.fade > div {
     letter-spacing: 2px;
     font-weight: lighter;
   }
+  .back + .title {
+    margin: 0 15px 0 10px;
+  }
   .status, .high {
     position: absolute;
     left:50%;

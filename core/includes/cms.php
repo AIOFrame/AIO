@@ -12,6 +12,16 @@ class CMS {
 
     }
 
+    function page_modal(): void {
+
+        $fields = [
+
+        ];
+
+        $c = new CODE();
+        $c->modal( 'Page', 'l40', 'update_page_ajax', $fields, [], 'page', 2, 2 );
+    }
+
     function pages(): void {
         // TODO: Pages Table
         // TODO: Page Cards

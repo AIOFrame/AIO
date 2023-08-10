@@ -36,14 +36,14 @@ class ALERTS {
             $alerts = replace_in_keys( $alerts, 'alert_' );
             $cry = Encrypt::initiate();
             ?>
-            <div data-aio-alerts class="alerts <?php echo $alerts_wrap_class; ?>" data-action="<?php $cry->enc('clear_alert_ajax'); ?>">
+            <div data-aio-alerts class="alerts <?php echo $alerts_wrap_class; ?>" data-action="<?php echo APPDEBUG ? 'clear_alert_ajax' : $cry->encrpyt('clear_alert_ajax'); ?>">
             <?php
             foreach( $alerts as $a ){
                 $link = !empty( $a['link'] ) ? '<a class="title" href="'.APPURL.$a['link'].'">'.$a['name'].'</a><a class="note" href="'.APPURL.$a['link'].'">'.$a['note'].'</a>' : '<div class="title">'.$a['name'].'</div><div class="note">'.$a['note'].'</div>';
                 $seen = $a['seen'] == 0 ? 'no' : 'yes';
                 echo '<div class="alert '.$alert_class.' '.$seen.' '.$a['type'].'" data-type="'.$a['type'].'" data-id="'.$cry->encrypt($a['id']).'"><div class="clear" data-clear-alert></div><i class="ico '.$a['type'].'"></i><div class="info">'.$link.'</div></div>';
             } ?>
-                <button data-clear-alerts class="clear_all" data-action="<?php $cry->enc('clear_alerts_ajax'); ?>"><?php E('Clear All'); ?></button>
+                <button data-clear-alerts class="clear_all" data-action="<?php echo APPDEBUG ? 'clear_alerts_ajax' : $cry->encrypt('clear_alerts_ajax'); ?>"><?php E('Clear All'); ?></button>
             </div>
         <?php
         } else {

@@ -37,6 +37,10 @@
   line-height: 40px;
   cursor: pointer;
 }
+.modal .modal_body {
+  height: calc(100% - 40px);
+  overflow-y: auto;
+}
 
 .modal.r5 {
   border-radius: 5px;
@@ -58,7 +62,7 @@
   /*display: block;*/
   pointer-events: auto;
   opacity: 1;
-  z-index: 30;
+  z-index: 200;
   margin-top: 0;
 }
 
@@ -69,6 +73,9 @@
 .modal.f {
   width: 100vw;
   height: 100vh;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 0;
 }
 
 .modal.l {
@@ -107,8 +114,86 @@
   width: 20vw;
 }
 
-.modal.f {
-  width: calc(100vw - 60px);
+.modal.b20, .modal.b40, .modal.b50, .modal.b60, .modal.b80 {
+  top: auto;
+  bottom: -20vh;
+  width: 100vw;
+  transform: none;
+  left: 0;
+  right: 0;
+  border-radius: 0;
+}
+
+.modal.b20.on, .modal.b40.on, .modal.b50.on, .modal.b60.on, .modal.b80.on {
+  bottom: 0;
+}
+
+.modal.b20 {
+  height: 20vh;
+}
+
+.modal.b40 {
+  height: 40vh;
+}
+
+.modal.b50 {
+  height: 50vh;
+}
+
+.modal.b60 {
+  height: 60vh;
+}
+
+.modal.b80 {
+  height: 80vh;
+}
+
+.modal.r20, .modal.r40, .modal.r50, .modal.r60, .modal.r80 {
+  top: auto;
+  bottom: 0;
+  height: 100vh;
+  transform: none;
+  left: auto;
+  right: -20vw;
+  border-radius: 0;
+}
+
+.modal.r20.on, .modal.r40.on, .modal.r50.on, .modal.r60.on, .modal.r80.on {
+  right: 0;
+}
+
+.modal.r20, .modal.l20 {
+  width: 20vw;
+}
+
+.modal.r40, .modal.l40 {
+  width: 40vw;
+}
+
+.modal.r50, .modal.l50 {
+  width: 50vw;
+}
+
+.modal.r60, .modal.l60 {
+  width: 60vw;
+}
+
+.modal.r80, .modal.l80 {
+  width: 80vw;
+}
+
+.modal.l20, .modal.l40, .modal.l50, .modal.l60, .modal.l80 {
+  top: auto;
+  bottom: 0;
+  height: 100vh;
+  transform: none;
+  right: auto;
+  left: -20vw;
+  border-radius: 0;
+}
+
+.modal.l20.on, .modal.l40.on, .modal.l50.on, .modal.l60.on, .modal.l80.on {
+  left: 0;
 }
 
 /* Responsive */

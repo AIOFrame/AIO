@@ -331,12 +331,14 @@ class CODE {
             <h2 class="title" data-add><?php E( 'New '.$title ); ?></h2>
             <h2 class="title" data-edit style="display: none;"><?php E( 'Update '.$title ); ?></h2>
             <div class="close"></div>
-            <?php
-            $f->pre_process( 'data-wrap', $target, $r, $pre, $notify, $reload, $hidden, $success_alert, $callback, $confirm, $redirect, $validator, $reset_fields );
-            $f->form( $fields, 'div', $r );
-            $f->process_trigger( !empty( $submit_text ) ? $submit_text : 'Save '.$title, 'mb0' );
-            $f->post_process();
-            ?>
+            <div class="modal_body">
+                <?php
+                $f->pre_process( 'data-wrap', $target, $r, $pre, $notify, $reload, $hidden, $success_alert, $callback, $confirm, $redirect, $validator, $reset_fields );
+                $f->form( $fields, 'div', $r );
+                $f->process_trigger( !empty( $submit_text ) ? $submit_text : 'Save '.$title, 'mb0' );
+                $f->post_process();
+                ?>
+            </div>
         </div>
     <?php }
 
@@ -350,7 +352,7 @@ class CODE {
      */
     function logout_html( string $tag = 'div', string $class = '', string $text = 'Logout', string $confirm = 'Are you sure to Logout?' ): void {
         $e = Encrypt::initiate();
-        $action = 'data-action="' . $e->encrypt('logout_ajax') . '"';
+        $action = 'data-action="' . ( APPDEBUG ? 'logout_ajax' : $e->encrypt('logout_ajax') ) . '"';
         $click = 'onclick="process_data(this)"';
         $confirm = !empty( $confirm ) ? 'data-confirm="' . T($confirm) . '"' : '';
         echo '<' . $tag . ' class="' . $class . '" ' . $action . ' ' . $click . ' ' . $confirm . ' data-reload="2" data-notify="2">' . $text . '</' . $tag . '>';
