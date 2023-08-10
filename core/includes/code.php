@@ -331,12 +331,14 @@ class CODE {
             <h2 class="title" data-add><?php E( 'New '.$title ); ?></h2>
             <h2 class="title" data-edit style="display: none;"><?php E( 'Update '.$title ); ?></h2>
             <div class="close"></div>
-            <?php
-            $f->pre_process( 'data-wrap', $target, $r, $pre, $notify, $reload, $hidden, $success_alert, $callback, $confirm, $redirect, $validator, $reset_fields );
-            $f->form( $fields, 'div', $r );
-            $f->process_trigger( !empty( $submit_text ) ? $submit_text : 'Save '.$title, 'mb0' );
-            $f->post_process();
-            ?>
+            <div class="modal_body">
+                <?php
+                $f->pre_process( 'data-wrap', $target, $r, $pre, $notify, $reload, $hidden, $success_alert, $callback, $confirm, $redirect, $validator, $reset_fields );
+                $f->form( $fields, 'div', $r );
+                $f->process_trigger( !empty( $submit_text ) ? $submit_text : 'Save '.$title, 'mb0' );
+                $f->post_process();
+                ?>
+            </div>
         </div>
     <?php }
 
