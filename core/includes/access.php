@@ -575,7 +575,7 @@ class ACCESS {
             if( $aok['type'] == 'text' ) {
                 $f->text( $aok['id'], $aok['title'], $aok['title'], $v, 'data-ao', $c );
             } else if( $aok['type'] == 'upload' ) {
-                $f->upload( $aok['id'], $aok['title'], 'Upload', $v, 0, 0, 'upload', 'data-ao', 'jpg,png,svg,bmp', '0.2', 1, '', $c );
+                $f->upload( $aok['id'], $aok['title'], 'Upload', $v, 0, 0, 'upload', 'data-ao', 'jpg,jpeg,png,svg,bmp', '0.2', 1, '', $c );
             } else if( $aok['type'] == 'slide' ) {
                 $check = $ops[ $aok['id'] ] ?? 0;
                 //skel( $check );
@@ -880,7 +880,7 @@ function register_html( array $columns = [], bool $columns_before = true, array 
             if( !in_array( $df['id'], $hide ) ) {
                 $req = in_array( $df['id'], $compulsory ) ? 'required' : '';
                 if( isset( $df['type'] ) && $df['type'] == 'upload' ) {
-                    $f->upload( $df['id'], $df['title'], 'Upload Profile Picture', '', 0, 0, '', 'data-reg', '.jpg,.jpeg', .2, 0, '', '<div>', '</div>' );
+                    $f->upload( $df['id'], $df['title'], 'Upload Profile Picture', '', 0, 0, '', 'data-reg', 'jpg,jpeg,png', .2, 0, '', '<div>', '</div>' );
                 } else if( isset( $df['type'] ) && $df['type'] == 'date' ) {
                     $f->date( $df['id'], $df['title'], '', '', 'data-reg', 'top center', '<div>', 0, 0, '', '', '', '</div>' );
                 } else {

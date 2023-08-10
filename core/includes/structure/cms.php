@@ -4,9 +4,7 @@
  * Creates CMS table to store pages
  */
 
-$db = new DB();
-
-$pages_struct[] = [ 'pages', [
+$page_struct = [
     [ 'user', 'INT', 13, 0 ],
     [ 'date', 'DATETIME', '', 1 ],
     [ 'up_date', 'DATETIME', '', 1 ],
@@ -19,12 +17,22 @@ $pages_struct[] = [ 'pages', [
     [ 'parent', 'INT', 13, 0 ],
     [ 'pre', 'varchar', 128, 0 ],
     [ 'post', 'varchar', 128, 0 ],
-], 'page', 1 ];
-
-$pages_struct[] = [ 'page_data', [
+];
+$page_data = [
     [ 'name', 'VARCHAR', 256, 1 ],
     [ 'value', 'VARCHAR', 4096, 1 ],
     [ 'load', 'BOOL', '', 0 ],
-], 'pd', 1 ];
+];
+$page_terms = [
+    [ 'name', 'VARCHAR', 256, 1 ],
+    [ 'value', 'VARCHAR', 4096, 1 ],
+    [ 'data', 'TEXT', '', 1 ],
+    [ 'load', 'BOOL', '', 0 ],
+];
 
+$pages_struct[] = [ 'pages', $page_struct, 'page', 1 ];
+$pages_struct[] = [ 'page_data', $page_data, 'pd', 1 ];
+$pages_struct[] = [ 'page_terms', $page_terms, 'pt', 1 ];
+
+$db = new DB();
 $db->automate_tables( $pages_struct );

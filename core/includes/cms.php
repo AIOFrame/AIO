@@ -37,7 +37,8 @@ class CMS {
     }
 
     function categories(): void {
-
+        //$db = new DB();
+        //$categories = $db->select( 'page_terms' );
     }
 
     function get_categories(): array {
