@@ -18,11 +18,11 @@ class CMS {
         $publish_fields = [
             [ 'id' => 'title', 'title' => 'Page Title' ],
             [ 'id' => 'url', 'title' => 'Hyperlink', 'p' => 'Ex: procedure-to-register', 'a' => 'data-no-space' ],
-            [ 'type' => 'select', 'id' => 'status', 'title' => 'Page Status' ]
         ];
         $visibility_fields = [
             [ 't' => 'date', 'id' => 'birth', 'n' => 'Visible From', 'c' => 6 ],
             [ 't' => 'date', 'id' => 'expiry', 'n' => 'Visible Till', 'c' => 6 ],
+            [ 'type' => 'select', 'id' => 'status', 'title' => 'Page Status' ]
         ];
         $seo_fields = [
             [ 't' => 'textarea', 'id' => 'desc', 'n' => 'Meta Description' ],
@@ -37,7 +37,7 @@ class CMS {
         $f->form( [ [ 't' => 'textarea', 'id' => 'content', 'n' => 'Page Content' ] ], '', $r );
         c_();
         _c(4);
-        accordion( 'Publish Options', $f->_form( $publish_fields ), 'br15 w on' );
+        accordion( 'Identity Options', $f->_form( $publish_fields ), 'br15 w on' );
         accordion( 'Visibility Options', $f->_form( $visibility_fields, 'row', $r ), 'br15 w on' );
         accordion( 'SEO Options', $f->_form( $seo_fields, 'row', $r ), 'br15 w' );
         $f->process_trigger('Save Page','w r');
