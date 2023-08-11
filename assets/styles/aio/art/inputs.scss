@@ -504,6 +504,14 @@ select.mb0 + .select2-container {
   }
 }
 
+/* Grid */
+
+.end {
+  input, .select2-container {
+    margin-bottom: 0;
+  }
+}
+
 /* Helper */
 
 .aio_valid {

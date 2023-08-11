@@ -16,18 +16,18 @@ class CMS {
         $c = new CODE();
         $f = new FORM();
         $publish_fields = [
-            [ 'id' => 'title', 'title' => 'Page Title' ],
-            [ 'id' => 'url', 'title' => 'Hyperlink', 'p' => 'Ex: procedure-to-register', 'a' => 'data-no-space' ],
+            [ 'id' => 'title', 'title' => 'Page Title', 'c' => 4.1 ],
+            [ 'id' => 'url', 'title' => 'Hyperlink', 'p' => 'Ex: procedure-to-register', 'a' => 'data-no-space', 'c' => 6.1 ],
         ];
         $visibility_fields = [
             [ 't' => 'date', 'id' => 'birth', 'n' => 'Visible From', 'c' => 6 ],
             [ 't' => 'date', 'id' => 'expiry', 'n' => 'Visible Till', 'c' => 6 ],
-            [ 'type' => 'select', 'id' => 'status', 'title' => 'Page Status' ]
+            [ 'type' => 'select', 'id' => 'status', 'title' => 'Page Status', 'c' => 12.1 ]
         ];
         $seo_fields = [
             [ 't' => 'textarea', 'id' => 'desc', 'n' => 'Meta Description' ],
             [ 't' => 'textarea', 'id' => 'desc', 'n' => 'Meta Keywords' ],
-            [ 'id' => 'author', 'n' => 'Meta Author' ],
+            [ 'id' => 'author', 'n' => 'Meta Author', 'c' => 12.1 ],
         ];
         $r = substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 8);
         //$c->pre_modal( 'Page', 'f' );
@@ -37,7 +37,7 @@ class CMS {
         $f->form( [ [ 't' => 'textarea', 'id' => 'content', 'n' => 'Page Content' ] ], '', $r );
         c_();
         _c(4);
-        accordion( 'Identity Options', $f->_form( $publish_fields ), 'br15 w on' );
+        accordion( 'Identity Options', $f->_form( $publish_fields, 'row', $r ), 'br15 w on' );
         accordion( 'Visibility Options', $f->_form( $visibility_fields, 'row', $r ), 'br15 w on' );
         accordion( 'SEO Options', $f->_form( $seo_fields, 'row', $r ), 'br15 w' );
         $f->process_trigger('Save Page','w r');

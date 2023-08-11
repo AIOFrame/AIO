@@ -465,6 +465,11 @@ select.mb0 + .select2-container {
   color: #000;
 }
 
+/* Grid */
+.end input, .end .select2-container {
+  margin-bottom: 0;
+}
+
 /* Helper */
 .aio_valid {
   font-size: 12px;
