@@ -178,7 +178,7 @@ class FORM {
             //array_unshift( $options, 'select2_placeholder' );
         }
         //$placeholder = strpos( $attr, 'select2') !== false ? '' : $placeholder;
-        $return .= $this->select_options( $options, $selected, $placeholder, $keyed, $translate );
+        $return .= $this->_select_options( $options, $selected, $placeholder, $keyed, $translate );
         $return .= $post;
         return $return;
     }
