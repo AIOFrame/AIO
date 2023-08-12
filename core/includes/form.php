@@ -60,10 +60,10 @@ class FORM {
         $s = explode( ',', str_replace( ' ', '', $selected ) );
         //skel( $s );
         $placeholder = $translate ? T($placeholder) : $placeholder;
-        if( $placeholder !== '' ){
-            echo empty($s) ? '<option disabled selected>'.$placeholder.'</option>' : '<option disabled>'.$placeholder.'</option>';
-        }
         $return = '';
+        if( $placeholder !== '' ){
+            $return .= empty($s) ? '<option disabled selected>'.$placeholder.'</option>' : '<option disabled>'.$placeholder.'</option>';
+        }
         // TODO: If multi dimensional array then and also add data attr, possibly auto fill logic
         if( is_assoc( $options ) ) {
             foreach ( $options as $value => $data ) {
@@ -89,7 +89,7 @@ class FORM {
                 } else if( $value == $s ) {
                     $sel = 'selected';
                 }
-                if( $data == 'select2_placeholder' ) { echo '<option></option>'; continue; }
+                if( $data == 'select2_placeholder' ) { $return .= '<option></option>'; continue; }
                 $return .= '<option value="' . $value . '" ' . $sel . $attr.'>' . $text . '</option>';
             }
         } else {
@@ -116,7 +116,7 @@ class FORM {
                     }
                 }
                 $t = $translate ? T( $t ) : $t;
-                if( $t == 'select2_placeholder' ) { echo '<option></option>'; continue; }
+                if( $t == 'select2_placeholder' ) { $return .= '<option></option>'; continue; }
                 $return .= '<option '.$d.' value="' . $k . '" ' . $sel . '>' . $t . '</option>';
             }
         }

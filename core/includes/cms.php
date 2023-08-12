@@ -12,7 +12,7 @@ class CMS {
 
     }
 
-    function page_modal(): void {
+    function page_form( bool $modal = true ): void {
         $c = new CODE();
         $f = new FORM();
         $statuses = $this->page_statuses;
@@ -33,7 +33,7 @@ class CMS {
             [ 'id' => 'meta_author', 'n' => 'Meta Author', 'c' => 12.1 ],
         ];
         $r = $f->_random();
-        //$c->pre_modal( 'Page', 'f' );
+        $modal ? $c->pre_modal( 'Page', 'f' ) : '';
         $f->pre_process( 'data-wrap', 'update_page_ajax', $r, 'p_', 2, 2 );
         _r();
         _c(8);
@@ -52,7 +52,7 @@ class CMS {
         ];
         $f->form( $hidden_fields, 'row', $r );
         $f->post_process();
-        //$c->post_modal();
+        $modal ? $c->post_modal() : '';
     }
 
     function pages(): void {
