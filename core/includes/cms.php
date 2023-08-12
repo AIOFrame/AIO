@@ -124,6 +124,14 @@ function update_page_ajax(): void {
         $p['url'] = !empty( $p['url'] ) ? $p['url'] : strtolower( str_replace( ' ', '-', $p['title'] ) );
         $p['date'] = $p['date'] ?? date('Y-m-d H:i:s');
         $db = new DB();
+
+        // Check if page exists with same slug
+        $exist = $db->select( 'pages', 'page_id', "page_url = {$p['url']}" );
+        if( $exist ) {
+            ef('Page with same url exist! Please change page title and url!!');
+            return;
+        }
+
         $saved = $db->insert( 'pages', prepare_keys( $p, 'page_' ), prepare_values( $p ) );
         if( $saved ) {
             if( !empty( $id ) ) {
