@@ -128,7 +128,7 @@ function update_page_ajax(): void {
         if( $saved ) {
             if( !empty( $id ) ) {
                 // Update History
-                $update = $db->update( 'pages', [ 'page_status' ], [ 4 ], "page_id = {$id}" );
+                $update = $db->update( 'pages', [ 'page_status', 'page_parent' ], [ 4, $saved ], "page_id = {$id}" );
                 if( $update ) {
                     es('Successfully updated page!');
                 } else {
