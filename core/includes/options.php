@@ -1,5 +1,6 @@
 <?php
-
+// TODO: Generic error messages, Data Missing, Data Insert Failure, Other Failure
+// TODO: Fix auto load not saving issue
 global $options;
 //skel( $options );
 

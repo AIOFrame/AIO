@@ -15,6 +15,8 @@ class CMS {
     function page_modal(): void {
         $c = new CODE();
         $f = new FORM();
+        $statuses = $this->page_statuses;
+        unset( $statuses[4] );
         $publish_fields = [
             [ 'id' => 'title', 'title' => 'Page Title', 'a' => 'required' ],
             [ 'id' => 'url', 'title' => 'URL Slug', 'p' => 'Ex: procedure-to-register', 'a' => 'data-no-space', 'c' => 12.1 ],
@@ -22,7 +24,7 @@ class CMS {
         $visibility_fields = [
             [ 't' => 'date', 'id' => 'birth', 'n' => 'Visible From', 'c' => 6 ],
             [ 't' => 'date', 'id' => 'expiry', 'n' => 'Visible Till', 'c' => 6 ],
-            [ 'type' => 'select', 'id' => 'status', 'title' => 'Page Status', 'o' => $this->page_statuses, 'v' => 2, 'a' => 'required' ],
+            [ 'type' => 'select', 'id' => 'status', 'title' => 'Page Status', 'o' => $statuses, 'v' => 1, 'a' => 'required', 'k' => 1 ],
             [ 'id' => 'password', 'n' => 'Password', 'c' => 12.1 ],
         ];
         $seo_fields = [
@@ -32,7 +34,7 @@ class CMS {
         ];
         $r = $f->_random();
         //$c->pre_modal( 'Page', 'f' );
-        $f->pre_process( 'data-wrap', 'update_page_ajax', $r, 'p_', 2, 2, [ 'user' => get_user_id(),  ] );
+        $f->pre_process( 'data-wrap', 'update_page_ajax', $r, 'p_', 2, 2 );
         _r();
         _c(8);
         $f->form( [ [ 't' => 'textarea', 'id' => 'content', 'n' => 'Page Content' ] ], '', $r );
@@ -45,8 +47,8 @@ class CMS {
         c_();
         r_();
         $hidden_fields = [
-            [ 'id' => 'date', 'a' => 'class="dng"', 'v' => date('Y-m-d H:i:s') ],
-            [ 'id' => 'id', 'a' => 'class="dng"', 'v' => date('Y-m-d H:i:s') ],
+            [ 'id' => 'date', 'a' => 'class="dn"', 'v' => date('Y-m-d H:i:s') ],
+            [ 'id' => 'id', 'a' => 'class="dn"' ],
         ];
         $f->form( $hidden_fields, 'row', $r );
         $f->post_process();
@@ -114,18 +116,31 @@ function update_page_ajax(): void {
     if( !empty( $p['title'] ) ) {
         unset( $p['pre'] );
         unset( $p['t'] );
+        $id = $p['id'] ?? 0;
+        unset( $p['id'] );
         $p['content'] = htmlspecialchars( $p['content'] );
         $p['by'] = get_user_id();
         $p['update'] = date('Y-m-d H:i:s');
         $p['url'] = !empty( $p['url'] ) ? $p['url'] : strtolower( str_replace( ' ', '-', $p['title'] ) );
-        if( isset( $p['p_id'] ) ) {
-            // Update History
-            // Insert Page
+        $p['date'] = $p['date'] ?? date('Y-m-d H:i:s');
+        $db = new DB();
+        $saved = $db->insert( 'pages', prepare_keys( $p, 'page_' ), prepare_values( $p ) );
+        if( $saved ) {
+            if( !empty( $id ) ) {
+                // Update History
+                $update = $db->update( 'pages', [ 'page_status' ], [ 4 ], "page_id = {$id}" );
+                if( $update ) {
+                    es('Successfully updated page!');
+                } else {
+                    ef('Failed to update page, Please consult administrator!');
+                }
+            } else {
+                es('Successfully saved new page!');
+            }
         } else {
-            $p['date'] = date('Y-m-d H:i:s');
-            // Insert Page
+            ef('Failed to store page, please consult administrator!');
         }
-        skel( $p );
+        //skel( $p );
     } else {
         ef('Failed due to page title not set!');
     }
