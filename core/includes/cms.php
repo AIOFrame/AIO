@@ -6,7 +6,7 @@
 
 class CMS {
 
-    public array $page_statuses = [ 1 => 'Active', 2 => 'Inactive', 3 => 'Draft', 4 => 'History' ];
+    public array $page_statuses = [ 1 => 'Live', 2 => 'Disabled', 3 => 'Draft', 4 => 'History' ];
 
     function __construct() {
 
@@ -16,33 +16,39 @@ class CMS {
         $c = new CODE();
         $f = new FORM();
         $publish_fields = [
-            [ 'id' => 'title', 'title' => 'Page Title', 'c' => 4.1 ],
-            [ 'id' => 'url', 'title' => 'Hyperlink', 'p' => 'Ex: procedure-to-register', 'a' => 'data-no-space', 'c' => 6.1 ],
+            [ 'id' => 'title', 'title' => 'Page Title', 'a' => 'required' ],
+            [ 'id' => 'url', 'title' => 'URL Slug', 'p' => 'Ex: procedure-to-register', 'a' => 'data-no-space', 'c' => 12.1 ],
         ];
         $visibility_fields = [
             [ 't' => 'date', 'id' => 'birth', 'n' => 'Visible From', 'c' => 6 ],
             [ 't' => 'date', 'id' => 'expiry', 'n' => 'Visible Till', 'c' => 6 ],
-            [ 'type' => 'select', 'id' => 'status', 'title' => 'Page Status', 'c' => 12.1 ]
+            [ 'type' => 'select', 'id' => 'status', 'title' => 'Page Status', 'o' => $this->page_statuses, 'v' => 2, 'a' => 'required' ],
+            [ 'id' => 'password', 'n' => 'Password', 'c' => 12.1 ],
         ];
         $seo_fields = [
-            [ 't' => 'textarea', 'id' => 'desc', 'n' => 'Meta Description' ],
-            [ 't' => 'textarea', 'id' => 'desc', 'n' => 'Meta Keywords' ],
-            [ 'id' => 'author', 'n' => 'Meta Author', 'c' => 12.1 ],
+        [ 't' => 'textarea', 'id' => 'meta_desc', 'n' => 'Meta Description' ],
+            [ 't' => 'textarea', 'id' => 'meta_words', 'n' => 'Meta Keywords' ],
+            [ 'id' => 'meta_author', 'n' => 'Meta Author', 'c' => 12.1 ],
         ];
-        $r = substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 8);
+        $r = $f->_random();
         //$c->pre_modal( 'Page', 'f' );
-        $f->pre_process( 'data-wrap', 'update_page_ajax', $r, 'page', 2, 2 );
+        $f->pre_process( 'data-wrap', 'update_page_ajax', $r, 'p_', 2, 2, [ 'user' => get_user_id(),  ] );
         _r();
         _c(8);
         $f->form( [ [ 't' => 'textarea', 'id' => 'content', 'n' => 'Page Content' ] ], '', $r );
         c_();
         _c(4);
-        accordion( 'Identity Options', $f->_form( $publish_fields, 'row', $r ), 'br15 w on' );
-        accordion( 'Visibility Options', $f->_form( $visibility_fields, 'row', $r ), 'br15 w on' );
-        accordion( 'SEO Options', $f->_form( $seo_fields, 'row', $r ), 'br15 w' );
+        accordion( 'Identity', $f->_form( $publish_fields, 'row', $r ), 'br15 w on' );
+        accordion( 'Visibility', $f->_form( $visibility_fields, 'row', $r ), 'br15 w on' );
+        accordion( 'SEO', $f->_form( $seo_fields, 'row', $r ), 'br15 w' );
         $f->process_trigger('Save Page','w r');
         c_();
         r_();
+        $hidden_fields = [
+            [ 'id' => 'date', 'a' => 'class="dng"', 'v' => date('Y-m-d H:i:s') ],
+            [ 'id' => 'id', 'a' => 'class="dng"', 'v' => date('Y-m-d H:i:s') ],
+        ];
+        $f->form( $hidden_fields, 'row', $r );
         $f->post_process();
         //$c->post_modal();
     }
@@ -104,5 +110,23 @@ function update_menu_ajax(): void {
 }
 
 function update_page_ajax(): void {
-
+    $p = replace_in_keys( $_POST, 'p_', '' );
+    if( !empty( $p['title'] ) ) {
+        unset( $p['pre'] );
+        unset( $p['t'] );
+        $p['content'] = htmlspecialchars( $p['content'] );
+        $p['by'] = get_user_id();
+        $p['update'] = date('Y-m-d H:i:s');
+        $p['url'] = !empty( $p['url'] ) ? $p['url'] : strtolower( str_replace( ' ', '-', $p['title'] ) );
+        if( isset( $p['p_id'] ) ) {
+            // Update History
+            // Insert Page
+        } else {
+            $p['date'] = date('Y-m-d H:i:s');
+            // Insert Page
+        }
+        skel( $p );
+    } else {
+        ef('Failed due to page title not set!');
+    }
 }

@@ -63,7 +63,7 @@ if( isset( $_POST['action'] ) ) {
                     //elog( $_POST );
                     $pre = $_POST['pre'] ?? '';
                     $e = Encrypt::initiate();
-                    $hidden = APPDEBUG ? $e->decrypt_array($_POST['h']) : json_decode($_POST['h'], 1);
+                    $hidden = APPDEBUG ? $_POST['h'] : $e->decrypt_array($_POST['h']);
                     if (!empty($hidden)) {
                         foreach ($hidden as $hk => $hv) {
                             $_POST[$pre . $hk] = $hv;

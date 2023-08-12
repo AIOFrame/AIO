@@ -5,13 +5,11 @@
  */
 
 $page_struct = [
-    [ 'user', 'INT', 13, 0 ],
     [ 'date', 'DATETIME', '', 1 ],
     [ 'update', 'DATETIME', '', 1 ],
     [ 'title', 'TEXT', '', 1 ],
-    [ 'desc', 'VARCHAR', 512, 1 ],
     [ 'content', 'LONGTEXT', '', 0 ],
-    [ 'url', 'VARCHAR', 128, 0 ],
+    [ 'url', 'VARCHAR', 128, 1 ],
     [ 'password', 'VARCHAR', 256, 0 ],
     [ 'type', 'VARCHAR', 64, 0 ],
     [ 'parent', 'INT', 13, 0 ],
@@ -19,6 +17,10 @@ $page_struct = [
     [ 'status', 'VARCHAR', 1, 1 ],
     [ 'birth', 'DATETIME', '', 0 ],
     [ 'expiry', 'DATETIME', '', 0 ],
+    [ 'meta_desc', 'VARCHAR', 512, 0 ],
+    [ 'meta_words', 'VARCHAR', 512, 0 ],
+    [ 'meta_author', 'VARCHAR', 256, 0 ],
+    [ 'by', 'INT', 13, 0 ],
     //[ 'pre', 'varchar', 128, 0 ],
     //[ 'post', 'varchar', 128, 0 ],
 ];

@@ -1098,13 +1098,13 @@ class FORM {
             $place = $f['place'] ?? ($f['placeholder'] ?? ( $f['p'] ?? $label));
             //$val = $f['value'] ?? ($method == 'POST' ? ($_POST[$id] ?? '') : ($_GET[$id] ?? ''));
             $val = $f['value'] ?? ( $f['va'] ?? ( $f['v'] ?? ( $_POST[$id] ?? ( $_GET[$id] ?? '' ) ) ) );
-            $data = !empty( $data_attr ) ? 'data-'.$data_attr : '';
+            $data = !empty( $data_attr ) ? ' data-'.$data_attr.' ' : '';
             $attrs = $data . ( $f['attr'] ?? ($f['a'] ?? '') );
             $pre = $f['pre'] ?? ($f['col'] ?? ( $f['c'] ?? ( $form_type == 'row' || $form_type == 'r' ? 12 : '<div>' ) ));
             $post = ( !empty( $pre ) && empty( $f['post'] ) ) ? '</div>' : ( $f['post'] ?? 'ted' );
             if( $type == 'select' || $type == 'select2' ) {
                 $options = $f['options'] ?? ( $f['os'] ?? ( $f['o'] ?? [] ) );
-                $value = $_POST[ $id ] ?? ( $_GET[ $id ] ?? '' );
+                $value = $_POST[ $id ] ?? ( $_GET[ $id ] ?? $val );
                 $keyed = $f['keyed'] ?? ( $f['k'] ?? 0 );
                 $trans = $f['translate'] ?? ( $f['tr'] ?? 0 );
                 $return .= $this->_select2( $id, $label, $place, $options, $value, $attrs, $pre, $keyed, $trans, $post );
@@ -1523,5 +1523,9 @@ class FORM {
 
     function _post( string|float|int $pre, string $post = '' ): string {
         return !empty( $post ) ? $post : ( is_numeric( $pre ) || str_contains( $pre, '.' ) ? '</div>' : '' );
+    }
+
+    function _random(): string {
+        return substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 8);
     }
 }
