@@ -758,13 +758,8 @@ class FORM {
             $id = is_array($identity) ? $identity[0] : $identity;
             $name = is_array($identity) ? $identity[1] : $identity;
             $valued = is_assoc( $values ); $x = 0;
-            if( is_numeric( $pre ) ){
-                $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-md-'.$pre.'">';
-                $post = '</div>';
-            } else if( str_contains( $pre, '.' ) ) {
-                $pre = '<div class="'.str_replace('.','',$pre).'">';
-                $post = '</div>';
-            }
+            $pre = $this->_pre( $pre );
+            $post = $this->_post( $pre, $post );
             $wrap_inputs_pre = !empty( $inputs_wrap ) ? '<div class="'.$inputs_wrap.'">' : '';
             $wrap_inputs_post = !empty( $inputs_wrap ) ? '</div>' : '';
             if( is_numeric( $inputs_pre ) ) {
@@ -876,13 +871,8 @@ class FORM {
         $rand = rand( 0, 99999 );
         $id = $identity.'_'.$rand; // is_array($identity) ? $identity[0] : $identity;
         $name = $identity; // is_array($identity) ? $identity[1] : $identity;
-        if( is_numeric( $pre ) ){
-            $pre = $pre == 0 ? '<div class="upload_set col">' : '<div class="upload_set col-12 col-lg-'.$pre.'">';
-            $post = '</div>';
-        } else if( str_contains( $pre, '.' ) ) {
-            $pre = '<div class="upload_set '.str_replace('.','',$pre).'">';
-            $post = '</div>';
-        }
+        $pre = $this->_pre( $pre );
+        $post = $this->_post( $pre, $post );
         $sh = $show_history ? ' data-history' : '';
         $ext = $extensions !== '' ? ' data-exts="'.$extensions.'"' : '';
         $sz = $size !== '' ? ' data-size="'.$size.'"' : '';
@@ -921,13 +911,8 @@ class FORM {
      */
     function _code( string|array $id, string $label = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', string $post = '' ): string {
         $return = '<script>ace.config.set("basePath", "'. APPURL . 'assets/ext/ace/" );</script>';
-        if( is_numeric( $pre ) ){
-            $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-md-'.$pre.'">';
-            $post = '</div>';
-        } else if( str_contains( $pre, '.' ) ) {
-            $pre = '<div class="'.str_replace('.','',$pre).'">';
-            $post = '</div>';
-        }
+        $pre = $this->_pre( $pre );
+        $post = $this->_post( $pre, $post );
         $return .= $pre;
         $return .= $this->_input( 'textarea', $id, $label, $value, '', $attrs . ' style="display:none !important"' );
         $return .= '<div id="'.$id.'_code" style="min-height: 200px"></div>';
@@ -948,13 +933,8 @@ class FORM {
     function richtext( string|array $id, string $label = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', string $post = '' ): void {
         get_style('https://cdn.jsdelivr.net/npm/trumbowyg/dist/ui/trumbowyg.min.css');
         get_script('https://cdn.jsdelivr.net/npm/trumbowyg/dist/trumbowyg.min.js');
-        if( is_numeric( $pre ) ){
-            $pre =  $pre == 0 ? '<div class="col">' : '<div class="col-12 col-md-'.$pre.'">';
-            $post = '</div>';
-        } else if( str_contains( $pre, '.' ) ) {
-            $pre = '<div class="'.str_replace('.','',$pre).'">';
-            $post = '</div>';
-        }
+        $pre = $this->_pre( $pre );
+        $post = $this->_post( $pre, $post );
         echo $pre;
         //echo '<div id="'.$id.'_rte"><div>';
         $this->input( 'textarea', $id, $label, '', $value, $attrs );
@@ -1011,7 +991,7 @@ class FORM {
 
     /**
      * Renders HTML parameters for automated data saving
-     * @param string $class Wrapper element attribute
+     * @param string $attr
      * @param string $target Database name if the data is supposed to store directly to db or ajax function name with _ajax at the end
      * @param string $data Data attribute of inputs to gather data
      * @param string|float|int $pre Pre-wrap string for database table columns
@@ -1243,13 +1223,8 @@ class FORM {
      * @param string|int $post Post Wrap HTML
      */
     function view_html( string $url = '', string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', string|int $pre = '', string|int $post = '' ): void {
-        if( is_numeric( $pre ) ){
-            $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
-            $post = '</div>';
-        }  else if( str_contains( $pre, '.' ) ) {
-            $pre = '<div class="'.str_replace('.','',$pre).'">';
-            $post = '</div>';
-        }
+        $pre = $this->_pre( $pre );
+        $post = $this->_post( $pre, $post );
         //$post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
         //$c = Encrypt::initiate();
         $i = !empty( $i_class ) ? '<i class="'.$i_class.'"></i>' : '';
@@ -1271,18 +1246,30 @@ class FORM {
      * @param string|int $post Post Wrap HTML
      */
     function edit_html( string $element = '.modal', array $array = [], string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): void {
+        echo $this->_edit_html( $element, $array, $html, $text, $class, $attr, $i_class, $i_text, $pre, $post );
+    }
+
+    /**
+     * Returns HTML to open modal to edit data
+     * @param string $element Modal element to open
+     * @param array $array Data JSON array
+     * @param string $html HTML either button or div or i
+     * @param string $text Text to display
+     * @param string $class Class
+     * @param string $attr Additional attributes
+     * @param string $i_class Class for i element positioned before text
+     * @param string $i_text Text for i element
+     * @param string|int $pre Pre Wrap HTML or Bootstrap Column
+     * @param string|int $post Post Wrap HTML
+     */
+    function _edit_html( string $element = '.modal', array $array = [], string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): string {
         //$c = Encrypt::initiate();
-        if( is_numeric( $pre ) ){
-            $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
-            $post = '</div>';
-        } else if( str_contains( $pre, '.' ) ) {
-            $pre = '<div class="'.str_replace('.','',$pre).'">';
-            $post = '</div>';
-        }
+        $pre = $this->_pre( $pre );
+        $post = $this->_post( $pre, $post );
         //$post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
         $i = !empty( $i_class ) || !empty( $i_text ) ? '<i class="'.$i_class.'">'.$i_text.'</i>' : '';
         $title = str_contains( $attr, 'title' ) ? '' : 'title="'.T('Edit').'"';
-        echo $pre.'<'.$html.' onclick="edit_data(this,\''.$element.'\')" data-data=\''.$this->_editable_data($array).'\' class="'.$class.'" '.$title.' '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$post;
+        return $pre.'<'.$html.' onclick="edit_data(this,\''.$element.'\')" data-data=\''.$this->_editable_data($array).'\' class="'.$class.'" '.$title.' '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$post;
     }
 
     /**
@@ -1302,13 +1289,8 @@ class FORM {
      * @param string|int $post Post Wrap HTML
      */
     function trash_html( string $table, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', int $notify_time = 2, int $reload_time = 2, string $confirmation = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): void {
-        if( is_numeric( $pre ) ){
-            $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
-            $post = '</div>';
-        } else if( str_contains( $pre, '.' ) ) {
-            $pre = '<div class="'.str_replace('.','',$pre).'">';
-            $post = '</div>';
-        }
+        $pre = $this->_pre( $pre );
+        $post = $this->_post( $pre, $post );
         //$post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
         $c = Encrypt::initiate();
         $i = !empty( $i_class ) || !empty( $i_text ) ? '<i class="'.$i_class.'">'.$i_text.'</i>' : '';
@@ -1337,13 +1319,8 @@ class FORM {
      * @param string|int $post Post Wrap HTML
      */
     function update_html( string $table, array $keys, array $values, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', int $notify_time = 2, int $reload_time = 2, string $confirmation = '', string|int $pre = '', string|int $post = '' ): void {
-        if( is_numeric( $pre ) ){
-            $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
-            $post = '</div>';
-        } else if( str_contains( $pre, '.' ) ) {
-            $pre = '<div class="'.str_replace('.','',$pre).'">';
-            $post = '</div>';
-        }
+        $pre = $this->_pre( $pre );
+        $post = $this->_post( $pre, $post );
         //$post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
         $c = Encrypt::initiate();
         $i = !empty( $i_class ) ? '<i class="'.$i_class.'"></i>' : '';

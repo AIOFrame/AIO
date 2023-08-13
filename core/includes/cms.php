@@ -34,7 +34,7 @@ class CMS {
         ];
         $r = $f->_random();
         $modal ? $c->pre_modal( 'Page', 'f' ) : '';
-        $f->pre_process( 'data-wrap', 'update_page_ajax', $r, 'p_', 2, 2 );
+        $f->pre_process( 'data-wrap id="page_form"', 'update_page_ajax', $r, 'p_', 2, 2 );
         _r();
         _c(8);
         $f->form( [ [ 't' => 'textarea', 'id' => 'content', 'n' => 'Page Content' ] ], '', $r );
@@ -55,9 +55,40 @@ class CMS {
         $modal ? $c->post_modal() : '';
     }
 
-    function pages(): void {
-        // TODO: Pages Table
-        // TODO: Page Cards
+    function page_filters(): void {
+
+    }
+
+    function pages( string $type = 'table', string $wrapper_class = '' ): void {
+        $d = new DB();
+        $status = $this->page_statuses;
+        $data = [ 'id', 'date', 'update', 'title', 'url', 'password', 'status', 'birth', 'expiry', 'by' ];
+        $pages = $d->select( [ 'pages', [ 'users', 'user_id', 'page_by' ] ], array_merge( prepare_values( $data, 'page_' ), [ 'user_name' ] ) );
+        if( empty( $pages ) ) {
+            no_content( 'No pages created yet!' );
+            exit();
+        } else {
+            $c = new CODE();
+            $f = new FORM();
+            if( $type == 'table' ) {
+                $table[] = [ 'head' => [ 'ID', 'Name', 'Date', 'Visibility', 'Status', 'User', 'Actions' ] ];
+                foreach( $pages as $p ) {
+                    $table[]['body'] = [
+                        $p['page_id'],
+                        $p['page_title'].'<div><small>'.$p['page_url'].'</small></div>',
+                        easy_date($p['page_date']).'<div><small>'.T('Updated').': '.easy_date($p['page_update']).'</small></div>',
+                        (!empty($p['page_birth'])?'<div><small>'.T('Visible from').': '.easy_date($p['page_birth']).'</small></div>':'').(!empty($p['page_expiry'])?'<div><small>'.T('Visible till').': '.easy_date($p['page_expiry']).'</small></div>':''),
+                        $status[ $p['page_status'] ] ?? '',
+                        $p['user_name'],
+                        $f->_edit_html( '#page_modal', $p, 'div', '', '', '', 'mat-ico', 'edit' )
+                    ];
+                }
+                $c->table( $table, $wrapper_class );
+            } else if( $type == 'cards' ) {
+
+            }
+            // TODO: Page Cards
+        }
     }
 
     function page_editor(): void {

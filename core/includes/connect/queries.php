@@ -298,7 +298,7 @@ class DB {
     /**
      * Select data from Table
      * @param string|array $table Table name or names with join [ 'customers', [ 'addresses', 'address_customer', 'customer_id' ] ]
-     * @param string $cols Columns to get data, Ex: 'user_name,user_dob'
+     * @param string|array $cols Columns to get data, Ex: 'user_name,user_dob'
      * @param string $where Where logic, Ex: 'user_id = 12'
      * @param int $limit Limit quantity of rows
      * @param int $offset Offset rows
@@ -308,10 +308,10 @@ class DB {
      * @param string $sort Sort Order by Column Name
      * @return array
      */
-    function select( string|array $table, string $cols = '*', string $where = '', int $limit = 0, int $offset = 0 , string $group = '', bool $count = false, string $order_by = '', string $sort = '' ): array {
+    function select( string|array $table, string|array $cols = '*', string $where = '', int $limit = 0, int $offset = 0 , string $group = '', bool $count = false, string $order_by = '', string $sort = '' ): array {
         $db = $this->connect();
         if( $db ) {
-            $cols = $cols == "" ? "*" : $cols;
+            $cols = $cols == "" ? "*" : ( is_array( $cols ) ? implode( ',', $cols ) : $cols );
             if ( !is_array( $table ) ) {
                 $query = $count ? "SELECT COUNT('" . $cols . "') FROM $table " : "SELECT " . $cols . " FROM $table ";
                 $target = $table;

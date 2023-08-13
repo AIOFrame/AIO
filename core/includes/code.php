@@ -374,12 +374,23 @@ class CODE {
 
     }
 
-    function table( array $content = [], string $class = '' ): void {
+    /**
+     * @param array $rows Array of table data [ 'head' => [ 'Name', 'Age' ], 'body' => [ 'Ahmed', 25 ] ]
+     * @param string $class Class for the table
+     * @return void
+     */
+    function table( array $rows = [], string $class = '' ): void {
+        // TODO: Support art designs like statuses
         echo '<table class="'.$class.'">';
-        foreach( $content as $type => $data ) {
+        foreach( $rows as $row ) {
+            $type = array_key_first( $row );
             echo in_array( $type, [ 'thead', 'head', 'h' ] ) ? '<thead>' : ( in_array( $type, [ 'tfoot', 'foot', 'f' ] ) ? '<tfoot>' : '<tbody>' );
-            foreach( $data as $d ) {
-                echo in_array( $type, [ 'thead', 'head', 'h' ] ) ? '<th>'.$d.'</th>' : '<td>'.$d.'</td>';
+            foreach( $row as $cols ) {
+                echo '<tr>';
+                foreach( $cols as $c ) {
+                    echo in_array( $type, [ 'thead', 'head', 'h' ] ) ? '<th>'.$c.'</th>' : '<td>'.$c.'</td>';
+                }
+                echo '</tr>';
             }
             echo in_array( $type, [ 'thead', 'head', 'h' ] ) ? '</thead>' : ( in_array( $type, [ 'tfoot', 'foot', 'f' ] ) ? '</tfoot>' : '</tbody>' );
         }
