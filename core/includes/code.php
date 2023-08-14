@@ -417,6 +417,7 @@ class CODE {
 
     /**
      * Returns Card
+     * @param string|array|float $col
      * @param string $class
      * @param string $title Title of the Card
      * @param string $link Hyperlink for the card to navigate to
@@ -433,7 +434,15 @@ class CODE {
      * @param string $delete_logic Database deletion logic Ex: 'contact_id = 5'
      * @return string
      */
-    function _card( string $class = '', string $title = '', string $link = '', string $desc = '', string $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], array $actions = [], string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '' ): string {
+    function _card( string|array|float $col = '', string $class = '', string $title = '', string $link = '', string $desc = '', string $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], array $actions = [], string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '' ): string {
+        $pre = '';
+        $post = '';
+        if( !empty( $col ) ) {
+            $f = new FORM();
+            $pre = $f->_pre( $col );
+            $post = $f->_post( $col );
+        }
+
         $f = new FORM();
         $return = !empty ( $link ) ? '<a class="card '.($class ?? '').'" href="'.$link.'">' : '<div class="card '.($class ?? '').'">';
         $return .= !empty( $image ) ? '<div style="background-image:url(\''.$image.'\')" class="'.$image_class.'"></div>' : '';
@@ -459,11 +468,12 @@ class CODE {
             $return .= '</div>';
         }
         $return .= !empty ( $link ) ? '</a>' : '</div>';
-        return $return;
+        return $pre.$return.$post;
     }
 
     /**
      * Renders Card
+     * @param string|array|float $col
      * @param string $class
      * @param string $title Title of the Card
      * @param string $link Hyperlink for the card to navigate to
@@ -480,20 +490,15 @@ class CODE {
      * @param string $delete_logic Database deletion logic Ex: 'contact_id = 5'
      * @return void
      */
-    function card( string $class = '', string $title = '', string $link = '', string $desc = '', string $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], array $actions = [], string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '' ): void {
-        echo $this->_card( $class, $title, $link, $desc, $image, $image_class, $status, $status_class, $data, $actions, $edit_modal, $edit_data, $delete_table, $delete_logic );
+    function card( string|array|float $col = '', string $class = '', string $title = '', string $link = '', string $desc = '', string $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], array $actions = [], string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '' ): void {
+        echo $this->_card( $col, $class, $title, $link, $desc, $image, $image_class, $status, $status_class, $data, $actions, $edit_modal, $edit_data, $delete_table, $delete_logic );
     }
 
     function grid_view( string $wrapper = '', string $content = '', string|int|float $col = '' ): void {
         echo '<div id="'.$wrapper.'_grid_view" class="'.$wrapper.'" data-view="grid">';
-        $pre = '';
-        $post = '';
-        if( !empty( $col ) ) {
-            $f = new FORM();
-            $pre = $f->_pre( $col );
-            $post = $f->_post( $col );
-        }
-        echo $pre . $content . $post;
+        echo !empty( $col ) ? '<div class="row">' : '';
+        echo $content;
+        echo !empty( $col ) ? '</div>' : '';
         echo '</div>';
     }
 }

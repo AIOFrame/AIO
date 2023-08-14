@@ -87,7 +87,7 @@ class CMS {
             } else if( $type == 'cards' || $type == 'card' ) {
                 $cards = '';
                 foreach( $pages as $p ) {
-                    $cards .= $c->_card( 'br15', $p['page_title'], '', '/'.$p['page_url'], '', '', $status[ $p['page_status'] ] ?? '', '', [], [], '#page_modal', $p, 'pages', "page_id = {$p['page_id']}" );
+                    $cards .= $c->_card( '4', 'br15', $p['page_title'], '', '/'.$p['page_url'], '', '', $status[ $p['page_status'] ] ?? '', '', [], [], '#page_modal', $p, 'pages', "page_id = {$p['page_id']}" );
                 }
                 $c->grid_view( 'pages', $cards, 4 );
             }
