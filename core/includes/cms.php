@@ -60,10 +60,8 @@ class CMS {
     }
 
     function pages( string $type = 'table', string $wrapper_class = '', string|int $cols = 4 ): void {
-        $d = new DB();
+        $pages = $this->_pages();
         $status = $this->page_statuses;
-        $data = [ 'id', 'date', 'update', 'title', 'url', 'password', 'status', 'birth', 'expiry', 'by' ];
-        $pages = $d->select( [ 'pages', [ 'users', 'user_id', 'page_by' ] ], array_merge( prepare_values( $data, 'page_' ), [ 'user_name' ] ) );
         if( empty( $pages ) ) {
             no_content( 'No pages created yet!', '', $wrapper_class );
         } else {
@@ -98,18 +96,37 @@ class CMS {
         // TODO: JS Page Templates
     }
 
-    function page(): void {
-        // TODO: Page HTML
+    /**
+     * Renders page by url or id
+     * @param string|int $id_url ID or URL of the page
+     * @param bool $show_no_content Show no content graphic if page not found
+     * @return void
+     */
+    function page( string|int $id_url, bool $show_no_content = false ): void {
+        $page = $this->_page( $id_url );
+        if( $page ) {
+            echo $page['page_content'];
+        } else if( $show_no_content ) {
+            no_content( 'Page not found!' );
+        }
     }
 
-    function get_pages(): array {
-        // TODO: Returns Pages Array
-        return [];
+    function _pages(): array {
+        $d = new DB();
+        $data = [ 'id', 'date', 'update', 'title', 'url', 'password', 'status', 'birth', 'expiry', 'by' ];
+        return $d->select( [ 'pages', [ 'users', 'user_id', 'page_by' ] ], array_merge( prepare_values( $data, 'page_' ), [ 'user_name' ] ) );
     }
 
-    function get_page(): array {
-        // TODO: Returns Page Content Array
-        return [];
+    function _page( string|int $id_url ): array {
+        $return = [];
+        if( !empty( $id_url ) ) {
+            $db = new DB();
+            $page = is_numeric( $id_url ) ? $db->select( 'pages', '', "page_id = {$id_url}", 1 ) : $db->select( 'pages', '', "page_url= '{$id_url}'", 1 );
+            if( $page ) {
+                $return = $page;
+            }
+        }
+        return $return;
     }
 
     function categories(): void {
