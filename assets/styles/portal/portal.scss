@@ -664,18 +664,19 @@ article.fade > div {
   z-index:20;
   height: 50px;
   line-height: 50px;
+  justify-content: space-between;
   > div {
-    flex: 0 0 33.3333%;
+    //flex: 0 0 33.3333%;
     max-width: 33.3333%;
-    display: flex;
+    //display: flex;
   }
   > div:nth-child(2) {
-    align-items: center;
-    justify-content: center;
+    //align-items: center;
+    //justify-content: center;
   }
   > div:nth-child(3) {
-    align-items: center;
-    justify-content: flex-end;
+    //align-items: center;
+    //justify-content: flex-end;
   }
   /* .c {
     position: absolute;
@@ -684,15 +685,20 @@ article.fade > div {
     top: 0;
     display: flex;
   } */
-  .tabs {
+  .tabs, .views {
     display: flex;
-    a, div {
-      padding: 15px 10px;
+    > a, > div {
+      padding: 0 10px;
       display: block;
       position: relative;
       opacity: .3;
+      cursor: pointer;
+      height: 50px;
+      > div, > i {
+        line-height: 50px;
+      }
     }
-    a.on, div.on {
+    > a.on, > div.on {
       opacity: 1;
     }
     a.on:after, div.on:after {
@@ -706,10 +712,12 @@ article.fade > div {
       width: calc(100% - 20px);
     }
   }
+  .views {
+
+  }
   .title {
-    display: inline-block;
-    vertical-align: top;
-    font-size: 22px;
+    display: block;
+    font-size: 1.4rem;
     margin: 0 15px 0 40px;
     letter-spacing: 2px;
     font-weight: lighter;
@@ -759,12 +767,12 @@ article.fade > div {
   }
   .actions {
     display: flex;
-    position: absolute;
-    right:50%;
-    top:0;
-    height:100%;
-    transform:translateX(50%);
-    padding:12px;
+    //position: absolute;
+    //right:50%;
+    //top:0;
+    height: 50px;
+    //transform:translateX(50%);
+    //padding:12px;
     a {
       margin:0 15px;
       font-size: 1rem;

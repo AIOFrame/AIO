@@ -1223,13 +1223,26 @@ class FORM {
      * @param string|int $post Post Wrap HTML
      */
     function view_html( string $url = '', string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', string|int $pre = '', string|int $post = '' ): void {
+        echo $this->_view_html( $url, $html, $text, $class, $attr, $i_class, $pre, $post );
+    }
+
+    /**
+     * Returns HTML to view page
+     * @param string $url URL to visit
+     * @param string $html HTML either button or div or i
+     * @param string $text Text to display
+     * @param string $class Class
+     * @param string $attr Additional attributes
+     * @param string $i_class Applied class to i element and places before text
+     * @param string|int $pre Pre Wrap HTML or Bootstrap Column
+     * @param string|int $post Post Wrap HTML
+     */
+    function _view_html( string $url = '', string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', string|int $pre = '', string|int $post = '' ): string {
         $pre = $this->_pre( $pre );
         $post = $this->_post( $pre, $post );
-        //$post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
-        //$c = Encrypt::initiate();
         $i = !empty( $i_class ) ? '<i class="'.$i_class.'"></i>' : '';
         $title = str_contains( $attr, 'title' ) ? '' : 'title="'.T('View').'"';
-        echo $pre.'<'.$html.' data-href="'.$url.'" '.$title.' class="'.$class.'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$post;
+        return $pre.'<'.$html.' data-href="'.$url.'" '.$title.' class="'.$class.'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$post;
     }
 
     /**
@@ -1289,6 +1302,26 @@ class FORM {
      * @param string|int $post Post Wrap HTML
      */
     function trash_html( string $table, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', int $notify_time = 2, int $reload_time = 2, string $confirmation = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): void {
+        echo $this->_trash_html( $table, $logic, $html, $text, $class, $attr, $i_class, $notify_time, $reload_time, $confirmation, $i_text, $pre, $post );
+    }
+
+    /**
+     * Returns HTML to delete record from database
+     * @param string $table Table name
+     * @param string $logic Where column value equals to
+     * @param string $html HTML either button or div or i
+     * @param string $text Text to display
+     * @param string $class Class
+     * @param string $attr Additional attributes
+     * @param string $i_class Class for i element positioned before text
+     * @param int $notify_time Time to notify
+     * @param int $reload_time Time to Reload
+     * @param string $confirmation Text for confirmation
+     * @param string $i_text Text for i element
+     * @param string|int $pre Pre Wrap HTML or Bootstrap Column
+     * @param string|int $post Post Wrap HTML
+     */
+    function _trash_html( string $table, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', int $notify_time = 2, int $reload_time = 2, string $confirmation = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): string {
         $pre = $this->_pre( $pre );
         $post = $this->_post( $pre, $post );
         //$post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
@@ -1296,7 +1329,7 @@ class FORM {
         $i = !empty( $i_class ) || !empty( $i_text ) ? '<i class="'.$i_class.'">'.$i_text.'</i>' : '';
         $attr .= !empty( $confirmation ) ? ' data-confirm="'.T($confirmation).'"' : '';
         $title = str_contains( $attr, 'title' ) ? '' : 'title="'.T('Delete').'"';
-        echo $pre.'<'.$html.' onclick="trash_data(this,\''.$c->encrypt('trash_data_ajax').'\',\''.$c->encrypt($table).'\',\''.$c->encrypt($logic).'\','.$notify_time.','.$reload_time.')" class="'.$class.'" '.$title.' '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$post;
+        return $pre.'<'.$html.' onclick="trash_data(this,\''.$c->encrypt('trash_data_ajax').'\',\''.$c->encrypt($table).'\',\''.$c->encrypt($logic).'\','.$notify_time.','.$reload_time.')" class="'.$class.'" '.$title.' '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$post;
     }
 
     // TODO: disable_html() similar to trash_html()
