@@ -65,8 +65,7 @@ class CMS {
         $data = [ 'id', 'date', 'update', 'title', 'url', 'password', 'status', 'birth', 'expiry', 'by' ];
         $pages = $d->select( [ 'pages', [ 'users', 'user_id', 'page_by' ] ], array_merge( prepare_values( $data, 'page_' ), [ 'user_name' ] ) );
         if( empty( $pages ) ) {
-            no_content( 'No pages created yet!' );
-            exit();
+            no_content( 'No pages created yet!', );
         } else {
             $c = new CODE();
             $f = new FORM();
