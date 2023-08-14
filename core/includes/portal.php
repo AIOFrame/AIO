@@ -418,11 +418,33 @@ class PORTAL {
         <?php
     }
 
-    function title_bar( string $title = '', string $back_url = '' ): void {
+    /**
+     * Renders HTMl for portal sub header / title bar
+     * @param string $title Page title
+     * @param string $back_url URL for back arrow if exist
+     * @param string $list_view ID of the element shows table list view of content
+     * @param string $grid_view ID of the element shows card / grid view of content
+     * @param array $actions
+     * @return void
+     */
+    function title_bar( string $title = '', string $back_url = '', string $list_view = '', string $grid_view = '', array $actions = [], ): void {
         echo '<div class="header">';
-        echo !empty( $back_url ) ? '<a class="mat-ico back" href="'.APPURL . $back_url.'">arrow_back</a>' : '';
-        echo !empty( $title ) ? '<h1 class="title">'.T($title).'</div>' : '';
-        echo '</div>';
+        echo !empty( $back_url ) ? ( defined( 'ICONS' ) ? ( str_contains( ICONS, 'Material' ) ? '<a class="mat-ico back" href="'.APPURL . $back_url.'">arrow_back</a>' : ( str_contains( ICONS, 'Bootstrap' ) ? '<a class="back" href="'.APPURL . $back_url.'"><i class="bi bi-arrow-90deg-left"></i></a>' : '' ) ) : '' ) : '';
+        echo !empty( $title ) ? '<h1 class="title">'.T($title).'</h1>' : '';
+        echo !empty( $list_view ) || !empty( $grid_view ) ? '<div class="views">' : '';
+        if( !empty( $list_view ) ){
+            echo '<div class="list_toggle" data-on=".list_toggle,'.$list_view.'" '.(!empty( $grid_view ) ? 'data-off=".grid_toggle,'.$grid_view.'"' : '').'>';
+            echo defined('ICONS') ? ( str_contains( ICONS, 'Material' ) ? '<div class="mat-ico">list</div>' : ( str_contains( ICONS, 'Bootstrap' ) ? '<i class="bi bi-list"></i>' : '' ) ) : '';
+            echo '</div>';
+        }
+        if( !empty( $grid_view ) ){
+            echo '<div class="grid_toggle" data-on=".grid_toggle,'.$grid_view.'" '.(!empty( $list_view ) ? 'data-off=".list_toggle,'.$list_view.'"' : '').'>';
+            echo defined('ICONS') ? ( str_contains( ICONS, 'Material' ) ? '<div class="mat-ico">grid_view</div>' : ( str_contains( ICONS, 'Bootstrap' ) ? '<i class="bi bi-grid-3x2"></i>' : '' ) ) : '';
+            echo '</div>';
+        }
+        echo !empty( $list_view ) || !empty( $grid_view ) ? '</div>' : '';
+        echo '<div class="actions">test';
+        echo '</div></div>';
     }
 }
 

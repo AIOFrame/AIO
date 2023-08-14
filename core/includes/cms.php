@@ -69,12 +69,12 @@ class CMS {
         } else {
             $c = new CODE();
             $f = new FORM();
-            if( $type == 'table' ) {
+            if( $type == 'tables' || $type == 'table' || $type == 'list' ) {
                 $table[] = [ 'head' => [ 'ID', 'Name', 'Date', 'Visibility', 'Status', 'User', 'Actions' ] ];
                 foreach( $pages as $p ) {
                     $table[]['body'] = [
                         $p['page_id'],
-                        $p['page_title'].'<div><small>'.$p['page_url'].'</small></div>',
+                        $p['page_title'].'<div><small>/'.$p['page_url'].'</small></div>',
                         easy_date($p['page_date']).'<div><small>'.T('Updated').': '.easy_date($p['page_update']).'</small></div>',
                         (!empty($p['page_birth'])?'<div><small>'.T('Visible from').': '.easy_date($p['page_birth']).'</small></div>':'').(!empty($p['page_expiry'])?'<div><small>'.T('Visible till').': '.easy_date($p['page_expiry']).'</small></div>':''),
                         $status[ $p['page_status'] ] ?? '',
@@ -82,11 +82,14 @@ class CMS {
                         $f->_edit_html( '#page_modal', $p, 'div', '', '', '', 'mat-ico', 'edit' )
                     ];
                 }
-                $c->table( $table, $wrapper_class );
-            } else if( $type == 'cards' ) {
-
+                $c->table_view( 'pages', $table, $wrapper_class );
+            } else if( $type == 'cards' || $type == 'card' ) {
+                $cards = '';
+                foreach( $pages as $p ) {
+                    $cards .= $c->_card( '4', 'br15', $p['page_title'], '', '/'.$p['page_url'], '', '', $status[ $p['page_status'] ] ?? '', '', [], [], '#page_modal', $p, 'pages', "page_id = {$p['page_id']}" );
+                }
+                $c->grid_view( 'pages', $cards, 4 );
             }
-            // TODO: Page Cards
         }
     }
 

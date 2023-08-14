@@ -1,4 +1,3 @@
-@charset "UTF-8";
 .aio_fsp.aio_files {
   border: 2px solid #eee;
   background: #eee;
@@ -34,7 +33,7 @@
 }
 
 .aio_upload:after {
-  content: "";
+  content: "\e9fc";
   position: absolute;
   right: 6px;
   top: 50%;
@@ -177,8 +176,8 @@
 }
 .banner_wrap .banner_bg:after {
   content: "";
-  background: black;
-  background: linear-gradient(0deg, black 0%, rgba(0, 0, 0, 0) 100%);
+  background: rgb(0, 0, 0);
+  background: linear-gradient(0deg, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%);
 }
 .banner_wrap .banner_image.l {
   background-position: left center;
@@ -274,7 +273,7 @@ button:after, .btn:after {
 body {
   background: #f3f3f3;
   margin: 120px 0 90px;
-  min-height: calc( 100vh - 210px);
+  min-height: calc(100vh - 210px);
 }
 
 .invoice_view {
@@ -640,6 +639,7 @@ article.fade > div {
   z-index: 20;
   height: 50px;
   line-height: 50px;
+  justify-content: space-between;
   /* .c {
     position: absolute;
     left: 50%;
@@ -649,31 +649,26 @@ article.fade > div {
   } */
 }
 .header > div {
-  flex: 0 0 33.3333%;
   max-width: 33.3333%;
+}
+.header .tabs, .header .views {
   display: flex;
 }
-.header > div:nth-child(2) {
-  align-items: center;
-  justify-content: center;
-}
-.header > div:nth-child(3) {
-  align-items: center;
-  justify-content: flex-end;
-}
-.header .tabs {
-  display: flex;
-}
-.header .tabs a, .header .tabs div {
-  padding: 15px 10px;
+.header .tabs > a, .header .tabs > div, .header .views > a, .header .views > div {
+  padding: 0 10px;
   display: block;
   position: relative;
   opacity: 0.3;
+  cursor: pointer;
+  height: 50px;
 }
-.header .tabs a.on, .header .tabs div.on {
+.header .tabs > a > div, .header .tabs > a > i, .header .tabs > div > div, .header .tabs > div > i, .header .views > a > div, .header .views > a > i, .header .views > div > div, .header .views > div > i {
+  line-height: 50px;
+}
+.header .tabs > a.on, .header .tabs > div.on, .header .views > a.on, .header .views > div.on {
   opacity: 1;
 }
-.header .tabs a.on:after, .header .tabs div.on:after {
+.header .tabs a.on:after, .header .tabs div.on:after, .header .views a.on:after, .header .views div.on:after {
   content: "";
   display: block;
   left: 10px;
@@ -684,9 +679,8 @@ article.fade > div {
   width: calc(100% - 20px);
 }
 .header .title {
-  display: inline-block;
-  vertical-align: top;
-  font-size: 22px;
+  display: block;
+  font-size: 1.4rem;
   margin: 0 15px 0 40px;
   letter-spacing: 2px;
   font-weight: lighter;
@@ -736,12 +730,7 @@ article.fade > div {
 }
 .header .actions {
   display: flex;
-  position: absolute;
-  right: 50%;
-  top: 0;
-  height: 100%;
-  transform: translateX(50%);
-  padding: 12px;
+  height: 50px;
 }
 .header .actions a {
   margin: 0 15px;
@@ -1076,28 +1065,28 @@ aside::-webkit-scrollbar {
   line-height: 45px;
 }
 .acts i.edit:after {
-  content: "";
+  content: "\e3c9";
 }
 .acts i.view:after {
-  content: "";
+  content: "\e8a0";
 }
 .acts i.delete:after, .acts i.trash:after {
-  content: "";
+  content: "\e872";
 }
 .acts i.inspect:after {
-  content: "";
+  content: "\ea9b";
 }
 .acts i.pay:after {
-  content: "";
+  content: "\ef63";
 }
 .acts i.map:after {
-  content: "";
+  content: "\e55f";
 }
 .acts i.up:after, .acts i.upload:after {
-  content: "";
+  content: "\f09b";
 }
 .acts i.down:after, .acts i.download:after {
-  content: "";
+  content: "\e2c4";
 }
 
 /* Tabs */
