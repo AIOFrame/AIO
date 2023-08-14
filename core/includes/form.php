@@ -158,13 +158,13 @@ class FORM {
      */
     function _select( string|array $identity = '', string $label = '', string $placeholder = '', array $options = [], string|null $selected = '', string $attr = '', string|float|int $pre = '', bool $keyed = false, bool $translate = false, string $post = '' ): string {
         $rand = rand( 0, 999999 );
-        $pre = $this->_pre( $pre );
-        $post = $this->_post( $pre, $post );
-        $post = empty( $post ) ? '</select>' : '</select>' . $post;
+        $_p = $this->_pre( $pre );
+        $p_ = $this->_post( $pre, $post );
+        $post = empty( $p_ ) ? '</select>' : '</select>' . $p_;
         $at = $attr !== '' ? ' '.$attr : '';
         $id = !empty( $identity ) ? ( is_array($identity) ? $identity[0] : $identity.'_'.$rand ) : '';
         $name = is_array( $identity ) ? $identity[1] : $identity;
-        $return = $pre;
+        $return = $_p;
         $label = !empty( $label ) ? T( $label ) : '';
         $req = str_contains( $attr, 'required' ) ? '<i>*</i>' : '';
         $return .= !empty( $label ) ? '<label for="'.$id.'">'. $label .$req.'</label>' : '';
@@ -223,8 +223,8 @@ class FORM {
     function _input( string $type, string|array $identity, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string|int|float $pre = '', string $post = '', string $name = '' ): string {
         $rand = rand( 0, 999999 );
         $type = $type == '' ? 'text' : $type;
-        $pre = $this->_pre( $pre );
-        $post = $this->_post( $pre, $post );
+        $_p = $this->_pre( $pre );
+        $p_ = $this->_post( $pre, $post );
         $ph = $placeholder !== '' ? ' placeholder="'.$placeholder.'"' : '';
         $name = is_array( $identity ) ? $identity[1] : $identity;
         $id = !empty( $identity ) ? ( is_array($identity) ? $identity[0] : $identity.'_'.$rand ) : '';
@@ -253,7 +253,7 @@ class FORM {
                 break;
         }
         $req = str_contains( $attrs, 'required' ) ? '<i>*</i>' : '';
-        return $pre . ( !empty( $label ) ? '<label for="'.$id.'">'.T($label).$req.'</label>' : '' ) . $input.$post;
+        return $_p . ( !empty( $label ) ? '<label for="'.$id.'">'.T($label).$req.'</label>' : '' ) . $input.$p_;
     }
 
     /**
@@ -448,16 +448,16 @@ class FORM {
         $rand = rand( 0, 99999 );
         $id = is_array( $key ) ? $key[0] : $key.'_'.$rand;
         $name = is_array( $key ) ? $key[1] : $key;
-        $pre = $this->_pre( $pre );
-        $post = $this->_post( $pre, $post );
+        $_p = $this->_pre( $pre );
+        $p_ = $this->_post( $pre, $post );
         $key = 'data-key="'.$name.'"';
         $tip = $label !== '' ? 'title="'.$label.'"' : '';
-        $return = $pre;
+        $return = $_p;
         $return .= !empty($label) ? '<label class="db">'.T( $label ).'</label>' : '';
         $return .= !empty( $off_text ) ? '<label for="' . $id . '" '.$tip.' class="slide_label off">' . $off_text . '</label>' : '';
         $return .= '<input ' . $attr . ' class="slide ' . $size . '" type="checkbox" name="' . $name . '" '.$key.' id="' . $id . '" '. $checked .' >';
         $return .= !empty( $on_text ) ? '<label for="' . $id . '" '.$tip.' class="slide_label on">' . $on_text . '</label>' : '';
-        $return .= $post;
+        $return .= $p_;
         return $return;
     }
 
@@ -758,25 +758,18 @@ class FORM {
             $id = is_array($identity) ? $identity[0] : $identity;
             $name = is_array($identity) ? $identity[1] : $identity;
             $valued = is_assoc( $values ); $x = 0;
-            $pre = $this->_pre( $pre );
-            $post = $this->_post( $pre, $post );
+            $_p = $this->_pre( $pre );
+            $p_ = $this->_post( $pre, $post );
             $wrap_inputs_pre = !empty( $inputs_wrap ) ? '<div class="'.$inputs_wrap.'">' : '';
             $wrap_inputs_post = !empty( $inputs_wrap ) ? '</div>' : '';
-            if( is_numeric( $inputs_pre ) ) {
-                $inputs_pre = $inputs_pre == 0 ? '<div class="col">' : '<div class="col-12 col-md-'.$inputs_pre.'">';
-                $inputs_post = '</div>';
-                $wrap_inputs_pre = '<div class="row '.$inputs_wrap.'">';
-                $wrap_inputs_post = '</div>';
-            } else if( str_contains( $inputs_pre, '.' ) ) {
-                $inputs_pre = '<div class="'.str_replace('.','',$inputs_pre).'">';
-                $inputs_post = '</div>';
-            }
+            $_ip = $this->_pre( $inputs_pre );
+            $ip_ = $this->_post( $inputs_pre, $inputs_post );
             $key = 'data-key="'.$name.'"';
             if( $type !== 'type="radio"' && strpos( $attr, 'data-array') !== false ) {
                 $name = $name . '[]';
             }
             $uq = rand(1,999);
-            $return .= $pre;
+            $return .= $_p;
             $label = !empty( $label ) ? T( $label ) : '';
             $req = str_contains( $attr, 'required' ) ? '<i>*</i>' : '';
             $return .= !empty($label) ? '<label class="db">'. $label .$req.'</label>' : '';
@@ -789,9 +782,9 @@ class FORM {
                     $checked = is_array( $checked ) ? $checked : explode(',',$checked);
                     $c = in_array( $value, $checked ) ? 'checked' : '';
                     if ($label_first) {
-                        $return .= $inputs_pre . '<label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . $req . '</label><input ' . $tip . $attr . ' ' . $type . ' name="' . $name . '" '.$key.' id="' . $k . '" value="' . $value . '" '. $c .' >' . $inputs_post;
+                        $return .= $_ip . '<label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . $req . '</label><input ' . $tip . $attr . ' ' . $type . ' name="' . $name . '" '.$key.' id="' . $k . '" value="' . $value . '" '. $c .' >' . $ip_;
                     } else {
-                        $return .= $inputs_pre . '<input ' . $tip . $attr . ' ' . $type . ' name="' . $name . '" '.$key.' id="' . $k . '" value="' . $value . '" '. $c .' ><label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . $req . '</label>' . $inputs_post;
+                        $return .= $_ip . '<input ' . $tip . $attr . ' ' . $type . ' name="' . $name . '" '.$key.' id="' . $k . '" value="' . $value . '" '. $c .' ><label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . $req . '</label>' . $ip_;
                     }
                     $x++;
                 }
@@ -805,15 +798,15 @@ class FORM {
                     $checked = is_array( $checked ) ? $checked : explode(',',$checked);
                     $c = in_array( $value, $checked ) ? 'checked' : '';
                     if ($label_first) {
-                        $return .= $inputs_pre . '<label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . '</label><input ' . $tip . $attr . ' ' . $type . ' ' . $data . ' data-key="'.$name.'" name="' . $name . '" id="' . $k . '" value="' . $value . '" '.$c.'>' . $inputs_post;
+                        $return .= $_ip . '<label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . '</label><input ' . $tip . $attr . ' ' . $type . ' ' . $data . ' data-key="'.$name.'" name="' . $name . '" id="' . $k . '" value="' . $value . '" '.$c.'>' . $ip_;
                     } else {
-                        $return .= $inputs_pre . '<input ' . $tip . $attr . ' ' . $type . ' name="' . $name . '" data-key="'.$name.'" id="' . $k . '" value="' . $value . '" ' . $data . ' '.$c.'><label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . '</label>' . $inputs_post;
+                        $return .= $_ip . '<input ' . $tip . $attr . ' ' . $type . ' name="' . $name . '" data-key="'.$name.'" id="' . $k . '" value="' . $value . '" ' . $data . ' '.$c.'><label for="' . $k . '" '.$tip.' class="' . $name . '_' . $value . '">' . $title . '</label>' . $ip_;
                     }
                     $x++;
                 }
             }
             $return .= $wrap_inputs_post;
-            $return .= $post;
+            $return .= $p_;
             /* if (is_assoc( $d )) {
                 foreach ($d as $k => $t) {
                     echo $before . '<label for="cb_' . $k . '" ><input ' . $attrs . '  id="cb_' . $k . '" type="' . $tp . '" value="' . $k . '" ' . (in_array($k, $s) ? "checked" : "") . '>' . $t . '</label>' . $after;
@@ -871,8 +864,8 @@ class FORM {
         $rand = rand( 0, 99999 );
         $id = $identity.'_'.$rand; // is_array($identity) ? $identity[0] : $identity;
         $name = $identity; // is_array($identity) ? $identity[1] : $identity;
-        $pre = $this->_pre( $pre );
-        $post = $this->_post( $pre, $post );
+        $_p = $this->_pre( $pre );
+        $p_ = $this->_post( $pre, $post );
         $sh = $show_history ? ' data-history' : '';
         $ext = $extensions !== '' ? ' data-exts="'.$extensions.'"' : '';
         $sz = $size !== '' ? ' data-size="'.$size.'"' : '';
@@ -883,7 +876,7 @@ class FORM {
         $mul = $multiple > 0 ? ' data-files="'.$multiple.'" ' : ' data-file ';
         $req = str_contains( $attrs, 'required' ) ? '<i>*</i>' : '';
         $label = !empty( $label ) ? '<label for="'.$id.'">'.T($label).$req.'</label>' : '';
-        return $pre.$label.'<button type="button" class="aio_upload '.$button_class.'" data-url="#'.$id.'" onclick="file_upload(this)" '.$sh.$ext.$sz.$mul.$del.$pat.'>'.T($button_label).'</button><input id="'.$id.'" name="'.$name.'" data-key="'.$name.'" type="text" data-'.$type.' value="'.$value.'" '.$attrs.'>'.$post;
+        return $_p.$label.'<button type="button" class="aio_upload '.$button_class.'" data-url="#'.$id.'" onclick="file_upload(this)" '.$sh.$ext.$sz.$mul.$del.$pat.'>'.T($button_label).'</button><input id="'.$id.'" name="'.$name.'" data-key="'.$name.'" type="text" data-'.$type.' value="'.$value.'" '.$attrs.'>'.$p_;
     }
 
     /**
@@ -911,13 +904,13 @@ class FORM {
      */
     function _code( string|array $id, string $label = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', string $post = '' ): string {
         $return = '<script>ace.config.set("basePath", "'. APPURL . 'assets/ext/ace/" );</script>';
-        $pre = $this->_pre( $pre );
-        $post = $this->_post( $pre, $post );
-        $return .= $pre;
+        $_p = $this->_pre( $pre );
+        $p_ = $this->_post( $pre, $post );
+        $return .= $_p;
         $return .= $this->_input( 'textarea', $id, $label, $value, '', $attrs . ' style="display:none !important"' );
         $return .= '<div id="'.$id.'_code" style="min-height: 200px"></div>';
-        $return .= '<script>$(document).ready(function(){ let {$id}_code = ace.edit("{$id}_code");{$id}_code.session.setMode("ace/mode/html");{$id}_code.session.setValue($("[data-key="{$id}]").val(),-1);{$id}_code.session.on("change", function(d) {$("[data-key={$id}]").val({$id}_code.getValue());});});</script>';
-        $return .= $post;
+        $return .= "<script>$(document).ready(function(){ let dk = $('[data-key={$id}]'); let {$id}_code = ace.edit('{$id}_code');{$id}_code.session.setMode('ace/mode/html');{$id}_code.session.setValue($('[data-key=\"{$id}\"]').val(),-1);{$id}_code.session.on('change', function(d) {dk.val({$id}_code.getValue())});});</script>"; // $('[data-key=\"{$id}]\"').val();
+        $return .= $p_;
         return $return;
     }
 
@@ -933,9 +926,9 @@ class FORM {
     function richtext( string|array $id, string $label = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', string $post = '' ): void {
         get_style('https://cdn.jsdelivr.net/npm/trumbowyg/dist/ui/trumbowyg.min.css');
         get_script('https://cdn.jsdelivr.net/npm/trumbowyg/dist/trumbowyg.min.js');
-        $pre = $this->_pre( $pre );
-        $post = $this->_post( $pre, $post );
-        echo $pre;
+        $_p = $this->_pre( $pre );
+        $p_ = $this->_post( $pre, $post );
+        echo $_p;
         //echo '<div id="'.$id.'_rte"><div>';
         $this->input( 'textarea', $id, $label, '', $value, $attrs );
         ?>
@@ -947,7 +940,7 @@ class FORM {
             });
         </script>
         <?php
-        echo $post;
+        echo $p_;
     }
 
     /**
@@ -980,11 +973,11 @@ class FORM {
      * @param string $remove If needed to remove, provide keys separated by ,
      * @author Shaikh <hey@shaikh.dev>
      */
-    function editable_data( array $data = [], string $remove = '' ) {
+    function editable_data( array $data = [], string $remove = '' ): void {
         echo $this->_editable_data( $data, $remove );
     }
 
-    function delete_data( string $table, string $logic ) {
+    function delete_data( string $table, string $logic ): void {
         $c = Encrypt::initiate();
         echo ' onclick="trash_data(\''.$c->encrypt('trash_data_ajax').'\',\''.$c->encrypt( $table ).'\',\''.$c->encrypt( $logic ).'\')"';
     }
@@ -994,7 +987,7 @@ class FORM {
      * @param string $attr
      * @param string $target Database name if the data is supposed to store directly to db or ajax function name with _ajax at the end
      * @param string $data Data attribute of inputs to gather data
-     * @param string|float|int $pre Pre-wrap string for database table columns
+     * @param string $pre Pre-wrap string for database table columns
      * @param int $notify Notification Time in Seconds
      * @param int $reload Reload in Seconds
      * @param array $hidden Hidden data for Database
@@ -1005,7 +998,7 @@ class FORM {
      * @param string $validator Frontend JS script to add custom validation to the form data
      * @param string $reset_fields Reset input fields with data attribute (Tip: Use 1 to reset provided data fields)
      */
-    function pre_process( string $attr = '', string $target = '', string $data = '', string|float|int $pre = '', int $notify = 0, int $reload = 0, array $hidden = [], string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '' ): void {
+    function pre_process( string $attr = '', string $target = '', string $data = '', string $pre = '', int $notify = 0, int $reload = 0, array $hidden = [], string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '' ): void {
         echo $this->_pre_process( $attr, $target, $data, $pre, $notify, $reload, $hidden, $success_alert, $callback, $confirm, $redirect, $validator, $reset_fields );
     }
 
@@ -1014,7 +1007,7 @@ class FORM {
      * @param string $target Database name if the data is supposed to store directly to db or ajax function name with _ajax at the end
      * @param string $data Data attribute of inputs to gather data
      * @param array $hidden Hidden data for Database
-     * @param string|float|int $pre Pre-wrap string for database table columns
+     * @param string $pre Pre-wrap string for database table columns
      * @param int $notify Notification Time in Seconds
      * @param int $reload Reload in Seconds
      * @param string $success_alert Text to notify upon successfully storing data
@@ -1025,7 +1018,7 @@ class FORM {
      * @param string $reset_fields Reset input fields with data attribute (Tip: Use 1 to reset provided data fields)
      * @return string
      */
-    function _pre_process( string $attr = '', string $target = '', string $data = '', string|float|int $pre = '', int $notify = 0, int $reload = 0, array $hidden = [], string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '' ): string {
+    function _pre_process( string $attr = '', string $target = '', string $data = '', string $pre = '', int $notify = 0, int $reload = 0, array $hidden = [], string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '' ): string {
         $c = Encrypt::initiate();
         $r = !empty( $attr ) ? '<div '.$attr.' ' : '';
         if( APPDEBUG ) {
@@ -1174,19 +1167,13 @@ class FORM {
      * @param string $confirm Message to show as confirmation before process
      */
     function _process_trigger( string $text = '', string $class = '', string $attr = '', string $action = '', string|int $pre = '', int|string $post = '', string $element = 'button', string $confirm = '' ): string {
-        if( is_numeric( $pre ) ){
-            $pre = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-lg-'.$pre.'">';
-        }  else if( str_contains( $pre, '.' ) ) {
-            $pre = '<div class="'.str_replace('.','',$pre).'">';
-        } else if( empty( $pre ) ) {
-            $pre = '<div class="tac">';
-        }
-        $post = !empty( $post ) ? $post : '</div>';
+        $_p = $this->_pre( $pre );
+        $p_ = $this->_post( $pre, $post );
         $c = Encrypt::initiate();
         //$action = empty( $action ) ? 'process_data_ajax' : $action;
         $a = !empty( $action ) ? ' data-action="'. ( APPDEBUG ? $action : $c->encrypt($action) ) .'"' : '';
         $click = $confirm !== '' ? ' onclick="if(confirm(\''.T($confirm).'\')){process_data(this)}else{event.stopPropagation();event.preventDefault();}"' : ' onclick="process_data(this)"';
-        return $pre.'<'.$element.$click.$a.' class="'.$class.'" '.$attr.'><span class="loader"></span>'.T( $text ).'</'.$element.'>'.$post;
+        return $_p.'<'.$element.$click.$a.' class="'.$class.'" '.$attr.'><span class="loader"></span>'.T( $text ).'</'.$element.'>'.$p_;
     }
 
     function post_process(): void {
@@ -1238,11 +1225,11 @@ class FORM {
      * @param string|int $post Post Wrap HTML
      */
     function _view_html( string $url = '', string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', string|int $pre = '', string|int $post = '' ): string {
-        $pre = $this->_pre( $pre );
-        $post = $this->_post( $pre, $post );
+        $_p = $this->_pre( $pre );
+        $p_ = $this->_post( $pre, $post );
         $i = !empty( $i_class ) ? '<i class="'.$i_class.'"></i>' : '';
         $title = str_contains( $attr, 'title' ) ? '' : 'title="'.T('View').'"';
-        return $pre.'<'.$html.' data-href="'.$url.'" '.$title.' class="'.$class.'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$post;
+        return $_p.'<'.$html.' data-href="'.$url.'" '.$title.' class="'.$class.'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$p_;
     }
 
     /**
@@ -1277,12 +1264,12 @@ class FORM {
      */
     function _edit_html( string $element = '.modal', array $array = [], string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): string {
         //$c = Encrypt::initiate();
-        $pre = $this->_pre( $pre );
-        $post = $this->_post( $pre, $post );
+        $_p = $this->_pre( $pre );
+        $p_ = $this->_post( $pre, $post );
         //$post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
         $i = !empty( $i_class ) || !empty( $i_text ) ? '<i class="'.$i_class.'">'.$i_text.'</i>' : '';
         $title = str_contains( $attr, 'title' ) ? '' : 'title="'.T('Edit').'"';
-        return $pre.'<'.$html.' onclick="edit_data(this,\''.$element.'\')" data-data=\''.$this->_editable_data($array).'\' class="'.$class.'" '.$title.' '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$post;
+        return $_p.'<'.$html.' onclick="edit_data(this,\''.$element.'\')" data-data=\''.$this->_editable_data($array).'\' class="'.$class.'" '.$title.' '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$p_;
     }
 
     /**
@@ -1322,14 +1309,14 @@ class FORM {
      * @param string|int $post Post Wrap HTML
      */
     function _trash_html( string $table, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', int $notify_time = 2, int $reload_time = 2, string $confirmation = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): string {
-        $pre = $this->_pre( $pre );
-        $post = $this->_post( $pre, $post );
+        $_p = $this->_pre( $pre );
+        $p_ = $this->_post( $pre, $post );
         //$post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
         $c = Encrypt::initiate();
         $i = !empty( $i_class ) || !empty( $i_text ) ? '<i class="'.$i_class.'">'.$i_text.'</i>' : '';
         $attr .= !empty( $confirmation ) ? ' data-confirm="'.T($confirmation).'"' : '';
         $title = str_contains( $attr, 'title' ) ? '' : 'title="'.T('Delete').'"';
-        return $pre.'<'.$html.' onclick="trash_data(this,\''.$c->encrypt('trash_data_ajax').'\',\''.$c->encrypt($table).'\',\''.$c->encrypt($logic).'\','.$notify_time.','.$reload_time.')" class="'.$class.'" '.$title.' '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$post;
+        return $_p.'<'.$html.' onclick="trash_data(this,\''.$c->encrypt('trash_data_ajax').'\',\''.$c->encrypt($table).'\',\''.$c->encrypt($logic).'\','.$notify_time.','.$reload_time.')" class="'.$class.'" '.$title.' '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$p_;
     }
 
     // TODO: disable_html() similar to trash_html()
@@ -1352,13 +1339,13 @@ class FORM {
      * @param string|int $post Post Wrap HTML
      */
     function update_html( string $table, array $keys, array $values, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', int $notify_time = 2, int $reload_time = 2, string $confirmation = '', string|int $pre = '', string|int $post = '' ): void {
-        $pre = $this->_pre( $pre );
-        $post = $this->_post( $pre, $post );
+        $_p = $this->_pre( $pre );
+        $p_ = $this->_post( $pre, $post );
         //$post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
         $c = Encrypt::initiate();
         $i = !empty( $i_class ) ? '<i class="'.$i_class.'"></i>' : '';
         $attr .= !empty( $confirmation ) ? ' data-confirm="'.T($confirmation).'"' : '';
-        echo $pre.'<'.$html.' onclick="update_data(this,\''.$c->encrypt('update_data_ajax').'\',\''.$c->encrypt($table).'\',\''.$c->encrypt_array($keys).'\',\''.$c->encrypt_array($values).'\',\''.$c->encrypt($logic).'\','.$notify_time.','.$reload_time.')" class="'.$class.'" title="'.T('Update').'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$post;
+        echo $_p.'<'.$html.' onclick="update_data(this,\''.$c->encrypt('update_data_ajax').'\',\''.$c->encrypt($table).'\',\''.$c->encrypt_array($keys).'\',\''.$c->encrypt_array($values).'\',\''.$c->encrypt($logic).'\','.$notify_time.','.$reload_time.')" class="'.$class.'" title="'.T('Update').'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$p_;
     }
 
     function steps( array $steps = [], string $active = '', bool $translate = true ): void {

@@ -59,13 +59,13 @@ class CMS {
 
     }
 
-    function pages( string $type = 'table', string $wrapper_class = '' ): void {
+    function pages( string $type = 'table', string $wrapper_class = '', string|int $cols = 4 ): void {
         $d = new DB();
         $status = $this->page_statuses;
         $data = [ 'id', 'date', 'update', 'title', 'url', 'password', 'status', 'birth', 'expiry', 'by' ];
         $pages = $d->select( [ 'pages', [ 'users', 'user_id', 'page_by' ] ], array_merge( prepare_values( $data, 'page_' ), [ 'user_name' ] ) );
         if( empty( $pages ) ) {
-            no_content( 'No pages created yet!', );
+            no_content( 'No pages created yet!', '', $wrapper_class );
         } else {
             $c = new CODE();
             $f = new FORM();
@@ -88,7 +88,7 @@ class CMS {
                 foreach( $pages as $p ) {
                     $cards .= $c->_card( '4', 'br15', $p['page_title'], '', '/'.$p['page_url'], '', '', $status[ $p['page_status'] ] ?? '', '', [], [], '#page_modal', $p, 'pages', "page_id = {$p['page_id']}" );
                 }
-                $c->grid_view( 'pages', $cards, 4 );
+                $c->grid_view( 'pages', $cards, $wrapper_class, $cols );
             }
         }
     }

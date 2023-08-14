@@ -261,6 +261,7 @@
 .acts i {
   width: 45px;
   height: 45px;
+  line-height: 45px;
   display: block;
   transition: 0.6s;
 }

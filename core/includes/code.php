@@ -453,7 +453,7 @@ class CODE {
             $return .= $this->_table( [ 'body' => $data ], 'plain' );
         }
         if( !empty( $actions ) || ( !empty( $edit_data ) && !empty( $edit_modal ) ) || ( !empty( $delete_table ) && !empty( $delete_logic ) ) ) {
-            $return .= '<div class="actions">';
+            $return .= '<div class="acts">';
             if( !empty( $actions ) ) {
                 foreach( $actions as $act ) {
                     $return .= $f->_view_html( $act['url'] ?? '', $act['html'] ?? 'div', $act['title'] ?? ( $act['text'] ?? '' ), 'grad', '', $act['ico'] ?? '' );
@@ -463,7 +463,7 @@ class CODE {
                 $return .= $f->_edit_html( $edit_modal, $edit_data, 'div', '', 'grad', '', 'mat-ico', 'edit' );
             }
             if( !empty( $delete_table ) && !empty( $delete_logic ) ) {
-                $return .= $f->_trash_html( $delete_table, $delete_logic, 'div', '', 'grad', '', 'mat-ico', 2, 2, 'Are you sure to delete?', 'trash' );
+                $return .= $f->_trash_html( $delete_table, $delete_logic, 'div', '', 'grad', '', 'mat-ico', 2, 2, 'Are you sure to delete?', 'delete' );
             }
             $return .= '</div>';
         }
@@ -494,8 +494,8 @@ class CODE {
         echo $this->_card( $col, $class, $title, $link, $desc, $image, $image_class, $status, $status_class, $data, $actions, $edit_modal, $edit_data, $delete_table, $delete_logic );
     }
 
-    function grid_view( string $wrapper = '', string $content = '', string|int|float $col = '' ): void {
-        echo '<div id="'.$wrapper.'_grid_view" class="'.$wrapper.'" data-view="grid">';
+    function grid_view( string $wrapper = '', string $content = '', string $wrapper_class = '', string|int|float $col = '' ): void {
+        echo '<div id="'.$wrapper.'_grid_view" class="'.$wrapper_class.'" data-view="grid">';
         echo !empty( $col ) ? '<div class="row">' : '';
         echo $content;
         echo !empty( $col ) ? '</div>' : '';
