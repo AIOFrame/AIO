@@ -329,7 +329,7 @@ class CODE {
         $r = substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 8);
         $this->pre_modal( $title, $size );
         $f->pre_process( 'data-wrap', $target, $r, $pre, $notify, $reload, $hidden, $success_alert, $callback, $confirm, $redirect, $validator, $reset_fields );
-        $f->form( $fields, 'div', $r );
+        $f->form( $fields, 'row', $r );
         $f->process_trigger( !empty( $submit_text ) ? $submit_text : 'Save '.$title, 'mb0' );
         $f->post_process();
         $this->post_modal();

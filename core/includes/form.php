@@ -602,9 +602,11 @@ class FORM {
     function _phone( string $code_id, string $phone_id, string $code_label = 'Code', string $phone_label = 'Phone', string $code_placeholder = '', string $phone_placeholder = '', string $code_default = '', string $phone_default = '', string $attr = '', string|float|int $pre = '', string $post = '' ): string {
         $codes = get_calling_codes();
         $return = $this->_pre( $pre );
+        $return .= '<div class="row">';
         $return .= $this->_select2( $code_id, $code_label, $code_placeholder, $codes, $code_default, $attr, 5, 1, $post );
         $return .= $this->_text( $phone_id, $phone_label, $phone_placeholder, $phone_default, $attr, 7, $post );
-        $return .= '</div></div>';
+        $return .= '</div>';
+        $return .= $this->_post( $pre, $post );
         return $return;
     }
 
@@ -1130,13 +1132,13 @@ class FORM {
         //skel( $h );
     }
 
-    function option_params_wrap( string $attr = '', string $data = '', int $notify = 0, int $reload = 0, array|string $autoload = [], array|string $unique = [], array|string $encrypt = [], string $success_text = 'Successfully Updated Preferences!', string $callback = '', string $confirm = '' ): void {
+    function option_params_wrap( string $data = '', int $notify = 0, int $reload = 0, array|string $autoload = [], array|string $unique = [], array|string $encrypt = [], string $success_text = 'Successfully Updated Preferences!', string $callback = '', string $confirm = '' ): void {
         $h = [];
         !empty( $autoload ) ? $h['autoload'] = $autoload : '';
         !empty( $unique ) ? $h['unique'] = $unique : '';
         !empty( $encrypt ) ? $h['encrypt'] = $encrypt : '';
         //echo '<div class="row"';
-        $this->pre_process( $attr, '', $data, '', $notify, $reload, $h, $success_text, $callback, $confirm, '', '', '', 'row' );
+        $this->pre_process( 'class="row"', '', $data, '', $notify, $reload, $h, $success_text, $callback, $confirm, '', '', '', 'row' );
         //echo '>';
     }
 
