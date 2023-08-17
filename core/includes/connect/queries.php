@@ -1,4 +1,6 @@
 <?php
+// TODO: Generic error messages, Data Missing, Data Insert Failure, Other Failure
+
 
 // Load Default Options
 global $options;
@@ -17,6 +19,8 @@ if( isset( $options['app_name'] ) && !empty( $options['app_name'] ) ) {
 }
 
 class DB {
+
+    public array $responses = [ 0 => 'Failed to store data to database' ];
 
     function connect() {
 
