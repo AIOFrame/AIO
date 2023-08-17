@@ -1,5 +1,4 @@
 <?php
-// TODO: Generic error messages, Data Missing, Data Insert Failure, Other Failure
 // TODO: Fix auto load not saving issue
 global $options;
 //skel( $options );
@@ -372,6 +371,24 @@ class OPTIONS {
         }
         $f->process_options('Save Options','store grad','','.col-12 tac');
         echo '</div>';
+    }
+
+    function all_options( string $table_class = '' ): void {
+        $d = new DB();
+        $f = new FORM();
+        $c = new CODE();
+        $options = $d->select( 'options' );
+        $table[] = [ 'head' => [ 'ID', 'Key', 'Value', 'Scope', 'Autoload' ] ];
+        foreach( $options as $o ) {
+            $table[] = [ 'body' => [
+                $o['option_id'],
+                $f->_text( 'option_name_'.$o['option_id'], '', '', $o['option_name'], 'data-ao' ),
+                $f->_text( 'option_value'.$o['option_id'], '', '', $o['option_value'], 'data-ao' ),
+                $f->_text( 'option_scope'.$o['option_id'], '', '', $o['option_scope'], 'data-ao' ),
+                $f->_slide( 'option_load'.$o['option_id'], '', '', '', $o['option_load'], 'data-ao' ),
+            ] ];
+        }
+        $c->table( $table, $table_class );
     }
 
     /**

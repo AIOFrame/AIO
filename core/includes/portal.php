@@ -424,6 +424,7 @@ class PORTAL {
      * @param string $back_url URL for back arrow if exist
      * @param string $list_view ID of the element shows table list view of content
      * @param string $grid_view ID of the element shows card / grid view of content
+     * @param string $active_view
      * @param array $actions
      * @return void
      */
