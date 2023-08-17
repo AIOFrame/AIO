@@ -1099,6 +1099,16 @@ class FORM {
                 $place_2 = $f['place2'] ?? ($f['placeholder2'] ?? ( $f['p2'] ??= $label));
                 $val_2 = $f['value2'] ?? ( $f['va2'] ?? ( $f['v2'] ?? ( $_POST[$id_2] ?? ( $_GET[$id_2] ?? '' ) ) ) );
                 $return .= $this->_phone( $id, $id_2, $label, $label_2, $place, $place_2, $val, $val_2, $attrs, $pre, $post );
+            } else if( $type == 'upload' ) {
+                $btn_label = $f['btn_label'] ?? ( $label ?? 'Upload...' );
+                $multiple = $f['multiple'] ?? ( $f['m'] ?? 0 );
+                $history = $f['history'] ?? ( $f['h'] ?? 0 );
+                $btn_class = $f['btn_class'] ?? ( $f['h'] ?? 0 );
+                $exts = $f['extensions'] ?? ( $f['exts'] ?? ( $f['ex'] ?? ( $f['e'] ?? '' ) ) );
+                $size = $f['size'] ?? ( $f['s'] ?? '.2' );
+                $deletable = $f['deletable'] ?? ( $f['delete'] ?? ( $f['del'] ?? ( $f['d'] ?? 0 ) ) );
+                $path = $f['path'] ?? '';
+                $return .= $this->_upload( $id, $label, $btn_label, $val, $multiple, $history, $btn_class, $attrs, $exts, $size, $deletable, $path, $pre, $post );
             } else {
                 //skel( $pre );
                 //skel( !empty( $pre ) && empty( $f['post'] ) );
