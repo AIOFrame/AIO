@@ -97,7 +97,6 @@ select {
 .setup label:not(.slide_label) {
   text-transform: none;
   font-weight: bold;
-  display: block;
   cursor: pointer;
   position: relative;
   color: #000;

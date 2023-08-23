@@ -35,9 +35,7 @@ $form = new FORM();
                         <h3><?php E('Basic Configuration'); ?></h3>
                     </div>
                     <div class="data">
-                        <div class="row">
-                            <?php get_comp('builder/one') ?>
-                        </div>
+                        <?php get_comp('builder/one') ?>
                     </div>
                 </div>
                 <nav>
@@ -47,8 +45,8 @@ $form = new FORM();
             <div class="setup two">
                 <div class="content">
                     <div class="head">
-                        <h2>STEP 2 OF 5</h2>
-                        <h3>UI & UX</h3>
+                        <h2><?php E('STEP 2 OF 5'); ?></h2>
+                        <h3><?php E('UI & UX'); ?></h3>
                     </div>
                     <div class="data">
                         <div class="q">
@@ -429,7 +427,4 @@ return [
             fclose( $con );
         }
         echo '<p>Setup Complete :)</p><br/><form method="post"><button>Reload</button></form>';*/
-    ?>
-</body>
-<?php get_scripts(['select2','smooth-scrollbar','iro','basics','aio','setup']); ?>
-</html>
+get_comp('builder/foot');

@@ -9,7 +9,7 @@ $(document).ready(function () {
     Scrollbar.init(document.querySelector('.setup.on .data'));
     $('.n').on('click',function(){
         if( $(this).parents('.setup').hasClass('one') ) {
-             if( sempty( '#name' ) || sempty( '#key' ) ) {
+             if( is_empty( '#name' ) || is_empty( '#key' ) ) {
                  //return;
              }
         }

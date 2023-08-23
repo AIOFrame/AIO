@@ -152,7 +152,8 @@ class CODE {
     function post_html( string|array $scripts = [], string $alert_position = 'top right' ): void {
         echo '<div class="'.$alert_position.'" data-alerts></div>';
         get_scripts( $scripts );
-        get_script( PAGEPATH );
+        if( defined( 'PAGEPATH' ) )
+            get_script( PAGEPATH );
         echo '</body></html>';
     }
 
