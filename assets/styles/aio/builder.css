@@ -246,35 +246,12 @@ ul.select2-results__options .select2-results__option--selected {
 
 /* RESPONSIVE */
 /* DARK */
-body.d article {
-  border: 0;
-}
-body.d input, body.d button, body.d textarea {
-  border: 0;
-  border-bottom: 1px solid #666;
-}
 body.d .setup label i.tip {
   background-color: black;
   color: white;
 }
-body.d input[type=text], body.d input[type=number] {
-  border-bottom: 1px solid #222;
-}
-body.d input[type=text]:focus, body.d input[type=number]:focus {
-  border-bottom: 1px solid #666;
-}
 body.d ul.select2-results__options li {
   background: #444;
-  border: 1px solid #555;
-}
-body.d aside > div.on {
-  border: 1px solid #444;
-}
-body.d nav .p {
-  background: url("../../icons/w/prev.svg") no-repeat center/contain;
-}
-body.d nav .n {
-  background: url("../../icons/w/next.svg") no-repeat center/contain;
 }
 
 /*# sourceMappingURL=builder.css.map */
