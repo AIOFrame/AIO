@@ -106,7 +106,7 @@ class CODE {
             reset_styles( $font1, $weight );
         }
         // Icon Fonts
-        if( is_array( $icon_fonts ) ) {
+        if( !empty( $icon_fonts ) && is_array( $icon_fonts ) ) {
             foreach( $icon_fonts as $if ) {
                 $fonts[ $if ] = '';
             }

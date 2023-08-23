@@ -1,3 +1,13 @@
+/* DEFINE VARS */
+
+:root {
+  --input_radius: 0;
+  --input_border_top: 0;
+  --input_border_right: 0;
+  --input_border_bottom: 2px;
+  --input_border_left: 0;
+}
+
 /* LAYOUT */
 
 article {
@@ -32,19 +42,16 @@ nav {
 /* BASICS */
 
 input[type=text], [type=number] {
-  border:0;
-  border-bottom:1px solid #ddd;
   box-shadow:none;
   font-size: 22px;
   padding:12px 0;
   font-weight: 100;
 }
 input.empty {
-  border-bottom:1px solid firebrick;
+  //border-bottom:1px solid firebrick;
 }
 input[type=text]:focus, [type=number]:focus {
   transition:.9s;
-  border-bottom:1px solid #000;
 }
 .row > div {
   margin-bottom: 35px;
@@ -155,6 +162,7 @@ select {
   height: auto;
   transform: none;
   overflow-y: visible;
+  pointer-events: all;
   nav {
     opacity: 1;
     pointer-events: all;

@@ -1,10 +1,5 @@
 <?php
-$includes = ['arrays','encrypt','form','content','translation/strings','data','setup'];
-foreach( $includes as $inc )
-    include_once( ROOTPATH . 'core/includes/' . $inc . '.php' );
-$c = new CODE();
-$c->pre_html( '', '', 'bootstrap/css/bootstrap-grid,select2,aio', 'inputs,tabs,icons', 'builder,micro', 'jquery,select2', ['Lato','300,500'], ['Cairo','500'], 'MaterialIcons' );
-$appdir = !empty( get_domain('sub') ) ? get_domain( 'sub' ) : get_domain();
+get_comp('builder/head');
 $p = $_POST;
 $cry = Encrypt::initiate();
 $form = new FORM();
@@ -41,14 +36,7 @@ $form = new FORM();
                     </div>
                     <div class="data">
                         <div class="row">
-                            <?php
-                            $f = new FORM();
-                            $f->text('name','Name your Web App','Ex: Food Delivery, Events, CRM, '.ucfirst( $appdir ).' App, '.ucfirst( $appdir ).' etc.','','',12);
-                            $f->slide('force_ssl','Do you want to force SSL ?','Off','On',1,'','',4);
-                            $f->slide('debug','Do you prefer debug mode ?','Off','On',1,'','',4);
-                            $f->slide('git_ignore','Create a default .gitignore ?','Off','On',1,'','',4);
-                            $f->text('name','Set a key for basic encryption','Ex: AwesomeApp etc.','','',12);
-                            ?>
+                            <?php get_comp('builder/one') ?>
                         </div>
                     </div>
                 </div>

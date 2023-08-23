@@ -1,3 +1,12 @@
+/* DEFINE VARS */
+:root {
+  --input_radius: 0;
+  --input_border_top: 0;
+  --input_border_right: 0;
+  --input_border_bottom: 2px;
+  --input_border_left: 0;
+}
+
 /* LAYOUT */
 article {
   margin: 20px 100px;
@@ -31,21 +40,14 @@ nav > div .mat-ico {
 
 /* BASICS */
 input[type=text], [type=number] {
-  border: 0;
-  border-bottom: 1px solid #ddd;
   box-shadow: none;
   font-size: 22px;
   padding: 12px 0;
   font-weight: 100;
 }
 
-input.empty {
-  border-bottom: 1px solid firebrick;
-}
-
 input[type=text]:focus, [type=number]:focus {
   transition: 0.9s;
-  border-bottom: 1px solid #000;
 }
 
 .row > div {
@@ -155,6 +157,7 @@ select {
   height: auto;
   transform: none;
   overflow-y: visible;
+  pointer-events: all;
 }
 .setup.on nav {
   opacity: 1;
