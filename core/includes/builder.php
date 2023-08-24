@@ -1,16 +1,68 @@
 <?php
 $r = substr(md5(microtime()),rand(0,26),15);
+$cache_ops = [ 0 => 'Don\'t Cache', 1 => '1 Minute', 5 => '5 Minutes', 10 => '10 Minutes', 15 => '15 Minutes', 20 => '20 Minutes', 30 => '30 Minutes', 60 => '1 Hour', 120 => '2 Hours', 360 => '6 Hours', 1440 => '1 Day', 2880 => '2 Days', 10080 => '1 Week', 42000 => '1 Month' ];
+$font_ops = '';
+$weights = [ 'Hairline' => 100, 'Thin' => 100, 'ExtraLight' => 200, 'Light' => 300, 'Regular' => 400, 'Medium' => 500, 'SemiBold' => 600, 'Bold' => 700, 'Heavy' => 700, 'ExtraBold' => 800, 'Black' => 900 ];
+foreach( glob( ROOTPATH . '/assets/fonts/*', GLOB_ONLYDIR ) as $f ){
+    $fn = str_replace( ROOTPATH . '/assets/fonts/', '', $f );
+    $font_ops .= '<optgroup label="'.$fn.'">';
+    $ws = [];
+    foreach( glob( $f . '/*.ttf' ) as $fw ){
+        $fwn = str_replace( ROOTPATH . '/assets/fonts/' . $fn . '/', '', $fw );
+        $fwn = str_replace( $fn . '-', '', $fwn );
+        $fwn = str_replace( '.ttf', '', $fwn );
+        $font_ops .= '<option value="'.$fn.'_'.$weights[$fwn].'">'.$fwn.'</option>';
+    }
+    $font_ops .= '</optgroup>';
+}
+$arts = [ 'a11y', 'accordion', 'alerts', 'buttons', 'cards', 'icons', 'inputs', 'modal', 'sizes', 'table', 'tabs', 'tips' ];
+$int_ops = [
+    'a11y' => 'AIO A11y <small>Accessibility scripts</small>',
+    'ui_reset' => 'AIO Reset CSS <small>Stylesheet that has custom reset css to begin with</small>',
+    'ux_core' => 'AIO Core JS  <small>Scripts for user experience, like hide show div etc.</small>',
+    'fps' => 'AIO Full Page JS <small>Full page scrolling script</small>',
+    'ui_micro' => 'AIO Micro CSS <small>Minified css tags, micro css over-writes, ex: add class dn for display:none</small>',
+];
+$ext_ops = [
+    'bootstrap'=>'Bootstrap',
+    'bootstrap_grid'=>'Bootstrap Grid',
+    'select2'=>'Select 2',
+    'datepicker'=>'Air Datepicker',
+    'chart'=>'Chart JS',
+    'jquery'=>'jQuery',
+    'jquery_ui'=>'jQuery UI',
+    'clipboard'=>'Clipboard JS',
+    'moment'=>'Moment JS',
+    'tilt'=>'Tilt JS',
+    'bot_ui'=>'Bot UI JS',
+];
+
+// Steps Data
 global $steps;
 $steps = [
     [ 'title' => 'Basic Configuration', 'fields' => [
-        [ 'i' => 'name', 'n' => 'Name your Web App', 'p' => 'Ex: Food Delivery, Events, CRM, '.ucfirst( APPDIR ).' App, '.ucfirst( APPDIR ).' etc.', 'c' => 12 ],
+        [ 'i' => 'name', 'n' => 'Name your Web App', 'p' => 'Ex: Food Delivery, Events, CRM, '.ucfirst( APPDIR ).' App, '.ucfirst( APPDIR ).' etc.', 'v' => APPDIR, 'c' => 12, 'a' => 'required' ],
         [ 't' => 'slide', 'i' => 'force_ssl', 'n' => 'Do you want to force SSL ?', 'off' => 'No', 'on' => 'Yes', 'v' => 1, 'c' => 6 ],
         [ 't' => 'slide', 'i' => 'debug', 'n' => 'Do you prefer debug mode ?', 'off' => 'No', 'on' => 'Yes', 'v' => 1, 'c' => 6 ],
         [ 't' => 'slide', 'i' => 'git_ignore', 'n' => 'Create a default .gitignore ?', 'off' => 'No', 'on' => 'Yes', 'v' => 1, 'c' => 6 ],
-        [ 'i' => 'key', 'n' => 'Set a key for basic encryption', 'p' => 'Ex: '.$r, 'c' => 6 ],
+        [ 'i' => 'key', 'n' => 'Set a key for basic encryption', 'p' => 'Ex: '.$r, 'v' => $r, 'c' => 6, 'a' => 'required' ],
+        [ 'i' => 'log', 'n' => 'Error log page path', 'p' => 'Ex: /log', 'v' => '/log', 'c' => 6, 'a' => 'required' ],
     ] ],
     [ 'title' => 'UI & UX', 'fields' => [
-
+        [ 't' => 'select2', 'i' => 'cache', 'n' => 'Cache styles & scripts', 'o' => $cache_ops, 'c' => 4, 'a' => 'required' ],
+        [ 't' => 'select2', 'i' => 'fonts', 'n' => 'Select fonts & weights', 'o' => $font_ops, 'c' => 12, 'a' => 'required', 'm' => 1 ],
+        [ 't' => 'select2', 'i' => 'internal', 'n' => 'Choose AIO styles / scripts', 'o' => $int_ops, 'c' => 6, 'a' => 'required', 'm' => 1 ],
+        [ 't' => 'select2', 'i' => 'external', 'n' => 'Choose 3rd party styles / scripts', 'o' => $ext_ops, 'c' => 6, 'a' => 'required', 'm' => 1 ],
+        [ 't' => 'color', 'i' => 'primary_color', 'n' => 'Primary color - Light', 'c' => 3, 'a' => 'required', 'view' => '[data-key=primary_color]' ],
+        [ 't' => 'color', 'i' => 'secondary_color', 'n' => 'Secondary color - Light', 'c' => 3, 'a' => 'required', 'view' => '[data-key=secondary_color]' ],
+        [ 't' => 'color', 'i' => 'primary_color_dark', 'n' => 'Primary color - Dark', 'c' => 3, 'a' => 'required', 'view' => '[data-key=primary_color_dark]' ],
+        [ 't' => 'color', 'i' => 'secondary_color_dark', 'n' => 'Secondary color - Dark', 'c' => 3, 'a' => 'required', 'view' => '[data-key=secondary_color_dark]' ],
+        [ 't' => 'color', 'i' => 'color_light', 'n' => 'Text color - Light', 'c' => 3, 'a' => 'required', 'view' => '[data-key=color_light]' ],
+        [ 't' => 'color', 'i' => 'filled_color_light', 'n' => 'Text color on theme - Light', 'c' => 3, 'a' => 'required', 'view' => '[data-key=filled_color_light]' ],
+        [ 't' => 'color', 'i' => 'color_dark', 'n' => 'Text color - Dark', 'c' => 3, 'a' => 'required', 'view' => '[data-key=color_dark]' ],
+        [ 't' => 'color', 'i' => 'filled_color_dark', 'n' => 'Text color on theme - Dark', 'c' => 3, 'a' => 'required', 'view' => '[data-key=filled_color_dark]' ],
+        [ 'i' => 'styles', 'n' => 'Create stylesheets', 'p' => 'Ex: users, contacts etc.', 'c' => 6 ],
+        [ 'i' => 'scripts', 'n' => 'Create scripts', 'p' => 'Ex: users, contacts etc.', 'c' => 6 ],
     ] ],
     [ 'title' => 'Database', 'fields' => [
 
@@ -32,7 +84,7 @@ function builder_step( int $step, array $data ): void {
     $array_step = $step - 1;
     $num = $nums[ $array_step ] ?? '';
     //skel( $steps );
-    echo '<div class="setup '.$num.' '.($step == 1 ? 'on': '').'"><div class="content"><div class="head"><h2>'.T('STEP '.$step.' of 5').'</h2><h3>'.T( $data['title'] ?? '' ).'</h3></div><div class="data">';
+    echo '<div class="setup '.$num.' '.($step == 1 ? 'on': '').'"><div class="content"><div class="head"><h2>'.T( $data['title'] ?? '' ).'</h2><h4>'.T('STEP '.$step.' of 5').'</h4></div><div class="data">';
     $f = new FORM();
     $f->form( $data['fields'] ?? [], 'row', 'setup '. $num );
     echo '</div></div><nav>';

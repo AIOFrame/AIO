@@ -125,7 +125,7 @@ label.beta {
 }
 [type=radio], [type=checkbox] {
   cursor: pointer;
-  margin: 8px 0;
+  margin: var(--input_margin_top) var(--input_margin_right) var(--input_margin_bottom) var(--input_margin_left);
   display: inline-block;
   vertical-align: middle;
   border-radius: 8px;
@@ -173,7 +173,7 @@ label.beta {
 }
 label.slide_label {
   font-size: 1rem;
-  margin: 0;
+  margin: var(--input_margin_top) var(--input_margin_right) var(--input_margin_bottom) var(--input_margin_left);
   padding: 0;
   display: inline-block;
   vertical-align: middle;
@@ -282,12 +282,13 @@ textarea {
 /* Select2 Fixes */
 
 .select2-container {
-  margin: $margin-top $margin-right $margin-bottom $margin-left;
+  //margin: $margin-top $margin-right $margin-bottom $margin-left;
   .select2-selection {
     //background:url('../../assets/icons/select.svg') no-repeat calc(100% - 10px) center / 18px;
   }
   .select2-selection--single {
     height: auto;
+    margin: $margin-top $margin-right $margin-bottom $margin-left;
     .select2-selection__rendered {
       padding-left: 0;
       padding-right: 12px;
@@ -340,7 +341,8 @@ select.mb0 + .select2-container {
     }
   }
   .select2-selection--multiple {
-    margin-bottom: 0;
+    //margin-bottom: 0;
+    margin: $margin-top $margin-right $margin-bottom $margin-left;
     .select2-search__field {
       margin: 0;
       padding: 10px;
@@ -389,7 +391,7 @@ select.mb0 + .select2-container {
 }
 .select2-container--default, .select2-container--default.select2-container--focus {
   .select2-selection--multiple {
-    border:1px solid #ddd;
+    //border:1px solid #ddd;
   }
 }
 .select2-selection {

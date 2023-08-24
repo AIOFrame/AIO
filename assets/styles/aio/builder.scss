@@ -6,6 +6,7 @@
   --input_border_right: 0;
   --input_border_bottom: 2px;
   --input_border_left: 0;
+  --error_color: firebrick;
 }
 
 /* LAYOUT */
@@ -41,9 +42,10 @@ nav {
 
 /* BASICS */
 
-input[type=text], [type=number] {
+[type=text], [type=number] {
   box-shadow:none;
-  font-size: 22px;
+  font-size: 1.2rem;
+  line-height: 1.4rem;
   padding:12px 0;
   font-weight: 100;
 }
@@ -52,9 +54,6 @@ input.empty {
 }
 input[type=text]:focus, [type=number]:focus {
   transition:.9s;
-}
-.row > div {
-  margin-bottom: 35px;
 }
 
 /* button {
@@ -105,7 +104,7 @@ select {
     cursor:pointer;
     position: relative;
     color:#000;
-    font-size:18px;
+    font-size: 1rem;
     i.tip {
       position: absolute;
       white-space: normal;
@@ -174,16 +173,10 @@ select {
   }
 }
 .select2-container--default .select2-selection--multiple {
-  border:0;
-  background:#f1f1f1;
-  border-radius:10px;
   margin-top: 10px;
   min-height:45px;
 }
 .select2-dropdown {
-  border:0;
-  border-radius:0 0 10px 10px;
-  box-shadow:0 0 30px rgba(0,0,0,.1);
   padding: 10px;
 }
 .select2-selection__choice__remove {
@@ -220,9 +213,6 @@ ul.select2-results__options {
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
   background:#f1f1f1;
   color:#000;
-}
-.select2-container--default.select2-container--focus .select2-selection--multiple {
-  border:0;
 }
 .aio_dynamics {
   .set:nth-child(4), .set:nth-child(5) {

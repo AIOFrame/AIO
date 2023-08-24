@@ -64,6 +64,7 @@ class FORM {
         if( $placeholder !== '' ){
             $return .= empty($s) ? '<option disabled selected>'.$placeholder.'</option>' : '<option disabled>'.$placeholder.'</option>';
         }
+        // TODO: support optgroup feature
         // TODO: If multi dimensional array then and also add data attr, possibly auto fill logic
         if( is_assoc( $options ) ) {
             foreach ( $options as $value => $data ) {
@@ -147,7 +148,7 @@ class FORM {
      * @param string|array $identity ID and name of the element or array of [id, name]
      * @param string $label Label for the &lt;label&gt;
      * @param string $placeholder Placeholder text
-     * @param array $options Indexed or Associative Array of options
+     * @param string|array $options Indexed or Associative Array of options
      * @param string|null $selected Selected option or options separated by comma
      * @param string $attr Attributes like class or data tags
      * @param string|float|int $pre Prepend wrap html or element with class before date Ex: '<div class="wrap">' or '.wrap' or '6'
@@ -156,7 +157,7 @@ class FORM {
      * @param bool $translate Translate the option text or not
      * @tip You can run select2() instead that will render select input with js select2 that has searchable dropdown
      */
-    function _select( string|array $identity = '', string $label = '', string $placeholder = '', array $options = [], string|null $selected = '', string $attr = '', string|float|int $pre = '', bool $keyed = false, bool $translate = false, string $post = '' ): string {
+    function _select( string|array $identity = '', string $label = '', string $placeholder = '', string|array $options = [], string|null $selected = '', string $attr = '', string|float|int $pre = '', bool $keyed = false, bool $translate = false, string $post = '' ): string {
         $rand = rand( 0, 999999 );
         $_p = $this->_pre( $pre );
         $p_ = $this->_post( $pre, $post );
@@ -174,11 +175,11 @@ class FORM {
         // TODO: Options to check if array is multi dimensional and append accordingly
         if( str_contains( $attr, 'select2') ) {
             $placeholder = '';
-            $options = [ '' => 'select2_placeholder' ] + $options;
+            $options = is_array( $options ) ? [ '' => 'select2_placeholder' ] + $options : $options;
             //array_unshift( $options, 'select2_placeholder' );
         }
         //$placeholder = strpos( $attr, 'select2') !== false ? '' : $placeholder;
-        $return .= $this->_select_options( $options, $selected, $placeholder, $keyed, $translate );
+        $return .= is_array( $options ) ? $this->_select_options( $options, $selected, $placeholder, $keyed, $translate ) : $options;
         $return .= $post;
         return $return;
     }
@@ -187,7 +188,7 @@ class FORM {
         $this->select( $id, $label, $placeholder, $options, $selected, $attr.' class="select2"', $pre, $keyed, $translate, $post );
     }
 
-    function _select2( string $id = '', string $label = '', string $placeholder = '', array $options = [], string|null $selected = '', string $attr = '', string|float|int $pre = '', bool $keyed = false, bool $translate = false, string $post = '' ): string {
+    function _select2( string $id = '', string $label = '', string $placeholder = '', string|array $options = [], string|null $selected = '', string $attr = '', string|float|int $pre = '', bool $keyed = false, bool $translate = false, string $post = '' ): string {
         return $this->_select( $id, $label, $placeholder, $options, $selected, $attr.' class="select2"', $pre, $keyed, $translate, $post );
     }
 
@@ -1082,6 +1083,7 @@ class FORM {
                 $value = $_POST[ $id ] ?? ( $_GET[ $id ] ?? $val );
                 $keyed = $f['keyed'] ?? ( $f['k'] ?? 0 );
                 $trans = $f['translate'] ?? ( $f['tr'] ?? 0 );
+                $attrs = isset( $f['multiple'] ) || isset( $f['m'] ) ? $attrs . ' multiple' : $attrs;
                 $return .= $this->_select2( $id, $label, $place, $options, $value, $attrs, $pre, $keyed, $trans, $post );
             } else if( $type == 'date' ) {
                 $range = $f['range'] ?? ( $f['r'] ?? '' );
@@ -1093,6 +1095,10 @@ class FORM {
                 $off_text = $f['off'] ?? '';
                 $on_text = $f['on'] ?? '';
                 $return .= $this->_slide( $id, $label, $off_text, $on_text, $val, '', $attrs, $pre, $post );
+            } else if( $type == 'color' ) {
+                $border = $f['border'] ?? ( $f['b'] ?? '' );
+                $preview = $f['preview'] ?? ( $f['view'] ?? '' );
+                $return .= $this->_color( $id, $label, $place, $val, $attrs, $pre, $border, $preview, $post );
             } else if( $type == 'phone' ) {
                 $id_2 = $f['id2'] ?? ( $f['i2'] ?? '' );
                 $label_2 = $f['label2'] ?? ( $f['l2'] ?? ( $f['title2'] ?? ( $f['name2'] ?? ( $f['n2'] ?? '' ) ) ) );

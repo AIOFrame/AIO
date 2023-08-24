@@ -3,6 +3,7 @@ get_comp('aio_builder/head');
 $p = $_POST;
 $cry = Encrypt::initiate();
 $form = new FORM();
+!defined( 'APP_NAME' ) ? define( 'APP_NAME', 'AIO App Builder' ) : '';
 ?>
     <header>
         <div class="logo"></div>

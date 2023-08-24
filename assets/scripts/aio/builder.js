@@ -8,9 +8,8 @@ $(document).ready(function () {
     let Scrollbar = window.Scrollbar;
     Scrollbar.init(document.querySelector('.setup.on .data'));
     $('.n').on('click',function(){
-        if( is_empty( $(this).parents('.setup'), '[required]' ) ) {
-            //return;
-        } else {
+        let required_fields = is_empty($(this).parents('.setup'), 'required');
+        if( required_fields.length === 0 ) {
             $(this).parents('.setup').removeClass('on').next('.setup').addClass('on');
             Scrollbar.init(document.querySelector('.setup.on .data'));
         }
