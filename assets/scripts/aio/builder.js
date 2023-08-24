@@ -8,16 +8,18 @@ $(document).ready(function () {
     let Scrollbar = window.Scrollbar;
     Scrollbar.init(document.querySelector('.setup.on .data'));
     $('.n').on('click',function(){
-        if( $(this).parents('.setup').hasClass('one') ) {
-             if( is_empty( '#name' ) || is_empty( '#key' ) ) {
-                 //return;
-             }
+        if( is_empty( $(this).parents('.setup'), '[required]' ) ) {
+            //return;
+        } else {
+            $(this).parents('.setup').removeClass('on').next('.setup').addClass('on');
+            Scrollbar.init(document.querySelector('.setup.on .data'));
         }
-        if( $(this).parents('.setup').hasClass('one') ) {
+        // if( $(this).parents('.setup').hasClass('one') ) {
+        // }
+        // if( $(this).parents('.setup').hasClass('one') ) {
+        //
+        // }
 
-        }
-        $(this).parents('.setup').removeClass('on').next('.setup').addClass('on');
-        Scrollbar.init(document.querySelector('.setup.on .data'));
     });
     $('.p').on('click',function(){
         $(this).parents('.setup').removeClass('on').prev('.setup').addClass('on');
