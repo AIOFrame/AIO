@@ -64,6 +64,7 @@ class FORM {
         if( $placeholder !== '' ){
             $return .= empty($s) ? '<option disabled selected>'.$placeholder.'</option>' : '<option disabled>'.$placeholder.'</option>';
         }
+        //skel( $options );
         // TODO: support optgroup feature
         // TODO: If multi dimensional array then and also add data attr, possibly auto fill logic
         if( is_assoc( $options ) ) {
@@ -96,31 +97,38 @@ class FORM {
         } else {
             foreach( $options as $k => $o ) {
                 $sel = '';
+                $d = '';
+                $a = '';
+                $c = '';
                 if( is_array( $o ) ) {
-                    $k = $o[0];
-                    $t = isset( $o[1] ) && $o[1] !== $o[0] ? $o[1] : $o[0];
-                    $d = $o[2] ?? '';
-                    $d = is_array( $d ) ? 'data-data=\''.json_encode( $d ).'\'' : 'data-data=\''.$d.'\'';
-                    if( is_array( $s ) && in_array( $k, $s ) ) {
-                        $sel = 'selected';
-                    } else if( $k == $s ) {
-                        $sel = 'selected';
-                    }
+                    $v = $o['value'] ?? ( $o['val'] ?? ( $o['v'] ?? '' ) );
+                    $n = $o['name'] ?? ( $o['n'] ?? '' );
+                    $d = $o['data'] ?? ( $o['d'] ?? '' );
+                    $a = $o['attr'] ?? ( $o['a'] ?? '' );
+                    $t = $o['title'] ?? ( $o['t'] ?? $n );
+                    $c = $o['class'] ?? ( $o['c'] ?? '' );
+                    $d = !empty( $d ) ? ( is_array( $d ) ? 'data-data=\''.json_encode( $d ).'\'' : 'data-data=\''.$d.'\'' ) : '';
+                    //$c = !empty( $c ) ? 'class=\''.$c.'\'' : '';
+                    $sel = $v == $selected ? 'selected' : '';
                 } else {
-                    $k = $keyed ? $k : $o;
-                    $d = '';
-                    $t = $o;
+                    $v = $keyed ? $k : $o;
+                    $n = $o;
+                    $t = $n;
                     if( is_array( $s ) && in_array( $o, $s ) ) {
                         $sel = 'selected';
                     } else if( $o == $s ) {
                         $sel = 'selected';
                     }
                 }
-                $t = $translate ? T( $t ) : $t;
-                if( $t == 'select2_placeholder' ) { $return .= '<option></option>'; continue; }
-                $return .= '<option '.$d.' value="' . $k . '" ' . $sel . '>' . $t . '</option>';
+                //skel( $c );
+                $t = "title='{$t}'";
+                $n = $translate ? T( $n ) : $n;
+                if( $n == 'select2_placeholder' ) { $return .= '<option></option>'; continue; }
+                skel( '<option '.$d.' '.$a.' '.$t.' value="' . $v . '" ' . $sel . '>' . $n . '</option>' );
+                $return .= '<option '.$d.' '.$a.' '.$t.' value="' . $v . '" ' . $sel . '>' . $n . '</option>';
             }
         }
+        //skel( $return );
         return $return;
         //!empty($sel) ? elog($s) : '';
     }
@@ -175,7 +183,7 @@ class FORM {
         // TODO: Options to check if array is multi dimensional and append accordingly
         if( str_contains( $attr, 'select2') ) {
             $placeholder = '';
-            $options = is_array( $options ) ? [ '' => 'select2_placeholder' ] + $options : $options;
+            $options = is_array( $options ) && is_assoc( $options ) ? [ '' => 'select2_placeholder' ] + $options : $options;
             //array_unshift( $options, 'select2_placeholder' );
         }
         //$placeholder = strpos( $attr, 'select2') !== false ? '' : $placeholder;

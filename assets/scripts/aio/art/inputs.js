@@ -55,6 +55,10 @@ window.addEventListener('DOMContentLoaded',function () {
         if( $(b).data('no-search') !== undefined ) {
             select_config.minimumResultsForSearch = -1;
         }
+        select_config.closeOnSelect = $(b).data('auto-close') !== undefined;
+        if( $(b).data('template') !== undefined ) {
+            select_config.templateResult = $(b).data('template');
+        }
         //console.log(select_config);
         $(b).select2(select_config);
     });

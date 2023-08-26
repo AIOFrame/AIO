@@ -17,11 +17,11 @@ foreach( glob( ROOTPATH . '/assets/fonts/*', GLOB_ONLYDIR ) as $f ){
 }
 $arts = [ 'a11y', 'accordion', 'alerts', 'buttons', 'cards', 'icons', 'inputs', 'modal', 'sizes', 'table', 'tabs', 'tips' ];
 $int_ops = [
-    'a11y' => 'AIO A11y <small>Accessibility scripts</small>',
-    'ui_reset' => 'AIO Reset CSS <small>Stylesheet that has custom reset css to begin with</small>',
-    'ux_core' => 'AIO Core JS  <small>Scripts for user experience, like hide show div etc.</small>',
-    'fps' => 'AIO Full Page JS <small>Full page scrolling script</small>',
-    'ui_micro' => 'AIO Micro CSS <small>Minified css tags, micro css over-writes, ex: add class dn for display:none</small>',
+    [ 'v' => 'a11y', 'n' => 'AIO A11y', 'd' => 'Accessibility scripts' ],
+    [ 'v' => 'ui_reset', 'n' => 'AIO Reset CSS', 'd' => 'Stylesheet that has custom reset css to begin with' ],
+    [ 'v' => 'ux_core', 'n' => 'AIO Core JS', 'd' => 'Scripts for user experience, like hide show div etc.' ],
+    [ 'v' => 'fps', 'n' => 'AIO Full Page JS', 'd' => 'Full page scrolling script' ],
+    [ 'v' => 'ui_micro', 'n' => 'AIO Micro CSS', 'd' => 'Minified css tags, micro css over-writes, ex: add class dn for display:none' ],
 ];
 $ext_ops = [
     'bootstrap'=>'Bootstrap',
