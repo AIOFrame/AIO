@@ -776,7 +776,7 @@ function access_change_ajax(): void {
  * @param string $redirect_to Page to redirect to upon success
  * @param string $class Login, Forgot Password button class
  */
-function login_html( string $login_title = 'Username or Email', string $pass_title = 'Password', string $session_title = 'Remember access for', string $login_button_title = 'Login', int|string $reload_in = 1, int|string $notify_for = 1, string $redirect_to = '', string $class = '' ): void {
+function access_html( string $login_title = 'Username or Email', string $pass_title = 'Password', string $session_title = 'Remember access for', string $login_button_title = 'Login', int|string $reload_in = 1, int|string $notify_for = 1, string $redirect_to = '', string $class = '' ): void {
     if( user_logged_in() ) {
         return;
     }

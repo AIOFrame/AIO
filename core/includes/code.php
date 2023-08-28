@@ -196,6 +196,7 @@ class CODE {
         $aos = $a->get_options();
 
         // Head
+        $styles = is_array( $styles ) ? array_merge( $styles, [ 'air-datepicker' ] ) : $styles . ',air-datepicker';
         $this->pre_html( '', $attrs, $pre_styles, '', '', 'icons,inputs,buttons,alerts', $styles, $scripts, $primary_font, $secondary_font, $icon_fonts );
 
         // Content
@@ -213,11 +214,11 @@ class CODE {
         $u_text = $aos['ac_username_text'] ?? 'User Login / Email';
         $p_text = $aos['ac_password_text'] ?? 'Password';
         $l_text = $aos['ac_login_btn_text'] ?? 'Login';
-        login_html( $u_text, $p_text, 'Remember for', $l_text, 2, 2, $login_redirect_url );
+        access_html( $u_text, $p_text, 'Remember for', $l_text, 2, 2, $login_redirect_url );
         echo '</div></div></article>';
 
         // Foot
-        $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'data', 'validator', 'login' ] ) : $scripts . ',data,validator,login';
+        $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'air-datepicker', 'data', 'validator', 'login' ] ) : $scripts . ',air-datepicker,data,validator,login';
         $this->post_html( $scripts );
     }
 
