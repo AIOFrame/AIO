@@ -517,7 +517,7 @@ class OPTIONS {
             $f = $r['flag'] ?? '';
             echo '<div style="text-align:center; font-size: .8rem">' . T('Settings apply to region ') . $n . ' ' . $f . '</div>';
         } else if( in_array( 'regions', $c['features'] ) ) {
-            echo '<div style="text-align:center; font-size: .8rem">' . T('Regions feature enabled! Please set a region on top and then save settings to be applicable!') . '</div>';
+            echo '<div style="text-align:center; font-size: .8rem">' . T('Regions feature enabled! Please select a region in header and then save settings to apply to selected region!') . '</div>';
         }
     }
 
