@@ -444,7 +444,7 @@ class PORTAL {
             echo '</div>';
         }
         echo !empty( $list_view ) || !empty( $grid_view ) ? '</div>' : '';
-        echo '<div class="actions">test';
+        echo '<div class="actions">';
         echo '</div></div>';
     }
 }

@@ -281,11 +281,11 @@
 .plate .body {
   padding: 15px;
 } */
-.card:not(.no-float):hover, .card:not(.nf):hover {
+.card:not(.no-float, .nf):hover {
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.05);
   transform: translateY(-2px);
 }
-.card:not(.no-float):hover .actions, .card:not(.nf):hover .actions {
+.card:not(.no-float, .nf):hover .actions {
   opacity: 1;
 }
 
