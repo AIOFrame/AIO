@@ -48,6 +48,11 @@ class CODE {
         if( $primary_color == '222' && $secondary_color == '000' ) {
             $theme = $options['default_theme'] ?? '';
             $theme = $options['theme'] ?? $theme;
+            $disabled_color = $options['disabled_color'] ?? '';
+            $progress_color = $options['progress_color'] ?? '';
+            $warning_color = $options['warning_color'] ?? '';
+            $error_color = $options['error_color'] ?? '';
+            $success_color = $options['success_color'] ?? '';
             $dark_mode = str_contains( $theme, 'dark' );
             if( $dark_mode ) {
                 $color = $options['color_dark'] ?? '#fff';
@@ -65,11 +70,16 @@ class CODE {
             $color1 = '#00A99D';
             $color2 = '#00A99D';
             $filled_color = '#fff';
+            $disabled_color = 'lightgrey';
+            $progress_color = '#00A99D';
+            $warning_color = 'orange';
+            $error_color = 'firebrick';
+            $success_color = '#00A99D';
         }
         echo '<style>:root {';
         //skel( $options );
         echo $dark_mode ? '--dark_mode:1;' : '--dark_mode:0;';
-        echo '--primary_color:'.$color1.';--secondary_color:'.$color2.';--color:'.$color.';--filled_color:'.$filled_color.';';
+        echo '--primary_color:'.$color1.';--secondary_color:'.$color2.';--color:'.$color.';--filled_color:'.$filled_color.';--disabled_color:'.$disabled_color.';--progress_color:'.$progress_color.';--warning_color:'.$warning_color.';--error_color:'.$error_color.';--success_color:'.$success_color;
         echo '}.c1{color:'.$color1.'}.c2{color:'.$color2.'}.bg1{background:'.$color1.'}.bg2{background:'.$color2.'}.bs{border:1px solid '.$color1.'}.bf:focus{border:1px solid var(--primary_color)}.grad{color:var(--color);background-color:var(--primary_color);background:-moz-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background:-webkit-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background-image:linear-gradient(45deg,var(--primary_color) 0%,var(--secondary_color) 100%);}.grad-text{background: -webkit-linear-gradient(var(--primary_color), var(--secondary_color));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}</style>';
 
         // Fav Icon
