@@ -63,3 +63,12 @@ function verify_step( step ) {
             break;
     }
 }
+
+function dropdown_hints( d ) {
+    if (!d.id) {
+        return d.text;
+    }
+    let title = d.text;
+    let titles = title.split('|');
+    return $( titles[0] + ' <small>' + titles[1] + '</small>' );
+}

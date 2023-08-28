@@ -57,9 +57,11 @@ window.addEventListener('DOMContentLoaded',function () {
         }
         select_config.closeOnSelect = $(b).data('auto-close') !== undefined;
         if( $(b).data('template') !== undefined ) {
+            //console.log( $(b).data('template') );
             select_config.templateResult = $(b).data('template');
+            //select_config.templateSelection = $(b).data('template');
         }
-        //console.log(select_config);
+        console.log(select_config);
         $(b).select2(select_config);
     });
     if( $.fn.select2 !== undefined ){

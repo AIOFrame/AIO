@@ -97,18 +97,18 @@ class FORM {
         } else {
             foreach( $options as $k => $o ) {
                 $sel = '';
-                $d = '';
+                //$d = '';
                 $a = '';
                 $c = '';
                 if( is_array( $o ) ) {
                     $v = $o['value'] ?? ( $o['val'] ?? ( $o['v'] ?? '' ) );
                     $n = $o['name'] ?? ( $o['n'] ?? '' );
-                    $d = $o['data'] ?? ( $o['d'] ?? '' );
+                    //$d = $o['data'] ?? ( $o['d'] ?? '' );
                     $a = $o['attr'] ?? ( $o['a'] ?? '' );
                     $t = $o['title'] ?? ( $o['t'] ?? $n );
                     $c = $o['class'] ?? ( $o['c'] ?? '' );
-                    $d = !empty( $d ) ? ( is_array( $d ) ? 'data-data=\''.json_encode( $d ).'\'' : 'data-data=\''.$d.'\'' ) : '';
-                    //$c = !empty( $c ) ? 'class=\''.$c.'\'' : '';
+                    //$d = !empty( $d ) ? ( is_array( $d ) ? 'data-data=\''.json_encode( $d ).'\'' : 'data-data=\''.$d.'\'' ) : '';
+                    $c = !empty( $c ) ? 'class=\''.$c.'\'' : '';
                     $sel = $v == $selected ? 'selected' : '';
                 } else {
                     $v = $keyed ? $k : $o;
@@ -120,12 +120,12 @@ class FORM {
                         $sel = 'selected';
                     }
                 }
-                //skel( $c );
+                //skel( $d );
                 $t = "title='{$t}'";
                 $n = $translate ? T( $n ) : $n;
                 if( $n == 'select2_placeholder' ) { $return .= '<option></option>'; continue; }
-                skel( '<option '.$d.' '.$a.' '.$t.' value="' . $v . '" ' . $sel . '>' . $n . '</option>' );
-                $return .= '<option '.$d.' '.$a.' '.$t.' value="' . $v . '" ' . $sel . '>' . $n . '</option>';
+                //skel( '<option '.$d.' '.$a.' '.$t.' value="' . $v . '" ' . $sel . '>' . $n . '</option>' );
+                $return .= '<option '.$c.' '.$a.' '.$t.' value="' . $v . '" ' . $sel . '>' . $n . '</option>';
             }
         }
         //skel( $return );
