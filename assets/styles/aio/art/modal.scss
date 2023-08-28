@@ -11,7 +11,7 @@ $radius: var(--input_radius);
   transform: translate(-50%,calc(-50% - 5vh));
   background: rgba(255,255,255,.92);
   box-shadow: 0 0 50px rgba(0,0,0,0.2);
-  padding: 20px;
+  //padding: 20px;
   width:auto;
   height:auto;
   pointer-events: none;
@@ -23,7 +23,11 @@ $radius: var(--input_radius);
   -webkit-backdrop-filter: blur(8px) saturate(2);
   border-radius: $radius;
   .t, .title {
-    margin: 0 auto 15px;
+    margin: 0;
+    padding: 20px;
+    font-weight: bold;
+    font-size: 1.6rem;
+    text-transform: uppercase;
     letter-spacing: 1px;
   }
   .t.c, .title.c {
@@ -44,6 +48,7 @@ $radius: var(--input_radius);
   .modal_body {
     height: calc(100% - 40px);
     overflow-y: auto;
+    padding: 20px;
     overflow-x: hidden;
   }
 }

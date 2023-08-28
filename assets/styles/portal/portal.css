@@ -633,14 +633,13 @@ article.fade > div {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 10px;
+  padding: 10px 0;
   text-transform: uppercase;
   display: flex;
   align-items: center;
   z-index: 20;
   height: 50px;
   line-height: 50px;
-  justify-content: space-between;
   /* .c {
     position: absolute;
     left: 50%;
@@ -649,11 +648,28 @@ article.fade > div {
     display: flex;
   } */
 }
-.header > div {
+.header .back {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.header > div, .header > .title {
+  flex: 0 0 33.3333%;
   max-width: 33.3333%;
+}
+.header .title {
+  display: block;
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+  font-weight: lighter;
+  padding-left: 50px;
 }
 .header .tabs, .header .views {
   display: flex;
+  justify-content: center;
 }
 .header .tabs > a, .header .tabs > div, .header .views > a, .header .views > div {
   padding: 0 10px;
@@ -678,16 +694,6 @@ article.fade > div {
   background: #000;
   position: absolute;
   width: calc(100% - 20px);
-}
-.header .title {
-  display: block;
-  font-size: 1.4rem;
-  margin: 0 15px 0 40px;
-  letter-spacing: 2px;
-  font-weight: lighter;
-}
-.header .back + .title {
-  margin: 0 15px 0 10px;
 }
 .header .status, .header .high {
   position: absolute;

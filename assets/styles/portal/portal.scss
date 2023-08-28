@@ -657,16 +657,24 @@ article.fade > div {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 0 10px rgba(0,0,0,.1);
-  padding:10px;
+  padding:10px 0;
   text-transform: uppercase;
   display: flex;
   align-items: center;
   z-index:20;
   height: 50px;
   line-height: 50px;
-  justify-content: space-between;
-  > div {
-    //flex: 0 0 33.3333%;
+  //justify-content: space-between;
+  .back {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  > div, > .title {
+    flex: 0 0 33.3333%;
     max-width: 33.3333%;
     //display: flex;
   }
@@ -678,6 +686,13 @@ article.fade > div {
     //align-items: center;
     //justify-content: flex-end;
   }
+  .title {
+    display: block;
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+    font-weight: lighter;
+    padding-left: 50px;
+  }
   /* .c {
     position: absolute;
     left: 50%;
@@ -687,6 +702,7 @@ article.fade > div {
   } */
   .tabs, .views {
     display: flex;
+    justify-content: center;
     > a, > div {
       padding: 0 10px;
       display: block;
@@ -711,19 +727,6 @@ article.fade > div {
       position: absolute;
       width: calc(100% - 20px);
     }
-  }
-  .views {
-
-  }
-  .title {
-    display: block;
-    font-size: 1.4rem;
-    margin: 0 15px 0 40px;
-    letter-spacing: 2px;
-    font-weight: lighter;
-  }
-  .back + .title {
-    margin: 0 15px 0 10px;
   }
   .status, .high {
     position: absolute;
