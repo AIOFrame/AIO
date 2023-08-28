@@ -6,25 +6,25 @@
 
 class CMS {
 
-    public array $page_statuses = [ 1 => 'Live', 2 => 'Disabled', 3 => 'Draft', 4 => 'History' ];
+    public array $page_statuses = [ 1 => 'Publicly Visible', 2 => 'Disabled', 3 => 'Draft', 4 => 'History' ];
 
     function __construct() {
 
     }
 
-    function page_form( bool $modal = true ): void {
+    function page_form( bool $modal = true, string $page_type = 'page' ): void {
         $c = new CODE();
         $f = new FORM();
         $statuses = $this->page_statuses;
         unset( $statuses[4] );
         $publish_fields = [
-            [ 'id' => 'title', 'title' => 'Page Title', 'a' => 'required' ],
+            [ 'id' => 'title', 'title' => ucwords( $page_type ).' Title', 'a' => 'required' ],
             [ 'id' => 'url', 'title' => 'URL Slug', 'p' => 'Ex: procedure-to-register', 'a' => 'data-no-space', 'c' => 12.1 ],
         ];
         $visibility_fields = [
             [ 't' => 'date', 'id' => 'birth', 'n' => 'Visible From', 'c' => 6 ],
             [ 't' => 'date', 'id' => 'expiry', 'n' => 'Visible Till', 'c' => 6 ],
-            [ 'type' => 'select', 'id' => 'status', 'title' => 'Page Status', 'o' => $statuses, 'v' => 1, 'a' => 'required', 'k' => 1 ],
+            [ 'type' => 'select', 'id' => 'status', 'title' => ucwords( $page_type ).' Status', 'o' => $statuses, 'v' => 1, 'a' => 'required', 'k' => 1 ],
             [ 'id' => 'password', 'n' => 'Password', 'c' => 12.1 ],
         ];
         $seo_fields = [
@@ -33,17 +33,17 @@ class CMS {
             [ 'id' => 'meta_author', 'n' => 'Meta Author', 'c' => 12.1 ],
         ];
         $r = $f->_random();
-        $modal ? $c->pre_modal( 'Page', 'f' ) : '';
-        $f->pre_process( 'data-wrap id="page_form"', 'update_page_ajax', $r, 'p_', 2, 2 );
+        $modal ? $c->pre_modal( $page_type, 'f' ) : '';
+        $f->pre_process( 'data-wrap id="'.$page_type.'_form"', 'update_page_ajax', $r, 'p_', 2, 2, [ 'page_type' => strtolower( $page_type ) ] );
         _r();
         _c(8);
-        $f->form( [ [ 't' => 'textarea', 'id' => 'content', 'n' => 'Page Content' ] ], '', $r );
+        $f->form( [ [ 't' => 'textarea', 'id' => 'content', 'n' => ucwords( $page_type ).' Content' ] ], '', $r );
         c_();
         _c(4);
         accordion( 'Identity', $f->_form( $publish_fields, 'row', $r ), 'br15 w on' );
         accordion( 'Visibility', $f->_form( $visibility_fields, 'row', $r ), 'br15 w on' );
         accordion( 'SEO', $f->_form( $seo_fields, 'row', $r ), 'br15 w' );
-        $f->process_trigger('Save Page','w r');
+        $f->process_trigger('Save '.$page_type,'w r');
         c_();
         r_();
         $hidden_fields = [
@@ -59,35 +59,51 @@ class CMS {
 
     }
 
-    function pages( string $type = 'table', string $wrapper_class = '', string|int $cols = 4 ): void {
-        $pages = $this->_pages();
+    function pages( string $page_type = 'page', string $content_style = 'table', string $wrapper_class = '', string|int $cols = 4 ): void {
+        if( in_array( $content_style, [ 'tables', 'table', 'list' ] ) ) {
+            $this->pages_list( $page_type, $wrapper_class );
+        } else if( in_array( $content_style, [ 'cards', 'card' ] ) ) {
+            $this->page_cards( $page_type, $wrapper_class, $cols );
+        }
+    }
+
+    function pages_list( string $page_type = 'page', string $wrapper_class = '' ): void {
+        $pages = $this->_pages( $page_type );
         $status = $this->page_statuses;
         if( empty( $pages ) ) {
-            no_content( 'No pages created yet!', '', $wrapper_class );
+            no_content( 'No '.$page_type.' created yet!', '', $wrapper_class );
         } else {
             $c = new CODE();
             $f = new FORM();
-            if( $type == 'tables' || $type == 'table' || $type == 'list' ) {
-                $table[] = [ 'head' => [ 'ID', 'Name', 'Date', 'Visibility', 'Status', 'User', 'Actions' ] ];
-                foreach( $pages as $p ) {
-                    $table[]['body'] = [
-                        $p['page_id'],
-                        $p['page_title'].'<div><small>/'.$p['page_url'].'</small></div>',
-                        easy_date($p['page_date']).'<div><small>'.T('Updated').': '.easy_date($p['page_update']).'</small></div>',
-                        (!empty($p['page_birth'])?'<div><small>'.T('Visible from').': '.easy_date($p['page_birth']).'</small></div>':'').(!empty($p['page_expiry'])?'<div><small>'.T('Visible till').': '.easy_date($p['page_expiry']).'</small></div>':''),
-                        $status[ $p['page_status'] ] ?? '',
-                        $p['user_name'],
-                        $f->_edit_html( '#page_modal', $p, 'div', '', '', '', 'mat-ico', 'edit' )
-                    ];
-                }
-                $c->table_view( 'pages', $table, $wrapper_class );
-            } else if( $type == 'cards' || $type == 'card' ) {
-                $cards = '';
-                foreach( $pages as $p ) {
-                    $cards .= $c->_card( '4', 'br15', $p['page_title'], '', '/'.$p['page_url'], '', '', $status[ $p['page_status'] ] ?? '', '', [], [], '#page_modal', $p, 'pages', "page_id = {$p['page_id']}" );
-                }
-                $c->grid_view( 'pages', $cards, $wrapper_class, $cols );
+            $table[] = [ 'head' => [ 'ID', 'Name', 'Date', 'Visibility', 'Status', 'User', 'Actions' ] ];
+            foreach( $pages as $p ) {
+                $table[]['body'] = [
+                    $p['page_id'],
+                    $p['page_title'].'<div><small>/'.$p['page_url'].'</small></div>',
+                    easy_date($p['page_date']).'<div><small>'.T('Updated').': '.easy_date($p['page_update']).'</small></div>',
+                    (!empty($p['page_birth'])?'<div><small>'.T('Visible from').': '.easy_date($p['page_birth']).'</small></div>':'').(!empty($p['page_expiry'])?'<div><small>'.T('Visible till').': '.easy_date($p['page_expiry']).'</small></div>':''),
+                    $status[ $p['page_status'] ] ?? '',
+                    $p['user_name'],
+                    $f->_edit_html( '#'.$page_type.'_modal', $p, 'div', '', '', '', 'mat-ico', 'edit' )
+                ];
             }
+            $c->table_view( $page_type, $table, $wrapper_class );
+        }
+    }
+
+    function page_cards( string $page_type = 'page', string $wrapper_class = '', string|int $cols = 4 ): void {
+        $pages = $this->_pages( $page_type );
+        $status = $this->page_statuses;
+        if( empty( $pages ) ) {
+            no_content( 'No '.$page_type.' created yet!', '', $wrapper_class );
+        } else {
+            $c = new CODE();
+            $f = new FORM();
+            $cards = '';
+            foreach( $pages as $p ) {
+                $cards .= $c->_card( '4', 'br15', $p['page_title'], '', '/'.$p['page_url'], '', '', $status[ $p['page_status'] ] ?? '', '', [], [], '#'.$page_type.'_modal', $p, 'pages', "page_id = {$p['page_id']}" );
+            }
+            $c->grid_view( $page_type, $cards, $wrapper_class, $cols );
         }
     }
 
@@ -111,10 +127,10 @@ class CMS {
         }
     }
 
-    function _pages(): array {
+    function _pages( string $page_type = 'page' ): array {
         $d = new DB();
         $data = [ 'id', 'date', 'update', 'title', 'url', 'password', 'status', 'birth', 'expiry', 'by' ];
-        return $d->select( [ 'pages', [ 'users', 'user_id', 'page_by' ] ], array_merge( prepare_values( $data, 'page_' ), [ 'user_name' ] ) );
+        return $d->select( [ 'pages', [ 'users', 'user_id', 'page_by' ] ], array_merge( prepare_values( $data, 'page_' ), [ 'user_name' ] ), 'page_type = \''.strtolower( $page_type ).'\'' );
     }
 
     function _page( string|int $id_url ): array {
