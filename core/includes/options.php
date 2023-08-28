@@ -351,9 +351,10 @@ class OPTIONS {
      * @return void
      */
     function region_options(): void {
+        //skel( FEATURES );
         //$c = !empty( CONFIG ) ? json_decode( CONFIG ) : [];
         //if( in_array( 'regions', $c->features ) || in_array( 'region', $c->features ) ) {
-        if( defined( 'REGION' ) || defined( 'REGIONS' ) ) {
+        if( in_array_any( [ 'region', 'regions' ], FEATURES ) ) {
             $r = new REGION();
             $r->region_options();
         }
