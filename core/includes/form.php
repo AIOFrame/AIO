@@ -470,6 +470,16 @@ class FORM {
         return $return;
     }
 
+    function _slides( string|array $key, string $label = '', string $off_text = '', string $on_text = '', array $options = [], string $size = 'm', string $attr = '', string|float|int $pre = '', string $post = '' ): string {
+        //skel( $checked );
+        $_p = $this->_pre( $pre );
+        foreach( $options as $o ) {
+
+        }
+        $p_ = $this->_post( $pre, $post );
+        return $_p.$p_;
+    }
+
     /**
      * Renders Date Picker
      * @param string|array $id ID of the date picker element
@@ -1099,15 +1109,23 @@ class FORM {
                 $max = $f['max'] ?? '';
                 $multiple = $f['multiple'] ?? ( $f['m'] ?? 0 );
                 $return .= $this->_date( $id, $label, $place, $val, $attrs, 'bottom center', $pre, $range, $multiple, '', $min, $max, $post );
-            } else if( $type == 'slide' ) {
-                $off_text = $f['off'] ?? '';
-                $on_text = $f['on'] ?? '';
-                $return .= $this->_slide( $id, $label, $off_text, $on_text, $val, '', $attrs, $pre, $post );
+            } else if( $type == 'slide' || $type == 'slides' ) {
+                $off_text = $f['off'] ?? 'Off';
+                $on_text = $f['on'] ?? 'On';
+                $return .= $type == 'slide' ? $this->_slide( $id, $label, $off_text, $on_text, $val, '', $attrs, $pre, $post ) : $this->_checkboxes( $id, $label, );
             } else if( $type == 'color' ) {
                 $border = $f['border'] ?? ( $f['b'] ?? '' );
                 $preview = $f['preview'] ?? ( $f['view'] ?? '' );
                 $return .= $this->_color( $id, $label, $place, $val, $attrs, $pre, $border, $preview, $post );
-            } else if( $type == 'phone' ) {
+            } else if( $type == 'checkboxes' ) {
+                $values = $f['values'] ?? ( $f['v'] ?? ( $f['options'] ?? ( $f['o'] ?? [] ) ) );
+                $checked = $f['checked'] ?? ( $f['check'] ?? [] );
+                $label_first = $f['label_first'] ?? ( $f['lf'] ?? 0 );
+                $inputs_wrap = $f['inputs_wrap'] ?? ( $f['iw'] ?? '' );
+                $inputs_pre = $f['inputs_pre'] ?? ( $f['i_p'] ?? '' );
+                $inputs_post = $f['inputs_post'] ?? ( $f['ip_'] ?? '' );
+                $return .= $this->_checkboxes( $id, $label, $values, $checked, $attrs, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post );
+            }else if( $type == 'phone' ) {
                 $id_2 = $f['id2'] ?? ( $f['i2'] ?? '' );
                 $label_2 = $f['label2'] ?? ( $f['l2'] ?? ( $f['title2'] ?? ( $f['name2'] ?? ( $f['n2'] ?? '' ) ) ) );
                 $place_2 = $f['place2'] ?? ($f['placeholder2'] ?? ( $f['p2'] ??= $label));

@@ -1016,10 +1016,13 @@ if( isset( $_GET['logout'] ) ) {
 /**
  * Function to authorize user logged in else redirect to
  * @param string $login_page Login page url path without site url Ex: admin/login
+ * @param string $user_type
  * @return void
  */
-function restrict_auth( string $login_page = 'admin/login' ): void {
+function restrict_auth( string $login_page = 'admin/login', string $user_type = '' ): void {
     if( !user_logged_in() ) {
+        header('Location: '.APPURL.$login_page);
+    } else if( !empty( $user_type ) && !user_type_is( $user_type ) ) {
         header('Location: '.APPURL.$login_page);
     }
 }

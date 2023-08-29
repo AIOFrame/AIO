@@ -72,6 +72,7 @@ if( defined( 'CONFIG' ) ) {
             include_once( $path . 'access.php' );
             include_once( $path . 'alerts.php' );
             include_once( $path . 'options.php' );
+            include_once( $path . 'perms.php' );
 
             // Mobile REST Features
             if( in_array( 'mobile', $features ) ) {
