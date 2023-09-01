@@ -12,7 +12,7 @@ class CMS {
 
     }
 
-    function page_form( bool $modal = true, string $page_type = 'page' ): void {
+    function page_form( string $modal_class = '', string $page_type = 'page' ): void {
         $c = new CODE();
         $f = new FORM();
         $statuses = $this->page_statuses;
@@ -33,7 +33,7 @@ class CMS {
             [ 'id' => 'meta_author', 'n' => 'Meta Author', 'c' => 12.1 ],
         ];
         $r = $f->_random();
-        $modal ? $c->pre_modal( $page_type, 'f' ) : '';
+        !empty( $modal_class ) ? $c->pre_modal( $page_type, 'f' ) : '';
         $f->pre_process( 'data-wrap id="'.$page_type.'_form"', 'update_page_ajax', $r, 'p_', 2, 2, [ 'page_type' => strtolower( $page_type ) ] );
         _r();
         _c(8);
@@ -52,7 +52,7 @@ class CMS {
         ];
         $f->form( $hidden_fields, 'row', $r );
         $f->post_process();
-        $modal ? $c->post_modal() : '';
+        !empty( $modal_class ) ? $c->post_modal() : '';
     }
 
     function page_filters(): void {

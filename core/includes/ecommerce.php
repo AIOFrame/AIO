@@ -11,9 +11,74 @@ class ECOMMERCE {
 
     /**
      * Add / Update product
+     * @param string $modal_class
      * @return void
      */
-    function save_product(): void {}
+    function product_form( string $modal_class = '' ): void {
+        // Identity
+            // Title
+            // URL / Slug
+
+        // Visibility
+            // Visibility From
+            // Visibility Till
+            // Status
+            // Password
+
+        // SEO
+            // Meta Description
+            // Meta Keywords
+            // Meta Author
+
+        // Pricing
+            // Regular Price
+            // Sale Price
+            // Sale From
+            // Sale Till
+
+        // Picture
+        // Gallery
+
+        // Save Product
+
+        // Content Builder
+
+        // Description
+            // Primary Material
+            // Secondary Material
+            // Tertiary Material
+            // Color
+            // Size Guide
+            // Weight
+            // Width
+            // Height
+            // Depth
+            // Shipping
+
+        // Inventory
+            // SKU
+            // Quantity
+            // Low Stock Threshold
+            // Max Quantity per order
+            // Allow Backorder [ Allow, Allow with alert to buyer, Restrict ]
+
+        // Tax
+            // Tax Group
+            // Override Tax %
+
+        // Properties
+            // Dynamic Properties
+
+        // Variations
+            // Title
+            // SKU
+            // Picture
+            // ...
+    }
+
+    function inventory(): void {
+        // Shows list of inventory to be easily editable
+    }
 
     /**
      * Renders Product HTML
@@ -74,6 +139,63 @@ class ECOMMERCE {
      */
     function store_options(): void {
         // TODO: E Commerce Store Options
+        // Regional Options
+            // Region
+                // Address
+                // Primary Language
+                // Currency Symbol
+                // Currency Rate
+                // Serving Countries
+                // Tax Options
+                // Payment Options
+        // Store Options
+            // Placeholder
+            // Weight Units
+            // Size Units
+            // Product Design
+                // Page Style
+                // Title Style
+                //
+            // Category Options
+                // Show Grid / List Toggle
+                // Grid Columns
+                // Default Style [ Grid, List ]
+                // Filters
+                    // Filters Visibility
+                    // Filters Style
+                    // Filters Position
+                // Sort Position
+                // Product Options
+                    // Title Style
+                    // Title Position
+                    // Price Style
+                    // Variation Price Style
+                    // Sale / New Tag Style
+                    // Sale Tag Position
+                    // New Tag Position
+                    // Add to Cart Style
+                    // Add to Cart Position
+                    // Edit Product Icon Position
+                // Grid Product Options
+                    // Price Position
+                // List Product Options
+                    // Image Position
+                    //
+            // Reviews
+                // Enable Reviews
+                // Moderate Reviews
+            // Stock
+                // Enable Stock Management
+                // Stock Managers
+                // Low Stock Threshold
+                // Out of Stock Threshold
+            // Tax
+                // Tax Inclusive
+                // Tax based on [ 'Buyer Delivery Address', 'Buyer Billing Address', 'Store Address' ]
+            // Orders
+                // Guest Checkout
+                // Show Guests login
+                // Show Guests registration
     }
 
     /**

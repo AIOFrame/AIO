@@ -2,20 +2,20 @@
 
 class PERMS {
 
-    function user_type_form( bool $modal = true ): void {
+    function user_type_form( string $modal_class = '' ): void {
         $f = new FORM();
         $c = new CODE();
         $perms = CONFIG['permissions'] ?? [];
         $user_type_fields = [
             [ 'i' => 'role', 'n' => 'User Title / Role', 'p' => 'Ex: Developer, Marketing Manager, Accountant', 'a' => 'required' ],
-            [ 'i' => 'perms', 't' => 'checkboxes', 'n' => 'Permissions', 'o' => $perms, 'c' => 12, 'iw' => 'row', 'i_p' => 4, 'a' => 'class="slide"' ]
+            [ 'i' => 'perms', 't' => 'checkboxes', 'n' => 'Permissions', 'o' => $perms, 'c' => 12, 'iw' => 'row', 'i_p' => 4 ]
         ];
         $r = $f->_random();
-        $modal ? $c->pre_modal( 'User Restrictions', 'f on' ) : '';
-        $f->pre_process( 'data-wrap id="perm_form"', 'update_user_type_ajax', $r, 'perm_', 2, 2 );
+        !empty( $modal_class ) ? $c->pre_modal( 'User Role', $modal_class ) : '';
+        $f->pre_process( 'data-wrap', 'update_user_type_ajax', $r, 'perm_', 2, 2 );
         $f->form( $user_type_fields, 'row', $r );
         $f->process_trigger('Save User Role','','','','.tac');
-        $modal ? $c->post_modal() : '';
+        $modal_class ? $c->post_modal() : '';
     }
 
     function user_types(): void {

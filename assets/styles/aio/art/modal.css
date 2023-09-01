@@ -43,7 +43,7 @@
 .modal .modal_body {
   height: calc(100% - 40px);
   overflow-y: auto;
-  padding: 20px;
+  padding: 0 20px;
   overflow-x: hidden;
 }
 
