@@ -125,8 +125,7 @@ class CODE {
             !defined( 'ICONS' ) ? define( 'ICONS', $icon_fonts ) : '';
             $fonts[ $icon_fonts ] = '';
         }
-        $styles = str_contains( strtolower( ICONS ), 'bootstrap' ) ? ( !empty( $styles ) ? ( is_array( $styles ) ? array_merge( [ 'bootstrap-icons', $styles ] ) : $styles.',bootstrap-icons' ) : 'bootstrap-icons' ) : '';
-        //skel( $fonts );
+        $styles = str_contains( strtolower( ICONS ), 'bootstrap' ) ? ( !empty( $styles ) ? ( is_array( $styles ) ? array_merge( [ 'bootstrap-icons', $styles ] ) : $styles.',bootstrap-icons' ) : 'bootstrap-icons' ) : $styles;
         fonts( $fonts );
 
         // Appearance
