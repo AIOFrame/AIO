@@ -1,6 +1,7 @@
 $primary: var(--primary_color);
 $secondary: var(--secondary_color);
 $color: var(--color);
+$filled_color: var(--filled_color);
 $radius: var(--input_radius);
 $border-top: var(--input_border_top);
 $border-right: var(--input_border_right);
@@ -140,7 +141,7 @@ body.d .file_modal, body.d .file_notify {
       margin: 0;
       padding: 10px 0;
       text-align: center;
-      color: $color
+      color: $filled_color
     }
     input {
       display: none;
@@ -168,7 +169,7 @@ body.d .file_modal, body.d .file_notify {
     .close {
       left:auto;
       top:auto;
-      color: $color;
+      color: $filled_color;
     }
     .info {
       display: flex;
@@ -178,7 +179,7 @@ body.d .file_modal, body.d .file_notify {
       padding: 10px 0;
       position: relative;
       div {
-        color: $color;
+        color: $filled_color;
       }
       > div {
         margin: 0 10px;
@@ -188,7 +189,7 @@ body.d .file_modal, body.d .file_notify {
         flex-grow: 1;
         flex-wrap: wrap;
         position: relative;
-        color: $color;
+        color: $filled_color;
         .types {
           display: flex;
           margin: 0 -2px;
@@ -196,7 +197,7 @@ body.d .file_modal, body.d .file_notify {
           .type {
             font-size: .6rem;
             background: rgba(255,255,255,.3);
-            color: $color;
+            color: $filled_color;
             padding:2px 4px;
             border-radius: 4px;
             margin: 0 2px;
@@ -210,7 +211,7 @@ body.d .file_modal, body.d .file_notify {
         top: 6px;
         margin: 0 5px;
         font-size: 1.6rem;
-        color: $color;
+        color: $filled_color;
       }
       .title {
         flex: 0 0 100%;
@@ -219,7 +220,7 @@ body.d .file_modal, body.d .file_notify {
         text-align: left;
         text-transform: uppercase;
         margin: 0 0 5px;
-        color: $color;
+        color: $filled_color;
       }
     }
     .info:before {

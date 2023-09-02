@@ -1,4 +1,3 @@
-@charset "UTF-8";
 .file_modal, .file_notify {
   position: fixed;
   z-index: 999;
@@ -129,7 +128,7 @@ body.d .file_modal, body.d .file_notify {
   margin: 0;
   padding: 10px 0;
   text-align: center;
-  color: var(--color);
+  color: var(--filled_color);
 }
 .file_modal .files_head input {
   display: none;
@@ -152,12 +151,12 @@ body.d .file_modal, body.d .file_notify {
   line-height: 40px;
 }
 .file_modal .files_head .expand {
-  content: "";
+  content: "\f1ce";
 }
 .file_modal .files_head .close {
   left: auto;
   top: auto;
-  color: var(--color);
+  color: var(--filled_color);
 }
 .file_modal .files_head .info {
   display: flex;
@@ -168,7 +167,7 @@ body.d .file_modal, body.d .file_notify {
   position: relative;
 }
 .file_modal .files_head .info div {
-  color: var(--color);
+  color: var(--filled_color);
 }
 .file_modal .files_head .info > div {
   margin: 0 10px;
@@ -178,7 +177,7 @@ body.d .file_modal, body.d .file_notify {
   flex-grow: 1;
   flex-wrap: wrap;
   position: relative;
-  color: var(--color);
+  color: var(--filled_color);
 }
 .file_modal .files_head .info > div .types {
   display: flex;
@@ -188,7 +187,7 @@ body.d .file_modal, body.d .file_notify {
 .file_modal .files_head .info > div .types .type {
   font-size: 0.6rem;
   background: rgba(255, 255, 255, 0.3);
-  color: var(--color);
+  color: var(--filled_color);
   padding: 2px 4px;
   border-radius: 4px;
   margin: 0 2px;
@@ -200,7 +199,7 @@ body.d .file_modal, body.d .file_notify {
   top: 6px;
   margin: 0 5px;
   font-size: 1.6rem;
-  color: var(--color);
+  color: var(--filled_color);
 }
 .file_modal .files_head .info .title {
   flex: 0 0 100%;
@@ -209,7 +208,7 @@ body.d .file_modal, body.d .file_notify {
   text-align: left;
   text-transform: uppercase;
   margin: 0 0 5px;
-  color: var(--color);
+  color: var(--filled_color);
 }
 .file_modal .files_head .info:before {
   position: absolute;
@@ -246,7 +245,7 @@ body.d .file_modal, body.d .file_notify {
 }
 
 body.d .file_modal .files_head {
-  background: #232323;
+  background: rgb(35, 35, 35);
 }
 
 /*.files_head .browse_file {
@@ -469,13 +468,13 @@ body.d .file_modal .files_head {
   transform: translateY(-50%);
 }
 .files_actions .i.select:after {
-  content: "";
+  content: "\e86c";
 }
 .files_actions .i.browse:after {
-  content: "";
+  content: "\e9fc";
 }
 .files_actions .i.trash:after {
-  content: "";
+  content: "\e872";
 }
 .files_actions .i.disabled {
   background: none;
@@ -486,7 +485,7 @@ body.d .file_modal .files_head {
 }
 
 body.d .files_actions {
-  border-top: 1px solid #232323;
+  border-top: 1px solid rgb(35, 35, 35);
 }
 body.d .files_actions div, body.d .files_actions label {
   color: #fff;
@@ -677,11 +676,9 @@ body.d .aio_files .trash {
     max-height: none;
     padding-bottom: 20vh;
   }
-
   .file_notify {
     width: 100vw;
   }
-
   .files_actions {
     position: fixed;
     left: 0;
@@ -692,14 +689,12 @@ body.d .aio_files .trash {
     padding: 20px 10px;
     background: #fff !important;
   }
-
   #aio_up .f:after {
     left: 5px;
     top: 5px;
     width: 15px;
     height: 15px;
   }
-
   .aio_fsp > .w {
     margin: 0;
   }
