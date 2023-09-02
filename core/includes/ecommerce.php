@@ -168,7 +168,7 @@ class ECOMMERCE {
                         //[ 'i' => 'weight_unit', 'n' => 'Weight Unit', 'o' => [ 'mg', 'gram', 'kg', 'oz', 'lb' ], 'v' => 'kg', 't' => 'select', 'c' => 4 ],
                         //[ 'i' => 'size_unit', 'n' => 'Size Unit', 'o' => [ 'mm', 'cm', 'm', 'in', 'ft' ], 't' => 'select', 'c' => 4 ],
                         [ 't' => 'slide', 'i' => 'show_grid_sizes', 'n' => 'Grid columns selection', 'off' => 'Hide', 'on' => 'Show', 'c' => 4 ],
-                        [ 't' => 'checkboxes', 'i' => 'show_grid_s', 'n' => 'Grid columns', 'o' => [ '3 Columns', '4 Columns', '6 Columns', '8 Columns' ], 'inputs_wrap' => 'row', 'inputs_pre' => 3, 'c' => 8 ],
+                        [ 't' => 'checkboxes', 'i' => 'show_grid_s', 'n' => 'Grid columns', 'o' => [ '3 Columns', '4 Columns', '6 Columns', '8 Columns' ], 'inputs_pre' => 3, 'c' => 8 ],
                     ];
                     $f->form( $general_form, 'settings', 'store' );
                     $c->post();
@@ -180,7 +180,7 @@ class ECOMMERCE {
                         [ 'i' => 'filters_type', 'n' => 'Filter Parameters in URL', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide' ],
                         [ 'i' => 'price_filter', 'n' => 'Price filter', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide' ],
                         [ 'i' => 'filters_style', 'n' => 'Filters Style', 'o' => [ 'Checkboxes', 'Check Buttons' ], 't' => 'radios', 'inputs_pre' => 3 ],
-                        [ 'i' => 'filters_position', 'n' => 'Filters Position', 'o' => [ 'Left', 'Top', 'Right', 'Floating' ], 't' => 'radios', 'inputs_wrap' => 'row', 'inputs_pre' => 3 ],
+                        [ 'i' => 'filters_position', 'n' => 'Filters Position', 'o' => [ 'Left', 'Top', 'Right', 'Floating' ], 't' => 'radios', 'inputs_pre' => 3 ],
                     ];
                     $f->form( $filters_form, 'settings', 'store' );
                     $c->post();
@@ -188,19 +188,20 @@ class ECOMMERCE {
                     // Product Options
                     $c->pre( 'category_store_page_data', 'off' );
                     $filters_form = [
-                        [ 'i' => 'product_content_align', 'n' => 'Product Content Alignment', 'o' => [ 'tal' => 'Left', 'tac' => 'Center', 'tar' => 'Right' ], 't' => 'radios', 'inputs_wrap' => 'row', 'inputs_pre' => 4 ],
+                        [ 'i' => 'product_content_align', 'n' => 'Product Content Alignment', 'o' => [ 'tal' => 'Left', 'tac' => 'Center', 'tar' => 'Right' ], 't' => 'radios', 'inputs_pre' => 4 ],
                         [ 'i' => 'product_title_show', 'n' => 'Product Title', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide' ],
-                        [ 'i' => 'product_title_style', 'n' => 'Title Style', 'o' => [ 'n' => 'Normal', 'strong' => 'Bold' ], 't' => 'radios', 'inputs_wrap' => 'row', 'inputs_pre' => 4 ],
-                        [ 'i' => 'product_title_size', 'n' => 'Title Size', 'o' => [ 'xs' => 'Small -', 'sm' => 'Small', 'm' => 'Medium', 'l' => 'Large', 'xl' => 'Large +' ], 'k' => 1, 't' => 'radios', 'inputs_wrap' => 'row', 'inputs_pre' => 2 ],
-                        [ 'i' => 'show_price', 'n' => 'Price Size', 'o' => [ 'xs' => 'Extra Small', 'sm' => 'Small', 'm' => 'Medium', 'l' => 'Large', 'xl' => 'Extra Large' ], 'k' => 1, 't' => 'select' ],
-                        [ 'i' => 'price_size', 'n' => 'Price Size', 'o' => [ 'xs' => 'Extra Small', 'sm' => 'Small', 'm' => 'Medium', 'l' => 'Large', 'xl' => 'Extra Large' ], 'k' => 1, 't' => 'select' ],
+                        [ 'i' => 'product_title_style', 'n' => 'Title Style', 'o' => [ 'n' => 'Normal', 'strong' => 'Bold' ], 't' => 'radios', 'inputs_pre' => 4 ],
+                        [ 'i' => 'product_title_size', 'n' => 'Title Size', 'o' => [ 'xs' => 'Small -', 'sm' => 'Small', 'm' => 'Medium', 'l' => 'Large', 'xl' => 'Large +' ], 't' => 'radios', 'inputs_pre' => 2 ],
+                        [ 'i' => 'product_price_show', 'n' => 'Show Price', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide' ],
+                        [ 'i' => 'product_price_style', 'n' => 'Title Style', 'o' => [ 'n' => 'Normal', 'strong' => 'Bold' ], 't' => 'radios', 'inputs_pre' => 4 ],
+                        [ 'i' => 'product_price_size', 'n' => 'Title Size', 'o' => [ 'xs' => 'Small -', 'sm' => 'Small', 'm' => 'Medium', 'l' => 'Large', 'xl' => 'Large +' ], 't' => 'radios', 'inputs_pre' => 2 ],
+                        [ 'i' => 'product_price_var_pre', 'n' => 'Variation Price Pretext', 'p' => 'Ex: Starting, From, Upto etc.' ],
+                        [ 'i' => 'product_price_var', 'n' => 'Variation Price', 'o' => [ 'low' => 'Show starting price only', 'range' => 'Show Range', 'high' => 'Show highest price only'  ], 't' => 'radios', 'inputs_pre' => 4 ],
+                        [ 'i' => 'product_tag_show', 'n' => 'Show Sale / New Tags', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide' ],
+                        [ 'i' => 'product_tag_style', 'n' => 'Sale / New Tag Style', 'o' => [ 'round' => 'Rounded', 'square' => 'Squared', 'rect' => 'Rectangle'  ], 't' => 'radios', 'inputs_pre' => 4 ],
+                        [ 'i' => 'product_tag_position', 'n' => 'Sale / New Tag Position', 'o' => [ 't l' => 'Top Left', 't r' => 'Top Right' ], 't' => 'radios', 'inputs_pre' => 4 ],
                     ];
                     $f->form( $filters_form, 'settings', 'store' );
-                        // Price Style
-                        // Variation Price Style
-                        // Sale / New Tag Style
-                        // Sale Tag Position
-                        // New Tag Position
                         // Add to Cart Style
                         // Add to Cart Position
                         // Edit Product Icon Position

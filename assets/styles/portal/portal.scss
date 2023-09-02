@@ -1,6 +1,7 @@
 $primary: var(--primary_color);
 $secondary: var(--secondary_color);
 $color: var(--color);
+$filled_color: var(--filled_color);
 $radius: var(--input_radius);
 $border-top: var(--input_border_top);
 $border-right: var(--input_border_right);
@@ -524,7 +525,7 @@ article.fade > div {
 #alert {
   span {
     font-size:12px;
-    color: $color;
+    color: $filled_color;
     background: $primary;
     background: linear-gradient(160deg, $primary 0%, $secondary 100%);
     border-radius:50%;
