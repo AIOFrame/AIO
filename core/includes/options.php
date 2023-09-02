@@ -343,7 +343,7 @@ class OPTIONS {
         $f->upload('no_access_image','Image to show when user has no access!','Upload',$no_access_image,1,0,'','data-cn','jpg,png,svg',.1,0,'',6);
         $f->upload('no_content_image','Image to show when there is no content!','Upload',$no_content_image,1,0,'','data-cn','jpg,png,svg',.1,0,'',6);
         $f->process_options('Save Options','store grad','','.col-12 tac');
-        echo '</div>';
+        $f->post_process();
     }
 
     /**
@@ -371,7 +371,7 @@ class OPTIONS {
             $f->text( $ok, $ov, 'Ex: '.$ov.' URL', $val, 'data-soc', 3 );
         }
         $f->process_options('Save Options','store grad','','.col-12 tac');
-        echo '</div>';
+        $f->post_process();
     }
 
     function all_options( string $table_class = '' ): void {
@@ -493,14 +493,15 @@ class OPTIONS {
      * @return void
      */
     function render_options( int $display_type = 1, string $enterprise = '', string $brand = '', string $input = '', string $social = '', string $languages = '' ): void {
+        $c = new CODE();
         if( $display_type == 1 ) {
-            echo '<div class="tabs"><div class="tab_heads" data-store>';
-            echo !empty( $enterprise ) ? '<div data-t="#aio_enterprise_options">'.T($enterprise).'</div>' : '';
-            echo !empty( $brand ) ? '<div data-t="#aio_brand_options">'.T($brand).'</div>' : '';
-            echo !empty( $input ) ? '<div data-t="#aio_input_options">'.T($input).'</div>' : '';
-            echo !empty( $social ) ? '<div data-t="#aio_social_options">'.T($social).'</div>' : '';
-            echo !empty( $languages ) ? '<div data-t="#aio_languages_options">'.T($languages).'</div>' : '';
-            echo '</div></div>';
+            $c->pre_tabs();
+            !empty( $enterprise ) ? $c->tab( T( $enterprise ), 0, 'aio_enterprise_options' ) : '';
+            !empty( $brand ) ? $c->tab( T( $brand ), 0, 'aio_brand_options' ) : '';
+            !empty( $input ) ? $c->tab( T( $input ), 0, 'aio_input_options' ) : '';
+            !empty( $social ) ? $c->tab( T( $social ), 0, 'aio_social_options' ) : '';
+            !empty( $languages ) ? $c->tab( T( $languages ), 0, 'aio_languages_options' ) : '';
+            $c->post_tabs();
         }
         // Company Options
         // Brand Options

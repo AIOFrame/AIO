@@ -66,7 +66,7 @@ class CODE {
                 $color2 = $options['secondary_color'] ?? '#222';
             }
         } else {
-            $color = '#fff';
+            $color = '#000';
             $color1 = '#00A99D';
             $color2 = '#00A99D';
             $filled_color = '#fff';
@@ -80,7 +80,7 @@ class CODE {
         //skel( $options );
         echo $dark_mode ? '--dark_mode:1;' : '--dark_mode:0;';
         echo '--primary_color:'.$color1.';--secondary_color:'.$color2.';--color:'.$color.';--filled_color:'.$filled_color.';--disabled_color:'.$disabled_color.';--progress_color:'.$progress_color.';--warning_color:'.$warning_color.';--error_color:'.$error_color.';--success_color:'.$success_color;
-        echo '}.c1{color:'.$color1.'}.c2{color:'.$color2.'}.bg1{background:'.$color1.'}.bg2{background:'.$color2.'}.bs{border:1px solid '.$color1.'}.bf:focus{border:1px solid var(--primary_color)}.grad{color:var(--color);background-color:var(--primary_color);background:-moz-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background:-webkit-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background-image:linear-gradient(45deg,var(--primary_color) 0%,var(--secondary_color) 100%);}.grad-text{background: -webkit-linear-gradient(var(--primary_color), var(--secondary_color));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}</style>';
+        echo '}.c1{color:'.$color1.'}.c2{color:'.$color2.'}.bg1{background:'.$color1.'}.bg2{background:'.$color2.'}.bs{border:1px solid '.$color1.'}.bf:focus{border:1px solid var(--primary_color)}.grad{color:var(--filled_color);background-color:var(--primary_color);background:-moz-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background:-webkit-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background-image:linear-gradient(45deg,var(--primary_color) 0%,var(--secondary_color) 100%);}.grad-text{background: -webkit-linear-gradient(var(--primary_color), var(--secondary_color));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}</style>';
 
         // Fav Icon
         $favicon = isset( $options['fav'] ) ? storage_url( $options['fav'] ) : 'fav';
@@ -512,6 +512,61 @@ class CODE {
         echo $content;
         echo !empty( $col ) ? '</div>' : '';
         echo '</div>';
+    }
+
+    function pre_tabs( string $class = '' ): void {
+        echo '<div class="tabs '.$class.'"><div class="tab_heads" data-store="tabs_'.str_replace( ' ', '_', $class ).'">';
+    }
+
+    function tab( string $title = '', bool $active = false, string $target = '', string $icon = '' ): void {
+        $target = empty( $target ) ? strtolower( str_replace( '___', '_', str_replace( ' ', '_', str_replace( '/', '_', $title ) ) ) ).'_data' : $target;
+        $class = $active ? ' class="tab on"' : ' class="tab"';
+        if( !empty( $icon ) ) {
+            $title = defined( 'ICONS' ) ? ( str_contains( ICONS, 'Material' ) ? '<i class="mat-ico">'.$icon.'</i>'.$title : '<i class="bi bi-'.$icon.'"></i>'.$title ) : $title;
+        }
+        echo '<div data-tab="#'.$target.'"'.$class.'>'. $title .'</div>';
+    }
+
+    function post_tabs(): void {
+        echo '</div></div>';
+    }
+
+    function pre( string $id = '', string $class = '', string $element = 'div' ): void {
+        $id = !empty( $id ) ? ' id="'.$id.'"' : '';
+        $class = !empty( $class ) ? ' class="'.$class.'"' : '';
+        echo '<'.$element.$id.$class.'>';
+    }
+
+    function post( string $element = 'div' ): void {
+        echo '</'.$element.'>';
+    }
+
+    function h1( string $title = '', bool $translate = true ): void {
+        echo $this->_h( 1, $title, $translate );
+    }
+
+    function h2( string $title = '', bool $translate = true ): void {
+        echo $this->_h( 2, $title, $translate );
+    }
+
+    function h3( string $title = '', bool $translate = true ): void {
+        echo $this->_h( 3, $title, $translate );
+    }
+
+    function h4( string $title = '', bool $translate = true ): void {
+        echo $this->_h( 4, $title, $translate );
+    }
+
+    function h5( string $title = '', bool $translate = true ): void {
+        echo $this->_h( 5, $title, $translate );
+    }
+
+    function h6( string $title = '', bool $translate = true ): void {
+        echo $this->_h( 6, $title, $translate );
+    }
+
+    function _h( int $level = 1,  string $title = '', bool $translate = true ): string {
+        return '<h'.$level.'>'.( $translate ? T( $title ) : $title ).'</'.$level.'>';
     }
 }
 

@@ -174,13 +174,16 @@ label.beta {
 }
 label.slide_label {
   font-size: 1rem;
+  color: var(--color);
+  background: none;
   margin: var(--input_margin_top) var(--input_margin_right) var(--input_margin_bottom) var(--input_margin_left);
   padding: 0;
   display: inline-block;
   vertical-align: middle;
   text-transform: none;
   cursor: pointer;
-  color: #000;
+  -webkit-text-fill-color: var(--color);
+  //color: #000;
 }
 label.slide_label.off {
   padding-right: 10px;
@@ -314,7 +317,7 @@ textarea {
     }
   }
   .select2-results__options {
-    [title]:hover::after {
+    /* [title]:hover::after {
       content: attr(title);
       padding: 6px;
       background: -webkit-linear-gradient(45deg,var(--primary_color),var(--secondary_color));
@@ -326,7 +329,7 @@ textarea {
       left: 0;
       z-index: 100;
       pointer-events: none;
-    }
+    } */
   }
 }
 select.mb0 + .select2-container {
@@ -511,6 +514,35 @@ select.mb0 + .select2-container {
 
 .next, .prev {
   margin: 0;
+}
+
+/* Settings UI */
+.settings.form {
+  .setting_set {
+    display: flex;
+    align-items: flex-start;
+    margin: 0 -10px;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    padding: 10px 0;
+    > label {
+      margin: 15px 10px;
+      flex: 0 0 calc(30% - 20px);
+      text-transform: none;
+      font-size: 1.1rem;
+    }
+    > div {
+      flex: 0 0 calc(70% - 20px);
+      [type=radio], [type=checkbox] {
+        margin: 15px 0;
+      }
+    }
+    [type=text], [type=search], [type=number], [type=email], [type=date], [type=time], [type=password], [type=file], select, textarea, select.empty+.select2 .select2-selection--single, [type=radio]+label, [type=checkbox]+label, label.slide_label {
+      margin: 0;
+    }
+    .select2-container {
+      margin: 0;
+    }
+  }
 }
 
 /* TRUMBOWYG EDITOR */

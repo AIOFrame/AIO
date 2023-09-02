@@ -81,6 +81,15 @@ class REGION {
      * @return void
      */
     function region_options(): void {
+        // Regional Options
+            // Region
+                // Address
+                // Primary Language
+                // Currency Symbol
+                // Currency Rate
+                // Serving Countries
+                // Tax Options
+                // Payment Options
         $f = new FORM();
         $db = new DB();
         $countries = get_countries('iso2');

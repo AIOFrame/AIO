@@ -463,9 +463,11 @@ class FORM {
         $tip = $label !== '' ? 'title="'.$label.'"' : '';
         $return = $_p;
         $return .= !empty($label) ? '<label class="db">'.T( $label ).'</label>' : '';
+        $return .= '<div class="slide_set">';
         $return .= !empty( $off_text ) ? '<label for="' . $id . '" '.$tip.' class="slide_label off">' . $off_text . '</label>' : '';
         $return .= '<input ' . $attr . ' class="slide ' . $size . '" type="checkbox" name="' . $name . '" '.$key.' id="' . $id . '" '. $checked .' >';
         $return .= !empty( $on_text ) ? '<label for="' . $id . '" '.$tip.' class="slide_label on">' . $on_text . '</label>' : '';
+        $return .= '</div>';
         $return .= $p_;
         return $return;
     }
@@ -1083,7 +1085,7 @@ class FORM {
      * @param string $data_attr Common data attribute for all inputs
      */
     function _form( array $fields = [], string $form_type = '', string $data_attr = '' ): string {
-        $return = $form_type == 'get' || $form_type == '$_GET' ? '<form method="get">' : ( $form_type == 'post' || $form_type == '$_POST' ? '<form method="post">' : ( $form_type == 'row' || $form_type == 'r' ? '<div class="form row">' : '<div class="form">' ) );
+        $return = $form_type == 'get' || $form_type == '$_GET' ? '<form method="get">' : ( $form_type == 'post' || $form_type == '$_POST' ? '<form method="post">' : ( $form_type == 'row' || $form_type == 'r' ? '<div class="form row">' : ( $form_type == 'settings' ? '<div class="settings form">' : '<div class="form">' ) ) );
         // x = count( fields ) && $col == 12 ?
         foreach( $fields as $x => $f ) {
             $type = $f['type'] ?? ( $f['t'] ?? 'text' );
@@ -1094,7 +1096,7 @@ class FORM {
             $val = $f['value'] ?? ( $f['va'] ?? ( $f['v'] ?? ( $_POST[$id] ?? ( $_GET[$id] ?? '' ) ) ) );
             $data = !empty( $data_attr ) ? ' data-'.$data_attr.' ' : '';
             $attrs = $data . ( $f['attr'] ?? ($f['a'] ?? '') );
-            $pre = $f['pre'] ?? ($f['col'] ?? ( $f['c'] ?? ( $form_type == 'row' || $form_type == 'r' ? 12 : '<div>' ) ));
+            $pre = $form_type == 'settings' ? '<div class="setting_set">' : ( $f['pre'] ?? ($f['col'] ?? ( $f['c'] ?? ( $form_type == 'row' || $form_type == 'r' ? 12 : '<div>' ) )) );
             $post = ( !empty( $pre ) && empty( $f['post'] ) ) ? '</div>' : ( $f['post'] ?? 'ted' );
             if( $type == 'select' || $type == 'select2' ) {
                 $options = $f['options'] ?? ( $f['os'] ?? ( $f['o'] ?? [] ) );
@@ -1117,14 +1119,14 @@ class FORM {
                 $border = $f['border'] ?? ( $f['b'] ?? '' );
                 $preview = $f['preview'] ?? ( $f['view'] ?? '' );
                 $return .= $this->_color( $id, $label, $place, $val, $attrs, $pre, $border, $preview, $post );
-            } else if( $type == 'checkboxes' ) {
+            } else if( $type == 'checkboxes' || $type == 'radios' ) {
                 $values = $f['values'] ?? ( $f['v'] ?? ( $f['options'] ?? ( $f['o'] ?? [] ) ) );
                 $checked = $f['checked'] ?? ( $f['check'] ?? [] );
                 $label_first = $f['label_first'] ?? ( $f['lf'] ?? 0 );
-                $inputs_wrap = $f['inputs_wrap'] ?? ( $f['iw'] ?? '' );
                 $inputs_pre = $f['inputs_pre'] ?? ( $f['i_p'] ?? '' );
                 $inputs_post = $f['inputs_post'] ?? ( $f['ip_'] ?? '' );
-                $return .= $this->_checkboxes( $id, $label, $values, $checked, $attrs, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post );
+                $inputs_wrap = $f['inputs_wrap'] ?? ( $f['iw'] ?? ( is_numeric( $inputs_pre ) || is_float( $inputs_pre ) ? 'row' : '' ) );
+                $return .= $type == 'checkboxes' ? $this->_checkboxes( $id, $label, $values, $checked, $attrs, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post ) : $this->_radios( $id, $label, $values, $checked, $attrs, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post );
             }else if( $type == 'phone' ) {
                 $id_2 = $f['id2'] ?? ( $f['i2'] ?? '' );
                 $label_2 = $f['label2'] ?? ( $f['l2'] ?? ( $f['title2'] ?? ( $f['name2'] ?? ( $f['n2'] ?? '' ) ) ) );
@@ -1132,7 +1134,7 @@ class FORM {
                 $val_2 = $f['value2'] ?? ( $f['va2'] ?? ( $f['v2'] ?? ( $_POST[$id_2] ?? ( $_GET[$id_2] ?? '' ) ) ) );
                 $return .= $this->_phone( $id, $id_2, $label, $label_2, $place, $place_2, $val, $val_2, $attrs, $pre, $post );
             } else if( $type == 'upload' ) {
-                $btn_label = $f['btn_label'] ?? ( $label ?? 'Upload...' );
+                $btn_label = $f['btn_label'] ?? ( $f['button'] ?? ( $f['b'] ?? ( $label ?? 'Upload...' ) ) );
                 $multiple = $f['multiple'] ?? ( $f['m'] ?? 0 );
                 $history = $f['history'] ?? ( $f['h'] ?? 0 );
                 $btn_class = $f['btn_class'] ?? ( $f['h'] ?? 0 );
