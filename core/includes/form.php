@@ -1121,7 +1121,7 @@ class FORM {
                 $return .= $this->_color( $id, $label, $place, $val, $attrs, $pre, $border, $preview, $post );
             } else if( $type == 'checkboxes' || $type == 'radios' ) {
                 $values = $f['values'] ?? ( $f['v'] ?? ( $f['options'] ?? ( $f['o'] ?? [] ) ) );
-                $checked = $f['checked'] ?? ( $f['check'] ?? [] );
+                $checked = $f['checked'] ?? ( $f['check'] ?? ( $f['selected'] ?? ( $f['s'] ?? '' ) ) );
                 $label_first = $f['label_first'] ?? ( $f['lf'] ?? 0 );
                 $inputs_pre = $f['inputs_pre'] ?? ( $f['i_p'] ?? '' );
                 $inputs_post = $f['inputs_post'] ?? ( $f['ip_'] ?? '' );

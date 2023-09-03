@@ -140,9 +140,23 @@ class ECOMMERCE {
     function store_options(): void {
         $c = new CODE();
         $f = new FORM();
+        $d = new DB();
         $font_sizes = [ 'sm' => 'Small', 'm' => 'Medium', 'l' => 'Large', 'xl' => 'Large +' ];
-        $aligns = [ 'tal' => 'Left', 'tac' => 'Center', 'tar' => 'Right' ];
+        $aligns = [ 'l' => 'Left', 'c' => 'Center', 'r' => 'Right' ];
         $font_styles = [ 'n' => 'Normal', 'strong' => 'Bold', 'i' => 'Italic', 'bi' => 'Bold Italic' ];
+
+        // Fetch saved data
+        $general_form_ops = [ 'default_products_view', 'product_placeholder', 'show_product_view_toggle', 'show_grid_sizes', 'show_grid_s' ];
+        $filters_form_ops = [ 'show_filters', 'filters_type', 'price_filter', 'filters_style', 'filters_position' ];
+        $store_form_ops = [ 'cat_content_align', 'cat_title_show', 'cat_title_style', 'cat_title_size', 'cat_cat_show', 'cat_cat_style', 'cat_cat_size', 'cat_price_show', 'cat_price_style', 'cat_price_size', 'cat_price_var', 'cat_price_var_pre', 'cat_tag_show', 'cat_tag_style', 'cat_tag_position', 'cat_icons_style', 'cat_icons_position', 'cat_to_cart_style' ];
+        $product_form_ops = [ 'product_gallery_position', 'product_gallery_style', 'product_gallery_arrows', 'product_gallery_dots', 'product_mini_gallery', 'product_mini_gallery_position', 'product_gallery_full', 'product_title_style', 'product_title_size', 'product_cat_style', 'product_cat_size', 'product_price_style', 'product_price_size', 'product_tag_show', 'product_tag_style', 'product_tag_position', 'product_show_share', 'product_content_style', 'product_show_desc', 'product_show_prop', 'product_show_reviews', 'product_show_related' ];
+        $review_form_ops = [ 'enable_reviews', 'strict_purchased_reviews', 'moderate_reviews', 'review_images' ];
+        $stock_form_ops = [ 'managed_stock', 'low_stock_threshold', 'stock_managers' ];
+        $orders_form_ops = [ 'guest_checkout', 'checkout_guest_login', 'checkout_guest_register' ];
+        $all_ops = array_merge( $general_form_ops, $filters_form_ops, $store_form_ops, $product_form_ops, $review_form_ops, $stock_form_ops, $orders_form_ops );
+        $ops = $d->get_options( $all_ops );
+
+        $f->option_params_wrap( '', 2, 2, $all_ops );
         $c->pre_tabs( 'three mb30' );
             $c->tab( 'Store', 1, '', 'store' );
             $c->tab( 'Reviews', 0, '', 'hotel_class' );
@@ -165,13 +179,13 @@ class ECOMMERCE {
                     // General
                     $c->pre( 'general_data' );
                     $general_form = [
-                        [ 'i' => 'default_products_view', 'n' => 'Default products view', 'o' => [ 'Grid', 'List' ], 't' => 'radios', 'inputs_pre' => 3, 'c' => 4 ],
-                        [ 't' => 'upload', 'i' => 'product_placeholder', 'n' => 'Product image placeholder', 'b' => 'Upload', 'c' => 4 ],
-                        [ 't' => 'slide', 'i' => 'show_product_view_toggle', 'n' => 'Grid / list toggle', 'off' => 'Hide', 'on' => 'Show', 'c' => 4 ],
+                        [ 'i' => 'default_products_view', 'n' => 'Default products view', 'o' => [ 'Grid', 'List' ], 't' => 'radios', 'inputs_pre' => 3, 'c' => 4, 's' => $ops['default_products_view'] ?? [ 'Grid' ] ],
+                        [ 'i' => 'product_placeholder', 'n' => 'Product image placeholder', 't' => 'upload', 'b' => 'Upload', 'c' => 4, 'v' => $ops['product_placeholder'] ?? '' ],
+                        [ 'i' => 'show_product_view_toggle', 'n' => 'Grid / list toggle', 't' => 'slide', 'off' => 'Hide', 'on' => 'Show', 'c' => 4, 'v' => $ops['show_product_view_toggle'] ?? 2 ],
                         //[ 'i' => 'weight_unit', 'n' => 'Weight Unit', 'o' => [ 'mg', 'gram', 'kg', 'oz', 'lb' ], 'v' => 'kg', 't' => 'select', 'c' => 4 ],
                         //[ 'i' => 'size_unit', 'n' => 'Size Unit', 'o' => [ 'mm', 'cm', 'm', 'in', 'ft' ], 't' => 'select', 'c' => 4 ],
-                        [ 't' => 'slide', 'i' => 'show_grid_sizes', 'n' => 'Grid columns selection', 'off' => 'Hide', 'on' => 'Show', 'c' => 4 ],
-                        [ 't' => 'checkboxes', 'i' => 'show_grid_s', 'n' => 'Grid columns', 'o' => [ '3 Columns', '4 Columns', '6 Columns', '8 Columns' ], 'inputs_pre' => 3, 'c' => 8 ],
+                        [ 'i' => 'show_grid_sizes', 'n' => 'Grid columns selection', 't' => 'slide', 'off' => 'Hide', 'on' => 'Show', 'c' => 4, 'v' => $ops['show_grid_sizes'] ?? 2 ],
+                        [ 'i' => 'show_grid_s', 'n' => 'Grid columns', 't' => 'checkboxes', 'o' => [ 3 => '3 Columns', 4 => '4 Columns', 6 => '6 Columns', 8 => '8 Columns' ], 'k' => 1, 'inputs_pre' => 3, 'c' => 8, 's' => $ops['show_grid_s'] ?? [ 3, 4 ] ],
                     ];
                     $f->form( $general_form, 'settings', 'store' );
                     $c->post();
@@ -179,11 +193,11 @@ class ECOMMERCE {
                     // Filters
                     $c->pre( 'filters_data', 'off' );
                     $filters_form = [
-                        [ 'i' => 'show_filters', 'n' => 'Show filters', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide' ],
-                        [ 'i' => 'filters_type', 'n' => 'Filter Parameters in URL', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide' ],
-                        [ 'i' => 'price_filter', 'n' => 'Price filter', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide' ],
-                        [ 'i' => 'filters_style', 'n' => 'Filters Style', 'o' => [ 'Checkboxes', 'Check Buttons' ], 't' => 'radios', 'inputs_pre' => 3 ],
-                        [ 'i' => 'filters_position', 'n' => 'Filters Position', 'o' => [ 'Left', 'Top', 'Right', 'Floating' ], 't' => 'radios', 'inputs_pre' => 3 ],
+                        [ 'i' => 'show_filters', 'n' => 'Show filters', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide', 'v' => $ops['show_filters'] ?? 1 ],
+                        [ 'i' => 'filters_type', 'n' => 'Filter Parameters in URL', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide', 'v' => $ops['filters_type'] ?? 1 ],
+                        [ 'i' => 'price_filter', 'n' => 'Price filter', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide', 'v' => $ops['price_filter'] ?? 1 ],
+                        //[ 'i' => 'filters_style', 'n' => 'Filters Style', 'o' => [ 'cs' => 'Checkboxes', 'bs' => 'Check Buttons' ], 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['filters_style'] ?? [ 'tac' ] ],
+                        [ 'i' => 'filters_position', 'n' => 'Filters Position', 'o' => [ 'l' => 'Left', 't' => 'Top', 'r' => 'Right', 'f' => 'Floating' ], 'k' => 1, 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['filters_position'] ?? [ 't' ] ],
                     ];
                     $f->form( $filters_form, 'settings', 'store' );
                     $c->post();
@@ -191,24 +205,24 @@ class ECOMMERCE {
                     // Product Options
                     $c->pre( 'store_page_data', 'off' );
                     $store_form = [
-                        [ 'i' => 'cat_content_align', 'n' => 'Product Content Alignment', 'o' => $aligns, 't' => 'radios', 'inputs_pre' => 3 ],
-                        [ 'i' => 'cat_title_show', 'n' => 'Product Title', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide' ],
-                        [ 'i' => 'cat_title_style', 'n' => 'Title Style', 'o' => $font_styles, 't' => 'radios', 'inputs_pre' => 3 ],
-                        [ 'i' => 'cat_title_size', 'n' => 'Title Size', 'o' => $font_sizes, 't' => 'radios', 'inputs_pre' => 3 ],
-                        [ 'i' => 'cat_cat_show', 'n' => 'Category Title', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide' ],
-                        [ 'i' => 'cat_cat_style', 'n' => 'Category Title Style', 'o' => $font_styles, 't' => 'radios', 'inputs_pre' => 3 ],
-                        [ 'i' => 'cat_cat_size', 'n' => 'Category Title Size', 'o' => $font_sizes, 't' => 'radios', 'inputs_pre' => 3 ],
-                        [ 'i' => 'cat_price_show', 'n' => 'Show Price', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide' ],
-                        [ 'i' => 'cat_price_style', 'n' => 'Price Title Style', 'o' => $font_styles, 't' => 'radios', 'inputs_pre' => 3 ],
-                        [ 'i' => 'cat_price_size', 'n' => 'Price Title Size', 'o' => $font_sizes, 't' => 'radios', 'inputs_pre' => 3 ],
-                        [ 'i' => 'cat_price_var', 'n' => 'Variation Price', 'o' => [ 'low' => 'Show starting price only', 'range' => 'Show Range', 'high' => 'Show highest price only'  ], 't' => 'radios', 'inputs_pre' => 3 ],
-                        [ 'i' => 'cat_price_var_pre', 'n' => 'Variation Price Pretext', 'p' => 'Ex: Starting, From, Upto etc.' ],
-                        [ 'i' => 'cat_tag_show', 'n' => 'Show Sale / New Tags', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide' ],
-                        [ 'i' => 'cat_tag_style', 'n' => 'Sale / New Tag Style', 'o' => [ 'round' => 'Rounded', 'square' => 'Squared', 'rect' => 'Rectangle'  ], 't' => 'radios', 'inputs_pre' => 3 ],
-                        [ 'i' => 'cat_tag_position', 'n' => 'Sale / New Tag Position', 'o' => [ 't l' => 'Top Left', 't r' => 'Top Right' ], 't' => 'radios', 'inputs_pre' => 3 ],
-                        [ 'i' => 'cat_icons_style', 'n' => 'Product Icons Style', 'o' => [ 'h' => 'Horizontal', 'v' => 'Vertical' ], 't' => 'radios', 'inputs_pre' => 3 ],
-                        [ 'i' => 'cat_icons_position', 'n' => 'Product Icons Position', 'o' => [ 't l' => 'Top Left', 't r' => 'Top Right' ], 't' => 'radios', 'inputs_pre' => 3 ],
-                        [ 'i' => 'cat_to_cart_style', 'n' => 'Add to Cart Style', 'o' => [ 'icon' => 'Icon only', 'text' => 'Text only', 'hide' => 'Hidden' ], 't' => 'radios', 'inputs_pre' => 3 ],
+                        [ 'i' => 'cat_content_align', 'n' => 'Product Content Alignment', 'o' => $aligns, 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['cat_content_align'] ?? [ 'c' ] ],
+                        [ 'i' => 'cat_title_show', 'n' => 'Product Title', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide', 'v' => $ops['cat_title_show'] ?? 1 ],
+                        [ 'i' => 'cat_title_style', 'n' => 'Title Style', 'o' => $font_styles, 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['cat_title_style'] ?? [ 'n' ] ],
+                        [ 'i' => 'cat_title_size', 'n' => 'Title Size', 'o' => $font_sizes, 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['cat_title_size'] ?? [ 'sm' ] ],
+                        [ 'i' => 'cat_cat_show', 'n' => 'Category Title', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide', 'v' => $ops['cat_cat_show'] ?? 1 ],
+                        [ 'i' => 'cat_cat_style', 'n' => 'Category Title Style', 'o' => $font_styles, 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['cat_cat_style'] ?? [ 'strong' ] ],
+                        [ 'i' => 'cat_cat_size', 'n' => 'Category Title Size', 'o' => $font_sizes, 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['cat_cat_size'] ?? [ 'm' ] ],
+                        [ 'i' => 'cat_price_show', 'n' => 'Show Price', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide', 'v' => $ops['cat_price_show'] ?? 1 ],
+                        [ 'i' => 'cat_price_style', 'n' => 'Price Title Style', 'o' => $font_styles, 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['cat_price_style'] ?? [ 'n' ] ],
+                        [ 'i' => 'cat_price_size', 'n' => 'Price Title Size', 'o' => $font_sizes, 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['cat_price_size'] ?? [ 'l' ] ],
+                        [ 'i' => 'cat_price_var', 'n' => 'Variation Price', 'o' => [ 'low' => 'Show starting price only', 'range' => 'Show Range', 'high' => 'Show highest price only'  ], 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['cat_price_var'] ?? [ 'range' ] ],
+                        [ 'i' => 'cat_price_var_pre', 'n' => 'Variation Price Pretext', 'p' => 'Ex: Starting, From, Upto etc.', 'v' => $ops['cat_price_var_pre'] ?? 'From' ],
+                        [ 'i' => 'cat_tag_show', 'n' => 'Show Sale / New Tags', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide', 'v' => $ops['cat_tag_show'] ?? 1 ],
+                        [ 'i' => 'cat_tag_style', 'n' => 'Sale / New Tag Style', 'o' => [ 'round' => 'Rounded', 'square' => 'Squared', 'rect' => 'Rectangle' ], 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['cat_tag_style'] ?? [ 'round' ] ],
+                        [ 'i' => 'cat_tag_position', 'n' => 'Sale / New Tag Position', 'o' => [ 't l' => 'Top Left', 't r' => 'Top Right' ], 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['cat_tag_position'] ?? [ 't l' ] ],
+                        [ 'i' => 'cat_icons_style', 'n' => 'Product Icons Style', 'o' => [ 'h' => 'Horizontal', 'v' => 'Vertical' ], 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['cat_icons_style'] ?? [ 'v' ] ],
+                        [ 'i' => 'cat_icons_position', 'n' => 'Product Icons Position', 'o' => [ 't l' => 'Top Left', 't r' => 'Top Right' ], 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['cat_icons_position'] ?? [ 't r' ] ],
+                        [ 'i' => 'cat_to_cart_style', 'n' => 'Add to Cart Style', 'o' => [ 'icon' => 'Icon only', 'text' => 'Text only', 'hide' => 'Hidden' ], 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['cat_to_cart_style'] ?? [ 'icon' ] ],
                         // Order
                     ];
                     $f->form( $store_form, 'settings', 'store' );
@@ -222,28 +236,28 @@ class ECOMMERCE {
                     // Product Page
                     $c->pre( 'product_page_data', 'off' );
                     $product_form = [
-                        [ 'i' => 'product_gallery_position', 'n' => 'Gallery Position', 'o' => $aligns, 't' => 'radios', 'inputs_pre' => 3 ],
-                        [ 'i' => 'product_gallery_style', 'n' => 'Gallery Style', 'o' => [ '4x4 Grid', 'Slider' ], 't' => 'radios', 'inputs_pre' => 3 ],
-                        [ 'i' => 'product_gallery_arrows', 'n' => 'Gallery Arrows', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide' ],
-                        [ 'i' => 'product_gallery_dots', 'n' => 'Gallery Dots Pagination', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide' ],
-                        [ 'i' => 'product_mini_gallery', 'n' => 'Mini Gallery Pagination', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide' ],
-                        [ 'i' => 'product_mini_gallery_position', 'n' => 'Mini Gallery Position', 'o' => [ 'l' => 'Left', 'b' => 'Bottom', 'r' => 'Right' ], 't' => 'radios', 'inputs_pre' => 3 ],
-                        [ 'i' => 'product_gallery_full', 'n' => 'Full Screen Gallery Expansion', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide' ],
-                        [ 'i' => 'product_title_style', 'n' => 'Title Style', 'o' => $font_styles, 't' => 'radios', 'inputs_pre' => 3 ],
-                        [ 'i' => 'product_title_size', 'n' => 'Title Size', 'o' => $font_sizes, 't' => 'radios', 'inputs_pre' => 3 ],
-                        [ 'i' => 'product_cat_style', 'n' => 'Category Title Style', 'o' => $font_styles, 't' => 'radios', 'inputs_pre' => 3 ],
-                        [ 'i' => 'product_cat_size', 'n' => 'Category Size', 'o' => $font_sizes, 't' => 'radios', 'inputs_pre' => 3 ],
-                        [ 'i' => 'product_price_style', 'n' => 'Price Title Style', 'o' => $font_styles, 't' => 'radios', 'inputs_pre' => 3 ],
-                        [ 'i' => 'product_price_size', 'n' => 'Price Title Size', 'o' => $font_sizes, 't' => 'radios', 'inputs_pre' => 3 ],
-                        [ 'i' => 'product_tag_show', 'n' => 'Show Sale / New Tags', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide' ],
-                        [ 'i' => 'product_tag_style', 'n' => 'Sale / New Tag Style', 'o' => [ 'round' => 'Rounded', 'square' => 'Squared', 'rect' => 'Rectangle'  ], 't' => 'radios', 'inputs_pre' => 3 ],
-                        [ 'i' => 'product_tag_position', 'n' => 'Sale / New Tag Position', 'o' => [ 't l' => 'Top Left', 't r' => 'Top Right' ], 't' => 'radios', 'inputs_pre' => 3 ],
-                        [ 'i' => 'product_show_share', 'n' => 'Show Share Icons', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide' ],
-                        [ 'i' => 'product_content_style', 'n' => 'Content Style', 'o' => [ 'a' => 'Accordion', 't' => 'Tabs', 's' => 'Stacked' ], 't' => 'radios', 'inputs_pre' => 3 ],
-                        [ 'i' => 'product_show_desc', 'n' => 'Show Description', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide' ],
-                        [ 'i' => 'product_show_prop', 'n' => 'Show Properties', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide' ],
-                        [ 'i' => 'product_show_reviews', 'n' => 'Show Reviews', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide' ],
-                        [ 'i' => 'product_show_related', 'n' => 'Show Related', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide' ],
+                        [ 'i' => 'product_gallery_position', 'n' => 'Gallery Position', 'o' => $aligns, 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['product_gallery_position'] ?? [ 'c' ] ],
+                        [ 'i' => 'product_gallery_style', 'n' => 'Gallery Style', 'o' => [ '4g' => '4x4 Grid', 's' => 'Slider' ], 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['product_gallery_style'] ?? [ 's' ] ],
+                        [ 'i' => 'product_gallery_arrows', 'n' => 'Gallery Arrows', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide', 'v' => $ops['product_gallery_arrows'] ?? 1 ],
+                        [ 'i' => 'product_gallery_dots', 'n' => 'Gallery Dots Pagination', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide', 'v' => $ops['product_gallery_dots'] ?? 1 ],
+                        [ 'i' => 'product_mini_gallery', 'n' => 'Mini Gallery Pagination', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide', 'v' => $ops['product_mini_gallery'] ?? 1 ],
+                        [ 'i' => 'product_mini_gallery_position', 'n' => 'Mini Gallery Position', 'o' => $aligns, 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['product_mini_gallery_position'] ?? [ 'c' ] ],
+                        [ 'i' => 'product_gallery_full', 'n' => 'Full Screen Gallery Expansion', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide', 'v' => $ops['product_gallery_full'] ?? 1 ],
+                        [ 'i' => 'product_title_style', 'n' => 'Title Style', 'o' => $font_styles, 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['product_title_style'] ?? [ 'n' ] ],
+                        [ 'i' => 'product_title_size', 'n' => 'Title Size', 'o' => $font_sizes, 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['product_title_size'] ?? [ 'xl' ] ],
+                        [ 'i' => 'product_cat_style', 'n' => 'Category Title Style', 'o' => $font_styles, 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['product_cat_style'] ?? [ 'strong' ] ],
+                        [ 'i' => 'product_cat_size', 'n' => 'Category Size', 'o' => $font_sizes, 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['product_cat_size'] ?? [ 'm' ] ],
+                        [ 'i' => 'product_price_style', 'n' => 'Price Title Style', 'o' => $font_styles, 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['product_price_style'] ?? [ 'n' ] ],
+                        [ 'i' => 'product_price_size', 'n' => 'Price Title Size', 'o' => $font_sizes, 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['product_price_size'] ?? [ 'xl' ] ],
+                        [ 'i' => 'product_tag_show', 'n' => 'Show Sale / New Tags', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide', 'v' => $ops['product_tag_show'] ?? 1 ],
+                        [ 'i' => 'product_tag_style', 'n' => 'Sale / New Tag Style', 'o' => [ 'round' => 'Rounded', 'square' => 'Squared', 'rect' => 'Rectangle'  ], 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['product_tag_style'] ?? [ 'round' ] ],
+                        [ 'i' => 'product_tag_position', 'n' => 'Sale / New Tag Position', 'o' => [ 't l' => 'Top Left', 't r' => 'Top Right' ], 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['cat_to_cart_style'] ?? [ 't l' ] ],
+                        [ 'i' => 'product_show_share', 'n' => 'Show Share Icons', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide', 'v' => $ops['product_show_share'] ?? 1 ],
+                        [ 'i' => 'product_content_style', 'n' => 'Content Style', 'o' => [ 'a' => 'Accordion', 't' => 'Tabs', 's' => 'Stacked' ], 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['cat_to_cart_style'] ?? [ 't' ] ],
+                        [ 'i' => 'product_show_desc', 'n' => 'Show Description', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide', 'v' => $ops['product_show_desc'] ?? 1 ],
+                        [ 'i' => 'product_show_prop', 'n' => 'Show Properties', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide', 'v' => $ops['product_show_prop'] ?? 1 ],
+                        [ 'i' => 'product_show_reviews', 'n' => 'Show Reviews', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide', 'v' => $ops['product_show_reviews'] ?? 1 ],
+                        [ 'i' => 'product_show_related', 'n' => 'Show Related', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide', 'v' => $ops['product_show_related'] ?? 1 ],
                         // Order
                     ];
                     $f->form( $product_form, 'settings', 'store' );
@@ -253,20 +267,21 @@ class ECOMMERCE {
 
             $c->pre( 'reviews_data', 'off' );
             $review_form = [
-                [ 't' => 'slide', 'i' => 'enable_reviews', 'n' => 'Product Reviews', 'off' => 'Disable', 'on' => 'Enable', 'c' => 4 ],
-                [ 't' => 'slide', 'i' => 'strict_purchased_reviews', 'n' => 'Who can add review ?', 'off' => 'Anyone', 'on' => 'Only Purchased', 'c' => 4 ],
-                [ 't' => 'slide', 'i' => 'moderate_reviews', 'n' => 'Moderate reviews ?', 'off' => 'No', 'on' => 'Yes', 'c' => 4 ],
+                [ 't' => 'slide', 'i' => 'enable_reviews', 'n' => 'Product Reviews', 'off' => 'Disable', 'on' => 'Enable', 'c' => 4, 'v' => $ops['enable_reviews'] ?? 1 ],
+                [ 't' => 'slide', 'i' => 'strict_purchased_reviews', 'n' => 'Who can add review ?', 'off' => 'Anyone', 'on' => 'Only Purchased', 'c' => 4, 'v' => $ops['strict_purchased_reviews'] ?? 2 ],
+                [ 't' => 'slide', 'i' => 'moderate_reviews', 'n' => 'Moderate reviews', 'off' => 'No', 'on' => 'Yes', 'c' => 4, 'v' => $ops['moderate_reviews'] ?? 1 ],
+                [ 't' => 'number', 'i' => 'review_images', 'n' => 'Max images in reviews', 'c' => 4, 'p' => 'Ex: 6 or 4 or 0 for no images', 'v' => $ops['review_images'] ?? 4 ],
             ];
             $f->form( $review_form, 'settings', 'store' );
             $c->post();
 
             $c->pre( 'stock_data', 'off' );
-            $tax_form = [
-                [ 't' => 'slide', 'i' => 'managed_stock', 'n' => 'Stock management', 'off' => 'Not needed', 'on' => 'Managed', 'c' => 4 ],
-                [ 't' => 'number', 'i' => 'low_stock_threshold', 'n' => 'Low Stock Threshold', 'c' => 4 ],
-                [ 't' => 'select', 'i' => 'stock_managers', 'n' => 'Stock Managers', 'o' => [], 'c' => 12 ],
+            $stock_form = [
+                [ 't' => 'slide', 'i' => 'managed_stock', 'n' => 'Stock management', 'off' => 'Not needed', 'on' => 'Managed', 'c' => 4, 'v' => $ops['managed_stock'] ?? 1 ],
+                [ 't' => 'number', 'i' => 'low_stock_threshold', 'n' => 'Low Stock Threshold', 'c' => 4, 'v' => $ops['low_stock_threshold'] ?? 5 ],
+                [ 't' => 'select', 'i' => 'stock_managers', 'n' => 'Stock Managers', 'o' => [], 'c' => 12, 'v' => $ops['stock_managers'] ?? '' ],
             ];
-            $f->form( $tax_form, 'settings', 'store' );
+            $f->form( $stock_form, 'settings', 'store' );
             $c->post();
             /* $c->pre( 'tax_data', 'off' );
             $tax_form = [
@@ -281,15 +296,17 @@ class ECOMMERCE {
                 // Tax based on [ 'Buyer Delivery Address', 'Buyer Billing Address', 'Store Address' ]
             $c->pre( 'orders_data', 'off' );
             $orders_form = [
-                [ 't' => 'slide', 'i' => 'guest_checkout', 'n' => 'Guest checkout', 'off' => 'Disable', 'on' => 'Enable', 'c' => 4 ],
-                [ 't' => 'slide', 'i' => 'checkout_guest_login', 'n' => 'Login at checkout', 'off' => 'Hide', 'on' => 'Show', 'c' => 4 ],
-                [ 't' => 'slide', 'i' => 'checkout_guest_register', 'n' => 'Sign up at checkout', 'off' => 'Hide', 'on' => 'Show', 'b' => 'Upload', 'c' => 4 ],
+                [ 't' => 'slide', 'i' => 'guest_checkout', 'n' => 'Guest checkout', 'off' => 'Disable', 'on' => 'Enable', 'c' => 4, 'v' => $ops['guest_checkout'] ?? 1 ],
+                [ 't' => 'slide', 'i' => 'checkout_guest_login', 'n' => 'Login at checkout', 'off' => 'Hide', 'on' => 'Show', 'c' => 4, 'v' => $ops['checkout_guest_login'] ?? 1 ],
+                [ 't' => 'slide', 'i' => 'checkout_guest_register', 'n' => 'Sign up at checkout', 'off' => 'Hide', 'on' => 'Show', 'b' => 'Upload', 'c' => 4, 'v' => $ops['checkout_guest_register'] ?? 1 ],
             ];
             $f->form( $orders_form, 'settings', 'store' );
             $c->post();
         $c->post();
+
+        $f->process_options( 'Save Store Options','store grad','','.tac');
+        $f->post_process();
         file_upload();
-        // TODO: E Commerce Store Options
     }
 
     /**

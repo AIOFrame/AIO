@@ -61,7 +61,7 @@ class OPTIONS {
         $r = defined( 'REGION' ) && isset( REGION['cca2'] ) ? strtolower( REGION['cca2'] ).'_' : '';
         $brands = defined( 'REGION' ) ? pre_keys( $this->brand_options, $r ) : $this->brand_options;
         $ops = $db->get_options( $brands );
-        $f->option_params_wrap(  'brand', 2, 2, $brands );
+        $f->option_params_wrap( 'brand', 2, 2, $brands );
         $attr = 'data-brand';
         $ext = 'jpg,svg,png';
         $name = !empty( $ops[$r.'app_name'] ) ? $ops[$r.'app_name'] : 'fake_name';
