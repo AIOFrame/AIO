@@ -439,7 +439,7 @@ article.fade > div {
   display: block;
 }
 
-.brand {
+a.brand {
   display: block;
   max-height: 70px;
   height: 100%;

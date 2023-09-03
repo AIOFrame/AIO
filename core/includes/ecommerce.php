@@ -228,11 +228,6 @@ class ECOMMERCE {
                     $f->form( $store_form, 'settings', 'store' );
                     $c->post();
 
-                    // List Product Options
-                    //$c->pre( 'list_data', 'off' );
-                    // Image Position
-                    //$c->post();
-
                     // Product Page
                     $c->pre( 'product_page_data', 'off' );
                     $product_form = [

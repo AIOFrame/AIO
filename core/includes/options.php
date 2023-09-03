@@ -366,10 +366,12 @@ class OPTIONS {
         $db = new DB();
         $os = $db->get_options( $options );
         $f->option_params_wrap('soc',2,2);
+        $social_form = [];
         foreach( $options as $ok => $ov ) {
             $val = $os[ $ok ] ?? '';
-            $f->text( $ok, $ov, 'Ex: '.$ov.' URL', $val, 'data-soc', 3 );
+            $social_form[] = [ 'i' => $ok, 'n' => $ov, 'p' => 'Ex: '.$ov.' URL', 'v' => $val ];
         }
+        $f->form( $social_form, 'settings', 'soc' );
         $f->process_options('Save Options','store grad','','.col-12 tac');
         $f->post_process();
     }
