@@ -33,7 +33,7 @@ class CMS {
             [ 'id' => 'meta_author', 'n' => 'Meta Author', 'c' => 12.1 ],
         ];
         $r = $f->_random();
-        !empty( $modal_class ) ? $c->pre_modal( $page_type, 'f' ) : '';
+        !empty( $modal_class ) ? $c->pre_modal( $page_type, $modal_class ) : '';
         $f->pre_process( 'data-wrap id="'.$page_type.'_form"', 'update_page_ajax', $r, 'p_', 2, 2, [ 'page_type' => strtolower( $page_type ) ] );
         _r();
         _c(8);
