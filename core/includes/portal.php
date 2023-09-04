@@ -303,7 +303,7 @@ class PORTAL {
                             <h4 class="role"><?php echo $user_role; ?></h4>
                             <div class="row">
                                 <div class="col tal"><a href="<?php echo APPURL.$profile_url; ?>" class="r5 bsn s btn m0"><?php E('My Profile'); ?></a></div>
-                                <div class="col tar"><button class="red r5 bsn s m0" onclick="logout(<?php echo '\''.$e->encrypt('logout_ajax').'\',\''.$logout_to.'\''; ?>)"><?php E('Log out'); ?></button></div>
+                                <div class="col tar"><button class="red r5 bsn s m0" onclick="logout(<?php echo '\''.(APPDEBUG ? 'logout_ajax' : $e->encrypt('logout_ajax') ).'\',\''.$logout_to.'\''; ?>)"><?php E('Log out'); ?></button></div>
                             </div>
                         </div>
                         <?php } else { ?>
