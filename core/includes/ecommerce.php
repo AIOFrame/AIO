@@ -492,7 +492,7 @@ class ECOMMERCE {
                 $actions = '<div class="acts">';
                 //$actions .= $f->_view_html(APPURL.'admin/products/prop/'.$p['prod_prop_id'],'div','','','','mat-ico','open_in_new');
                 $actions .= $f->_edit_html( $target_form, $p, 'div','','','','mat-ico','edit');
-                $actions .= $f->_trash_html('product_props','prod_prop_id = '.$p['prod_prop_meta_id'],'div','','','','mat-ico',2,2,'Are you sure to remove property meta? This will affect filters and products!','delete_forever');
+                $actions .= $f->_trash_html('product_prop_meta','prod_prop_meta_id = '.$p['prod_prop_meta_id'],'div','','','','mat-ico',1,1,'Are you sure to remove property meta? This will affect filters and products!','delete_forever');
                 $actions .= '</div>';
                 $table[] = [ 'body' => [ $icon, $p['prod_prop_meta_name'], $p['prod_prop_meta_color'], $status, $actions ] ];
             }
