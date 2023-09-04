@@ -8,6 +8,7 @@ class ECOMMERCE {
     }
 
     private array $property_types = [ 'check' => 'Multi Check Box', 'radio' => 'Single Radio Box', 'drop' => 'Select Dropdown', 'color' => 'Color Picker', 'range' => 'Range Picker' ];
+    public array $page_statuses = [ 1 => 'Publicly Visible', 2 => 'Disabled', 3 => 'Draft', 4 => 'History' ];
 
     // Backend
 
@@ -17,31 +18,109 @@ class ECOMMERCE {
      * @return void
      */
     function product_form( string $modal_class = '' ): void {
-        // Identity
-            // Title
-            // URL / Slug
+        $c = new CODE();
+        $f = new FORM();
+        $statuses = $this->page_statuses;
+        unset( $statuses[4] );
+        $visibility_fields = [
+            [ 't' => 'date', 'id' => 'birth', 'n' => 'Visible From', 'c' => 6 ],
+            [ 't' => 'date', 'id' => 'expiry', 'n' => 'Visible Till', 'c' => 6 ],
+            [ 'type' => 'select', 'id' => 'status', 'title' => 'Status', 'o' => $statuses, 'v' => 1, 'a' => 'required', 'k' => 1 ],
+            [ 'id' => 'password', 'n' => 'Password', 'c' => 12.1 ],
+        ];
+        $seo_fields = [
+            [ 't' => 'textarea', 'id' => 'meta_desc', 'n' => 'Meta Description' ],
+            [ 't' => 'textarea', 'id' => 'meta_words', 'n' => 'Meta Keywords' ],
+            [ 'id' => 'meta_author', 'n' => 'Meta Author', 'c' => 12.1 ],
+        ];
+        $main_fields = [
+            [ 'id' => 'title', 'title' => 'Product Title', 'a' => 'required' ],
+            [ 'id' => 'url', 'title' => 'URL Slug', 'p' => 'Ex: leather-shoes', 'a' => 'data-no-space' ],
+            [ 't' => 'textarea', 'id' => 'content', 'n' => 'Product Description', 'c' => 12.1 ]
+        ];
+        $price_fields = [
+            [ 'i' => 'regular_price', 'n' => 'Regular Price', 'a' => 'required', 'c' => 6 ],
+            [ 'i' => 'sale_price', 'n' => 'Sale Price', 'c' => 6 ],
+            [ 'i' => 'sale_from', 'n' => 'Sale From', 't' => 'date', 'c' => 6.1 ],
+            [ 'i' => 'sale_to', 'n' => 'Sale Till', 't' => 'date', 'c' => 6.1 ]
+        ];
+        $image_fields = [
+            [ 'i' => 'image', 't' => 'upload', 'n' => 'Product Picture', 'b' => 'Upload' ],
+            [ 'i' => 'gallery', 't' => 'upload', 'n' => 'Product Gallery', 'b' => 'Upload', 'm' => 8 ],
+        ];
+        $r = $f->_random();
+        !empty( $modal_class ) ? $c->pre_modal( 'product', $modal_class ) : '';
+        $f->pre_process( 'data-wrap id="product_form"', 'update_page_ajax', $r, 'p_', 2, 2 );
+        _r();
+        _c(8);
+        $f->form( $main_fields, '', $r );
 
-        // Visibility
-            // Visibility From
-            // Visibility Till
-            // Status
-            // Password
+        $c->pre_tabs( 'material mb20' );
+        $c->tab( 'Description', 1 );
+        $c->tab( 'Inventory' );
+        $c->tab( 'Tax' );
+        $c->tab( 'Properties' );
+        $c->tab( 'Variations' );
+        $c->post_tabs();
+        $c->pre( 'store_tab_data' );
 
-        // SEO
-            // Meta Description
-            // Meta Keywords
-            // Meta Author
+            $c->pre( 'description_data' );
+            $desc_form = [
+                [ 'i' => 'weight', 'n' => 'Weight', 't' => 'number' ],
+                [ 'i' => 'width', 'n' => 'Width', 't' => 'number' ],
+                [ 'i' => 'height', 'n' => 'Height', 't' => 'number' ],
+                [ 'i' => 'depth', 'n' => 'Length / Depth', 't' => 'number' ],
+                [ 't' => 'select', 'i' => 'shipping', 'n' => 'Shipping Method', 'o' => [], 'c' => 12 ],
+            ];
+            $f->form( $desc_form, 'settings', 'prod' );
+            $c->post();
 
-        // Pricing
-            // Regular Price
-            // Sale Price
-            // Sale From
-            // Sale Till
+            $c->pre( 'inventory_data' );
+            $inventory_form = [
+                [ 'i' => 'sku', 'n' => 'SKU' ],
+                [ 'i' => 'quantity', 'n' => 'Quantity', 't' => 'number' ],
+                [ 'i' => 'max', 'n' => 'Max quantity per order', 't' => 'number' ],
+                [ 'i' => 'backorder', 'n' => 'Allow Backorder', 't' => 'radios', 'k' => 1, 'o' => [ 1 => 'Allow Backorders', 2 => 'Allow with notice to Buyer', 3 => 'Restrict Backorders' ], 'iw' => 6 ],
+            ];
+            $f->form( $inventory_form, 'settings', 'prod' );
+            $c->post();
 
-        // Picture
-        // Gallery
+            $c->pre( 'tax_data' );
+            $tax_form = [
+                [ 't' => 'select', 'i' => 'tax_group', 'n' => 'Tax Group', 'o' => [], 'c' => 12 ],
+                [ 'i' => 'tax', 'n' => 'Override with custom tax %', 't' => 'number' ],
+            ];
+            $f->form( $tax_form, 'settings', 'prod' );
+            $c->post();
 
-        // Save Product
+            $c->pre( 'properties_data' );
+            $properties_form = [
+
+            ];
+            $f->form( $properties_form, 'settings', 'prod' );
+            $c->post();
+
+            $c->pre( 'variations_data' );
+            $c->post();
+
+        $c->post();
+
+        c_();
+        _c(4);
+        accordion( 'Visibility', $f->_form( $visibility_fields, 'row', $r ), 'br15 w on' );
+        accordion( 'Prices', $f->_form( $price_fields, 'row', $r ), 'br15 w' );
+        accordion( 'Images', $f->_form( $image_fields, 'row', $r ), 'br15 w' );
+        accordion( 'SEO', $f->_form( $seo_fields, 'row', $r ), 'br15 w' );
+        $f->process_trigger('Save Product','w r');
+        c_();
+        r_();
+        $hidden_fields = [
+            [ 'id' => 'date', 'a' => 'class="dn"', 'v' => date('Y-m-d H:i:s') ],
+            [ 'id' => 'id', 'a' => 'class="dn"' ],
+        ];
+        $f->form( $hidden_fields, 'row', $r );
+        $f->post_process();
+        !empty( $modal_class ) ? $c->post_modal() : '';
 
         // Content Builder
 
