@@ -7,6 +7,8 @@ class ECOMMERCE {
 
     }
 
+    private array $property_types = [ 'check' => 'Multi Check Box', 'radio' => 'Single Radio Box', 'drop' => 'Select Dropdown', 'color' => 'Color Picker', 'range' => 'Range Picker' ];
+
     // Backend
 
     /**
@@ -325,9 +327,10 @@ class ECOMMERCE {
         $c = new CODE();
         //$d = new DB();
         $prop_type_fields = [
-            [ 'i' => 'name', 'n' => 'Property Type', 'p' => 'Ex: Material, Color etc.', 'c' => 4, 'a' => 'required' ],
-            [ 'i' => 'desc', 'n' => 'Description', 'c' => 8 ],
-            [ 'i' => 'type', 't' => 'select2', 'n' => 'Selection Type', 'o' => [ 'check' => 'Multi Check Box', 'radio' => 'Single Radio Box', 'drop' => 'Select Dropdown', 'color' => 'Color Picker', 'range' => 'Range Picker' ], 'c' => 4, 'a' => 'required' ],
+            [ 'i' => 'name', 'n' => 'Property Type', 'p' => 'Ex: Material, Color etc.', 'c' => 8, 'a' => 'required' ],
+            [ 't' => 'slide', 'i' => 'status', 'n' => 'Status', 'off' => '', 'on' => '', 'c' => 4, 'v' => 1 ],
+            [ 'i' => 'desc', 'n' => 'Description', 'c' => 12 ],
+            [ 'i' => 'type', 't' => 'select2', 'n' => 'Selection Type', 'o' => $this->property_types, 'k' => 1, 'c' => 4, 'v' => 'check', 'a' => 'required' ],
             [ 'i' => 'image', 't' => 'upload', 'e' => 'jpg,svg', 'n' => 'Image', 'b' => 'Upload', 'c' => 4 ],
             [ 'i' => 'icon', 't' => 'upload', 'e' => 'svg', 'n' => 'Icon', 'b' => 'Upload', 'c' => 4 ],
             //[ 'i' => 'multiple', 't' => 'slide', 'n' => 'User can filter multiple', 'off' => 'No', 'on' => 'Yes', 'c' => 4 ],
@@ -341,7 +344,12 @@ class ECOMMERCE {
         !empty( $modal_class ) ? $c->post_modal() : '';
     }
 
-    function properties(): void {
+    function get_property( int $id ): array {
+        $d = new DB();
+        return $d->select( 'product_props', '', 'prod_prop_id = \''.$id.'\'', 1 );
+    }
+
+    function properties( string $target_form ): void {
         $d = new DB();
         $props = $d->select( 'product_props' );
         if( empty( $props ) ) {
@@ -349,9 +357,67 @@ class ECOMMERCE {
         } else {
             $c = new CODE();
             $f = new FORM();
-            $table[] = [ 'head' => [ 'ID', 'Name', 'Type', 'Image', 'Status', 'User', 'Actions' ] ];
+            $pts = $this->property_types;
+            $table[] = [ 'head' => [ 'Icon', 'Name', 'Type', 'Status', 'Actions' ] ];
             foreach( $props as $p ) {
+                $icon = !empty( $p['prod_prop_icon'] ) ? $p['prod_prop_icon'] : '';
+                $status = $p['prod_prop_status'] == 1 ? $f->_slide( 'status', '', '', '', 1, 'm', 'disabled' ) : $f->_slide( 'status', '', '', '', 0, 'm', 'disabled' );
+                $type = $pts[ $p['prod_prop_type'] ] ?? '-';
+                $actions = '<div class="acts">';
+                $actions .= $f->_view_html(APPURL.'admin/products/prop/'.$p['prod_prop_id'],'div','','','','mat-ico','open_in_new');
+                $actions .= $f->_edit_html( $target_form,$p,'div','','','','mat-ico','edit');
+                $actions .= $f->_trash_html('product_props','prod_prop_id = '.$p['prod_prop_id'],'div','','','','mat-ico',2,2,'Are you sure to remove property type? This will affect filters and products!','delete_forever');
+                $actions .= '</div>';
+                $table[] = [ 'body' => [ $icon, $p['prod_prop_name'], $type, $status, $actions ] ];
             }
+            $c->table( $table, 'tac' );
+        }
+    }
+
+    function property_meta_form( int $id, string $title = '', string $modal_class = '' ): void {
+        $f = new FORM();
+        $c = new CODE();
+        //$d = new DB();
+        $prop_meta_fields = [
+            [ 'i' => 'name', 'n' => $title.' Name', 'p' => 'Ex: Leather, Red, XXL etc.', 'c' => 9, 'a' => 'required' ],
+            [ 't' => 'slide', 'i' => 'status', 'n' => 'Status', 'off' => '', 'on' => '', 'c' => 3, 'v' => 1 ],
+            //[ 'i' => 'desc', 'n' => 'Description', 'c' => 12 ],
+            //[ 'i' => 'type', 't' => 'select2', 'n' => 'Selection Type', 'o' => $this->property_types, 'k' => 1, 'c' => 4, 'v' => 'check', 'a' => 'required' ],
+            [ 'i' => 'icon', 't' => 'upload', 'e' => 'svg', 'n' => 'Icon', 'b' => 'Upload', 'c' => 6 ],
+            [ 'i' => 'color', 't' => 'color', 'n' => 'Color', 'c' => 6 ],
+            //[ 'i' => 'image', 't' => 'upload', 'e' => 'jpg,svg', 'n' => 'Image', 'b' => 'Upload', 'c' => 4 ],
+            //[ 'i' => 'multiple', 't' => 'slide', 'n' => 'User can filter multiple', 'off' => 'No', 'on' => 'Yes', 'c' => 4 ],
+        ];
+        $r = $f->_random();
+        !empty( $modal_class ) ? $c->pre_modal( $title, $modal_class ) : '';
+        $f->pre_process( 'data-wrap', 'product_prop_meta', $r, 'prod_prop_meta_', 2, 2, [ "property" => $id ] );
+        $f->form( $prop_meta_fields, 'row', $r );
+        $f->process_trigger('Save '. $title,'','','','.tac');
+        $f->post_process();
+        !empty( $modal_class ) ? $c->post_modal() : '';
+    }
+
+    function properties_meta( int $id, string $target_form ): void {
+        $d = new DB();
+        $props = $d->select( 'product_prop_meta', '', 'prod_prop_meta_property = '.$id );
+        if( empty( $props ) ) {
+            no_content( 'No product properties meta found!' );
+        } else {
+            $c = new CODE();
+            $f = new FORM();
+            $pts = $this->property_types;
+            $table[] = [ 'head' => [ 'Icon', 'Name', 'Color', 'Status', 'Actions' ] ];
+            foreach( $props as $p ) {
+                $icon = !empty( $p['prod_prop_meta_icon'] ) ? $p['prod_prop_meta_icon'] : '';
+                $status = $p['prod_prop_meta_status'] == 1 ? $f->_slide( 'status', '', '', '', 1, 'm', 'disabled' ) : $f->_slide( 'status', '', '', '', 0, 'm', 'disabled' );
+                $actions = '<div class="acts">';
+                //$actions .= $f->_view_html(APPURL.'admin/products/prop/'.$p['prod_prop_id'],'div','','','','mat-ico','open_in_new');
+                $actions .= $f->_edit_html( $target_form, $p, 'div','','','','mat-ico','edit');
+                $actions .= $f->_trash_html('product_props','prod_prop_id = '.$p['prod_prop_meta_id'],'div','','','','mat-ico',2,2,'Are you sure to remove property meta? This will affect filters and products!','delete_forever');
+                $actions .= '</div>';
+                $table[] = [ 'body' => [ $icon, $p['prod_prop_meta_name'], $p['prod_prop_meta_color'], $status, $actions ] ];
+            }
+            $c->table( $table, 'tac' );
         }
     }
 

@@ -1095,6 +1095,7 @@ aside::-webkit-scrollbar {
   position: relative;
 }
 .acts {
+  color: var(--filled_color);
   [title=View] {
     background: $primary;
     background: linear-gradient(160deg, $primary 0%, $secondary 100%);

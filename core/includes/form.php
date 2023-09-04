@@ -1270,10 +1270,10 @@ class FORM {
      * @param string|int $pre Pre Wrap HTML or Bootstrap Column
      * @param string|int $post Post Wrap HTML
      */
-    function _view_html( string $url = '', string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', string|int $pre = '', string|int $post = '' ): string {
+    function _view_html( string $url = '', string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): string {
         $_p = $this->_pre( $pre );
         $p_ = $this->_post( $pre, $post );
-        $i = !empty( $i_class ) ? '<i class="'.$i_class.'"></i>' : '';
+        $i = !empty( $i_class ) ? '<i class="'.$i_class.'">'.$i_text.'</i>' : '';
         $title = str_contains( $attr, 'title' ) ? '' : 'title="'.T('View').'"';
         return $_p.'<'.$html.' data-href="'.$url.'" '.$title.' class="'.$class.'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$p_;
     }
@@ -1362,7 +1362,7 @@ class FORM {
         $i = !empty( $i_class ) || !empty( $i_text ) ? '<i class="'.$i_class.'">'.$i_text.'</i>' : '';
         $attr .= !empty( $confirmation ) ? ' data-confirm="'.T($confirmation).'"' : '';
         $title = str_contains( $attr, 'title' ) ? '' : 'title="'.T('Delete').'"';
-        return $_p.'<'.$html.' onclick="trash_data(this,\''.$c->encrypt('trash_data_ajax').'\',\''.$c->encrypt($table).'\',\''.$c->encrypt($logic).'\','.$notify_time.','.$reload_time.')" class="'.$class.'" '.$title.' '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$p_;
+        return $_p.'<'.$html.' onclick="trash_data(this,\''.( APPDEBUG ? 'trash_data_ajax' : $c->encrypt('trash_data_ajax') ).'\',\''.( APPDEBUG ? $table : $c->encrypt($table) ).'\',\''.( APPDEBUG ? $logic : $c->encrypt($logic) ).'\','.$notify_time.','.$reload_time.')" class="'.$class.'" '.$title.' '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$p_;
     }
 
     // TODO: disable_html() similar to trash_html()

@@ -997,8 +997,8 @@ function update_data_ajax(): void {
 function trash_data_ajax(): void {
     $c = Encrypt::initiate();
     $p = $_POST;
-    $target = isset( $p['target'] ) && !empty( $p['target'] ) ? $c->decrypt( $p['target'] ) : '';
-    $logic = isset( $p['logic'] ) && !empty( $p['logic'] ) ? $c->decrypt( $p['logic'] ) : '';
+    $target = isset( $p['target'] ) && !empty( $p['target'] ) ? ( APPDEBUG ? $p['target'] : $c->decrypt( $p['target'] ) ) : '';
+    $logic = isset( $p['logic'] ) && !empty( $p['logic'] ) ? ( APPDEBUG ? $p['logic'] : $c->decrypt( $p['logic'] ) ) : '';
     if( !empty( $target ) && !empty( $logic ) ){
         $db = new DB();
         $r = $db->delete( $target, $logic );
