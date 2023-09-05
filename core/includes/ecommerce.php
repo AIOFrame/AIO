@@ -169,11 +169,62 @@ class ECOMMERCE {
 
     /**
      * Render Products (Archive)
+     * @param string $content_style
+     * @param string $wrapper_class
+     * @param string|int $cols
      * @return void
      */
-    function products(): void {
-        // TODO: Render products as table
-        // TODO: Render products as cards
+    function products( string $content_style = 'table', string $wrapper_class = '', string|int $cols = 4 ): void {
+        if( in_array( $content_style, [ 'tables', 'table', 'list' ] ) ) {
+            $this->products_list( $wrapper_class );
+        } else if( in_array( $content_style, [ 'cards', 'card' ] ) ) {
+            $this->product_cards( $wrapper_class, $cols );
+        }
+    }
+
+    function product_cards( string $wrapper_class = '' ): void {
+        $products = $this->_products();
+        $status = $this->page_statuses;
+        if( empty( $products ) ) {
+            no_content( 'No products added yet!', '', $wrapper_class );
+        } else {
+            $c = new CODE();
+            $f = new FORM();
+            $table[] = [ 'head' => [ 'ID', 'Name', 'Visibility', 'Properties', 'Price', 'Sales', 'Actions' ] ];
+            foreach( $products as $p ) {
+                /* $table[]['body'] = [
+                    $p['page_id'],
+                    $p['page_title'].'<div><small>/'.$p['page_url'].'</small></div>',
+                    easy_date($p['page_date']).'<div><small>'.T('Updated').': '.easy_date($p['page_update']).'</small></div>',
+                    (!empty($p['page_birth'])?'<div><small>'.T('Visible from').': '.easy_date($p['page_birth']).'</small></div>':'').(!empty($p['page_expiry'])?'<div><small>'.T('Visible till').': '.easy_date($p['page_expiry']).'</small></div>':''),
+                    $status[ $p['page_status'] ] ?? '',
+                    $p['user_name'],
+                    $c->_pre('','acts').$f->_edit_html( '#product_modal', $p, 'div', '', '', '', 'mat-ico', 'edit' ).$c->_post()
+                ]; */
+            }
+            $c->table_view( 'products_list', $table, $wrapper_class );
+        }
+    }
+
+    function products_list( string $wrapper_class = '', string|int $cols = 4 ): void {
+        $products = $this->_products();
+        $status = $this->page_statuses;
+        if( empty( $products ) ) {
+            no_content( 'No products added yet!', '', $wrapper_class );
+        } else {
+            $c = new CODE();
+            $cards = '';
+            foreach( $products as $p ) {
+                //$cards .= $c->_card( '4', 'br15', $p['page_title'], '', '/'.$p['page_url'], '', '', $status[ $p['page_status'] ] ?? '', '', [], [], '#'.$page_type.'_modal', $p, 'pages', "page_id = {$p['page_id']}" );
+            }
+            $c->grid_view( 'product_cards', $cards, $wrapper_class, $cols );
+        }
+    }
+
+    function _products(): array {
+        $d = new DB();
+        //$data = [ 'id', 'date', 'update', 'title', 'url', 'password', 'status', 'birth', 'expiry', 'by' ];
+        return $d->select( [ 'products', [ 'product_meta', 'prod_id', 'prod_meta_product' ] ] );
     }
 
     /**
@@ -204,10 +255,6 @@ class ECOMMERCE {
      */
     function product_modal( string $title = 'Product', string $size = 'm' ): void {
 
-    }
-
-    function get_products(): array {
-        return [];
     }
 
     function get_product(): array {
