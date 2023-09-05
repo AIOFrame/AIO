@@ -62,7 +62,7 @@ class ECOMMERCE {
         $c->tab( 'Properties' );
         $c->tab( 'Variations' );
         $c->post_tabs();
-        $c->pre( 'store_tab_data' );
+        $c->pre( 'product_tab_data' );
 
             $c->pre( 'description_data' );
             $desc_form = [
@@ -80,7 +80,7 @@ class ECOMMERCE {
                 [ 'i' => 'sku', 'n' => 'SKU' ],
                 [ 'i' => 'quantity', 'n' => 'Quantity', 't' => 'number' ],
                 [ 'i' => 'max', 'n' => 'Max quantity per order', 't' => 'number' ],
-                [ 'i' => 'backorder', 'n' => 'Allow Backorder', 't' => 'radios', 'k' => 1, 'o' => [ 1 => 'Allow Backorders', 2 => 'Allow with notice to Buyer', 3 => 'Restrict Backorders' ], 'iw' => 6 ],
+                [ 'i' => 'backorder', 'n' => 'Allow Backorder', 't' => 'radios', 'o' => [ 1 => 'Allow Backorders', 2 => 'Allow with notice to Buyer', 3 => 'Restrict Backorders' ], 'i_p' => 6, 'c' => 4 ],
             ];
             $f->form( $inventory_form, 'settings', 'prod' );
             $c->post();

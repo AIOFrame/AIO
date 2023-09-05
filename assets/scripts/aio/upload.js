@@ -9,14 +9,14 @@ $(document).ready(function(){
     });
 
     // Select or Deselect Uploaded File
-    $('body').on('click','.f',function(){
+    $('body').on('click','#aio_up .f',function(){
         let limit = parseInt( $('#aio_up').data('multiple') );
         //console.log(limit);
         if( limit === undefined || limit === 0 ) {
             $('.f').not(this).removeClass('on');
         }
         $(this).toggleClass('on');
-        let count = $('.uploaded_files .f.on').length;
+        let count = $('#aio_up .uploaded_files .f.on').length;
         if( limit > 1 && count > limit ) {
             $(this).toggleClass('on');
             uploader_notify('Maximum limit of files reached!')
@@ -32,7 +32,7 @@ $(document).ready(function(){
     })
 
     // Delete a file or files from Uploaded Files
-    .on('click','.fd',function(){
+    .on('click','#aio_up .fd',function(){
         let df = $('.f.on');
         if( df.length > 0 && df.data('id') !== undefined && df !== '' ) {
             $.post(location.origin,{'action':$(c).data('delete-action'),'id':df.data('id')},function(r){
@@ -57,7 +57,7 @@ $(document).ready(function(){
     })
 
     // Resize Uploader
-    .on('click','.expand',function(){
+    .on('click','#aio_up .expand',function(){
         $('.file_modal').toggleClass('max');
     })
 
@@ -469,6 +469,6 @@ function uploader_notify( message ) {
 }
 
 function close_uploader() {
-    $('.f').removeClass('on');
+    $('#aio_up .f').removeClass('on');
     $('#aio_up').removeClass('on').removeData(['id','url','exts','s_img','scope','path','bg','multiple','files']);
 }

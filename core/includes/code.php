@@ -577,8 +577,22 @@ class CODE {
         return '<h'.$level.'>'.( $translate ? T( $title ) : $title ).'</'.$level.'>';
     }
 
-    function modal_trigger( string $title = '', string $modal_identifier = '' ): void {
+    function modal_trigger( string $modal_identifier = '', string $title = '' ): void {
         echo '<button class="grad" data-on="'.$modal_identifier.'">'.T( $title ).'</button>';
+    }
+
+    function float_triggers( array $triggers ): void {
+        $this->pre('','actions float');
+        if( is_assoc( $triggers ) ) {
+            foreach( $triggers as $tk => $tv ) {
+                $this->modal_trigger( $tk, $tv );
+            }
+        } else {
+            foreach( $triggers as $t ) {
+                $this->modal_trigger( $t[0], $t[1] );
+            }
+        }
+        $this->post();
     }
 }
 
