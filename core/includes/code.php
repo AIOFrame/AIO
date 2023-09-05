@@ -532,13 +532,21 @@ class CODE {
     }
 
     function pre( string $id = '', string $class = '', string $element = 'div' ): void {
+        echo $this->_pre( $id, $class, $element );
+    }
+
+    function _pre( string $id = '', string $class = '', string $element = 'div' ): string {
         $id = !empty( $id ) ? ' id="'.$id.'"' : '';
         $class = !empty( $class ) ? ' class="'.$class.'"' : '';
-        echo '<'.$element.$id.$class.'>';
+        return '<'.$element.$id.$class.'>';
     }
 
     function post( string $element = 'div' ): void {
-        echo '</'.$element.'>';
+        echo $this->_post( $element );
+    }
+
+    function _post( string $element = 'div' ): string {
+        return '</'.$element.'>';
     }
 
     function h1( string $title = '', bool $translate = true ): void {

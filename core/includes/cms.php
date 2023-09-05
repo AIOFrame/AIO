@@ -84,7 +84,7 @@ class CMS {
                     (!empty($p['page_birth'])?'<div><small>'.T('Visible from').': '.easy_date($p['page_birth']).'</small></div>':'').(!empty($p['page_expiry'])?'<div><small>'.T('Visible till').': '.easy_date($p['page_expiry']).'</small></div>':''),
                     $status[ $p['page_status'] ] ?? '',
                     $p['user_name'],
-                    $f->_edit_html( '#'.$page_type.'_modal', $p, 'div', '', '', '', 'mat-ico', 'edit' )
+                    $c->_pre('','acts').$f->_edit_html( '#'.$page_type.'_modal', $p, 'div', '', '', '', 'mat-ico', 'edit' ).$c->_post()
                 ];
             }
             $c->table_view( $page_type, $table, $wrapper_class );
