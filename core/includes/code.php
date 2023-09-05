@@ -576,6 +576,10 @@ class CODE {
     function _h( int $level = 1,  string $title = '', bool $translate = true ): string {
         return '<h'.$level.'>'.( $translate ? T( $title ) : $title ).'</'.$level.'>';
     }
+
+    function modal_trigger( string $title = '', string $modal_identifier = '' ): void {
+        echo '<button class="grad" data-on="'.$modal_identifier.'">'.T( $title ).'</button>';
+    }
 }
 
 class RANGE {
