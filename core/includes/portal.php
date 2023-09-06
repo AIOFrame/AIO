@@ -39,8 +39,8 @@ class PORTAL {
         // Prepare Scripts
         !empty( $scripts ) ? ( is_array( $scripts ) ? $scripts[] = 'jquery' : $scripts .= ',jquery' ) : '';
 
-        $c = new CODE();
-        $c->pre_html($class,$attrs,$pre_styles,$primary_color,$secondary_color,'icons,cards,modal,buttons,inputs,icons,tabs,steps,color,table,alerts,accordion',$styles,$scripts,$primary_font,$secondary_font,$icon_fonts);
+        //$c = new CODE();
+        pre_html($class,$attrs,$pre_styles,$primary_color,$secondary_color,'icons,cards,modal,buttons,inputs,icons,tabs,steps,color,table,alerts,accordion',$styles,$scripts,$primary_font,$secondary_font,$icon_fonts);
 
     }
 
@@ -50,8 +50,8 @@ class PORTAL {
      */
     function post_html( string|array $scripts = [] ): void {
         $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'iro', 'scrollto', 'data', 'portal/portal' ] ) : $scripts.',iro,data,portal/portal';
-        $c = new CODE();
-        $c->post_html( $scripts );
+        //$c = new CODE();
+        post_html( $scripts );
     }
 
     /**
@@ -450,5 +450,6 @@ class PORTAL {
 }
 
 function back_url( string $url = '' ): void {
-    echo '<a class="mat-ico back" href="'.APPURL . $url.'">arrow_back</a>';
+    a(APPURL.$url,'arrow_back','mat-ico back','Go Back');
+    //echo '<a class="mat-ico back" href="'.APPURL . $url.'">arrow_back</a>';
 }
