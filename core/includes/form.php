@@ -1071,7 +1071,7 @@ class FORM {
     /**
      * Renders Form
      * @param array $fields Array of an array of field inputs [ [ 'type' => 'textarea', 'id' => 'name', 'title' => 'Contact Name', 'place' => 'Enter name...', 'attr' => 'data-con', 'col' => 8 ] ]
-     * @param string $form_type Type of wrap around the form ( 'get' or 'post' or 'row' )
+     * @param string $form_type Type of wrap around the form ( 'get' or 'post' or 'row' or 'settings' )
      * @param string $data_attr Common data attribute for all inputs
      */
     function form( array $fields = [], string $form_type = '', string $data_attr = '' ): void {
