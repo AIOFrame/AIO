@@ -33,6 +33,9 @@
   /* Support for IE. */
   font-feature-settings: 'liga';
 }
+.bi::before, [class^=bi-]::before, [class*=" bi-"]::before {
+  font-family: "bootstrapicons" !important;
+}
 .mat-ico.bg {
   color: #fff;
 }

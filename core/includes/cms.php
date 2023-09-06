@@ -13,7 +13,6 @@ class CMS {
     }
 
     function page_form( string $modal_class = '', string $page_type = 'page' ): void {
-        $c = new CODE();
         $f = new FORM();
         $statuses = $this->page_statuses;
         unset( $statuses[4] );
@@ -33,7 +32,7 @@ class CMS {
             [ 'id' => 'meta_author', 'n' => 'Meta Author', 'c' => 12.1 ],
         ];
         $r = $f->_random();
-        !empty( $modal_class ) ? $c->pre_modal( $page_type, $modal_class ) : '';
+        !empty( $modal_class ) ? pre_modal( $page_type, $modal_class ) : '';
         $f->pre_process( 'data-wrap id="'.$page_type.'_form"', 'update_page_ajax', $r, 'p_', 2, 2, [ 'page_type' => strtolower( $page_type ) ] );
         _r();
         _c(8);
@@ -52,7 +51,7 @@ class CMS {
         ];
         $f->form( $hidden_fields, 'row', $r );
         $f->post_process();
-        !empty( $modal_class ) ? $c->post_modal() : '';
+        !empty( $modal_class ) ? post_modal() : '';
     }
 
     function page_filters(): void {
@@ -84,10 +83,10 @@ class CMS {
                     (!empty($p['page_birth'])?'<div><small>'.T('Visible from').': '.easy_date($p['page_birth']).'</small></div>':'').(!empty($p['page_expiry'])?'<div><small>'.T('Visible till').': '.easy_date($p['page_expiry']).'</small></div>':''),
                     $status[ $p['page_status'] ] ?? '',
                     $p['user_name'],
-                    $c->_pre('','acts').$f->_edit_html( '#'.$page_type.'_modal', $p, 'div', '', '', '', 'mat-ico', 'edit' ).$c->_post()
+                    _pre('','acts').$f->_edit_html( '#'.$page_type.'_modal', $p, 'div', '', '', '', 'mat-ico', 'edit' )._post()
                 ];
             }
-            $c->table_view( $page_type, $table, $wrapper_class );
+            table_view( $page_type, $table, $wrapper_class );
         }
     }
 
@@ -101,9 +100,9 @@ class CMS {
             $f = new FORM();
             $cards = '';
             foreach( $pages as $p ) {
-                $cards .= $c->_card( '4', 'br15', $p['page_title'], '', '/'.$p['page_url'], '', '', $status[ $p['page_status'] ] ?? '', '', [], [], '#'.$page_type.'_modal', $p, 'pages', "page_id = {$p['page_id']}" );
+                $cards .= _card( '4', 'br15', $p['page_title'], '', '/'.$p['page_url'], '', '', $status[ $p['page_status'] ] ?? '', '', [], [], '#'.$page_type.'_modal', $p, 'pages', "page_id = {$p['page_id']}" );
             }
-            $c->grid_view( $page_type, $cards, $wrapper_class, $cols );
+            grid_view( $page_type, $cards, $wrapper_class, $cols );
         }
     }
 
@@ -167,7 +166,7 @@ class CMS {
         // TODO: Renders Menu HTML
     }
 
-    function get_menu(): array {
+    function get_menu( int|string $id_name = '' ): array {
         // TODO: Returns Menu Array
     }
 

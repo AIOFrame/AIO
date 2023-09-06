@@ -36,7 +36,7 @@ class CODE {
 
         // Head
         $styles = is_array( $styles ) ? array_merge( $styles, [ 'air-datepicker' ] ) : $styles . ',air-datepicker';
-        $this->pre_html( '', $attrs, $pre_styles, '', '', 'icons,inputs,buttons,alerts', $styles, $scripts, $primary_font, $secondary_font, $icon_fonts );
+        pre_html( '', $attrs, $pre_styles, '', '', 'icons,inputs,buttons,alerts', $styles, $scripts, $primary_font, $secondary_font, $icon_fonts );
 
         // Content
         //skel( $aos );
@@ -58,7 +58,7 @@ class CODE {
 
         // Foot
         $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'air-datepicker', 'data', 'validator', 'login' ] ) : $scripts . ',air-datepicker,data,validator,login';
-        $this->post_html( $scripts );
+        post_html( $scripts );
     }
 
     function manage_templates(): void {
@@ -294,7 +294,7 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
         !defined( 'ICONS' ) ? define( 'ICONS', $icon_fonts ) : '';
         $fonts[ $icon_fonts ] = '';
     }
-    $styles = str_contains( strtolower( ICONS ), 'bootstrap' ) ? ( !empty( $styles ) ? ( is_array( $styles ) ? array_merge( [ 'bootstrap-icons', $styles ] ) : $styles.',bootstrap-icons' ) : 'bootstrap-icons' ) : $styles;
+    $pre_styles = str_contains( strtolower( ICONS ), 'bootstrap' ) ? ( !empty( $pre_styles ) ? ( is_array( $pre_styles ) ? array_merge( [ 'bootstrap-icons', $pre_styles ] ) : $pre_styles.',bootstrap-icons' ) : 'bootstrap-icons' ) : $pre_styles;
     fonts( $fonts );
 
     // Appearance
@@ -355,28 +355,28 @@ function _post( string $element = 'div' ): string {
     return '</'.$element.'>';
 }
 
-function h1( string $title = '', bool $translate = true, string $attrs = '' ): void {
-    el( 'h1', '', '', $title, $attrs, $translate );
+function h1( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): void {
+    el( 'h1', $class, '', $title, $attrs, $translate );
 }
 
-function h2( string $title = '', bool $translate = true, string $attrs = '' ): void {
-    el( 'h2', '', '', $title, $attrs, $translate );
+function h2( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): void {
+    el( 'h2', $class, '', $title, $attrs, $translate );
 }
 
-function h3( string $title = '', bool $translate = true, string $attrs = '' ): void {
-    el( 'h3', '', '', $title, $attrs, $translate );
+function h3( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): void {
+    el( 'h3', $class, '', $title, $attrs, $translate );
 }
 
-function h4( string $title = '', bool $translate = true, string $attrs = '' ): void {
-    el( 'h4', '', '', $title, $attrs, $translate );
+function h4( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): void {
+    el( 'h4', $class, '', $title, $attrs, $translate );
 }
 
-function h5( string $title = '', bool $translate = true, string $attrs = '' ): void {
-    el( 'h5', '', '', $title, $attrs, $translate );
+function h5( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): void {
+    el( 'h5', $class, '', $title, $attrs, $translate );
 }
 
-function h6( string $title = '', bool $translate = true, string $attrs = '' ): void {
-    el( 'h6', '', '', $title, $attrs, $translate );
+function h6( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): void {
+    el( 'h6', $class, '', $title, $attrs, $translate );
 }
 
 function el( string $element = 'div', string $class = '', string $id = '', string $content = '', string $attrs = '', bool $translate = false ): void {
@@ -390,11 +390,11 @@ function pre_tabs( string $class = '' ): void {
 
 function tab( string $title = '', bool $active = false, string $target = '', string $icon = '' ): void {
     $target = empty( $target ) ? strtolower( str_replace( '___', '_', str_replace( ' ', '_', str_replace( '/', '_', $title ) ) ) ).'_data' : $target;
-    $class = $active ? ' class="tab on"' : ' class="tab"';
+    $class = $active ? 'tab on' : 'tab';
     if( !empty( $icon ) ) {
         $title = defined( 'ICONS' ) ? ( str_contains( ICONS, 'Material' ) ? '<i class="mat-ico">'.$icon.'</i>'.$title : '<i class="bi bi-'.$icon.'"></i>'.$title ) : $title;
     }
-    div('',$class,$title,'data-tab="'.$target.'"',1);
+    div('',$class,$title,'data-tab="#'.$target.'"',1);
 }
 
 function post_tabs(): void {
@@ -416,7 +416,7 @@ function div( string $id = '', string $class = '', string $content = '', string 
 }
 
 function _div( string $id = '', string $class = '', string $content = '', string $attrs = '', bool $translate = false ): string {
-    return _el( 'div', $id, $class, $content, $attrs, $translate );
+    return _el( 'div', $class, $id, $content, $attrs, $translate );
 }
 
 function a( string $hyperlink = '#', string $title = '', string $class = '', string $hover_title = '', string $id = '' ): void {
@@ -574,9 +574,11 @@ function card( string|array|float $col = '', string $class = '', string $title =
 function pre_modal( string $title = '', string $size = '' ): void {
     $s = strtolower( str_replace( ' ', '_', $title ) );
     pre($s.'_modal','modal '.$size.' '.$s.'_modal');
-    h2('New '.$title,1,'data-add');
-    h2('Update '.$title,1,'data-edit');
-    el('div','','close');
+        pre('','modal_head');
+            h2('New '.$title,1,'title','data-add');
+            h2('Update '.$title,1,'title','data-edit');
+        post();
+    el('div','close');
     pre('','modal_body');
 }
 
@@ -668,7 +670,7 @@ function logout_html( string $tag = 'div', string $class = '', string $text = 'L
 }
 
 function modal_trigger( string $modal_identifier = '', string $title = '' ): void {
-    el('button','grad','',$title,'data-on="'.$modal_identifier.'"',1);
+    el('button','grad','',$title,'data-modal="'.$modal_identifier.'"',1);
 }
 
 function float_triggers( array $triggers ): void {

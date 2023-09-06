@@ -18,7 +18,6 @@ class ECOMMERCE {
      * @return void
      */
     function product_form( string $modal_class = '' ): void {
-        $c = new CODE();
         $f = new FORM();
         $statuses = $this->page_statuses;
         unset( $statuses[4] );
@@ -49,22 +48,22 @@ class ECOMMERCE {
             [ 'i' => 'gallery', 't' => 'upload', 'n' => 'Product Gallery', 'b' => 'Upload', 'm' => 8 ],
         ];
         $r = $f->_random();
-        !empty( $modal_class ) ? $c->pre_modal( 'product', $modal_class ) : '';
+        !empty( $modal_class ) ? pre_modal( 'product', $modal_class ) : '';
         $f->pre_process( 'data-wrap id="product_form"', 'update_page_ajax', $r, 'p_', 2, 2 );
         _r();
         _c(8);
         $f->form( $main_fields, '', $r );
 
-        $c->pre_tabs( 'material mb20' );
-        $c->tab( 'Description', 1 );
-        $c->tab( 'Inventory' );
-        $c->tab( 'Tax' );
-        $c->tab( 'Properties' );
-        $c->tab( 'Variations' );
-        $c->post_tabs();
-        $c->pre( 'product_tab_data' );
+        pre_tabs( 'material mb20' );
+        tab( 'Description', 1 );
+        tab( 'Inventory' );
+        tab( 'Tax' );
+        tab( 'Properties' );
+        tab( 'Variations' );
+        post_tabs();
+        pre( 'product_tab_data' );
 
-            $c->pre( 'description_data' );
+            pre( 'description_data' );
             $desc_form = [
                 [ 'i' => 'weight', 'n' => 'Weight', 't' => 'number' ],
                 [ 'i' => 'width', 'n' => 'Width', 't' => 'number' ],
@@ -73,9 +72,9 @@ class ECOMMERCE {
                 [ 't' => 'select', 'i' => 'shipping', 'n' => 'Shipping Method', 'o' => [], 'c' => 12 ],
             ];
             $f->form( $desc_form, 'settings', 'prod' );
-            $c->post();
+            post();
 
-            $c->pre( 'inventory_data' );
+            pre( 'inventory_data' );
             $inventory_form = [
                 [ 'i' => 'sku', 'n' => 'SKU' ],
                 [ 'i' => 'quantity', 'n' => 'Quantity', 't' => 'number' ],
@@ -83,34 +82,34 @@ class ECOMMERCE {
                 [ 'i' => 'backorder', 'n' => 'Allow Backorder', 't' => 'radios', 'o' => [ 1 => 'Allow Backorders', 2 => 'Allow with notice to Buyer', 3 => 'Restrict Backorders' ], 'i_p' => 6, 'c' => 4 ],
             ];
             $f->form( $inventory_form, 'settings', 'prod' );
-            $c->post();
+            post();
 
-            $c->pre( 'tax_data' );
+            pre( 'tax_data' );
             $tax_form = [
                 [ 't' => 'select', 'i' => 'tax_group', 'n' => 'Tax Group', 'o' => [], 'c' => 12 ],
                 [ 'i' => 'tax', 'n' => 'Override with custom tax %', 't' => 'number' ],
             ];
             $f->form( $tax_form, 'settings', 'prod' );
-            $c->post();
+            post();
 
-            $c->pre( 'properties_data' );
+            pre( 'properties_data' );
             $properties_form = [
 
             ];
             $f->form( $properties_form, 'settings', 'prod' );
-            $c->post();
+            post();
 
-            $c->pre( 'variations_data' );
-            $c->post();
+            pre( 'variations_data' );
+            post();
 
-        $c->post();
+        post();
 
         c_();
         _c(4);
-        accordion( 'Visibility', $f->_form( $visibility_fields, 'row', $r ), 'br15 w on' );
-        accordion( 'Prices', $f->_form( $price_fields, 'row', $r ), 'br15 w' );
-        accordion( 'Images', $f->_form( $image_fields, 'row', $r ), 'br15 w' );
+        accordion( 'Prices', $f->_form( $price_fields, 'row', $r ), 'br15 w on' );
+        accordion( 'Images', $f->_form( $image_fields, 'row', $r ), 'br15 w on' );
         accordion( 'SEO', $f->_form( $seo_fields, 'row', $r ), 'br15 w' );
+        accordion( 'Visibility', $f->_form( $visibility_fields, 'row', $r ), 'br15 w' );
         $f->process_trigger('Save Product','w r');
         c_();
         r_();
@@ -120,7 +119,7 @@ class ECOMMERCE {
         ];
         $f->form( $hidden_fields, 'row', $r );
         $f->post_process();
-        !empty( $modal_class ) ? $c->post_modal() : '';
+        !empty( $modal_class ) ? post_modal() : '';
 
         // Content Builder
 
@@ -199,10 +198,10 @@ class ECOMMERCE {
                     (!empty($p['page_birth'])?'<div><small>'.T('Visible from').': '.easy_date($p['page_birth']).'</small></div>':'').(!empty($p['page_expiry'])?'<div><small>'.T('Visible till').': '.easy_date($p['page_expiry']).'</small></div>':''),
                     $status[ $p['page_status'] ] ?? '',
                     $p['user_name'],
-                    $c->_pre('','acts').$f->_edit_html( '#product_modal', $p, 'div', '', '', '', 'mat-ico', 'edit' ).$c->_post()
+                    _pre('','acts').$f->_edit_html( '#product_modal', $p, 'div', '', '', '', 'mat-ico', 'edit' )._post()
                 ]; */
             }
-            $c->table_view( 'products_list', $table, $wrapper_class );
+            table_view( 'products_list', $table, $wrapper_class );
         }
     }
 
@@ -215,9 +214,9 @@ class ECOMMERCE {
             $c = new CODE();
             $cards = '';
             foreach( $products as $p ) {
-                //$cards .= $c->_card( '4', 'br15', $p['page_title'], '', '/'.$p['page_url'], '', '', $status[ $p['page_status'] ] ?? '', '', [], [], '#'.$page_type.'_modal', $p, 'pages', "page_id = {$p['page_id']}" );
+                //$cards .= _card( '4', 'br15', $p['page_title'], '', '/'.$p['page_url'], '', '', $status[ $p['page_status'] ] ?? '', '', [], [], '#'.$page_type.'_modal', $p, 'pages', "page_id = {$p['page_id']}" );
             }
-            $c->grid_view( 'product_cards', $cards, $wrapper_class, $cols );
+            grid_view( 'product_cards', $cards, $wrapper_class, $cols );
         }
     }
 
@@ -285,27 +284,27 @@ class ECOMMERCE {
         $ops = $d->get_options( $all_ops );
 
         $f->option_params_wrap( '', 2, 2, $all_ops );
-        $c->pre_tabs( 'three mb30' );
-            $c->tab( 'Store', 1, '', 'store' );
-            $c->tab( 'Reviews', 0, '', 'hotel_class' );
-            $c->tab( 'Stock', 0, '', 'inventory' );
-            //$c->tab( 'Tax', 0, '', 'receipt' );
-            $c->tab( 'Orders', 0, '', 'local_mall' );
-        $c->post_tabs();
+        pre_tabs( 'three mb30' );
+            tab( 'Store', 1, '', 'store' );
+            tab( 'Reviews', 0, '', 'hotel_class' );
+            tab( 'Stock', 0, '', 'inventory' );
+            //tab( 'Tax', 0, '', 'receipt' );
+            tab( 'Orders', 0, '', 'local_mall' );
+        post_tabs();
 
-        $c->pre( 'tab_data' );
+        pre( 'tab_data' );
 
-            $c->pre( 'store_data' );
-                $c->pre_tabs( 'material mb20' );
-                    $c->tab( 'General', 1 );
-                    $c->tab( 'Filters' );
-                    $c->tab( 'Store Page' );
-                    $c->tab( 'Product Page' );
-                $c->post_tabs();
-                $c->pre( 'store_tab_data' );
+            pre( 'store_data' );
+                pre_tabs( 'material mb20' );
+                    tab( 'General', 1 );
+                    tab( 'Filters' );
+                    tab( 'Store Page' );
+                    tab( 'Product Page' );
+                post_tabs();
+                pre( 'store_tab_data' );
 
                     // General
-                    $c->pre( 'general_data' );
+                    pre( 'general_data' );
                     $general_form = [
                         [ 'i' => 'default_products_view', 'n' => 'Default products view', 'o' => [ 'Grid', 'List' ], 't' => 'radios', 'inputs_pre' => 3, 'c' => 4, 's' => $ops['default_products_view'] ?? [ 'Grid' ] ],
                         [ 'i' => 'product_placeholder', 'n' => 'Product image placeholder', 't' => 'upload', 'b' => 'Upload', 'c' => 4, 'v' => $ops['product_placeholder'] ?? '' ],
@@ -316,10 +315,10 @@ class ECOMMERCE {
                         [ 'i' => 'show_grid_s', 'n' => 'Grid columns', 't' => 'checkboxes', 'o' => [ 3 => '3 Columns', 4 => '4 Columns', 6 => '6 Columns', 8 => '8 Columns' ], 'k' => 1, 'inputs_pre' => 3, 'c' => 8, 's' => $ops['show_grid_s'] ?? [ 3, 4 ] ],
                     ];
                     $f->form( $general_form, 'settings', 'store' );
-                    $c->post();
+                    post();
 
                     // Filters
-                    $c->pre( 'filters_data', 'off' );
+                    pre( 'filters_data', 'off' );
                     $filters_form = [
                         [ 'i' => 'show_filters', 'n' => 'Show filters', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide', 'v' => $ops['show_filters'] ?? 1 ],
                         [ 'i' => 'filters_type', 'n' => 'Filter Parameters in URL', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide', 'v' => $ops['filters_type'] ?? 1 ],
@@ -328,10 +327,10 @@ class ECOMMERCE {
                         [ 'i' => 'filters_position', 'n' => 'Filters Position', 'o' => [ 'l' => 'Left', 't' => 'Top', 'r' => 'Right', 'f' => 'Floating' ], 'k' => 1, 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['filters_position'] ?? [ 't' ] ],
                     ];
                     $f->form( $filters_form, 'settings', 'store' );
-                    $c->post();
+                    post();
 
                     // Product Options
-                    $c->pre( 'store_page_data', 'off' );
+                    pre( 'store_page_data', 'off' );
                     $store_form = [
                         [ 'i' => 'cat_content_align', 'n' => 'Product Content Alignment', 'o' => $aligns, 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['cat_content_align'] ?? [ 'c' ] ],
                         [ 'i' => 'cat_title_show', 'n' => 'Product Title', 'off' => 'Hide', 'on' => 'Show', 't' => 'slide', 'v' => $ops['cat_title_show'] ?? 1 ],
@@ -354,10 +353,10 @@ class ECOMMERCE {
                         // Order
                     ];
                     $f->form( $store_form, 'settings', 'store' );
-                    $c->post();
+                    post();
 
                     // Product Page
-                    $c->pre( 'product_page_data', 'off' );
+                    pre( 'product_page_data', 'off' );
                     $product_form = [
                         [ 'i' => 'product_gallery_position', 'n' => 'Gallery Position', 'o' => $aligns, 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['product_gallery_position'] ?? [ 'c' ] ],
                         [ 'i' => 'product_gallery_style', 'n' => 'Gallery Style', 'o' => [ '4g' => '4x4 Grid', 's' => 'Slider' ], 't' => 'radios', 'inputs_pre' => 3, 's' => $ops['product_gallery_style'] ?? [ 's' ] ],
@@ -384,11 +383,11 @@ class ECOMMERCE {
                         // Order
                     ];
                     $f->form( $product_form, 'settings', 'store' );
-                    $c->post();
-                $c->post();
-            $c->post();
+                    post();
+                post();
+            post();
 
-            $c->pre( 'reviews_data', 'off' );
+            pre( 'reviews_data', 'off' );
             $review_form = [
                 [ 't' => 'slide', 'i' => 'enable_reviews', 'n' => 'Product Reviews', 'off' => 'Disable', 'on' => 'Enable', 'c' => 4, 'v' => $ops['enable_reviews'] ?? 1 ],
                 [ 't' => 'slide', 'i' => 'strict_purchased_reviews', 'n' => 'Who can add review ?', 'off' => 'Anyone', 'on' => 'Only Purchased', 'c' => 4, 'v' => $ops['strict_purchased_reviews'] ?? 2 ],
@@ -396,36 +395,36 @@ class ECOMMERCE {
                 [ 't' => 'number', 'i' => 'review_images', 'n' => 'Max images in reviews', 'c' => 4, 'p' => 'Ex: 6 or 4 or 0 for no images', 'v' => $ops['review_images'] ?? 4 ],
             ];
             $f->form( $review_form, 'settings', 'store' );
-            $c->post();
+            post();
 
-            $c->pre( 'stock_data', 'off' );
+            pre( 'stock_data', 'off' );
             $stock_form = [
                 [ 't' => 'slide', 'i' => 'managed_stock', 'n' => 'Stock management', 'off' => 'Not needed', 'on' => 'Managed', 'c' => 4, 'v' => $ops['managed_stock'] ?? 1 ],
                 [ 't' => 'number', 'i' => 'low_stock_threshold', 'n' => 'Low Stock Threshold', 'c' => 4, 'v' => $ops['low_stock_threshold'] ?? 5 ],
                 [ 't' => 'select', 'i' => 'stock_managers', 'n' => 'Stock Managers', 'o' => [], 'c' => 12, 'v' => $ops['stock_managers'] ?? '' ],
             ];
             $f->form( $stock_form, 'settings', 'store' );
-            $c->post();
-            /* $c->pre( 'tax_data', 'off' );
+            post();
+            /* pre( 'tax_data', 'off' );
             $tax_form = [
                 [ 't' => 'slide', 'i' => 'tax_inclusive', 'n' => 'Enable guest checkout ?', 'c' => 4 ],
                 [ 't' => 'slide', 'i' => 'checkout_guest_login', 'n' => 'Show login at checkout ?', 'c' => 4 ],
                 [ 't' => 'slide', 'i' => 'checkout_guest_register', 'n' => 'Show registration at checkout ?', 'c' => 4 ],
             ];
             $f->form( $tax_form, 'row', 'store' );
-            $c->post(); */
+            post(); */
             // Tax
                 // Tax Inclusive
                 // Tax based on [ 'Buyer Delivery Address', 'Buyer Billing Address', 'Store Address' ]
-            $c->pre( 'orders_data', 'off' );
+            pre( 'orders_data', 'off' );
             $orders_form = [
                 [ 't' => 'slide', 'i' => 'guest_checkout', 'n' => 'Guest checkout', 'off' => 'Disable', 'on' => 'Enable', 'c' => 4, 'v' => $ops['guest_checkout'] ?? 1 ],
                 [ 't' => 'slide', 'i' => 'checkout_guest_login', 'n' => 'Login at checkout', 'off' => 'Hide', 'on' => 'Show', 'c' => 4, 'v' => $ops['checkout_guest_login'] ?? 1 ],
                 [ 't' => 'slide', 'i' => 'checkout_guest_register', 'n' => 'Sign up at checkout', 'off' => 'Hide', 'on' => 'Show', 'b' => 'Upload', 'c' => 4, 'v' => $ops['checkout_guest_register'] ?? 1 ],
             ];
             $f->form( $orders_form, 'settings', 'store' );
-            $c->post();
-        $c->post();
+            post();
+        post();
 
         $f->process_options( 'Save Store Options','store grad','','.tac');
         $f->post_process();
@@ -462,12 +461,12 @@ class ECOMMERCE {
             //[ 'i' => 'multiple', 't' => 'slide', 'n' => 'User can filter multiple', 'off' => 'No', 'on' => 'Yes', 'c' => 4 ],
         ];
         $r = $f->_random();
-        !empty( $modal_class ) ? $c->pre_modal( $title, $modal_class ) : '';
+        !empty( $modal_class ) ? pre_modal( $title, $modal_class ) : '';
         $f->pre_process( 'data-wrap', 'product_props', $r, 'prod_prop_', 2, 2 );
         $f->form( $prop_type_fields, 'row', $r );
         $f->process_trigger('Save '. $title,'','','','.tac');
         $f->post_process();
-        !empty( $modal_class ) ? $c->post_modal() : '';
+        !empty( $modal_class ) ? post_modal() : '';
     }
 
     function get_property( int $id ): array {
@@ -496,7 +495,7 @@ class ECOMMERCE {
                 $actions .= '</div>';
                 $table[] = [ 'body' => [ $icon, $p['prod_prop_name'], $type, $status, $actions ] ];
             }
-            $c->table( $table, 'tac' );
+            table( $table, 'tac' );
         }
     }
 
@@ -515,12 +514,12 @@ class ECOMMERCE {
             //[ 'i' => 'multiple', 't' => 'slide', 'n' => 'User can filter multiple', 'off' => 'No', 'on' => 'Yes', 'c' => 4 ],
         ];
         $r = $f->_random();
-        !empty( $modal_class ) ? $c->pre_modal( $title, $modal_class ) : '';
+        !empty( $modal_class ) ? pre_modal( $title, $modal_class ) : '';
         $f->pre_process( 'data-wrap', 'product_prop_meta', $r, 'prod_prop_meta_', 2, 2, [ "property" => $id ] );
         $f->form( $prop_meta_fields, 'row', $r );
         $f->process_trigger('Save '. $title,'','','','.tac');
         $f->post_process();
-        !empty( $modal_class ) ? $c->post_modal() : '';
+        !empty( $modal_class ) ? post_modal() : '';
     }
 
     function properties_meta( int $id, string $target_form ): void {
@@ -536,14 +535,14 @@ class ECOMMERCE {
             foreach( $props as $p ) {
                 $icon = !empty( $p['prod_prop_meta_icon'] ) ? $p['prod_prop_meta_icon'] : '';
                 $status = $p['prod_prop_meta_status'] == 1 ? $f->_slide( 'status', '', '', '', 1, 'm', 'disabled' ) : $f->_slide( 'status', '', '', '', 0, 'm', 'disabled' );
-                $actions = $c->_pre('','acts');
+                $actions = _pre('','acts');
                 //$actions .= $f->_view_html(APPURL.'admin/products/prop/'.$p['prod_prop_id'],'div','','','','mat-ico','open_in_new');
                 $actions .= $f->_edit_html( $target_form, $p, 'div','','','','mat-ico','edit');
                 $actions .= $f->_trash_html('product_prop_meta','prod_prop_meta_id = '.$p['prod_prop_meta_id'],'div','','','','mat-ico',1,1,'Are you sure to remove property meta? This will affect filters and products!','delete_forever');
-                $actions .= $c->_post();
+                $actions .= _post();
                 $table[] = [ 'body' => [ $icon, $p['prod_prop_meta_name'], $p['prod_prop_meta_color'], $status, $actions ] ];
             }
-            $c->table( $table, 'tac' );
+            table( $table, 'tac' );
         }
     }
 
