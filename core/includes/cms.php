@@ -168,6 +168,49 @@ class CMS {
 
     function get_menu( int|string $id_name = '' ): array {
         // TODO: Returns Menu Array
+        return [];
+    }
+
+    function content_builder(): void {
+
+    }
+
+    function static_widget_form( string $title = 'Widget Builder', string $modal_class = '' ): void {
+        $f = new FORM();
+        !empty( $modal_class ) ? pre_modal( $title, $modal_class ) : '';
+        $r = $f->_random();
+        $f->pre_process( 'data-wrap id="static_widget_form"', 'widgets', 'widget', 'widget_', 2, 2 );
+        _r();
+        $f->text('name','Widget Name','Ex: Social Widget','','data-widget',8);
+        $icon_title = defined( 'ICONS' ) ? ( str_contains( ICONS, 'Material' ) ? 'Widget Material Icon' : ( str_contains( ICONS, 'bootstrap' ) ? 'Widget Material Icon' : 'Widget Icon' ) ) : 'Widget Icon';
+        $f->text('icon',$icon_title,'Ex: lightbulb','','data-widget',4);
+        r_();
+        pre_tabs('widget_tabs material mb20');
+            tab('Widget Fields',1);
+            tab('HTML Code');
+            tab('Styling');
+        post_tabs();
+        pre('widget_data');
+            pre('widget_fields_data');
+                $f->form_builder('form','Widget Fields','','data-widget');
+            post();
+            pre('html_code_data');
+                div('widget_tags','widget_tags');
+                $f->code('html','HTML Code','','data-widget');
+            post();
+            pre('styling_data');
+                $f->code('css','CSS Code','','data-widget');
+            post();
+        post();
+        pre('','tac');
+            $f->process_trigger('Save Widget','grad mb0');
+        post();
+        $f->post_process();
+        !empty( $modal_class ) ? post_modal() : '';
+    }
+
+    function widget_builder(  string $modal_class = '' ): void {
+
     }
 
 }

@@ -423,6 +423,12 @@ select.mb0 + .select2-container {
   display: none;
 }
 
+/* CODE EDITOR */
+
+.ace_editor {
+  margin: var(--input_margin_top) var(--input_margin_right) var(--input_margin_bottom) var(--input_margin_left)
+}
+
 /* COLOR PICKER */
 
 [data-color-picker] {

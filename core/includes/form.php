@@ -913,7 +913,7 @@ class FORM {
      */
     function code( string|array $id, string $label = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', string $post = '' ): void {
         get_script('ace');
-        echo _code( $id, $label, $value, $attrs, $pre, $post );
+        echo $this->_code( $id, $label, $value, $attrs, $pre, $post );
     }
 
     /**
@@ -926,13 +926,13 @@ class FORM {
      * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
      */
     function _code( string|array $id, string $label = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', string $post = '' ): string {
-        $return = '<script>ace.config.set("basePath", "'. APPURL . 'assets/ext/ace/" );</script>';
+        $return = '<script>document.addEventListener(\'DOMContentLoaded\', function () { ace.config.set("basePath", "'. APPURL . 'assets/ext/ace/" ); })</script>';
         $_p = $this->_pre( $pre );
         $p_ = $this->_post( $pre, $post );
         $return .= $_p;
         $return .= $this->_input( 'textarea', $id, $label, $value, '', $attrs . ' style="display:none !important"' );
         $return .= '<div id="'.$id.'_code" style="min-height: 200px"></div>';
-        $return .= "<script>$(document).ready(function(){ let dk = $('[data-key={$id}]'); let {$id}_code = ace.edit('{$id}_code');{$id}_code.session.setMode('ace/mode/html');{$id}_code.session.setValue($('[data-key=\"{$id}\"]').val(),-1);{$id}_code.session.on('change', function(d) {dk.val({$id}_code.getValue())});});</script>"; // $('[data-key=\"{$id}]\"').val();
+        $return .= "<script>document.addEventListener('DOMContentLoaded', function () { let dk = $('[data-key={$id}]'); let {$id}_code = ace.edit('{$id}_code');{$id}_code.session.setMode('ace/mode/html');{$id}_code.session.setValue($('[data-key=\"{$id}\"]').val(),-1);{$id}_code.session.on('change', function(d) {dk.val({$id}_code.getValue())});});</script>"; // $('[data-key=\"{$id}]\"').val();
         $return .= $p_;
         return $return;
     }
@@ -964,6 +964,12 @@ class FORM {
         </script>
         <?php
         echo $p_;
+    }
+
+    function form_builder( string|array $id, string $label = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', string $post = '' ): void {
+        $this->pre( $pre );
+        $this->textarea( $id, $label, '', $value, $attrs );
+        $this->post( $pre, $post );
     }
 
     /**
@@ -1552,16 +1558,24 @@ class FORM {
         }
     }
 
+    function pre( string|int|float $pre ): void {
+        echo $this->_pre( $pre );
+    }
+
     function _pre( string|int|float $pre ): string {
         if( is_float( $pre ) ) {
             $pre = explode( '.', $pre );
-            $return = $pre[1] == 1 ? '<div class="col-12 col-md-'.$pre[0].' end">' : '<div class="'.$pre[0].'">';
+            $return = $pre[1] == 1 ? _pre( '', 'col-12 col-md-'.$pre[0].' end' ) : _pre( '', $pre[0] );
         } else if( is_numeric( $pre ) ) {
-            $return = $pre == 0 ? '<div class="col">' : '<div class="col-12 col-md-'.$pre.'">';
+            $return = $pre == 0 ? _pre('','col') : _pre('','col-12 col-md-'.$pre);
         } else {
-            $return = str_contains( $pre, '.' ) ? '<div class="'.str_replace('.','',$pre).'">' : $pre;
+            $return = str_contains( $pre, '.' ) ? _pre('',str_replace('.','',$pre)) : $pre;
         }
         return $return;
+    }
+
+    function post( float|int|string $pre, string $post = '' ): void {
+        echo $this->_post( $pre, $post );
     }
 
     function _post( string|float|int $pre, string $post = '' ): string {

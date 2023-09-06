@@ -35,10 +35,18 @@ $page_terms = [
     [ 'data', 'TEXT', '', 1 ],
     [ 'load', 'BOOL', '', 0 ],
 ];
+$widgets = [
+    [ 'name', 'VARCHAR', 128, 1 ],
+    [ 'icon', 'VARCHAR', 32, 1 ],
+    [ 'form', 'TEXT', '', 0 ],
+    [ 'html', 'TEXT', '', 0 ],
+    [ 'css', 'TEXT', '', 0 ],
+];
 
 $pages_struct[] = [ 'pages', $page_struct, 'page', 1 ];
 $pages_struct[] = [ 'page_data', $page_data, 'pd', 1 ];
 $pages_struct[] = [ 'page_terms', $page_terms, 'pt', 1 ];
+$pages_struct[] = [ 'widgets', $widgets, 'widget', 1 ];
 
 $db = new DB();
 $db->automate_tables( $pages_struct );

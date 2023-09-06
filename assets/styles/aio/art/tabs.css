@@ -65,6 +65,8 @@
 .tabs.material {
   width: 100%;
   display: block;
+  margin-left: -20px;
+  margin-right: -20px;
 }
 .tabs.material .tab {
   background: none;
@@ -158,6 +160,7 @@ body.d .tab:not(.on) {
     display: flex;
     overflow-x: auto;
   }
+
   .tab {
     white-space: nowrap;
   }
