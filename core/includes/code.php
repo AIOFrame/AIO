@@ -7,167 +7,6 @@ class CODE {
     }
 
     /**
-     * Renders HTML5 Template
-     * @param string $class Class for <body> tag
-     * @param string $attrs Attributes for <body> tag
-     * @param string|array $pre_styles Pre Styles
-     * @param string $primary_color Primary color for theme (without #)
-     * @param string $secondary_color Secondary color for theme (without #)
-     * @param string $art Art Components to be added
-     * @param string|array $styles Styles to be linked
-     * @param string|array $scripts Scripts to be added
-     * @param string|array $primary_font Array of primary font and weights Ex: [ 'Lato', '300, 400' ]
-     * @param string|array $secondary_font Array of secondary font and weights Ex: [ 'Cairo', '300, 400' ]
-     * @param string|array $icon_fonts Icon Fonts Ex: [ 'MaterialIcons', 'BootstrapIcons' ]
-     * @return void
-     */
-    function pre_html( string $class = '', string $attrs = '', string|array $pre_styles = [], string $primary_color = '00A99D', string $secondary_color = '', string $art = '', string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [], string|array $icon_fonts = [] ): void {
-
-        // Defines
-        global $dark_mode;
-        global $options;
-        $theme = !empty( $options['theme'] ) ? $options['theme'] : ( !empty( $options['default_theme'] ) ? $options['default_theme'] : '' );
-        $dark_mode = !empty( $theme ) ? ( str_contains( $theme, 'dark' ) ? 1 : 0 ) : 0;
-        $class = $dark_mode ? $class . ' d' : $class;
-        $class = isset( $_GET['add'] ) ? $class.' add' : $class;
-
-        // <head>
-        echo '<!doctype html><html ';
-        html_class();
-        echo '><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0"><meta http-equiv="X-UA-Compatible" content="ie=edge">';
-
-        // SEO
-        $c = get_config();
-        if( defined( 'PAGEPATH' ) ) {
-            $seo = !empty( $c['seo'] ) && !empty( $c['seo'][PAGEPATH] ) ?? ( $options['seo'][PAGEPATH] ?? '' );
-            echo !empty( $seo ) ? '<meta name="description" content="'.T( $seo ).'">' : '';
-        }
-
-        // Colors
-        $dark_mode = 0;
-        if( $primary_color == '222' && $secondary_color == '000' ) {
-            $theme = $options['default_theme'] ?? '';
-            $theme = $options['theme'] ?? $theme;
-            $disabled_color = $options['disabled_color'] ?? '';
-            $progress_color = $options['progress_color'] ?? '';
-            $warning_color = $options['warning_color'] ?? '';
-            $error_color = $options['error_color'] ?? '';
-            $success_color = $options['success_color'] ?? '';
-            $dark_mode = str_contains( $theme, 'dark' );
-            if( $dark_mode ) {
-                $color = $options['color_dark'] ?? '#fff';
-                $filled_color = $options['filled_color_dark'] ?? '#fff';
-                $color1 = $options['primary_color_dark'] ?? $primary_color;
-                $color2 = $options['secondary_color_dark'] ?? $secondary_color;
-            } else {
-                $color = $options['color_light'] ?? '#000';
-                $filled_color = $options['filled_color_dark'] ?? '#fff';
-                $color1 = $options['primary_color'] ?? '#111';
-                $color2 = $options['secondary_color'] ?? '#222';
-            }
-        } else {
-            $color = '#000';
-            $color1 = '#00A99D';
-            $color2 = '#00A99D';
-            $filled_color = '#fff';
-            $disabled_color = 'lightgrey';
-            $progress_color = '#00A99D';
-            $warning_color = 'orange';
-            $error_color = 'firebrick';
-            $success_color = '#00A99D';
-        }
-        echo '<style>:root {';
-        //skel( $options );
-        echo $dark_mode ? '--dark_mode:1;' : '--dark_mode:0;';
-        echo '--primary_color:'.$color1.';--secondary_color:'.$color2.';--color:'.$color.';--filled_color:'.$filled_color.';--disabled_color:'.$disabled_color.';--progress_color:'.$progress_color.';--warning_color:'.$warning_color.';--error_color:'.$error_color.';--success_color:'.$success_color;
-        echo '}.c1{color:'.$color1.'}.c2{color:'.$color2.'}.bg1{background:'.$color1.'}.bg2{background:'.$color2.'}.bs{border:1px solid '.$color1.'}.bf:focus{border:1px solid var(--primary_color)}.grad{color:var(--filled_color);background-color:var(--primary_color);background:-moz-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background:-webkit-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background-image:linear-gradient(45deg,var(--primary_color) 0%,var(--secondary_color) 100%);}.grad-text{background: -webkit-linear-gradient(var(--primary_color), var(--secondary_color));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}</style>';
-
-        // Fav Icon
-        $favicon = isset( $options['fav'] ) ? storage_url( $options['fav'] ) : 'fav';
-        favicon( $favicon );
-
-        // Fonts
-        $fonts = [];
-        // Primary Font
-        if( !empty( $primary_font ) ) {
-            $font1 = is_array( $primary_font ) ? $primary_font[0] : $primary_font;
-            $weights1 = $primary_font[1] ?? '400';
-            $weight = $primary_font[2] ?? '400';
-        } else {
-            $font1 = $options['font_1'] ?? 'Lato';
-            $weights1 = $options['font_1_weights'] ?? '400';
-            $weight = $options['font_weight'] ?? '400';
-        }
-        $fonts[ $font1 ] = $weights1;
-        // Secondary Font
-        if( !empty( $secondary_font ) ) {
-            $font2 = is_array( $secondary_font ) && isset( $secondary_font[0] ) ? $secondary_font[0] : $secondary_font;
-            $weights2 = is_array( $secondary_font ) && isset( $secondary_font[1] ) ? $secondary_font[1] : 400;
-            //$weight2 = is_array( $secondary_font ) ? $secondary_font[2] : '400';
-        } else {
-            $font2 = $options['font_2'] ?? '';
-            $weights2 = $options['font_2_weights'] ?? '';
-            //$weight2 = $options['font_2_weight'] ?? '';
-        }
-        if( !empty( $font2 ) ) {
-            $fonts[ $font2 ] = $weights2;
-            reset_styles( $font1.','.$font2, $weight );
-        } else {
-            reset_styles( $font1, $weight );
-        }
-        // Icon Fonts
-        if( !empty( $icon_fonts ) && is_array( $icon_fonts ) ) {
-            foreach( $icon_fonts as $if ) {
-                $fonts[ $if ] = '';
-            }
-            !defined( 'ICONS' ) ? define( 'ICONS', $icon_fonts[0] ) : '';
-        } else if( !empty( $icon_fonts ) ) {
-            !defined( 'ICONS' ) ? define( 'ICONS', $icon_fonts ) : '';
-            $fonts[ $icon_fonts ] = '';
-        }
-        $styles = str_contains( strtolower( ICONS ), 'bootstrap' ) ? ( !empty( $styles ) ? ( is_array( $styles ) ? array_merge( [ 'bootstrap-icons', $styles ] ) : $styles.',bootstrap-icons' ) : 'bootstrap-icons' ) : $styles;
-        fonts( $fonts );
-
-        // Appearance
-        $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'jquery' ] ) : $scripts . ',jquery';
-        get_styles( $pre_styles );
-        get_scripts( $scripts );
-
-        if( !empty( $art ) ) {
-            art( $art );
-        }
-        get_styles( $styles );
-        get_styles( defined( 'PAGEPATH' ) ? PAGEPATH . ',micro' : 'micro' );
-
-        get_title();
-
-        //$f = new FORM();
-        //$c = Encrypt::initiate();
-
-        // Attributes
-        //$attrs = $attrs.' data-out="'. $c->encrypt('logout_ajax').'"';
-
-        // Google Analytics
-        if( defined( 'CONFIG' ) && isset( CONFIG['api']['google_analytics'] ) ) {
-            echo '<script async src="https://www.googletagmanager.com/gtag/js?id=UA-'.str_replace('UA-','',CONFIG['api']['google_analytics'])."></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-".str_replace('UA-','',CONFIG['api']['google_analytics'])."');</script>";
-        }
-
-        // </head>
-        echo '</head><body ';
-        body_class( $class );
-        echo $attrs . '>';
-
-    }
-
-    function post_html( string|array $scripts = [], string $alert_position = 'top right' ): void {
-        echo '<div class="'.$alert_position.'" data-alerts></div>';
-        get_scripts( $scripts );
-        if( defined( 'PAGEPATH' ) )
-            get_script( PAGEPATH );
-        echo '</body></html>';
-    }
-
-    /**
      * Renders Admin Login HTML
      * @param string $login_redirect_url URL to redirect after login
      * @param string $attrs Attributes to add to the login wrapper
@@ -279,321 +118,6 @@ class CODE {
             mkdir( APPPATH . 'templates' );
         }
     }
-
-    /**
-     * Renders a coming / launching soon HTML
-     * @param string $date Estimated Launch Date
-     * @param string $text Coming Soon Text
-     * @param string $bg Background Image URL
-     * @param string $logo Logo URL
-     * @return void
-     */
-    function soon( string $date, string $text = 'Coming Soon...', string $bg = '', string $logo = '' ): void {
-        $this->pre_html();
-        get_style( 'soon' );
-        global $options;
-        global $is_light;
-        $bg = !empty( $bg ) ? 'style="background:url(\''.$bg.'\') no-repeat center / cover"' : '';
-        $app = $options['app_name'] ?? APPNAME;
-        //skel( $options );
-        if( $is_light ) {
-            $logo = !empty( $logo ) ? $logo : $options['logo_light'];
-        } else {
-            $logo = !empty( $logo ) ? $logo : $options['logo_dark'];
-        }
-        $logo = !empty( $logo ) ? 'style="background:url(\''.storage_url($logo).'\') no-repeat center / contain"' : '';
-        ?>
-        <div class="aio_soon <?php echo $is_light ? '' : 'd'; ?>" <?php echo $bg; ?>>
-            <div class="vc">
-                <div class="brand" <?php echo $logo; ?> title="<?php echo $app; ?>"></div>
-                <div class="box">
-                    <div class="text"><?php echo $text; ?></div>
-                    <div class="date"><?php echo $date; ?></div>
-                </div>
-                <div class="credits">Powered by <a target="_blank" href="https://github.com/AIOFrame/AIO">AIO</a></div>
-            </div>
-        </div>
-        <?php
-        get_script( 'soon' );
-        $this->post_html();
-    }
-
-    /**
-     * @param string $title Modal Title singular Ex: Contact, Student...
-     * @param string $size Modal size s = small, m = medium, l = large, xl, f = full, l20, l40, l50, l60, l80, r20, r40, r50, r60, r80
-     * @param string $target Database name if the data is supposed to store directly to db or ajax function name with _ajax at the end
-     * @param array $fields Input fields to render
-     * @param array $hidden Hidden data for Database
-     * @param string $pre String to prepend to keys for database table columns
-     * @param int $notify Notification Time in Seconds
-     * @param int $reload Reload in Seconds
-     * @param string $success_alert Text to notify upon successfully storing data
-     * @param string $callback A JS Function to callback on results
-     * @param string $confirm A confirmation popup will execute further code
-     * @param string $redirect Redirect user to page on successful submission
-     * @param string $validator Frontend JS script to add custom validation to the form data
-     * @param string $reset_fields Reset input fields with data attribute (Tip: Use 1 to reset provided data fields)
-     * @param string $submit_text Text on submit button
-     * @return void
-     */
-    function modal( string $title = '', string $size = 'm', string $target = '', array $fields = [], array $hidden = [], string $pre = '', int $notify = 0, int $reload = 0, string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '', string $submit_text = '' ): void {
-        $f = new FORM();
-        $r = substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 8);
-        $this->pre_modal( $title, $size );
-        $f->pre_process( 'data-wrap', $target, $r, $pre, $notify, $reload, $hidden, $success_alert, $callback, $confirm, $redirect, $validator, $reset_fields );
-        $f->form( $fields, 'row', $r );
-        $f->process_trigger( !empty( $submit_text ) ? $submit_text : 'Save '.$title, 'mb0' );
-        $f->post_process();
-        $this->post_modal();
-    }
-
-    function pre_modal( string $title = '', string $size = '' ): void {
-        $s = strtolower( str_replace( ' ', '_', $title ) );
-        ?>
-        <div id="<?php echo $s.'_modal'; ?>" class="modal <?php echo $size . ' ' . $s.'_modal'; ?>">
-            <h2 class="title" data-add><?php E( 'New '.$title ); ?></h2>
-            <h2 class="title" data-edit style="display: none;"><?php E( 'Update '.$title ); ?></h2>
-            <div class="close"></div>
-            <div class="modal_body">
-        <?php
-    }
-
-    function post_modal(): void {
-        echo '</div></div>';
-    }
-
-    /**
-     * Logout HTML
-     * @param string $tag HTML element type
-     * @param string $class Class for the logout element
-     * @param string $text Logout text
-     * @param string $confirm Confirmation message if needed
-     * @return void
-     */
-    function logout_html( string $tag = 'div', string $class = '', string $text = 'Logout', string $confirm = 'Are you sure to Logout?' ): void {
-        $e = Encrypt::initiate();
-        $action = 'data-action="' . ( APPDEBUG ? 'logout_ajax' : $e->encrypt('logout_ajax') ) . '"';
-        $click = 'onclick="process_data(this)"';
-        $confirm = !empty( $confirm ) ? 'data-confirm="' . T($confirm) . '"' : '';
-        echo '<' . $tag . ' class="' . $class . '" ' . $action . ' ' . $click . ' ' . $confirm . ' data-reload="2" data-notify="2">' . $text . '</' . $tag . '>';
-    }
-
-    // TODO: Page Management
-    function page_management(): void {
-
-    }
-
-    // TODO: SEO Options
-    function seo_options(): void {
-
-    }
-
-    function table_view( string $wrapper = '', array $rows = [], string $table_class = '' ): void {
-        echo "<div id='{$wrapper}_list_view' data-view='list'>";
-        $this->table( $rows, $table_class );
-        echo '</div>';
-    }
-
-    /**
-     * @param array $rows Array of table data [ 'head' => [ 'Name', 'Age' ], 'body' => [ 'Ahmed', 25 ] ]
-     * @param string $class Class for the table
-     * @return void
-     */
-    function table( array $rows = [], string $class = '' ): void {
-        echo $this->_table( $rows, $class );
-    }
-
-    /**
-     * @param array $rows Array of table data [ 'head' => [ 'Name', 'Age' ], 'body' => [ 'Ahmed', 25 ] ]
-     * @param string $class Class for the table
-     * @return string
-     */
-    function _table( array $rows = [], string $class = '' ): string {
-        // TODO: Support art designs like statuses
-        $return = '<table class="'.$class.'">';
-        foreach( $rows as $row ) {
-            $type = array_key_first( $row );
-            $return .= in_array( $type, [ 'thead', 'head', 'h' ] ) ? '<thead>' : ( in_array( $type, [ 'tfoot', 'foot', 'f' ] ) ? '<tfoot>' : '<tbody>' );
-            foreach( $row as $cols ) {
-                $return .= '<tr>';
-                foreach( $cols as $c ) {
-                    $return .= in_array( $type, [ 'thead', 'head', 'h' ] ) ? '<th>'.$c.'</th>' : '<td>'.$c.'</td>';
-                }
-                $return .= '</tr>';
-            }
-            $return .= in_array( $type, [ 'thead', 'head', 'h' ] ) ? '</thead>' : ( in_array( $type, [ 'tfoot', 'foot', 'f' ] ) ? '</tfoot>' : '</tbody>' );
-        }
-        $return .= '</table>';
-        return $return;
-    }
-
-    /**
-     * Returns Card
-     * @param string|array|float $col
-     * @param string $class
-     * @param string $title Title of the Card
-     * @param string $link Hyperlink for the card to navigate to
-     * @param string $desc Description
-     * @param string $image Image or Logo URL
-     * @param string $image_class Image or Logo class [ 'logo', 'image', 'logo xl', 'image f' ]
-     * @param string $status Status text for the card
-     * @param string $status_class Status class [ 'orange', 'blue', 'green', 'red', 'l', 'r' ]
-     * @param array $data Information to be displayed as table list [ [ 'Age', '25 Years' ], [ 'Gender', 'Male' ] ]
-     * @param array $actions General actions like view a page, print a page [ [ 'url' => '', 'title' => '', 'ico' => 'mat-ico printer' ] ]
-     * @param string $edit_modal Modal identifier to insert editable data json
-     * @param array $edit_data Editable data json
-     * @param string $delete_table Database table name to delete data from Ex: 'contacts'
-     * @param string $delete_logic Database deletion logic Ex: 'contact_id = 5'
-     * @return string
-     */
-    function _card( string|array|float $col = '', string $class = '', string $title = '', string $link = '', string $desc = '', string $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], array $actions = [], string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '' ): string {
-        $pre = '';
-        $post = '';
-        if( !empty( $col ) ) {
-            $f = new FORM();
-            $pre = $f->_pre( $col );
-            $post = $f->_post( $col );
-        }
-
-        $f = new FORM();
-        $return = !empty ( $link ) ? '<a class="card '.($class ?? '').'" href="'.$link.'">' : '<div class="card '.($class ?? '').'">';
-        $return .= !empty( $image ) ? '<div style="background-image:url(\''.$image.'\')" class="'.$image_class.'"></div>' : '';
-        $return .= !empty( $title ) ? '<h2 class="title gbg">'.$title.'</h2>' : '';
-        $return .= !empty( $desc ) ? '<h4 class="desc gbg">'.$desc.'</h4>' : '';
-        $return .= !empty( $status ) ? '<div class="status '.$status_class.'">'.$status.'</div>' : '';
-        if( !empty( $data ) ) {
-            $return .= $this->_table( [ 'body' => $data ], 'plain' );
-        }
-        if( !empty( $actions ) || ( !empty( $edit_data ) && !empty( $edit_modal ) ) || ( !empty( $delete_table ) && !empty( $delete_logic ) ) ) {
-            $return .= '<div class="acts">';
-            if( !empty( $actions ) ) {
-                foreach( $actions as $act ) {
-                    $return .= $f->_view_html( $act['url'] ?? '', $act['html'] ?? 'div', $act['title'] ?? ( $act['text'] ?? '' ), 'grad', '', $act['ico'] ?? '' );
-                }
-            }
-            if( !empty( $edit_data ) && !empty( $edit_modal ) ) {
-                $return .= $f->_edit_html( $edit_modal, $edit_data, 'div', '', 'grad', '', 'mat-ico', 'edit' );
-            }
-            if( !empty( $delete_table ) && !empty( $delete_logic ) ) {
-                $return .= $f->_trash_html( $delete_table, $delete_logic, 'div', '', 'grad', '', 'mat-ico', 2, 2, 'Are you sure to delete?', 'delete' );
-            }
-            $return .= '</div>';
-        }
-        $return .= !empty ( $link ) ? '</a>' : '</div>';
-        return $pre.$return.$post;
-    }
-
-    /**
-     * Renders Card
-     * @param string|array|float $col
-     * @param string $class
-     * @param string $title Title of the Card
-     * @param string $link Hyperlink for the card to navigate to
-     * @param string $desc Description
-     * @param string $image Image or Logo URL
-     * @param string $image_class Image or Logo class [ 'logo', 'image', 'logo xl', 'image f' ]
-     * @param string $status Status text for the card
-     * @param string $status_class Status class [ 'orange', 'blue', 'green', 'red', 'l', 'r' ]
-     * @param array $data Information to be displayed as table list [ [ 'Age', '25 Years' ], [ 'Gender', 'Male' ] ]
-     * @param array $actions General actions like view a page, print a page [ [ 'url' => '', 'title' => '', 'ico' => 'mat-ico printer' ] ]
-     * @param string $edit_modal Modal identifier to insert editable data json
-     * @param array $edit_data Editable data json
-     * @param string $delete_table Database table name to delete data from Ex: 'contacts'
-     * @param string $delete_logic Database deletion logic Ex: 'contact_id = 5'
-     * @return void
-     */
-    function card( string|array|float $col = '', string $class = '', string $title = '', string $link = '', string $desc = '', string $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], array $actions = [], string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '' ): void {
-        echo $this->_card( $col, $class, $title, $link, $desc, $image, $image_class, $status, $status_class, $data, $actions, $edit_modal, $edit_data, $delete_table, $delete_logic );
-    }
-
-    function grid_view( string $wrapper = '', string $content = '', string $wrapper_class = '', string|int|float $col = '' ): void {
-        echo '<div id="'.$wrapper.'_grid_view" class="'.$wrapper_class.'" data-view="grid">';
-        echo !empty( $col ) ? '<div class="row">' : '';
-        echo $content;
-        echo !empty( $col ) ? '</div>' : '';
-        echo '</div>';
-    }
-
-    function pre_tabs( string $class = '' ): void {
-        echo '<div class="tabs '.$class.'"><div class="tab_heads" data-store="tabs_'.str_replace( ' ', '_', $class ).'">';
-    }
-
-    function tab( string $title = '', bool $active = false, string $target = '', string $icon = '' ): void {
-        $target = empty( $target ) ? strtolower( str_replace( '___', '_', str_replace( ' ', '_', str_replace( '/', '_', $title ) ) ) ).'_data' : $target;
-        $class = $active ? ' class="tab on"' : ' class="tab"';
-        if( !empty( $icon ) ) {
-            $title = defined( 'ICONS' ) ? ( str_contains( ICONS, 'Material' ) ? '<i class="mat-ico">'.$icon.'</i>'.$title : '<i class="bi bi-'.$icon.'"></i>'.$title ) : $title;
-        }
-        echo '<div data-tab="#'.$target.'"'.$class.'>'. $title .'</div>';
-    }
-
-    function post_tabs(): void {
-        echo '</div></div>';
-    }
-
-    function pre( string $id = '', string $class = '', string $element = 'div' ): void {
-        echo $this->_pre( $id, $class, $element );
-    }
-
-    function _pre( string $id = '', string $class = '', string $element = 'div' ): string {
-        $id = !empty( $id ) ? ' id="'.$id.'"' : '';
-        $class = !empty( $class ) ? ' class="'.$class.'"' : '';
-        return '<'.$element.$id.$class.'>';
-    }
-
-    function post( string $element = 'div' ): void {
-        echo $this->_post( $element );
-    }
-
-    function _post( string $element = 'div' ): string {
-        return '</'.$element.'>';
-    }
-
-    function h1( string $title = '', bool $translate = true ): void {
-        echo $this->_h( 1, $title, $translate );
-    }
-
-    function h2( string $title = '', bool $translate = true ): void {
-        echo $this->_h( 2, $title, $translate );
-    }
-
-    function h3( string $title = '', bool $translate = true ): void {
-        echo $this->_h( 3, $title, $translate );
-    }
-
-    function h4( string $title = '', bool $translate = true ): void {
-        echo $this->_h( 4, $title, $translate );
-    }
-
-    function h5( string $title = '', bool $translate = true ): void {
-        echo $this->_h( 5, $title, $translate );
-    }
-
-    function h6( string $title = '', bool $translate = true ): void {
-        echo $this->_h( 6, $title, $translate );
-    }
-
-    function _h( int $level = 1,  string $title = '', bool $translate = true ): string {
-        return '<h'.$level.'>'.( $translate ? T( $title ) : $title ).'</'.$level.'>';
-    }
-
-    function modal_trigger( string $modal_identifier = '', string $title = '' ): void {
-        echo '<button class="grad" data-on="'.$modal_identifier.'">'.T( $title ).'</button>';
-    }
-
-    function float_triggers( array $triggers ): void {
-        $this->pre('','actions float');
-        if( is_assoc( $triggers ) ) {
-            foreach( $triggers as $tk => $tv ) {
-                $this->modal_trigger( $tk, $tv );
-            }
-        } else {
-            foreach( $triggers as $t ) {
-                $this->modal_trigger( $t[0], $t[1] );
-            }
-        }
-        $this->post();
-    }
 }
 
 class RANGE {
@@ -652,6 +176,516 @@ class RANGE {
 }
 
 /**
+ * Renders HTML5 Template
+ * @param string $class Class for <body> tag
+ * @param string $attrs Attributes for <body> tag
+ * @param string|array $pre_styles Pre Styles
+ * @param string $primary_color Primary color for theme (without #)
+ * @param string $secondary_color Secondary color for theme (without #)
+ * @param string $art Art Components to be added
+ * @param string|array $styles Styles to be linked
+ * @param string|array $scripts Scripts to be added
+ * @param string|array $primary_font Array of primary font and weights Ex: [ 'Lato', '300, 400' ]
+ * @param string|array $secondary_font Array of secondary font and weights Ex: [ 'Cairo', '300, 400' ]
+ * @param string|array $icon_fonts Icon Fonts Ex: [ 'MaterialIcons', 'BootstrapIcons' ]
+ * @return void
+ */
+function pre_html( string $class = '', string $attrs = '', string|array $pre_styles = [], string $primary_color = '00A99D', string $secondary_color = '', string $art = '', string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [], string|array $icon_fonts = [] ): void {
+
+    // Defines
+    global $dark_mode;
+    global $options;
+    $theme = !empty( $options['theme'] ) ? $options['theme'] : ( !empty( $options['default_theme'] ) ? $options['default_theme'] : '' );
+    $dark_mode = !empty( $theme ) ? ( str_contains( $theme, 'dark' ) ? 1 : 0 ) : 0;
+    $class = $dark_mode ? $class . ' d' : $class;
+    $class = isset( $_GET['add'] ) ? $class.' add' : $class;
+
+    // <head>
+    echo '<!doctype html><html ';
+    html_class();
+    echo '><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0"><meta http-equiv="X-UA-Compatible" content="ie=edge">';
+
+    // SEO
+    $c = get_config();
+    if( defined( 'PAGEPATH' ) ) {
+        $seo = !empty( $c['seo'] ) && !empty( $c['seo'][PAGEPATH] ) ?? ( $options['seo'][PAGEPATH] ?? '' );
+        echo !empty( $seo ) ? '<meta name="description" content="'.T( $seo ).'">' : '';
+    }
+
+    // Colors
+    $dark_mode = 0;
+    if( $primary_color == '222' && $secondary_color == '000' ) {
+        $theme = $options['default_theme'] ?? '';
+        $theme = $options['theme'] ?? $theme;
+        $disabled_color = $options['disabled_color'] ?? '';
+        $progress_color = $options['progress_color'] ?? '';
+        $warning_color = $options['warning_color'] ?? '';
+        $error_color = $options['error_color'] ?? '';
+        $success_color = $options['success_color'] ?? '';
+        $dark_mode = str_contains( $theme, 'dark' );
+        if( $dark_mode ) {
+            $color = $options['color_dark'] ?? '#fff';
+            $filled_color = $options['filled_color_dark'] ?? '#fff';
+            $color1 = $options['primary_color_dark'] ?? $primary_color;
+            $color2 = $options['secondary_color_dark'] ?? $secondary_color;
+        } else {
+            $color = $options['color_light'] ?? '#000';
+            $filled_color = $options['filled_color_dark'] ?? '#fff';
+            $color1 = $options['primary_color'] ?? '#111';
+            $color2 = $options['secondary_color'] ?? '#222';
+        }
+    } else {
+        $color = '#000';
+        $color1 = '#00A99D';
+        $color2 = '#00A99D';
+        $filled_color = '#fff';
+        $disabled_color = 'lightgrey';
+        $progress_color = '#00A99D';
+        $warning_color = 'orange';
+        $error_color = 'firebrick';
+        $success_color = '#00A99D';
+    }
+    echo '<style>:root {';
+    //skel( $options );
+    echo $dark_mode ? '--dark_mode:1;' : '--dark_mode:0;';
+    echo '--primary_color:'.$color1.';--secondary_color:'.$color2.';--color:'.$color.';--filled_color:'.$filled_color.';--disabled_color:'.$disabled_color.';--progress_color:'.$progress_color.';--warning_color:'.$warning_color.';--error_color:'.$error_color.';--success_color:'.$success_color;
+    echo '}.c1{color:'.$color1.'}.c2{color:'.$color2.'}.bg1{background:'.$color1.'}.bg2{background:'.$color2.'}.bs{border:1px solid '.$color1.'}.bf:focus{border:1px solid var(--primary_color)}.grad{color:var(--filled_color);background-color:var(--primary_color);background:-moz-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background:-webkit-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background-image:linear-gradient(45deg,var(--primary_color) 0%,var(--secondary_color) 100%);}.grad-text{background: -webkit-linear-gradient(var(--primary_color), var(--secondary_color));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}</style>';
+
+    // Fav Icon
+    $favicon = isset( $options['fav'] ) ? storage_url( $options['fav'] ) : 'fav';
+    favicon( $favicon );
+
+    // Fonts
+    $fonts = [];
+    // Primary Font
+    if( !empty( $primary_font ) ) {
+        $font1 = is_array( $primary_font ) ? $primary_font[0] : $primary_font;
+        $weights1 = $primary_font[1] ?? '400';
+        $weight = $primary_font[2] ?? '400';
+    } else {
+        $font1 = $options['font_1'] ?? 'Lato';
+        $weights1 = $options['font_1_weights'] ?? '400';
+        $weight = $options['font_weight'] ?? '400';
+    }
+    $fonts[ $font1 ] = $weights1;
+    // Secondary Font
+    if( !empty( $secondary_font ) ) {
+        $font2 = is_array( $secondary_font ) && isset( $secondary_font[0] ) ? $secondary_font[0] : $secondary_font;
+        $weights2 = is_array( $secondary_font ) && isset( $secondary_font[1] ) ? $secondary_font[1] : 400;
+        //$weight2 = is_array( $secondary_font ) ? $secondary_font[2] : '400';
+    } else {
+        $font2 = $options['font_2'] ?? '';
+        $weights2 = $options['font_2_weights'] ?? '';
+        //$weight2 = $options['font_2_weight'] ?? '';
+    }
+    if( !empty( $font2 ) ) {
+        $fonts[ $font2 ] = $weights2;
+        reset_styles( $font1.','.$font2, $weight );
+    } else {
+        reset_styles( $font1, $weight );
+    }
+    // Icon Fonts
+    if( !empty( $icon_fonts ) && is_array( $icon_fonts ) ) {
+        foreach( $icon_fonts as $if ) {
+            $fonts[ $if ] = '';
+        }
+        !defined( 'ICONS' ) ? define( 'ICONS', $icon_fonts[0] ) : '';
+    } else if( !empty( $icon_fonts ) ) {
+        !defined( 'ICONS' ) ? define( 'ICONS', $icon_fonts ) : '';
+        $fonts[ $icon_fonts ] = '';
+    }
+    $styles = str_contains( strtolower( ICONS ), 'bootstrap' ) ? ( !empty( $styles ) ? ( is_array( $styles ) ? array_merge( [ 'bootstrap-icons', $styles ] ) : $styles.',bootstrap-icons' ) : 'bootstrap-icons' ) : $styles;
+    fonts( $fonts );
+
+    // Appearance
+    $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'jquery' ] ) : $scripts . ',jquery';
+    get_styles( $pre_styles );
+    get_scripts( $scripts );
+
+    if( !empty( $art ) ) {
+        art( $art );
+    }
+    get_styles( $styles );
+    get_styles( defined( 'PAGEPATH' ) ? PAGEPATH . ',micro' : 'micro' );
+
+    get_title();
+
+    //$f = new FORM();
+    //$c = Encrypt::initiate();
+
+    // Attributes
+    //$attrs = $attrs.' data-out="'. $c->encrypt('logout_ajax').'"';
+
+    // Google Analytics
+    if( defined( 'CONFIG' ) && isset( CONFIG['api']['google_analytics'] ) ) {
+        echo '<script async src="https://www.googletagmanager.com/gtag/js?id=UA-'.str_replace('UA-','',CONFIG['api']['google_analytics'])."></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-".str_replace('UA-','',CONFIG['api']['google_analytics'])."');</script>";
+    }
+
+    // </head>
+    echo '</head><body ';
+    body_class( $class );
+    echo $attrs . '>';
+
+}
+
+function post_html( string|array $scripts = [], string $alert_position = 'top right' ): void {
+    div('',$alert_position,'','data-alerts');
+    get_scripts( $scripts );
+    if( defined( 'PAGEPATH' ) )
+        get_script( PAGEPATH );
+    echo '</body></html>';
+}
+
+function pre( string $id = '', string $class = '', string $element = 'div', string $attr = '' ): void {
+    echo _pre( $id, $class, $element, $attr );
+}
+
+function _pre( string $id = '', string $class = '', string $element = 'div', string $attr = '' ): string {
+    $id = !empty( $id ) ? ' id="'.$id.'"' : '';
+    $class = !empty( $class ) ? ' class="'.$class.'"' : '';
+    $attr = !empty( $attr ) ? ' '.$attr : $attr;
+    return '<'.$element.$id.$class.$attr.'>';
+}
+
+function post( string $element = 'div' ): void {
+    echo _post( $element );
+}
+
+function _post( string $element = 'div' ): string {
+    return '</'.$element.'>';
+}
+
+function h1( string $title = '', bool $translate = true, string $attrs = '' ): void {
+    el( 'h1', '', '', $title, $attrs, $translate );
+}
+
+function h2( string $title = '', bool $translate = true, string $attrs = '' ): void {
+    el( 'h2', '', '', $title, $attrs, $translate );
+}
+
+function h3( string $title = '', bool $translate = true, string $attrs = '' ): void {
+    el( 'h3', '', '', $title, $attrs, $translate );
+}
+
+function h4( string $title = '', bool $translate = true, string $attrs = '' ): void {
+    el( 'h4', '', '', $title, $attrs, $translate );
+}
+
+function h5( string $title = '', bool $translate = true, string $attrs = '' ): void {
+    el( 'h5', '', '', $title, $attrs, $translate );
+}
+
+function h6( string $title = '', bool $translate = true, string $attrs = '' ): void {
+    el( 'h6', '', '', $title, $attrs, $translate );
+}
+
+function el( string $element = 'div', string $class = '', string $id = '', string $content = '', string $attrs = '', bool $translate = false ): void {
+    echo _el( $element, $class, $id, $content, $attrs, $translate );
+}
+
+function pre_tabs( string $class = '' ): void {
+    pre('','tabs '.$class);
+    pre('','tab_heads','div','data-store="tabs_'.str_replace( ' ', '_', $class ).'"');
+}
+
+function tab( string $title = '', bool $active = false, string $target = '', string $icon = '' ): void {
+    $target = empty( $target ) ? strtolower( str_replace( '___', '_', str_replace( ' ', '_', str_replace( '/', '_', $title ) ) ) ).'_data' : $target;
+    $class = $active ? ' class="tab on"' : ' class="tab"';
+    if( !empty( $icon ) ) {
+        $title = defined( 'ICONS' ) ? ( str_contains( ICONS, 'Material' ) ? '<i class="mat-ico">'.$icon.'</i>'.$title : '<i class="bi bi-'.$icon.'"></i>'.$title ) : $title;
+    }
+    div('',$class,$title,'data-tab="'.$target.'"',1);
+}
+
+function post_tabs(): void {
+    post();
+    post();
+}
+
+function _el( string $element = 'div', string $class = '', string $id = '', string $content = '', string $attrs = '', bool $translate = false ): string {
+    if( $element == 'hr' || $element == 'br' ) {
+        return _pre( $id, $class, $element, $attrs );
+    } else {
+        $content = $translate ? T( $content ) : $content;
+        return _pre($id,$class,$element,$attrs).$content._post($element);
+    }
+}
+
+function div( string $id = '', string $class = '', string $content = '', string $attrs = '', bool $translate = false ): void {
+    echo _div( $id, $class, $content, $attrs, $translate );
+}
+
+function _div( string $id = '', string $class = '', string $content = '', string $attrs = '', bool $translate = false ): string {
+    return _el( 'div', $id, $class, $content, $attrs, $translate );
+}
+
+function a( string $hyperlink = '#', string $title = '', string $class = '', string $hover_title = '', string $id = '' ): void {
+    echo _a($hyperlink,$title,$class,$hover_title,$id);
+}
+
+function _a( string $hyperlink = '#', string $title = '', string $class = '', string $hover_title = '', string $id = '' ): string {
+    $id = !empty( $id ) ? ' id="'.$id.'"' : '';
+    $class = !empty( $class ) ? ' class="'.$class.'"' : '';
+    $alt = !empty( $hover_title ) ? ' title="'.$hover_title.'"' : '';
+    return '<a href="'.$hyperlink.'" '.$id.$class.$alt.'>'.$title.'</a>';
+}
+
+function img( string $image_url, string $id = '', string $class = '', string $alt = '', string $title = '', string $attr = '' ): void {
+    echo _img( $image_url, $id, $class, $alt, $title, $attr );
+}
+function _img( string $image_src, string $id = '', string $class = '', string $alt = '', string $title = '', string $attr = '' ): string {
+    $id = !empty( $id ) ? ' id="'.$id.'"' : '';
+    $class = !empty( $class ) ? ' class="'.$class.'"' : '';
+    $alt = !empty( $alt ) ? ' alt="'.$alt.'"' : '';
+    $title = !empty( $title ) ? ' title="'.$title.'"' : '';
+    return '<image src="'.$image_src.'" '.$id.$class.$alt.$title.$attr.' />';
+}
+
+function image( string $image_url, string $id = '', string $class = '' ): void {
+    echo _image( $image_url, $id, $class );
+}
+function _image( string $image_url, string $id = '', string $class = '' ): string {
+    return "<div style=\"background-image:url('".$image_url."')\" class=\"'.$class.'\"></div>";
+}
+
+function grid_view( string $wrapper = '', string $content = '', string $wrapper_class = '', string|int|float $col = '' ): void {
+    pre($wrapper.'_grid_view',$wrapper_class,'div','data-view="grid"');
+    div('','col',$content);
+    post();
+}
+
+function table_view( string $wrapper = '', array $rows = [], string $table_class = '' ): void {
+    pre($wrapper.'_list_view','','div','data-view="list"');
+    table( $rows, $table_class );
+    post();
+}
+
+/**
+ * @param array $rows Array of table data [ 'head' => [ 'Name', 'Age' ], 'body' => [ 'Ahmed', 25 ] ]
+ * @param string $class Class for the table
+ * @return void
+ */
+function table( array $rows = [], string $class = '' ): void {
+    echo _table( $rows, $class );
+}
+
+/**
+ * @param array $rows Array of table data [ 'head' => [ 'Name', 'Age' ], 'body' => [ 'Ahmed', 25 ] ]
+ * @param string $class Class for the table
+ * @return string
+ */
+function _table( array $rows = [], string $class = '' ): string {
+    // TODO: Support art designs like statuses
+    $return = _pre('',$class,'table');
+    foreach( $rows as $row ) {
+        $type = array_key_first( $row );
+        $return .= in_array( $type, [ 'thead', 'head', 'h' ] ) ? '<thead>' : ( in_array( $type, [ 'tfoot', 'foot', 'f' ] ) ? '<tfoot>' : '<tbody>' );
+        foreach( $row as $cols ) {
+            $return .= '<tr>';
+            foreach( $cols as $c ) {
+                $return .= in_array( $type, [ 'thead', 'head', 'h' ] ) ? '<th>'.$c.'</th>' : '<td>'.$c.'</td>';
+            }
+            $return .= '</tr>';
+        }
+        $return .= in_array( $type, [ 'thead', 'head', 'h' ] ) ? '</thead>' : ( in_array( $type, [ 'tfoot', 'foot', 'f' ] ) ? '</tfoot>' : '</tbody>' );
+    }
+    $return .= _post('table');
+    return $return;
+}
+
+/**
+ * Returns Card
+ * @param string|array|float $col
+ * @param string $class
+ * @param string $title Title of the Card
+ * @param string $link Hyperlink for the card to navigate to
+ * @param string $desc Description
+ * @param string $image Image or Logo URL
+ * @param string $image_class Image or Logo class [ 'logo', 'image', 'logo xl', 'image f' ]
+ * @param string $status Status text for the card
+ * @param string $status_class Status class [ 'orange', 'blue', 'green', 'red', 'l', 'r' ]
+ * @param array $data Information to be displayed as table list [ [ 'Age', '25 Years' ], [ 'Gender', 'Male' ] ]
+ * @param array $actions General actions like view a page, print a page [ [ 'url' => '', 'title' => '', 'ico' => 'mat-ico printer' ] ]
+ * @param string $edit_modal Modal identifier to insert editable data json
+ * @param array $edit_data Editable data json
+ * @param string $delete_table Database table name to delete data from Ex: 'contacts'
+ * @param string $delete_logic Database deletion logic Ex: 'contact_id = 5'
+ * @return string
+ */
+function _card( string|array|float $col = '', string $class = '', string $title = '', string $link = '', string $desc = '', string $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], array $actions = [], string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '' ): string {
+    $pre = '';
+    $post = '';
+    if( !empty( $col ) ) {
+        $f = new FORM();
+        $pre = $f->_pre( $col );
+        $post = $f->_post( $col );
+    }
+    $f = new FORM();
+    $return = !empty ( $link ) ? _pre('','card '.($class??''),'a','href="'.$link.'"') : _pre('','card '.($class ?? ''));
+    $return .= !empty( $image ) ? _image( $image, '', $image_class ) : '';
+    $return .= !empty( $title ) ? _el('h2','','desc grad',$title) : '';
+    $return .= !empty( $desc ) ? _el('h4','','desc grad',$desc) : '';
+    $return .= !empty( $status ) ? _div('','status '.$status_class,$status) : '';
+    if( !empty( $data ) ) {
+        $return .= _table( [ 'body' => $data ], 'plain' );
+    }
+    if( !empty( $actions ) || ( !empty( $edit_data ) && !empty( $edit_modal ) ) || ( !empty( $delete_table ) && !empty( $delete_logic ) ) ) {
+        $return .= '<div class="acts">';
+        if( !empty( $actions ) ) {
+            foreach( $actions as $act ) {
+                $return .= $f->_view_html( $act['url'] ?? '', $act['html'] ?? 'div', $act['title'] ?? ( $act['text'] ?? '' ), 'grad', '', $act['ico'] ?? '' );
+            }
+        }
+        if( !empty( $edit_data ) && !empty( $edit_modal ) ) {
+            $return .= $f->_edit_html( $edit_modal, $edit_data, 'div', '', 'grad', '', 'mat-ico', 'edit' );
+        }
+        if( !empty( $delete_table ) && !empty( $delete_logic ) ) {
+            $return .= $f->_trash_html( $delete_table, $delete_logic, 'div', '', 'grad', '', 'mat-ico', 2, 2, 'Are you sure to delete?', 'delete' );
+        }
+        $return .= '</div>';
+    }
+    $return .= _post( !empty ( $link ) ? 'a' : '' );
+    return $pre.$return.$post;
+}
+
+/**
+ * Renders Card
+ * @param string|array|float $col
+ * @param string $class
+ * @param string $title Title of the Card
+ * @param string $link Hyperlink for the card to navigate to
+ * @param string $desc Description
+ * @param string $image Image or Logo URL
+ * @param string $image_class Image or Logo class [ 'logo', 'image', 'logo xl', 'image f' ]
+ * @param string $status Status text for the card
+ * @param string $status_class Status class [ 'orange', 'blue', 'green', 'red', 'l', 'r' ]
+ * @param array $data Information to be displayed as table list [ [ 'Age', '25 Years' ], [ 'Gender', 'Male' ] ]
+ * @param array $actions General actions like view a page, print a page [ [ 'url' => '', 'title' => '', 'ico' => 'mat-ico printer' ] ]
+ * @param string $edit_modal Modal identifier to insert editable data json
+ * @param array $edit_data Editable data json
+ * @param string $delete_table Database table name to delete data from Ex: 'contacts'
+ * @param string $delete_logic Database deletion logic Ex: 'contact_id = 5'
+ * @return void
+ */
+function card( string|array|float $col = '', string $class = '', string $title = '', string $link = '', string $desc = '', string $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], array $actions = [], string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '' ): void {
+    echo _card( $col, $class, $title, $link, $desc, $image, $image_class, $status, $status_class, $data, $actions, $edit_modal, $edit_data, $delete_table, $delete_logic );
+}
+
+function pre_modal( string $title = '', string $size = '' ): void {
+    $s = strtolower( str_replace( ' ', '_', $title ) );
+    pre($s.'_modal','modal '.$size.' '.$s.'_modal');
+    h2('New '.$title,1,'data-add');
+    h2('Update '.$title,1,'data-edit');
+    el('div','','close');
+    pre('','modal_body');
+}
+
+function post_modal(): void {
+    post();
+    post();
+}
+
+/**
+ * Renders a coming / launching soon HTML
+ * @param string $date Estimated Launch Date
+ * @param string $text Coming Soon Text
+ * @param string $bg Background Image URL
+ * @param string $logo Logo URL
+ * @return void
+ */
+function soon( string $date, string $text = 'Coming Soon...', string $bg = '', string $logo = '' ): void {
+    pre_html();
+    get_style( 'soon' );
+    global $options;
+    global $is_light;
+    $bg = !empty( $bg ) ? 'style="background:url(\''.$bg.'\') no-repeat center / cover"' : '';
+    $app = $options['app_name'] ?? APPNAME;
+    //skel( $options );
+    if( $is_light ) {
+        $logo = !empty( $logo ) ? $logo : $options['logo_light'];
+    } else {
+        $logo = !empty( $logo ) ? $logo : $options['logo_dark'];
+    }
+    $logo = !empty( $logo ) ? 'style="background:url(\''.storage_url($logo).'\') no-repeat center / contain"' : '';
+    pre('','aio_soon '.($is_light ? '' : 'd').$bg);
+    pre('','vc');
+    pre('','brand',$logo.' title="'.$app.'"');
+    pre('','box');
+    div('','text',$text);
+    div('','date',$date);
+    post();
+    post();
+    post();
+    div('','credits',_a('https://github.com/AIOFrame/AIO','Powered by AIO'));
+    post();
+    get_script( 'soon' );
+    post_html();
+}
+
+/**
+ * @param string $title Modal Title singular Ex: Contact, Student...
+ * @param string $size Modal size s = small, m = medium, l = large, xl, f = full, l20, l40, l50, l60, l80, r20, r40, r50, r60, r80
+ * @param string $target Database name if the data is supposed to store directly to db or ajax function name with _ajax at the end
+ * @param array $fields Input fields to render
+ * @param array $hidden Hidden data for Database
+ * @param string $pre String to prepend to keys for database table columns
+ * @param int $notify Notification Time in Seconds
+ * @param int $reload Reload in Seconds
+ * @param string $success_alert Text to notify upon successfully storing data
+ * @param string $callback A JS Function to callback on results
+ * @param string $confirm A confirmation popup will execute further code
+ * @param string $redirect Redirect user to page on successful submission
+ * @param string $validator Frontend JS script to add custom validation to the form data
+ * @param string $reset_fields Reset input fields with data attribute (Tip: Use 1 to reset provided data fields)
+ * @param string $submit_text Text on submit button
+ * @return void
+ */
+function modal( string $title = '', string $size = 'm', string $target = '', array $fields = [], array $hidden = [], string $pre = '', int $notify = 0, int $reload = 0, string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '', string $submit_text = '' ): void {
+    $f = new FORM();
+    $r = substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 8);
+    pre_modal( $title, $size );
+    $f->pre_process( 'data-wrap', $target, $r, $pre, $notify, $reload, $hidden, $success_alert, $callback, $confirm, $redirect, $validator, $reset_fields );
+    $f->form( $fields, 'row', $r );
+    $f->process_trigger( !empty( $submit_text ) ? $submit_text : 'Save '.$title, 'mb0' );
+    $f->post_process();
+    post_modal();
+}
+
+/**
+ * Logout HTML
+ * @param string $tag HTML element type
+ * @param string $class Class for the logout element
+ * @param string $text Logout text
+ * @param string $confirm Confirmation message if needed
+ * @return void
+ */
+function logout_html( string $tag = 'div', string $class = '', string $text = 'Logout', string $confirm = 'Are you sure to Logout?' ): void {
+    $e = Encrypt::initiate();
+    $action = 'data-action="' . ( APPDEBUG ? 'logout_ajax' : $e->encrypt('logout_ajax') ) . '"';
+    $click = 'onclick="process_data(this)"';
+    $confirm = !empty( $confirm ) ? 'data-confirm="' . T($confirm) . '"' : '';
+    echo '<' . $tag . ' class="' . $class . '" ' . $action . ' ' . $click . ' ' . $confirm . ' data-reload="2" data-notify="2">' . $text . '</' . $tag . '>';
+}
+
+function modal_trigger( string $modal_identifier = '', string $title = '' ): void {
+    el('button','grad','',$title,'data-on="'.$modal_identifier.'"',1);
+}
+
+function float_triggers( array $triggers ): void {
+    pre('','actions float');
+    if( is_assoc( $triggers ) ) {
+        foreach( $triggers as $tk => $tv ) {
+            modal_trigger( $tk, $tv );
+        }
+    } else {
+        foreach( $triggers as $t ) {
+            modal_trigger( $t[0], $t[1] );
+        }
+    }
+    post();
+}
+
+/**
  * Displays a NO ACCESS content and end further code execution
  * @param string $message Message to be displayed
  * @param string $suggestion Suggestions like Try clearing filters or reload page!
@@ -690,24 +724,6 @@ function nth( $num ): void {
 function _nth( $num ): string {
     $fmt = new NumberFormatter($locale = 'en', 6);
     return $fmt->format( $num );
-}
-
-/**
- * Returns a readable format of programming code
- * @param string $text Code string
- * @return string
- */
-function _pre( string $text ): string {
-    return str_replace( '<', '&lt;', str_replace( '>', '&gt;', $text ) );
-}
-
-/**
- * Echos a readable format of programming code
- * @param string $text Code string
- * @return void
- */
-function pre( string $text ): void {
-    echo _pre( $text );
 }
 
 function easy_date( $date = '', $format = '', bool $show_time = false ): string {
