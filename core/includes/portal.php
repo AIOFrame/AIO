@@ -91,108 +91,72 @@ class PORTAL {
         $db = new DB();
         $user = $db->select( 'users', '', 'user_id = \''.get_user_id().'\'', 1 );
         $ss = $db->select( 'sessions', '', 'session_uid = \''.get_user_id().'\'' );
-        ?>
-        <div class="row">
-            <?php echo !is_mobile() ? '<div class="col-2"></div>' : ''; ?>
-            <div class="col-12 col-lg-8">
-                <div class="tabs two">
-                    <div class="tab_heads" data-store>
-                        <div class="tab on" data-tab="#looks"><?php is_mobile() ? E('UI') : E('Appearance'); ?></div>
-                        <div class="tab" data-tab="#basic"><?php is_mobile() ? E('User') : E('User Details'); ?></div>
-                        <div class="tab" data-tab="#pass"><?php is_mobile() ? E('Pass') : E('Change Password'); ?></div>
-                        <div class="tab" data-tab="#sess"><?php is_mobile() ? E('Sessions') : E('Active Sessions'); ?><?php echo ' ('.count($ss).')'; ?></div>
-                    </div>
-                    <div class="tab_data tab_data_box <?php echo is_mobile() ? 'p20' : 'p40'; ?>">
-                        <?php $f->option_params('id="looks"','data',2,2,'','theme,input_theme'); ?>
-                            <div class="row">
-                                <?php
-                                $uis = [ 'default' => 'Default - Light' ];
-                                $ui_list = scandir( ROOTPATH . 'assets/styles/portal/ui' );
-                                foreach( $ui_list as $ui ) {
-                                    if( str_contains( $ui, '.scss' ) ) {
-                                        $s = str_replace( '.scss', '', $ui );
-                                        $uis[ $s ] = ucwords( str_replace( '-', ' ', $s ) );
-                                    }
+        _r();
+            !is_mobile() ? div('','col-2') : '';
+                _c(8);
+                    pre_tabs('two');
+                        tab( is_mobile() ? 'UI' : 'Appearance', 1, '#looks' );
+                        tab( is_mobile() ? 'User' : 'User Details', 0, '#basic' );
+                        tab( is_mobile() ? 'Pass' : 'Change Password', 0, '#pass' );
+                        tab( ( is_mobile() ? 'Sessions' : 'Active Sessions' ) . ' ('.count($ss).')', 0, '#sess' );
+                    post_tabs();
+
+                    pre('','tab_data tab_data_box '.(is_mobile() ? 'p20' : 'p40'));
+
+                        // UI / Appearance Tab Content
+                        $f->option_params('id="looks"','data',2,2,'','theme,input_theme');
+                        _r();
+                            $uis = [ 'default' => 'Default - Light' ];
+                            $ui_list = scandir( ROOTPATH . 'assets/styles/portal/ui' );
+                            foreach( $ui_list as $ui ) {
+                                if( str_contains( $ui, '.scss' ) ) {
+                                    $s = str_replace( '.scss', '', $ui );
+                                    $uis[ $s ] = ucwords( str_replace( '-', ' ', $s ) );
                                 }
-                                $f->select( 'theme', 'Dashboard Style', 'Select Theme...', $uis, '', 'data-data class="select2"', 6, 1 );
-                                $f->select( 'input_theme', 'Input Style', 'Select Theme...', [], '', 'data-data class="select2"', 6, 1 );
-                                //skel( $uis );
-                                //$f->texts([['']])
-                                ?>
-                            </div>
-                        <?php
+                            }
+                            $f->select( 'theme', 'Dashboard Style', 'Select Theme...', $uis, '', 'data-data class="select2"', 6, 1 );
+                            $f->select( 'input_theme', 'Input Style', 'Select Theme...', [], '', 'data-data class="select2"', 6, 1 );
+                        r_();
                         $f->process_options('Update Preferences','r5 xl mb0');
                         $f->post_process();
-                        ?>
 
-                        <?php $f->pre_process('id="basic" class="dn"','update_profile_ajax','user','user_',3,3,[],'Successfully updated user details!'); ?>
-                        <div class="row">
-                            <?php
+                        // User Details Tab Content
+                        $f->pre_process('id="basic" class="dn"','update_profile_ajax','user','user_',3,3,[],'Successfully updated user details!');
+                        _r();
                             $f->texts([['login','User Login','',$user['user_login']],['since','User Since','',easy_date($user['user_since'])]],'disabled','6');
                             $f->texts([['name','Full Name','Ex: John Doe',$user['user_name']]],'required data-user','6');
                             $f->input('email','email','E Mail','Ex: john@company.com',$user['user_email'],'data-help',6);
                             $f->upload('picture','Upload Picture','Upload',$user['user_picture'],0,0,'upload','data-user','svg,jpg,png',10,1,'',4);
-                            //$f->process_html('Update Profile','r5 xl mb0','','update_profile_ajax','.col-12 tar');
-                            ?>
-                        </div>
-                        <?php
+                        r_();
                         $f->process_trigger('Update Profile','r5 xl mb0');
                         $f->post_process();
-                        ?>
 
-                        <?php $f->pre_process('id="pass" class="dn"','change_password_ajax','ps','',3,3,[],'Successfully updated user password!'); ?>
-                            <div class="row">
-                                <?php
-                                $min_string = T('Minimum Characters');
-                                $f->inputs('password',[['pass_old','Old Password'],['pass','New Password','','','data-length-notify="Password minimum length is 8 Characters"']],'data-ps minlength="8" data-minlength="'.$min_string.'" data-help required',6);
-                                ?>
-                            </div>
-                        <?php
+                        // Password Tab Content
+                        $f->pre_process('id="pass" class="dn"','change_password_ajax','ps','',3,3,[],'Successfully updated user password!');
+                        _r();
+                            $min_string = T('Minimum Characters');
+                            $f->inputs('password',[['pass_old','Old Password'],['pass','New Password','','','data-length-notify="Password minimum length is 8 Characters"']],'data-ps minlength="8" data-minlength="'.$min_string.'" data-help required',6);
+                        r_();
                         $f->process_trigger('Change Password','r5 xl mb0');
                         $f->post_process();
-                        ?>
+                    post();
 
-                        <div id="sess" class="dn">
-                            <table class="">
-                                <thead>
-                                <tr>
-                                    <th><?php E('OS'); ?></th>
-                                    <th><?php E('Start'); ?></th>
-                                    <th><?php E('Expiry'); ?></th>
-                                    <th><?php E('Browser'); ?></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php
-                                if( !empty( $ss ) ){
-                                    foreach( $ss as $s ){
-                                        $id = !empty($s['session_id']) ? $c->encrypt($s['session_id']) : '';
-
-                                        ?>
-                                        <tr class="tac">
-                                            <td><?php echo $s['session_os']; ?></td>
-                                            <td><?php echo easy_date($s['session_time'],'d M, Y H:i:s'); ?></td>
-                                            <td><?php echo easy_date($s['session_expiry'],'d M, Y H:i:s'); ?></td>
-                                            <td><?php echo $s['session_client']; ?></td>
-                                        </tr>
-                                        <?php
-                                    }
-                                }
-                                ?>
-                                </tbody>
-                            </table>
-                            <div class="tar">
-                                <?php
-                                //$f->process_html('Logout All Sessions','r5 l','','clear_sessions_ajax');
-                                ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <?php echo !is_mobile() ? '<div class="col-2"></div>' : ''; ?>
-        </div>
-        <?php
+                    // Sessions Tab Content
+                    pre('sess','dn');
+                        $sessions = [
+                            [ 'head' => [ 'OS', 'Start', 'Expiry', 'Browser' ] ],
+                        ];
+                        if( !empty( $ss ) ){
+                            foreach( $ss as $s ){
+                                $id = !empty($s['session_id']) ? $c->encrypt($s['session_id']) : '';
+                                $sessions[] = [ 'body' => [ $s['session_os'], easy_date($s['session_time'],'d M, Y H:i:s'), easy_date($s['session_expiry'],'d M, Y H:i:s'), $s['session_client'] ] ];
+                            }
+                        }
+                        table( $sessions, 'plain' );
+                    post();
+                c_();
+            !is_mobile() ? div('','col-2') : '';
+        r_();
         file_upload();
     }
 
