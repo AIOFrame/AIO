@@ -33,23 +33,23 @@ class ECOMMERCE {
             [ 'id' => 'meta_author', 'n' => 'Meta Author', 'c' => 12.1 ],
         ];
         $main_fields = [
-            [ 'id' => 'title', 'title' => 'Product Title', 'a' => 'required' ],
-            [ 'id' => 'url', 'title' => 'URL Slug', 'p' => 'Ex: leather-shoes', 'a' => 'data-no-space' ],
-            [ 't' => 'textarea', 'id' => 'content', 'n' => 'Product Description', 'c' => 12.1 ]
+            [ 'id' => 'title', 'title' => 'Product Title', 'a' => 'required', 'v' => 'fake_name' ],
+            [ 'id' => 'url', 'title' => 'URL Slug', 'p' => 'Ex: leather-shoes', 'a' => 'data-no-space', 'v' => 'fake_slug' ],
+            [ 't' => 'richtext', 'id' => 'content', 'n' => 'Product Description', 'c' => 12.1, 'v' => 'fake_sentence' ]
         ];
         $price_fields = [
-            [ 'i' => 'regular_price', 'n' => 'Regular Price', 'a' => 'required', 'c' => 6 ],
-            [ 'i' => 'sale_price', 'n' => 'Sale Price', 'c' => 6 ],
+            [ 'i' => 'regular_price', 'n' => 'Regular Price', 'c' => 6, 'v' => 100 ],
+            [ 'i' => 'sale_price', 'n' => 'Sale Price', 'c' => 6, 'v' => 80 ],
             [ 'i' => 'sale_from', 'n' => 'Sale From', 't' => 'date', 'c' => 6.1 ],
             [ 'i' => 'sale_to', 'n' => 'Sale Till', 't' => 'date', 'c' => 6.1 ]
         ];
         $image_fields = [
-            [ 'i' => 'image', 't' => 'upload', 'n' => 'Product Picture', 'b' => 'Upload' ],
+            [ 'i' => 'image', 't' => 'upload', 'n' => 'Product Picture', 'a' => 'required', 'b' => 'Upload', 'v' => 'fake_website' ],
             [ 'i' => 'gallery', 't' => 'upload', 'n' => 'Product Gallery', 'b' => 'Upload', 'm' => 8 ],
         ];
         $r = $f->_random();
         !empty( $modal_class ) ? pre_modal( 'product', $modal_class ) : '';
-        $f->pre_process( 'data-wrap id="product_form"', 'update_page_ajax', $r, 'p_', 2, 2 );
+        $f->pre_process( 'data-wrap id="product_form"', 'update_product_ajax', $r, 'p_', 2, 2 );
         _r();
         _c(8);
         $f->form( $main_fields, '', $r );
@@ -65,38 +65,39 @@ class ECOMMERCE {
 
             pre( 'description_data' );
             $desc_form = [
-                [ 'i' => 'weight', 'n' => 'Weight', 't' => 'number' ],
-                [ 'i' => 'width', 'n' => 'Width', 't' => 'number' ],
-                [ 'i' => 'height', 'n' => 'Height', 't' => 'number' ],
-                [ 'i' => 'depth', 'n' => 'Length / Depth', 't' => 'number' ],
+                [ 'i' => 'weight', 'n' => 'Weight', 't' => 'number', 'v' => 1 ],
+                [ 'i' => 'width', 'n' => 'Width', 't' => 'number', 'v' => 10 ],
+                [ 'i' => 'height', 'n' => 'Height', 't' => 'number', 'v' => 15 ],
+                [ 'i' => 'depth', 'n' => 'Length / Depth', 't' => 'number', 'v' => 20 ],
                 [ 't' => 'select', 'i' => 'shipping', 'n' => 'Shipping Method', 'o' => [], 'c' => 12 ],
             ];
-            $f->form( $desc_form, 'settings', 'prod' );
+            $f->form( $desc_form, 'settings', $r );
             post();
 
             pre( 'inventory_data' );
             $inventory_form = [
-                [ 'i' => 'sku', 'n' => 'SKU' ],
-                [ 'i' => 'quantity', 'n' => 'Quantity', 't' => 'number' ],
-                [ 'i' => 'max', 'n' => 'Max quantity per order', 't' => 'number' ],
-                [ 'i' => 'backorder', 'n' => 'Allow Backorder', 't' => 'radios', 'o' => [ 1 => 'Allow Backorders', 2 => 'Allow with notice to Buyer', 3 => 'Restrict Backorders' ], 'i_p' => 6, 'c' => 4 ],
+                [ 'i' => 'sku', 'n' => 'SKU', 'v' => 'ABC12345' ],
+                [ 'i' => 'quantity', 'n' => 'Available quantity', 't' => 'number', 'v' => 50 ],
+                [ 'i' => 'low_threshold', 'n' => 'Low stock alert on reaching quantity', 't' => 'number', 'v' => 5 ],
+                [ 'i' => 'max', 'n' => 'Max quantity per order', 't' => 'number', 'v' => 1 ],
+                [ 'i' => 'backorder', 'n' => 'Allow Backorder', 't' => 'radios', 'o' => [ 1 => 'Allow Backorders', 2 => 'Allow with notice to Buyer', 3 => 'Restrict Backorders' ], 'i_p' => 6, 'c' => 4, 's' => 3 ],
             ];
-            $f->form( $inventory_form, 'settings', 'prod' );
+            $f->form( $inventory_form, 'settings', $r );
             post();
 
             pre( 'tax_data' );
             $tax_form = [
-                [ 't' => 'select', 'i' => 'tax_group', 'n' => 'Tax Group', 'o' => [], 'c' => 12 ],
-                [ 'i' => 'tax', 'n' => 'Override with custom tax %', 't' => 'number' ],
+                [ 't' => 'select', 'i' => 'tax_category', 'n' => 'Tax Group', 'o' => [ 1 => 'Group 1 - 5%', 2 => 'Group 2 - 10%' ], 'c' => 12 ],
+                [ 'i' => 'tax', 'n' => 'Override with custom tax %', 't' => 'number', 'v' => 5 ],
             ];
-            $f->form( $tax_form, 'settings', 'prod' );
+            $f->form( $tax_form, 'settings', $r );
             post();
 
             pre( 'properties_data' );
             $properties_form = [
 
             ];
-            $f->form( $properties_form, 'settings', 'prod' );
+            $f->form( $properties_form, 'settings', $r );
             post();
 
             pre( 'variations_data' );
@@ -119,6 +120,8 @@ class ECOMMERCE {
         ];
         $f->form( $hidden_fields, 'row', $r );
         $f->post_process();
+        get_style('https://cdn.jsdelivr.net/npm/trumbowyg/dist/ui/trumbowyg.min.css');
+        get_script('https://cdn.jsdelivr.net/npm/trumbowyg/dist/trumbowyg.min.js');
         !empty( $modal_class ) ? post_modal() : '';
 
         // Content Builder
@@ -134,20 +137,6 @@ class ECOMMERCE {
             // Height
             // Depth
             // Shipping
-
-        // Inventory
-            // SKU
-            // Quantity
-            // Low Stock Threshold
-            // Max Quantity per order
-            // Allow Backorder [ Allow, Allow with alert to buyer, Restrict ]
-
-        // Tax
-            // Tax Group
-            // Override Tax %
-
-        // Properties
-            // Dynamic Properties
 
         // Variations
             // Title
@@ -652,6 +641,50 @@ class ECOMMERCE {
 
     }
 
+}
+
+function update_product_ajax(): void {
+    $p = replace_in_keys( $_POST, 'p_', '' );
+    if( !empty( $p['title'] ) ) {
+        unset( $p['pre'] );
+        unset( $p['t'] );
+        $id = $p['id'] ?? 0;
+        unset( $p['id'] );
+        $p['content'] = htmlspecialchars( $p['content'] );
+        $p['by'] = get_user_id();
+        $p['update'] = date('Y-m-d H:i:s');
+        $p['url'] = !empty( $p['url'] ) ? $p['url'] : strtolower( str_replace( ' ', '-', $p['title'] ) );
+        $p['date'] = $p['date'] ?? date('Y-m-d H:i:s');
+        $db = new DB();
+        $prod_params = [ 'birth', 'content', 'date', 'expiry', 'gallery', 'image', 'meta_author', 'meta_desc', 'meta_words', 'password', 'title', 'url' ];
+
+        // Check if page exists with same slug
+        $exist = $db->select( 'pages', 'page_id', "page_url = {$p['url']}" );
+        if( $exist ) {
+            ef('Page with same url exist! Please change page title and url!!');
+            return;
+        }
+
+        $saved = $db->insert( 'pages', prepare_keys( $p, 'page_' ), prepare_values( $p ) );
+        if( $saved ) {
+            if( !empty( $id ) ) {
+                // Update History
+                $update = $db->update( 'pages', [ 'page_status', 'page_parent' ], [ 4, $saved ], "page_id = {$id}" );
+                if( $update ) {
+                    es('Successfully updated page!');
+                } else {
+                    ef('Failed to update page, Please consult administrator!');
+                }
+            } else {
+                es('Successfully saved new page!');
+            }
+        } else {
+            ef('Failed to store page, please consult administrator!');
+        }
+        //skel( $p );
+    } else {
+        ef('Failed due to page title not set!');
+    }
 }
 
 /**

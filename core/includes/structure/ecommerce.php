@@ -8,7 +8,7 @@ $products_struct = [
     [ 'content', 'LONGTEXT', '', 0 ],
     [ 'url', 'VARCHAR', 128, 1 ],
     [ 'password', 'VARCHAR', 256, 0 ],
-    [ 'type', 'VARCHAR', 64, 0 ],
+    [ 'type', 'INT', 1, 0 ],
     [ 'parent', 'INT', 13, 0 ],
     [ 'image', 'VARCHAR', 512, 0 ],
     [ 'gallery', 'TEXT', '', 0 ],
