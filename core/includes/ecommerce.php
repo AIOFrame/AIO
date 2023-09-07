@@ -212,9 +212,9 @@ class ECOMMERCE {
             no_content( 'No products added yet!', '', $wrapper_class );
         } else {
             $c = new CODE();
-            $cards = '';
+            $cards = [];
             foreach( $products as $p ) {
-                //$cards .= _card( '4', 'br15', $p['page_title'], '', '/'.$p['page_url'], '', '', $status[ $p['page_status'] ] ?? '', '', [], [], '#'.$page_type.'_modal', $p, 'pages', "page_id = {$p['page_id']}" );
+                //$cards[] = _card( '4', 'br15', $p['page_title'], '', '/'.$p['page_url'], '', '', $status[ $p['page_status'] ] ?? '', '', [], [], '#'.$page_type.'_modal', $p, 'pages', "page_id = {$p['page_id']}" );
             }
             grid_view( 'product_cards', $cards, $wrapper_class, $cols );
         }

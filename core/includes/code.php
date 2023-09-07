@@ -445,12 +445,23 @@ function image( string $image_url, string $id = '', string $class = '' ): void {
     echo _image( $image_url, $id, $class );
 }
 function _image( string $image_url, string $id = '', string $class = '' ): string {
-    return "<div style=\"background-image:url('".$image_url."')\" class=\"'.$class.'\"></div>";
+    return "<div style=\"background-image:url('".$image_url."')\" class=\"".$class."\"></div>";
 }
 
-function grid_view( string $wrapper = '', string $content = '', string $wrapper_class = '', string|int|float $col = '' ): void {
+function grid_view( string $wrapper = '', array $cards = [], string $wrapper_class = '', string|int|float $col = '' ): void {
     pre($wrapper.'_grid_view',$wrapper_class,'div','data-view="grid"');
-    div('','col',$content);
+    $content = '';
+    $pre = '';
+    $post = '';
+    if( !empty( $col ) ) {
+        $f = new FORM();
+        $pre = $f->_pre( $col );
+        $post = $f->_post( $col );
+    }
+    foreach( $cards as $c ) {
+        $content .= $pre.$c.$post;
+    }
+    div('','row',$content);
     post();
 }
 
@@ -495,7 +506,6 @@ function _table( array $rows = [], string $class = '' ): string {
 
 /**
  * Returns Card
- * @param string|array|float $col
  * @param string $class
  * @param string $title Title of the Card
  * @param string $link Hyperlink for the card to navigate to
@@ -512,19 +522,14 @@ function _table( array $rows = [], string $class = '' ): string {
  * @param string $delete_logic Database deletion logic Ex: 'contact_id = 5'
  * @return string
  */
-function _card( string|array|float $col = '', string $class = '', string $title = '', string $link = '', string $desc = '', string $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], array $actions = [], string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '' ): string {
-    $pre = '';
-    $post = '';
-    if( !empty( $col ) ) {
-        $f = new FORM();
-        $pre = $f->_pre( $col );
-        $post = $f->_post( $col );
-    }
+function _card( string $class = '', string $title = '', string $link = '', string $desc = '', string $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], array $actions = [], string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '' ): string {
     $f = new FORM();
     $return = !empty ( $link ) ? _pre('','card '.($class??''),'a','href="'.$link.'"') : _pre('','card '.($class ?? ''));
-    $return .= !empty( $image ) ? _image( $image, '', $image_class ) : '';
-    $return .= !empty( $title ) ? _el('h2','','desc grad',$title) : '';
-    $return .= !empty( $desc ) ? _el('h4','','desc grad',$desc) : '';
+    $return .= !empty( $image ) ? ( str_contains( $image, '<' ) ? $image : _image( $image, '', $image_class ) ) : '';
+    $return .= _pre('','head tac');
+    $return .= !empty( $title ) ? _el('h2','title grad','',$title) : '';
+    $return .= !empty( $desc ) ? _el('h5','desc','',$desc) : '';
+    $return .= _post();
     $return .= !empty( $status ) ? _div('','status '.$status_class,$status) : '';
     if( !empty( $data ) ) {
         $return .= _table( [ 'body' => $data ], 'plain' );
@@ -545,12 +550,11 @@ function _card( string|array|float $col = '', string $class = '', string $title 
         $return .= '</div>';
     }
     $return .= _post( !empty ( $link ) ? 'a' : '' );
-    return $pre.$return.$post;
+    return $return;
 }
 
 /**
  * Renders Card
- * @param string|array|float $col
  * @param string $class
  * @param string $title Title of the Card
  * @param string $link Hyperlink for the card to navigate to
@@ -567,8 +571,8 @@ function _card( string|array|float $col = '', string $class = '', string $title 
  * @param string $delete_logic Database deletion logic Ex: 'contact_id = 5'
  * @return void
  */
-function card( string|array|float $col = '', string $class = '', string $title = '', string $link = '', string $desc = '', string $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], array $actions = [], string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '' ): void {
-    echo _card( $col, $class, $title, $link, $desc, $image, $image_class, $status, $status_class, $data, $actions, $edit_modal, $edit_data, $delete_table, $delete_logic );
+function card( string $class = '', string $title = '', string $link = '', string $desc = '', string $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], array $actions = [], string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '' ): void {
+    echo _card( $class, $title, $link, $desc, $image, $image_class, $status, $status_class, $data, $actions, $edit_modal, $edit_data, $delete_table, $delete_logic );
 }
 
 function pre_modal( string $title = '', string $size = '' ): void {

@@ -72,7 +72,6 @@ class CMS {
         if( empty( $pages ) ) {
             no_content( 'No '.$page_type.' created yet!', '', $wrapper_class );
         } else {
-            $c = new CODE();
             $f = new FORM();
             $table[] = [ 'head' => [ 'ID', 'Name', 'Date', 'Visibility', 'Status', 'User', 'Actions' ] ];
             foreach( $pages as $p ) {
@@ -96,11 +95,9 @@ class CMS {
         if( empty( $pages ) ) {
             no_content( 'No '.$page_type.' created yet!', '', $wrapper_class );
         } else {
-            $c = new CODE();
-            $f = new FORM();
-            $cards = '';
+            $cards = [];
             foreach( $pages as $p ) {
-                $cards .= _card( '4', 'br15', $p['page_title'], '', '/'.$p['page_url'], '', '', $status[ $p['page_status'] ] ?? '', '', [], [], '#'.$page_type.'_modal', $p, 'pages', "page_id = {$p['page_id']}" );
+                $cards[] = _card( 'br15', $p['page_title'], '', '/'.$p['page_url'], '', '', $status[ $p['page_status'] ] ?? '', '', [], [], '#'.$page_type.'_modal', $p, 'pages', "page_id = {$p['page_id']}" );
             }
             grid_view( $page_type, $cards, $wrapper_class, $cols );
         }
@@ -184,6 +181,8 @@ class CMS {
         $f->text('name','Widget Name','Ex: Social Widget','','data-widget',8);
         $icon_title = defined( 'ICONS' ) ? ( str_contains( ICONS, 'Material' ) ? 'Widget Material Icon' : ( str_contains( ICONS, 'bootstrap' ) ? 'Widget Material Icon' : 'Widget Icon' ) ) : 'Widget Icon';
         $f->text('icon',$icon_title,'Ex: lightbulb','','data-widget',4);
+        $f->text('desc','Widget Short Description','Ex: Displays a social platform sharing widget','','data-widget',8);
+        $f->slide('status','Status','Disabled','Enabled',1,'m','data-widget',4);
         r_();
         pre_tabs('widget_tabs material mb20');
             tab('Widget Fields',1);
@@ -209,8 +208,20 @@ class CMS {
         !empty( $modal_class ) ? post_modal() : '';
     }
 
-    function widget_builder(  string $modal_class = '' ): void {
-
+    function widgets( string $wrapper_class = '', int $cols = 4, string $modal_identity = '' ): void {
+        $db = new DB();
+        $widgets = $db->select( 'widgets' );
+        if( empty( $widgets ) ) {
+            no_content( 'No widgets created yet!' );
+        } else {
+            //$f = new FORM();
+            $cards = [];
+            foreach( $widgets as $p ) {
+                $icon = defined( 'ICONS' ) && !empty( $p['widget_icon'] ) ? ( str_contains( ICONS, 'Material' ) ? _div('','mat-ico xxl',$p['widget_icon']) : ( str_contains( ICONS, 'bootstrap' ) ? _el('i','b bi-'.$p['widget_icon']) : $p['widget_icon'] ) ) : '-';
+                $cards[] = _card( 'br15', $p['widget_name'], '', $p['widget_desc'], _div('','pic',$icon), '', $p['widget_status'] == 1 ? 'Active' : 'Inactive', $p['widget_status'] == 1 ? 'green' : 'grey', [], [], $modal_identity, $p, 'widgets', "widget_id = {$p['widget_id']}" );
+            }
+            grid_view( 'widget_cards', $cards, $wrapper_class, $cols );
+        }
     }
 
 }

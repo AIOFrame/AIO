@@ -988,7 +988,7 @@ class FORM {
             $k = strpos( $k, '_') !== false ? ltrim( strstr($k,'_'), '_' ) : $k;
             if( $k == 'id' ) {
                 $cry = Encrypt::initiate();
-                $final[ $k ] = $cry->encrypt( $v );
+                $final[ $k ] = APPDEBUG ? $v : $cry->encrypt( $v );
             } else if( !in_array( $k, $remove ) ){
                 $final[ $k ] = $v;
             }

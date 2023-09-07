@@ -14,7 +14,7 @@ $page_struct = [
     [ 'type', 'VARCHAR', 64, 0 ],
     [ 'parent', 'INT', 13, 0 ],
     //[ 'image', 'VARCHAR', 512, 0 ],
-    [ 'status', 'VARCHAR', 1, 1 ],
+    [ 'status', 'INT', 1, 1 ],
     [ 'birth', 'DATETIME', '', 0 ],
     [ 'expiry', 'DATETIME', '', 0 ],
     [ 'meta_desc', 'VARCHAR', 512, 0 ],
@@ -38,9 +38,11 @@ $page_terms = [
 $widgets = [
     [ 'name', 'VARCHAR', 128, 1 ],
     [ 'icon', 'VARCHAR', 32, 1 ],
+    [ 'desc', 'VARCHAR', 256, 1 ],
     [ 'form', 'TEXT', '', 0 ],
     [ 'html', 'TEXT', '', 0 ],
     [ 'css', 'TEXT', '', 0 ],
+    [ 'status', 'INT', 1, 1 ],
 ];
 
 $pages_struct[] = [ 'pages', $page_struct, 'page', 1 ];

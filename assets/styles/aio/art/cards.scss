@@ -50,7 +50,7 @@ $success: var(--success_color);
       font-weight: bold;
     }
   }
-  .grad-bg, .gbg {
+  .grad-bg, .title.grad, .gbg {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-color: #08aeea;
