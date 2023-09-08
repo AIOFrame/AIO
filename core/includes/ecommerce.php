@@ -8,7 +8,7 @@ class ECOMMERCE {
     }
 
     private array $property_types = [ 'check' => 'Multi Check Box', 'radio' => 'Single Radio Box', 'drop' => 'Select Dropdown', 'color' => 'Color Picker', 'range' => 'Range Picker' ];
-    public array $page_statuses = [ 1 => 'Publicly Visible', 2 => 'Disabled', 3 => 'Draft', 4 => 'History' ];
+    public array $product_statuses = [ 1 => 'Publicly Visible', 2 => 'Disabled', 3 => 'Draft', 4 => 'History' ];
 
     // Backend
 
@@ -19,7 +19,7 @@ class ECOMMERCE {
      */
     function product_form( string $modal_class = '' ): void {
         $f = new FORM();
-        $statuses = $this->page_statuses;
+        $statuses = $this->product_statuses;
         unset( $statuses[4] );
         $visibility_fields = [
             [ 't' => 'date', 'id' => 'birth', 'n' => 'Visible From', 'c' => 6 ],
@@ -33,7 +33,7 @@ class ECOMMERCE {
             [ 'id' => 'meta_author', 'n' => 'Meta Author', 'c' => 12.1 ],
         ];
         $main_fields = [
-            [ 'id' => 'title', 'title' => 'Product Title', 'a' => 'required', 'v' => 'fake_name' ],
+            [ 'id' => 'title', 'title' => 'Product Title', 'a' => 'required', 'v' => 'fake_sentence' ],
             [ 'id' => 'url', 'title' => 'URL Slug', 'p' => 'Ex: leather-shoes', 'a' => 'data-no-space', 'v' => 'fake_slug' ],
             [ 't' => 'richtext', 'id' => 'content', 'n' => 'Product Description', 'c' => 12.1, 'v' => 'fake_sentence' ]
         ];
@@ -44,8 +44,8 @@ class ECOMMERCE {
             [ 'i' => 'sale_to', 'n' => 'Sale Till', 't' => 'date', 'c' => 6.1 ]
         ];
         $image_fields = [
-            [ 'i' => 'image', 't' => 'upload', 'n' => 'Product Picture', 'a' => 'required', 'b' => 'Upload', 'v' => 'fake_website' ],
-            [ 'i' => 'gallery', 't' => 'upload', 'n' => 'Product Gallery', 'b' => 'Upload', 'm' => 8 ],
+            [ 'i' => 'image', 't' => 'upload', 'n' => 'Product Picture', 'a' => 'required', 'b' => 'Upload', 'v' => 'fake_image' ],
+            [ 'i' => 'gallery', 't' => 'upload', 'n' => 'Product Gallery', 'b' => 'Upload', 'm' => 8, 'v' => 'fake_images' ],
         ];
         $r = $f->_random();
         !empty( $modal_class ) ? pre_modal( 'product', $modal_class ) : '';
@@ -151,9 +151,38 @@ class ECOMMERCE {
 
     /**
      * Renders Product HTML
+     * @param array $p Product data as array
+     * @param string $link_pre
+     * @param int $title_tag
+     * @param string|int $wrap_class
+     * @param string $link_class
+     * @param string $title_class
+     * @param string $price_class
+     * @param string $actions_class
      * @return void
      */
-    function product(): void {}
+    function product( array $p, string $link_pre, int $title_tag = 2, string|int $wrap_class = '', string $link_class = '', string $title_class = '', string $price_class = '', string $actions_class = '' ): void {
+        // Prices
+        $regular_price = $p['prod_meta']['regular_price'];
+        $sale_price = $p['prod_meta']['sale_price'];
+        if( $sale_price < $regular_price ) {
+            $price = _div( '', $price_class.' price', _el( 's', 'regular', '', $regular_price ) . ' ' . _el( 'span', 'regular', '', $sale_price ) );
+            $is_sale = 1;
+        } else {
+            $price = _div( '', $price_class.' price', $p['prod_title'] );
+            $is_sale = 0;
+        }
+        is_numeric( $wrap_class ) ? _c( $wrap_class ) : pre( '', $wrap_class );
+            pre( 'product_'.$p['prod_id'], $link_class.' product_loop product_'.$p['prod_id'], 'a', 'href="'.APPURL.$link_pre.$p['prod_url'].'" title="'.$p['prod_title'].'"' );
+                img( $p['prod_image'], '', 'image', $p['prod_title'], $p['prod_title'] );
+                el( 'h'.$title_tag, $title_class.' title', '', $p['prod_title'] );
+                $is_sale ? el( 'i', 'sale_tag tag', '', T('Sale') ) : '';
+                echo $price;
+                // TODO: Add product actions
+                // skel( $p['prod_meta'] );
+            post('a');
+        is_numeric( $wrap_class ) ? c_() : post();
+    }
 
     /**
      * Render Products (Archive)
@@ -170,40 +199,41 @@ class ECOMMERCE {
         }
     }
 
-    function product_cards( string $wrapper_class = '' ): void {
+    function products_list( string $wrapper_class = '' ): void {
         $products = $this->_products();
-        $status = $this->page_statuses;
+        $status = $this->product_statuses;
         if( empty( $products ) ) {
             no_content( 'No products added yet!', '', $wrapper_class );
         } else {
             $c = new CODE();
             $f = new FORM();
-            $table[] = [ 'head' => [ 'ID', 'Name', 'Visibility', 'Properties', 'Price', 'Sales', 'Actions' ] ];
+            $table[] = [ 'head' => [ 'ID', 'Name', 'Visibility', 'Properties', 'Price', 'Sales', 'Status', 'Actions' ] ];
             foreach( $products as $p ) {
-                /* $table[]['body'] = [
-                    $p['page_id'],
-                    $p['page_title'].'<div><small>/'.$p['page_url'].'</small></div>',
-                    easy_date($p['page_date']).'<div><small>'.T('Updated').': '.easy_date($p['page_update']).'</small></div>',
-                    (!empty($p['page_birth'])?'<div><small>'.T('Visible from').': '.easy_date($p['page_birth']).'</small></div>':'').(!empty($p['page_expiry'])?'<div><small>'.T('Visible till').': '.easy_date($p['page_expiry']).'</small></div>':''),
-                    $status[ $p['page_status'] ] ?? '',
-                    $p['user_name'],
+                //skel( $p );
+                $table[]['body'] = [
+                    $p['prod_id'],
+                    $p['prod_title'].'<div><small>/'.$p['prod_url'].'</small></div>',
+                    easy_date($p['prod_date']).'<div><small>'.T('Updated').': '.easy_date($p['prod_update']).'</small></div>',
+                    (!empty($p['prod_birth'])?'<div><small>'.T('Visible from').': '.easy_date($p['prod_birth']).'</small></div>':'').(!empty($p['prod_expiry'])?'<div><small>'.T('Visible till').': '.easy_date($p['prod_expiry']).'</small></div>':''),
+                    ( $p['prod_meta']['regular_price'] ?? 0 ) . ' ' . $p['prod_meta']['sale_price'] ?? 0,
+                    0,
+                    $status[ $p['prod_status'] ] ?? '',
                     _pre('','acts').$f->_edit_html( '#product_modal', $p, 'div', '', '', '', 'mat-ico', 'edit' )._post()
-                ]; */
+                ];
             }
             table_view( 'products_list', $table, $wrapper_class );
         }
     }
 
-    function products_list( string $wrapper_class = '', string|int $cols = 4 ): void {
+    function product_cards( string $wrapper_class = '', string|int $cols = 4, string $edit_modal = '' ): void {
         $products = $this->_products();
-        $status = $this->page_statuses;
+        $status = $this->product_statuses;
         if( empty( $products ) ) {
             no_content( 'No products added yet!', '', $wrapper_class );
         } else {
-            $c = new CODE();
             $cards = [];
             foreach( $products as $p ) {
-                //$cards[] = _card( '4', 'br15', $p['page_title'], '', '/'.$p['page_url'], '', '', $status[ $p['page_status'] ] ?? '', '', [], [], '#'.$page_type.'_modal', $p, 'pages', "page_id = {$p['page_id']}" );
+                $cards[] = _card( 'br15', $p['prod_title'], '', '/'.$p['prod_url'], '', '', $status[ $p['prod_status'] ] ?? '', '', [], [], $edit_modal, $p, 'products', "prod_id = {$p['prod_id']}" );
             }
             grid_view( 'product_cards', $cards, $wrapper_class, $cols );
         }
@@ -212,7 +242,16 @@ class ECOMMERCE {
     function _products(): array {
         $d = new DB();
         //$data = [ 'id', 'date', 'update', 'title', 'url', 'password', 'status', 'birth', 'expiry', 'by' ];
-        return $d->select( [ 'products', [ 'product_meta', 'prod_id', 'prod_meta_product' ] ] );
+        $products = $d->select( 'products' );
+        foreach( $products as $pk => $p ) {
+            $data_meta = $d->select( 'product_meta', '', 'prod_meta_product = \''.$p['prod_id'].'\'' );
+            $meta = [];
+            foreach( $data_meta as $dm ) {
+                $meta[ $dm['prod_meta_name'] ] = $dm['prod_meta_value'];
+            }
+            $products[ $pk ]['prod_meta'] = $meta;
+        }
+        return $products;
     }
 
     /**
@@ -254,7 +293,6 @@ class ECOMMERCE {
      * @return void
      */
     function store_options(): void {
-        $c = new CODE();
         $f = new FORM();
         $d = new DB();
         $font_sizes = [ 'sm' => 'Small', 'm' => 'Medium', 'l' => 'Large', 'xl' => 'Large +' ];
@@ -469,7 +507,6 @@ class ECOMMERCE {
         if( empty( $props ) ) {
             no_content( 'No product properties set!' );
         } else {
-            $c = new CODE();
             $f = new FORM();
             $pts = $this->property_types;
             $table[] = [ 'head' => [ 'Icon', 'Name', 'Type', 'Status', 'Actions' ] ];
@@ -641,10 +678,28 @@ class ECOMMERCE {
 
     }
 
+    function update_product_metas( int $product_id, array $meta, int $new_product_id = 0 ): int {
+        $db = new DB();
+        $success = 0;
+        foreach( $meta as $meta_key => $meta_value ) {
+            if( !empty( $product_id ) && $meta_value !== '' ) {
+                if( !empty( $new_product_id ) ) {
+                    $update = $db->update( 'product_meta', [ 'product_meta_value', 'product_meta_product' ], [ $meta_value, $new_product_id ], 'product_meta_name = \''.$meta_key.'\' AND product_meta_product = \''.$product_id.'\'' );
+                    $update ? $success++ : '';
+                } else {
+                    $data = [ 'name' => $meta_key, 'value' => $meta_value, 'product' => $product_id ];
+                    $insert = $db->insert( 'product_meta', prepare_keys( $data, 'prod_meta_' ), prepare_values( $data ) );
+                    $insert ? $success++ : '';
+                }
+            }
+        }
+        return $success;
+    }
+
 }
 
 function update_product_ajax(): void {
-    $p = replace_in_keys( $_POST, 'p_', '' );
+    $p = replace_in_keys( $_POST, 'p_' );
     if( !empty( $p['title'] ) ) {
         unset( $p['pre'] );
         unset( $p['t'] );
@@ -656,34 +711,46 @@ function update_product_ajax(): void {
         $p['url'] = !empty( $p['url'] ) ? $p['url'] : strtolower( str_replace( ' ', '-', $p['title'] ) );
         $p['date'] = $p['date'] ?? date('Y-m-d H:i:s');
         $db = new DB();
-        $prod_params = [ 'birth', 'content', 'date', 'expiry', 'gallery', 'image', 'meta_author', 'meta_desc', 'meta_words', 'password', 'title', 'url' ];
 
         // Check if page exists with same slug
-        $exist = $db->select( 'pages', 'page_id', "page_url = {$p['url']}" );
+        $exist = $db->select( 'products', 'prod_id', "prod_url = '{$p['url']}'" );
         if( $exist ) {
-            ef('Page with same url exist! Please change page title and url!!');
+            ef('Product with same url exist! Please change product title and url!!');
             return;
         }
 
-        $saved = $db->insert( 'pages', prepare_keys( $p, 'page_' ), prepare_values( $p ) );
+        // Prepare Product Data
+        $product_data = [];
+        $prod_params = [ 'birth', 'content', 'by', 'update', 'date', 'expiry', 'gallery', 'image', 'meta_author', 'meta_desc', 'meta_words', 'password', 'title', 'url', 'status' ];
+        foreach( $prod_params as $param_key ) {
+            $product_data[ $param_key ] = $p[ $param_key ] ?? '';
+            unset( $p[ $param_key ] );
+        }
+        //skel( $product_data );
+
+        // Always insert a new product
+        $saved = $db->insert( 'products', prepare_keys( $product_data, 'prod_' ), prepare_values( $product_data ) );
         if( $saved ) {
+            $e = new ECOMMERCE();
             if( !empty( $id ) ) {
-                // Update History
-                $update = $db->update( 'pages', [ 'page_status', 'page_parent' ], [ 4, $saved ], "page_id = {$id}" );
-                if( $update ) {
-                    es('Successfully updated page!');
+                // Update earlier product if exist as history
+                $update = $db->update( 'products', [ 'prod_status', 'prod_parent' ], [ 4, $saved ], "prod_id = {$id}" );
+                if( $update[0] > 0 ) {
+                    $e->update_product_metas( (int)$id, $p, $update[0] );
+                    es('Successfully updated product!');
                 } else {
-                    ef('Failed to update page, Please consult administrator!');
+                    ef('Failed to update product!');
                 }
             } else {
-                es('Successfully saved new page!');
+                $e->update_product_metas( $saved, $p );
+                es('Successfully added new product!');
             }
+            // Update meta
         } else {
-            ef('Failed to store page, please consult administrator!');
+            ef('Failed to save product, please consult administrator!');
         }
-        //skel( $p );
     } else {
-        ef('Failed due to page title not set!');
+        ef('Failed due to product title not set!');
     }
 }
 

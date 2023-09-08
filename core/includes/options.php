@@ -312,11 +312,13 @@ class OPTIONS {
         echo '</div>';
     }
 
+    private array $finance_options = ['reg_name','reg','trn','tax','sign','rate','spot'];
+
     function finance_options(): void {
         $f = new FORM();
         $db = new DB();
         $r = defined( 'REGION' ) && isset( REGION['cca2'] ) ? strtolower( REGION['cca2'] ).'_' : '';
-        $fin_ops = ['reg_name','reg','trn','tax','sign','rate','spot'];
+        $fin_ops = $this->finance_options;
         $fin_ops = defined( 'REGION' ) ? prepare_values( $fin_ops, $r ) : $fin_ops;
         $os = $db->get_options(array_merge($fin_ops,['primary_region']));
         $f->option_params_wrap('cd',2,2);
@@ -379,7 +381,6 @@ class OPTIONS {
     function all_options( string $table_class = '' ): void {
         $d = new DB();
         $f = new FORM();
-        $c = new CODE();
         $options = $d->select( 'options' );
         $table[] = [ 'head' => [ 'ID', 'Key', 'Value', 'Scope', 'Autoload' ] ];
         foreach( $options as $o ) {
@@ -391,7 +392,7 @@ class OPTIONS {
                 $f->_slide( 'option_load'.$o['option_id'], '', '', '', $o['option_load'], 'data-ao' ),
             ] ];
         }
-        $c->table( $table, $table_class );
+        table( $table, $table_class );
     }
 
     /**
@@ -497,13 +498,13 @@ class OPTIONS {
     function render_options( int $display_type = 1, string $enterprise = '', string $brand = '', string $input = '', string $social = '', string $languages = '' ): void {
         $c = new CODE();
         if( $display_type == 1 ) {
-            $c->pre_tabs();
-            !empty( $enterprise ) ? $c->tab( T( $enterprise ), 0, 'aio_enterprise_options' ) : '';
-            !empty( $brand ) ? $c->tab( T( $brand ), 0, 'aio_brand_options' ) : '';
-            !empty( $input ) ? $c->tab( T( $input ), 0, 'aio_input_options' ) : '';
-            !empty( $social ) ? $c->tab( T( $social ), 0, 'aio_social_options' ) : '';
-            !empty( $languages ) ? $c->tab( T( $languages ), 0, 'aio_languages_options' ) : '';
-            $c->post_tabs();
+            pre_tabs();
+            !empty( $enterprise ) ? tab( T( $enterprise ), 0, 'aio_enterprise_options' ) : '';
+            !empty( $brand ) ? tab( T( $brand ), 0, 'aio_brand_options' ) : '';
+            !empty( $input ) ? tab( T( $input ), 0, 'aio_input_options' ) : '';
+            !empty( $social ) ? tab( T( $social ), 0, 'aio_social_options' ) : '';
+            !empty( $languages ) ? tab( T( $languages ), 0, 'aio_languages_options' ) : '';
+            post_tabs();
         }
         // Company Options
         // Brand Options
@@ -522,10 +523,6 @@ class OPTIONS {
         } else if( in_array( 'regions', $c['features'] ) ) {
             echo '<div style="text-align:center; font-size: .8rem">' . T('Regions feature enabled! Please select a region in header and then save settings to apply to selected region!') . '</div>';
         }
-    }
-
-    function region_flag(): string {
-        return defined( 'REGION' ) && isset( REGION['flag'] ) ? ' <i class="reg-flag">'.REGION['flag'].'</i> ' : '';
     }
 
 }

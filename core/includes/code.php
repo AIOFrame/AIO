@@ -438,7 +438,7 @@ function _img( string $image_src, string $id = '', string $class = '', string $a
     $class = !empty( $class ) ? ' class="'.$class.'"' : '';
     $alt = !empty( $alt ) ? ' alt="'.$alt.'"' : '';
     $title = !empty( $title ) ? ' title="'.$title.'"' : '';
-    return '<image src="'.$image_src.'" '.$id.$class.$alt.$title.$attr.' />';
+    return '<img src="'.$image_src.'" '.$id.$class.$alt.$title.$attr.' />';
 }
 
 function image( string $image_url, string $id = '', string $class = '' ): void {

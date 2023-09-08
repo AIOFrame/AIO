@@ -899,6 +899,7 @@ class FORM {
         $mul = $multiple > 0 ? ' data-files="'.$multiple.'" ' : ' data-file ';
         $req = str_contains( $attrs, 'required' ) ? '<i>*</i>' : '';
         $label = !empty( $label ) ? '<label for="'.$id.'">'.T($label).$req.'</label>' : '';
+        $value = APPDEBUG && str_contains( $value, 'fake_' ) ? $this->fake( $value ) : ( str_contains( $value, 'fake_' ) ? '' : $value );
         return $_p.$label.'<button type="button" class="aio_upload '.$button_class.'" data-url="#'.$id.'" onclick="file_upload(this)" '.$sh.$ext.$sz.$mul.$del.$pat.'>'.T($button_label).'</button><input id="'.$id.'" name="'.$name.'" data-key="'.$name.'" type="text" data-'.$type.' value="'.$value.'" '.$attrs.'>'.$p_;
     }
 
@@ -1502,10 +1503,28 @@ class FORM {
      * @param string $key Key of fake data needed
      */
     function fake( string $key = '' ) {
+        $key = str_replace( 'fake_', '', $key );
+
+        // PLACEHOLDER IMAGES
+        $images = [
+            'image' => 'https://picsum.photos/300',
+            'image_1' => 'https://picsum.photos/100',
+            'image_2' => 'https://picsum.photos/200',
+            'image_5' => 'https://picsum.photos/500',
+            'image_l' => 'https://picsum.photos/1000',
+            'image_xl' => 'https://picsum.photos/2000',
+            'pic' => 'https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5',
+            'picture' => 'https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5',
+            'images' => 'https://picsum.photos/300,https://picsum.photos/300,https://picsum.photos/300',
+        ];
+        if( ( str_contains( $key, 'image' ) || str_contains( $key, 'pic' ) ) && isset( $images[ $key ] ) ) {
+            return $images[ $key ];
+        }
+
+        // FAKER CONTENT
         $locale = defined('FAKER') ? FAKER : 'en_US';
         require_once VENDORLOAD;
         $fk = Faker\Factory::create( $locale );
-        $key = str_replace( 'fake_', '', $key );
         $replacements = [
             'email' => 'freeEmail',
             'mail' => 'freeEmail',
