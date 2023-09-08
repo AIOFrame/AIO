@@ -525,6 +525,10 @@ class OPTIONS {
         }
     }
 
+    function region_flag(): string {
+        return defined( 'REGION' ) && isset( REGION['flag'] ) ? ' <i class="reg-flag">'.REGION['flag'].'</i> ' : '';
+    }
+
 }
 
 function import_options_ajax(): void {
