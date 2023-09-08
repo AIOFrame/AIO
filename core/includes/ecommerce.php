@@ -166,10 +166,10 @@ class ECOMMERCE {
         $regular_price = $p['prod_meta']['regular_price'];
         $sale_price = $p['prod_meta']['sale_price'];
         if( $sale_price < $regular_price ) {
-            $price = _div( '', $price_class.' price', _el( 's', 'regular', '', $regular_price ) . ' ' . _el( 'span', 'regular', '', $sale_price ) );
+            $price = _div( '', $price_class.' price', _el( 's', 'regular', '', $regular_price ) . ' ' . _el( 'span', 'regular', '', $sale_price ) . ' AED' );
             $is_sale = 1;
         } else {
-            $price = _div( '', $price_class.' price', $p['prod_title'] );
+            $price = _div( '', $price_class.' price', $p['prod_title'].' AED' );
             $is_sale = 0;
         }
         is_numeric( $wrap_class ) ? _c( $wrap_class ) : pre( '', $wrap_class );
@@ -177,7 +177,7 @@ class ECOMMERCE {
                 img( storage_url( $p['prod_image'] ), '', 'image', $p['prod_title'], $p['prod_title'] );
                 el( 'h'.$title_tag, $title_class.' title', '', $p['prod_title'] );
                 $is_sale ? el( 'i', 'sale_tag tag', '', T('Sale') ) : '';
-                echo $price . ' AED';
+                echo $price;
                 // TODO: Add product actions
                 // skel( $p['prod_meta'] );
             post('a');
