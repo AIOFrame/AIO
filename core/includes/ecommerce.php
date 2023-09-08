@@ -174,10 +174,10 @@ class ECOMMERCE {
         }
         is_numeric( $wrap_class ) ? _c( $wrap_class ) : pre( '', $wrap_class );
             pre( 'product_'.$p['prod_id'], $link_class.' product_loop product_'.$p['prod_id'], 'a', 'href="'.APPURL.$link_pre.$p['prod_url'].'" title="'.$p['prod_title'].'"' );
-                img( $p['prod_image'], '', 'image', $p['prod_title'], $p['prod_title'] );
+                img( storage_url( $p['prod_image'] ), '', 'image', $p['prod_title'], $p['prod_title'] );
                 el( 'h'.$title_tag, $title_class.' title', '', $p['prod_title'] );
                 $is_sale ? el( 'i', 'sale_tag tag', '', T('Sale') ) : '';
-                echo $price;
+                echo $price . ' AED';
                 // TODO: Add product actions
                 // skel( $p['prod_meta'] );
             post('a');
