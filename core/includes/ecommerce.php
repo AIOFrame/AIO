@@ -44,8 +44,8 @@ class ECOMMERCE {
             [ 'i' => 'sale_to', 'n' => 'Sale Till', 't' => 'date', 'c' => 6.1 ]
         ];
         $image_fields = [
-            [ 'i' => 'image', 't' => 'upload', 'n' => 'Product Picture', 'a' => 'required', 'b' => 'Upload', 'v' => 'fake_image' ],
-            [ 'i' => 'gallery', 't' => 'upload', 'n' => 'Product Gallery', 'b' => 'Upload', 'm' => 8, 'v' => 'fake_images' ],
+            [ 'i' => 'image', 't' => 'upload', 'n' => 'Product Picture', 'a' => 'required', 'b' => 'Upload', 's' => .6, 'e' => 'png,svg,webp,jpg,jpeg' ],
+            [ 'i' => 'gallery', 't' => 'upload', 'n' => 'Product Gallery', 'b' => 'Upload', 'm' => 8, 'v' => 'fake_images', 's' => .6, 'e' => 'png,svg,webp,jpg,jpeg' ],
         ];
         $r = $f->_random();
         !empty( $modal_class ) ? pre_modal( 'product', $modal_class ) : '';
