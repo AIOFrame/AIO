@@ -419,7 +419,7 @@ class ECOMMERCE {
             pre( 'reviews_data', 'off' );
             $review_form = [
                 [ 't' => 'slide', 'i' => 'enable_reviews', 'n' => 'Product Reviews', 'off' => 'Disable', 'on' => 'Enable', 'c' => 4, 'v' => $ops['enable_reviews'] ?? 1 ],
-                [ 't' => 'slide', 'i' => 'strict_purchased_reviews', 'n' => 'Who can add review ?', 'off' => 'Anyone', 'on' => 'Only Purchased', 'c' => 4, 'v' => $ops['strict_purchased_reviews'] ?? 2 ],
+                [ 't' => 'radios', 'i' => 'reviews_access', 'n' => 'Who can add review ?', 'o' => [ 'anyone' => 'Anyone, Even guests!', 'logged' => 'Registers users', 'buyers' => 'Only if they purchased product' ], 'c' => 3, 'i_p' => 4, 's' => $ops['reviews_access'] ?? 'buyers' ],
                 [ 't' => 'slide', 'i' => 'moderate_reviews', 'n' => 'Moderate reviews', 'off' => 'No', 'on' => 'Yes', 'c' => 4, 'v' => $ops['moderate_reviews'] ?? 1 ],
                 [ 't' => 'number', 'i' => 'review_images', 'n' => 'Max images in reviews', 'c' => 4, 'p' => 'Ex: 6 or 4 or 0 for no images', 'v' => $ops['review_images'] ?? 4 ],
             ];

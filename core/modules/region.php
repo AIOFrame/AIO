@@ -12,6 +12,7 @@ if( isset( $options['regions'] ) || isset( $options['region'] ) || isset( $optio
     }
     require_once( ROOTPATH . 'core/modules/world.php' );
     $set_countries = array_map( 'trim', explode( ',', $options['regions'] ) );
+    skel( $set_countries );
     $r = $options['region'] ?? ( !empty( $options['primary_region'] ) ? $options['primary_region'] : $set_countries[0] );
     //skel( $r );
     $w = new WORLD();
@@ -110,6 +111,24 @@ class REGION {
         $f->select2('primary_region','Set Primary Region','Choose country...',$limit_regions,$regions['primary_region']??'','data-reg',12,1);
         $f->process_options('Save Options','store grad','','.col-12 tac');
         echo '<div style="text-align:center; font-size: .8rem">'.T('Please set and save operating regions, then set primary region.').'</div></div>';
+    }
+
+    function region_changer( string $element = 'div', string $active_class = 'on', string $class = '' ): void {
+        $db = new DB();
+        global $options;
+        $set_countries = array_map( 'trim', explode( ',', $options['regions'] ) );
+        if( !empty( $set_countries ) ) {
+            $my_region = $db->get_option('region',get_user_id());
+            $cr = !empty( $my_region ) ? $my_region : ( !empty( $options['primary_region'] ) ? $options['primary_region'] : $set_countries[ 0 ] );
+            foreach( $set_countries as $r ){
+                $t = $countries[$r] ?? '';
+                if( !empty( $cr ) && $cr == $r  ) {
+                    echo '<li class="ln list on">'.$t.'</li>';
+                } else {
+                    echo '<li class="ln list" data-set-region="'.$r.'">'.$t.'</li>';
+                }
+            }
+        }
     }
 
 }

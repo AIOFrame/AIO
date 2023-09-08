@@ -542,10 +542,7 @@ select.mb0 + .select2-container {
         margin: 15px 0;
       }
     }
-    [type=text], [type=search], [type=number], [type=email], [type=date], [type=time], [type=password], [type=file], select, textarea, select.empty+.select2 .select2-selection--single, [type=radio]+label, [type=checkbox]+label, label.slide_label {
-      margin: 0;
-    }
-    .select2-container {
+    .select2-container, .aio_fp, [type=text], [type=search], [type=number], [type=email], [type=date], [type=time], [type=password], [type=file], select, textarea, select.empty+.select2 .select2-selection--single, [type=radio]+label, [type=checkbox]+label, label.slide_label {
       margin: 0;
     }
   }
