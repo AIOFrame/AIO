@@ -163,8 +163,8 @@ class ECOMMERCE {
      */
     function product( array $p, string $link_pre, int $title_tag = 2, string|int $wrap_class = '', string $link_class = '', string $title_class = '', string $price_class = '', string $actions_class = '' ): void {
         // Prices
-        $regular_price = $p['prod_meta']['regular_price'];
-        $sale_price = $p['prod_meta']['sale_price'];
+        $regular_price = $p['prod_meta']['regular_price'] ?? 0;
+        $sale_price = $p['prod_meta']['sale_price'] ?? 0;
         if( $sale_price < $regular_price ) {
             $price = _div( '', $price_class.' price', _el( 's', 'regular', '', $regular_price ) . ' ' . _el( 'span', 'regular', '', $sale_price ) . ' AED' );
             $is_sale = 1;
