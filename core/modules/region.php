@@ -8,15 +8,15 @@ global $options;
 if( isset( $options['regions'] ) || isset( $options['region'] ) || isset( $options['primary_region'] ) ) {
 //skel( $options );
     if( !empty( $options['regions'] ) ) {
-        !defined( 'REGIONS' ) ? define( 'REGIONS', $options['regions'] ) : '';
+        //!defined( 'REGIONS' ) ? define( 'REGIONS', $options['regions'] ) : '';
     }
     require_once( ROOTPATH . 'core/modules/world.php' );
-    $set_countries = array_map( 'trim', explode( ',', $options['regions'] ) );
-    skel( $set_countries );
-    $r = $options['region'] ?? ( !empty( $options['primary_region'] ) ? $options['primary_region'] : $set_countries[0] );
+    $set_regions = array_map( 'trim', explode( ',', $options['regions'] ) );
+    skel( $set_regions );
+    $current_region = $options['region'] ?? ( !empty( $options['primary_region'] ) ? $options['primary_region'] : $set_regions[0] );
     //skel( $r );
     $w = new WORLD();
-    $region = $w->get_country( $r );
+    $region = $w->get_country( $current_region );
     if( !empty( $region ) ) {
         //$options['region_data'] = $region;
         !defined( 'REGION' ) ? define( 'REGION', $region ) : '';
