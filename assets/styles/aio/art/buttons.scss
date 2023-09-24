@@ -306,6 +306,11 @@ button.bsn, .btn.bsn, button.bsn:hover, .btn.bsn:hover, button.ns, .btn.ns, .btn
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
 }
+button {
+  .loader {
+    display: none;
+  }
+}
 button.load, .btn.load {
   position: relative;
   opacity: .6;
@@ -315,6 +320,7 @@ button.load, .btn.load {
 button.load span.loader {
   position: absolute;
   z-index: 2;
+  display: block;
   //background: rgba(255,255,255,.2);
   //-webkit-backdrop-filter: blur(15px);
   //backdrop-filter: blur(15px);

@@ -188,7 +188,7 @@ class PORTAL {
         ?>
         <header>
             <div id="brand_panel">
-                <?php echo $show_navigation ? '<div id="menu" class="nav_ico"><div class="mat-ico menu">menu</div><div class="mat-ico close">close</div></div>' : ''; ?>
+                <?php echo $show_navigation ? '<div id="menu" class="nav_ico">'. ( str_contains( ICONS, 'Bootstrap' ) ? '<i class="bi bi-list menu"></i><i class="bi bi-x-lg close"></i>' : '<div class="mat-ico menu">menu</div><div class="mat-ico close">close</div>' ) .'</div>' : ''; ?>
                 <a href="<?php echo APPURL.$logo_url ?>" class="brand" <?php echo $logo; ?>></a>
                 <?php if( is_mobile() || is_tablet() ){?>
 

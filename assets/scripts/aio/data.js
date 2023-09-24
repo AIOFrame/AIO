@@ -18,6 +18,9 @@ $(document).ready(function(){
             process_data( $(e).parents('[data-t]') );
         }
     })
+    .on('change','[auto-post],[auto-process],[auto-submit]',function () {
+        $( $(this).parents('[data-t]') ).find('[onclick]').click();
+    })
 })
 
 /**

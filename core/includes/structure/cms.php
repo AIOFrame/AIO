@@ -37,11 +37,14 @@ $page_terms = [
 ];
 $widgets = [
     [ 'name', 'VARCHAR', 128, 1 ],
-    [ 'icon', 'VARCHAR', 32, 1 ],
     [ 'desc', 'VARCHAR', 256, 1 ],
+    [ 'image', 'VARCHAR', 512, 0 ],
     [ 'form', 'TEXT', '', 0 ],
     [ 'html', 'TEXT', '', 0 ],
-    [ 'css', 'TEXT', '', 0 ],
+    [ 'ui_front', 'TEXT', '', 0 ],
+    [ 'ui_back', 'TEXT', '', 0 ],
+    [ 'ux_front', 'TEXT', '', 0 ],
+    [ 'ux_back', 'TEXT', '', 0 ],
     [ 'status', 'INT', 1, 1 ],
 ];
 

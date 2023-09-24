@@ -13,8 +13,7 @@
   font-family: "MaterialIcons", sans-serif;
   font-weight: normal;
   font-style: normal;
-  font-size: 24px;
-  /* Preferred icon size */
+  font-size: 24px; /* Preferred icon size */
   display: inline-block;
   line-height: 1;
   text-transform: none;
@@ -31,6 +30,10 @@
   -moz-osx-font-smoothing: grayscale;
   /* Support for IE. */
   font-feature-settings: "liga";
+}
+
+.bi {
+  overflow: hidden;
 }
 
 .bi::before, [class^=bi-]::before, [class*=" bi-"]::before {
@@ -76,23 +79,23 @@
 }
 
 .mat-ico.orange, .bi.orange {
-  background: #d07000;
-  background: linear-gradient(160deg, #ff8400 0%, #d07000 100%);
+  background: rgb(208, 112, 0);
+  background: linear-gradient(160deg, rgb(255, 132, 0) 0%, rgb(208, 112, 0) 100%);
 }
 
 .mat-ico.green, .bi.green {
-  background: #007f00;
-  background: linear-gradient(160deg, #26a300 0%, #007f00 100%);
+  background: rgb(0, 127, 0);
+  background: linear-gradient(160deg, rgb(38, 163, 0) 0%, rgb(0, 127, 0) 100%);
 }
 
 .mat-ico.red, .bi.red {
-  background: #990101;
-  background: linear-gradient(160deg, #990101 0%, #770018 100%);
+  background: rgb(153, 1, 1);
+  background: linear-gradient(160deg, rgb(153, 1, 1) 0%, rgb(119, 0, 24) 100%);
 }
 
 .mat-ico.blue, .bi.blue {
-  background: #007dcc;
-  background: linear-gradient(160deg, #007dcc 0%, #014d7a 100%);
+  background: rgb(0, 125, 204);
+  background: linear-gradient(160deg, rgb(0, 125, 204) 0%, rgb(1, 77, 122) 100%);
 }
 
 .ico.c {

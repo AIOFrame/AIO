@@ -165,11 +165,13 @@ class ECOMMERCE {
         // Prices
         $regular_price = $p['prod_meta']['regular_price'] ?? 0;
         $sale_price = $p['prod_meta']['sale_price'] ?? 0;
+        $rate = REGION['rate'] ?? 1;
+        $curr = REGION['symbol'];
         if( $sale_price < $regular_price ) {
-            $price = _div( '', $price_class.' price', _el( 's', 'regular', '', $regular_price ) . ' ' . _el( 'span', 'sale', '', $sale_price ) . ' AED' );
+            $price = _div( '', $price_class.' price', _el( 's', 'regular', '', $rate * $regular_price ) . ' ' . _el( 'span', 'sale', '', $rate * $sale_price ) . ' '.$curr );
             $is_sale = 1;
         } else {
-            $price = _div( '', $price_class.' price', _el( 'span', 'sale', '', $regular_price ) . ' AED' );
+            $price = _div( '', $price_class.' price', _el( 'span', 'sale', '', $rate * $regular_price ) . ' '.$curr );
             $is_sale = 0;
         }
         is_numeric( $wrap_class ) ? _c( $wrap_class ) : pre( '', $wrap_class );

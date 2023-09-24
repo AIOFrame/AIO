@@ -61,6 +61,15 @@ $(document).ready(function(){
         });
     })
 
+    // Set Regions
+    .on('click','[data-set-region]',function () {
+        let r = $(this).data('set-region');
+        let a = $(this).parent().data('t');
+        console.log( r );
+        console.log( a );
+        post( a, { 'action': a, 'iso2': r }, 2, 2 );
+    })
+
     // Auto hide on click outside
     .mouseup(function(e) {
         let el = $('[data-auto-off]');

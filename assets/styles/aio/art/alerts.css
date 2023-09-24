@@ -64,6 +64,7 @@
   height: calc(100% - 10px);
   width: 50px;
   z-index: 2;
+  overflow: hidden;
 }
 [data-alerts] .alert .data .ico .mat-ico {
   position: absolute;

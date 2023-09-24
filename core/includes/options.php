@@ -49,6 +49,17 @@ class OPTIONS {
         'email' => 'Email',
         'website' => 'Website'
     ];
+    public array $finance_options = [
+        'trade_name' => 'Registered Name',
+        'trade_no' => 'Registered No.',
+        'trn' => 'Tax Reg. No.',
+        'tax' => 'Tax%',
+        'currency' => 'Currency Name',
+        'symbol' => 'Currency Symbol',
+        'sign' => 'Currency Symbol',
+        'side' => 'Currency Side',
+        'rate' => 'Rate',
+    ];
 
     /**
      * Renders app branding options
@@ -312,22 +323,25 @@ class OPTIONS {
         echo '</div>';
     }
 
-    private array $finance_options = ['reg_name','reg','trn','tax','sign','rate','spot'];
+    //private array $finance_options = ['reg_name','reg','trn','tax','sign','rate','spot'];
 
     function finance_options(): void {
         $f = new FORM();
         $db = new DB();
         $r = defined( 'REGION' ) && isset( REGION['cca2'] ) ? strtolower( REGION['cca2'] ).'_' : '';
         $fin_ops = $this->finance_options;
-        $fin_ops = defined( 'REGION' ) ? prepare_values( $fin_ops, $r ) : $fin_ops;
-        $os = $db->get_options(array_merge($fin_ops,['primary_region']));
+        $fin_ops = defined( 'REGION' ) ? prepare_keys( $fin_ops, $r ) : $fin_ops;
+        $finance_keys = array_merge( $fin_ops, [ 'base_region' ] );
+        $os = $db->get_options( $finance_keys );
         $f->option_params_wrap('cd',2,2);
-        $pr = $os['primary_region'] ?? 'US';
-        $f->text($r.'reg_name','Registered Name','Ex: ABC Trading LLC.',$os[$r.'reg_name'] ?? '','data-cd',3);
-        $f->text($r.'reg','Registration No.','Ex: 120-12565-132665',$os[$r.'reg'] ?? '','data-cd',3);
-        $f->text($r.'trn','Tax Registration No.','Ex: 3562-2654-8954',$os[$r.'trn'] ?? '','data-cd',3);
+        $base = REGIONS['base']['symbol'] ?? 'US';
+        $now = REGIONS['now']['symbol'] ?? 'US';
+        $rate_val = $os[$r.'rate'] ?? 1;
+        $f->text($r.'trade_name','Registered Name','Ex: ABC Trading LLC.',$os[$r.'trade_name'] ?? '','data-cd',3);
+        $f->text($r.'trade_no','Registration No.','Ex: 120-12565-132665',$os[$r.'trade_no'] ?? '','data-cd',3);
+        $f->text($r.'trn','Tax Reg. No.','Ex: 3562-2654-8954',$os[$r.'trn'] ?? '','data-cd',3);
         $f->input('number',$r.'tax','Tax%','Ex: 5',$os[$r.'tax'] ?? '','min="0" max="50" data-cd',3);
-        $f->text($r.'rate','1 ['.$pr.'] = ? '.($os[$r.'sign'] ?? ''),'Ex: 3.67',$os[$r.'rate'] ?? '','data-cd',3);
+        $base !== $now ? $f->text($r.'rate','Conversion Rate, 1 ('.$base.') = '.$rate_val.' ('.$now.')?','Ex: 3.67',$rate_val,'data-cd',3) : '';
         $f->text($r.'sign','Currency Symbol','Ex: $',$os[$r.'sign'] ?? '','data-cd',3);
         $f->slide($r.'spot','Currency Side','Left','Right',$os[$r.'spot'] ?? '','','data-cd',3);
         $f->process_options($this->region_flag().'Save Options','store grad','','.col-12 tac');

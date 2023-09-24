@@ -54,6 +54,7 @@ $error: var(--error_color);
         height: calc( 100% - 10px );
         width: 50px;
         z-index: 2;
+        overflow: hidden;
         .mat-ico {
           position: absolute;
           top: 50%;

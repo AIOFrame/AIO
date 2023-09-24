@@ -30,8 +30,8 @@ class FUP {
                     </div>
                 </div>
                 <div class="acts">
-                    <div class="mat-ico expand"></div>
-                    <div class="mat-ico close">close</div>
+                    <?php echo str_contains( ICONS, 'Bootstrap' ) ? '<i class="bi bi-arrows-angle-expand expand"></i><i class="bi bi-x-lg close"></i>' : '<div class="mat-ico expand"></div><div class="mat-ico close">close</div>'; ?>
+
                 </div>
                 <input type="file" id="file_input">
             </div>

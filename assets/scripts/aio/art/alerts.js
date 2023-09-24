@@ -47,8 +47,8 @@ function notify( text, duration, type, icon ) {
 
     // Create notification message
     let r = Math.random().toString(36).substring(7);
-    let ico = icon !== undefined && icon !== '' ? '<div class="ico"><div class="mat-ico">'+icon+'</div></div>' : '';
-    let n = '<div class="alert in '+type+' n_'+r+'"><div class="data"><div class="mat-ico close">close</div>'+ico+'<div class="message">'+text+'</div></div><div class="time"></div></div>';
+    let ico = icon !== undefined && icon !== '' ? '<div class="ico"><div class="mat-ico bi bi-bell-fill">'+icon+'</div></div>' : '';
+    let n = '<div class="alert in '+type+' n_'+r+'"><div class="data"><div class="mat-ico bi bi-x-lg close">close</div>'+ico+'<div class="message">'+text+'</div></div><div class="time"></div></div>';
     let id = '.n_' + r;
     let ns = $('[data-alerts]');
 

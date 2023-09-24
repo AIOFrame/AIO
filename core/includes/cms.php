@@ -169,7 +169,10 @@ class CMS {
     }
 
     function content_builder(): void {
-
+        // TODO: Content Builder Header / Footer
+        // TODO: Content Builder Widget Picker
+        // TODO: Content Builder Rows, Grids and Widgets
+        // TODO: Content Builder Drag, Drop, Delete Widgets
     }
 
     function static_widget_form( string $title = 'Widget Builder', string $modal_class = '' ): void {
@@ -187,7 +190,8 @@ class CMS {
         pre_tabs('widget_tabs material mb20');
             tab('Widget Fields',1);
             tab('HTML Code');
-            tab('Styling');
+            tab('UI');
+            tab('UX');
         post_tabs();
         pre('widget_data');
             pre('widget_fields_data');
@@ -197,8 +201,13 @@ class CMS {
                 div('widget_tags','widget_tags');
                 $f->code('html','HTML Code','','data-widget');
             post();
-            pre('styling_data');
-                $f->code('css','CSS Code','','data-widget');
+            pre('ui_data');
+                $f->code('ui_front','Frontend CSS Styling','','data-widget');
+                $f->code('ui_back','Backend CSS Styling','','data-widget');
+            post();
+            pre('ui_data');
+                $f->code('ux_front','Frontend JS Scripts','','data-widget');
+                $f->code('ux_back','Backend JS Scripts','','data-widget');
             post();
         post();
         pre('','tac');
@@ -207,6 +216,51 @@ class CMS {
         $f->post_process();
         !empty( $modal_class ) ? post_modal() : '';
     }
+
+    function static_widget( string $name, string $desc = '', string $image = '', array $form_fields = [], string $html = '', string $ui_front = '', string $ui_back = '', string $ux_front = '', string $ux_back = '' ): array {
+        if( empty( $form_fields ) || empty( $html ) ) {
+            return [ 0, T('Missing widget form fields or html code!') ];
+        }
+        $d = new DB();
+        $widget_data = [
+            'name' => $name,
+            'desc' => $desc,
+            'image' => $image,
+            'form' => $form_fields,
+            'html' => $html,
+            'ui_front' => $ui_front,
+            'ui_back' => $ui_back,
+            'ux_front' => $ux_front,
+            'ux_back' => $ux_back
+        ];
+        $add = $d->insert( 'widgets', prepare_keys( $widget_data, 'widget_' ), prepare_values( $widget_data ) );
+        return $add ? [ $add, T('Successfully added widget!') ] : [ 0, T('Failed to register widget!') ];
+    }
+
+    // TODO: Create following default widgets
+    // Rows and Grids
+    // Text Block
+    // Icon
+    // Divider + text
+    // Info Box
+    // Tabs
+    // Image
+    // Gallery
+    // Accordion
+    // Slider
+    // Heading
+    // Button
+    // Video Player
+    // Audio Player
+    // Google Maps
+    // Page Gallery
+    // Product Gallery
+    // Blog Gallery
+    // Pricing
+    // Table
+    // Payment Button
+    // Progress Bar
+
 
     function widgets( string $wrapper_class = '', int $cols = 4, string $modal_identity = '' ): void {
         $db = new DB();

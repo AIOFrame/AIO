@@ -366,6 +366,10 @@ button.bsn, .btn.bsn, button.bsn:hover, .btn.bsn:hover, button.ns, .btn.ns, .btn
   border-bottom-right-radius: 5px;
 }
 
+button .loader {
+  display: none;
+}
+
 button.load, .btn.load {
   position: relative;
   opacity: 0.6;
@@ -376,6 +380,7 @@ button.load, .btn.load {
 button.load span.loader {
   position: absolute;
   z-index: 2;
+  display: block;
   left: 50%;
   top: 50%;
   width: 50px;

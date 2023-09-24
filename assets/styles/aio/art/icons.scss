@@ -33,6 +33,9 @@
   /* Support for IE. */
   font-feature-settings: 'liga';
 }
+.bi {
+  overflow: hidden;
+}
 .bi::before, [class^=bi-]::before, [class*=" bi-"]::before {
   font-family: "bootstrapicons" !important;
 }
