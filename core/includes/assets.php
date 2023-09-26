@@ -137,6 +137,10 @@ function art( array|string $arts = '', string $color1 = '222', string $color2 = 
 
 }
 
+function get_style( string $f, array $params = [], string $page_of = '' ): void {
+    echo _get_style( $f, $params, $page_of );
+}
+
 /**
  * Finds .css and outputs <link>
  * Fetches min.css or css from root/apps/your_app/assets/styles else root/assets/styles/ext else root/assets/styles/aio
@@ -145,8 +149,8 @@ function art( array|string $arts = '', string $color1 = '222', string $color2 = 
  * @param string $page_of loads the stylesheet only if you are on this page
  * @author Shaikh <hey@shaikh.dev>
  */
-function get_style(string $f, $params = [], $page_of = '') {
-
+function _get_style( string $f, array $params = [], string $page_of = '' ): string {
+    $r = '';
     // Gets cache config
     $cache = get_config( 'cache' );
     $v = !empty( $cache ) ? '?v=' . round( time() / ( $cache * 60 ) ) : '';
@@ -163,7 +167,6 @@ function get_style(string $f, $params = [], $page_of = '') {
     $v = !empty( $v ) ? $v . $p : $p;
 
     global $universal_assets;
-
     if( !empty($f) && !in_array( $f, $universal_assets['styles'] )) {
         $universal_assets['styles'][] = $f;
         $style_paths = [
@@ -179,31 +182,43 @@ function get_style(string $f, $params = [], $page_of = '') {
         //skel( ROOTPATH . 'assets/ext/' . $f .'css/' . $f );
         $url = asset_exists( $style_paths, $f, 'css' );
         if ( $page_of !== '' ) {
-            echo page_of($page_of) && $url !== '' ? '<link rel="stylesheet" href="' . $url . $v . '">' : '';
+            $r = page_of($page_of) && $url !== '' ? '<link rel="stylesheet" href="' . $url . $v . '">' : '';
         } else {
-            echo $url !== '' ? '<link rel="stylesheet" href="' . $url . $v . '">' : '';
+            $r = $url !== '' ? '<link rel="stylesheet" href="' . $url . $v . '">' : '';
         }
     }
+    return $r;
+}
+
+function get_styles( $styles = '', string $page_of = '' ): void {
+    echo _get_styles( $styles, $page_of );
 }
 
 /**
  * Finds .css files and outputs <link>'s
- * @param string $ar CSS files separated by ,
+ * @param string|array $styles CSS files separated by ,
  * @param string $page_of Load only if current page is of
  * @author Shaikh <hey@shaikh.dev>
  */
-function get_styles( $ar = '', $page_of = '' ) {
-    if( !empty( $ar ) ){
-        $ar = is_array( $ar ) ? $ar : explode( ',', str_replace( ' ', '', $ar ) );
-        foreach( $ar as $f ){
+function _get_styles( string|array $styles = '', string $page_of = '' ): string|null {
+    $r = '';
+    if( !empty( $styles ) ){
+        $styles = is_array( $styles ) ? $styles : explode( ',', str_replace( ' ', '', $styles ) );
+        foreach( $styles as $f ){
             if( $page_of !== '' ){
-                page_of( $page_of ) ? get_style( $f ) : '';
+                $r .= page_of( $page_of ) ? _get_style( $f ) : '';
             } else {
-                get_style( $f );
+                $r .= _get_style( $f );
             }
         }
     }
+    return $r;
 }
+
+function get_script( string $f, array $params = [], string $page_of = '', string $load_mode = 'defer' ): void {
+    echo _get_script( $f, $params, $page_of, $load_mode );
+}
+
 
 /**
  * Finds .js and outputs <script>
@@ -214,8 +229,8 @@ function get_styles( $ar = '', $page_of = '' ) {
  * @param string $load_mode 'async' or 'defer' tag to load the script
  * @author Shaikh <hey@shaikh.dev>
  */
-function get_script(string $f, array $params = [], string $page_of = '', string $load_mode = 'defer' ): void {
-
+function _get_script( string $f, array $params = [], string $page_of = '', string $load_mode = 'defer' ): string {
+    $r = '';
     // Gets cache config
     $cache = get_config( 'cache' );
     $v = $cache ? '?v=' . round( time() / ( $cache * 60 ) ) : '?v=31536000';
@@ -248,25 +263,28 @@ function get_script(string $f, array $params = [], string $page_of = '', string 
 
         // If script is recaptcha, get recaptcha key and link to google recaptcha
         if( str_contains( $f, 'http' ) ) {
-            echo '<script src="' . $f . '" '.$load_mode.'></script>';
-            return;
+            $r = '<script src="' . $f . '" '.$load_mode.'></script>';
         } else if( $f == 'recaptcha' ) {
             $site_key = get_config('recaptcha_site_key');
             if( !empty( $site_key ) ) {
                 $url = 'https://www.google.com/recaptcha/api.js?render='.$site_key;
-                echo '<script data-recaptcha src="' . $url . '" '.$load_mode.'></script>';
-                return;
+                $r = '<script data-recaptcha src="' . $url . '" '.$load_mode.'></script>';
             }
         } else if( $f == 'stripe' ) {
-            echo '<script src="https://js.stripe.com/v3/" '.$load_mode.'></script>';
+            $r = '<script src="https://js.stripe.com/v3/" '.$load_mode.'></script>';
         }
         if( $page_of !== '' ){
-            echo page_of( $page_of ) && $url !== '' ? '<script src="' . $url . $v . '" '.$load_mode.'></script>' : '';
+            $r = page_of( $page_of ) && $url !== '' ? '<script src="' . $url . $v . '" '.$load_mode.'></script>' : '';
         } else {
-            echo $url !== '' ? '<script src="' . $url . $v . '" '.$load_mode.'></script>' : '';
+            $r = $url !== '' ? '<script src="' . $url . $v . '" '.$load_mode.'></script>' : '';
         }
 
     }
+    return $r;
+}
+
+function get_scripts( string|array $ar = '', string|array $page_of = '', string $load_mode = 'defer' ): void {
+    echo _get_scripts( $ar, $page_of, $load_mode );
 }
 
 /**
@@ -276,17 +294,19 @@ function get_script(string $f, array $params = [], string $page_of = '', string 
  * @param string $load_mode 'async' or 'defer' tag to load the script
  * @author Shaikh <hey@shaikh.dev>
  */
-function get_scripts( string|array $ar = '', string|array $page_of = '', string $load_mode = 'defer' ): void {
+function _get_scripts( string|array $ar = '', string|array $page_of = '', string $load_mode = 'defer' ): string {
+    $r = '';
     if( !empty( $ar ) ){
         $ar = is_array( $ar ) ? $ar : explode( ',', str_replace( ' ', '', $ar ) );
         foreach( $ar as $f ){
             if( $page_of !== '' ){
-                page_of( $page_of ) ? get_script( $f, [], '', $load_mode ) : '';
+                $r .= page_of( $page_of ) ? _get_script( $f, [], '', $load_mode ) : '';
             } else {
-                get_script( $f, [], '', $load_mode );
+                $r .= _get_script( $f, [], '', $load_mode );
             }
         }
     }
+    return $r;
 }
 
 /**

@@ -12,7 +12,7 @@ class CMS {
 
     }
 
-    function page_form( string $modal_class = '', string $page_type = 'page' ): void {
+    function page_form( string $modal_class = '', string $page_type = 'page', bool $content_builder = false ): void {
         $f = new FORM();
         $statuses = $this->page_statuses;
         unset( $statuses[4] );
@@ -36,7 +36,7 @@ class CMS {
         $f->pre_process( 'data-wrap id="'.$page_type.'_form"', 'update_page_ajax', $r, 'p_', 2, 2, [ 'page_type' => strtolower( $page_type ) ] );
         _r();
         _c(8);
-        $f->form( [ [ 't' => 'textarea', 'id' => 'content', 'n' => ucwords( $page_type ).' Content' ] ], '', $r );
+        $f->form( [ [ 't' => $content_builder ? 'content' : 'richtext', 'id' => 'content', 'n' => ucwords( $page_type ).' Content' ] ], '', $r );
         c_();
         _c(4);
         accordion( 'Identity', $f->_form( $publish_fields, 'row', $r ), 'br15 w on' );
@@ -168,10 +168,12 @@ class CMS {
         return [];
     }
 
-    function content_builder(): void {
+    function content_builder( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', string $post = '' ): void {
+        $f = new FORM();
+        $f->content( $id, $label, $placeholder, $value, $attrs, $pre, $post );
         // TODO: Content Builder Header / Footer
-        // TODO: Content Builder Widget Picker
         // TODO: Content Builder Rows, Grids and Widgets
+        // TODO: Content Builder Widget Picker
         // TODO: Content Builder Drag, Drop, Delete Widgets
     }
 
@@ -190,24 +192,28 @@ class CMS {
         pre_tabs('widget_tabs material mb20');
             tab('Widget Fields',1);
             tab('HTML Code');
-            tab('UI');
-            tab('UX');
+            tab('Styles');
+            tab('Scripts');
         post_tabs();
         pre('widget_data');
             pre('widget_fields_data');
                 $f->form_builder('form','Widget Fields','','data-widget');
             post();
-            pre('html_code_data');
+            pre('html_code_data','dn');
                 div('widget_tags','widget_tags');
                 $f->code('html','HTML Code','','data-widget');
             post();
-            pre('ui_data');
-                $f->code('ui_front','Frontend CSS Styling','','data-widget');
-                $f->code('ui_back','Backend CSS Styling','','data-widget');
+            pre('styles_data','dn');
+                _r();
+                    $f->code('ui_front','Frontend CSS Styling','','data-widget',6);
+                    $f->code('ui_back','Backend CSS Styling','','data-widget',6);
+                r_();
             post();
-            pre('ui_data');
-                $f->code('ux_front','Frontend JS Scripts','','data-widget');
-                $f->code('ux_back','Backend JS Scripts','','data-widget');
+            pre('scripts_data','dn');
+                _r();
+                    $f->code('ux_front','Frontend JS Scripts','','data-widget',6);
+                    $f->code('ux_back','Backend JS Scripts','','data-widget',6);
+                r_();
             post();
         post();
         pre('','tac');
@@ -260,7 +266,6 @@ class CMS {
     // Table
     // Payment Button
     // Progress Bar
-
 
     function widgets( string $wrapper_class = '', int $cols = 4, string $modal_identity = '' ): void {
         $db = new DB();

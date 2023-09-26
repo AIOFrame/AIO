@@ -120,8 +120,6 @@ class ECOMMERCE {
         ];
         $f->form( $hidden_fields, 'row', $r );
         $f->post_process();
-        get_style('https://cdn.jsdelivr.net/npm/trumbowyg/dist/ui/trumbowyg.min.css');
-        get_script('https://cdn.jsdelivr.net/npm/trumbowyg/dist/trumbowyg.min.js');
         !empty( $modal_class ) ? post_modal() : '';
 
         // Content Builder

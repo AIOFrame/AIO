@@ -948,23 +948,7 @@ class FORM {
      * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
      */
     function richtext( string|array $id, string $label = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', string $post = '' ): void {
-        get_style('https://cdn.jsdelivr.net/npm/trumbowyg/dist/ui/trumbowyg.min.css');
-        get_script('https://cdn.jsdelivr.net/npm/trumbowyg/dist/trumbowyg.min.js');
-        $_p = $this->_pre( $pre );
-        $p_ = $this->_post( $pre, $post );
-        echo $_p;
-        //echo '<div id="'.$id.'_rte"><div>';
-        $this->input( 'textarea', $id, $label, '', $value, $attrs );
-        ?>
-        <script>
-            document.addEventListener('DOMContentLoaded',function(){
-                $('[data-key=<?php echo $id; ?>]').trumbowyg({ autogrow: true }).on('tbwchange tbwfocus', function(e){
-                    $('[data-key=<?php echo $id; ?>]').val( $( e.currentTarget ).val() );
-                });
-            });
-        </script>
-        <?php
-        echo $p_;
+        echo $this->_richtext( $id, $label, $value, $attrs, $pre, $post );
     }
 
     /**
@@ -977,15 +961,30 @@ class FORM {
      * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
      */
     function _richtext( string|array $id, string $label = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', string $post = '' ): string {
-        //get_style('https://cdn.jsdelivr.net/npm/trumbowyg/dist/ui/trumbowyg.min.css');
-        //get_script('https://cdn.jsdelivr.net/npm/trumbowyg/dist/trumbowyg.min.js');
         $_p = $this->_pre( $pre );
         $p_ = $this->_post( $pre, $post );
         $return = $_p;
         $return .= $this->_textarea( $id, $label, '', $value, $attrs );
+        $return .= _get_style('https://cdn.jsdelivr.net/npm/trumbowyg/dist/ui/trumbowyg.min.css');
+        $return .= _get_script('https://cdn.jsdelivr.net/npm/trumbowyg/dist/trumbowyg.min.js');
         $return .= "<script>document.addEventListener('DOMContentLoaded',function(){ $('[data-key=". $id ."]').trumbowyg({ autogrow: true }).on('tbwchange tbwfocus', function(e){ $('[data-key=". $id ."]').val( $( e.currentTarget ).val() ); }); }); </script>";
         $return .= $p_;
         return $return;
+    }
+
+    function content( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', string $post = '' ): void {
+        echo $this->_content( $id, $label, $placeholder, $value, $attrs, $pre, $post );
+    }
+
+    function _content( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', string $post = '' ): string {
+        get_style('aio/content_builder');
+        get_script('aio/content_builder');
+        $random = $this->_random();
+        $r = $this->_pre( $pre );
+        $r .= $this->_textarea( $id, $label, $placeholder, $value, $attrs.' data-aio-content-builder="#aio_content_builder_wrap_'.$random.'" style="display: none"' );
+        $r .= _div( 'aio_content_builder_wrap_'.$random, 'aio_content_builder_wrap', _div( 'content_area_'.$random, 'content_area' ) . _div( 'content_widgets_'.$random, 'content_widgets' ) );
+        $r .= $this->_post( $pre, $post );
+        return $r;
     }
 
     function form_builder( string|array $id, string $label = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', string $post = '' ): void {
@@ -1135,6 +1134,8 @@ class FORM {
                 $return .= $this->_select2( $id, $label, $place, $options, $value, $attrs, $pre, $keyed, $trans, $post );
             } else if( $type == 'rich' || $type == 'richtext' ) {
                 $return .= $this->_richtext( $id, $label, $val, $attrs, $pre, $post );
+            } else if( in_array( $type, [ 'content_builder', 'content_build', 'content' ] ) ) {
+                $return .= $this->_content( $id, $label, $place, $val, $attrs, $pre, $post );
             } else if( $type == 'date' ) {
                 $range = $f['range'] ?? ( $f['r'] ?? '' );
                 $min = $f['min'] ?? '';
