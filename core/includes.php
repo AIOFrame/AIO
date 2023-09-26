@@ -85,7 +85,7 @@ if( defined( 'CONFIG' ) ) {
             include_once( $path . 'options.php' );
         }
 
-        // CMS Features
+        // Content Management System Features
         //if( in_array( 'cms', $features ) || in_array( 'pages', $features ) ) {
         if( in_array_any( [ 'cms', 'pages' ], $features ) ) {
             include_once( $path . 'cms.php' );

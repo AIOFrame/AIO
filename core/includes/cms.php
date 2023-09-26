@@ -126,7 +126,7 @@ class CMS {
     function _pages( string $page_type = 'page' ): array {
         $d = new DB();
         $data = [ 'id', 'date', 'update', 'title', 'url', 'password', 'status', 'birth', 'expiry', 'by' ];
-        return $d->select( [ 'pages', [ 'users', 'user_id', 'page_by' ] ], array_merge( prepare_values( $data, 'page_' ), [ 'user_name' ] ), 'page_type = \''.strtolower( $page_type ).'\'' );
+        return $d->select( [ 'pages', [ 'users', 'user_id', 'page_by' ] ], array_merge( prepare_values( $data, 'page_' ), [ 'user_name' ] ), 'page_type = \''.strtolower( $page_type ).'\' && page_status != \'4\'' );
     }
 
     function _page( string|int $id_url ): array {
