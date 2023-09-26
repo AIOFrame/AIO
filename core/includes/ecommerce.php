@@ -211,6 +211,8 @@ class ECOMMERCE {
         } else {
             $c = new CODE();
             $f = new FORM();
+            $rate = REGION['rate'] ?? 1;
+            $curr = REGION['symbol'];
             $table[] = [ 'head' => [ 'ID', 'Name', 'Visibility', 'Properties', 'Price', 'Sales', 'Status', 'Actions' ] ];
             foreach( $products as $p ) {
                 //skel( $p );
@@ -219,7 +221,7 @@ class ECOMMERCE {
                     $p['prod_title'].'<div><small>/'.$p['prod_url'].'</small></div>',
                     easy_date($p['prod_date']).'<div><small>'.T('Updated').': '.easy_date($p['prod_update']).'</small></div>',
                     (!empty($p['prod_birth'])?'<div><small>'.T('Visible from').': '.easy_date($p['prod_birth']).'</small></div>':'').(!empty($p['prod_expiry'])?'<div><small>'.T('Visible till').': '.easy_date($p['prod_expiry']).'</small></div>':''),
-                    ( $p['prod_meta']['regular_price'] ?? 0 ) . ' ' . ( $p['prod_meta']['sale_price'] ?? 0 ),
+                    '<s>' . ( $rate * ( $p['prod_meta']['regular_price'] ?? 0 ) ) . '</s> ' . ( $rate * ( $p['prod_meta']['sale_price'] ?? 0 ) ) . ' ' . $curr,
                     0,
                     $status[ $p['prod_status'] ] ?? '',
                     _pre('','acts').$f->_edit_html( '#product_modal', $p, 'div', '', '', '', 'mat-ico', 'edit' )._post()
