@@ -373,6 +373,18 @@
   justify-content: center;
 }
 
+.jsb {
+  justify-content: space-between;
+}
+
+.jsa {
+  justify-content: space-around;
+}
+
+.jse {
+  justify-content: space-evenly;
+}
+
 .jce {
   justify-content: flex-end;
 }

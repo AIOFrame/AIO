@@ -419,15 +419,15 @@ function _div( string $id = '', string $class = '', string $content = '', string
     return _el( 'div', $class, $id, $content, $attrs, $translate );
 }
 
-function a( string $hyperlink = '#', string $title = '', string $class = '', string $hover_title = '', string $id = '' ): void {
-    echo _a($hyperlink,$title,$class,$hover_title,$id);
+function a( string $hyperlink = '#', string $content = '', string $class = '', string $hover_title = '', string $attr = '', string $id = '' ): void {
+    echo _a($hyperlink,$content,$class,$hover_title,$attr,$id);
 }
 
-function _a( string $hyperlink = '#', string $title = '', string $class = '', string $hover_title = '', string $id = '' ): string {
+function _a( string $hyperlink = '#', string $content = '', string $class = '', string $hover_title = '', string $attr = '', string $id = '' ): string {
     $id = !empty( $id ) ? ' id="'.$id.'"' : '';
     $class = !empty( $class ) ? ' class="'.$class.'"' : '';
     $alt = !empty( $hover_title ) ? ' title="'.$hover_title.'"' : '';
-    return '<a href="'.$hyperlink.'" '.$id.$class.$alt.'>'.$title.'</a>';
+    return '<a href="'.$hyperlink.'" '.$id.$class.$alt.' '.$attr.'>'.$content.'</a>';
 }
 
 function img( string $image_url, string $id = '', string $class = '', string $alt = '', string $title = '', string $attr = '' ): void {
@@ -796,4 +796,38 @@ function _c( string|int $column = 12 ): void {
 
 function c_(): void {
     echo '</div>';
+}
+
+// Social Share
+
+function mini_browser_tab( int $width = 600, int $height = 300 ): string {
+    return 'onclick="javascript:window.open(this.href, \'\', \'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height='.$height.',width='.$width.'\');return false;" target="_blank"';
+}
+
+function _fb( string $page_link = '', string $page_title = '', string $content = '', string $class = '' ): string {
+    return _a( 'https://www.facebook.com/sharer/sharer.php?u='.$page_link.'&amp;t='.$page_title, $content, $class, T('Share on Facebook'), mini_browser_tab() );
+}
+
+function _tw( string $page_link = '', string $page_title = '', string $content = '', string $class = '' ): string {
+    return _a( 'https://www.twitter.com/share?url='.$page_link.'&amp;text='.$page_title, $content, $class, T('Share on Twitter'), mini_browser_tab() );
+}
+
+function _ln( string $page_link = '', string $content = '', string $class = '' ): string {
+    return _a( 'https://www.linkedin.com/sharing/share-offsite/?url='.$page_link, $content, $class, T('Share on LinkedIn'), mini_browser_tab() );
+}
+
+function _pn( string $page_link = '', string $page_title = '', string $content = '', string $class = '' ): string {
+    return _a( 'https://pinterest.com/pin/create/button/?url='.$page_link.'&amp;description='.$page_title, $content, $class, T('Share on Pinterest'), mini_browser_tab() );
+}
+
+function _wa( string $page_link = '', string $content = '', string $class = '' ): string {
+    return _a( 'https://api.whatsapp.com/send?text='.$page_link, $content, $class, T('Share on Whatsapp'), mini_browser_tab() );
+}
+
+function _tg( string $page_link = '', string $page_title = '', string $content = '', string $class = '' ): string {
+    return _a( 'https://telegram.me/share/url?url='.$page_link.'&amp;text='.$page_title, $content, $class, T('Share on Telegram'), mini_browser_tab() );
+}
+
+function _em( string $page_link = '', string $page_title = '', string $content = '', string $class = '' ): string {
+    return _a( 'mailto:?subject'.$page_title.'&body='.$page_link, $content, $class, T('Share thru email'), mini_browser_tab() );
 }

@@ -163,22 +163,14 @@ class ECOMMERCE {
         // Prices
         $regular_price = $p['prod_meta']['regular_price'] ?? 0;
         $sale_price = $p['prod_meta']['sale_price'] ?? 0;
-        $rate = REGION['rate'] ?? 1;
-        $curr = REGION['symbol'];
-        if( $sale_price < $regular_price ) {
-            $price = _div( '', $price_class.' price', _el( 's', 'regular', '', $rate * $regular_price ) . ' ' . _el( 'span', 'sale', '', $rate * $sale_price ) . ' '.$curr );
-            $is_sale = 1;
-        } else {
-            $price = _div( '', $price_class.' price', _el( 'span', 'sale', '', $rate * $regular_price ) . ' '.$curr );
-            $is_sale = 0;
-        }
+        $price = $this->_price( $regular_price, $sale_price, $price_class );
         is_numeric( $wrap_class ) ? _c( $wrap_class ) : pre( '', $wrap_class );
             pre( 'product_'.$p['prod_id'], $link_class.' product_loop product_'.$p['prod_id'], 'a', 'href="'.APPURL.$link_pre.$p['prod_url'].'" title="'.$p['prod_title'].'"' );
                 pre( '', 'image_wrap' );
                     img( storage_url( $p['prod_image'] ), '', 'image', $p['prod_title'], $p['prod_title'] );
                 post();
                 el( 'h'.$title_tag, $title_class.' title', '', $p['prod_title'] );
-                $is_sale ? el( 'i', 'sale_tag tag', '', T('Sale') ) : '';
+                $sale_price < $regular_price ? el( 'i', 'sale_tag tag', '', T('Sale') ) : '';
                 echo $price;
                 // TODO: Add product actions
                 // skel( $p['prod_meta'] );
@@ -288,8 +280,37 @@ class ECOMMERCE {
 
     }
 
-    function get_product(): array {
-        return [];
+    function get_product( string|int $identity, string $find_by = 'id', bool $admin = false ): array {
+        $d = new DB();
+        $query = $admin ? '' : 'prod_status = 1 AND ';
+        $query .= $find_by == 'id' ? 'prod_id = \''.$identity.'\'' : 'prod_'.$find_by.' = \''.$identity.'\'';
+        $product = $d->select( 'products', '', $query, 1 );
+        if( !empty( $product ) && is_numeric( $product['prod_id'] ) ) {
+            $product = replace_in_keys( $product, 'prod_' );
+            $meta = $d->select( 'product_meta', 'prod_meta_name,prod_meta_value', 'prod_meta_product = \''.$product['id'].'\'' );
+            if( !empty( $meta ) ) {
+                foreach( $meta as $m ) {
+                    $product['meta'][ $m['prod_meta_name'] ] = $m['prod_meta_value'];
+                }
+            }
+        }
+        return $product;
+    }
+
+    function _price( string|int|float|null $regular = 0, string|int|float|null $sale = 0, string $class = '' ): string {
+        $rate = REGION['rate'] ?? 1;
+        $curr = REGION['symbol'];
+        $regular = !empty( $regular ) ? (float)$regular : 0;
+        $sale = !empty( $sale ) ? (float)$sale : 0;
+        if( $regular == 0 || $sale == 0 ) {
+            return '';
+        }
+        if( $sale < $regular ) {
+            $price = _div( '', $class.' price', _el( 's', 'regular', '', $rate * $regular ) . ' ' . _el( 'span', 'sale', '', $rate * $sale ) . ' '.$curr );
+        } else {
+            $price = _div( '', $class.' price', _el( 'span', 'sale', '', $rate * $regular ) . ' '.$curr );
+        }
+        return $price;
     }
 
     /**
