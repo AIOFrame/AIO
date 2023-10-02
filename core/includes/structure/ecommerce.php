@@ -49,7 +49,11 @@ $properties_meta_struct = [
 ];
 $orders_struct = [];
 $order_items_struct = [];
-$cart_struct = [];
+$cart_struct = [
+    [ 'product', 'INT', 13, 1 ],
+    [ 'user', 'INT', 13, 1 ],
+    [ 'quantity', 'INT', 6, 1 ],
+];
 $loc_struct = [];
 
 $struct[] = [ 'products', $products_struct, 'prod', 1 ];

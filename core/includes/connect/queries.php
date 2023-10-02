@@ -325,7 +325,8 @@ class DB {
                 unset( $table[0] );
                 $query = "SELECT " . $cols . " FROM " . $target . " ";
                 foreach( $table as $t ) {
-                    $query .= "JOIN " . $t[0] . " ON " . $t[0] . "." . $t[1] . " = " . $target . "." . $t[2] . " ";
+                    $join_type = $t[3] ?? 'LEFT JOIN';
+                    $query .= $join_type." " . $t[0] . " ON " . $t[0] . "." . $t[1] . " = " . $target . "." . $t[2] . " ";
                 }
             }
             DB_TYPE == 'mssql' ? $where = str_replace( '"', "'", $where ) : '';
