@@ -513,8 +513,17 @@ function body_class( string $class = '' ): void {
         $dd = 'data-device="'.$dev.'" data-os="'.$os.'" data-browser="'.$brow.'"';
     }
 
+    // Region Info
+    $rm = '';
+    if( !empty( REGION ) ) {
+        $rm = ' data-country="'.REGION['country'].'" data-call="'.REGION['call'].'" data-cca2="'.REGION['cca2'].'" data-cca3="'.REGION['cca3'].'" data-symbol="'.REGION['symbol'].'"';
+    }
+
+    // If Ecommerce is enabled add related params
+    $em = '';
+
     // Final output
-    echo 'class="'.$dc.$pc.$ec.$dm.'" '.$dd;
+    echo 'class="'.$dc.$pc.$ec.$dm.'" '.$dd.$rm;
 }
 
 /**

@@ -7,7 +7,8 @@ function render_cart() {
 
 function render_cart_items( items ) {
     // Get Cart Item Template
-    let template = $('[data-cart-item-template]').html();
+    let mini_cart_item = $('[data-mini-cart-item-template]').html();
+    let cart_item = $('[data-cart-item-template]').html();
     // Empty Cart Wrapper
     //items = JSON.parse( items );
     let total = 0;
@@ -18,16 +19,34 @@ function render_cart_items( items ) {
         // Loop and display cart items
         $( items ).each( function (x, i) {
             console.log(i);
-            let item = template
-                .replaceAll('{{title}}',i['prod_title'])
-                .replaceAll('{{params}}',i['prod_params']!==undefined?'':i['prod_params'])
-                .replaceAll('{{quantity}}',1)
-                .replaceAll('{{price}}',i['prod_price'])
-                .replaceAll('{{url}}',i['prod_url'])
-                .replaceAll('{{image}}',i['prod_image']);
-            $('[data-cart-items]').append( item );
+            if( mini_cart_item !== undefined ) {
+                let mini_item = mini_cart_item
+                    .replaceAll('{{title}}', i['prod_title'])
+                    .replaceAll('{{params}}', i['prod_params'] !== undefined ? i['prod_params'] : '')
+                    .replaceAll('{{quantity}}', i['cart_quantity'])
+                    .replaceAll('{{price}}', i['prod_price_view'])
+                    .replaceAll('{{url}}', i['prod_url'])
+                    .replaceAll('{{id}}', i['prod_id'])
+                    .replaceAll('{{image}}', i['prod_image']);
+                $('[data-mini-cart-items]').append(mini_item);
+            }
+            if( cart_item !== undefined ) {
+                let item = cart_item
+                    .replaceAll('{{title}}', i['prod_title'])
+                    .replaceAll('{{params}}', i['prod_params'] !== undefined ? i['prod_params'] : '')
+                    .replaceAll('{{quantity}}', i['cart_quantity'])
+                    .replaceAll('{{price}}', i['prod_price'])
+                    .replaceAll('{{price_view}}', i['prod_price_view'])
+                    .replaceAll('{{url}}', i['prod_url'])
+                    .replaceAll('{{total}}', i['prod_total'])
+                    .replaceAll('{{total_view}}', i['prod_total_view'])
+                    .replaceAll('{{id}}', i['prod_id'])
+                    .replaceAll('{{image}}', i['prod_image']);
+                $('[data-cart-items]').append(item);
+            }
+            $('[data-cart-item-id]').val(  );
             quantity++;
-            total += parseFloat( i['prod_price'] );
+            total += parseFloat( i['prod_total'] );
         });
     } else {
         $('[data-cart-items]').addClass('dn');
