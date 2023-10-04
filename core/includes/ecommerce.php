@@ -297,7 +297,7 @@ class ECOMMERCE {
         return $product;
     }
 
-    function _price( string|int|float|null $regular = 0, string|int|float|null $sale = 0, string $class = '' ): string {
+    function _price( string|int|float|null $regular = 0, string|int|float|null $sale = 0, bool $only_float = false, string $class = '' ): string {
         $rate = REGION['rate'] ?? 1;
         $curr = REGION['symbol'];
         $regular = !empty( $regular ) ? (float)$regular : 0;
@@ -306,9 +306,9 @@ class ECOMMERCE {
             return '';
         }
         if( $sale < $regular ) {
-            $price = _div( '', $class.' price', _el( 's', 'regular', '', $rate * $regular ) . ' ' . _el( 'span', 'sale', '', $rate * $sale ) . ' '.$curr );
+            $price = $only_float ? $rate * $sale : _div( '', $class.' price', _el( 's', 'regular', '', $rate * $regular ) . ' ' . _el( 'span', 'sale', '', $rate * $sale ) . ' '.$curr );
         } else {
-            $price = _div( '', $class.' price', _el( 'span', 'sale', '', $rate * $regular ) . ' '.$curr );
+            $price = $only_float ? $rate * $regular : _div( '', $class.' price', _el( 'span', 'regular', '', $rate * $regular ) . ' '.$curr );
         }
         return $price;
     }
@@ -658,28 +658,28 @@ class ECOMMERCE {
 
     function mini_cart( string $close_content = '', string $wrapper_id = '', string $wrapper_class = '', string $cart_item_class = '', string $image_class = '', string $description_class = '' ): void {
         $f = new FORM();
+        $e = Encrypt::initiate();
         global $options;
         $empty_cart_content = isset( $options['empty_cart_content'] ) ? T( $options['empty_cart_content'] ) : T( 'Your cart seems empty! Please browse and add a few products to proceed to checkout' );
         $sub_total_title = isset( $options['sub_total_title'] ) ? T( $options['sub_total_title'] ) : T( 'Sub Total' );
-        pre( 'aio_mini_cart_wrap', 'aio_mini_cart_wrap' );
-            pre( 'aio_mini_cart_wrap', 'aio_mini_cart_wrap dn' );
-            post();
+        pre( 'aio_mini_cart_wrap', 'aio_mini_cart_wrap', 'div', 'data-cart="'.(APPDEBUG?'load_cart_ajax':$e->encrypt('load_cart_ajax')).'"' );
+            div( 'aio_mini_cart_items', 'aio_mini_cart_items', '', 'data-cart-items' );
             div( 'aio_mini_cart_empty', 'aio_mini_cart_empty', $empty_cart_content, 'data-empty-cart' );
-            div( 'aio_mini_cart_total', 'aio_mini_cart_total dn df', _div( '', 'title', $sub_total_title ) . _div( '', 'subtotal', _el( 'span', 'amount', '', 0, 'data-amount' ) . ' ' . _el( 'span', 'currency', '', REGION['symbol'], 'data-currency-symbol' ) ) );
+            div( 'aio_mini_cart_total', 'aio_mini_cart_total dn df fg aic', _div( '', 'title', $sub_total_title ) . _div( '', 'subtotal tar', _el( 'span', 'amount', '', 0, 'data-cart-total' ) . ' ' . _el( 'span', 'currency', '', REGION['symbol'], 'data-currency-symbol' ) ) );
             pre( 'aio_mini_cart_item_template', 'aio_mini_cart_item_template dn', 'div', 'data-cart-item-template' );
-                pre( '', $cart_item_class );
+                pre( '', 'cart_item '.$cart_item_class );
                     pre( '', 'cart_item df', 'a', 'href="{{url}}"' );
-                        pre( '', $image_class );
-                            img( '{{image}}', '', 'cart_item_image' );
+                        pre( '', 'cart_item_image_wrap '.$image_class );
+                            img( '{{image}}', '', 'cart_item_image', '', '', 'data-img' );
                         post();
-                        pre( '', $description_class );
-                            div( '', 'cart_item_title', '{{title}}' );
-                            div( '', 'cart_item_params', '{{params}}' );
-                            div( '', 'cart_item_price', '{{price}} x {{quantity}}' );
+                        pre( '', 'cart_desc_wrap '.$description_class, 'div', 'data-desc' );
+                            div( '', 'cart_item_title', '{{title}}', 'data-title' );
+                            div( '', 'cart_item_params', '{{params}}', 'data-params' );
+                            div( '', 'cart_item_price', '{{price}} x {{quantity}}', 'data-price' );
                         post();
                     post( 'a' );
-                    $f->pre_process( '', 'remove_item_from_cart_ajax', '', '', 0, 0, [], '', 'render_cart', 'Are you sure to remove item from cart?' );
-                    $f->process_trigger( $close_content, 'remove_item' );
+                    $f->pre_process( ' ', 'remove_item_from_cart_ajax', '', '', 0, 0, [], '', 'render_cart', 'Are you sure to remove item from cart?' );
+                    $f->process_trigger( $close_content, 'remove_item', 'data-remove', '', '', '', 'div' );
                     $f->post_process();
                 post();
             post();
@@ -861,10 +861,13 @@ function load_cart_ajax(): void {
     if( !empty( $items ) ) {
         $ec = new ECOMMERCE();
         foreach( $items as $i => $p ) {
-            $items[ $i ]['meta'] = $ec->_product_meta( $p['prod_id'] );
+            $meta = $ec->_product_meta( $p['prod_id'] );
+            $items[ $i ]['meta'] = $meta;
+            $items[ $i ]['prod_image'] = storage_url( $p['prod_image'] );
+            $items[ $i ]['prod_price'] = $ec->_price( $meta['regular_price'], $meta['sale_price'], 0 );
         }
         //skel( $items );
-        es( json_encode( $items ) );
+        echo json_encode( $items );
     } else {
         ef( 'No items in Cart!' );
     }
