@@ -5,7 +5,7 @@ $(document).ready(function(){
         $.each( $('div[data-google-map-render]'), function( i,e ){
             GoogleMap(e, window.google_maps_key );
         })
-    },500)
+    },2900)
 });
 
 window.google_maps_key = undefined;
@@ -36,7 +36,9 @@ function GoogleMap(e, key ) {
     con['zoomControl'] = true;
     // console.log(con);
     const map = new google.maps.Map($(e)[0], con);
-    const search = document.getElementById( $(e).attr('search') );
+    //console.log( e );
+    console.log( $( '#' + $(e).attr('search') )[0] );
+    const search = $( '#' + $(e).attr('search') )[0];
     const searchBox = new google.maps.places.SearchBox( search );
     let marker;
     if($(e).data('marks')){

@@ -752,18 +752,84 @@ class ECOMMERCE {
 
     /**
      * Renders user addresses table / cards for user
+     * @param string|int $style 1, table, list or 2, cards, blocks
+     * @param string $edit_form
+     * @param string|int $cols
      * @return void
      */
-    function user_addresses(): void {
+    function addresses( string|int $style = 1, string $edit_form = '', string|int $cols = 4 ): void {
+        $style == 1 || $style == 'table' || $style == 'list' ? $this->address_list( $edit_form ) : $this->address_cards( $edit_form, $cols );
+    }
 
+    function address_list( $edit_form ): void {
+        $ads = $this->_addresses();
+        if( empty( $ads ) ) {
+            no_content( 'No addresses created yet!' );
+        } else {
+            $f = new FORM();
+            $table[] = [ 'head' => [ 'ID', 'Name', 'Date', 'Visibility', 'Status', 'User', 'Actions' ] ];
+            foreach( $ads as $p ) {
+                $table[]['body'] = [
+                    $p['page_id'],
+                    $p['page_title'].'<div><small>/'.$p['page_url'].'</small></div>',
+                    easy_date($p['page_date']).'<div><small>'.T('Updated').': '.easy_date($p['page_update']).'</small></div>',
+                    (!empty($p['page_birth'])?'<div><small>'.T('Visible from').': '.easy_date($p['page_birth']).'</small></div>':'').(!empty($p['page_expiry'])?'<div><small>'.T('Visible till').': '.easy_date($p['page_expiry']).'</small></div>':''),
+                    $status[ $p['page_status'] ] ?? '',
+                    $p['user_name'],
+                    _pre('','acts').$f->_edit_html( $edit_form, $p, 'div', '', '', '', 'mat-ico', 'edit' )._post()
+                ];
+            }
+            table_view( 'address_list', $table, 'address_list' );
+        }
+    }
+
+    function address_cards( string $edit_form = '', string|int $cols = 4 ): void {
+        $ads = $this->_addresses();
+        if( empty( $ads ) ) {
+            no_content( 'No addresses created yet!' );
+        } else {
+            $cards = [];
+            foreach( $ads as $p ) {
+                $cards[] = _card( 'br15', $p['page_title'], '', '/'.$p['page_url'], '', '', $status[ $p['page_status'] ] ?? '', '', [], [], $edit_form, $p, 'pages', "page_id = {$p['page_id']}" );
+            }
+            grid_view( '', $cards, '', $cols );
+        }
+    }
+
+    function _addresses( int $user_id = 0, string $where = '' ): array {
+        $user_id = $user_id == 0 ? get_user_id() : $user_id;
+        $d = new DB();
+        $where = !empty( $where ) ? $where : 'ua_user = \''.$user_id.'\'';
+        return $d->select( 'addresses', '', $where );
     }
 
     /**
      * Renders modal to view / update user address
+     * @param string $modal_class
+     * @param string $title
+     * @param array $types
+     * @param string $style accordion or steps or tabs
      * @return void
      */
-    function user_address_modal(): void {
-
+    function address_form( string $modal_class = '', string $title = 'Address', array $types = [], string $style = 'accordion', bool $show_map = true ): void {
+        $f = new FORM();
+        $types = !empty( $types ) ? $types : [ 1 => 'Home', 2 => 'Work' ];
+        $fields = [
+            [ 'i' => 'a_name', 'n' => 'Address Name', 'p' => 'Ex: My Office, Moms Villa...', 'a' => 'required', 'c' => 4 ],
+            [ 'i' => 'type', 't' => 'radios', 'i_p' => 6, 'n' => 'Address Type', 'a' => 'required', 'c' => 4, 'o' => $types ],
+            [ 'i' => 'status', 't' => 'slide', 'n' => 'Status', 'a' => 'required', 'c' => 4 ],
+            [ 'i' => 'name', 'n' => 'Receiver Full Name', 'a' => 'required', 'c' => 4 ],
+            [ 'i' => 'email', 'n' => 'Email', 'a' => 'required data-no-space', 'c' => 4 ],
+            [ 'i' => 'code', 'i2' => 'phone', 't' => 'phone', 'n' => 'Code', 'n2' => 'Phone', 'a' => 'required data-no-space', 'c' => 4 ],
+        ];
+        !empty( $modal_class ) ? pre_modal( $title, $modal_class ) : '';
+        $f->pre_process( 'data-wrap id="address_form"', 'update_address_ajax', 'addr', 'ua_', 2, 2, [] );
+            $f->form( $fields, 'row' );
+            if( $show_map ) {
+                $f->map( 'lat', 'long', 'address', 'street', 'city', 'country', '', 6 );
+            }
+            $f->process_trigger('Save '.$title,'r','','','.tac');
+        $f->post_process();
     }
 
     function update_product_metas( int $product_id, array $meta, int $new_product_id = 0 ): int {

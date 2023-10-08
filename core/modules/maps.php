@@ -10,7 +10,7 @@ class MAPS {
         $marker = $os['default_map_marker'] ?? APPURL.'assets/images/marker.png';
         echo '<script>window.google_map_icon = \''.$marker.'\';window.google_maps_key = \''.$k.'\';</script>';
         if( !empty( $k ) ) {
-            get_scripts( 'https://maps.googleapis.com/maps/api/js?key=' . $k . '&libraries=places,google_maps' );
+            get_scripts( 'https://maps.googleapis.com/maps/api/js?key=' . $k . '&libraries=places&callback=Function.prototype,google_maps' );
         }
     }
 }

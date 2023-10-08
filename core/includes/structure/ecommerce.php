@@ -8,7 +8,7 @@ $products_struct = [
     [ 'content', 'LONGTEXT', '', 0 ],
     [ 'url', 'VARCHAR', 128, 1 ],
     [ 'password', 'VARCHAR', 256, 0 ],
-    [ 'type', 'INT', 1, 0 ],
+    [ 'type', 'TINYINT', 1, 0 ],
     [ 'parent', 'INT', 13, 0 ],
     [ 'image', 'VARCHAR', 512, 0 ],
     [ 'gallery', 'TEXT', '', 0 ],
@@ -54,7 +54,25 @@ $cart_struct = [
     [ 'user', 'INT', 13, 1 ],
     [ 'quantity', 'INT', 6, 1 ],
 ];
-$loc_struct = [];
+$loc_struct = [
+    [ 'user', 'INT', 13, 1 ],
+    [ 'name', 'VARCHAR', 64, 1 ],
+    [ 'a_name', 'VARCHAR', 24, 1 ],
+    [ 'address', 'VARCHAR', 512, 1 ],
+    [ 'street', 'VARCHAR', 256, 0 ],
+    [ 'lat', 'VARCHAR', 256, 0 ],
+    [ 'long', 'VARCHAR', 256, 0 ],
+    [ 'city', 'VARCHAR', 512, 1 ],
+    [ 'state', 'VARCHAR', 512, 1 ],
+    [ 'po', 'VARCHAR', 12, 0 ],
+    [ 'country', 'VARCHAR', 128, 1 ],
+    [ 'type', 'TINYINT', 1, 0 ],
+    [ 'dt', 'DATETIME', 0, 1 ],
+    [ 'code', 'VARCHAR', 5, 1 ],
+    [ 'phone', 'VARCHAR', 24, 1 ],
+    [ 'email', 'VARCHAR', 64, 1 ],
+    [ 'status', 'TINYINT', 1, 1 ],
+];
 
 $struct[] = [ 'products', $products_struct, 'prod', 1 ];
 $struct[] = [ 'product_meta', $meta_struct, 'prod_meta', 1 ];

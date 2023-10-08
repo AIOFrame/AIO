@@ -310,6 +310,37 @@ class ACCESS {
         }
     }
 
+    function profile( string $wrap_id = '', string $wrap_class = '' ): void {
+        $db = new DB();
+        $user = $db->select( 'users', '', 'user_id = \''.get_user_id().'\'', 1 );
+        $f = new FORM();
+        pre( $wrap_id, $wrap_class );
+            $f->pre_process(' ','update_profile_ajax','user','user_',3,3,[],'Successfully updated user details!');
+                _r();
+                    $f->texts([['login','User Login','',$user['user_login']],['since','User Since','',easy_date($user['user_since'])]],'disabled','6');
+                    $f->texts([['name','Full Name','Ex: John Doe',$user['user_name']]],'required data-user','6');
+                    $f->input('email','email','E Mail','Ex: john@company.com',$user['user_email'],'data-help',6);
+                    $f->upload('picture','Upload Picture','Upload',$user['user_picture'],0,0,'upload','data-user','svg,jpg,png',10,1,'',4);
+                r_();
+                $f->process_trigger('Update Profile','r5 xl mb0');
+            $f->post_process();
+        post();
+        file_upload();
+    }
+
+    function change( string $wrap_id = '', string $wrap_class = '' ): void {
+        $f = new FORM();
+        pre( $wrap_id, $wrap_class );
+            $f->pre_process(' ','change_password_ajax','ps','',3,3,[],'Successfully updated user password!');
+                _r();
+                    $min_string = T('Minimum Characters');
+                    $f->inputs('password',[['pass_old','Old Password'],['pass','New Password','','','data-length-notify="Password minimum length is 8 Characters"']],'data-ps minlength="8" data-minlength="'.$min_string.'" data-help required',6);
+                r_();
+                $f->process_trigger('Change Password','r5 xl mb0');
+            $f->post_process();
+        post();
+    }
+
     /**
      * Updates user password or data
      * @param string $login User Login
@@ -860,9 +891,7 @@ function register_html( array $columns = [], bool $columns_before = true, array 
     $pass_title = $ops['password_text'] ?? 'Password';
     $register_button_title = $aos['register_button_text'] ?? '';
     $f->pre_process('class="register_wrap"','','reg','register_',$notify_for,$reload_in,[],'',$callback,'',$redirect_to,'',1);
-    ?>
-    <div class="inputs">
-        <?php
+    pre( '', 'inputs' );
         $columns_html = '';
         foreach( $columns as $ck => $cv ) {
             $empty_logic = in_array( $ck, $compulsory ) ? 'required="true"' : '';
@@ -897,9 +926,7 @@ function register_html( array $columns = [], bool $columns_before = true, array 
             echo '<input type="text" id="register_access_'.$rand.'" data-key="access" value="'.$cry->encrypt( json_encode( $access ) ).'" data-register required="true">';
         }
         echo !$columns_before ? $columns_html : '';
-        ?>
-    </div>
-    <?php
+    post();
     file_upload();
     $f->process_trigger( 'Register', 'grad', 'id="aio_forgot_init"', 'access_register_ajax' );
     $f->post_process();

@@ -739,10 +739,10 @@ class FORM {
         $long = !empty( $longitude_field ) ? ' data-long="'.$longitude_field.'"' : '';
         $r = rand(0,999);
         $return = $pre;
-        $return .= '<div class="map_wrap">';
+        $return .= _pre( '', 'map_wrap' );
         $return .= $this->_text(['search_'.$r,'search_'.$r],'','Search for Address...');
-        $return .= '<div id="map_'.$r.'" class="google_map" search="search_'.$r.'" data-google-map-render'.$def_zoom.$def_lat.$def_long.$def_type.$def_style.$co.$add.$area.$city.$country.$lat.$long.'>';
-        $return .= '</div></div>';
+        $return .= _pre( 'map_'.$r, 'google_map', 'div', 'search="search_'.$r.'" data-google-map-render'.$def_zoom.$def_lat.$def_long.$def_type.$def_style.$co.$add.$area.$city.$country.$lat.$long );
+        $return .= _post()._post();
         $return .= $post;
         return $return;
     }
@@ -1158,10 +1158,10 @@ class FORM {
                 $inputs_post = $f['inputs_post'] ?? ( $f['ip_'] ?? '' );
                 $inputs_wrap = $f['inputs_wrap'] ?? ( $f['iw'] ?? ( is_numeric( $inputs_pre ) || is_float( $inputs_pre ) ? 'row' : '' ) );
                 $return .= $type == 'checkboxes' ? $this->_checkboxes( $id, $label, $values, $checked, $attrs, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post ) : $this->_radios( $id, $label, $values, $checked, $attrs, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post );
-            }else if( $type == 'phone' ) {
+            } else if( $type == 'phone' ) {
                 $id_2 = $f['id2'] ?? ( $f['i2'] ?? '' );
                 $label_2 = $f['label2'] ?? ( $f['l2'] ?? ( $f['title2'] ?? ( $f['name2'] ?? ( $f['n2'] ?? '' ) ) ) );
-                $place_2 = $f['place2'] ?? ($f['placeholder2'] ?? ( $f['p2'] ??= $label));
+                $place_2 = $f['place2'] ?? ($f['placeholder2'] ?? ( $f['p2'] ??= ''));
                 $val_2 = $f['value2'] ?? ( $f['va2'] ?? ( $f['v2'] ?? ( $_POST[$id_2] ?? ( $_GET[$id_2] ?? '' ) ) ) );
                 $return .= $this->_phone( $id, $id_2, $label, $label_2, $place, $place_2, $val, $val_2, $attrs, $pre, $post );
             } else if( $type == 'upload' ) {

@@ -87,9 +87,9 @@ class PORTAL {
         // TODO: Based on if crm or ems in features, implement my expenses tab
         // TODO: Based on if ems in features, implement my employee details tab
         $f = new FORM();
+        $a = new ACCESS();
         $c = Encrypt::initiate();
         $db = new DB();
-        $user = $db->select( 'users', '', 'user_id = \''.get_user_id().'\'', 1 );
         $ss = $db->select( 'sessions', '', 'session_uid = \''.get_user_id().'\'' );
         _r();
             !is_mobile() ? div('','col-2') : '';
@@ -121,24 +121,14 @@ class PORTAL {
                         $f->post_process();
 
                         // User Details Tab Content
-                        $f->pre_process('id="basic" class="dn"','update_profile_ajax','user','user_',3,3,[],'Successfully updated user details!');
-                        _r();
-                            $f->texts([['login','User Login','',$user['user_login']],['since','User Since','',easy_date($user['user_since'])]],'disabled','6');
-                            $f->texts([['name','Full Name','Ex: John Doe',$user['user_name']]],'required data-user','6');
-                            $f->input('email','email','E Mail','Ex: john@company.com',$user['user_email'],'data-help',6);
-                            $f->upload('picture','Upload Picture','Upload',$user['user_picture'],0,0,'upload','data-user','svg,jpg,png',10,1,'',4);
-                        r_();
-                        $f->process_trigger('Update Profile','r5 xl mb0');
-                        $f->post_process();
+                        pre( 'basic', 'dn' );
+                            $a->profile();
+                        post();
 
                         // Password Tab Content
-                        $f->pre_process('id="pass" class="dn"','change_password_ajax','ps','',3,3,[],'Successfully updated user password!');
-                        _r();
-                            $min_string = T('Minimum Characters');
-                            $f->inputs('password',[['pass_old','Old Password'],['pass','New Password','','','data-length-notify="Password minimum length is 8 Characters"']],'data-ps minlength="8" data-minlength="'.$min_string.'" data-help required',6);
-                        r_();
-                        $f->process_trigger('Change Password','r5 xl mb0');
-                        $f->post_process();
+                        pre( 'pass', 'dn' );
+                            $a->change();
+                        post();
                     post();
 
                     // Sessions Tab Content
