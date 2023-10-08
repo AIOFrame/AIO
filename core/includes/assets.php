@@ -515,7 +515,7 @@ function body_class( string $class = '' ): void {
 
     // Region Info
     $rm = '';
-    if( defined( REGION ) && !empty( REGION ) ) {
+    if( defined( 'REGION' ) && !empty( REGION ) ) {
         $rm = ' data-country="'.REGION['country'].'" data-call="'.REGION['call'].'" data-cca2="'.REGION['cca2'].'" data-cca3="'.REGION['cca3'].'" data-symbol="'.REGION['symbol'].'"';
     }
 
