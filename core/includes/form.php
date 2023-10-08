@@ -678,6 +678,7 @@ class FORM {
      * @param string $country_field Input field ID to be filled with country
      * @param string $coordinates Input field ID to be filled with co-ordinates
      * @param string|float|int $pre Prepend wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
+     * @param int $height
      * @param string $latitude_value Default map starting latitude value
      * @param string $longitude_value Default map starting longitude value
      * @param string $zoom Default map zoom level
@@ -685,10 +686,8 @@ class FORM {
      * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
      * @return void
      */
-    function map( string $latitude_field = '', string $longitude_field = '', string $address_field = '', string $area_field = '', string $city_field = '', string $country_field = '', string $coordinates = '', string|float|int $pre = '', string $latitude_value = '', string $longitude_value = '', string $zoom = '13', string $type = 'terrain', string $post = '' ): void {
-        echo $this->_map( $latitude_field, $longitude_field, $address_field, $area_field, $city_field, $country_field, $coordinates, $pre, $latitude_value, $longitude_value, $zoom, $type, $post );
-        $m = new MAPS();
-        $m->google_maps();
+    function map( string $latitude_field = '', string $longitude_field = '', string $address_field = '', string $area_field = '', string $city_field = '', string $country_field = '', string $coordinates = '', string|float|int $pre = '', int $height = 200, string $latitude_value = '', string $longitude_value = '', string $zoom = '13', string $type = 'terrain', string $post = '' ): void {
+        echo $this->_map( $latitude_field, $longitude_field, $address_field, $area_field, $city_field, $country_field, $coordinates, $pre, $height, $latitude_value, $longitude_value, $zoom, $type, $post );
     }
 
     /**
@@ -701,6 +700,7 @@ class FORM {
      * @param string $country_field Input field ID to be filled with country
      * @param string $coordinates Input field ID to be filled with co-ordinates
      * @param string|float|int $pre Prepend wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
+     * @param int $height
      * @param string $latitude_value Default map starting latitude value
      * @param string $longitude_value Default map starting longitude value
      * @param string $zoom Default map zoom level
@@ -708,13 +708,14 @@ class FORM {
      * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
      * @return string
      */
-    function _map( string $latitude_field = '', string $longitude_field = '', string $address_field = '', string $area_field = '', string $city_field = '', string $country_field = '', string $coordinates = '', string|float|int $pre = '', string $latitude_value = '', string $longitude_value = '', string $zoom = '13', string $type = 'terrain', string $post = '' ): string {
+    function _map( string $latitude_field = '', string $longitude_field = '', string $address_field = '', string $area_field = '', string $city_field = '', string $country_field = '', string $coordinates = '', string|float|int $pre = '', int $height = 200, string $latitude_value = '', string $longitude_value = '', string $zoom = '13', string $type = 'terrain', string $post = '' ): string {
+        //$height = $height !== '' ? $height : 400;
         if( is_numeric( $pre ) ){
-            $pre = $pre == 0 ? '<div class="map_col col">' : '<div class="map_col col-12 col-md-'.$pre.'">';
-            $post = '</div>';
+            $pre = $pre == 0 ? _pre( '', 'map_col col' ) : _pre( '', 'map_col col-12 col-md-'.$pre );
+            $post = _post();
         } else if( str_contains( $pre, '.' ) ) {
-            $pre = '<div class="'.str_replace('.','',$pre).'">';
-            $post = '</div>';
+            $pre = _pre( '', str_replace('.','',$pre) );
+            $post = _post();
         }
         if( ( empty( $latitude_value ) || empty( $longitude_value ) ) && defined( 'DB_TYPE' ) ) {
             $db = new DB();
@@ -737,12 +738,15 @@ class FORM {
         $country = !empty( $country_field ) ? ' data-country="'.$country_field.'"' : '';
         $lat = !empty( $latitude_field ) ? ' data-lat="'.$latitude_field.'"' : '';
         $long = !empty( $longitude_field ) ? ' data-long="'.$longitude_field.'"' : '';
+        $height = $height > 0 ? 'style="height:'.$height.'px" ' : '';
         $r = rand(0,999);
         $return = $pre;
         $return .= _pre( '', 'map_wrap' );
         $return .= $this->_text(['search_'.$r,'search_'.$r],'','Search for Address...');
-        $return .= _pre( 'map_'.$r, 'google_map', 'div', 'search="search_'.$r.'" data-google-map-render'.$def_zoom.$def_lat.$def_long.$def_type.$def_style.$co.$add.$area.$city.$country.$lat.$long );
+        $return .= _pre( 'map_'.$r, 'google_map', 'div', $height.'search="search_'.$r.'" data-google-map-render'.$def_zoom.$def_lat.$def_long.$def_type.$def_style.$co.$add.$area.$city.$country.$lat.$long );
         $return .= _post()._post();
+        $m = new MAPS();
+        $return .= $m->_google_maps();
         $return .= $post;
         return $return;
     }

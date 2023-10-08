@@ -3,15 +3,21 @@
 class MAPS {
 
     function google_maps(): void {
+        echo $this->_google_maps();
+    }
+
+    function _google_maps(): string {
         $db = new DB();
         $os = $db->get_options([ 'google_maps_key', 'default_map_marker' ]);
         $k = $os['google_maps_key'] ?? '';
         $k = empty( $k ) ? get_config('google_maps_key') : $k;
         $marker = $os['default_map_marker'] ?? APPURL.'assets/images/marker.png';
-        echo '<script>window.google_map_icon = \''.$marker.'\';window.google_maps_key = \''.$k.'\';</script>';
+        $return = '<script>window.google_map_icon = \''.$marker.'\';window.google_maps_key = \''.$k.'\';</script>';
         if( !empty( $k ) ) {
-            get_scripts( 'https://maps.googleapis.com/maps/api/js?key=' . $k . '&libraries=places&callback=Function.prototype,google_maps' );
+            $return .= _get_script('google_map',[],'','defer');
+            $return .= _get_script( 'https://maps.googleapis.com/maps/api/js', [ 'key' => $k, 'libraries' => 'places' ], '', 'defer', false );
         }
+        return $return;
     }
 }
 

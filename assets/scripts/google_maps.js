@@ -3,13 +3,17 @@ let loc = {lat: 25.212212, lng: 55.275135};
 $(document).ready(function(){
     setTimeout(function(){
         $.each( $('div[data-google-map-render]'), function( i,e ){
-            GoogleMap(e, window.google_maps_key );
+            //GoogleMap(e, window.google_maps_key );
         })
-    },2900)
+    },1000)
 });
 
 window.google_maps_key = undefined;
 window.google_map_icon = undefined;
+
+function renderGoogleMap() {
+    alert('test');
+}
 
 function GoogleMap(e, key ) {
     if(key === ''){ elog('Google Maps Key Error, Option \'google_maps_key\' is missing in options database or pass key as second parameter in GoogleMaps(e, key)'); return }

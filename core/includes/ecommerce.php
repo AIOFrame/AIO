@@ -809,25 +809,50 @@ class ECOMMERCE {
      * @param string $title
      * @param array $types
      * @param string $style accordion or steps or tabs
+     * @param bool $show_map
      * @return void
      */
     function address_form( string $modal_class = '', string $title = 'Address', array $types = [], string $style = 'accordion', bool $show_map = true ): void {
         $f = new FORM();
-        $types = !empty( $types ) ? $types : [ 1 => 'Home', 2 => 'Work' ];
+        $types = !empty( $types ) ? $types : [ 1 => 'Villa', 2 => 'Apartment', 3 => 'Industry', 4 => 'Warehouse', 5 => 'Office' ];
+        $at = 'data-addr';
+        $atr = 'data-addr required';
+        $ath = 'data-addr hidden';
+        $atr2 = 'data-addr required data-no-space';
         $fields = [
-            [ 'i' => 'a_name', 'n' => 'Address Name', 'p' => 'Ex: My Office, Moms Villa...', 'a' => 'required', 'c' => 4 ],
-            [ 'i' => 'type', 't' => 'radios', 'i_p' => 6, 'n' => 'Address Type', 'a' => 'required', 'c' => 4, 'o' => $types ],
-            [ 'i' => 'status', 't' => 'slide', 'n' => 'Status', 'a' => 'required', 'c' => 4 ],
-            [ 'i' => 'name', 'n' => 'Receiver Full Name', 'a' => 'required', 'c' => 4 ],
-            [ 'i' => 'email', 'n' => 'Email', 'a' => 'required data-no-space', 'c' => 4 ],
-            [ 'i' => 'code', 'i2' => 'phone', 't' => 'phone', 'n' => 'Code', 'n2' => 'Phone', 'a' => 'required data-no-space', 'c' => 4 ],
+            [ 'i' => 'a_name', 'n' => 'Address Name', 'p' => 'Ex: My Office, Sisters Apartment...', 'a' => $atr, 'c' => 3 ],
+            [ 'i' => 'name', 'n' => 'Receiver Full Name', 'a' => $atr, 'c' => 3 ],
+            [ 'i' => 'email', 'n' => 'Email', 'a' => $atr2, 'c' => 3 ],
+            [ 'i' => 'code', 'i2' => 'phone', 't' => 'phone', 'n' => 'Code', 'n2' => 'Phone', 'a' => $atr2, 'c' => 3 ],
+        ];
+        $add_fields = [
+            [ 'i' => 'lat', 'a' => $ath, ],
+            [ 'i' => 'long', 'a' => $ath ],
+            [ 'i' => 'address', 'n' => 'Address', 'p' => 'Ex: 1515, Omega Apartments etc', 'c' => 6, 'a' => $atr ],
+            [ 'i' => 'street', 'n' => 'Street', 'p' => 'Ex: Street 21', 'c' => 6, 'a' => $at ],
+            [ 'i' => 'city', 'n' => 'City', 'c' => 6, 'a' => $atr ],
+            [ 'i' => 'state', 'n' => 'State', 'c' => 6, 'a' => $atr ],
+            [ 'i' => 'po', 'n' => 'Postal Code', 'c' => 6, 'a' => $at ],
+            [ 'i' => 'country', 'n' => 'Country', 't' => 'select', 'o' => get_countries( 'iso2' ), 'k' => 1, 'c' => 6, 'a' => $atr ],
+        ];
+        $fields2 = [
+            [ 'i' => 'type', 't' => 'radios', 'i_p' => 2, 'n' => 'Address Type', 'c' => 10, 'o' => $types, 's' => 2, 'a' => $at ],
+            [ 'i' => 'status', 't' => 'slide', 'n' => 'Status', 'c' => 2, 'v' => 1, 'a' => $atr ],
         ];
         !empty( $modal_class ) ? pre_modal( $title, $modal_class ) : '';
-        $f->pre_process( 'data-wrap id="address_form"', 'update_address_ajax', 'addr', 'ua_', 2, 2, [] );
+        $f->pre_process( 'data-wrap id="address_form"', 'update_address_ajax', 'addr', '', 2, 2, [] );
             $f->form( $fields, 'row' );
             if( $show_map ) {
+                _r();
                 $f->map( 'lat', 'long', 'address', 'street', 'city', 'country', '', 6 );
+                _c(6);
+                    $f->form( $add_fields, 'row' );
+                c_();
+                r_();
+            } else {
+                $f->form( $add_fields, 'row' );
             }
+            $f->form( $fields2, 'row' );
             $f->process_trigger('Save '.$title,'r','','','.tac');
         $f->post_process();
     }
@@ -997,6 +1022,30 @@ function remove_item_from_wishlist_ajax(): void {
         $d = new DB();
         $remove = $d->delete( 'cart', 'cart_id = \''.$id.'\'' );
         $remove ? es('Successfully removed item from cart!') : ef('Failed to remove item from Cart! Please try again later or contact support!!');
+    }
+}
+
+function update_address_ajax(): void {
+    $id = $_POST['id'] ?? 0;
+    unset( $_POST['pre'] );
+    unset( $_POST['t'] );
+    unset( $_POST['id'] );
+    $uid = get_user_id();
+    if( $uid > 0 ) {
+        $d = new DB();
+        $_POST['dt'] = date('Y-m-d H:i:s');
+        $_POST['user'] = $uid;
+        $keys = prepare_keys( $_POST, 'ua_' );
+        $values = prepare_values( $_POST );
+        if( $id > 0 ) {
+            $addr = $d->update( 'addresses', $keys, $values, 'ua_id = \''.$id.'\'' );
+            $addr ? es('Successfully updated address!') : ef('Failed to update address! Please consult admin!!');
+        } else {
+            $addr = $d->insert( 'addresses', $keys, $values );
+            $addr ? es('Successfully stored address!') : ef('Failed to save address! Please consult admin!!');
+        }
+    } else {
+        ef('User needs to be logged in to save address!');
     }
 }
 

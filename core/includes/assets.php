@@ -229,11 +229,21 @@ function get_script( string $f, array $params = [], string $page_of = '', string
  * @param string $load_mode 'async' or 'defer' tag to load the script
  * @author Shaikh <hey@shaikh.dev>
  */
-function _get_script( string $f, array $params = [], string $page_of = '', string $load_mode = 'defer' ): string {
+function _get_script( string $f, array $params = [], string $page_of = '', string $load_mode = 'defer', int|float|string|bool $cache = '' ): string {
     $r = '';
     // Gets cache config
-    $cache = get_config( 'cache' );
-    $v = $cache ? '?v=' . round( time() / ( $cache * 60 ) ) : '?v=31536000';
+    if( is_numeric( $cache ) || is_float( $cache ) ) {
+        $v = '?v=' . round( time() / ( $cache * 60 ) );
+    } else if( in_array( $cache, [ 'avoid', 'dont', 'nope', 'false' ] ) || !$cache ) {
+        $v = '';
+    } else if( defined( 'CONFIG' ) ) {
+        $cache = CONFIG['cache'];
+        $v = '?v=' . round( time() / ( $cache * 60 ) );
+    } else {
+        $v = '?v=31536000';
+    }
+    //$cache = empty( $cache ) ? get_config( 'cache' ) : $cache;
+    //$v = $cache ?  :
 
     // Process GET parameters
     $p = '';
@@ -244,7 +254,7 @@ function _get_script( string $f, array $params = [], string $page_of = '', strin
     }
 
     // Sets version of script
-    $v = !empty( $v ) ? $v . $p : $p;
+    $v = !empty( $v ) ? $v . $p : '?' . ltrim( $p, '&' );
 
     global $universal_assets;
     if( !empty($f) && !in_array( $f, $universal_assets['scripts'] )) {
