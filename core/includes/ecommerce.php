@@ -238,7 +238,7 @@ class ECOMMERCE {
     function _products(): array {
         $d = new DB();
         //$data = [ 'id', 'date', 'update', 'title', 'url', 'password', 'status', 'birth', 'expiry', 'by' ];
-        $products = $d->select( 'products' );
+        $products = $d->select( 'products', '', 'prod_status != \'4\'' );
         foreach( $products as $pk => $p ) {
             $data_meta = $d->select( 'product_meta', '', 'prod_meta_product = \''.$p['prod_id'].'\'' );
             $meta = [];
@@ -880,7 +880,7 @@ class ECOMMERCE {
         foreach( $meta as $meta_key => $meta_value ) {
             if( !empty( $product_id ) && $meta_value !== '' ) {
                 if( !empty( $new_product_id ) ) {
-                    $update = $db->update( 'product_meta', [ 'product_meta_value', 'product_meta_product' ], [ $meta_value, $new_product_id ], 'product_meta_name = \''.$meta_key.'\' AND product_meta_product = \''.$product_id.'\'' );
+                    $update = $db->update( 'product_meta', [ 'prod_meta_value', 'prod_meta_product' ], [ $meta_value, $new_product_id ], 'prod_meta_name = \''.$meta_key.'\' AND prod_meta_product = \''.$product_id.'\'' );
                     $update ? $success++ : '';
                 } else {
                     $data = [ 'name' => $meta_key, 'value' => $meta_value, 'product' => $product_id ];
@@ -923,7 +923,7 @@ function update_product_ajax(): void {
 
         // Check if page exists with same slug
         $exist = $db->select( 'products', 'prod_id', "prod_url = '{$p['url']}'" );
-        if( $exist ) {
+        if( $exist && empty( $id ) ) {
             ef('Product with same url exist! Please change product title and url!!');
             return;
         }
@@ -945,7 +945,7 @@ function update_product_ajax(): void {
                 // Update earlier product if exist as history
                 $update = $db->update( 'products', [ 'prod_status', 'prod_parent' ], [ 4, $saved ], "prod_id = {$id}" );
                 if( $update[0] > 0 ) {
-                    $e->update_product_metas( (int)$id, $p, $update[0] );
+                    $e->update_product_metas( (int)$id, $p, $saved );
                     es('Successfully updated product!');
                 } else {
                     ef('Failed to update product!');

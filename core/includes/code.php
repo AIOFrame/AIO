@@ -295,7 +295,7 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
         !defined( 'ICONS' ) ? define( 'ICONS', $icon_fonts ) : '';
         $fonts[ $icon_fonts ] = '';
     }
-    skel( ICONS );
+    //skel( ICONS );
     //skel( $fonts );
     $icons = is_array( ICONS ) ? implode( ',', ICONS ) : ICONS;
     $is_bootstrap = str_contains( strtolower( $icons ), 'bootstrap' );
