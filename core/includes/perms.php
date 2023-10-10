@@ -11,11 +11,11 @@ class PERMS {
             [ 'i' => 'perms', 't' => 'checkboxes', 'n' => 'Permissions', 'o' => $perms, 'c' => 12, 'iw' => 'row', 'i_p' => 4 ]
         ];
         $r = $f->_random();
-        !empty( $modal_class ) ? $c->pre_modal( $title, $modal_class ) : '';
+        !empty( $modal_class ) ? pre_modal( $title, $modal_class ) : '';
         $f->pre_process( 'data-wrap', 'update_user_type_ajax', $r, 'perm_', 2, 2 );
         $f->form( $user_type_fields, 'row', $r );
         $f->process_trigger('Save '.$title,'','','','.tac');
-        !empty( $modal_class ) ? $c->post_modal() : '';
+        !empty( $modal_class ) ? post_modal() : '';
     }
 
     function user_types(): void {

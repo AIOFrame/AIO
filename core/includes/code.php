@@ -388,6 +388,22 @@ function el( string $element = 'div', string $class = '', string $id = '', strin
     echo _el( $element, $class, $id, $content, $attrs, $translate );
 }
 
+function _article( string $class = '', string $attr = '', string $id = '' ): void {
+    echo __article( $class, $attr, $id );
+}
+
+function __article( string $class = '', string $attr = '', string $id = '' ): string {
+    return _pre( $id, $class, 'article', $attr );
+}
+
+function article_(): void {
+    echo article__();
+}
+
+function article__(): string {
+    return _post( 'article' );
+}
+
 function pre_tabs( string $class = '' ): void {
     pre('','tabs '.$class);
     pre('','tab_heads','div','data-store="tabs_'.str_replace( ' ', '_', $class ).'"');
