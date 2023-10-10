@@ -1,0 +1,169 @@
+.aio_form_builder {
+  display: flex;
+  gap: 20px;
+  height: 100%;
+  margin: 0 -10px;
+  ::-webkit-scrollbar {
+    max-width: 4px;
+    background: rgba(0,0,0,.1);
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #000;
+  }
+  .aio_form_fields {
+    flex:0 0 100px;
+    max-height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding:0 10px;
+    [data-fields-search] {
+      margin-bottom: 10px;
+      font-size: .9rem;
+      padding: 6px 0;
+      border-radius: 0;
+      border: 0;
+      border-bottom: 1px solid #ccc;
+    }
+    .form-btn {
+      width: 80px;
+      height: 60px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      position: relative;
+      cursor: pointer;
+      text-align: center;
+      border: var(--input_border_right) solid var(--input_border_color);
+      padding: 10px;
+      i {
+        color: #394057;
+        display: block;
+      }
+      span {
+        display: block;
+        width: 100%;
+        text-align: center;
+        text-transform: uppercase;
+        font-size: .6rem;
+        font-weight: bold;
+        letter-spacing: 1px;
+        opacity: .6;
+      }
+    }
+  }
+  .aio_form_view {
+    flex-grow: 1;
+  }
+  .aio_field_props {
+    flex: 0 0 calc(200px);
+    max-width: calc(200px);
+    max-height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 10px;
+  }
+  .form-options {
+    margin:20px 10px;
+  }
+}
+.field-options {
+  flex: 0 0 calc(100% - 180px);
+  padding: 20px 20px 0;
+  max-height: calc(100vh - 60px);
+  overflow-y: auto;
+}
+.field-group {
+  margin-bottom: 20px;
+  padding: 40px 20px 20px;
+  background: rgba(255,255,255,.1);
+  box-sizing: border-box;
+  border-radius: 10px;
+  position: relative;
+  .adv, .log {
+    position: absolute;
+    right: 40px;
+    top: 6px;
+    font-size: .8rem;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .log {
+    right: 130px;
+  }
+  .title {
+    position: absolute;
+    text-transform: uppercase;
+    left: 40px;
+    top: 15px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-size: .8rem;
+  }
+  .title:after {
+    content: '';
+    position: absolute;
+    left: -20px;
+    top: 0;
+    width: 15px;
+    height: 15px;
+  }
+  .trash {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+  }
+  label {
+    display: block;
+    font-size: .8rem;
+    margin: 15px 0 8px;
+    cursor: pointer;
+  }
+  input[type=text], select {
+    font-size: 1rem;
+    background: rgba(255,255,255,.15);
+    padding:12px;
+    border-radius: 6px;
+    width: 100%;
+    border: 0;
+    box-sizing: border-box;
+    outline: 0;
+    margin: 0;
+    color: #fff;
+    transition: .6s;
+  }
+  input[type=checkbox] {
+    width: 20px;
+    height: 20px;
+  }
+  select option {
+    color: #000;
+  }
+  input[type=text]:focus, select:focus {
+    background: rgba(255,255,255,.25);
+  }
+  .advanced, .logics {
+    height: 0;
+    overflow: hidden;
+  }
+}
+.field-group.adv {
+  .adv {
+    background: rgba(0,0,0,.3);
+  }
+  .advanced {
+    height: auto;
+  }
+}
+.field-group.log {
+  .log {
+    background: rgba(0,0,0,.3);
+  }
+  .logics {
+    height: auto;
+  }
+}
