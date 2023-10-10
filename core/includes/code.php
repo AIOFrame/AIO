@@ -285,16 +285,21 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
         reset_styles( $font1, $weight );
     }
     // Icon Fonts
+    $icon_fonts = str_contains( $icon_fonts, ',' ) ? explode( ',', $icon_fonts ) : $icon_fonts;
     if( !empty( $icon_fonts ) && is_array( $icon_fonts ) ) {
         foreach( $icon_fonts as $if ) {
             $fonts[ $if ] = '';
         }
-        !defined( 'ICONS' ) ? define( 'ICONS', $icon_fonts[0] ) : '';
+        !defined( 'ICONS' ) ? define( 'ICONS', $icon_fonts ) : '';
     } else if( !empty( $icon_fonts ) ) {
         !defined( 'ICONS' ) ? define( 'ICONS', $icon_fonts ) : '';
         $fonts[ $icon_fonts ] = '';
     }
-    $pre_styles = str_contains( strtolower( ICONS ), 'bootstrap' ) ? ( !empty( $pre_styles ) ? ( is_array( $pre_styles ) ? array_merge( [ 'bootstrap-icons', $pre_styles ] ) : $pre_styles.',bootstrap-icons' ) : 'bootstrap-icons' ) : $pre_styles;
+    skel( ICONS );
+    //skel( $fonts );
+    $icons = is_array( ICONS ) ? implode( ',', ICONS ) : ICONS;
+    $is_bootstrap = str_contains( strtolower( $icons ), 'bootstrap' );
+    $pre_styles = $is_bootstrap ? ( !empty( $pre_styles ) ? ( is_array( $pre_styles ) ? array_merge( [ 'bootstrap-icons', $pre_styles ] ) : $pre_styles.',bootstrap-icons' ) : 'bootstrap-icons' ) : $pre_styles;
     fonts( $fonts );
 
     // Appearance
@@ -491,12 +496,16 @@ function _table( array $rows = [], string $class = '' ): string {
     foreach( $rows as $row ) {
         $type = array_key_first( $row );
         $return .= in_array( $type, [ 'thead', 'head', 'h' ] ) ? '<thead>' : ( in_array( $type, [ 'tfoot', 'foot', 'f' ] ) ? '<tfoot>' : '<tbody>' );
-        foreach( $row as $cols ) {
-            $return .= '<tr>';
-            foreach( $cols as $c ) {
-                $return .= in_array( $type, [ 'thead', 'head', 'h' ] ) ? '<th>'.$c.'</th>' : '<td>'.$c.'</td>';
+        if( is_array( $row ) ) {
+            foreach( $row as $cols ) {
+                $return .= '<tr>';
+                if( is_array( $cols ) ) {
+                    foreach( $cols as $c ) {
+                        $return .= in_array( $type, [ 'thead', 'head', 'h' ] ) ? '<th>'.$c.'</th>' : '<td>'.$c.'</td>';
+                    }
+                }
+                $return .= '</tr>';
             }
-            $return .= '</tr>';
         }
         $return .= in_array( $type, [ 'thead', 'head', 'h' ] ) ? '</thead>' : ( in_array( $type, [ 'tfoot', 'foot', 'f' ] ) ? '</tfoot>' : '</tbody>' );
     }
@@ -677,8 +686,8 @@ function modal_trigger( string $modal_identifier = '', string $title = '' ): voi
     el('button','grad','',$title,'data-modal="'.$modal_identifier.'"',1);
 }
 
-function float_triggers( array $triggers ): void {
-    pre('','actions float');
+function float_triggers( array $triggers, string $wrap_class = '' ): void {
+    pre('','actions float '.$wrap_class);
     if( is_assoc( $triggers ) ) {
         foreach( $triggers as $tk => $tv ) {
             modal_trigger( $tk, $tv );

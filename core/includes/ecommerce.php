@@ -766,19 +766,23 @@ class ECOMMERCE {
         if( empty( $ads ) ) {
             no_content( 'No addresses created yet!' );
         } else {
+            $cs = get_countries('iso2');
             $f = new FORM();
-            $table[] = [ 'head' => [ 'ID', 'Name', 'Date', 'Visibility', 'Status', 'User', 'Actions' ] ];
+            $table[] = [ 'head' => [ 'Address Name', 'Receiver Name', 'Address', 'Email', 'Phone', 'Status', 'Actions' ] ];
             foreach( $ads as $p ) {
+                $country = !empty( $p['ua_country'] ) && isset( $cs[ $p['ua_country'] ] ) ? $cs[ $p['ua_country'] ] : $p['ua_country'];
+                $status = $p['ua_status'] == 1 ? 'Active' : 'Inactive';
                 $table[]['body'] = [
-                    $p['page_id'],
-                    $p['page_title'].'<div><small>/'.$p['page_url'].'</small></div>',
-                    easy_date($p['page_date']).'<div><small>'.T('Updated').': '.easy_date($p['page_update']).'</small></div>',
-                    (!empty($p['page_birth'])?'<div><small>'.T('Visible from').': '.easy_date($p['page_birth']).'</small></div>':'').(!empty($p['page_expiry'])?'<div><small>'.T('Visible till').': '.easy_date($p['page_expiry']).'</small></div>':''),
-                    $status[ $p['page_status'] ] ?? '',
-                    $p['user_name'],
+                    $p['ua_a_name'],
+                    $p['ua_name'],
+                    T('Address: ') . $p['ua_address'] . '<br/>' . T('Street: ') . $p['ua_street'] . '<br/>' . T('City: ') . $p['ua_city'] . '<br/>' . T('State: ') . $p['ua_state'] . '<br/>' .  T('Postal Code: ') . $p['ua_po'] . '<br/>' .  T('Country: ') . $country . '<br/>',
+                    _a( 'mailto:'.$p['ua_email'], $p['ua_email'] ),
+                    _a( 'tel:'.$p['ua_code'].$p['ua_phone'], $p['ua_code'].$p['ua_phone'] ),
+                    $status,
                     _pre('','acts').$f->_edit_html( $edit_form, $p, 'div', '', '', '', 'mat-ico', 'edit' )._post()
                 ];
             }
+            //skel( $table );
             table_view( 'address_list', $table, 'address_list' );
         }
     }
@@ -789,8 +793,21 @@ class ECOMMERCE {
             no_content( 'No addresses created yet!' );
         } else {
             $cards = [];
+            $cs = get_countries('iso2');
             foreach( $ads as $p ) {
-                $cards[] = _card( 'br15', $p['page_title'], '', '/'.$p['page_url'], '', '', $status[ $p['page_status'] ] ?? '', '', [], [], $edit_form, $p, 'pages', "page_id = {$p['page_id']}" );
+                $status = $p['ua_status'] == 1 ? 'Active' : 'Inactive';
+                $status_class = $p['ua_status'] == 1 ? 'green' : 'grey';
+                $country = !empty( $p['ua_country'] ) && isset( $cs[ $p['ua_country'] ] ) ? $cs[ $p['ua_country'] ] : $p['ua_country'];
+                //skel( $p );
+                $data = [
+                    [ T('Address'), $p['ua_address'] ],
+                    [ T('Street'), $p['ua_street'] ],
+                    [ T('City'), $p['ua_city'] ],
+                    [ T('State'), $p['ua_state'] ],
+                    [ T('Postal'), $p['ua_po'] ],
+                    [ T('Country'), $country ],
+                ];
+                $cards[] = _card( 'br15', $p['ua_name'], '', $p['ua_a_name'], '', '', $status, $status_class, $data, [], $edit_form, $p, 'addresses', "ua_id = {$p['ua_id']}" );
             }
             grid_view( '', $cards, '', $cols );
         }
