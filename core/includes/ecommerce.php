@@ -687,7 +687,7 @@ class ECOMMERCE {
         post();
     }
 
-    function cart( string $close_content = '', string $wrapper_id = 'aio_cart_wrap', string $wrapper_class = 'aio_cart_wrap', string $cart_item_class = '', string $image_class = '', string $title_class = '', string $price_class = '', string $quantity_class = '', string $total_class = '' ): void {
+    function cart( bool $editable = false, string $close_content = '', string $wrapper_id = 'aio_cart_wrap', string $wrapper_class = 'aio_cart_wrap', string $cart_item_class = '', string $image_class = '', string $title_class = '', string $price_class = '', string $quantity_class = '', string $total_class = '' ): void {
         $f = new FORM();
         $e = Encrypt::initiate();
         global $options;
@@ -697,30 +697,38 @@ class ECOMMERCE {
             div( 'aio_cart_items', 'aio_cart_items', '', 'data-cart-items' );
             div( 'aio_cart_empty', 'aio_cart_empty', $empty_cart_content, 'data-empty-cart' );
             pre( 'aio_cart_item_template', 'aio_cart_item_template dn', 'div', 'data-cart-item-template' );
-                pre( '', 'cart_item '.$cart_item_class );
-                    pre( '', 'cart_item df' );
+                pre( '', 'cart_item_wrap '.$cart_item_class );
+                    pre( '', 'cart_item fg df' );
                         pre( '', 'cart_item_image_wrap '.$image_class, 'a', 'href="{{url}}"' );
                             img( '{{image}}', '', 'cart_item_image', '', '', 'data-img' );
                         post( 'a' );
                         pre( '', 'cart_title_wrap '.$title_class, 'a', 'href="{{url}}" data-desc' );
                             div( '', 'cart_item_title', '{{title}}', 'data-title' );
                             div( '', 'cart_item_params', '{{params}}', 'data-params' );
-                        post( 'a' );
-                        pre( '', 'cart_price_wrap '.$price_class );
                             div( '', 'cart_item_price', '{{price_view}}', 'data-price' );
-                        post();
+                        post( 'a' );
+                        //pre( '', 'cart_price_wrap '.$price_class );
+                        //post();
                         pre( '', 'cart_quantity_wrap '.$quantity_class );
                             //div( '', 'cart_item_quantity', '{{quantity}}', 'data-quantity' );
-                            $f->text( 'quantity', '', '', 1, 'value="{{quantity}}" data-quantity' );
+                            if( $editable ) {
+                                el( 'button', '', '', '-', 'data-reduce' );
+                                $f->text( 'quantity', '', '', 1, 'value="{{quantity}}" data-quantity' );
+                                el( 'button', '', '', '+', 'data-increase' );
+                            } else {
+                                div( '', 'cart_item_quantity', 'x{{quantity}}', 'data-quantity' );
+                            }
                         post();
                         pre( '', 'cart_total_wrap '.$total_class );
-                            div( '', 'cart_item_total', '{{total_view}}', 'data-total' );
+                            div( '', 'cart_item_total tar', '{{total_view}}', 'data-total' );
                         post();
                     post( );
-                    $f->pre_process( ' ', 'remove_item_from_cart_ajax', '', '', 0, 0, [], '', 'render_cart', 'Are you sure to remove item from cart?' );
-                    $f->text('id','','','','value="{{id}}" style="display: none"');
-                    $f->process_trigger( $close_content, 'remove_item', 'data-remove', '', '', '', 'div' );
-                    $f->post_process();
+                    if( $editable ) {
+                        $f->pre_process(' ', 'remove_item_from_cart_ajax', '', '', 0, 0, [], '', 'render_cart', 'Are you sure to remove item from cart?');
+                        $f->text('id', '', '', '', 'value="{{id}}" style="display: none"');
+                        $f->process_trigger($close_content, 'remove_item', 'data-remove', '', '', '', 'div');
+                        $f->post_process();
+                    }
                 post();
             post();
         post();
@@ -748,6 +756,26 @@ class ECOMMERCE {
      */
     function user_wishlist(): void {
 
+    }
+
+    function address_picker(): void {
+        $ads = $this->_addresses();
+        if( empty( $ads ) ) {
+            $this->address_form( '', 'Address', [], 'accordion', 0 );
+        } else {
+            pre( '', 'address_picker' );
+                $cs = get_countries( 'iso2' );
+                $addresses = [];
+                foreach( $ads as $ua ) {
+                    $country = !empty( $ua['ua_country'] ) && isset( $cs[ $ua['ua_country'] ] ) ? $cs[ $ua['ua_country'] ] : $ua['ua_country'];
+                    $addresses[ $ua['ua_id'] ] = _el( 'h3', '', '', $ua['ua_a_name'] . ' - ' . $ua['ua_name'] ) . ' ' . _el( 'div', 'address_sub', '', _el( 'div', 'address', '', $ua['ua_address'] ) . _el( 'div', 'street', '', $ua['ua_street'] ) . _el( 'div', 'city', '', $ua['ua_city'] ) . _el( 'div', 'state', '', $ua['ua_state'] ) . _el( 'div', 'postal_code', '', $ua['ua_po'] ) . _el( 'div', 'country', '', $country ) . _el( 'div', 'email', '', $ua['ua_email'] ) . _el( 'div', 'phone', '', $ua['ua_code'].$ua['ua_phone'] ) );
+                }
+                $f = new FORM();
+                $f->radios('delivery','Delivery Addresses',$addresses,'','data-checkout',0,'.address_list','','.row',12);
+                $f->radios('billing','Billing Addresses',$addresses,'','data-checkout',0,'.address_list','','.row',12);
+                $f->textarea('notes','Notes','','','data-checkout');
+            post();
+        }
     }
 
     /**
