@@ -54,6 +54,14 @@
   }
   .aio_form_view {
     flex-grow: 1;
+    max-height: 100%;
+    overflow-y: auto;
+    [data-field] {
+      border: 1px solid transparent;
+    }
+    [data-field].on {
+      border: 1px solid var(--primary_color);
+    }
   }
   .aio_field_props {
     flex: 0 0 calc(200px);
@@ -62,6 +70,14 @@
     overflow-y: auto;
     overflow-x: hidden;
     padding: 0 10px;
+    label:not([title=Required],[title=Translate]) {
+      display: none;
+    }
+    input:not([type=radio],[type=checkbox]) {
+      margin-bottom: 10px;
+      padding: 10px;
+      font-size: .9rem;
+    }
   }
   .form-options {
     margin:20px 10px;

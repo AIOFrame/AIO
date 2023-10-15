@@ -1622,7 +1622,7 @@ class FORM {
         } else if( is_numeric( $pre ) ) {
             $return = $pre == 0 ? _pre('','col') : _pre('','col-12 col-md-'.$pre);
         } else {
-            $return = str_contains( $pre, '.' ) ? _pre('',str_replace('.','',$pre)) : $pre;
+            $return = str_contains( $pre, '.' ) ? _pre( '', str_replace( '.', '', $pre ) ) : ( str_contains( $pre, '[' ) || str_contains( $pre, ']' ) ? _pre('','','div',str_replace('[','',str_replace(']','',$pre))) : $pre );
         }
         return $return;
     }
@@ -1632,7 +1632,7 @@ class FORM {
     }
 
     function _post( string|float|int $pre, string $post = '' ): string {
-        return !empty( $post ) ? $post : ( is_numeric( $pre ) || str_contains( $pre, '.' ) ? '</div>' : '' );
+        return !empty( $post ) ? $post : ( is_numeric( $pre ) || str_contains( $pre, '.' ) || str_contains( $pre, '[' )|| str_contains( $pre, ']' ) ? '</div>' : '' );
     }
 
     function _random(): string {

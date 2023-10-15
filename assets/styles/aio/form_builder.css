@@ -55,6 +55,14 @@
 }
 .aio_form_builder .aio_form_view {
   flex-grow: 1;
+  max-height: 100%;
+  overflow-y: auto;
+}
+.aio_form_builder .aio_form_view [data-field] {
+  border: 1px solid transparent;
+}
+.aio_form_builder .aio_form_view [data-field].on {
+  border: 1px solid var(--primary_color);
 }
 .aio_form_builder .aio_field_props {
   flex: 0 0 200px;
@@ -63,6 +71,14 @@
   overflow-y: auto;
   overflow-x: hidden;
   padding: 0 10px;
+}
+.aio_form_builder .aio_field_props label:not([title=Required], [title=Translate]) {
+  display: none;
+}
+.aio_form_builder .aio_field_props input:not([type=radio], [type=checkbox]) {
+  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 0.9rem;
 }
 .aio_form_builder .form-options {
   margin: 20px 10px;
