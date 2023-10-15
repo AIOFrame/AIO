@@ -33,15 +33,18 @@ document.addEventListener('DOMContentLoaded', function () {
             //console.log('[data-key='+i+']');
             //console.log( props[i] );
             //console.log( f );
-            $(p).find('[data-key='+i+']').attr('target',id).val( ( props[i] !== undefined ? props[i] : '') );
+            $(p).find('[data-key='+i+']').val( ( props[i] !== undefined ? props[i] : '') );
         });
+        $('.aio_field_props').data('target',id);
+
+        build_fields( $(this).parents('[data-form-builder-field]') );
     })
 
     .on('keyup change','[data-form-prop]',function(){
         // Fetch Property Data
         //let p = $(this).find('.aio_field_props');
-        let t = '#' + $(this).attr('target');
-        console.log( t );
+        let t = '#' + $(this).parents('.aio_field_props').data('target');
+        //console.log( t );
         let k = $(this).data('key');
         let v = $(this).val();
         //console.log( v );
@@ -50,18 +53,22 @@ document.addEventListener('DOMContentLoaded', function () {
         $( t ).data( k, v );
 
         // Update Visibility
-        k === 't' ? $( t ).find( 'label' ).html( v ) : '';
-        k === 'p' ? $( t ).find( 'input' ).attr( 'placeholder', v ) : '';
-        k === 'i' ? $( t ).find( 'input' ).attr( 'data-key', v ) : '';
-        k === 'v' ? $( t ).find( 'input' ).val( v ) : '';
-        k === 'a' ? $( t ).find( 'input' ).attr( 'data-a', v ) : '';
-        k === 'min' ? $( t ).find( 'input' ).attr( 'minlength', v ) : '';
-        k === 'max' ? $( t ).find( 'input' ).attr( 'maxlength', v ) : '';
-        k === 'c' ? $( t ).attr('class','').addClass('col-12 col-md-'+v).find( 'input' ).attr( 'data-c', v ) : '';
-        k === 'r' && v === '2' ? $( t ).find( 'input' ).attr( 'required', true ) : $( t ).find( 'input' ).attr( 'required', false );
-        k === 'l' && v === '2' ? $( t ).find( 'input' ).attr( 'data-l', 'true' ) : $( t ).find( 'input' ).attr( 'data-l', 'false' );
+        let f = $( t ).find( '[data-key]' );
+        k === 'l' ? $( t ).find( 'label' ).html( v ) : '';
+        k === 'l' ? f.attr( 'title', v ) : '';
+        k === 'p' ? f.attr( 'placeholder', v ) : '';
+        k === 'i' ? f.attr( 'data-key', v ) : '';
+        k === 'v' ? f.val( v ) : '';
+        k === 'a' ? f.attr( 'data-a', v ) : '';
+        k === 'min' ? f.attr( 'minlength', v ) : '';
+        k === 'max' ? f.attr( 'maxlength', v ) : '';
+        k === 'c' ? $( t ).attr('class','').addClass('col-12 col-md-'+v).find( '[data-key]' ).attr( 'data-c', v ) : '';
+        k === 'r' && $(f).is(':checked') ? f.attr( 'required', true ) : f.attr( 'required', false );
+        k === 'tr' && $(f).is(':checked') ? f.attr( 'data-l', 'true' ) : f.attr( 'data-l', 'false' );
         console.log( k );
         console.log( v );
+        // Store Form Structure
+        build_fields( $(this).parents('[data-form-builder-field]') );
     })
 
 
@@ -69,8 +76,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function build_fields( target ) {
     // Get fields
-    //let fields = $('[data-key='+target+']').val();
-    //fields = fields !== '' ? JSON.parse( fields ) : [];
+    let data = [];
+    //console.log( target );
+    let fields = $(target).find('[data-field]');
+    $( fields ).each(function (i, fg) {
+        //let d = $(f).data();
+        let f = $(fg).find('[data-key]');
+        console.log( $(f) );
+        console.log( $(f).data('key') );
+        let o = { 't': $(fg).data('field'), 'i': $(f).attr('data-key'), 'p': $(f).attr('placeholder'), 'l': $(f).attr('title'), 'v': $(f).val(), 'a': $(f).attr('data-a'), 'c': $(f).attr('data-c'), 'tr': $(f).attr('data-tr') === 'true', 'r': $(f).attr('required') };
+        //console.log( o );
+        data.push( o )
+    });
+    //console.log( data );
+    // Fill the input
+    $(target).prev().find('[data-key]').val( JSON.stringify( data ) );
 }
 
 function render_fields( target ) {

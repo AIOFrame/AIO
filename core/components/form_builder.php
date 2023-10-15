@@ -9,6 +9,7 @@ pre( '', 'aio_form_builder' );
         'select' => 'expand_more',
         'radio' => 'radio_button_checked',
         'checkbox' => 'check_box',
+        'slide' => 'check_box',
         'password' => 'password',
         'color' => 'palette',
         'date' => 'event',
@@ -21,7 +22,10 @@ pre( '', 'aio_form_builder' );
         'hidden' => 'hide_source',
         'number' => 'pin',
         'tel' => 'smartphone',
-        'url' => 'link'
+        'url' => 'link',
+        'richtext' => 'text',
+        'country' => 'world',
+        'map' => 'map',
     ];
     $f->input('search','','','Search...','','data-fields-search');
         pre( '', 'aio_form_fields_wrap' );
@@ -38,15 +42,33 @@ pre( '', 'aio_form_builder' );
     // Form View
     $fr = '[data-{{type}}-template] class="col-12"';
     pre( '', 'aio_templates', 'div', 'style="display: none"' );
-        $f->text('text','Text','Text','','',str_replace('{{type}}','text',$fr));
-        $f->textarea('textarea','Textarea','Textarea','','',str_replace('{{type}}','textarea',$fr));
+        $f->text('text','Text','','','',str_replace('{{type}}','text',$fr));
+        $f->textarea('textarea','Textarea','','','',str_replace('{{type}}','textarea',$fr));
+        $f->select('select','Select','',[],'',str_replace('{{type}}','select',$fr));
+        $f->radios('radios','Radios',[],'',str_replace('{{type}}','radios',$fr));
+        $f->checkboxes('checkboxes','Checkboxes',[],'',str_replace('{{type}}','checkboxes',$fr));
+        $f->radios('slide','Slide',[],'',str_replace('{{type}}','slide',$fr));
+        $f->input('password','password','Password','','',str_replace('{{type}}','password',$fr));
+        $f->input('text','color','Color','','',str_replace('{{type}}','color',$fr));
+        $f->input('date','date','Date','','',str_replace('{{type}}','date',$fr));
+        $f->input('datetime','datetime','DateTime','','',str_replace('{{type}}','datetime',$fr));
+        $f->input('time','time','Time','','',str_replace('{{type}}','time',$fr));
+        $f->input('range','range','Range','','',str_replace('{{type}}','range',$fr));
+        $f->input('email','email','Email','','',str_replace('{{type}}','email',$fr));
+        $f->input('file','file','File','','',str_replace('{{type}}','file',$fr));
+        $f->input('file','files','Files','','',str_replace('{{type}}','files',$fr).' multiple');
+        $f->input('hidden','hidden','Hidden','','',str_replace('{{type}}','hidden',$fr));
+        $f->input('number','number','Number','','',str_replace('{{number}}','textarea',$fr));
+        $f->input('url','url','URL','','',str_replace('{{type}}','url',$fr));
+        $f->select('country','Country','',[],'',str_replace('{{type}}','country',$fr));
+        $f->input('map','map','Google Map','','',str_replace('{{type}}','map',$fr));
     post();
 
     // Field Properties
     pre( '', 'aio_field_props' );
 
         h4( 'Basic Options', 1 );
-        $f->text('t','Title','Title','','data-form-prop');
+        $f->text('l','Title / Label','Title / Label','','data-form-prop');
         $f->text('p','Placeholder','Placeholder','','data-form-prop');
         $f->text('i','Identity','Identity','','data-form-prop data-no-space');
         $f->text('v','Default Value','Default Value','','data-form-prop');
@@ -61,7 +83,7 @@ pre( '', 'aio_form_builder' );
             $f->text('min','Min','Min','','data-form-prop',6);
             $f->text('max','Max','Max','','data-form-prop',6);
             $f->slide('r','Required','Required','',0,'m','data-form-prop',6);
-            $f->slide('l','Translate','Translate','',1,'m','data-form-prop',6);
+            $f->slide('tr','Translate','Translate','',1,'m','data-form-prop',6);
             $f->select2('c','Bootstrap Column','Bootstrap Column',$bootstrap_cols,12,'data-form-prop',12,1);
         r_();
 

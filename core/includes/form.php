@@ -994,7 +994,7 @@ class FORM {
 
     function form_builder( string|array $id, string $label = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', int|float $height = 200, string $post = '' ): void {
         $this->pre( $pre );
-        pre( '', 'dn', 'div', 'style="display:none"' );
+        pre( '', 'd', 'div', 'style="display:non"' );
             $this->textarea( $id, $label, '', $value, $attrs . ' data-form-field="'.$id.'"' );
         post();
         pre( '', '', 'div', 'style="height:'.$height.'px" data-form-builder-field="'.$id.'"' );
