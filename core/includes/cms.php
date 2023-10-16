@@ -184,8 +184,8 @@ class CMS {
         $f->pre_process( 'data-wrap id="static_widget_form"', 'widgets', 'widget', 'widget_', 2, 2 );
         _r();
         $f->text('name','Widget Name','Ex: Social Widget','','data-widget',4);
-        $f->text('desc','Widget Short Description','Ex: Displays a social platform sharing widget','','data-widget',4);
-        $icon_title = defined( 'ICONS' ) ? ( str_contains( ICONS, 'Material' ) ? 'Widget Material Icon' : ( str_contains( ICONS, 'bootstrap' ) ? 'Widget Material Icon' : 'Widget Icon' ) ) : 'Widget Icon';
+        $f->text('desc','Description','Ex: Displays a social platform sharing widget','','data-widget',4);
+        $icon_title = defined( 'ICONS' ) ? ( str_contains( ICONS, 'Material' ) ? 'Material Icon' : ( str_contains( ICONS, 'bootstrap' ) ? 'Bootstrap Icon' : 'Widget Icon' ) ) : 'Widget Icon';
         $f->text('icon',$icon_title,'Ex: lightbulb','','data-widget',2);
         $f->slide('status','Status','','',1,'m','data-widget',2);
         r_();
