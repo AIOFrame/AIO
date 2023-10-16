@@ -57,17 +57,20 @@
   flex-grow: 1;
   max-height: 100%;
   overflow-y: auto;
-  align-items: flex-start;
+  overflow-x: hidden;
 }
 .aio_form_builder .aio_form_view [data-field] {
-  border: 1px solid transparent;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  align-self: flex-start;
 }
 .aio_form_builder .aio_form_view [data-field].on {
-  border: 1px solid var(--primary_color);
+  border-top: 1px solid var(--primary_color);
+  border-bottom: 1px solid var(--primary_color);
 }
 .aio_form_builder .aio_field_props {
-  flex: 0 0 200px;
-  max-width: 200px;
+  flex: 0 0 calc(200px);
+  max-width: calc(200px);
   max-height: 100%;
   overflow-y: auto;
   overflow-x: hidden;

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* Inputs */
 label {
   font-size: 0.9rem;
@@ -40,6 +41,40 @@ label i {
   border-bottom: var(--input_border_bottom) solid var(--input_border_color_active);
   border-left: var(--input_border_left) solid var(--input_border_color_active);
   color: var(--input_color_active);
+}
+
+[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  background: rgba(0, 0, 0, 0.1);
+  outline: none;
+  opacity: 1;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+  border-radius: 10px;
+  margin: var(--input_margin_top) var(--input_margin_right) var(--input_margin_bottom) var(--input_margin_left);
+}
+
+[type=range]:hover {
+  opacity: 1;
+}
+
+[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 30px;
+  height: 30px;
+  background: -webkit-linear-gradient(45deg, var(--primary_color), var(--secondary_color));
+  cursor: pointer;
+  border-radius: 15px;
+}
+
+[type=range]::-moz-range-thumb {
+  width: 30px;
+  height: 30px;
+  background: #04AA6D;
+  cursor: pointer;
 }
 
 input.empty, select.empty, select.empty + .select2 .select2-selection--single,
@@ -316,7 +351,7 @@ select.mb0 + .select2-container {
 }
 .select2-container--default .select2-selection--single .select2-selection__arrow:after {
   font-family: "MaterialIcons", sans-serif;
-  content: "\e5cf";
+  content: "";
   font-size: 1.6rem;
   line-height: 26px;
 }
@@ -356,7 +391,7 @@ select.mb0 + .select2-container {
   left: 10px;
   top: 50%;
   transform: translateY(-50%);
-  content: "\e8b6";
+  content: "";
   box-shadow: none;
   font-size: 1.2rem;
   font-family: "MaterialIcons", sans-serif;
@@ -420,7 +455,7 @@ select.mb0 + .select2-container {
 .color_picker_wrap .trans .grad {
   height: 100%;
   width: 100%;
-  background: linear-gradient(90deg, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%);
+  background: linear-gradient(90deg, white 0%, rgba(255, 255, 255, 0) 100%);
 }
 .color_picker_wrap .trans .set {
   height: 16px;
@@ -721,7 +756,7 @@ body.d [type=checkbox].switch, body.d [type=radio].switch {
 }
 body.d [type=radio]:not(:checked):not(.slide), body.d [type=checkbox]:not(:checked):not(.slide),
 body.d [type=radio]:not(:checked):not(.switch), body.d [type=checkbox]:not(:checked):not(.switch) {
-  background: rgb(30, 30, 30);
+  background: #1e1e1e;
 }
 body.d [type=checkbox]:not(:checked).slide:before, body.d [type=radio]:not(:checked).slide:before,
 body.d [type=checkbox]:not(:checked).switch:before, body.d [type=radio]:not(:checked).switch:before {
@@ -731,7 +766,7 @@ body.d .color_picker_wrap {
   background: rgba(0, 0, 0, 0.8);
 }
 body.d .color_picker_wrap input {
-  background: rgb(30, 30, 30);
+  background: #1e1e1e;
 }
 body.d .color_picker_wrap .close {
   color: #fff;

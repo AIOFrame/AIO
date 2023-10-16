@@ -183,11 +183,11 @@ class CMS {
         $r = $f->_random();
         $f->pre_process( 'data-wrap id="static_widget_form"', 'widgets', 'widget', 'widget_', 2, 2 );
         _r();
-        $f->text('name','Widget Name','Ex: Social Widget','','data-widget',8);
+        $f->text('name','Widget Name','Ex: Social Widget','','data-widget',4);
+        $f->text('desc','Widget Short Description','Ex: Displays a social platform sharing widget','','data-widget',4);
         $icon_title = defined( 'ICONS' ) ? ( str_contains( ICONS, 'Material' ) ? 'Widget Material Icon' : ( str_contains( ICONS, 'bootstrap' ) ? 'Widget Material Icon' : 'Widget Icon' ) ) : 'Widget Icon';
-        $f->text('icon',$icon_title,'Ex: lightbulb','','data-widget',4);
-        $f->text('desc','Widget Short Description','Ex: Displays a social platform sharing widget','','data-widget',8);
-        $f->slide('status','Status','Disabled','Enabled',1,'m','data-widget',4);
+        $f->text('icon',$icon_title,'Ex: lightbulb','','data-widget',2);
+        $f->slide('status','Status','','',1,'m','data-widget',2);
         r_();
         pre_tabs('widget_tabs material mb20');
             tab('Widget Fields',1);
@@ -197,7 +197,7 @@ class CMS {
         post_tabs();
         pre('widget_data');
             pre('widget_fields_data');
-                $f->form_builder('form','Widget Fields','','data-widget');
+                $f->form_builder('form','Widget Fields','','data-widget','',400);
             post();
             pre('html_code_data','dn');
                 div('widget_tags','widget_tags');

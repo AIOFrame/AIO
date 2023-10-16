@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let template = $(parent).find('[data-'+type+'-template]')[0].outerHTML;
         template = template.replaceAll('data-'+type+'-template=""','data-field="'+type+'" id="'+type+'_'+random+'"');
         // Insert Template
-        $(parent).find('.aio_form_view').append(template);
+        $(parent).find('.aio_form_view > .row').append(template);
         // Set fields structure
         build_fields( target );
     })
@@ -60,11 +60,13 @@ document.addEventListener('DOMContentLoaded', function () {
         k === 'i' ? f.attr( 'data-key', v ) : '';
         k === 'v' ? f.val( v ) : '';
         k === 'a' ? f.attr( 'data-a', v ) : '';
-        k === 'min' ? f.attr( 'minlength', v ) : '';
-        k === 'max' ? f.attr( 'maxlength', v ) : '';
+        k === 'min' ? f.attr( 'min', v ) : '';
+        k === 'minlength' ? f.attr( 'minlength', v ) : '';
+        k === 'max' ? f.attr( 'max', v ) : '';
+        k === 'maxlength' ? f.attr( 'maxlength', v ) : '';
         k === 'c' ? $( t ).attr('class','').addClass('col-12 col-md-'+v).find( '[data-key]' ).attr( 'data-c', v ) : '';
-        k === 'r' && $(f).is(':checked') ? f.attr( 'required', true ) : f.attr( 'required', false );
-        k === 'tr' && $(f).is(':checked') ? f.attr( 'data-l', 'true' ) : f.attr( 'data-l', 'false' );
+        k === 'r' && $('[data-form-prop][name=r]').is(':checked') ? f.attr( 'required', true ) : f.attr( 'required', false );
+        k === 'tr' && $('[data-form-prop][name=tr]').is(':checked') ? f.attr( 'data-l', 'true' ) : f.attr( 'data-l', 'false' );
         console.log( k );
         console.log( v );
         // Store Form Structure
@@ -84,7 +86,18 @@ function build_fields( target ) {
         let f = $(fg).find('[data-key]');
         console.log( $(f) );
         console.log( $(f).data('key') );
-        let o = { 't': $(fg).data('field'), 'i': $(f).attr('data-key'), 'p': $(f).attr('placeholder'), 'l': $(f).attr('title'), 'v': $(f).val(), 'a': $(f).attr('data-a'), 'c': $(f).attr('data-c'), 'tr': $(f).attr('data-tr') === 'true', 'r': $(f).attr('required') };
+        let o = { 't': $(fg).data('field'), 'i': $(f).attr('data-key'), 'l': $(f).attr('title'), 'v': $(f).val() };
+        // Placeholder
+        let p = $(f).attr('placeholder');
+        p !== undefined && p !== '' ? o['p'] = p : '';
+        // Attributes
+        let a = $(f).attr('data-a');
+        a !== undefined && a !== '' ? o['a'] = a : '';
+        console.log( $(f).attr('data-tr') );
+        console.log( $(f).attr('required') );
+        // Bootstrap Column
+        let c = $(f).attr('data-c');
+        c !== undefined && c !== '' ? o['c'] = c : '';
         //console.log( o );
         data.push( o )
     });

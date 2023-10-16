@@ -82,6 +82,36 @@ label {
   border-left:$border-left solid $border-color-active;
   color: $color-active;
 }
+[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  background: rgba(0,0,0,.1);
+  outline: none;
+  opacity: 1;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  border-radius: 10px;
+  margin: var(--input_margin_top) var(--input_margin_right) var(--input_margin_bottom) var(--input_margin_left);
+}
+[type=range]:hover {
+  opacity: 1;
+}
+[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 30px;
+  height: 30px;
+  background: -webkit-linear-gradient( 45deg, $primary, $secondary );
+  cursor: pointer;
+  border-radius: 15px;
+}
+[type=range]::-moz-range-thumb {
+  width: 30px;
+  height: 30px;
+  background: #04AA6D;
+  cursor: pointer;
+}
 input.empty, select.empty, select.empty+.select2 .select2-selection--single,
 input.required, select.required, select.required+.select2 .select2-selection--single,
 input.invalid, select.invalid, select.invalid+.select2 .select2-selection--single,
