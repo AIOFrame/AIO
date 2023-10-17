@@ -1,0 +1,34 @@
+.aio_cb_widget_picker {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  [data-add-widget] {
+    border-radius: var(--input_radius);
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+    border: 2px dashed rgba(0,0,0,.1);
+    transition: .6s;
+    flex: 0 0 calc(20% - 20px);
+    margin-bottom: 20px;
+    i {
+      height: 40px;
+      line-height: 40px;
+      left: auto;
+      right: auto;
+      top: auto;
+      bottom: auto;
+      position: relative;
+      display: block;
+      margin: 0 auto;
+    }
+    span {
+
+    }
+  }
+  [data-add-widget]:hover {
+    border: 2px solid var(--primary_color);
+  }
+}

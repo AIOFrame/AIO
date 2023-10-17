@@ -657,7 +657,7 @@ function soon( string $date, string $text = 'Coming Soon...', string $bg = '', s
  * @param string $title Modal Title singular Ex: Contact, Student...
  * @param string $size Modal size s = small, m = medium, l = large, xl, f = full, l20, l40, l50, l60, l80, r20, r40, r50, r60, r80
  * @param string $target Database name if the data is supposed to store directly to db or ajax function name with _ajax at the end
- * @param array $fields Input fields to render
+ * @param array|string $fields Input fields to render
  * @param array $hidden Hidden data for Database
  * @param string $pre String to prepend to keys for database table columns
  * @param int $notify Notification Time in Seconds
@@ -671,14 +671,18 @@ function soon( string $date, string $text = 'Coming Soon...', string $bg = '', s
  * @param string $submit_text Text on submit button
  * @return void
  */
-function modal( string $title = '', string $size = 'm', string $target = '', array $fields = [], array $hidden = [], string $pre = '', int $notify = 0, int $reload = 0, string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '', string $submit_text = '' ): void {
+function modal( string $title = '', string $size = 'm', string $target = '', array|string $fields = [], array $hidden = [], string $pre = '', int $notify = 0, int $reload = 0, string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '', string $submit_text = '' ): void {
     $f = new FORM();
     $r = substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 8);
     pre_modal( $title, $size );
-    $f->pre_process( 'data-wrap', $target, $r, $pre, $notify, $reload, $hidden, $success_alert, $callback, $confirm, $redirect, $validator, $reset_fields );
-    $f->form( $fields, 'row', $r );
-    $f->process_trigger( !empty( $submit_text ) ? $submit_text : 'Save '.$title, 'mb0' );
-    $f->post_process();
+    if( is_array( $fields ) ) {
+        $f->pre_process( 'data-wrap', $target, $r, $pre, $notify, $reload, $hidden, $success_alert, $callback, $confirm, $redirect, $validator, $reset_fields );
+            $f->form( $fields, 'row', $r );
+            $f->process_trigger( !empty( $submit_text ) ? $submit_text : 'Save '.$title, 'mb0' );
+        $f->post_process();
+    } else {
+        echo $fields;
+    }
     post_modal();
 }
 

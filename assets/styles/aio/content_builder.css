@@ -1,0 +1,33 @@
+.aio_cb_widget_picker {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+.aio_cb_widget_picker [data-add-widget] {
+  border-radius: var(--input_radius);
+  text-align: center;
+  padding: 10px;
+  cursor: pointer;
+  border: 2px dashed rgba(0, 0, 0, 0.1);
+  transition: 0.6s;
+  flex: 0 0 calc(20% - 20px);
+  margin-bottom: 20px;
+}
+.aio_cb_widget_picker [data-add-widget] i {
+  height: 40px;
+  line-height: 40px;
+  left: auto;
+  right: auto;
+  top: auto;
+  bottom: auto;
+  position: relative;
+  display: block;
+  margin: 0 auto;
+}
+.aio_cb_widget_picker [data-add-widget]:hover {
+  border: 2px solid var(--primary_color);
+}
+
+/*# sourceMappingURL=content_builder.css.map */

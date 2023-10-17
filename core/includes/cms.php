@@ -8,6 +8,40 @@ class CMS {
 
     public array $page_statuses = [ 1 => 'Publicly Visible', 2 => 'Disabled', 3 => 'Draft', 4 => 'History' ];
 
+    public array $widgets = [
+        // Text Block
+        'text' => [
+            'icon' => 'text',
+            'name' => 'Text',
+            'desc' => 'A simple text widget',
+            'form' => [
+                [ 't' => 'textarea', 'i' => 'text', 'l' => 'Text Content', 'c' => 12 ]
+            ],
+            'html' => '<div>{{text}}</div>'
+        ],
+        // Icon
+        // Divider + text
+        // Info Box
+        // Tabs
+        // Image
+        // Gallery
+        // Accordion
+        // Slider
+        // Heading
+        // Button
+        // Video Player
+        // Audio Player
+        // Google Maps
+        // Page Gallery
+        // Product Gallery
+        // Blog Gallery
+        // Pricing
+        // Table
+        // Payment Button
+        // Progress Bar
+        // Custom Widgets
+    ];
+
     function __construct() {
 
     }
@@ -35,9 +69,13 @@ class CMS {
         !empty( $modal_class ) ? pre_modal( $page_type, $modal_class ) : '';
         $f->pre_process( 'data-wrap id="'.$page_type.'_form"', 'update_page_ajax', $r, 'p_', 2, 2, [ 'page_type' => strtolower( $page_type ) ] );
         _r();
-        _c(8);
-        $f->form( [ [ 't' => $content_builder ? 'content' : 'richtext', 'id' => 'content', 'n' => ucwords( $page_type ).' Content' ] ], '', $r );
-        c_();
+            _c(8);
+                if( $content_builder ) {
+                    $f->content_builder('content',ucwords( $page_type ).' Content','','','data-'.$r);
+                } else {
+                    $f->richtext('content',ucwords( $page_type ).' Content','','data-'.$r);
+                }
+            c_();
         _c(4);
         accordion( 'Identity', $f->_form( $publish_fields, 'row', $r ), 'br15 w on' );
         accordion( 'Visibility', $f->_form( $visibility_fields, 'row', $r ), 'br15 w on' );
@@ -170,23 +208,29 @@ class CMS {
 
     function content_builder( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', string $post = '' ): void {
         $f = new FORM();
-        $f->content( $id, $label, $placeholder, $value, $attrs, $pre, $post );
+        $f->content_builder( $id, $label, $placeholder, $value, $attrs, $pre, $post );
         // TODO: Content Builder Header / Footer
         // TODO: Content Builder Rows, Grids and Widgets
         // TODO: Content Builder Widget Picker
         // TODO: Content Builder Drag, Drop, Delete Widgets
     }
 
+    /**
+     * Renders a form to create static content widget
+     * @param string $title Title of the widget
+     * @param string $modal_class Size class of the modal if needed as popup
+     * @return void
+     */
     function static_widget_form( string $title = 'Widget Builder', string $modal_class = '' ): void {
         $f = new FORM();
         !empty( $modal_class ) ? pre_modal( $title, $modal_class ) : '';
         $r = $f->_random();
         $f->pre_process( 'data-wrap id="static_widget_form"', 'widgets', 'widget', 'widget_', 2, 2 );
         _r();
-        $f->text('name','Widget Name','Ex: Social Widget','','data-widget',4);
+        $f->text('name','Widget Name','Ex: Social Widget','','data-widget required',4);
         $f->text('desc','Description','Ex: Displays a social platform sharing widget','','data-widget',4);
         $icon_title = defined( 'ICONS' ) ? ( str_contains( ICONS, 'Material' ) ? 'Material Icon' : ( str_contains( ICONS, 'bootstrap' ) ? 'Bootstrap Icon' : 'Widget Icon' ) ) : 'Widget Icon';
-        $f->text('icon',$icon_title,'Ex: lightbulb','','data-widget',2);
+        $f->text('icon',$icon_title,'Ex: lightbulb','','data-widget required',2);
         $f->slide('status','Status','','',1,'m','data-widget',2);
         r_();
         pre_tabs('widget_tabs material mb20');
@@ -223,6 +267,19 @@ class CMS {
         !empty( $modal_class ) ? post_modal() : '';
     }
 
+    /**
+     * OBSOLETE - TO DELETE
+     * @param string $name
+     * @param string $desc
+     * @param string $image
+     * @param array $form_fields
+     * @param string $html
+     * @param string $ui_front
+     * @param string $ui_back
+     * @param string $ux_front
+     * @param string $ux_back
+     * @return array
+     */
     function static_widget( string $name, string $desc = '', string $image = '', array $form_fields = [], string $html = '', string $ui_front = '', string $ui_back = '', string $ux_front = '', string $ux_back = '' ): array {
         if( empty( $form_fields ) || empty( $html ) ) {
             return [ 0, T('Missing widget form fields or html code!') ];
@@ -243,29 +300,38 @@ class CMS {
         return $add ? [ $add, T('Successfully added widget!') ] : [ 0, T('Failed to register widget!') ];
     }
 
-    // TODO: Create following default widgets
-    // Rows and Grids
-    // Text Block
-    // Icon
-    // Divider + text
-    // Info Box
-    // Tabs
-    // Image
-    // Gallery
-    // Accordion
-    // Slider
-    // Heading
-    // Button
-    // Video Player
-    // Audio Player
-    // Google Maps
-    // Page Gallery
-    // Product Gallery
-    // Blog Gallery
-    // Pricing
-    // Table
-    // Payment Button
-    // Progress Bar
+    /**
+     * Fetches an available widget
+     * @param string|int $identity ID or Name of the widget
+     * @return void
+     */
+    function get_widget( string|int $identity ): void {
+        $d = new DB();
+        $w = is_numeric( $identity ) ? $d->select( 'widgets', '', 'widget_id = \''.$identity.'\'', 1 ) : $d->select( 'widgets', '', 'widget_name = \''.$identity.'\'', 1 );
+
+    }
+
+    function _widgets(): array {
+        $widgets = $this->widgets;
+        $db = new DB();
+        // PreBuilt Widgets
+        // TODO: Create following default widgets
+        $custom_widgets = $db->select( 'widgets', '', 'widget_status = \'1\'' );
+        if( !empty( $custom_widgets ) ) {
+            foreach( $custom_widgets as $cw ) {
+                $widgets[ str_replace(' ','_',$cw['widget_name']) ] = [
+                    'icon' => $cw['widget_icon'],
+                    'name' => $cw['widget_name'],
+                    'desc' => $cw['widget_desc'],
+                    'form' => $cw['widget_form'],
+                    'ui' => $cw['widget_ui_back'],
+                    'ux' => $cw['widget_ux_back'],
+                ];
+            }
+        }
+        return $widgets;
+    }
+
 
     function widgets( string $wrapper_class = '', int $cols = 4, string $modal_identity = '' ): void {
         $db = new DB();

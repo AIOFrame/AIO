@@ -58,8 +58,8 @@ function get_values( parent, attribute, prepend ) {
             pre_key = pre + name;
         else
             pre_key = pre + $(this).attr('class');
-        console.log("pre Key");
-        console.log(pre_key);
+        //console.log("pre Key");
+        //console.log(pre_key);
 
         let m = $(parent).find( '[name=' + name + ']' );
 
@@ -344,8 +344,8 @@ function clear( e, d ){
 // AJAX Data
 
 function process_data( e, ne ){
-    console.log(e);
-    console.log(ne);
+    //console.log(e);
+    //console.log(ne);
     //$(e).attr('disabled',true);
     let p;
     if( $(e).parents('[data-t]') !== undefined && $(e).parents('[data-t]') !== null && $(e).parents('[data-t]').length > 0 ) {
@@ -362,7 +362,6 @@ function process_data( e, ne ){
             $(p).attr('disabled',false).removeClass('load');
         },5000);
     }
-    elog('here');
 
     // Confirm
     let con = $(p).data('confirm');
@@ -392,7 +391,7 @@ function process_data( e, ne ){
     let required = is_empty( p, 'required' );
     if( required.length > 0 ) {
         $(p).removeClass('load');
-        console.log(required);
+        //console.log(required);
         $(e).attr('disabled',false).removeClass('load');
         let empty_note = $(p).data('empty') !== undefined ? $(p).data('empty') : 'The highlighted fields seem to be empty!';
         empty_note += '<div class="fields">';
@@ -406,11 +405,13 @@ function process_data( e, ne ){
         breaker.push(1);
     }
     //elog('testtt');
-
-    let invalid = validator( p );
+    //console.log( p );
+    //console.log( data );
+    //console.log( pre );
+    let invalid = validator( p, data );
     if( invalid.length > 0 ) {
         $(p).removeClass('load');
-        console.log(invalid);
+        //console.log(invalid);
         $(e).attr('disabled',false).removeClass('load');
         let invalid_note = $(p).data('invalid') !== undefined ? $(p).data('invalid') : 'The highlighted fields seem to be invalid!';
         invalid_note += '<div class="fields invalid_fields">';
@@ -612,7 +613,7 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
         let invalid = [];
         $.each( validations, function(i,v_func){
             let vr = eval( v_func + '(' + JSON.stringify( data ) + ')' );
-            console.log(vr);
+            //console.log(vr);
             if( !vr ) {
                 invalid.push(1);
             }

@@ -17,6 +17,7 @@ pre( '', 'aio_form_builder' );
         'time' => 'schedule',
         'range' => 'linear_scale',
         'email' => 'email',
+        'code' => 'code',
         'file' => 'attach_file',
         'files' => 'attachment',
         'hidden' => 'hide_source',
@@ -57,6 +58,7 @@ pre( '', 'aio_form_builder' );
         $f->input('time','time','Time','','','',str_replace('{{type}}','time',$fr));
         $f->input('range','range','Range','','','',str_replace('{{type}}','range',$fr));
         $f->input('email','email','Email','','','',str_replace('{{type}}','email',$fr));
+        $f->input('text','code','Code','','','',str_replace('{{type}}','code',$fr));
         $f->input('file','file','File','','','',str_replace('{{type}}','file',$fr));
         $f->input('file','files','Files','','','',str_replace('{{type}}','files',$fr).' multiple');
         $f->input('text','hidden','Hidden','','','',str_replace('{{type}}','hidden',$fr));
@@ -73,8 +75,8 @@ pre( '', 'aio_form_builder' );
         h4( 'Basic Options', 1 );
         $f->text('l','Title / Label','Title / Label','','data-form-prop');
         $f->text('p','Placeholder','Placeholder','','data-form-prop');
-        $f->text('i','Identity','Identity','','data-form-prop data-no-space');
         $f->text('v','Default Value','Default Value','','data-form-prop');
+        $f->text('i','Identity','Identity','','data-form-prop data-no-space');
 
         h4( 'Advanced Options', 1 );
         $bootstrap_cols = [];

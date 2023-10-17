@@ -73,6 +73,11 @@ document.addEventListener('DOMContentLoaded', function () {
         build_fields( $(this).parents('[data-form-builder-field]') );
     })
 
+    .on('keyup change','[data-form-prop][name=l]',function () {
+        let id = $(this).val().toLowerCase().replaceAll(' ','_');
+        $(this).parent().find('[data-form-prop][name=i]').val( id ).change();
+    })
+
 
 });
 

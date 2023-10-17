@@ -977,11 +977,18 @@ class FORM {
         return $return;
     }
 
-    function content( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', string $post = '' ): void {
-        echo $this->_content( $id, $label, $placeholder, $value, $attrs, $pre, $post );
+    function content_builder( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', int|float $height = 400, string $post = '' ): void {
+        $this->pre( $pre );
+        pre( '', 'd', 'div', 'style="display:non"' );
+            $this->textarea( $id, $label, '', $value, $attrs . ' data-content-field="'.$id.'"' );
+        post();
+        pre( '', '', 'div', 'style="height:'.$height.'px" data-content-builder-field="'.$id.'"' );
+            get_comp('content_builder');
+        post();
+        $this->post( $pre, $post );
     }
 
-    function _content( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', string $post = '' ): string {
+    /* function _content_builder( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', string $post = '' ): string {
         get_style('aio/content_builder');
         get_script('aio/content_builder');
         $random = $this->_random();
@@ -990,7 +997,7 @@ class FORM {
         $r .= _div( 'aio_content_builder_wrap_'.$random, 'aio_content_builder_wrap', _div( 'content_area_'.$random, 'content_area' ) . _div( 'content_widgets_'.$random, 'content_widgets' ) );
         $r .= $this->_post( $pre, $post );
         return $r;
-    }
+    } */
 
     function form_builder( string|array $id, string $label = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', int|float $height = 200, string $post = '' ): void {
         $this->pre( $pre );
@@ -1145,7 +1152,7 @@ class FORM {
             } else if( $type == 'rich' || $type == 'richtext' ) {
                 $return .= $this->_richtext( $id, $label, $val, $attrs, $pre, $post );
             } else if( in_array( $type, [ 'content_builder', 'content_build', 'content' ] ) ) {
-                $return .= $this->_content( $id, $label, $place, $val, $attrs, $pre, $post );
+                $return .= $this->_content_builder( $id, $label, $place, $val, $attrs, $pre, $post );
             } else if( $type == 'date' ) {
                 $range = $f['range'] ?? ( $f['r'] ?? '' );
                 $min = $f['min'] ?? '';
