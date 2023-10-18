@@ -10,7 +10,7 @@ $(document).ready(function(){
 
     // Modal Close Logics
     .on('click','.modal .close',function(){
-        $(this).parents('.modal').removeClass('on');
+        $(this).parent('.modal').removeClass('on');
         let removeFade = [];
         $('.modal').each(function(a,b){
             if( $(b).hasClass('on') ) {
@@ -24,7 +24,7 @@ $(document).ready(function(){
 })
 
 function reset_modal(e) {
-    let m = $(e).parents('.modal');
+    let m = $(e).parent('.modal');
     $(m).find('[data-add]').show();
     $(m).find('[data-update],[data-edit]').hide();
     $(m).data('id','');

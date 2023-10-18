@@ -1,3 +1,18 @@
+.aio_content_builder {
+  .add_button {
+    margin: 0;
+    width: 100%;
+    background: none;
+    font-size: 2rem;
+    font-weight: bold;
+    box-shadow: none;
+    color: #000;
+  }
+  .add_button:hover {
+    box-shadow: none;
+    color: var(--primary_color);
+  }
+}
 .aio_cb_widget_picker {
   display: flex;
   gap: 20px;
@@ -9,7 +24,7 @@
     text-align: center;
     padding: 10px;
     cursor: pointer;
-    border: 2px dashed rgba(0,0,0,.1);
+    border: 2px solid rgba(0,0,0,.1);
     transition: .6s;
     flex: 0 0 calc(20% - 20px);
     margin-bottom: 20px;
@@ -24,11 +39,13 @@
       display: block;
       margin: 0 auto;
     }
-    span {
-
+    .widget_title {
+      font-size: .8rem;
+      text-transform: uppercase;
     }
   }
   [data-add-widget]:hover {
-    border: 2px solid var(--primary_color);
+    box-shadow: 0 5px 15px rgba(0,0,0,.1);
+    transform: translateY(-2px);
   }
 }

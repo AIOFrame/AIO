@@ -319,7 +319,7 @@ class CMS {
         $custom_widgets = $db->select( 'widgets', '', 'widget_status = \'1\'' );
         if( !empty( $custom_widgets ) ) {
             foreach( $custom_widgets as $cw ) {
-                $widgets[ str_replace(' ','_',$cw['widget_name']) ] = [
+                $widgets[ strtolower( str_replace(' ','_',$cw['widget_name'] ) ) ] = [
                     'icon' => $cw['widget_icon'],
                     'name' => $cw['widget_name'],
                     'desc' => $cw['widget_desc'],

@@ -600,12 +600,16 @@ function card( string $class = '', string $title = '', string $link = '', string
     echo _card( $class, $title, $link, $desc, $image, $image_class, $status, $status_class, $data, $actions, $edit_modal, $edit_data, $delete_table, $delete_logic );
 }
 
-function pre_modal( string $title = '', string $size = '' ): void {
+function pre_modal( string $title = '', string $size = '', bool $editable = true ): void {
     $s = strtolower( str_replace( ' ', '_', $title ) );
     pre($s.'_modal','modal '.$size.' '.$s.'_modal');
         pre('','modal_head');
-            h2('New '.$title,1,'title','data-add');
-            h2('Update '.$title,1,'title','data-edit');
+            if( $editable ) {
+                h2('New '.$title,1,'title','data-add');
+                h2('Update '.$title,1,'title','data-edit');
+            } else {
+                h2($title,1,'title');
+            }
         post();
     el('div','close');
     pre('','modal_body');
@@ -655,6 +659,7 @@ function soon( string $date, string $text = 'Coming Soon...', string $bg = '', s
 
 /**
  * @param string $title Modal Title singular Ex: Contact, Student...
+ * @param bool $editable
  * @param string $size Modal size s = small, m = medium, l = large, xl, f = full, l20, l40, l50, l60, l80, r20, r40, r50, r60, r80
  * @param string $target Database name if the data is supposed to store directly to db or ajax function name with _ajax at the end
  * @param array|string $fields Input fields to render
@@ -671,10 +676,10 @@ function soon( string $date, string $text = 'Coming Soon...', string $bg = '', s
  * @param string $submit_text Text on submit button
  * @return void
  */
-function modal( string $title = '', string $size = 'm', string $target = '', array|string $fields = [], array $hidden = [], string $pre = '', int $notify = 0, int $reload = 0, string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '', string $submit_text = '' ): void {
+function modal( string $title = '', bool $editable = true, string $size = 'm', string $target = '', array|string $fields = [], array $hidden = [], string $pre = '', int $notify = 0, int $reload = 0, string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '', string $submit_text = '' ): void {
     $f = new FORM();
     $r = substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 8);
-    pre_modal( $title, $size );
+    pre_modal( $title, $size, $editable );
     if( is_array( $fields ) ) {
         $f->pre_process( 'data-wrap', $target, $r, $pre, $notify, $reload, $hidden, $success_alert, $callback, $confirm, $redirect, $validator, $reset_fields );
             $f->form( $fields, 'row', $r );

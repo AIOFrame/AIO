@@ -1,3 +1,17 @@
+.aio_content_builder .add_button {
+  margin: 0;
+  width: 100%;
+  background: none;
+  font-size: 2rem;
+  font-weight: bold;
+  box-shadow: none;
+  color: #000;
+}
+.aio_content_builder .add_button:hover {
+  box-shadow: none;
+  color: var(--primary_color);
+}
+
 .aio_cb_widget_picker {
   display: flex;
   gap: 20px;
@@ -10,7 +24,7 @@
   text-align: center;
   padding: 10px;
   cursor: pointer;
-  border: 2px dashed rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(0, 0, 0, 0.1);
   transition: 0.6s;
   flex: 0 0 calc(20% - 20px);
   margin-bottom: 20px;
@@ -26,8 +40,13 @@
   display: block;
   margin: 0 auto;
 }
+.aio_cb_widget_picker [data-add-widget] .widget_title {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
 .aio_cb_widget_picker [data-add-widget]:hover {
-  border: 2px solid var(--primary_color);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }
 
 /*# sourceMappingURL=content_builder.css.map */
