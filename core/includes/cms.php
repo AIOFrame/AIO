@@ -324,6 +324,7 @@ class CMS {
                     'name' => $cw['widget_name'],
                     'desc' => $cw['widget_desc'],
                     'form' => $cw['widget_form'],
+                    'html' => $cw['widget_html'],
                     'ui' => $cw['widget_ui_back'],
                     'ux' => $cw['widget_ux_back'],
                 ];

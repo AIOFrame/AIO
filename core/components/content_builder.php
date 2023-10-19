@@ -12,11 +12,20 @@ pre( '', 'aio_content_builder' );
     // Structural Templates
     pre( 'aio_cb_templates', 'aio_cb_templates', 'div', 'style="display: none"' );
         // Widget Template
-        div( '', 'widget', '', 'data-widget-template' );
+        $del_icon = _div( '', 'mat-ico', 'remove_circle', 'data-del' );
+        $widget_head = _div( '', 'widget_head', _div( '', 'widget_name', 'Widget', 'data-name' ) . $del_icon );
+        $widget_body = _div( '', 'widget_body', 'data-body' );
+        div( '', '', _div( '', 'widget_set', $widget_head . $widget_body ), 'data-widget-template' );
         // Rows Template
-        div( '', 'row', '', 'data-row-template' );
+        $row_left = _div( '', 'left', _div( '', 'mat-ico', 'drag_handle', 'data-drag' ) );
+        $min_icon = _div( '', 'mat-ico', 'expand_less', 'data-min' );
+        $max_icon = _div( '', 'mat-ico', 'expand_more', 'data-max' );
+        $row_right = _div( '', 'right', $min_icon . $max_icon . $del_icon );
+        $row_head = _div( '', 'row_title', $row_left . $row_right );
+        $row_body = _div( '', 'row', '', 'data-body' );
+        div( '', '', _div( '', 'row_set', $row_head . $row_body ), 'data-row-template' );
         // Column Template
-        div( '', 'col', '', 'data-col-template' );
+        div( '', '', _div( '', 'col', '', 'data-col' ), 'data-col-template' );
         // Add Button Template
         el( 'button', 'add_button', '', '+', 'data-add-template data-on=".choose_widgets_modal"' );
     post();
@@ -29,8 +38,7 @@ pre( '', 'aio_content_builder' );
         if( !empty( $widgets ) ) {
             //skel( $widgets );
             foreach( $widgets as $wk => $wd ) {
-                skel( $wk );
-                $widget_add_buttons = _div( '', 'col-12 col-md-3', _div( $wk, $wk.' add_widget', _el( 'i', 'mat-ico '.$wd['icon'], '', $wd['icon'] ) . _el( 'div', 'widget_title', '', $wd['name'], '', 1 ), 'data-off=".choose_widgets_modal" data-on="#'.strtolower($wk).'_modal" data-add-widget' ) );
+                $widget_add_buttons .= _div( '', 'col-12 col-md-3', _div( $wk, $wk.' add_widget', _el( 'i', 'mat-ico '.$wd['icon'], '', $wd['icon'] ) . _el( 'div', 'widget_title', '', $wd['name'], '', 1 ), 'data-off=".choose_widgets_modal" data-on="#'.strtolower($wk).'_modal" data-add-widget' ) );
             }
         }
         // Widget Picker Modal
@@ -43,7 +51,11 @@ pre( '', 'aio_content_builder' );
         foreach( $widgets as $wk => $wd ) {
             $form = is_array( $wd['form'] ) ? $wd['form'] : json_decode( $wd['form'], 1 );
             //skel( $form );
-            modal( $wd['name'], 0, 'b80', '', $form, [], $wk );
+            pre_modal( $wd['name'], 'b80', 0 );
+                //pre( $wd['name'].'_form'  )
+                $f->form( $form, 'row', $wd['name'] );
+            post_modal();
+            //modal( $wd['name'], 0, 'b80', '', $form, [], $wk );
         }
     }
     post();

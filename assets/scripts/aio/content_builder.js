@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    // Render the Rows and Grids
+    // Get Templates
+    let row = $('[data-row-template]').html();
+    console.log(row);
     // Add
 
 })
