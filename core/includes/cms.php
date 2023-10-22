@@ -244,7 +244,7 @@ class CMS {
                 $f->form_builder('form','Widget Fields','','data-widget','',400);
             post();
             pre('html_code_data','dn');
-                div('widget_tags','widget_tags');
+                div('widget_tags','','widget_tags');
                 $f->code('html','HTML Code','','data-widget');
             post();
             pre('styles_data','dn');
@@ -343,8 +343,8 @@ class CMS {
             //$f = new FORM();
             $cards = [];
             foreach( $widgets as $p ) {
-                $icon = defined( 'ICONS' ) && !empty( $p['widget_icon'] ) ? ( str_contains( ICONS, 'Material' ) ? _div('','mat-ico xxl',$p['widget_icon']) : ( str_contains( ICONS, 'bootstrap' ) ? _el('i','b bi-'.$p['widget_icon']) : $p['widget_icon'] ) ) : '-';
-                $cards[] = _card( 'br15', $p['widget_name'], '', $p['widget_desc'], _div('','pic',$icon), '', $p['widget_status'] == 1 ? 'Active' : 'Inactive', $p['widget_status'] == 1 ? 'green' : 'grey', [], [], $modal_identity, $p, 'widgets', "widget_id = {$p['widget_id']}" );
+                $icon = defined( 'ICONS' ) && !empty( $p['widget_icon'] ) ? ( str_contains( ICONS, 'Material' ) ? _div('mat-ico xxl',$p['widget_icon']) : ( str_contains( ICONS, 'bootstrap' ) ? _el('i','b bi-'.$p['widget_icon']) : $p['widget_icon'] ) ) : '-';
+                $cards[] = _card( 'br15', $p['widget_name'], '', $p['widget_desc'], _div('pic',$icon), '', $p['widget_status'] == 1 ? 'Active' : 'Inactive', $p['widget_status'] == 1 ? 'green' : 'grey', [], [], $modal_identity, $p, 'widgets', "widget_id = {$p['widget_id']}" );
             }
             grid_view( 'widget_cards', $cards, $wrapper_class, $cols );
         }

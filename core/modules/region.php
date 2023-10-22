@@ -192,7 +192,7 @@ function region_flag( string $element = 'div', string $class = '' ): void {
     echo _region_flag( $element, $class );
 }
 function _region_flag( string $element = 'div', string $class = '' ): string {
-    return defined( 'REGION' ) && isset( REGION['flag'] ) ? _el( $element, $class, '', REGION['flag'] ) : '';
+    return defined( 'REGION' ) && isset( REGION['flag'] ) ? _el( $element, $class, REGION['flag'] ) : '';
 }
 
 function set_region_ajax(): void {

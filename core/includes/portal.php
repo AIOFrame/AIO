@@ -92,7 +92,7 @@ class PORTAL {
         $db = new DB();
         $ss = $db->select( 'sessions', '', 'session_uid = \''.get_user_id().'\'' );
         _r();
-            !is_mobile() ? div('','col-2') : '';
+            !is_mobile() ? div('col-2') : '';
                 _c(8);
                     pre_tabs('two');
                         tab( is_mobile() ? 'UI' : 'Appearance', 1, '#looks' );
@@ -145,7 +145,7 @@ class PORTAL {
                         table( $sessions, 'plain' );
                     post();
                 c_();
-            !is_mobile() ? div('','col-2') : '';
+            !is_mobile() ? div('col-2') : '';
         r_();
         file_upload();
     }

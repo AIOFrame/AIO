@@ -334,7 +334,7 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
 }
 
 function post_html( string|array $scripts = [], string $alert_position = 'top right' ): void {
-    div('',$alert_position,'','data-alerts');
+    div($alert_position,'','','data-alerts');
     get_scripts( $scripts );
     if( defined( 'PAGEPATH' ) )
         get_script( PAGEPATH );
@@ -415,7 +415,7 @@ function tab( string $title = '', bool $active = false, string $target = '', str
     if( !empty( $icon ) ) {
         $title = defined( 'ICONS' ) ? ( str_contains( ICONS, 'Material' ) ? '<i class="mat-ico">'.$icon.'</i>'.$title : '<i class="bi bi-'.$icon.'"></i>'.$title ) : $title;
     }
-    div('',$class,$title,'data-tab="#'.$target.'"',1);
+    div($class,$title,'','data-tab="#'.$target.'"',1);
 }
 
 function post_tabs(): void {
@@ -490,7 +490,7 @@ function grid_view( string $wrapper = '', array $cards = [], string $wrapper_cla
     foreach( $cards as $c ) {
         $content .= $pre.$c.$post;
     }
-    div('','row',$content);
+    div('row',$content);
     post();
 }
 
@@ -563,7 +563,7 @@ function _card( string $class = '', string $title = '', string $link = '', strin
     $return .= !empty( $title ) ? _el('h2','title grad','',$title) : '';
     $return .= !empty( $desc ) ? _el('h5','desc','',$desc) : '';
     $return .= _post();
-    $return .= !empty( $status ) ? _div('','status '.$status_class,$status) : '';
+    $return .= !empty( $status ) ? _div('status '.$status_class,$status) : '';
     if( !empty( $data ) ) {
         $return .= _table( [ 'body' => $data ], 'plain' );
     }
@@ -654,12 +654,12 @@ function soon( string $date, string $text = 'Coming Soon...', string $bg = '', s
     pre('','vc');
     pre('','brand',$logo.' title="'.$app.'"');
     pre('','box');
-    div('','text',$text);
-    div('','date',$date);
+    div('text',$text);
+    div('date',$date);
     post();
     post();
     post();
-    div('','credits',_a('https://github.com/AIOFrame/AIO','Powered by AIO'));
+    div('credits',_a('https://github.com/AIOFrame/AIO','Powered by AIO'));
     post();
     get_script( 'soon' );
     post_html();

@@ -169,8 +169,8 @@ class ECOMMERCE {
                 pre( '', 'image_wrap' );
                     img( storage_url( $p['prod_image'] ), '', 'image', $p['prod_title'], $p['prod_title'] );
                 post();
-                el( 'h'.$title_tag, $title_class.' title', '', $p['prod_title'] );
-                $sale_price < $regular_price ? el( 'i', 'sale_tag tag', '', T('Sale') ) : '';
+                el( 'h'.$title_tag, $title_class.' title', $p['prod_title'] );
+                $sale_price < $regular_price ? el( 'i', 'sale_tag tag', T('Sale') ) : '';
                 echo $price;
                 // TODO: Add product actions
                 // skel( $p['prod_meta'] );
@@ -306,9 +306,9 @@ class ECOMMERCE {
             return '';
         }
         if( $sale < $regular ) {
-            $price = $only_float ? $rate * $sale : _div( '', $class.' price', _el( 's', 'regular', '', $rate * $regular ) . ' ' . _el( 'span', 'sale', '', $rate * $sale ) . ' '.$curr );
+            $price = $only_float ? $rate * $sale : _div( $class.' price', _el( 's', 'regular', $rate * $regular ) . ' ' . _el( 'span', 'sale', $rate * $sale ) . ' '.$curr );
         } else {
-            $price = $only_float ? $rate * $regular : _div( '', $class.' price', _el( 'span', 'regular', '', $rate * $regular ) . ' '.$curr );
+            $price = $only_float ? $rate * $regular : _div( $class.' price', _el( 'span', 'regular', $rate * $regular ) . ' '.$curr );
         }
         return $price;
     }
@@ -663,9 +663,9 @@ class ECOMMERCE {
         $empty_cart_content = isset( $options['empty_cart_content'] ) ? T( $options['empty_cart_content'] ) : T( 'Your cart seems empty! Please browse and add a few products to proceed to checkout' );
         $sub_total_title = isset( $options['sub_total_title'] ) ? T( $options['sub_total_title'] ) : T( 'Sub Total' );
         pre( $wrapper_id, $wrapper_class, 'div', 'data-cart="'.(APPDEBUG?'load_cart_ajax':$e->encrypt('load_cart_ajax')).'"' );
-            div( 'aio_mini_cart_items', 'aio_mini_cart_items', '', 'data-mini-cart-items' );
-            div( 'aio_mini_cart_empty', 'aio_mini_cart_empty', $empty_cart_content, 'data-empty-cart' );
-            div( 'aio_mini_cart_total', 'aio_mini_cart_total dn df fg aic', _div( '', 'title', $sub_total_title ) . _div( '', 'subtotal tar', _el( 'span', 'amount', '', 0, 'data-cart-total' ) . ' ' . _el( 'span', 'currency', '', REGION['symbol'], 'data-currency-symbol' ) ) );
+            div( 'aio_mini_cart_items', '', 'aio_mini_cart_items', 'data-mini-cart-items' );
+            div( 'aio_mini_cart_empty', $empty_cart_content, 'aio_mini_cart_empty', 'data-empty-cart' );
+            div( 'aio_mini_cart_total dn df fg aic', _div( 'title', $sub_total_title ) . _div( 'subtotal tar', _el( 'span', 'amount', 0, '', 'data-cart-total' ) . ' ' . _el( 'span', 'currency', REGION['symbol'], '', 'data-currency-symbol' ) ), 'aio_mini_cart_total' );
             pre( 'aio_mini_cart_item_template', 'aio_mini_cart_item_template dn', 'div', 'data-mini-cart-item-template' );
                 pre( '', 'cart_item '.$cart_item_class );
                     pre( '', 'cart_item df', 'a', 'href="{{url}}"' );
@@ -673,9 +673,9 @@ class ECOMMERCE {
                             img( '{{image}}', '', 'cart_item_image', '', '', 'data-img' );
                         post();
                         pre( '', 'cart_desc_wrap '.$description_class, 'div', 'data-desc' );
-                            div( '', 'cart_item_title', '{{title}}', 'data-title' );
-                            div( '', 'cart_item_params', '{{params}}', 'data-params' );
-                            div( '', 'cart_item_price', '{{price}} x {{quantity}}', 'data-price' );
+                            div( 'cart_item_title', '{{title}}', '', 'data-title' );
+                            div( 'cart_item_params', '{{params}}', '', 'data-params' );
+                            div( 'cart_item_price', '{{price}} x {{quantity}}', '', 'data-price' );
                         post();
                     post( 'a' );
                     $f->pre_process( ' ', 'remove_item_from_cart_ajax', '', '', 0, 0, [], '', 'render_cart', 'Are you sure to remove item from cart?' );
@@ -694,8 +694,8 @@ class ECOMMERCE {
         $empty_cart_content = isset( $options['empty_cart_content'] ) ? T( $options['empty_cart_content'] ) : T( 'Your cart seems empty! Please browse and add a few products to proceed to checkout' );
         $sub_total_title = isset( $options['sub_total_title'] ) ? T( $options['sub_total_title'] ) : T( 'Sub Total' );
         pre( $wrapper_id, $wrapper_class, 'div', 'data-cart="'.(APPDEBUG?'load_cart_ajax':$e->encrypt('load_cart_ajax')).'"' );
-            div( 'aio_cart_items', 'aio_cart_items', '', 'data-cart-items' );
-            div( 'aio_cart_empty', 'aio_cart_empty', $empty_cart_content, 'data-empty-cart' );
+            div( 'aio_cart_items', '',  'aio_cart_items','data-cart-items' );
+            div( 'aio_cart_empty', $empty_cart_content, 'aio_cart_empty', 'data-empty-cart' );
             pre( 'aio_cart_item_template', 'aio_cart_item_template dn', 'div', 'data-cart-item-template' );
                 pre( '', 'cart_item_wrap '.$cart_item_class );
                     pre( '', 'cart_item fg df' );
@@ -703,24 +703,24 @@ class ECOMMERCE {
                             img( '{{image}}', '', 'cart_item_image', '', '', 'data-img' );
                         post( 'a' );
                         pre( '', 'cart_title_wrap '.$title_class, 'a', 'href="{{url}}" data-desc' );
-                            div( '', 'cart_item_title', '{{title}}', 'data-title' );
-                            div( '', 'cart_item_params', '{{params}}', 'data-params' );
-                            div( '', 'cart_item_price', '{{price_view}}', 'data-price' );
+                            div( 'cart_item_title', '{{title}}', '', 'data-title' );
+                            div( 'cart_item_params', '{{params}}', '', 'data-params' );
+                            div( 'cart_item_price', '{{price_view}}', '', 'data-price' );
                         post( 'a' );
                         //pre( '', 'cart_price_wrap '.$price_class );
                         //post();
                         pre( '', 'cart_quantity_wrap '.$quantity_class );
                             //div( '', 'cart_item_quantity', '{{quantity}}', 'data-quantity' );
                             if( $editable ) {
-                                el( 'button', '', '', '-', 'data-reduce' );
+                                el( 'button', '', '-', '', 'data-reduce' );
                                 $f->text( 'quantity', '', '', 1, 'value="{{quantity}}" data-quantity' );
-                                el( 'button', '', '', '+', 'data-increase' );
+                                el( 'button', '', '+', '', 'data-increase' );
                             } else {
-                                div( '', 'cart_item_quantity', 'x{{quantity}}', 'data-quantity' );
+                                div( 'cart_item_quantity', 'x{{quantity}}', '', 'data-quantity' );
                             }
                         post();
                         pre( '', 'cart_total_wrap '.$total_class );
-                            div( '', 'cart_item_total tar', '{{total_view}}', 'data-total' );
+                            div( 'cart_item_total tar', '{{total_view}}', '', 'data-total' );
                         post();
                     post( );
                     if( $editable ) {
@@ -768,7 +768,7 @@ class ECOMMERCE {
                 $addresses = [];
                 foreach( $ads as $ua ) {
                     $country = !empty( $ua['ua_country'] ) && isset( $cs[ $ua['ua_country'] ] ) ? $cs[ $ua['ua_country'] ] : $ua['ua_country'];
-                    $addresses[ $ua['ua_id'] ] = _el( 'h3', '', '', $ua['ua_a_name'] . ' - ' . $ua['ua_name'] ) . ' ' . _el( 'div', 'address_sub', '', _el( 'div', 'address', '', $ua['ua_address'] ) . _el( 'div', 'street', '', $ua['ua_street'] ) . _el( 'div', 'city', '', $ua['ua_city'] ) . _el( 'div', 'state', '', $ua['ua_state'] ) . _el( 'div', 'postal_code', '', $ua['ua_po'] ) . _el( 'div', 'country', '', $country ) . _el( 'div', 'email', '', $ua['ua_email'] ) . _el( 'div', 'phone', '', $ua['ua_code'].$ua['ua_phone'] ) );
+                    $addresses[ $ua['ua_id'] ] = _el( 'h3', '', $ua['ua_a_name'] . ' - ' . $ua['ua_name'] ) . ' ' . _el( 'div', 'address_sub', _el( 'div', 'address', $ua['ua_address'] ) . _el( 'div', 'street', $ua['ua_street'] ) . _el( 'div', 'city', $ua['ua_city'] ) . _el( 'div', 'state', $ua['ua_state'] ) . _el( 'div', 'postal_code', $ua['ua_po'] ) . _el( 'div', 'country', $country ) . _el( 'div', 'email', $ua['ua_email'] ) . _el( 'div', 'phone', $ua['ua_code'].$ua['ua_phone'] ) );
                 }
                 $f = new FORM();
                 $f->radios('delivery','Delivery Addresses',$addresses,'','data-checkout',0,'.address_list','','.row',12);

@@ -31,7 +31,7 @@ pre( '', 'aio_form_builder' );
     $f->input('search','','','Search...','','data-fields-search');
         pre( '', 'aio_form_fields_wrap' );
         foreach( $field_types as $type => $icon ) {
-            div( '', 'form-btn', _el( 'i', 'mat-ico', '', $icon ) . _el( 'span', '', '', $type), 'data-type="'.$type.'" data-field-btn' );
+            div( 'form-btn', _el( 'i', 'mat-ico', $icon ) . _el( 'span', '', $type), '', 'data-type="'.$type.'" data-field-btn' );
         }
         post();
     post();
