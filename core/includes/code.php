@@ -384,8 +384,8 @@ function h6( string $title = '', bool $translate = true, string $class = '', str
     el( 'h6', $class, '', $title, $attrs, $translate );
 }
 
-function el( string $element = 'div', string $class = '', string $id = '', string $content = '', string $attrs = '', bool $translate = false ): void {
-    echo _el( $element, $class, $id, $content, $attrs, $translate );
+function el( string $element = 'div', string $class = '', string $content = '', string $id = '', string $attrs = '', bool $translate = false ): void {
+    echo _el( $element, $class, $content, $id, $attrs, $translate );
 }
 
 function _article( string $class = '', string $attr = '', string $id = '' ): void {
@@ -423,7 +423,7 @@ function post_tabs(): void {
     post();
 }
 
-function _el( string $element = 'div', string $class = '', string $id = '', string $content = '', string $attrs = '', bool $translate = false ): string {
+function _el( string $element = 'div', string $class = '', string $content = '', string $id = '', string $attrs = '', bool $translate = false ): string {
     if( $element == 'hr' || $element == 'br' ) {
         return _pre( $id, $class, $element, $attrs );
     } else {
@@ -432,12 +432,12 @@ function _el( string $element = 'div', string $class = '', string $id = '', stri
     }
 }
 
-function div( string $id = '', string $class = '', string $content = '', string $attrs = '', bool $translate = false ): void {
-    echo _div( $id, $class, $content, $attrs, $translate );
+function div( string $class = '', string $content = '', string $id = '', string $attrs = '', bool $translate = false ): void {
+    echo _div( $class, $content, $id, $attrs, $translate );
 }
 
-function _div( string $id = '', string $class = '', string $content = '', string $attrs = '', bool $translate = false ): string {
-    return _el( 'div', $class, $id, $content, $attrs, $translate );
+function _div( string $class = '', string $content = '', string $id = '', string $attrs = '', bool $translate = false ): string {
+    return _el( 'div', $class, $content, $id, $attrs, $translate );
 }
 
 function a( string $hyperlink = '#', string $content = '', string $class = '', string $hover_title = '', string $attr = '', string $id = '' ): void {
@@ -449,6 +449,14 @@ function _a( string $hyperlink = '#', string $content = '', string $class = '', 
     $class = !empty( $class ) ? ' class="'.$class.'"' : '';
     $alt = !empty( $hover_title ) ? ' title="'.$hover_title.'"' : '';
     return '<a href="'.$hyperlink.'" '.$id.$class.$alt.' '.$attr.'>'.$content.'</a>';
+}
+
+function b( string $class = '', string $content = '', string $id = '', string $attr = '', bool $translate = false ): void {
+    echo _el( 'button', $class, $content, $id, $attr, $translate );
+}
+
+function _b( string $class = '', string $content = '', string $id = '', string $attr = '', bool $translate = false ): string {
+    return _el( 'button', $class, $content, $id, $attr, $translate );
 }
 
 function img( string $image_url, string $id = '', string $class = '', string $alt = '', string $title = '', string $attr = '' ): void {

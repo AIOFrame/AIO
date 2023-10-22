@@ -354,7 +354,16 @@ button.load span.loader:before, .btn.load span.loader:before {
     cursor: pointer;
     display: block;
     padding: 0;
+    border-radius: 0;
     //background: #fff;
+  }
+  .page_link.no, .page_link.no:hover {
+    background: none;
+    box-shadow: none;
+    transform: none;
+    border: 0;
+    pointer-events: none;
+    color: #aaa;
   }
   .page_link.on {
     //color: var(--primary_color);
