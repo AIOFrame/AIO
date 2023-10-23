@@ -560,8 +560,8 @@ function _card( string $class = '', string $title = '', string $link = '', strin
     $return = !empty ( $link ) ? _pre('','card '.($class??''),'a','href="'.$link.'"') : _pre('','card '.($class ?? ''));
     $return .= !empty( $image ) ? ( str_contains( $image, '<' ) ? $image : _image( $image, '', $image_class ) ) : '';
     $return .= _pre('','head tac');
-    $return .= !empty( $title ) ? _el('h2','title grad','',$title) : '';
-    $return .= !empty( $desc ) ? _el('h5','desc','',$desc) : '';
+    $return .= !empty( $title ) ? _el('h2','title grad',$title) : '';
+    $return .= !empty( $desc ) ? _el('h5','desc',$desc) : '';
     $return .= _post();
     $return .= !empty( $status ) ? _div('status '.$status_class,$status) : '';
     if( !empty( $data ) ) {
@@ -716,7 +716,7 @@ function logout_html( string $tag = 'div', string $class = '', string $text = 'L
 }
 
 function modal_trigger( string $modal_identifier = '', string $title = '' ): void {
-    el('button','grad','',$title,'data-modal="'.$modal_identifier.'"',1);
+    el('button','grad',$title,'','data-modal="'.$modal_identifier.'"',1);
 }
 
 function float_triggers( array $triggers, string $wrap_class = '' ): void {

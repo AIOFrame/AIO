@@ -652,10 +652,34 @@ class ECOMMERCE {
      * @param int $user User ID
      * @return array
      */
-    function cart_items( int $user ): array {
-        return [];
+    function cart_items( int $user = 0 ): array {
+        $d = new DB();
+        $e = Encrypt::initiate();
+        $user = $user == 0 ? get_user_id() : $user;
+        $items = $d->select( [ 'cart', [ 'products', 'prod_id', 'cart_product' ] ], 'cart_id,cart_quantity,prod_id,prod_title,prod_url,prod_image', 'cart_user = \''.$user.'\'' );
+        if( !empty( $items ) ) {
+            $ec = new ECOMMERCE();
+            foreach( $items as $i => $p ) {
+                $meta = $ec->_product_meta( $p['prod_id'] );
+                $price = $ec->_price( $meta['regular_price'], $meta['sale_price'], 1 );
+                $curr = REGION['symbol'] ?? '';
+                $items[ $i ]['meta'] = $meta;
+                $items[ $i ]['prod_image'] = storage_url( $p['prod_image'] );
+                $items[ $i ]['prod_price'] = $price;
+                $items[ $i ]['prod_price_view'] = $ec->_price( $meta['regular_price'], $meta['sale_price'] );
+                $items[ $i ]['prod_total'] = $price * $p['cart_quantity'];
+                $items[ $i ]['prod_total_view'] = $price * $p['cart_quantity'] . ' ' . $curr;
+                $items[ $i ]['prod_id'] = $e->encrypt( $p['cart_id'] );
+                unset( $items[ $i ]['cart_id'] );
+            }
+            //skel( $items );
+            return $items;
+        } else {
+            echo json_encode( [] );
+        }
     }
 
+    // Is Obsolete ?
     function mini_cart( string $close_content = '', string $wrapper_id = 'aio_mini_cart_wrap', string $wrapper_class = 'aio_mini_cart_wrap', string $cart_item_class = '', string $image_class = '', string $description_class = '' ): void {
         $f = new FORM();
         $e = Encrypt::initiate();
@@ -758,7 +782,7 @@ class ECOMMERCE {
 
     }
 
-    function address_picker(): void {
+    function address_picker( string $data_attr = 'checkout', string $delivery_address_text = 'Delivery Addresses', string $billing_address_text = 'Billing Addresses' ): void {
         $ads = $this->_addresses();
         if( empty( $ads ) ) {
             $this->address_form( '', 'Address', [], 'accordion', 0 );
@@ -771,9 +795,8 @@ class ECOMMERCE {
                     $addresses[ $ua['ua_id'] ] = _el( 'h3', '', $ua['ua_a_name'] . ' - ' . $ua['ua_name'] ) . ' ' . _el( 'div', 'address_sub', _el( 'div', 'address', $ua['ua_address'] ) . _el( 'div', 'street', $ua['ua_street'] ) . _el( 'div', 'city', $ua['ua_city'] ) . _el( 'div', 'state', $ua['ua_state'] ) . _el( 'div', 'postal_code', $ua['ua_po'] ) . _el( 'div', 'country', $country ) . _el( 'div', 'email', $ua['ua_email'] ) . _el( 'div', 'phone', $ua['ua_code'].$ua['ua_phone'] ) );
                 }
                 $f = new FORM();
-                $f->radios('delivery','Delivery Addresses',$addresses,'','data-checkout',0,'.address_list','','.row',12);
-                $f->radios('billing','Billing Addresses',$addresses,'','data-checkout',0,'.address_list','','.row',12);
-                $f->textarea('notes','Notes','','','data-checkout');
+                $f->radios('delivery',$delivery_address_text,$addresses,'','data-'.$data_attr,0,'.address_list','','.row',12);
+                $f->radios('billing',$billing_address_text,$addresses,'','data-'.$data_attr,0,'.address_list','','.row',12);
             post();
         }
     }
@@ -900,6 +923,40 @@ class ECOMMERCE {
             $f->form( $fields2, 'row' );
             $f->process_trigger('Save '.$title,'r','','','.tac');
         $f->post_process();
+    }
+
+    function get_address( int $id = 0 ): array {
+        if( $id > 0 ) {
+            $d = new DB();
+            $uid = get_user_id();
+            $address = $d->select( 'addresses', '', "ua_id = '$id' && ua_user = '$uid'", 1 );
+            return !empty( $address ) ? $address : [ 0, 'Failed to find address!' ];
+        } else {
+            return [ 0, T('Failed to get address!') ];
+        }
+    }
+
+    function checkout( string $payment_process_url = '', string $wrap_class = '', string $checkout_button_text = 'Checkout', string $checkout_button_class = '' ): void {
+        $f = new FORM();
+        pre( '', $wrap_class, 'form', 'method="post" action="'.APPURL.$payment_process_url.'"' );
+            $this->address_picker();
+            $f->textarea('notes','Order Notes','','','data-checkout');
+            b( 'checkout-button button '.$checkout_button_class, T( $checkout_button_text ) );
+        post( 'form' );
+    }
+
+    function payment( string $pay_button_text = 'Proceed to Payment', string $js_function = 'checkout', string $success_element = '', string $failure_element = '', string $failure_message_element = '', string $hide_elements = '' ): void {
+        $p = new PAY();
+        $delivery_address = $this->get_address( $_POST['delivery'] );
+        $billing_address = $_POST['delivery'] == $_POST['billing'] ? $delivery_address : $this->get_address( $_POST['billing'] );
+        $notes = strip_tags( $_POST['notes'] );
+        $cart = $this->cart_items();
+        skel( $cart );
+        $amount = 1000;
+        $currency = 'AED';
+        $billed_email = 'hey@shaikh.dev';
+        $billed_name = 'Shaikh Moinuddin';
+        $p->render_stripe_payment( $amount, $currency, $billed_email, $billed_name, 'checkout_ajax', $js_function, $pay_button_text, $success_element, $failure_element, $failure_message_element, $hide_elements );
     }
 
     function update_product_metas( int $product_id, array $meta, int $new_product_id = 0 ): int {
@@ -1033,29 +1090,9 @@ function remove_item_from_cart_ajax(): void {
 }
 
 function load_cart_ajax(): void {
-    $d = new DB();
-    $e = Encrypt::initiate();
-    $items = $d->select( [ 'cart', [ 'products', 'prod_id', 'cart_product' ] ], 'cart_id,cart_quantity,prod_id,prod_title,prod_url,prod_image', 'cart_user = \''.get_user_id().'\'' );
-    if( !empty( $items ) ) {
-        $ec = new ECOMMERCE();
-        foreach( $items as $i => $p ) {
-            $meta = $ec->_product_meta( $p['prod_id'] );
-            $price = $ec->_price( $meta['regular_price'], $meta['sale_price'], 1 );
-            $curr = REGION['symbol'] ?? '';
-            $items[ $i ]['meta'] = $meta;
-            $items[ $i ]['prod_image'] = storage_url( $p['prod_image'] );
-            $items[ $i ]['prod_price'] = $price;
-            $items[ $i ]['prod_price_view'] = $ec->_price( $meta['regular_price'], $meta['sale_price'] );
-            $items[ $i ]['prod_total'] = $price * $p['cart_quantity'];
-            $items[ $i ]['prod_total_view'] = $price * $p['cart_quantity'] . ' ' . $curr;
-            $items[ $i ]['prod_id'] = $e->encrypt( $p['cart_id'] );
-            unset( $items[ $i ]['cart_id'] );
-        }
-        //skel( $items );
-        echo json_encode( $items );
-    } else {
-        echo json_encode( [] );
-    }
+    $e = new ECOMMERCE();
+    $cart_items = $e->cart_items();
+    echo !empty( $cart_items ) ? json_encode( $cart_items ) : json_encode( [] );
 }
 
 function update_item_to_wishlist_ajax(): void {
