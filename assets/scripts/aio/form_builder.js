@@ -78,6 +78,12 @@ document.addEventListener('DOMContentLoaded', function () {
         $(this).parent().find('[data-form-prop][name=i]').val( id ).change();
     })
 
+    .on('click','[data-trash]',function(){
+        let id = $('.aio_field_props').data('target');
+        $('#'+id).remove();
+        build_fields( $(this).parents('[data-form-builder-field]') );
+    })
+
 
 });
 

@@ -69,8 +69,8 @@
   border-bottom: 1px solid var(--primary_color);
 }
 .aio_form_builder .aio_field_props {
-  flex: 0 0 calc(200px);
-  max-width: calc(200px);
+  flex: 0 0 200px;
+  max-width: 200px;
   max-height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
@@ -83,6 +83,13 @@
   margin-bottom: 10px;
   padding: 10px;
   font-size: 0.9rem;
+}
+.aio_form_builder .aio_field_props .select2-container {
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+.aio_form_builder .aio_field_props .trash {
+  width: 100%;
 }
 .aio_form_builder .form-options {
   margin: 20px 10px;

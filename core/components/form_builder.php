@@ -100,7 +100,7 @@ pre( '', 'aio_form_builder' );
 
         //h4( 'Logics', 1 );
         //$logics = [ '=' => '= to', '!=' => '!= to', '<' => '< than', '<=' => '<= to', '>' => '> than', '>=' => '>= to', 'has' => 'contains' ];
-        //el( 'button', 'trash', '', _el( 'i', 'mat-ico', '', 'trash' ) );
+        el( 'button', 'trash m0 red bxn', _el( 'i', 'mat-ico', 'remove_circle' ), '', 'data-trash' );
     post();
 post();
 get_style('form_builder');
