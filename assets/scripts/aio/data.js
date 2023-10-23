@@ -114,6 +114,8 @@ function get_values( parent, attribute, prepend ) {
             data[pre_key] = data[pre_key] === undefined ? {} : data[pre_key];
             $(this).val() !== '' ? data[ pre_key ][ key2 ] = value : '';
             //return true;
+        } else if( $(this).data('html-characters') !== undefined ) {
+            data[ pre_key ] = html_to_text( value );
         } else {
             // Finally push the value
             data[ pre_key ] = value;
@@ -674,6 +676,28 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
             //elog( rat );
         }
     });
+}
+
+function html_to_text(text) {
+    let map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
+function text_to_html(text) {
+    let map = {
+        '&amp;': '&',
+        '&lt;': '<',
+        '&gt;': '>',
+        '&quot;': '"',
+        '&#039;': "'"
+    };
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
 }
 
 function redirect( r ) {

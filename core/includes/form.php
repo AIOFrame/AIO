@@ -936,7 +936,7 @@ class FORM {
         $_p = $this->_pre( $pre );
         $p_ = $this->_post( $pre, $post );
         $return .= $_p;
-        $return .= $this->_input( 'textarea', $id, $label, $value, '', $attrs . ' style="display:none !important"' );
+        $return .= $this->_input( 'textarea', $id, $label, $value, '', $attrs . ' data-html-characters style="display:none !important"' );
         $return .= '<div id="'.$id.'_code" style="min-height: 200px"></div>';
         $return .= "<script>document.addEventListener('DOMContentLoaded', function () { let dk = $('[data-key={$id}]'); let {$id}_code = ace.edit('{$id}_code');{$id}_code.session.setMode('ace/mode/html');{$id}_code.session.setValue($('[data-key=\"{$id}\"]').val(),-1);{$id}_code.session.on('change', function(d) {dk.val({$id}_code.getValue())});});</script>"; // $('[data-key=\"{$id}]\"').val();
         $return .= $p_;
@@ -1001,7 +1001,7 @@ class FORM {
 
     function form_builder( string|array $id, string $label = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', int|float $height = 200, string $post = '' ): void {
         $this->pre( $pre );
-        pre( '', 'd', 'div', 'style="display:non"' );
+        pre( '', 'd', 'div', 'style="display:none"' );
             $this->textarea( $id, $label, '', $value, $attrs . ' data-form-field="'.$id.'"' );
         post();
         pre( '', '', 'div', 'style="height:'.$height.'px" data-form-builder-field="'.$id.'"' );

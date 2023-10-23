@@ -11,7 +11,7 @@ class CMS {
     public array $widgets = [
         // Text Block
         'text' => [
-            'icon' => 'text',
+            'image' => 'text',
             'name' => 'Text',
             'desc' => 'A simple text widget',
             'form' => [
@@ -229,8 +229,9 @@ class CMS {
         _r();
         $f->text('name','Widget Name','Ex: Social Widget','','data-widget required',4);
         $f->text('desc','Description','Ex: Displays a social platform sharing widget','','data-widget',4);
-        $icon_title = defined( 'ICONS' ) ? ( str_contains( ICONS, 'Material' ) ? 'Material Icon' : ( str_contains( ICONS, 'bootstrap' ) ? 'Bootstrap Icon' : 'Widget Icon' ) ) : 'Widget Icon';
-        $f->text('icon',$icon_title,'Ex: lightbulb','','data-widget required',2);
+        //$icon_title = defined( 'ICONS' ) ? ( str_contains( ICONS, 'Material' ) ? 'Material Icon' : ( str_contains( ICONS, 'bootstrap' ) ? 'Bootstrap Icon' : 'Widget Icon' ) ) : 'Widget Icon';
+        //$f->text('icon',$icon_title,'Ex: lightbulb','','data-widget required',2);
+        $f->upload('image','Image','Browse','',0,0,'upload','data-widget','jpg,png,svg,jpeg,webp',.3,1,'',2);
         $f->slide('status','Status','','',1,'m','data-widget',2);
         r_();
         pre_tabs('widget_tabs material mb20');
@@ -265,6 +266,7 @@ class CMS {
         post();
         $f->post_process();
         !empty( $modal_class ) ? post_modal() : '';
+        file_upload();
     }
 
     /**
@@ -320,7 +322,7 @@ class CMS {
         if( !empty( $custom_widgets ) ) {
             foreach( $custom_widgets as $cw ) {
                 $widgets[ strtolower( str_replace(' ','_',$cw['widget_name'] ) ) ] = [
-                    'icon' => $cw['widget_icon'],
+                    'image' => !empty( $cw['widget_image'] ) ? storage_url( $cw['widget_image'] ) : '',
                     'name' => $cw['widget_name'],
                     'desc' => $cw['widget_desc'],
                     'form' => $cw['widget_form'],
@@ -343,8 +345,9 @@ class CMS {
             //$f = new FORM();
             $cards = [];
             foreach( $widgets as $p ) {
-                $icon = defined( 'ICONS' ) && !empty( $p['widget_icon'] ) ? ( str_contains( ICONS, 'Material' ) ? _div('mat-ico xxl',$p['widget_icon']) : ( str_contains( ICONS, 'bootstrap' ) ? _el('i','b bi-'.$p['widget_icon']) : $p['widget_icon'] ) ) : '-';
-                $cards[] = _card( 'br15', $p['widget_name'], '', $p['widget_desc'], _div('pic',$icon), '', $p['widget_status'] == 1 ? 'Active' : 'Inactive', $p['widget_status'] == 1 ? 'green' : 'grey', [], [], $modal_identity, $p, 'widgets', "widget_id = {$p['widget_id']}" );
+                $image = !empty( $p['widget_image'] ) ? storage_url( $p['widget_image'] ) : '';
+                //$icon = defined( 'ICONS' ) && !empty( $p['widget_icon'] ) ? ( str_contains( ICONS, 'Material' ) ? _div('mat-ico xxl',$p['widget_icon']) : ( str_contains( ICONS, 'bootstrap' ) ? _el('i','b bi-'.$p['widget_icon']) : $p['widget_icon'] ) ) : '-';
+                $cards[] = _card( 'br15', $p['widget_name'], '', $p['widget_desc'], _div('tac',_img($image,'','widget_image',$p['widget_name'],$p['widget_name'],'style="height: 100px"')), '', $p['widget_status'] == 1 ? 'Active' : 'Inactive', $p['widget_status'] == 1 ? 'green' : 'grey', [], [], $modal_identity, $p, 'widgets', "widget_id = {$p['widget_id']}" );
             }
             grid_view( 'widget_cards', $cards, $wrapper_class, $cols );
         }

@@ -60,13 +60,11 @@
   overflow-x: hidden;
 }
 .aio_form_builder .aio_form_view [data-field] {
-  border-top: 1px solid transparent;
-  border-bottom: 1px solid transparent;
+  border: 1px solid transparent;
   align-self: flex-start;
 }
 .aio_form_builder .aio_form_view [data-field].on {
-  border-top: 1px solid var(--primary_color);
-  border-bottom: 1px solid var(--primary_color);
+  border: 1px dashed var(--primary_color);
 }
 .aio_form_builder .aio_field_props {
   flex: 0 0 200px;
