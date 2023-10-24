@@ -11,19 +11,42 @@ class CMS {
     public array $widgets = [
         // Text Block
         'text' => [
-            'image' => 'text',
-            'name' => 'Text',
+            'image' => 'https://placehold.co/100x50?text=Text',
+            'name' => 'Text Widget',
             'desc' => 'A simple text widget',
             'form' => [
                 [ 't' => 'textarea', 'i' => 'text', 'l' => 'Text Content', 'c' => 12 ]
             ],
-            'html' => '<div>{{text}}</div>'
+            'html' => '<div class="text_widget">{{text}}</div>'
         ],
         // Icon
+        'icon' => [
+            'image' => 'https://placehold.co/100x50?text=Icon',
+            'name' => 'Icon Widget',
+            'desc' => 'A simple icon widget',
+            'form' => [
+                [ 't' => 'upload', 'i' => 'icon', 'l' => 'Upload Icon', 'c' => 6 ],
+                [ 't' => 'select', 'i' => 'type', 'l' => 'Icon Font', 'c' => 6, 'o' => [ 'mat-ico' => 'Material Icons', 'bi bi-' => 'Bootstrap Icons', 'fa fa-' => 'Font Awesome' ], 'k' => 1 ],
+            ],
+            'html' => '<div class="{{icon}} {{type}}">{{icon}}</div>'
+        ],
         // Divider + text
         // Info Box
         // Tabs
         // Image
+        // Icon
+        'image' => [
+            'image' => 'https://placehold.co/100x50?text=Image',
+            'name' => 'Image Widget',
+            'desc' => 'A simple image widget',
+            'form' => [
+                [ 't' => 'upload', 'i' => 'image', 'l' => 'Upload Image', 'c' => 6 ],
+                [ 't' => 'text', 'i' => 'title', 'l' => 'Image Title', 'c' => 6 ],
+                [ 't' => 'text', 'i' => 'height', 'l' => 'Height', 'c' => 6 ],
+                [ 't' => 'text', 'i' => 'width', 'l' => 'Width', 'c' => 6 ],
+            ],
+            'html' => '<img src="{{image}}" alt="{{title}}" style="height:{{height}};width:{{width}}">'
+        ],
         // Gallery
         // Accordion
         // Slider
