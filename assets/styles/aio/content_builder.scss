@@ -19,7 +19,7 @@
   align-items: center;
   justify-content: flex-start;
   flex-wrap: wrap;
-  [data-add-widget] {
+  [data-widget-link] {
     border-radius: var(--input_radius);
     text-align: center;
     padding: 10px;
@@ -44,7 +44,7 @@
       text-transform: uppercase;
     }
   }
-  [data-add-widget]:hover {
+  [data-widget-link]:hover {
     box-shadow: 0 5px 15px rgba(0,0,0,.1);
     transform: translateY(-2px);
   }

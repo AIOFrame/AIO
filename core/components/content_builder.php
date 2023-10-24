@@ -41,7 +41,7 @@ pre( '', 'aio_content_builder' );
                 //skel( $wk );
                 $widget_id = strtolower( str_replace( ' ', '_', $wd['name'] ) );
                 $image = _div('tac',_img($wd['image'],'','widget_image',$wd['name'],$wd['name'],'style="height: 100px"'));
-                $widget_add_buttons .= _div( 'col-12 col-md-3', _div( $wk.' add_widget', $image . _el( 'div', 'widget_title', $wd['name'], '', '', 1 ), $wk, 'data-off=".choose_widgets_modal" data-on="#'.$widget_id.'_modal" data-add-widget' ) );
+                $widget_add_buttons .= _div( 'col-12 col-md-3', _div( $wk.' add_widget', $image . _el( 'div', 'widget_title', $wd['name'], '', '', 1 ), $wk, 'data-off=".choose_widgets_modal" data-on="#'.$widget_id.'_modal" data-widget-link' ) );
             }
         }
         // Widget Picker Modal
@@ -54,9 +54,13 @@ pre( '', 'aio_content_builder' );
         foreach( $widgets as $wk => $wd ) {
             $form = is_array( $wd['form'] ) ? $wd['form'] : json_decode( $wd['form'], 1 );
             //skel( $form );
-            pre_modal( $wd['name'], 'b80', 0 );
-                //pre( $wd['name'].'_form'  )
+            pre_modal( $wd['name'], 'b', 0 );
+                pre( '', '', 'div', 'data-widget="'.$wk.'"' );
                 $f->form( $form, 'row', $wd['name'] );
+                    pre( '', 'tac' );
+                    b('add_widget','Add Widget','','data-add-widget');
+                    post();
+                post();
             post_modal();
             //modal( $wd['name'], 0, 'b80', '', $form, [], $wk );
         }
@@ -68,5 +72,6 @@ pre( '', 'aio_content_builder' );
     post();
 
 post();
+file_upload();
 get_style('content_builder');
 get_script('content_builder');

@@ -108,7 +108,7 @@ $radius: var(--input_radius);
 .modal.xxs {
   width:20vw;
 }
-.modal.b20, .modal.b40, .modal.b50, .modal.b60, .modal.b80 {
+.modal.b, .modal.b20, .modal.b40, .modal.b50, .modal.b60, .modal.b80 {
   top: auto;
   bottom: -20vh;
   width: 100vw;
@@ -116,8 +116,9 @@ $radius: var(--input_radius);
   left: 0;
   right: 0;
   border-radius: 0;
+  max-height: 100vh;
 }
-.modal.b20.on, .modal.b40.on, .modal.b50.on, .modal.b60.on, .modal.b80.on {
+.modal.b.on, .modal.b20.on, .modal.b40.on, .modal.b50.on, .modal.b60.on, .modal.b80.on {
   bottom: 0;
 }
 .modal.b20 {

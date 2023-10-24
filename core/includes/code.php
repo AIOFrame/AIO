@@ -361,27 +361,27 @@ function _post( string $element = 'div' ): string {
 }
 
 function h1( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): void {
-    el( 'h1', $class, '', $title, $attrs, $translate );
+    el( 'h1', $class, $title, '', $attrs, $translate );
 }
 
 function h2( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): void {
-    el( 'h2', $class, '', $title, $attrs, $translate );
+    el( 'h2', $class, $title, '', $attrs, $translate );
 }
 
 function h3( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): void {
-    el( 'h3', $class, '', $title, $attrs, $translate );
+    el( 'h3', $class, $title, '', $attrs, $translate );
 }
 
 function h4( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): void {
-    el( 'h4', $class, '', $title, $attrs, $translate );
+    el( 'h4', $class, $title, '', $attrs, $translate );
 }
 
 function h5( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): void {
-    el( 'h5', $class, '', $title, $attrs, $translate );
+    el( 'h5', $class, $title, '', $attrs, $translate );
 }
 
 function h6( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): void {
-    el( 'h6', $class, '', $title, $attrs, $translate );
+    el( 'h6', $class, $title, '', $attrs, $translate );
 }
 
 function el( string $element = 'div', string $class = '', string $content = '', string $id = '', string $attrs = '', bool $translate = false ): void {
