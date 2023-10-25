@@ -24,7 +24,7 @@ $(document).ready(function(){
 })
 
 function reset_modal(e) {
-    let m = $(e).parent('.modal');
+    let m = $(e).hasClass('modal') ? $(e) : $(e).parent('.modal');
     $(m).find('[data-add]').show();
     $(m).find('[data-update],[data-edit]').hide();
     $(m).data('id','');
