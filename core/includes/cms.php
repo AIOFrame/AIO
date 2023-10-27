@@ -34,7 +34,6 @@ class CMS {
         // Info Box
         // Tabs
         // Image
-        // Icon
         'image' => [
             'image' => 'https://placehold.co/100x50?text=Image',
             'name' => 'Image Widget',
@@ -49,11 +48,88 @@ class CMS {
         ],
         // Gallery
         // Accordion
+        'accordion'=> [
+            'image' => 'https://placehold.co/100x50?text=Accordion',
+            'name' => 'Accordion',
+            'desc'=> 'A simple Accordion Widget',
+            'form'=> [
+                [ 't' => 'text', 'i' => 'title', 'l' => 'Accordion Title', 'c'=> 12],
+                [ 't' => 'textarea', 'i' => 'content', 'l' => 'Content', 'c'=> 12],
+            ],
+            'html' => '<div class="accordion"><div class="accordion_head">{{title}}</div><div class="accordion_body">{{content}}</div></div>',
+        ],
         // Slider
+        'slider'=> [
+            'image' => 'https://placehold.co/100x50?text=Slider',
+            'name' => 'Slider',
+            'desc'=> 'A simple Slider Widget',
+            'form'=> [
+                [ 't' => 'files', 'i' => 'images', 'l' => 'Slider Images', 'c'=> 12 ],
+                [ 't' => 'number', 'i' => 'view', 'l' => 'Slides per view', 'c' => 3 ],
+                [ 't' => 'number', 'i' => 'scroll', 'l' => 'Slides per scroll', 'c' => 3 ],
+                [ 't' => 'slide', 'i' => 'arrows', 'l' => 'Show Arrows', 'c' => 3 ],
+                [ 't' => 'slide', 'i' => 'dots', 'l' => 'Show Dots', 'c' => 3 ]
+            ],
+            'html' => '<div class="image_slider" data-slider data-view="{{view}}" data-scroll="{{scroll}}" data-arrows="{{arrows}}" data-dots="{{dots}}">{{images}}</div>'
+        ],
         // Heading
+        'heading'=> [
+            'image' => 'https://placehold.co/100x50?text=Heading',
+            'name' => 'Heading',
+            'desc'=> 'A simple Heading Widget',
+            'form'=> [
+                [ 't' => 'text', 'i' => 'text', 'l' => 'Heading Text', 'c'=> 6 ],
+                [ 't' => 'select', 'i' => 'size', 'l' => 'Header Size', 'o' => [ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ], 'c'=> 3 ],
+                [ 't' => 'text', 'i' => 'family', 'l' => 'Font Family', 'c'=> 3 ],
+            ],
+            'html' => '<{{size}} style="font-family:{{family};">{{text}}</{{size}}>'
+        ],
         // Button
+        'button'=> [
+            'image' => 'https://placehold.co/100x50?text=Button',
+            'name' => 'Button',
+            'desc'=> 'A simple Button Widget',
+            'form'=> [
+                [ 't' => 'text', 'i' => 'title', 'l' => 'Button Name', 'c'=> 6],
+                [ 't' => 'text', 'i' => 'class', 'l' => 'Button Class', 'c'=> 6],
+
+            ],
+            'html' => '<button class="{{class}}">{{title}}</button>'
+        ],
         // Video Player
+        'video_player'=> [
+            'image' => 'https://placehold.co/100x50?text=Video%20Player',
+            'name' => 'Video Player',
+            'desc'=> 'A simple Video Player Widget',
+            'form'=> [
+                [ 't' => 'text', 'i' => 'title', 'l' => 'Video Title', 'c'=> 6 ],
+                [ 't' => 'upload', 'i' => 'video', 'l' => 'Upload Video', 'c'=> 6 ],
+                [ 't' => 'text', 'i' => 'height', 'l' => 'Video  Height', 'c' => 6 ],
+                [ 't' => 'text', 'i' => 'width', 'l' => 'Video Width', 'c' => 6 ],
+            ],
+        'html' => '<video width="{{width}}" height="{{height}}" src="{{video}}" title="{{title}}"></video>'],
+        // YouTube Video Player
+        'youtube_video'=> [
+            'image' => 'https://placehold.co/100x50?text=Video%20Player',
+            'name' => 'Youtube Video',
+            'desc'=> 'Youtube Video player Widget',
+            'form'=> [
+                [ 't' => 'text', 'i' => 'url', 'l' => 'Video URL', 'p' => '', 'c'=> 12 ],
+                [ 't' => 'text', 'i' => 'height', 'l' => 'Video  Height', 'c' => 6 ],
+                [ 't' => 'text', 'i' => 'width', 'l' => 'Video Width', 'c' => 6 ],
+            ],
+            'html' => '<video width="{{width}}" height="{{height}}" src="{{video}}" title="{{title}}"></video>'],
         // Audio Player
+        'audio_player'=> [
+            'image' => 'https://placehold.co/100x50?text=Audio%20Player',
+            'name' => 'Audio Player',
+            'desc'=> 'A simple Audio Player Widget',
+            'form'=> [
+                [ 't' => 'text', 'i' => 'title', 'l' => 'Audio Title', 'c'=> 6],
+                [ 't' => 'upload', 'i' => 'audio', 'l' => 'Upload Audio', 'c'=> 6],
+            ],
+            'html' => '<audio controls><source src="{{audio}}"></audio>'
+        ],
         // Google Maps
         // Page Gallery
         // Product Gallery
