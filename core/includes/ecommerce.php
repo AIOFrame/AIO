@@ -522,9 +522,9 @@ class ECOMMERCE {
         !empty( $modal_class ) ? post_modal() : '';
     }
 
-    function get_property( int $id ): array {
+    function get_property( int|string $id_or_name ): array {
         $d = new DB();
-        return $d->select( 'product_props', '', 'prod_prop_id = \''.$id.'\'', 1 );
+        return is_numeric( $id_or_name ) ? $d->select( 'product_props', '', 'prod_prop_id = \''.$id_or_name.'\'', 1 ) : $d->select( 'product_props', '', 'prod_prop_name = \''.$id_or_name.'\'', 1 );
     }
 
     function properties( string $target_form ): void {
