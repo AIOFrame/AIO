@@ -32,14 +32,14 @@ $property_types_struct = [
     [ 'name', 'VARCHAR', 256, 1 ],
     [ 'type', 'VARCHAR', 8, 1 ],
     [ 'desc', 'VARCHAR', 512, 0 ],
-    [ 'icon', 'VARCHAR', 32, 0 ],
-    [ 'image', 'VARCHAR', 512, 0 ],
-    [ 'multiple', 'BOOL', '', 0 ],
     [ 'status', 'BOOL', '', 1 ],
 ];
 $properties_meta_struct = [
-    [ 'property', 'INT', 13, 1 ],
+    [ 'type', 'INT', 13, 1 ],
     [ 'name', 'VARCHAR', 256, 1 ],
+    [ 'image', 'VARCHAR', 512, 0 ],
+    [ 'icon', 'VARCHAR', 32, 0 ],
+    [ 'class', 'VARCHAR', 32, 0 ],
     //[ 'desc', 'VARCHAR', 512, 0 ],
     //[ 'icon', 'VARCHAR', 32, 0 ],
     //[ 'value', 'VARCHAR', 256, 0 ],
