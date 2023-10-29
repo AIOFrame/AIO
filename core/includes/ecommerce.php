@@ -45,12 +45,12 @@ class ECOMMERCE {
             [ 'i' => 'sale_to', 'n' => 'Sale Till', 't' => 'date', 'c' => 6.1 ]
         ];
         $image_fields = [
-            [ 'i' => 'image', 't' => 'upload', 'n' => 'Product Picture', 'a' => 'required', 'b' => 'Upload', 's' => .6, 'e' => 'png,svg,webp,jpg,jpeg' ],
+            [ 'i' => 'image', 't' => 'upload', 'n' => 'Product Picture', 'a' => 'required', 'b' => 'Upload', 'v' => 'fake_image', 's' => .6, 'e' => 'png,svg,webp,jpg,jpeg' ],
             [ 'i' => 'gallery', 't' => 'upload', 'n' => 'Product Gallery', 'b' => 'Upload', 'm' => 8, 'v' => 'fake_images', 's' => .6, 'e' => 'png,svg,webp,jpg,jpeg' ],
         ];
         $r = $f->_random();
         !empty( $modal_class ) ? pre_modal( 'product', $modal_class ) : '';
-        $f->pre_process( 'data-wrap id="product_form"', 'update_product_ajax', $r, 'p_', 2, 2 );
+        $f->pre_process( 'data-wrap id="product_form"', 'update_product_ajax', $r, 'p_', 92, 92 );
         _r();
         _c(8);
         $f->form( $main_fields, '', $r );
@@ -59,7 +59,8 @@ class ECOMMERCE {
         tab( 'Description', 1 );
         tab( 'Inventory' );
         tab( 'Tax' );
-        tab( 'Properties' );
+        tab( 'Custom Properties' );
+        tab( 'Attributes' );
         tab( 'Variations' );
         post_tabs();
         pre( 'product_tab_data' );
@@ -94,7 +95,14 @@ class ECOMMERCE {
             $f->form( $tax_form, 'settings', $r );
             post();
 
-            pre( 'properties_data' );
+            pre( 'custom_properties_data' );
+                $properties_form = [
+
+                ];
+                $f->form( $properties_form, 'settings', $r );
+            post();
+
+            pre( 'attributes_data' );
             $prop_types = $d->select( 'product_prop_types', '', 'prod_prop_status = \'1\'' );
             if( !empty( $prop_types ) ) {
                 foreach( $prop_types as $pt ) {
@@ -104,25 +112,22 @@ class ECOMMERCE {
                         foreach( $props as $pr ) {
                             $options[ $pr['prod_prop_meta_id'] ] = $pr['prod_prop_meta_name'];
                         }
-                        accordion( $pt['prod_prop_name'], $f->_form( [ [ 't' => 'checkboxes', 'id' => 'property_'.$pt['prod_prop_id'], 'n' => '', 'a' => 'data-'.$r.' data-array="'.$pt['prod_prop_id'].'"', 'o' => $options, 'i_p' => 3 ] ] ) );
+                        accordion( $pt['prod_prop_name'], $f->_form( [ [ 't' => 'checkboxes', 'id' => 'property_'.$pt['prod_prop_id'], 'n' => '', 'a' => 'data-'.$r.' data-keyed-array="properties[]"', 'o' => $options, 'i_p' => 3 ] ] ), 'b' );
                     }
                 }
             }
-            $properties_form = [
-
-            ];
-            $f->form( $properties_form, 'settings', $r );
             post();
 
             pre( 'variations_data' );
+
             post();
 
         post();
 
         c_();
         _c(4);
-        accordion( 'Prices', $f->_form( $price_fields, 'row', $r ), 'br15 w on' );
         accordion( 'Images', $f->_form( $image_fields, 'row', $r ), 'br15 w on' );
+        accordion( 'Prices', $f->_form( $price_fields, 'row', $r ), 'br15 w on' );
         accordion( 'SEO', $f->_form( $seo_fields, 'row', $r ), 'br15 w' );
         accordion( 'Visibility', $f->_form( $visibility_fields, 'row', $r ), 'br15 w' );
         $f->process_trigger('Save Product','w r');
@@ -213,10 +218,9 @@ class ECOMMERCE {
         if( empty( $products ) ) {
             no_content( 'No products added yet!', '', $wrapper_class );
         } else {
-            $c = new CODE();
             $f = new FORM();
-            $rate = REGION['rate'] ?? 1;
-            $curr = REGION['symbol'];
+            $rate = defined('REGION') && isset( REGION['rate'] ) ? REGION['rate'] : 1;
+            $curr = defined('REGION') && isset( REGION['symbol'] ) ? REGION['symbol'] : 'USD';
             $table[] = [ 'head' => [ 'ID', 'Name', 'Visibility', 'Properties', 'Price', 'Sales', 'Status', 'Actions' ] ];
             foreach( $products as $p ) {
                 //skel( $p );

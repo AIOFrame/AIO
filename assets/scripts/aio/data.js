@@ -70,18 +70,28 @@ function get_values( parent, attribute, prepend ) {
         if( $(this).attr('type') === 'checkbox' ){
             let t = $(this).is(':checked');
             let arr = $(this).data('array');
+            let keyed_arr = $(this).data('keyed-array');
             let v =  $(this).val();
             if ( $(this).hasClass('slide') ) {
                 //elog(0);
                 value = $(this).is(':checked') ? 1 : 2;
+            } else if ( keyed_arr !== undefined ) {
+                // If data[pre_key] is undefined define it as array
+                if( data[ arr.replaceAll('[]','') ] === undefined || !$.isArray( data[ arr.replaceAll('[]','') ] ) ) {
+                    data[ arr.replaceAll('[]','') ] = {};
+                    data[ arr.replaceAll('[]','') ][ pre_key.replace('[]','') ] = [];
+                }
+                console.log( data );
+                data[ arr.replaceAll('[]','') ][ pre_key.replace('[]','') ].push(v);
             } else if ( arr !== undefined ) {
-                //elog(1);
+                // If data[pre_key] is undefined define it as array
                 if( data[pre_key] === undefined || !$.isArray( data[pre_key] ) ) {
                     data[pre_key] = [];
                 }
                 if( t ) {
                     data[pre_key].push( v );
                 }
+
             } else if (m.length > 1) {
                 //elog(2);
                 value = $( '[name=' + $(this).attr('name') + ']' ).map(function () {

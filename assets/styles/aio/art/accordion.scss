@@ -1,7 +1,7 @@
 .accordion {
   margin-bottom: 20px;
   .accordion_head {
-    padding: 20px;
+    padding:15px 20px;
     cursor: pointer;
     position: relative;
     h1, h2, h3, h4, h5, h6, .title {
@@ -42,9 +42,36 @@
     display: none;
   }
 }
+// Accordion Small
+.accordion.s {
+  .accordion_head {
+    padding: 10px 20px;
+  }
+}
+// Accordion Large
+.accordion.s {
+  .accordion_head {
+    padding: 20px;
+  }
+}
+// Accordion White
 .accordion.w {
   background: #fff;
   .accordion_head {
     box-shadow: 0 0 15px rgba(0,0,0,.1);
+  }
+}
+// Accordion Bordered
+.accordion.b {
+  border: 1px solid var(--secondary_color);
+  .accordion_head {
+    border-bottom: 1px solid transparent;
+    transition: .6s;
+  }
+}
+.accordion.on.b {
+  border: 1px solid var(--primary_color);
+  .accordion_head {
+    border-bottom: 1px solid var(--primary_color);
   }
 }
