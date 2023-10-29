@@ -223,6 +223,7 @@ class ECOMMERCE {
             $curr = defined('REGION') && isset( REGION['symbol'] ) ? REGION['symbol'] : 'USD';
             $table[] = [ 'head' => [ 'ID', 'Name', 'Visibility', 'Price', 'Sales', 'Status', 'Actions' ] ];
             foreach( $products as $p ) {
+                $delete_button = $f->_trash_html('remove_product_ajax',$p['prod_id'],'div','','','','mat-ico',2,2,'Are you sure to delete this product?','delete_forever');
                 //skel( $p );
                 $table[]['body'] = [
                     _div( 'tac', $p['prod_id'] ),
@@ -231,7 +232,7 @@ class ECOMMERCE {
                     _div( 'tar', '<s>' . ( $rate * ( $p['prod_meta']['regular_price'] ?? 0 ) ) . '</s> ' . ( $rate * ( $p['prod_meta']['sale_price'] ?? 0 ) ) . ' ' . $curr ),
                     _div( 'tar', 0 ),
                     _div( 'tac', $status[ $p['prod_status'] ] ?? '' ),
-                    _pre('','acts').$f->_edit_html( '#product_modal', $p, 'div', '', '', '', 'mat-ico', 'edit' )._post()
+                    _pre('','acts').$f->_edit_html( '#product_modal', $p, 'div', '', '', '', 'mat-ico', 'edit' ).$delete_button._post()
                 ];
             }
             table_view( 'products_list', $table, $wrapper_class );
@@ -1100,6 +1101,28 @@ function update_product_ajax(): void {
         }
     } else {
         ef('Failed due to product title not set!');
+    }
+}
+
+function remove_product_ajax(): void {
+    $id = $_POST['logic'];
+    $e = Encrypt::initiate();
+    $id = APPDEBUG ? $id : $e->decrypt( $id );
+    if( is_numeric( $id ) ) {
+        $d = new DB();
+        // Delete Product
+        $prod = $d->delete( 'products', 'prod_id = \''.$id.'\'' );
+        if( $prod ) {
+            // Delete Product Meta
+            $meta = $d->delete( 'product_meta', 'prod_meta_product = \''.$id.'\'' );
+            // Delete Product Properties
+            $prop = $d->delete( 'product_properties', 'prod_pr_product = \''.$id.'\'' );
+            es( 'Successfully removed product!' );
+        } else {
+            ef( 'Failed to remove product!' );
+        }
+    } else {
+        ef( 'Failed to remove product due to failure in parsing product id! Please consult admin!!' );
     }
 }
 

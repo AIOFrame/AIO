@@ -1409,10 +1409,16 @@ class FORM {
         $p_ = $this->_post( $pre, $post );
         //$post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
         $c = Encrypt::initiate();
+        $target = APPDEBUG ? $table : $c->decrypt( $table );
+        $action = str_contains( $target, '_ajax' ) ? $target : 'trash_data_ajax';
+        $action = APPDEBUG ? $action : $c->encrypt( $action );
+        $logic = APPDEBUG ? $logic : $c->encrypt( $logic );
+        $table = str_contains( $target, '_ajax' ) ? '' : ( APPDEBUG ? $table : $c->encrypt($table) );
         $i = !empty( $i_class ) || !empty( $i_text ) ? '<i class="'.$i_class.'">'.$i_text.'</i>' : '';
         $attr .= !empty( $confirmation ) ? ' data-confirm="'.T($confirmation).'"' : '';
         $title = str_contains( $attr, 'title' ) ? '' : 'title="'.T('Delete').'"';
-        return $_p.'<'.$html.' onclick="trash_data(this,\''.( APPDEBUG ? 'trash_data_ajax' : $c->encrypt('trash_data_ajax') ).'\',\''.( APPDEBUG ? $table : $c->encrypt($table) ).'\',\''.( APPDEBUG ? $logic : $c->encrypt($logic) ).'\','.$notify_time.','.$reload_time.')" class="'.$class.'" '.$title.' '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$p_;
+        return $_p . _el( $html, $class, $i . T( $text ), '', $title.' '.$attr.' onclick="trash_data(this,\''.$action.'\',\''.$table.'\',\''.$logic.'\','.$notify_time.','.$reload_time.')"' ) . $p_;
+        //return $_p.'<'.$html.'  class="'.$class.'" '.$title.' '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$p_;
     }
 
     // TODO: disable_html() similar to trash_html()
