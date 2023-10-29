@@ -237,6 +237,7 @@ class ECOMMERCE {
             }
             table_view( 'products_list', $table, $wrapper_class );
         }
+        get_script( 'ecommerce/backend/product' );
     }
 
     function product_cards( string $wrapper_class = '', string|int $cols = 4, string $edit_modal = '' ): void {
@@ -251,6 +252,7 @@ class ECOMMERCE {
             }
             grid_view( 'product_cards', $cards, $wrapper_class, $cols );
         }
+        get_script( 'ecommerce/backend/product' );
     }
 
     function _products(): array {
@@ -266,7 +268,7 @@ class ECOMMERCE {
             }
             // Product Properties
             $prod_props = $d->select( 'product_properties', 'prod_pr_type,prod_pr_meta', 'prod_pr_product = \''.$p['prod_id'].'\'' );
-            $prod_props = array_group_by( $prod_props, 'prod_pr_type' );
+            //$prod_props = array_group_by( $prod_props, 'prod_pr_type' );
             // Update product
             $products[ $pk ]['prod_meta'] = $meta;
             $products[ $pk ]['prod_props'] = $prod_props;
@@ -1011,14 +1013,14 @@ class ECOMMERCE {
     function update_product_props( int $product_id, array $properties_group, int $new_product_id = 0 ): int {
         $db = new DB();
         $success = 0;
+        if( !empty( $new_product_id ) ) {
+            $db->delete( 'product_properties', 'prod_pr_product = \''.$product_id.'\'' );
+            $product_id = $new_product_id;
+        }
         if( !empty( $product_id ) && !empty( $properties_group ) ) {
             foreach( $properties_group as $type_id => $properties ) {
                 if( is_array( $properties ) && !empty( $properties ) ) {
                     foreach( $properties as $meta_id ) {
-                        if( !empty( $new_product_id ) ) {
-                            $db->delete( 'product_properties', 'prod_pr_product = \''.$product_id.'\'' );
-                            $product_id = $new_product_id;
-                        }
                         $data = [ 'product' => $product_id, 'type' => $type_id, 'meta' => $meta_id ];
                         $insert = $db->insert( 'product_properties', prepare_keys( $data, 'prod_pr_' ), prepare_values( $data ) );
                         $insert ? $success++ : '';

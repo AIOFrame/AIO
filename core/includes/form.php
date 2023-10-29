@@ -1365,7 +1365,8 @@ class FORM {
         //$post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
         $i = !empty( $i_class ) || !empty( $i_text ) ? '<i class="'.$i_class.'">'.$i_text.'</i>' : '';
         $title = str_contains( $attr, 'title' ) ? '' : 'title="'.T('Edit').'"';
-        return $_p.'<'.$html.' onclick="edit_data(this,\''.$element.'\')" data-data=\''.$this->_editable_data($array).'\' class="'.$class.'" '.$title.' '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$p_;
+        $data = $title . ' data-edit-action class="'.$class.' edit" onclick="edit_data(this,\''.$element.'\')" data-data=\''.$this->_editable_data($array).'\'' . $attr;
+        return $_p . _el( $html, '', $i.T( $text ), '', $data ) . $p_;
     }
 
     /**
@@ -1417,7 +1418,7 @@ class FORM {
         $i = !empty( $i_class ) || !empty( $i_text ) ? '<i class="'.$i_class.'">'.$i_text.'</i>' : '';
         $attr .= !empty( $confirmation ) ? ' data-confirm="'.T($confirmation).'"' : '';
         $title = str_contains( $attr, 'title' ) ? '' : 'title="'.T('Delete').'"';
-        return $_p . _el( $html, $class, $i . T( $text ), '', $title.' '.$attr.' onclick="trash_data(this,\''.$action.'\',\''.$table.'\',\''.$logic.'\','.$notify_time.','.$reload_time.')"' ) . $p_;
+        return $_p . _el( $html, $class.' delete', $i . T( $text ), '', $title.' '.$attr.' data-delete-action onclick="trash_data(this,\''.$action.'\',\''.$table.'\',\''.$logic.'\','.$notify_time.','.$reload_time.')"' ) . $p_;
         //return $_p.'<'.$html.'  class="'.$class.'" '.$title.' '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$p_;
     }
 
