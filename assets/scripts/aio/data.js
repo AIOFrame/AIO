@@ -77,12 +77,23 @@ function get_values( parent, attribute, prepend ) {
                 value = $(this).is(':checked') ? 1 : 2;
             } else if ( keyed_arr !== undefined ) {
                 // If data[pre_key] is undefined define it as array
-                if( data[ arr.replaceAll('[]','') ] === undefined || !$.isArray( data[ arr.replaceAll('[]','') ] ) ) {
-                    data[ arr.replaceAll('[]','') ] = {};
-                    data[ arr.replaceAll('[]','') ][ pre_key.replace('[]','') ] = [];
+                pre_key = key;
+                console.log( "Moin" );
+                console.log( pre_key );
+                console.log( v );
+                if( data[ pre + keyed_arr.replaceAll('[]','') ] === undefined ) { // || !$.isObject( data[ pre + keyed_arr.replaceAll('[]','') ] )
+                    console.log( keyed_arr.replaceAll('[]','') );
+                    data[ pre + keyed_arr.replaceAll('[]','') ] = {};
+                    data[ pre + keyed_arr.replaceAll('[]','') ][ pre_key ] = [];
+                    console.log('Setting only once!');
+                }
+                if( data[ pre + keyed_arr.replaceAll('[]','') ][ pre_key ] === undefined ) {
+                    data[ pre + keyed_arr.replaceAll('[]','') ][ pre_key ] = [];
                 }
                 console.log( data );
-                data[ arr.replaceAll('[]','') ][ pre_key.replace('[]','') ].push(v);
+                if( t ) {
+                    data[ pre + keyed_arr.replaceAll('[]','') ][ pre_key ].push( v );
+                }
             } else if ( arr !== undefined ) {
                 // If data[pre_key] is undefined define it as array
                 if( data[pre_key] === undefined || !$.isArray( data[pre_key] ) ) {

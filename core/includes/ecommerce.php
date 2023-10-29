@@ -103,16 +103,16 @@ class ECOMMERCE {
             post();
 
             pre( 'attributes_data' );
-            $prop_types = $d->select( 'product_prop_types', '', 'prod_prop_status = \'1\'' );
+            $prop_types = $d->select( 'product_prop_types', '', 'prod_pt_status = \'1\'' );
             if( !empty( $prop_types ) ) {
                 foreach( $prop_types as $pt ) {
-                    $props = $d->select( 'product_prop_meta', '', 'prod_prop_meta_property = \''.$pt['prod_prop_id'].'\'' );
+                    $props = $d->select( 'product_prop_meta', '', 'prod_pm_property = \''.$pt['prod_pt_id'].'\'' );
                     if( !empty( $props ) ) {
                         $options = [];
                         foreach( $props as $pr ) {
-                            $options[ $pr['prod_prop_meta_id'] ] = $pr['prod_prop_meta_name'];
+                            $options[ $pr['prod_pm_id'] ] = $pr['prod_pm_name'];
                         }
-                        accordion( $pt['prod_prop_name'], $f->_form( [ [ 't' => 'checkboxes', 'id' => 'property_'.$pt['prod_prop_id'], 'n' => '', 'a' => 'data-'.$r.' data-keyed-array="properties[]"', 'o' => $options, 'i_p' => 3 ] ] ), 'b' );
+                        accordion( $pt['prod_pt_name'], $f->_form( [ [ 't' => 'checkboxes', 'id' => 'property_'.$pt['prod_pt_id'], 'n' => '', 'a' => 'data-'.$r.' data-keyed-array="properties"', 'o' => $options, 'i_p' => 3 ] ] ), 'b' );
                     }
                 }
             }
@@ -533,7 +533,7 @@ class ECOMMERCE {
         ];
         $r = $f->_random();
         !empty( $modal_class ) ? pre_modal( $title, $modal_class ) : '';
-        $f->pre_process( 'data-wrap', 'product_prop_types', $r, 'prod_prop_', 2, 2 );
+        $f->pre_process( 'data-wrap', 'product_prop_types', $r, 'prod_pt_', 2, 2 );
             $f->form( $prop_type_fields, 'row', $r );
             $f->process_trigger('Save '. $title,'','','','.tac');
         $f->post_process();
@@ -542,7 +542,7 @@ class ECOMMERCE {
 
     function get_property( int|string $id_or_name ): array {
         $d = new DB();
-        return is_numeric( $id_or_name ) ? $d->select( 'product_prop_types', '', 'prod_prop_id = \''.$id_or_name.'\'', 1 ) : $d->select( 'product_prop_types', '', 'prod_prop_name = \''.$id_or_name.'\'', 1 );
+        return is_numeric( $id_or_name ) ? $d->select( 'product_prop_types', '', 'prod_pt_id = \''.$id_or_name.'\'', 1 ) : $d->select( 'product_prop_types', '', 'prod_pt_name = \''.$id_or_name.'\'', 1 );
     }
 
     function properties( string $target_form ): void {
@@ -555,7 +555,7 @@ class ECOMMERCE {
             $pts = $this->property_types;
             $table[] = [ 'head' => [ 'Name & Desc', 'Icon', 'Type', 'Filterable', 'Variable', 'Status', 'Actions' ] ];
             foreach( $props as $p ) {
-                $p = replace_in_keys( $p, 'prod_prop_' );
+                $p = replace_in_keys( $p, 'prod_pt_' );
                 //skel( $p );
                 $name = $p['name'] . ( !empty( $p['desc'] ) ? _el( 'small', 'db', $p['desc'] ) : '' );
                 $icon = !empty( $p['icon'] ) ? ( _el( 'i', $p['class'] ?? '' , $p['icon'] ) ) : '';
@@ -585,12 +585,12 @@ class ECOMMERCE {
             [ 't' => 'slide', 'i' => 'status', 'n' => 'Status', 'off' => '', 'on' => '', 'c' => 2, 'v' => 1 ],
             [ 'i' => 'icon', 't' => 'text', 'n' => 'Icon Text', 'c' => 6 ],
             [ 'i' => 'class', 't' => 'text', 'n' => 'Icon Class', 'c' => 6 ],
-            [ 'i' => 'image', 't' => 'upload', 'e' => 'jpg,svg', 'n' => 'Image', 'b' => 'Upload', 'c' => 6 ],
+            [ 'i' => 'image', 't' => 'upload', 'e' => 'jpg,svg,jpeg,bmp,webp', 'n' => 'Image', 'b' => 'Upload', 'c' => 6 ],
             [ 'i' => 'color', 't' => 'color', 'n' => 'Color', 'c' => 6 ],
         ];
         $r = $f->_random();
         !empty( $modal_class ) ? pre_modal( $title, $modal_class ) : '';
-        $f->pre_process( 'data-wrap', 'product_prop_meta', $r, 'prod_prop_meta_', 2, 2, [ "property" => $id ] );
+        $f->pre_process( 'data-wrap', 'product_prop_meta', $r, 'prod_pm_', 2, 2, [ "type" => $id ] );
             $f->form( $prop_meta_fields, 'row', $r );
             $f->process_trigger('Save '. $title,'','','','.tac');
         $f->post_process();
@@ -599,25 +599,24 @@ class ECOMMERCE {
 
     function properties_meta( int|string $id_name, string $target_form ): void {
         $d = new DB();
-        $props = $d->select( 'product_prop_meta', '', ( is_numeric( $id_name ) ? 'prod_prop_meta_property = '.$id_name : 'prod_prop_meta_name = '.$id_name ) );
+        $props = $d->select( 'product_prop_meta', '', ( is_numeric( $id_name ) ? 'prod_pm_type = '.$id_name : 'prod_pm_name = '.$id_name ) );
         if( empty( $props ) ) {
             no_content( 'No product properties meta found!' );
         } else {
-            $c = new CODE();
             $f = new FORM();
-            $pts = $this->property_types;
             $table[] = [ 'head' => [ 'Name', 'Icon', 'Image', 'Color', 'Status', 'Actions' ] ];
             foreach( $props as $p ) {
-                $p = replace_in_keys( $p, 'prod_prop_meta_' );
+                $p = replace_in_keys( $p, 'prod_pm_' );
                 $icon = !empty( $p['icon'] ) ? ( _el( 'i', $p['class'] ?? '' , $p['icon'] ) ) : '';
-                $img = !empty( $p['image'] ) ? _img( $p['class'], '', '', '', '', 'style="height:50px"' ) : '';
+                $img = !empty( $p['image'] ) ? _img( storage_url( $p['image'] ), '', $p['class'], '', '', 'style="height:50px"' ) : '';
                 $status = $p['status'] == 1 ? $f->_slide( 'status', '', '', '', 1, 'm', 'disabled' ) : $f->_slide( 'status', '', '', '', 0, 'm', 'disabled' );
+                $col = !empty( $p['color'] ) ? _div( 'color', $p['color'], '', 'style="color:'.$p['color'].'"' ) : '';
                 $actions = _pre('','acts');
                 //$actions .= $f->_view_html(APPURL.'admin/products/prop/'.$p['prod_prop_id'],'div','','','','mat-ico','open_in_new');
                 $actions .= $f->_edit_html( $target_form, $p, 'div','','','','mat-ico','edit');
-                $actions .= $f->_trash_html('product_prop_meta','prod_prop_meta_id = '.$p['id'],'div','','','','mat-ico',1,1,'Are you sure to remove property meta? This will affect filters and products!','delete_forever');
+                $actions .= $f->_trash_html('product_prop_meta','prod_pm_id = '.$p['id'],'div','','','','mat-ico',1,1,'Are you sure to remove property meta? This will affect filters and products!','delete_forever');
                 $actions .= _post();
-                $table[] = [ 'body' => [ $p['name'], $icon, $img, $p['color'], $status, $actions ] ];
+                $table[] = [ 'body' => [ $p['name'], $icon, $img, $col, $status, $actions ] ];
             }
             table( $table, 'tac' );
         }
@@ -1025,6 +1024,8 @@ function update_product_ajax(): void {
         unset( $p['t'] );
         $id = $p['id'] ?? 0;
         unset( $p['id'] );
+        $props = $p['properties'];
+        unset( $p['properties'] );
         $p['content'] = htmlspecialchars( $p['content'] );
         $p['by'] = get_user_id();
         $p['update'] = date('Y-m-d H:i:s');

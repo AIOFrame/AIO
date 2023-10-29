@@ -28,6 +28,11 @@ $meta_struct = [
     [ 'value', 'TEXT', '', 0 ],
     [ 'load', 'BOOL', '', 0 ],
 ];
+$product_props_struct = [
+    [ 'product', 'INT', 13, 1 ],
+    [ 'product_prop_type', 'INT', 13, 1 ],
+    [ 'product_prop_meta', 'INT', 13, 1 ],
+];
 $property_types_struct = [
     [ 'name', 'VARCHAR', 256, 1 ],
     [ 'type', 'VARCHAR', 8, 1 ],
@@ -80,8 +85,9 @@ $loc_struct = [
 
 $struct[] = [ 'products', $products_struct, 'prod', 1 ];
 $struct[] = [ 'product_meta', $meta_struct, 'prod_meta', 1 ];
-$struct[] = [ 'product_prop_types', $property_types_struct, 'prod_prop', 1 ];
-$struct[] = [ 'product_prop_meta', $properties_meta_struct, 'prod_prop_meta', 1 ];
+$struct[] = [ 'product_properties', $product_props_struct, 'prod_pr', 1 ];
+$struct[] = [ 'product_prop_types', $property_types_struct, 'prod_pt', 1 ];
+$struct[] = [ 'product_prop_meta', $properties_meta_struct, 'prod_pm', 1 ];
 $struct[] = [ 'orders', $orders_struct, 'p_cat', 1 ];
 $struct[] = [ 'order_items', $order_items_struct, 'p_cat', 1 ];
 $struct[] = [ 'cart', $cart_struct, 'cart', 1 ];
