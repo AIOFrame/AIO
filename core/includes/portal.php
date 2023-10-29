@@ -129,20 +129,20 @@ class PORTAL {
                         pre( 'pass', 'dn' );
                             $a->change();
                         post();
-                    post();
 
-                    // Sessions Tab Content
-                    pre('sess','dn');
-                        $sessions = [
-                            [ 'head' => [ 'OS', 'Start', 'Expiry', 'Browser' ] ],
-                        ];
-                        if( !empty( $ss ) ){
-                            foreach( $ss as $s ){
-                                $id = !empty($s['session_id']) ? $c->encrypt($s['session_id']) : '';
-                                $sessions[] = [ 'body' => [ $s['session_os'], easy_date($s['session_time'],'d M, Y H:i:s'), easy_date($s['session_expiry'],'d M, Y H:i:s'), $s['session_client'] ] ];
+                        // Sessions Tab Content
+                        pre('sess','dn');
+                            $sessions = [
+                                [ 'head' => [ 'OS', 'Start', 'Expiry', 'Browser' ] ],
+                            ];
+                            if( !empty( $ss ) ){
+                                foreach( $ss as $s ){
+                                    $id = !empty($s['session_id']) ? $c->encrypt($s['session_id']) : '';
+                                    $sessions[] = [ 'body' => [ $s['session_os'], easy_date($s['session_time'],'d M, Y H:i:s'), easy_date($s['session_expiry'],'d M, Y H:i:s'), $s['session_client'] ] ];
+                                }
                             }
-                        }
-                        table( $sessions, 'plain' );
+                            table( $sessions, 'plain' );
+                        post();
                     post();
                 c_();
             !is_mobile() ? div('col-2') : '';

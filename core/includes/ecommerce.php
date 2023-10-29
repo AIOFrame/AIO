@@ -50,7 +50,7 @@ class ECOMMERCE {
         ];
         $r = $f->_random();
         !empty( $modal_class ) ? pre_modal( 'product', $modal_class ) : '';
-        $f->pre_process( 'data-wrap id="product_form"', 'update_product_ajax', $r, 'p_', 92, 92 );
+        $f->pre_process( 'data-wrap id="product_form"', 'update_product_ajax', $r, 'p_', 2, 2 );
         _r();
         _c(8);
         $f->form( $main_fields, '', $r );
@@ -106,13 +106,13 @@ class ECOMMERCE {
             $prop_types = $d->select( 'product_prop_types', '', 'prod_pt_status = \'1\'' );
             if( !empty( $prop_types ) ) {
                 foreach( $prop_types as $pt ) {
-                    $props = $d->select( 'product_prop_meta', '', 'prod_pm_property = \''.$pt['prod_pt_id'].'\'' );
+                    $props = $d->select( 'product_prop_meta', '', 'prod_pm_type = \''.$pt['prod_pt_id'].'\'' );
                     if( !empty( $props ) ) {
                         $options = [];
                         foreach( $props as $pr ) {
                             $options[ $pr['prod_pm_id'] ] = $pr['prod_pm_name'];
                         }
-                        accordion( $pt['prod_pt_name'], $f->_form( [ [ 't' => 'checkboxes', 'id' => 'property_'.$pt['prod_pt_id'], 'n' => '', 'a' => 'data-'.$r.' data-keyed-array="properties"', 'o' => $options, 'i_p' => 3 ] ] ), 'b' );
+                        accordion( $pt['prod_pt_name'], $f->_form( [ [ 't' => 'checkboxes', 'id' => $pt['prod_pt_id'], 'n' => '', 'a' => 'data-'.$r.' data-keyed-array="properties"', 'o' => $options, 'i_p' => 3 ] ] ), 'b' );
                     }
                 }
             }
@@ -221,17 +221,16 @@ class ECOMMERCE {
             $f = new FORM();
             $rate = defined('REGION') && isset( REGION['rate'] ) ? REGION['rate'] : 1;
             $curr = defined('REGION') && isset( REGION['symbol'] ) ? REGION['symbol'] : 'USD';
-            $table[] = [ 'head' => [ 'ID', 'Name', 'Visibility', 'Properties', 'Price', 'Sales', 'Status', 'Actions' ] ];
+            $table[] = [ 'head' => [ 'ID', 'Name', 'Visibility', 'Price', 'Sales', 'Status', 'Actions' ] ];
             foreach( $products as $p ) {
                 //skel( $p );
                 $table[]['body'] = [
-                    $p['prod_id'],
-                    $p['prod_title'].'<div><small>/'.$p['prod_url'].'</small></div>',
-                    easy_date($p['prod_date']).'<div><small>'.T('Updated').': '.easy_date($p['prod_update']).'</small></div>',
-                    (!empty($p['prod_birth'])?'<div><small>'.T('Visible from').': '.easy_date($p['prod_birth']).'</small></div>':'').(!empty($p['prod_expiry'])?'<div><small>'.T('Visible till').': '.easy_date($p['prod_expiry']).'</small></div>':''),
-                    '<s>' . ( $rate * ( $p['prod_meta']['regular_price'] ?? 0 ) ) . '</s> ' . ( $rate * ( $p['prod_meta']['sale_price'] ?? 0 ) ) . ' ' . $curr,
-                    0,
-                    $status[ $p['prod_status'] ] ?? '',
+                    _div( 'tac', $p['prod_id'] ),
+                    $p['prod_title']. _div( '', _el( 'small', '', $p['prod_url'] ) ),
+                    easy_date($p['prod_date'])._div( '', _el( 'small', '', T('Updated').': '.easy_date($p['prod_update']) ) ).(!empty($p['prod_birth'])?_div('',_el('small','',T('Visible from').': '.easy_date($p['prod_birth']))):'').(!empty($p['prod_expiry'])?_div('',_el('small','',T('Visible till').': '.easy_date($p['prod_expiry']))):''),
+                    _div( 'tar', '<s>' . ( $rate * ( $p['prod_meta']['regular_price'] ?? 0 ) ) . '</s> ' . ( $rate * ( $p['prod_meta']['sale_price'] ?? 0 ) ) . ' ' . $curr ),
+                    _div( 'tar', 0 ),
+                    _div( 'tac', $status[ $p['prod_status'] ] ?? '' ),
                     _pre('','acts').$f->_edit_html( '#product_modal', $p, 'div', '', '', '', 'mat-ico', 'edit' )._post()
                 ];
             }
@@ -258,12 +257,18 @@ class ECOMMERCE {
         //$data = [ 'id', 'date', 'update', 'title', 'url', 'password', 'status', 'birth', 'expiry', 'by' ];
         $products = $d->select( 'products', '', 'prod_status != \'4\'' );
         foreach( $products as $pk => $p ) {
+            // Product Meta
             $data_meta = $d->select( 'product_meta', '', 'prod_meta_product = \''.$p['prod_id'].'\'' );
             $meta = [];
             foreach( $data_meta as $dm ) {
                 $meta[ $dm['prod_meta_name'] ] = $dm['prod_meta_value'];
             }
+            // Product Properties
+            $prod_props = $d->select( 'product_properties', 'prod_pr_type,prod_pr_meta', 'prod_pr_product = \''.$p['prod_id'].'\'' );
+            $prod_props = array_group_by( $prod_props, 'prod_pr_type' );
+            // Update product
             $products[ $pk ]['prod_meta'] = $meta;
+            $products[ $pk ]['prod_props'] = $prod_props;
         }
         return $products;
     }
@@ -585,7 +590,7 @@ class ECOMMERCE {
             [ 't' => 'slide', 'i' => 'status', 'n' => 'Status', 'off' => '', 'on' => '', 'c' => 2, 'v' => 1 ],
             [ 'i' => 'icon', 't' => 'text', 'n' => 'Icon Text', 'c' => 6 ],
             [ 'i' => 'class', 't' => 'text', 'n' => 'Icon Class', 'c' => 6 ],
-            [ 'i' => 'image', 't' => 'upload', 'e' => 'jpg,svg,jpeg,bmp,webp', 'n' => 'Image', 'b' => 'Upload', 'c' => 6 ],
+            [ 'i' => 'image', 't' => 'upload', 'e' => 'jpg,png,svg,jpeg,bmp,webp', 'n' => 'Image', 'b' => 'Upload', 'c' => 6 ],
             [ 'i' => 'color', 't' => 'color', 'n' => 'Color', 'c' => 6 ],
         ];
         $r = $f->_random();
@@ -1002,6 +1007,27 @@ class ECOMMERCE {
         return $success;
     }
 
+    function update_product_props( int $product_id, array $properties_group, int $new_product_id = 0 ): int {
+        $db = new DB();
+        $success = 0;
+        if( !empty( $product_id ) && !empty( $properties_group ) ) {
+            foreach( $properties_group as $type_id => $properties ) {
+                if( is_array( $properties ) && !empty( $properties ) ) {
+                    foreach( $properties as $meta_id ) {
+                        if( !empty( $new_product_id ) ) {
+                            $db->delete( 'product_properties', 'prod_pr_product = \''.$product_id.'\'' );
+                            $product_id = $new_product_id;
+                        }
+                        $data = [ 'product' => $product_id, 'type' => $type_id, 'meta' => $meta_id ];
+                        $insert = $db->insert( 'product_properties', prepare_keys( $data, 'prod_pr_' ), prepare_values( $data ) );
+                        $insert ? $success++ : '';
+                    }
+                }
+            }
+        }
+        return $success;
+    }
+
     function _product_meta( int $product_id, string $metas = 'quantity,max,tax,regular_price,sale_price' ): array {
         $d = new DB();
         $query = $d->ids_string_to_query( $metas, 'prod_meta_name' );
@@ -1024,7 +1050,7 @@ function update_product_ajax(): void {
         unset( $p['t'] );
         $id = $p['id'] ?? 0;
         unset( $p['id'] );
-        $props = $p['properties'];
+        $props = isset( $p['properties'] ) ? json_decode( $p['properties'], 1 ) : [];
         unset( $p['properties'] );
         $p['content'] = htmlspecialchars( $p['content'] );
         $p['by'] = get_user_id();
@@ -1058,12 +1084,14 @@ function update_product_ajax(): void {
                 $update = $db->update( 'products', [ 'prod_status', 'prod_parent' ], [ 4, $saved ], "prod_id = {$id}" );
                 if( $update[0] > 0 ) {
                     $e->update_product_metas( (int)$id, $p, $saved );
+                    $e->update_product_props( (int)$id, $props, $saved );
                     es('Successfully updated product!');
                 } else {
                     ef('Failed to update product!');
                 }
             } else {
                 $e->update_product_metas( $saved, $p );
+                $e->update_product_props( $saved, $props );
                 es('Successfully added new product!');
             }
             // Update meta

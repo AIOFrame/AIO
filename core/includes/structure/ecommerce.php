@@ -30,8 +30,8 @@ $meta_struct = [
 ];
 $product_props_struct = [
     [ 'product', 'INT', 13, 1 ],
-    [ 'product_prop_type', 'INT', 13, 1 ],
-    [ 'product_prop_meta', 'INT', 13, 1 ],
+    [ 'type', 'INT', 13, 1 ],
+    [ 'meta', 'INT', 13, 1 ],
 ];
 $property_types_struct = [
     [ 'name', 'VARCHAR', 256, 1 ],

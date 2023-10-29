@@ -410,12 +410,12 @@ function pre_tabs( string $class = '' ): void {
 }
 
 function tab( string $title = '', bool $active = false, string $target = '', string $icon = '' ): void {
-    $target = empty( $target ) ? strtolower( str_replace( '___', '_', str_replace( ' ', '_', str_replace( '/', '_', $title ) ) ) ).'_data' : $target;
+    $target = empty( $target ) ? '#'.strtolower( str_replace( '___', '_', str_replace( ' ', '_', str_replace( '/', '_', $title ) ) ) ).'_data' : $target;
     $class = $active ? 'tab on' : 'tab';
     if( !empty( $icon ) ) {
         $title = defined( 'ICONS' ) ? ( str_contains( ICONS, 'Material' ) ? '<i class="mat-ico">'.$icon.'</i>'.$title : '<i class="bi bi-'.$icon.'"></i>'.$title ) : $title;
     }
-    div($class,$title,'','data-tab="#'.$target.'"',1);
+    div($class,$title,'','data-tab="'.$target.'"',1);
 }
 
 function post_tabs(): void {
