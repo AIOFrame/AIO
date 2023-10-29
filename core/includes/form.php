@@ -178,7 +178,7 @@ class FORM {
         $req = str_contains( $attr, 'required' ) ? '<i>*</i>' : '';
         $return .= !empty( $label ) ? '<label for="'.$id.'">'. $label .$req.'</label>' : '';
         $ph = !empty( $placeholder ) ? ' placeholder="'.$placeholder.'" data-placeholder="'.$placeholder.'"' : '';
-        $return .= '<select name="'.$name.'" title="'.$label.'" data-key="'.$name.'" id="'.$id.'"'.$at.$ph.'>';
+        $return .= '<select name="'.$name.'" title="'.$label.'" data-key="'.$name.'" data-auto-close id="'.$id.'"'.$at.$ph.'>';
         //if( str_contains( $attr, 'select2' ) ) {
         // TODO: Options to check if array is multi dimensional and append accordingly
         if( str_contains( $attr, 'select2') ) {

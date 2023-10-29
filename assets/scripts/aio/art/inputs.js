@@ -51,18 +51,7 @@ window.addEventListener('DOMContentLoaded',function () {
 
     // Select2
     $('select.easy, select.select2').each(function (a,b) {
-        let select_config = { width:'100%' };
-        if( $(b).data('no-search') !== undefined ) {
-            select_config.minimumResultsForSearch = -1;
-        }
-        select_config.closeOnSelect = $(b).data('auto-close') !== undefined;
-        if( $(b).data('template') !== undefined ) {
-            //console.log( $(b).data('template') );
-            select_config.templateResult = $(b).data('template');
-            //select_config.templateSelection = $(b).data('template');
-        }
-        console.log(select_config);
-        $(b).select2(select_config);
+        select_init( b );
     });
     if( $.fn.select2 !== undefined ){
 
@@ -127,6 +116,21 @@ window.addEventListener('DOMContentLoaded',function () {
     } */
 
 });
+
+function select_init( el ) {
+    let select_config = { width:'100%' };
+    if( $( el ).data('no-search') !== undefined ) {
+        select_config.minimumResultsForSearch = -1;
+    }
+    select_config.closeOnSelect = $( el ).data('auto-close') !== undefined;
+    if( $( el ).data('template') !== undefined ) {
+        //console.log( $(b).data('template') );
+        select_config.templateResult = $( el ).data('template');
+        //select_config.templateSelection = $(b).data('template');
+    }
+    console.log(select_config);
+    $( el ).select2(select_config);
+}
 
 let dateLocaleEn = {
     days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],

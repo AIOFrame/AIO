@@ -5,6 +5,8 @@
   padding: 15px 20px;
   cursor: pointer;
   position: relative;
+  display: flex;
+  align-items: center;
 }
 .accordion .accordion_head h1, .accordion .accordion_head h2, .accordion .accordion_head h3, .accordion .accordion_head h4, .accordion .accordion_head h5, .accordion .accordion_head h6, .accordion .accordion_head .title {
   margin: 0;
@@ -14,11 +16,14 @@
   font-weight: bold;
   text-transform: uppercase;
 }
-.accordion .accordion_head .act {
+.accordion .accordion_head .act, .accordion .accordion_head .actions {
   position: absolute;
   right: 5px;
   top: 50%;
   transform: translateY(-50%);
+}
+.accordion .accordion_head .actions {
+  right: 35px;
 }
 .accordion .accordion_body {
   padding: 0 20px;
@@ -46,7 +51,7 @@
   padding: 10px 20px;
 }
 
-.accordion.s .accordion_head {
+.accordion.l .accordion_head {
   padding: 20px;
 }
 

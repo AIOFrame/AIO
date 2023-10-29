@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .aio_fsp.aio_files {
   border: 2px solid #eee;
   background: #eee;
@@ -33,7 +34,7 @@
 }
 
 .aio_upload:after {
-  content: "\e9fc";
+  content: "";
   position: absolute;
   right: 6px;
   top: 50%;
@@ -176,8 +177,8 @@
 }
 .banner_wrap .banner_bg:after {
   content: "";
-  background: rgb(0, 0, 0);
-  background: linear-gradient(0deg, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%);
+  background: black;
+  background: linear-gradient(0deg, black 0%, rgba(0, 0, 0, 0) 100%);
 }
 .banner_wrap .banner_image.l {
   background-position: left center;
@@ -273,7 +274,7 @@ button:after, .btn:after {
 body {
   background: #f3f3f3;
   margin: 120px 0 90px;
-  min-height: calc(100vh - 210px);
+  min-height: calc( 100vh - 210px);
 }
 
 .invoice_view {
@@ -1048,6 +1049,13 @@ aside::-webkit-scrollbar {
   margin: 0 6px 6px;
 }
 
+fieldset {
+  background: #eee;
+  color: #000;
+  padding: 8px 20px;
+  margin: var(--input_margin_top) var(--input_margin_right) var(--input_margin_bottom) var(--input_margin_left);
+}
+
 .row [class^=col], .row [class*=" col"] {
   position: relative;
 }
@@ -1074,28 +1082,28 @@ aside::-webkit-scrollbar {
   line-height: 45px;
 }
 .acts i.edit:after {
-  content: "\e3c9";
+  content: "";
 }
 .acts i.view:after {
-  content: "\e8a0";
+  content: "";
 }
 .acts i.delete:after, .acts i.trash:after {
-  content: "\e872";
+  content: "";
 }
 .acts i.inspect:after {
-  content: "\ea9b";
+  content: "";
 }
 .acts i.pay:after {
-  content: "\ef63";
+  content: "";
 }
 .acts i.map:after {
-  content: "\e55f";
+  content: "";
 }
 .acts i.up:after, .acts i.upload:after {
-  content: "\f09b";
+  content: "";
 }
 .acts i.down:after, .acts i.download:after {
-  content: "\e2c4";
+  content: "";
 }
 
 /* Tabs */

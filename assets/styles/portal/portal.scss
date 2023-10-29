@@ -1091,6 +1091,12 @@ aside::-webkit-scrollbar {
     }
   }
 }
+fieldset {
+  background: #eee;
+  color: #000;
+  padding: 8px 20px;
+  margin: var(--input_margin_top) var(--input_margin_right) var(--input_margin_bottom) var(--input_margin_left);
+}
 .row [class^='col'], .row [class*=' col'] {
   position: relative;
 }

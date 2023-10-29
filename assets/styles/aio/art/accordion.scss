@@ -4,6 +4,8 @@
     padding:15px 20px;
     cursor: pointer;
     position: relative;
+    display: flex;
+    align-items: center;
     h1, h2, h3, h4, h5, h6, .title {
       margin: 0;
     }
@@ -12,11 +14,14 @@
       font-weight: bold;
       text-transform: uppercase;
     }
-    .act {
+    .act, .actions {
       position: absolute;
       right: 5px;
       top: 50%;
       transform: translateY(-50%);
+    }
+    .actions {
+      right: 35px;
     }
   }
   .accordion_body {
@@ -49,7 +54,7 @@
   }
 }
 // Accordion Large
-.accordion.s {
+.accordion.l {
   .accordion_head {
     padding: 20px;
   }

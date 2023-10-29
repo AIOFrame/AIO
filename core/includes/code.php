@@ -820,8 +820,8 @@ function text_to_image( string $text, string $type = 'img', int $break = 40, int
 
 // ACCORDION TAGS
 
-function accordion( string $title = '', string $content = '', string $class = '' ): void {
-    echo "<div class='accordion {$class}'><div class='accordion_head'>{$title}<div class='act'><div class='mat-ico' data-close>expand_less</div><div class='mat-ico' data-open>expand_more</div></div></div><div class='accordion_body'>{$content}</div></div>";
+function accordion( string $title = '', string $content = '', string $class = '', string $attr = '' ): void {
+    echo "<div class='accordion {$class}' ".$attr."><div class='accordion_head'>{$title}<div class='act'><div class='mat-ico' data-close>expand_less</div><div class='mat-ico' data-open>expand_more</div></div></div><div class='accordion_body'>{$content}</div></div>";
 }
 
 function _r(): void {

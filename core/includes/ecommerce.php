@@ -7,6 +7,7 @@ class ECOMMERCE {
 
     }
 
+    private array $product_types = [ 1 => 'Single Product', 2 => 'Variable Product', 3 => 'Digital Product' ];
     private array $property_types = [ 'check' => 'Multi Check Box', 'radio' => 'Single Radio Box', 'drop' => 'Select Dropdown', 'color' => 'Color Picker', 'range' => 'Range Picker', 'image' => 'Image Multi Checkbox', 'icon' => 'Icon Multi Checkbox' ];
     public array $product_statuses = [ 1 => 'Publicly Visible', 2 => 'Disabled', 3 => 'Draft', 4 => 'History' ];
 
@@ -103,10 +104,12 @@ class ECOMMERCE {
             post();
 
             pre( 'attributes_data' );
+            global $prop_types;
             $prop_types = $d->select( 'product_prop_types', '', 'prod_pt_status = \'1\'' );
             if( !empty( $prop_types ) ) {
-                foreach( $prop_types as $pt ) {
-                    $props = $d->select( 'product_prop_meta', '', 'prod_pm_type = \''.$pt['prod_pt_id'].'\'' );
+                foreach( $prop_types as $ptk => $pt ) {
+                    $props = $d->select( 'product_prop_meta', '', 'prod_pm_type = \''.$pt['prod_pt_id'].'\' && prod_pm_status = \'1\'' );
+                    $prop_types[ $ptk ]['props'] = $props;
                     if( !empty( $props ) ) {
                         $options = [];
                         foreach( $props as $pr ) {
@@ -119,13 +122,13 @@ class ECOMMERCE {
             post();
 
             pre( 'variations_data' );
-
+                $this->variation_form();
             post();
-
         post();
 
         c_();
         _c(4);
+        $f->select2('type','Product Type','Select Type...',$this->product_types,1,$r,'',1);
         accordion( 'Images', $f->_form( $image_fields, 'row', $r ), 'br15 w on' );
         accordion( 'Prices', $f->_form( $price_fields, 'row', $r ), 'br15 w on' );
         accordion( 'SEO', $f->_form( $seo_fields, 'row', $r ), 'br15 w' );
@@ -160,6 +163,80 @@ class ECOMMERCE {
             // SKU
             // Picture
             // ...
+    }
+
+    function variation_form(): void {
+        $f = new FORM();
+        $r = $f->_random();
+        $f->pre_process('data-pv','update_variation_ajax','var','var_',2,2);
+            pre( 'variation_wrap' );
+                // Variations Prepare
+                global $prop_types;
+                $props_form = [];
+                if( !empty( $prop_types ) ) {
+                    foreach( $prop_types as $pt ) {
+                        if( $pt['prod_pt_var'] == 1 ) {
+                            //skel( $pt['props'] );
+                            $props = $pt['props'];
+                            if( !empty( $props ) ) {
+                                $options = [];
+                                foreach( $props as $pr ) {
+                                    $options[ $pr['prod_pm_id'] ] = $pr['prod_pm_name'];
+                                }
+                                $props_form[] = [ 't' => 'select', 'p' => 'Select '.$pt['prod_pt_name'], 'id' => $pt['prod_pt_id'], 'n' => '', 'a' => 'data-auto-close data-array="v_properties" data-'.$r, 'c' => 3, 'o' => $options ];
+                            }
+                        }
+                    }
+                }
+                // Variations Base
+                //$f->input('hidden','pid','','','','data-var');
+                pre( '', '', 'div', 'data-variations-wrap data-confirm="'.T('Are you sure to remove this variation ? This action is irreversible!').'"' );
+                post();
+                b('add_variation w bsn l','+','','data-add-var-action');
+                // Variations Template
+                pre( '', 'dn', 'div', 'data-acc-template' );
+                    accordion( 'Variation', '{{var}}', 'b', 'data-variation-set' );
+                post();
+                $va = 'var';
+                pre( '', 'dn', 'div', 'data-var-template' );
+                    el( 'fieldset', '', T( 'Variation Details' ) );
+                    // Variation Name
+                    $variation_form = [
+                        [ 'i' => 'v_name', 'n' => 'Variation Name', 'p' => 'Ex: Red Gold Edition, US 15 M, International Variant etc.', 'c' => 6 ],
+                        [ 'i' => 'v_image', 't' => 'upload', 'e' => 'png,jpg,jpeg,bmp,svg,webp', 'n' => 'Variation Picture', 'b' => 'Upload', 'c' => 3 ],
+                        [ 'i' => 'v_status', 't' => 'slide', 'n' => 'Status', 'c' => 3, 'off' => '', 'on' => '', 'v' => 1 ],
+                        [ 'i' => 'v_desc', 'n' => 'Short Description', 'p' => 'Ex: Limited edition released for 2025 etc.', 'c' => 6 ],
+                        [ 'i' => 'v_regular_price', 't' => 'number', 'n' => 'Regular Price', 'c' => 3 ],
+                        [ 'i' => 'v_sale_price', 't' => 'number', 'n' => 'Sale Price', 'c' => 3 ],
+                    ];
+                    $f->form( $variation_form, 'row', $va );
+                    // Variation Physical Description
+                    el( 'fieldset', '', T( 'Physical Description' ) );
+                    $variation_desc_form = [
+                        [ 'i' => 'v_weight', 'n' => 'Weight', 't' => 'number', 'v' => 1, 'c' => 2 ],
+                        [ 'i' => 'v_width', 'n' => 'Width', 't' => 'number', 'v' => 10, 'c' => 2 ],
+                        [ 'i' => 'v_height', 'n' => 'Height', 't' => 'number', 'v' => 15, 'c' => 2 ],
+                        [ 'i' => 'v_depth', 'n' => 'Length / Depth', 't' => 'number', 'v' => 20, 'c' => 2 ],
+                        [ 'i' => 'v_sku', 'n' => 'SKU', 'v' => 'ABC12345', 'c' => 2 ],
+                        [ 'i' => 'v_quantity', 'n' => 'Available qty.', 't' => 'number', 'v' => 5, 'c' => 2 ],
+                    ];
+                    $f->form( $variation_desc_form, 'row', $va );
+                    // Variation Inventory
+                    //h4( 'Inventory Details', 1 );
+                    //$variation_inv_form = [
+
+                    //[ 'i' => 'low_threshold', 'n' => 'Low stock alert on reaching quantity', 't' => 'number', 'v' => 5, 'c' => 3 ],
+                    //    [ 'i' => 'max', 'n' => 'Max qty. per order', 't' => 'number', 'v' => 1, 'c' => 3 ],
+                    //];
+                    //$f->form( $variation_inv_form, 'row', $va );
+                    // Variation Properties
+                    el( 'fieldset', '', T( 'Variation Attributes' ) );
+                    $f->form( $props_form, 'row', $va );
+                    // Variation Actions
+                    div( 'actions tac', $f->_process_trigger( _el( 'i', 'mat-ico', 'save' ), 'blue s mx10 mb0 save_var' ) . _b( 'red s mx10 mb0 trash_var', _el( 'i', 'mat-ico', 'remove_circle' ) ) );
+                post();
+            post();
+        $f->post_process();
     }
 
     function inventory(): void {
@@ -223,7 +300,9 @@ class ECOMMERCE {
             $curr = defined('REGION') && isset( REGION['symbol'] ) ? REGION['symbol'] : 'USD';
             $table[] = [ 'head' => [ 'ID', 'Name', 'Visibility', 'Price', 'Sales', 'Status', 'Actions' ] ];
             foreach( $products as $p ) {
-                $delete_button = $f->_trash_html('remove_product_ajax',$p['prod_id'],'div','','','','mat-ico',2,2,'Are you sure to delete this product?','delete_forever');
+                //$vars = $f->_edit_html( '#variation_modal', $p, 'div', '', '', '', 'mat-ico', 'dashboard_customize' );
+                $edit = $f->_edit_html( '#product_modal', $p, 'div', '', '', '', 'mat-ico', 'edit' ); // ( $p['prod_type'] == 2 ? $vars : '' ) .
+                $delete = $f->_trash_html('remove_product_ajax',$p['prod_id'],'div','','','','mat-ico',2,2,'Are you sure to delete this product?','delete_forever');
                 //skel( $p );
                 $table[]['body'] = [
                     _div( 'tac', $p['prod_id'] ),
@@ -232,7 +311,7 @@ class ECOMMERCE {
                     _div( 'tar', '<s>' . ( $rate * ( $p['prod_meta']['regular_price'] ?? 0 ) ) . '</s> ' . ( $rate * ( $p['prod_meta']['sale_price'] ?? 0 ) ) . ' ' . $curr ),
                     _div( 'tar', 0 ),
                     _div( 'tac', $status[ $p['prod_status'] ] ?? '' ),
-                    _pre('','acts').$f->_edit_html( '#product_modal', $p, 'div', '', '', '', 'mat-ico', 'edit' ).$delete_button._post()
+                    _pre('','acts').$edit.$delete._post()
                 ];
             }
             table_view( 'products_list', $table, $wrapper_class );
@@ -1103,6 +1182,39 @@ function update_product_ajax(): void {
         }
     } else {
         ef('Failed due to product title not set!');
+    }
+}
+
+function update_variation_ajax(): void {
+    if( isset( $_POST['id'] ) && $_POST['id'] > 0 ) {
+        $p = $_POST;
+        $pid = $p['id'];
+        $name = $p['var_v_name'];
+        $desc = $p['var_v_desc'];
+        $img = $p['var_v_image'];
+        $status = $p['var_v_status'];
+        $props = $p['var_v_properties'];
+        unset( $p['action'] );
+        unset( $p['pre'] );
+        unset( $p['t'] );
+        unset( $p['h'] );
+        unset( $p['id'] );
+        unset( $p['var_v_name'] );
+        unset( $p['var_v_desc'] );
+        unset( $p['var_v_image'] );
+        unset( $p['var_v_properties'] );
+        unset( $p['var_v_status'] );
+        // Create Variation
+        $d = new DB();
+        $var_data = [ 'date' => date( 'Y-m-d H:i:s' ), 'update' => date( 'Y-m-d H:i:s' ), 'title' => $name, 'content' => $desc, 'type' => 2, 'parent' => $pid, 'image' => $img, 'status' => $status, 'by' => get_user_id() ];
+        $var = $d->insert( 'products', prepare_keys( $var_data, 'prod_' ), prepare_values( $var_data ) );
+        if( $var ) {
+            $e = new ECOMMERCE();
+            // Update Meta
+            $e->update_product_metas( $var, $p );
+            // Update Properties
+            $e->update_product_props( $var, $props );
+        }
     }
 }
 
