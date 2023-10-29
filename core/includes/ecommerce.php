@@ -519,13 +519,13 @@ class ECOMMERCE {
         //$d = new DB();
         $prop_type_fields = [
             [ 'i' => 'name', 'n' => 'Property Type', 'p' => 'Ex: Material, Color etc.', 'c' => 6, 'a' => 'required' ],
-            [ 'i' => 'type', 't' => 'select2', 'n' => 'Selection Type', 'o' => $this->property_types, 'k' => 1, 'c' => 4, 'v' => 'check', 'a' => 'required' ],
+            [ 't' => 'slide', 'i' => 'filter', 'n' => 'Filterable', 'off' => '', 'on' => '', 'c' => 2, 'v' => 1 ],
+            [ 't' => 'slide', 'i' => 'var', 'n' => 'Variable', 'off' => '', 'on' => '', 'c' => 2, 'v' => 1 ],
             [ 't' => 'slide', 'i' => 'status', 'n' => 'Status', 'off' => '', 'on' => '', 'c' => 2, 'v' => 1 ],
             [ 'i' => 'desc', 'n' => 'Description', 'c' => 12 ],
-            //[ 'i' => 'image', 't' => 'upload', 'e' => 'jpg,svg', 'n' => 'Image', 'b' => 'Upload', 'c' => 6 ],
-            //[ 'i' => 'icon', 't' => 'text', 'n' => 'Icon Text', 'c' => 6 ],
-            //[ 'i' => 'class', 't' => 'text', 'n' => 'Class', 'c' => 6 ],
-            //[ 'i' => 'multiple', 't' => 'slide', 'n' => 'User can filter multiple', 'off' => 'No', 'on' => 'Yes', 'c' => 4 ],
+            [ 'i' => 'type', 't' => 'select2', 'n' => 'Selection Type', 'o' => $this->property_types, 'k' => 1, 'c' => 4, 'v' => 'check', 'a' => 'required' ],
+            [ 'i' => 'icon', 't' => 'text', 'n' => 'Icon Text', 'c' => 4 ],
+            [ 'i' => 'class', 't' => 'text', 'n' => 'Icon Class', 'c' => 4 ],
         ];
         $r = $f->_random();
         !empty( $modal_class ) ? pre_modal( $title, $modal_class ) : '';
@@ -549,16 +549,24 @@ class ECOMMERCE {
         } else {
             $f = new FORM();
             $pts = $this->property_types;
-            $table[] = [ 'head' => [ 'Name', 'Description', 'Type', 'Status', 'Actions' ] ];
+            $table[] = [ 'head' => [ 'Name & Desc', 'Icon', 'Type', 'Filterable', 'Variable', 'Status', 'Actions' ] ];
             foreach( $props as $p ) {
-                $status = $p['prod_prop_status'] == 1 ? $f->_slide( 'status', '', '', '', 1, 'm', 'disabled' ) : $f->_slide( 'status', '', '', '', 0, 'm', 'disabled' );
-                $type = $pts[ $p['prod_prop_type'] ] ?? '-';
+                $p = replace_in_keys( $p, 'prod_prop_' );
+                //skel( $p );
+                $name = $p['name'] . ( !empty( $p['desc'] ) ? _el( 'small', 'db', $p['desc'] ) : '' );
+                $icon = !empty( $p['icon'] ) ? ( _el( 'i', $p['class'] ?? '' , $p['icon'] ) ) : '';
+                $status = $f->_slide( 'status', '', '', '', ( $p['status'] == 1 ? 1 : 0 ), 'm', 'disabled' );
+                $type = $pts[ $p['type'] ] ?? '-';
+                $filter = $f->_slide( 'filter', '', '', '', ( $p['filter'] == 1 ? 1 : 0 ), 'm', 'disabled' );
+                $var = $f->_slide( 'var', '', '', '', ( $p['var'] == 1 ? 1 : 0 ), 'm', 'disabled' );
+                $url = str_replace(' ','',strtolower( $p['name'])).'_'.$p['id'];
+
                 $actions = '<div class="acts">';
-                $actions .= $f->_view_html(APPURL.'admin/products/prop/'.$p['prod_prop_name'],'div','','','','mat-ico','open_in_new');
-                $actions .= $f->_edit_html( $target_form,$p,'div','','','','mat-ico','edit');
-                $actions .= $f->_trash_html('product_props','prod_prop_id = '.$p['prod_prop_id'],'div','','','','mat-ico',2,2,'Are you sure to remove property type? This will affect filters and products!','delete_forever');
+                $actions .= $f->_view_html(APPURL.'admin/products/prop/'.$url,'div','','','','mat-ico','open_in_new');
+                $actions .= $f->_edit_html( $target_form, $p, 'div', '', '', '', 'mat-ico', 'edit' );
+                $actions .= $f->_trash_html('product_props','prod_prop_id = '.$p['id'],'div','','','','mat-ico',2,2,'Are you sure to remove property type? This will affect filters and products!','delete_forever');
                 $actions .= '</div>';
-                $table[] = [ 'body' => [ $p['prod_prop_name'], $p['prod_prop_desc'], $type, $status, $actions ] ];
+                $table[] = [ 'body' => [ $name, $icon, $type, $filter, $var, $status, $actions ] ];
             }
             table( $table, 'tac' );
         }
@@ -596,15 +604,16 @@ class ECOMMERCE {
             $pts = $this->property_types;
             $table[] = [ 'head' => [ 'Name', 'Icon', 'Image', 'Color', 'Status', 'Actions' ] ];
             foreach( $props as $p ) {
-                $icon = !empty( $p['prod_prop_meta_icon'] ) ? ( _el( 'i', $p['prod_prop_meta_class'] ?? '' , $p['prod_prop_meta_icon'] ) ) : '';
-                $img = !empty( $p['prod_prop_meta_image'] ) ? _img( $p['prod_prop_meta_class'], '', '', '', '', 'style="height:50px"' ) : '';
-                $status = $p['prod_prop_meta_status'] == 1 ? $f->_slide( 'status', '', '', '', 1, 'm', 'disabled' ) : $f->_slide( 'status', '', '', '', 0, 'm', 'disabled' );
+                $p = replace_in_keys( $p, 'prod_prop_meta_' );
+                $icon = !empty( $p['icon'] ) ? ( _el( 'i', $p['class'] ?? '' , $p['icon'] ) ) : '';
+                $img = !empty( $p['image'] ) ? _img( $p['class'], '', '', '', '', 'style="height:50px"' ) : '';
+                $status = $p['status'] == 1 ? $f->_slide( 'status', '', '', '', 1, 'm', 'disabled' ) : $f->_slide( 'status', '', '', '', 0, 'm', 'disabled' );
                 $actions = _pre('','acts');
                 //$actions .= $f->_view_html(APPURL.'admin/products/prop/'.$p['prod_prop_id'],'div','','','','mat-ico','open_in_new');
                 $actions .= $f->_edit_html( $target_form, $p, 'div','','','','mat-ico','edit');
-                $actions .= $f->_trash_html('product_prop_meta','prod_prop_meta_id = '.$p['prod_prop_meta_id'],'div','','','','mat-ico',1,1,'Are you sure to remove property meta? This will affect filters and products!','delete_forever');
+                $actions .= $f->_trash_html('product_prop_meta','prod_prop_meta_id = '.$p['id'],'div','','','','mat-ico',1,1,'Are you sure to remove property meta? This will affect filters and products!','delete_forever');
                 $actions .= _post();
-                $table[] = [ 'body' => [ $p['prod_prop_meta_name'], $icon, $img, $p['prod_prop_meta_color'], $status, $actions ] ];
+                $table[] = [ 'body' => [ $p['name'], $icon, $img, $p['color'], $status, $actions ] ];
             }
             table( $table, 'tac' );
         }

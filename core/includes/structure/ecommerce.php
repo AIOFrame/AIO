@@ -32,6 +32,10 @@ $property_types_struct = [
     [ 'name', 'VARCHAR', 256, 1 ],
     [ 'type', 'VARCHAR', 8, 1 ],
     [ 'desc', 'VARCHAR', 512, 0 ],
+    [ 'filter', 'BOOL', '', 1 ],
+    [ 'var', 'BOOL', '', 1 ],
+    [ 'icon', 'VARCHAR', 32, 0 ],
+    [ 'class', 'VARCHAR', 12, 0 ],
     [ 'status', 'BOOL', '', 1 ],
 ];
 $properties_meta_struct = [

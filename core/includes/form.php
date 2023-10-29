@@ -1020,6 +1020,7 @@ class FORM {
     function _editable_data( array $data = [], string $remove = '' ): string {
         $final = [];
         $remove = explode( ',', $remove );
+        //skel( $data );
         foreach( $data as $k => $v ){
             if( is_numeric( $k ) )
                 continue;
@@ -1031,6 +1032,7 @@ class FORM {
                 $final[ $k ] = $v;
             }
         }
+        //skel( $final );
         return json_encode( $final );
     }
 
