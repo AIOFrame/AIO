@@ -24,11 +24,53 @@ document.addEventListener('DOMContentLoaded', function () {
             $(var_el).removeClass('dn')
             $('#variations_wrap').find('[data-key=id]').val(p['id']).attr('value',p['id']);
             $('[data-var-template]').find('[data-key=id]').val(p['id']).attr('value',p['id']);
+
+            // Build Variations
+            let vars = p['vars'];
+            //console.log( vars );
+            let i = 1;
+            $.each( vars, function (vi, vp) {
+                $('[data-add-var-action]').click();
+                //console.log( vi );
+                //console.log( vp );
+                let props = vp['prod_props'];
+                delete vp['prod_props'];
+                let meta = vp['prod_meta'];
+                delete vp['prod_meta'];
+                let vw = $('[data-variations-wrap]>div:nth-child('+i+')');
+                $(vw).find('[data-pv]').data('id',vp['prod_id']).attr('id',vp['prod_id']);
+                $(vw).find('[data-trash-var]').data('id',vp['prod_id']).attr('id',vp['prod_id']);
+                $.each( vp, function ( vpk, vpv ) {
+                    let input = $(vw).find('[data-key='+vpk.replaceAll('prod_','v_')+']');
+                    if( input.length > 0 ) {
+                        $( input ).val( vpv );
+                        //console.log( input );
+                        //console.log( vpk );
+                        //console.log( vpv );
+                    }
+                });
+                $.each( meta, function( mk, mv ){
+                    //console.log( mk );
+                    //console.log( mv );
+                    //console.log( $( '[data-'+r+'][data-key=' + mk + ']' ) );
+                    $(vw).find('[data-key=v_' + mk + ']').val(mv);
+                });
+                //console.log( props );
+                $.each( props, function ( i, pp ) {
+                    //console.log( i );
+                    console.log( pp['prod_pr_type'] );
+                    console.log( pp['prod_pr_meta'] );
+                    $(vw).find('[data-array="v_properties"][data-key='+pp['prod_pr_type']+']').val( pp['prod_pr_meta'] );
+                });
+
+                //console.log( vw );
+                i++;
+            })
         } else {
             $(var_el).addClass('dn');
             $('[data-variations-wrap],[data-var-template]').find('[data-key=id]').val('').attr('value','');
         }
-        console.log(p);
+        //console.log(p);
     })
 
     .on('click','[data-modal="#product_modal"]',function () {
@@ -71,3 +113,9 @@ document.addEventListener('DOMContentLoaded', function () {
     })
 
 })
+
+function variation_callback( r ) {
+    if( r[0] === 1 ) {
+
+    }
+}

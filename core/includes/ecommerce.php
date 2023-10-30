@@ -197,15 +197,15 @@ class ECOMMERCE {
             post();
             $va = 'var';
             pre( '', 'dn', 'div', 'data-var-template' );
-                $f->pre_process('data-pv','update_variation_ajax','var','var_',4);
+                $f->pre_process('data-pv','update_variation_ajax','var','var_',4,0,[],'','variation_callback');
                     el( 'fieldset', '', T( 'Variation Details' ) );
                     $f->input('hidden','id','','','','data-var');
                     // Variation Name
                     $variation_form = [
-                        [ 'i' => 'v_name', 'n' => 'Variation Name', 'p' => 'Ex: Red Gold Edition, US 15 M, International Variant etc.', 'c' => 6 ],
+                        [ 'i' => 'v_title', 'n' => 'Variation Name', 'p' => 'Ex: Red Gold Edition, US 15 M, International Variant etc.', 'c' => 6 ],
                         [ 'i' => 'v_image', 't' => 'upload', 'e' => 'png,jpg,jpeg,bmp,svg,webp', 'n' => 'Variation Picture', 'b' => 'Upload', 'c' => 3 ],
                         [ 'i' => 'v_status', 't' => 'slide', 'n' => 'Status', 'c' => 3, 'off' => '', 'on' => '', 'v' => 1 ],
-                        [ 'i' => 'v_desc', 'n' => 'Short Description', 'p' => 'Ex: Limited edition released for 2025 etc.', 'c' => 6 ],
+                        [ 'i' => 'v_content', 'n' => 'Short Description', 'p' => 'Ex: Limited edition released for 2025 etc.', 'c' => 6 ],
                         [ 'i' => 'v_regular_price', 'n' => 'Regular Price', 'c' => 3, 'a' => 'required' ],
                         [ 'i' => 'v_sale_price', 'n' => 'Sale Price', 'c' => 3, 'a' => 'required' ],
                     ];
@@ -233,7 +233,7 @@ class ECOMMERCE {
                     el( 'fieldset', '', T( 'Variation Attributes' ) );
                     $f->form( $props_form, 'row', $va );
                     // Variation Actions
-                    div( 'actions tac', $f->_process_trigger( _el( 'i', 'mat-ico', 'save' ), 'blue s mx10 mb0 save_var' ) . $f->_process_trigger( _el( 'i', 'mat-ico', 'remove_circle' ), 'red s mx10 mb0 trash_var', '', 'remove_variation_ajax' ) );
+                    div( 'actions tac', $f->_process_trigger( _el( 'i', 'mat-ico', 'save' ), 'blue s mx10 mb0 save_var' ) . $f->_process_trigger( _el( 'i', 'mat-ico', 'remove_circle' ), 'red s mx10 mb0 trash_var', '', 'remove_product_ajax' ) );
                 $f->post_process();
             post();
         post();
@@ -389,8 +389,8 @@ class ECOMMERCE {
             $products[ $pk ]['prod_meta'] = $meta;
             $products[ $pk ]['prod_props'] = $prod_props;
             $products[ $pk ]['vars'] = $variations;
-            $products[ $pk ]['max'] = max( $prices );
-            $products[ $pk ]['min'] = min( $prices );
+            $products[ $pk ]['max'] = !empty( $prices ) ? max( $prices ) : 0;
+            $products[ $pk ]['min'] = !empty( $prices ) ? min( $prices ) : 0;
         }
         return $products;
     }
@@ -1229,9 +1229,9 @@ function update_variation_ajax(): void {
     if( isset( $_POST['var_id'] ) && $_POST['var_id'] > 0 ) {
         $p = $_POST;
         $pid = $p['var_id'];
-        $name = $p['var_v_name'] ?? '';
+        $name = $p['var_v_title'] ?? '';
         $url = '';
-        $desc = $p['var_v_desc'];
+        $desc = $p['var_v_content'];
         $img = $p['var_v_image'];
         $status = $p['var_v_status'];
         $props = !empty( $p['var_v_properties'] ) ? json_decode( $p['var_v_properties'], 1 ) : [];
@@ -1240,8 +1240,8 @@ function update_variation_ajax(): void {
         unset( $p['t'] );
         unset( $p['h'] );
         unset( $p['var_id'] );
-        unset( $p['var_v_name'] );
-        unset( $p['var_v_desc'] );
+        unset( $p['var_v_title'] );
+        unset( $p['var_v_content'] );
         unset( $p['var_v_image'] );
         unset( $p['var_v_properties'] );
         unset( $p['var_v_status'] );
@@ -1271,7 +1271,7 @@ function update_variation_ajax(): void {
 }
 
 function remove_product_ajax(): void {
-    $id = $_POST['logic'];
+    $id = $_POST['logic'] ?? $_POST['id'];
     $e = Encrypt::initiate();
     $id = APPDEBUG ? $id : $e->decrypt( $id );
     if( is_numeric( $id ) ) {
