@@ -143,12 +143,13 @@ class REGION {
 
     /**
      * @param string $title_format
+     * @param int $reload_time
      * @param string $active_class
      * @param string $class
      * @param string $element
      * @return void
      */
-    function region_changer( string $title_format = 'country - symbol', string $active_class = 'on', string $class = '', string $element = 'div', ): void {
+    function region_changer( string $title_format = 'country - symbol', int $reload_time = 1, string $active_class = 'on', string $class = '', string $element = 'div', ): void {
         /* $db = new DB();
         global $options;
         $set_countries = array_map( 'trim', explode( ',', $options['regions'] ) );
@@ -171,7 +172,7 @@ class REGION {
                 $replaces = [ 'cca2', 'cca3', 'country', 'flag', 'currency', 'symbol', 'call' ];
                 $f = new FORM();
                 $wrap = $element == 'li' || $element == 'ul' ? 'ul' : $element;
-                pre( 'aio_language_changer', 'aio_language_changer_wrap', $wrap, $f->_pre_process( '', 'set_region_ajax', '', '', 2, 2 ) );
+                pre( 'aio_language_changer', 'aio_language_changer_wrap', $wrap, $f->_pre_process( '', 'set_region_ajax', '', '', 4, $reload_time ) );
                 foreach( REGIONS['regions'] as $r ){
                     $title = $title_format;
                     foreach( $replaces as $rep ) {
