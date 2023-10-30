@@ -197,7 +197,7 @@ class ECOMMERCE {
             post();
             $va = 'var';
             pre( '', 'dn', 'div', 'data-var-template' );
-                $f->pre_process('data-pv','update_variation_ajax','var','var_',4,0,[],'','variation_callback');
+                $f->pre_process('data-pv','update_variation_ajax','var','var_',4);
                     el( 'fieldset', '', T( 'Variation Details' ) );
                     $f->input('hidden','id','','','','data-var');
                     // Variation Name
@@ -379,27 +379,34 @@ class ECOMMERCE {
         $p['props'] = $d->select( 'product_properties', 'prod_pr_type,prod_pr_meta', 'prod_pr_product = \''.$p['id'].'\'' );
         //$prod_props = array_group_by( $prod_props, 'prod_pr_type' );
         // Product Variations
-        $variations = $variation_selectors = $prices = $vs = [];
+        $variations = $variation_selectors = $vs = $prices = [];
         if( $p['type'] == 2 ) {
             $vars = $d->select( 'products', 'prod_id,prod_title,prod_content,prod_image', 'prod_parent = \''.$p['id'].'\' && prod_status != \'4\' && prod_type = \'2\'' );
             if( !empty( $vars ) ) {
                 foreach( $vars as $v ) {
                     $v = replace_in_keys( $v, 'prod_' );
+                    $variations[ $v['id'] ] = $v;
                     $var_meta = $d->select( 'product_meta', '', 'prod_meta_product = \''.$v['id'].'\'' );
                     //$v_meta = [];
+                    //skel( $var_meta );
                     $reg = $sale = 0;
                     if( !empty( $var_meta ) ) {
                         foreach( $var_meta as $vm ) {
                             $v[ $vm['prod_meta_name'] ] = $vm['prod_meta_value'];
-                            $variation_selectors[ $v['id'] ]['meta'][ $vm['prod_meta_name'] ] = $vm['prod_meta_value'];
+                            $variations[ $v['id'] ]['meta'][ $vm['prod_meta_name'] ] = $vm['prod_meta_value'];
+                            //$variation_selectors[ $v['id'] ]['meta'][ $vm['prod_meta_name'] ] = $vm['prod_meta_value'];
                             $vm['prod_meta_name'] == 'regular_price' && !empty( $vm['prod_meta_value'] ) ? $reg = (float)$vm['prod_meta_value'] : '';
                             $vm['prod_meta_name'] == 'sale_price' && !empty( $vm['prod_meta_value'] ) ? $sale = (float)$vm['prod_meta_value'] : '';
                             //skel( $vm );
                         }
                     }
-                    $reg = $reg > 0 ? $reg : null;
-                    $sale = $sale > 0 ? $sale : null;
-                    $price = $sale < $reg ? $sale : $reg;
+                    //skel(  $variations );
+                    //skel( $v );
+                    $price = $this->_price( $reg, $sale, 1 );
+                    //skel( $price );
+                    $v['price'] = $price;
+                    $html_price = $this->_price( $reg, $sale );
+                    $v['html_price'] = $html_price;
                     $prices[] = $price;
                     $var_props = $d->select( [ 'product_properties', [ 'product_prop_types', 'prod_pt_id', 'prod_pr_type' ], [ 'product_prop_meta', 'prod_pm_id', 'prod_pr_meta' ] ], 'prod_pr_type,prod_pr_meta,prod_pt_name,prod_pm_name,prod_pm_image,prod_pm_icon,prod_pm_class,prod_pm_color', 'prod_pr_product = \''.$v['id'].'\'', 1 );
                     //skel( $var_props );
@@ -410,33 +417,35 @@ class ECOMMERCE {
                         foreach( $var_props as $vp ) {
                             //skel( $vp );
                             //$v_props = $vp;
-                            $variation_selectors[ $v['id'] ]['type'] = $vp;
-                            $variations[ $v['id'] ]['type'] = $vp;
+                            $vs[ $v['id'] ]['type'] = $vp;
                         }
                     }
+                    $variations[ $v['id'] ]['props'] = $var_props;
+                    //skel( $v );
                     $v = array_merge( $v, $var_props );
-                    $v['price'] = $this->_price( $v['regular_price'], $v['sale_price'] );
-                    $variations[] = $v;
-                    $variation_selectors[ $v['id'] ] = $v;
+                    //$v['price'] = $this->_price( $v['regular_price'], $v['sale_price'] );
+                    $vs[ $v['id'] ] = $v;
                     //$variations[ $v['id'] ]['meta'] = $v_meta;
-                    $variation_selectors[ $v['id'] ]['props'] = $var_props;
+                    //$variation_selectors[ $v['id'] ]['props'] = $var_props;
                 }
                 //$products[ $pk ]['prod_meta'] = $v_meta;
             }
-            if( !empty( $variations ) ) {
-                foreach( $variations as $vl ) {
-                    $vs[ $vl['pt_name'] ]['var_group_name'] = $vl['pt_name'];
+            if( !empty( $vs ) ) {
+                foreach( $vs as $vl ) {
+                    //skel( $variations );
+                    $variation_selectors[ $vl['pt_name'] ]['var_group_name'] = $vl['pt_name'];
                     //$vs[ $vl['pt_name'] ]['var_group_type'] = $vl['pt_type'];
-                    $vs[ $vl['pt_name'] ]['var_group_vars'][] = $vl;
+                    $variation_selectors[ $vl['pt_name'] ]['var_group_vars'][] = $vl;
                 }
                 //$variations = array_group_by( $variations, 'pt_name' );
                 //skel( $variations );
             }
-            $p['variations'] = $vs;
-            $p['vars'] = $vs;
+            $p['variations'] = $variations;
+            $p['vars'] = $variation_selectors;
             $p['max'] = !empty( $prices ) ? max( $prices ) : 0;
             $p['min'] = !empty( $prices ) ? min( $prices ) : 0;
         }
+        //skel( $p );
         return $p;
     }
 
@@ -520,8 +529,8 @@ class ECOMMERCE {
     }
 
     function _price( string|int|float|null $regular = 0, string|int|float|null $sale = 0, bool $only_float = false, string $class = '' ): string {
-        $rate = REGION['rate'] ?? 1;
-        $curr = REGION['symbol'] ?? '';
+        $rate = defined('REGION') && isset( REGION['rate'] ) ? REGION['rate'] : 1;
+        $curr = defined('REGION') && isset( REGION['symbol'] ) ? REGION['symbol'] : '';
         $regular = !empty( $regular ) ? (float)$regular : 0;
         $sale = !empty( $sale ) ? (float)$sale : 0;
         if( $regular == 0 || $sale == 0 ) {
