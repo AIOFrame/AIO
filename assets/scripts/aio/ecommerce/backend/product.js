@@ -14,12 +14,13 @@ document.addEventListener('DOMContentLoaded', function () {
         } );
         if( p['type'] === 2 ) {
             $(var_el).removeClass('dn')
-            //$('[data-variations-wrap]').find('[key=pid]').val(p['id']);
+            $('#variations_wrap').find('[data-key=id]').val(p['id']).attr('value',p['id']);
+            $('[data-var-template]').find('[data-key=id]').val(p['id']).attr('value',p['id']);
         } else {
             $(var_el).addClass('dn');
-            //$('[data-variations-wrap]').find('[key=pid]').val('');
+            $('[data-variations-wrap],[data-var-template]').find('[data-key=id]').val('').attr('value','');
         }
-        //console.log(p);
+        console.log(p);
     })
 
     .on('click','[data-modal="#product_modal"]',function () {

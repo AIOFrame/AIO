@@ -371,8 +371,8 @@ function process_data( e, ne ){
     //console.log(ne);
     //$(e).attr('disabled',true);
     let p;
-    if( $(e).parents('[data-t]') !== undefined && $(e).parents('[data-t]') !== null && $(e).parents('[data-t]').length > 0 ) {
-        p =  $(e).parents('[data-t]');
+    if( $(e).closest('[data-t]') !== undefined && $(e).closest('[data-t]') !== null && $(e).closest('[data-t]').length > 0 ) {
+        p =  $(e).closest('[data-t]');
         $(p).find('[onclick="process_data(this)"]').attr('disabled',true).addClass('load');
         setTimeout(function(){
             $(p).removeClass('load').find('[onclick="process_data(this)"]').attr('disabled',false).removeClass('load');
