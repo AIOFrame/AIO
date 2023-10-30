@@ -302,25 +302,25 @@ class ECOMMERCE {
             foreach( $products as $p ) {
                 //$vars = $f->_edit_html( '#variation_modal', $p, 'div', '', '', '', 'mat-ico', 'dashboard_customize' );
                 $edit = $f->_edit_html( '#product_modal', $p, 'div', '', '', 'data-vars=', 'mat-ico', 'edit' ); // ( $p['prod_type'] == 2 ? $vars : '' ) .
-                $delete = $f->_trash_html('remove_product_ajax',$p['prod_id'],'div','','','','mat-ico',2,2,'Are you sure to delete this product?','delete_forever');
+                $delete = $f->_trash_html('remove_product_ajax',$p['id'],'div','','','','mat-ico',2,2,'Are you sure to delete this product?','delete_forever');
                 //skel( $p );
                 $price = '';
-                if( $p['prod_type'] == 2 ) {
+                if( $p['type'] == 2 ) {
                     $min = !empty( $p['min'] ) ? $p['min'] : 0;
                     $max = !empty( $p['max'] ) ? $p['max'] : 0;
                     $price = ( $rate * $min ) . ' - ' . ( $rate * $max ) . ' ' . $curr;
                 } else {
-                    $reg = $p['prod_meta']['regular_price'] ?? 0;
-                    $sale = $p['prod_meta']['sale_price'] ?? 0;
+                    $reg = $p['meta']['regular_price'] ?? 0;
+                    $sale = $p['meta']['sale_price'] ?? 0;
                     $price = '<s>' . ( $rate * $reg ) . '</s> ' . ( $rate * $sale ) . ' ' . $curr;
                 }
                 $table[]['body'] = [
-                    _div( 'tac', $p['prod_id'] ),
-                    $p['prod_title']. _div( '', _el( 'small', '', $p['prod_url'] ) ),
-                    easy_date($p['prod_date'])._div( '', _el( 'small', '', T('Updated').': '.easy_date($p['prod_update']) ) ).(!empty($p['prod_birth'])?_div('',_el('small','',T('Visible from').': '.easy_date($p['prod_birth']))):'').(!empty($p['prod_expiry'])?_div('',_el('small','',T('Visible till').': '.easy_date($p['prod_expiry']))):''),
+                    _div( 'tac', $p['id'] ),
+                    $p['title']. _div( '', _el( 'small', '', $p['url'] ) ),
+                    easy_date($p['date'])._div( '', _el( 'small', '', T('Updated').': '.easy_date($p['update']) ) ).(!empty($p['birth'])?_div('',_el('small','',T('Visible from').': '.easy_date($p['birth']))):'').(!empty($p['expiry'])?_div('',_el('small','',T('Visible till').': '.easy_date($p['expiry']))):''),
                     _div( 'tar', $price ),
                     _div( 'tar', 0 ),
-                    _div( 'tac', $status[ $p['prod_status'] ] ?? '' ),
+                    _div( 'tac', $status[ $p['status'] ] ?? '' ),
                     _pre('','acts').$edit.$delete._post()
                 ];
             }
@@ -337,7 +337,7 @@ class ECOMMERCE {
         } else {
             $cards = [];
             foreach( $products as $p ) {
-                $cards[] = _card( 'br15', $p['prod_title'], '', '/'.$p['prod_url'], '', '', $status[ $p['prod_status'] ] ?? '', '', [], [], $edit_modal, $p, 'products', "prod_id = {$p['prod_id']}" );
+                $cards[] = _card( 'br15', $p['title'], '', '/'.$p['url'], '', '', $status[ $p['status'] ] ?? '', '', [], [], $edit_modal, $p, 'products', "prod_id = {$p['id']}" );
             }
             grid_view( 'product_cards', $cards, $wrapper_class, $cols );
         }
@@ -349,50 +349,67 @@ class ECOMMERCE {
         //$data = [ 'id', 'date', 'update', 'title', 'url', 'password', 'status', 'birth', 'expiry', 'by' ];
         $products = $d->select( 'products', '', 'prod_status != \'4\' && prod_parent IS NULL' );
         foreach( $products as $pk => $p ) {
-            // Product Meta
-            $data_meta = $d->select( 'product_meta', '', 'prod_meta_product = \''.$p['prod_id'].'\'' );
-            $meta = [];
-            foreach( $data_meta as $dm ) {
-                $meta[ $dm['prod_meta_name'] ] = $dm['prod_meta_value'];
-            }
-            // Product Properties
-            $prod_props = $d->select( 'product_properties', 'prod_pr_type,prod_pr_meta', 'prod_pr_product = \''.$p['prod_id'].'\'' );
-            //$prod_props = array_group_by( $prod_props, 'prod_pr_type' );
-            // Product Variations
-            $variations = $prices = [];
-            if( $p['prod_type'] == 2 ) {
-                $vars = $d->select( 'products', '', 'prod_parent = \''.$p['prod_id'].'\' && prod_status != \'4\' && prod_type = \'2\'' );
-                if( !empty( $vars ) ) {
-                    foreach( $vars as $v ) {
-                        $var_meta = $d->select( 'product_meta', '', 'prod_meta_product = \''.$v['prod_id'].'\'' );
-                        $v_meta = [];
-                        $reg = $sale = 0;
-                        foreach( $var_meta as $vm ) {
-                            $v_meta[ $vm['prod_meta_name'] ] = $vm['prod_meta_value'];
-                            $vm['prod_meta_name'] == 'regular_price' && !empty( $vm['prod_meta_value'] ) ? $reg = (float)$vm['prod_meta_value'] : '';
-                            $vm['prod_meta_name'] == 'sale_price' && !empty( $vm['prod_meta_value'] ) ? $sale = (float)$vm['prod_meta_value'] : '';
-                            //skel( $vm );
-                        }
-                        $reg = $reg > 0 ? $reg : null;
-                        $sale = $sale > 0 ? $sale : null;
-                        $price = $sale < $reg ? $sale : $reg;
-                        $prices[] = $price;
-                        $var_props = $d->select( 'product_properties', 'prod_pr_type,prod_pr_meta', 'prod_pr_product = \''.$v['prod_id'].'\'' );
-                        $variations[ $v['prod_id'] ] = $v;
-                        $variations[ $v['prod_id'] ]['prod_meta'] = $v_meta;
-                        $variations[ $v['prod_id'] ]['prod_props'] = $var_props;
-                    }
-                    //$products[ $pk ]['prod_meta'] = $v_meta;
-                }
-            }
-            // Update product
-            $products[ $pk ]['prod_meta'] = $meta;
-            $products[ $pk ]['prod_props'] = $prod_props;
-            $products[ $pk ]['vars'] = $variations;
-            $products[ $pk ]['max'] = !empty( $prices ) ? max( $prices ) : 0;
-            $products[ $pk ]['min'] = !empty( $prices ) ? min( $prices ) : 0;
+            $products[ $pk ] = $this->_product( $p['prod_id'], $p );
         }
         return $products;
+    }
+
+    function _product( int|string $id_url = 0, array $p = [] ): array {
+        $d = new DB();
+        $p = !empty( $p ) ? $p : ( is_numeric( $id_url ) ? $d->select( 'products', '', 'prod_id = \''.$id_url.'\'', 1 ) : $d->select( 'products', '', 'prod_url = \''.$id_url.'\'', 1 ) );
+        // Product
+        $p = replace_in_keys( $p, 'prod_' );
+        if( !empty( !empty( $p['image'] ) ) ) {
+            $img = storage_url( $p['image'] );
+            $p['full_image'] = $img;
+            $p['full_gallery'][] = $img;
+        }
+        if( !empty( $p['gallery'] ) ) {
+            $gallery = explode( ',', $p['gallery'] );
+            foreach( $gallery as $g ) {
+                $p['full_gallery'][] = storage_url( $g );
+            }
+        }
+        // Product Meta
+        $data_meta = $d->select( 'product_meta', '', 'prod_meta_product = \''.$p['id'].'\'' );
+        foreach( $data_meta as $dm ) {
+            $p['meta'][ $dm['prod_meta_name'] ] = $dm['prod_meta_value'];
+        }
+        // Product Properties
+        $p['props'] = $d->select( 'product_properties', 'prod_pr_type,prod_pr_meta', 'prod_pr_product = \''.$p['id'].'\'' );
+        //$prod_props = array_group_by( $prod_props, 'prod_pr_type' );
+        // Product Variations
+        $variations = $prices = [];
+        if( $p['type'] == 2 ) {
+            $vars = $d->select( 'products', '', 'prod_parent = \''.$p['id'].'\' && prod_status != \'4\' && prod_type = \'2\'' );
+            if( !empty( $vars ) ) {
+                foreach( $vars as $v ) {
+                    $v = replace_in_keys( $v, 'prod_' );
+                    $var_meta = $d->select( 'product_meta', '', 'prod_meta_product = \''.$v['id'].'\'' );
+                    $v_meta = [];
+                    $reg = $sale = 0;
+                    foreach( $var_meta as $vm ) {
+                        $v_meta[ $vm['prod_meta_name'] ] = $vm['prod_meta_value'];
+                        $vm['prod_meta_name'] == 'regular_price' && !empty( $vm['prod_meta_value'] ) ? $reg = (float)$vm['prod_meta_value'] : '';
+                        $vm['prod_meta_name'] == 'sale_price' && !empty( $vm['prod_meta_value'] ) ? $sale = (float)$vm['prod_meta_value'] : '';
+                        //skel( $vm );
+                    }
+                    $reg = $reg > 0 ? $reg : null;
+                    $sale = $sale > 0 ? $sale : null;
+                    $price = $sale < $reg ? $sale : $reg;
+                    $prices[] = $price;
+                    $var_props = $d->select( 'product_properties', 'prod_pr_type,prod_pr_meta', 'prod_pr_product = \''.$v['id'].'\'' );
+                    $variations[ $v['id'] ] = $v;
+                    $variations[ $v['id'] ]['meta'] = $v_meta;
+                    $variations[ $v['id'] ]['props'] = $var_props;
+                }
+                //$products[ $pk ]['prod_meta'] = $v_meta;
+            }
+            $p['vars'] = $variations;
+            $p['max'] = !empty( $prices ) ? max( $prices ) : 0;
+            $p['min'] = !empty( $prices ) ? min( $prices ) : 0;
+        }
+        return $p;
     }
 
     /**
@@ -432,12 +449,15 @@ class ECOMMERCE {
         $product = $d->select( 'products', '', $query, 1 );
         if( !empty( $product ) && is_numeric( $product['prod_id'] ) ) {
             $product = replace_in_keys( $product, 'prod_' );
+            // Product Meta
             $meta = $d->select( 'product_meta', 'prod_meta_name,prod_meta_value', 'prod_meta_product = \''.$product['id'].'\'' );
             if( !empty( $meta ) ) {
                 foreach( $meta as $m ) {
                     $product['meta'][ $m['prod_meta_name'] ] = $m['prod_meta_value'];
                 }
             }
+            // Product Properties
+            // Product Variations
         }
         return $product;
     }
@@ -1114,7 +1134,7 @@ class ECOMMERCE {
         $db = new DB();
         $success = 0;
         foreach( $meta as $meta_key => $meta_value ) {
-            if( !empty( $product_id ) && $meta_value !== '' ) {
+            if( !empty( $product_id ) && $meta_value !== '' && !is_numeric( $meta_key ) ) {
                 if( !empty( $new_product_id ) ) {
                     $update = $db->update( 'product_meta', [ 'prod_meta_value', 'prod_meta_product' ], [ $meta_value, $new_product_id ], 'prod_meta_name = \''.$meta_key.'\' AND prod_meta_product = \''.$product_id.'\'' );
                     $update ? $success++ : '';

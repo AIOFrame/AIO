@@ -111,6 +111,10 @@ document.addEventListener('DOMContentLoaded', function () {
             $(this).parents('[data-variation-set]').remove();
         }
     })
+        .on('click','#product_modal .close',function () {
+            $('[data-tab="#description_data"]').click();
+            $('#variation_wrap').html('');
+        })
 
 })
 
