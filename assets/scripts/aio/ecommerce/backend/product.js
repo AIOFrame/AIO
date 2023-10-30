@@ -6,12 +6,20 @@ document.addEventListener('DOMContentLoaded', function () {
     $('body').on('click','[data-edit-action]',function () {
         let p = $(this).data('data');
         let props = p['props'];
+        let meta = p['meta'];
         $.each( props, function ( i, pp ) {
             //console.log( i );
             //console.log( pp['prod_pr_type'] );
             //console.log( pp['prod_pr_meta'] );
             $('[data-keyed-array="properties"][data-key='+pp['prod_pr_type']+'][value='+pp['prod_pr_meta']+']').attr('checked',true);
-        } );
+        });
+        let r = $('[data-product-wrap]').data('data');
+        $.each( meta, function( mk, mv ){
+            //console.log( mk );
+            //console.log( mv );
+            //console.log( $( '[data-'+r+'][data-key=' + mk + ']' ) );
+            $('[data-'+r+'][data-key=' + mk + ']').val(mv);
+        });
         if( p['type'] === 2 ) {
             $(var_el).removeClass('dn')
             $('#variations_wrap').find('[data-key=id]').val(p['id']).attr('value',p['id']);

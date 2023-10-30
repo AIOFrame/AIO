@@ -206,7 +206,7 @@ function _email_valid( id ) {
  * @param d Data attribute of input
  */
 function is_empty( e, d ) {
-    d = d === undefined || d === '' ? '' : '['+d+']';
+    d = d === undefined || d === '' ? '' : d;
     let required = [];
     if( $(e)[0] && ( $(e)[0].localName === 'div' || $(e)[0].localName === 'tr' || $(e)[0].localName === 'form' ) ){
         $.each($(e).find('input'+d+',select'+d+',textarea'+d),function(a,b){
@@ -410,8 +410,9 @@ function process_data( e, ne ){
     //if( $(p).attr('required') !== undefined ) {
     // Check for empty values
     let breaker = [];
+    console.log( data );
 
-    let required = is_empty( p, 'required' );
+    let required = is_empty( p, '[data-'+data+'] [required]' );
     if( required.length > 0 ) {
         $(p).removeClass('load');
         //console.log(required);

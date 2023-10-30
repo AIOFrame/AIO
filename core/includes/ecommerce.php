@@ -51,7 +51,7 @@ class ECOMMERCE {
         ];
         $r = $f->_random();
         !empty( $modal_class ) ? pre_modal( 'product', $modal_class ) : '';
-        $f->pre_process( 'data-wrap id="product_form"', 'update_product_ajax', $r, 'p_', 2, 2 );
+        $f->pre_process( 'data-product-wrap id="product_form"', 'update_product_ajax', $r, 'p_', 92, 92 );
         _r();
         _c(8);
         $f->form( $main_fields, '', $r );
@@ -128,7 +128,7 @@ class ECOMMERCE {
 
         c_();
         _c(4);
-        $f->select2('type','Product Type','Select Type...',$this->product_types,1,$r,'',1);
+        $f->select2('type','Product Type','Select Type...',$this->product_types,1,'data-'.$r,'',1);
         accordion( 'Images', $f->_form( $image_fields, 'row', $r ), 'br15 w on' );
         accordion( 'Prices', $f->_form( $price_fields, 'row', $r ), 'br15 w on' );
         accordion( 'SEO', $f->_form( $seo_fields, 'row', $r ), 'br15 w' );
@@ -199,7 +199,7 @@ class ECOMMERCE {
             pre( '', 'dn', 'div', 'data-var-template' );
                 $f->pre_process('data-pv','update_variation_ajax','var','var_',4);
                     el( 'fieldset', '', T( 'Variation Details' ) );
-                    $f->input('text','id','','','','data-var');
+                    $f->input('hidden','id','','','','data-var');
                     // Variation Name
                     $variation_form = [
                         [ 'i' => 'v_name', 'n' => 'Variation Name', 'p' => 'Ex: Red Gold Edition, US 15 M, International Variant etc.', 'c' => 6 ],
@@ -233,7 +233,7 @@ class ECOMMERCE {
                     el( 'fieldset', '', T( 'Variation Attributes' ) );
                     $f->form( $props_form, 'row', $va );
                     // Variation Actions
-                    div( 'actions tac', $f->_process_trigger( _el( 'i', 'mat-ico', 'save' ), 'blue s mx10 mb0 save_var' ) . _b( 'red s mx10 mb0 trash_var', _el( 'i', 'mat-ico', 'remove_circle' ) ) );
+                    div( 'actions tac', $f->_process_trigger( _el( 'i', 'mat-ico', 'save' ), 'blue s mx10 mb0 save_var' ) . $f->_process_trigger( _el( 'i', 'mat-ico', 'remove_circle' ), 'red s mx10 mb0 trash_var', '', 'remove_variation_ajax' ) );
                 $f->post_process();
             post();
         post();
@@ -301,14 +301,24 @@ class ECOMMERCE {
             $table[] = [ 'head' => [ 'ID', 'Name', 'Visibility', 'Price', 'Sales', 'Status', 'Actions' ] ];
             foreach( $products as $p ) {
                 //$vars = $f->_edit_html( '#variation_modal', $p, 'div', '', '', '', 'mat-ico', 'dashboard_customize' );
-                $edit = $f->_edit_html( '#product_modal', $p, 'div', '', '', '', 'mat-ico', 'edit' ); // ( $p['prod_type'] == 2 ? $vars : '' ) .
+                $edit = $f->_edit_html( '#product_modal', $p, 'div', '', '', 'data-vars=', 'mat-ico', 'edit' ); // ( $p['prod_type'] == 2 ? $vars : '' ) .
                 $delete = $f->_trash_html('remove_product_ajax',$p['prod_id'],'div','','','','mat-ico',2,2,'Are you sure to delete this product?','delete_forever');
                 //skel( $p );
+                $price = '';
+                if( $p['prod_type'] == 2 ) {
+                    $min = !empty( $p['min'] ) ? $p['min'] : 0;
+                    $max = !empty( $p['max'] ) ? $p['max'] : 0;
+                    $price = ( $rate * $min ) . ' - ' . ( $rate * $max ) . ' ' . $curr;
+                } else {
+                    $reg = $p['prod_meta']['regular_price'] ?? 0;
+                    $sale = $p['prod_meta']['sale_price'] ?? 0;
+                    $price = '<s>' . ( $rate * $reg ) . '</s> ' . ( $rate * $sale ) . ' ' . $curr;
+                }
                 $table[]['body'] = [
                     _div( 'tac', $p['prod_id'] ),
                     $p['prod_title']. _div( '', _el( 'small', '', $p['prod_url'] ) ),
                     easy_date($p['prod_date'])._div( '', _el( 'small', '', T('Updated').': '.easy_date($p['prod_update']) ) ).(!empty($p['prod_birth'])?_div('',_el('small','',T('Visible from').': '.easy_date($p['prod_birth']))):'').(!empty($p['prod_expiry'])?_div('',_el('small','',T('Visible till').': '.easy_date($p['prod_expiry']))):''),
-                    _div( 'tar', '<s>' . ( $rate * ( $p['prod_meta']['regular_price'] ?? 0 ) ) . '</s> ' . ( $rate * ( $p['prod_meta']['sale_price'] ?? 0 ) ) . ' ' . $curr ),
+                    _div( 'tar', $price ),
                     _div( 'tar', 0 ),
                     _div( 'tac', $status[ $p['prod_status'] ] ?? '' ),
                     _pre('','acts').$edit.$delete._post()
@@ -348,9 +358,39 @@ class ECOMMERCE {
             // Product Properties
             $prod_props = $d->select( 'product_properties', 'prod_pr_type,prod_pr_meta', 'prod_pr_product = \''.$p['prod_id'].'\'' );
             //$prod_props = array_group_by( $prod_props, 'prod_pr_type' );
+            // Product Variations
+            $variations = $prices = [];
+            if( $p['prod_type'] == 2 ) {
+                $vars = $d->select( 'products', '', 'prod_parent = \''.$p['prod_id'].'\' && prod_status != \'4\' && prod_type = \'2\'' );
+                if( !empty( $vars ) ) {
+                    foreach( $vars as $v ) {
+                        $var_meta = $d->select( 'product_meta', '', 'prod_meta_product = \''.$v['prod_id'].'\'' );
+                        $v_meta = [];
+                        $reg = $sale = 0;
+                        foreach( $var_meta as $vm ) {
+                            $v_meta[ $vm['prod_meta_name'] ] = $vm['prod_meta_value'];
+                            $vm['prod_meta_name'] == 'regular_price' && !empty( $vm['prod_meta_value'] ) ? $reg = (float)$vm['prod_meta_value'] : '';
+                            $vm['prod_meta_name'] == 'sale_price' && !empty( $vm['prod_meta_value'] ) ? $sale = (float)$vm['prod_meta_value'] : '';
+                            //skel( $vm );
+                        }
+                        $reg = $reg > 0 ? $reg : null;
+                        $sale = $sale > 0 ? $sale : null;
+                        $price = $sale < $reg ? $sale : $reg;
+                        $prices[] = $price;
+                        $var_props = $d->select( 'product_properties', 'prod_pr_type,prod_pr_meta', 'prod_pr_product = \''.$v['prod_id'].'\'' );
+                        $variations[ $v['prod_id'] ] = $v;
+                        $variations[ $v['prod_id'] ]['prod_meta'] = $v_meta;
+                        $variations[ $v['prod_id'] ]['prod_props'] = $var_props;
+                    }
+                    //$products[ $pk ]['prod_meta'] = $v_meta;
+                }
+            }
             // Update product
             $products[ $pk ]['prod_meta'] = $meta;
             $products[ $pk ]['prod_props'] = $prod_props;
+            $products[ $pk ]['vars'] = $variations;
+            $products[ $pk ]['max'] = max( $prices );
+            $products[ $pk ]['min'] = min( $prices );
         }
         return $products;
     }
@@ -651,7 +691,6 @@ class ECOMMERCE {
                 $filter = $f->_slide( 'filter', '', '', '', ( $p['filter'] == 1 ? 1 : 0 ), 'm', 'disabled' );
                 $var = $f->_slide( 'var', '', '', '', ( $p['var'] == 1 ? 1 : 0 ), 'm', 'disabled' );
                 $url = str_replace(' ','',strtolower( $p['name'])).'_'.$p['id'];
-
                 $actions = '<div class="acts">';
                 $actions .= $f->_view_html(APPURL.'admin/products/prop/'.$url,'div','','','','mat-ico','open_in_new');
                 $actions .= $f->_edit_html( $target_form, $p, 'div', '', '', '', 'mat-ico', 'edit' );
@@ -1150,7 +1189,7 @@ function update_product_ajax(): void {
 
         // Prepare Product Data
         $product_data = [];
-        $prod_params = [ 'birth', 'content', 'by', 'update', 'date', 'expiry', 'gallery', 'image', 'meta_author', 'meta_desc', 'meta_words', 'password', 'title', 'url', 'status' ];
+        $prod_params = [ 'type', 'birth', 'content', 'by', 'update', 'date', 'expiry', 'gallery', 'image', 'meta_author', 'meta_desc', 'meta_words', 'password', 'title', 'url', 'status' ];
         foreach( $prod_params as $param_key ) {
             $product_data[ $param_key ] = $p[ $param_key ] ?? '';
             unset( $p[ $param_key ] );
