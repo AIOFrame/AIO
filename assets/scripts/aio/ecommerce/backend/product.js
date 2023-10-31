@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
             //console.log( $( '[data-'+r+'][data-key=' + mk + ']' ) );
             $('[data-'+r+'][data-key=' + mk + ']').val(mv);
         });
+        console.log( p );
         if( p['type'] === 2 ) {
             $(var_el).removeClass('dn')
             $('#variations_wrap').find('[data-key=id]').val(p['id']).attr('value',p['id']);
@@ -59,10 +60,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 //console.log( props );
                 $.each( props, function ( i, pp ) {
                     //console.log( i );
-                    console.log( pp );
+                    //console.log( pp );
                     //console.log( pp['pr_type'] );
                     //console.log( pp['pr_meta'] );
-                    //$(vw).find('[data-array="v_properties"][data-key='+pp['pr_type']+']').val( pp['pr_meta'] );
+                    $(vw).find('[data-array="v_properties"][data-key='+pp['pr_type']+']').val( pp['pr_meta'] );
                 });
 
                 //console.log( vw );

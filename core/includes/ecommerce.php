@@ -182,7 +182,8 @@ class ECOMMERCE {
                             foreach( $props as $pr ) {
                                 $options[ $pr['prod_pm_id'] ] = $pr['prod_pm_name'];
                             }
-                            $props_form[] = [ 't' => 'select', 'p' => 'Select '.$pt['prod_pt_name'], 'id' => $pt['prod_pt_id'], 'n' => '', 'a' => 'data-auto-close data-array="v_properties" data-'.$r, 'c' => 3, 'o' => $options, 'k' => 1 ];
+                            //skel( $pt );
+                            $props_form[] = [ 't' => 'select', 'p' => 'Select '.$pt['prod_pt_name'], 'id' => $pt['prod_pt_id'], 'n' => $pt['prod_pt_name'], 'a' => 'data-auto-close data-array="v_properties" data-'.$r, 'c' => 3, 'o' => $options, 'k' => 1 ];
                         }
                     }
                 }
@@ -424,19 +425,18 @@ class ECOMMERCE {
                     if( $var_data ) {
                         $var_props = $d->select( [ 'product_properties', [ 'product_prop_types', 'prod_pt_id', 'prod_pr_type' ], [ 'product_prop_meta', 'prod_pm_id', 'prod_pr_meta' ] ], 'prod_pr_type,prod_pr_meta,prod_pt_name,prod_pt_type,prod_pm_name,prod_pm_image,prod_pm_icon,prod_pm_class,prod_pm_color', 'prod_pr_product = \''.$v['id'].'\'' );
                         $var_props = replace_in_keys( $var_props, 'prod_' );
-
                     }
                     //$var_props = $d->select( [ 'product_properties' ], '', 'prod_pr_product = \''.$v['id'].'\'', 1 );
                     //$var_props['var'] = $var_props[2];
                     //skel( $var_props );
                     //skel( $var_props );
                     if( !empty( $var_props ) ) {
-                        foreach( $var_props as $vp ) {
+                        foreach( $var_props as $vpi => $vp ) {
                             //skel( $vp );
                             if( is_array( $vp ) && !empty( $vp ) ) {
                                 foreach( $vp as $vpk => $vpv ) {
                                     if( !is_numeric( $vpk ) ) {
-                                        $vs[ $v['id'] ][ $vpk ] = $vpv;
+                                        $vs[ $v['id'] ]['props'][ $vpi ][ $vpk ] = $vpv;
                                     }
                                 }
                             }
@@ -444,7 +444,7 @@ class ECOMMERCE {
                             //$vs[ $v['id'] ]['props'][] = $vp;
                         }
                         $variations[ $v['id'] ]['props'] = $var_props;
-                        $v = array_merge( $v, $var_props );
+                        //$v = array_merge( $v, $var_props );
                     }
                     //skel( $v );
                     //$v['price'] = $this->_price( $v['regular_price'], $v['sale_price'] );
@@ -454,9 +454,9 @@ class ECOMMERCE {
                 //$products[ $pk ]['prod_meta'] = $v_meta;
             }
             //$vs = array_group_by( $vs, 'pt_name' );
-            if( !empty( $vs ) && $var_data ) {
-                foreach( $vs as $vl ) {
-                    //skel( $vl );
+            if( !empty( $vs['props'] ) && $var_data ) {
+                foreach( $vs['props'] as $vl ) {
+                    skel( $vl );
                     //skel( $variations );
                     $variation_selectors[ $vl['pt_name'] ]['var_group_name'] = $vl['pt_name'];
                     $variation_selectors[ $vl['pt_name'] ]['var_group_type'] = $vl['pt_type'];
