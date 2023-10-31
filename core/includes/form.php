@@ -764,7 +764,7 @@ class FORM {
      * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
      */
     function render_options( string $type = 'radio', string $label = '', string|array $identity = '', string|array $values = [], string|array $checked = '', string $attr = '', bool $label_first = false, string|float|int $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ): void {
-        echo $this->_render_options( $type, $label, $identity, $values, $checked, $attr, $label_first, $pre, $post );
+        echo $this->_render_options( $type, $label, $identity, $values, $checked, $attr, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post );
     }
 
     /**
