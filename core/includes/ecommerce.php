@@ -387,9 +387,21 @@ class ECOMMERCE {
                 $p['props'][ $dp['prod_pr_type'] ] = $dp['prod_pr_meta'];
             }
         }
+        /*
+        grouped = [
+            { 15: 'Size', 'type': 'check', 'options' : { 15: 'US 9 F', 16: 'US 9.5 F' } },
+            { 16: 'Color', 'type': 'color', 'options' : { 21: 'Red' , 22: 'Blue' } },
+        ];
+
+        combinations = [
+            { 'vid': 10, 'price': 1000, 'vars': { 15: 15, 16: 21 } },
+            { 'vid': 11, 'price': 1200, 'vars': { 15: 15, 16: 22 } },
+            { 'vid': 12, 'price': 1400, 'vars': { 15: 16, 16: 21 } },
+        ];
+        */
         //$prod_props = array_group_by( $prod_props, 'prod_pr_type' );
         // Product Variations
-        $variations = $variation_selectors = $vs = $prices = [];
+        $variations = $variation_selectors = $vs = $prices = $grouped = $combinations = [];
         if( ( $p['type'] == 2 || $p['type'] == 3 ) ) {
             $vars = $d->select( 'products', 'prod_id,prod_title,prod_content,prod_image', 'prod_parent = \''.$p['id'].'\' && prod_status != \'4\' && prod_type = \'2\'' );
             if( !empty( $vars ) ) {
@@ -453,6 +465,7 @@ class ECOMMERCE {
                 }
                 //$products[ $pk ]['prod_meta'] = $v_meta;
             }
+            //skel( $vs );
             //$vs = array_group_by( $vs, 'pt_name' );
             if( !empty( $vs['props'] ) && $var_data ) {
                 foreach( $vs['props'] as $vl ) {
@@ -485,32 +498,32 @@ class ECOMMERCE {
             //skel( $vars );
             if( $type == 2 ) {
                 foreach( $vars as $var_group ) {
-                    //skel( $var_group );
+                    skel( $var_group );
                     $group_title = $var_group['var_group_name'];
                     pre( '', 'aio_variation_group '.str_replace(' ','_',strtolower( $group_title )).'_group' );
-                    h4( $group_title, 1, 'var_group_title' );
-                    pre( '', 'aio_variation_options '.str_replace(' ','_',strtolower( $group_title )).'_options' );
-                    $var_filters = [];
+                        h4( $group_title, 1, 'var_group_title' );
+                        pre( '', 'aio_variation_options '.str_replace(' ','_',strtolower( $group_title )).'_options' );
+                        $var_filters = [];
 
-                    foreach( $var_group['var_group_vars'] as $var ) {
-                        //skel( $var );
-                        $var_filters[ $var['pr_type'] ][ $var['pr_meta'] ] = $var['pm_name'];
-                        //$f->radios( 'var_'.$var['pr_type'], '', [ $var['pm_meta'] = $var['pm_name'] ], '', 'data-var-type="'.$var['pt_type'].'"', 0, 4 );
-                        /* if( $var['pt_type'] == 'check' ) {
-                            //$f->checkboxes('var',$var['pt_name'],'')
-                        } else {
-                            if( is_array( $var_group ) && !empty( $var_group ) ) {
+                        foreach( $var_group['var_group_vars'] as $var ) {
+                            //skel( $var );
+                            $var_filters[ $var['pr_type'] ][ $var['pr_meta'] ] = $var['pm_name'];
+                            //$f->radios( 'var_'.$var['pr_type'], '', [ $var['pm_meta'] = $var['pm_name'] ], '', 'data-var-type="'.$var['pt_type'].'"', 0, 4 );
+                            /* if( $var['pt_type'] == 'check' ) {
+                                //$f->checkboxes('var',$var['pt_name'],'')
+                            } else {
+                                if( is_array( $var_group ) && !empty( $var_group ) ) {
 
-                            }
-                        } */
-                    }
-                    foreach( $var_filters as $vfk => $vf ) {
-                        //skel( $vf );
-                        //pre( 'set_'.$vfk, 'df' );
-                            $f->radios( $vfk, '', $vf, [], 'data-type=""', 0, '.df set_'.$vfk, '', '', 4 );
-                        //post();
-                    }
-                    post();
+                                }
+                            } */
+                        }
+                        foreach( $var_filters as $vfk => $vf ) {
+                            //skel( $vf );
+                            //pre( 'set_'.$vfk, 'df' );
+                                $f->radios( $vfk, '', $vf, [], 'data-type=""', 0, '.df set_'.$vfk, '', '', 4 );
+                            //post();
+                        }
+                        post();
                     post();
                 }
             } else if( $type == 3 ) {
