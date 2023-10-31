@@ -26,22 +26,23 @@ document.addEventListener('DOMContentLoaded', function () {
             $('[data-var-template]').find('[data-key=id]').val(p['id']).attr('value',p['id']);
 
             // Build Variations
-            let vars = p['vars'];
+            let vars = p['variations'];
             //console.log( vars );
             let i = 1;
             $.each( vars, function (vi, vp) {
                 $('[data-add-var-action]').click();
                 //console.log( vi );
                 //console.log( vp );
-                let props = vp['prod_props'];
-                delete vp['prod_props'];
-                let meta = vp['prod_meta'];
-                delete vp['prod_meta'];
+                let props = vp['props'];
+                delete vp['props'];
+                let meta = vp['meta'];
+                delete vp['meta'];
                 let vw = $('[data-variations-wrap]>div:nth-child('+i+')');
-                $(vw).find('[data-pv]').data('id',vp['prod_id']).attr('id',vp['prod_id']);
-                $(vw).find('[data-trash-var]').data('id',vp['prod_id']).attr('id',vp['prod_id']);
+                //console.log( vp );
+                $(vw).find('[data-pv]').data('id',vp['id']).attr('id',vp['id']);
+                $(vw).find('[data-trash-var]').data('id',vp['id']).attr('id',vp['id']);
                 $.each( vp, function ( vpk, vpv ) {
-                    let input = $(vw).find('[data-key='+vpk.replaceAll('prod_','v_')+']');
+                    let input = $(vw).find('[data-key=v_'+vpk+']');
                     if( input.length > 0 ) {
                         $( input ).val( vpv );
                         //console.log( input );
@@ -58,9 +59,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 //console.log( props );
                 $.each( props, function ( i, pp ) {
                     //console.log( i );
-                    console.log( pp['prod_pr_type'] );
-                    console.log( pp['prod_pr_meta'] );
-                    $(vw).find('[data-array="v_properties"][data-key='+pp['prod_pr_type']+']').val( pp['prod_pr_meta'] );
+                    console.log( pp );
+                    //console.log( pp['pr_type'] );
+                    //console.log( pp['pr_meta'] );
+                    //$(vw).find('[data-array="v_properties"][data-key='+pp['pr_type']+']').val( pp['pr_meta'] );
                 });
 
                 //console.log( vw );

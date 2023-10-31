@@ -300,8 +300,9 @@ class ECOMMERCE {
             $curr = defined('REGION') && isset( REGION['symbol'] ) ? REGION['symbol'] : 'USD';
             $table[] = [ 'head' => [ 'ID', 'Name', 'Visibility', 'Price', 'Sales', 'Status', 'Actions' ] ];
             foreach( $products as $p ) {
+                //skel( $p );
                 //$vars = $f->_edit_html( '#variation_modal', $p, 'div', '', '', '', 'mat-ico', 'dashboard_customize' );
-                $edit = $f->_edit_html( '#product_modal', $p, 'div', '', '', 'data-vars=', 'mat-ico', 'edit' ); // ( $p['prod_type'] == 2 ? $vars : '' ) .
+                $edit = $f->_edit_html( '#product_modal', $p, 'div', '', '', '', 'mat-ico', 'edit' ); // ( $p['prod_type'] == 2 ? $vars : '' ) .
                 $delete = $f->_trash_html('remove_product_ajax',$p['id'],'div','','','','mat-ico',2,2,'Are you sure to delete this product?','delete_forever');
                 //skel( $p );
                 $price = '';
@@ -372,11 +373,18 @@ class ECOMMERCE {
         }
         // Product Meta
         $data_meta = $d->select( 'product_meta', '', 'prod_meta_product = \''.$p['id'].'\'' );
-        foreach( $data_meta as $dm ) {
-            $p['meta'][ $dm['prod_meta_name'] ] = $dm['prod_meta_value'];
+        if( !empty( $data_meta ) ) {
+            foreach( $data_meta as $dm ) {
+                $p['meta'][ $dm['prod_meta_name'] ] = $dm['prod_meta_value'];
+            }
         }
         // Product Properties
-        $p['props'] = $d->select( 'product_properties', 'prod_pr_type,prod_pr_meta', 'prod_pr_product = \''.$p['id'].'\'' );
+        $data_props = $d->select( 'product_properties', 'prod_pr_type,prod_pr_meta', 'prod_pr_product = \''.$p['id'].'\'' );
+        if( !empty( $data_props ) ) {
+            foreach( $data_props as $dp ) {
+                $p['props'][ $dp['prod_pr_type'] ] = $dp['prod_pr_meta'];
+            }
+        }
         //$prod_props = array_group_by( $prod_props, 'prod_pr_type' );
         // Product Variations
         $variations = $variation_selectors = $vs = $prices = [];
@@ -386,6 +394,7 @@ class ECOMMERCE {
                 foreach( $vars as $v ) {
                     $v = replace_in_keys( $v, 'prod_' );
                     $variations[ $v['id'] ] = $v;
+                    $vs[ $v['id'] ] = $v;
                     $var_meta = $d->select( 'product_meta', '', 'prod_meta_product = \''.$v['id'].'\'' );
                     //$v_meta = [];
                     //skel( $var_meta );
@@ -394,6 +403,7 @@ class ECOMMERCE {
                         foreach( $var_meta as $vm ) {
                             $v[ $vm['prod_meta_name'] ] = $vm['prod_meta_value'];
                             $variations[ $v['id'] ]['meta'][ $vm['prod_meta_name'] ] = $vm['prod_meta_value'];
+                            $vs[ $v['id'] ]['meta'][ $vm['prod_meta_name'] ] = $vm['prod_meta_value'];
                             //$variation_selectors[ $v['id'] ]['meta'][ $vm['prod_meta_name'] ] = $vm['prod_meta_value'];
                             $vm['prod_meta_name'] == 'regular_price' && !empty( $vm['prod_meta_value'] ) ? $reg = (float)$vm['prod_meta_value'] : '';
                             $vm['prod_meta_name'] == 'sale_price' && !empty( $vm['prod_meta_value'] ) ? $sale = (float)$vm['prod_meta_value'] : '';
@@ -408,23 +418,23 @@ class ECOMMERCE {
                     $html_price = $this->_price( $reg, $sale );
                     $v['html_price'] = $html_price;
                     $prices[] = $price;
-                    $var_props = $d->select( [ 'product_properties', [ 'product_prop_types', 'prod_pt_id', 'prod_pr_type' ], [ 'product_prop_meta', 'prod_pm_id', 'prod_pr_meta' ] ], 'prod_pr_type,prod_pr_meta,prod_pt_name,prod_pm_name,prod_pm_image,prod_pm_icon,prod_pm_class,prod_pm_color', 'prod_pr_product = \''.$v['id'].'\'', 1 );
-                    //skel( $var_props );
+                    $var_props = $d->select( [ 'product_properties', [ 'product_prop_types', 'prod_pt_id', 'prod_pr_type' ], [ 'product_prop_meta', 'prod_pm_id', 'prod_pr_meta' ] ], 'prod_pr_type,prod_pr_meta,prod_pt_name,prod_pm_name,prod_pm_image,prod_pm_icon,prod_pm_class,prod_pm_color', 'prod_pr_product = \''.$v['id'].'\'' );
+                    //$var_props = $d->select( [ 'product_properties' ], '', 'prod_pr_product = \''.$v['id'].'\'', 1 );
                     //$var_props['var'] = $var_props[2];
                     $var_props = replace_in_keys( $var_props, 'prod_' );
+                    //skel( $var_props );
                     //skel( $var_props );
                     if( !empty( $var_props ) ) {
                         foreach( $var_props as $vp ) {
                             //skel( $vp );
                             //$v_props = $vp;
-                            $vs[ $v['id'] ]['type'] = $vp;
+                            $vs[ $v['id'] ]['props'][] = $vp;
                         }
                     }
                     $variations[ $v['id'] ]['props'] = $var_props;
                     //skel( $v );
                     $v = array_merge( $v, $var_props );
                     //$v['price'] = $this->_price( $v['regular_price'], $v['sale_price'] );
-                    $vs[ $v['id'] ] = $v;
                     //$variations[ $v['id'] ]['meta'] = $v_meta;
                     //$variation_selectors[ $v['id'] ]['props'] = $var_props;
                 }
@@ -432,10 +442,11 @@ class ECOMMERCE {
             }
             if( !empty( $vs ) ) {
                 foreach( $vs as $vl ) {
+                    //skel( $vl );
                     //skel( $variations );
-                    $variation_selectors[ $vl['pt_name'] ]['var_group_name'] = $vl['pt_name'];
+                    //$variation_selectors[ $vl['pt_name'] ]['var_group_name'] = $vl['pt_name'];
                     //$vs[ $vl['pt_name'] ]['var_group_type'] = $vl['pt_type'];
-                    $variation_selectors[ $vl['pt_name'] ]['var_group_vars'][] = $vl;
+                    //$variation_selectors[ $vl['pt_name'] ]['var_group_vars'][] = $vl;
                 }
                 //$variations = array_group_by( $variations, 'pt_name' );
                 //skel( $variations );

@@ -1364,7 +1364,7 @@ class FORM {
         $p_ = $this->_post( $pre, $post );
         //$post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
         $i = !empty( $i_class ) || !empty( $i_text ) ? '<i class="'.$i_class.'">'.$i_text.'</i>' : '';
-        $title = str_contains( $attr, 'title' ) ? '' : 'title="'.T('Edit').'"';
+        $title = str_contains( $attr, 'title=' ) ? '' : 'title="'.T('Edit').'"';
         $data = $title . ' data-edit-action class="'.$class.' edit" onclick="edit_data(this,\''.$element.'\')" data-data=\''.$this->_editable_data($array).'\'' . $attr;
         return $_p . _el( $html, '', $i.T( $text ), '', $data ) . $p_;
     }
