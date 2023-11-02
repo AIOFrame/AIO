@@ -528,7 +528,7 @@ class ECOMMERCE {
                             $var_filters = [];
                             foreach( $var_group['o'] as $var ) {
                                 //skel( $var );
-                                $a = 'data-type="'.$var_group['t'].'" class="'.$var['c'].'"';
+                                $a = 'data-type="'.$var_group['i'].'" data-type="'.$var_group['t'].'" class="'.$var['c'].'"';
                                 $var_group['t'] == 'color' ? $a .= ' style="background: '.$var['cl'].'"' : '';
                                 if( $var_group['t'] == 'image' && !empty( $var['im'] ) ) {
                                     $im = storage_url( $var['im'] );
