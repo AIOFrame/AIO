@@ -260,7 +260,7 @@ class OPTIONS {
         $type = !empty( $ops[$r.'default_map_type'] ) ? $ops[$r.'default_map_type'] : 'terrain';
         $attr = 'data-google-map';
         $f->text('google_maps_key','Google Maps - API Key','Ex: AIvcDfDtd04QuAYdfgRN-aZBF5DuSFhMUnbdehD9',$key,$attr,12);
-        $f->map( '[data-key='.$r.'default_map_lat]', '[data-key='.$r.'default_map_long]', '', '', '', '', '', 12, $v_lat, $v_long, $zoom, $type );
+        $f->map( '[data-key='.$r.'default_map_lat]', '[data-key='.$r.'default_map_long]', '', '', '', '', '', 12, 200, $v_lat, $v_long, $zoom, $type );
         $f->text($r.'default_map_lat','Default Map Latitude','Ex: 12.34233',$lat,$attr,3);
         $f->text($r.'default_map_long','Default Map Longitude','Ex: 24.43555',$long,$attr,3);
         $f->select2($r.'default_map_zoom','Default Zoom Level','Select Level...',range(0,19),$zoom,$attr,3);
@@ -334,14 +334,16 @@ class OPTIONS {
         $finance_keys = array_merge( $fin_ops, [ 'base_region' ] );
         $os = $db->get_options( $finance_keys );
         $f->option_params_wrap('cd',2,2);
-        $base = REGIONS['base']['symbol'] ?? 'US';
-        $now = REGIONS['now']['symbol'] ?? 'US';
+        //skel( REGIONS );
+        $base = defined('REGIONS') && isset( REGIONS['base'] ) ? REGIONS['base']['cca2'] . ' - ' .REGIONS['base']['symbol'] : 'US';
+        $now = defined('REGIONS') && isset( REGIONS['now'] ) ? REGIONS['now']['cca2'] . ' - ' .REGIONS['now']['symbol'] : 'US';
+        $rate_place = $os[$r.'rate'] ?? '__';
         $rate_val = $os[$r.'rate'] ?? 1;
         $f->text($r.'trade_name','Registered Name','Ex: ABC Trading LLC.',$os[$r.'trade_name'] ?? '','data-cd',3);
         $f->text($r.'trade_no','Registration No.','Ex: 120-12565-132665',$os[$r.'trade_no'] ?? '','data-cd',3);
         $f->text($r.'trn','Tax Reg. No.','Ex: 3562-2654-8954',$os[$r.'trn'] ?? '','data-cd',3);
         $f->input('number',$r.'tax','Tax%','Ex: 5',$os[$r.'tax'] ?? '','min="0" max="50" data-cd',3);
-        $base !== $now ? $f->text($r.'rate','Conversion Rate, 1 ('.$base.') = '.$rate_val.' ('.$now.')?','Ex: 3.67',$rate_val,'data-cd',3) : '';
+        $base !== $now ? $f->text($r.'rate','Rate, 1 ('.$base.') = '.$rate_place.' ('.$now.')?','Ex: 3.67',$rate_val,'data-cd',3) : '';
         $f->text($r.'sign','Currency Symbol','Ex: $',$os[$r.'sign'] ?? '','data-cd',3);
         $f->slide($r.'spot','Currency Side','Left','Right',$os[$r.'spot'] ?? '','','data-cd',3);
         $f->process_options($this->region_flag().'Save Options','store grad','','.col-12 tac');

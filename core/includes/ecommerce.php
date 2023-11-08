@@ -297,8 +297,8 @@ class ECOMMERCE {
             no_content( 'No products added yet!', '', $wrapper_class );
         } else {
             $f = new FORM();
-            $rate = defined('REGION') && isset( REGION['rate'] ) ? REGION['rate'] : 1;
-            $curr = defined('REGION') && isset( REGION['symbol'] ) ? REGION['symbol'] : 'USD';
+            //$rate = defined('REGION') && isset( REGION['rate'] ) ? REGION['rate'] : 1;
+            //$curr = defined('REGION') && isset( REGION['symbol'] ) ? REGION['symbol'] : 'USD';
             $table[] = [ 'head' => [ 'ID', 'Name', 'Visibility', 'Price', 'Sales', 'Status', 'Actions' ] ];
             foreach( $products as $p ) {
                 //skel( $p );
@@ -306,16 +306,18 @@ class ECOMMERCE {
                 $edit = $f->_edit_html( '#product_modal', $p, 'div', '', '', '', 'mat-ico', 'edit' ); // ( $p['prod_type'] == 2 ? $vars : '' ) .
                 $delete = $f->_trash_html('remove_product_ajax',$p['id'],'div','','','','mat-ico',2,2,'Are you sure to delete this product?','delete_forever');
                 //skel( $p );
-                $price = '';
-                if( $p['type'] == 2 || $p['type'] == 3 ) {
+                $price = $p['price_html'];
+                /* if( $p['type'] == 2 || $p['type'] == 3 ) {
                     $min = !empty( $p['min'] ) ? $p['min'] : 0;
                     $max = !empty( $p['max'] ) ? $p['max'] : 0;
-                    $price = ( $rate * $min ) . ' - ' . ( $rate * $max ) . ' ' . $curr;
+                    skel( $min );
+                    skel( $max );
+                    $price = $this->_var_price( $min, $max, 1 ); //( $rate * $min ) . ' - ' . ( $rate * $max ) . ' ' . $curr;
                 } else {
                     $reg = $p['meta']['regular_price'] ?? 0;
                     $sale = $p['meta']['sale_price'] ?? 0;
-                    $price = '<s>' . ( $rate * $reg ) . '</s> ' . ( $rate * $sale ) . ' ' . $curr;
-                }
+                    $price = $this->_price( $reg, $sale, 1 ); //'<s>' . ( $rate * $reg ) . '</s> ' . ( $rate * $sale ) . ' ' . $curr;
+                } */
                 $table[]['body'] = [
                     _div( 'tac', $p['id'] ),
                     $p['title']. _div( '', _el( 'small', '', $p['url'] ) ),
@@ -485,7 +487,7 @@ class ECOMMERCE {
             //$vs = array_group_by( $vs, 'pt_name' );
             if( !empty( $vs['props'] ) && $var_data ) {
                 foreach( $vs['props'] as $vl ) {
-                    skel( $vl );
+                    //skel( $vl );
                     //skel( $variations );
                     $variation_selectors[ $vl['pt_name'] ]['var_group_name'] = $vl['pt_name'];
                     $variation_selectors[ $vl['pt_name'] ]['var_group_type'] = $vl['pt_type'];
@@ -504,6 +506,11 @@ class ECOMMERCE {
             }
             $p['max'] = !empty( $prices ) ? max( $prices ) : 0;
             $p['min'] = !empty( $prices ) ? min( $prices ) : 0;
+            $p['price'] = $this->_var_price( $p['min'], $p['max'], 1, '', 0 );
+            $p['price_html'] = $this->_var_price( $p['min'], $p['max'], 0, '', 0 );
+        } else {
+            $p['price'] = $this->_price( $p['meta']['regular_price'], $p['meta']['sale_price'], 1, '', 0 );
+            $p['price_html'] = $this->_price( $p['meta']['regular_price'], $p['meta']['sale_price'], 0, '', 0 );
         }
         //skel( $p );
         return $p;
@@ -614,9 +621,10 @@ class ECOMMERCE {
         return $product;
     }
 
-    function _price( string|int|float|null $regular = 0, string|int|float|null $sale = 0, bool $only_float = false, string $class = '' ): string {
+    function _price( string|int|float|null $regular = 0, string|int|float|null $sale = 0, bool $only_float = false, string $class = '', bool $convert_rate = false ): string {
         $rate = defined('REGION') && isset( REGION['rate'] ) ? REGION['rate'] : 1;
         $curr = defined('REGION') && isset( REGION['symbol'] ) ? REGION['symbol'] : '';
+        $rate = $convert_rate ? 1 : $rate;
         $regular = !empty( $regular ) ? (float)$regular : 0;
         $sale = !empty( $sale ) ? (float)$sale : 0;
         if( $regular == 0 || $sale == 0 ) {
@@ -630,9 +638,11 @@ class ECOMMERCE {
         return $price;
     }
 
-    function _var_price( float $min, float $max, bool $only_float = false, string $price_class = '' ): string {
-        $rate = REGION['rate'] ?? 1;
-        $curr = REGION['symbol'] ?? '';
+    function _var_price( float $min, float $max, bool $only_float = false, string $price_class = '', bool $convert_rate = false ): string {
+        $rate = defined('REGION') && isset( REGION['rate'] ) ? REGION['rate'] : 1;
+        $curr = defined('REGION') && isset( REGION['symbol'] ) ? REGION['symbol'] : '';
+        $rate = $convert_rate ? $rate : 1;
+        //skel( $rate );
         return $only_float ? ( ( $rate * $min ) . '-' . ( $rate * $max ) ) : _div( $price_class, _el( 'span', 'currency_symbol', $curr ) . ' ' . _el( 'span', 'price_range', ( $rate * $min ) . ' - ' . ( $rate * $max ) ) );
     }
 
