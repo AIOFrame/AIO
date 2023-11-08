@@ -1,4 +1,3 @@
-@charset "UTF-8";
 .aio_fsp.aio_files {
   border: 2px solid #eee;
   background: #eee;
@@ -34,7 +33,7 @@
 }
 
 .aio_upload:after {
-  content: "";
+  content: "\e9fc";
   position: absolute;
   right: 6px;
   top: 50%;
@@ -177,8 +176,8 @@
 }
 .banner_wrap .banner_bg:after {
   content: "";
-  background: black;
-  background: linear-gradient(0deg, black 0%, rgba(0, 0, 0, 0) 100%);
+  background: rgb(0, 0, 0);
+  background: linear-gradient(0deg, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%);
 }
 .banner_wrap .banner_image.l {
   background-position: left center;
@@ -274,7 +273,7 @@ button:after, .btn:after {
 body {
   background: #f3f3f3;
   margin: 120px 0 90px;
-  min-height: calc( 100vh - 210px);
+  min-height: calc(100vh - 210px);
 }
 
 .invoice_view {
@@ -399,7 +398,7 @@ article.fade > div {
   border: 0;
 }
 .nav_ico .list.on {
-  font-weight: bold;
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .reg-ico {
@@ -1082,28 +1081,28 @@ fieldset {
   line-height: 45px;
 }
 .acts i.edit:after {
-  content: "";
+  content: "\e3c9";
 }
 .acts i.view:after {
-  content: "";
+  content: "\e8a0";
 }
 .acts i.delete:after, .acts i.trash:after {
-  content: "";
+  content: "\e872";
 }
 .acts i.inspect:after {
-  content: "";
+  content: "\ea9b";
 }
 .acts i.pay:after {
-  content: "";
+  content: "\ef63";
 }
 .acts i.map:after {
-  content: "";
+  content: "\e55f";
 }
 .acts i.up:after, .acts i.upload:after {
-  content: "";
+  content: "\f09b";
 }
 .acts i.down:after, .acts i.download:after {
-  content: "";
+  content: "\e2c4";
 }
 
 /* Tabs */
