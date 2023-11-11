@@ -671,6 +671,7 @@ function soon( string $date, string $text = 'Coming Soon...', string $bg = '', s
  * @param string $size Modal size s = small, m = medium, l = large, xl, f = full, l20, l40, l50, l60, l80, r20, r40, r50, r60, r80
  * @param string $target Database name if the data is supposed to store directly to db or ajax function name with _ajax at the end
  * @param array|string $fields Input fields to render
+ * @param string $form_style Style of the form
  * @param array $hidden Hidden data for Database
  * @param string $pre String to prepend to keys for database table columns
  * @param int $notify Notification Time in Seconds
@@ -686,13 +687,13 @@ function soon( string $date, string $text = 'Coming Soon...', string $bg = '', s
  * @param string $submit_wrap Wrapper class for submit trigger
  * @return void
  */
-function modal( string $title = '', bool $editable = true, string $size = 'm', string $target = '', array|string $fields = [], array $hidden = [], string $pre = '', int $notify = 0, int $reload = 0, string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '', string $submit_text = '', string $submit_class = '', string $submit_wrap = '' ): void {
+function modal( string $title = '', bool $editable = true, string $size = 'm', string $target = '', array|string $fields = [], string $form_style = 'row', array $hidden = [], string $pre = '', int $notify = 0, int $reload = 0, string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '', string $submit_text = '', string $submit_class = '', string $submit_wrap = '' ): void {
     $f = new FORM();
     $r = substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 8);
     pre_modal( $title, $size, $editable );
     if( is_array( $fields ) ) {
         $f->pre_process( 'data-wrap', $target, $r, $pre, $notify, $reload, $hidden, $success_alert, $callback, $confirm, $redirect, $validator, $reset_fields );
-            $f->form( $fields, 'row', $r );
+            $f->form( $fields, $form_style, $r );
             $f->process_trigger( !empty( $submit_text ) ? $submit_text : 'Save '.$title, $submit_class.' mb0', '', '', $submit_wrap.' .tac' );
         $f->post_process();
     } else {
@@ -890,7 +891,7 @@ function steps( array $steps = [], string $style = '', bool $translate_titles = 
  * @return string
  */
 function _steps( array $steps = [], string $style = '', bool $translate_titles = false ): string {
-    $data = _pre( '', 'steps rev '.$style );
+    $data = _pre( '', 'steps '.$style );
         $data .= _pre( '', 'step_heads' );
             $x = 0;
             foreach( $steps as $s ) {
@@ -898,7 +899,7 @@ function _steps( array $steps = [], string $style = '', bool $translate_titles =
                 $id = str_replace(' ','_',strtolower( $title ));
                 $icon = $s['icon'] ?? ( $s['ico'] ?? ( $s['i'] ?? '' ) );
                 $ic = $s['icon_class'] ?? ( $s['ic'] ?? 'mat-ico' );
-                $big_title = _div( 'step_no', $x + 1 ) . _div( 'step_title', $title ) . ( !empty( $icon ) ? _div( $ic, $icon ) : '' );
+                $big_title = ( empty( $icon ) ? _div( 'step_no', $x + 1 ) : '' ) . ( !empty( $icon ) ? _div( $ic.' step_no ico', $icon ) : '' ) . _div( 'step_title', $title );
                 $color = $s['color'] ?? ( $s['c'] ?? '' );
                 $color = !empty( $color ) ? 'style="background-color:'.$color.'"' : '';
                 $data .= _div( $x == 0 ? 'step on' : 'step', $big_title, '', 'data-step="#'.$id.'" '.$color, $translate_titles );
@@ -916,7 +917,7 @@ function _steps( array $steps = [], string $style = '', bool $translate_titles =
                     $x++;
                 }
             $data .= _post();
-            $data .= _div( 'steps_controls', _div( 'mat-ico', 'chevron_left', '', 'data-prev' ) . _div( 'mat-ico', 'chevron_right', '', 'data-next' ) );
+            $data .= _div( 'steps_controls', _div( 'mat-ico', 'chevron_left', '', 'data-prev disabled' ) . _div( 'mat-ico', 'chevron_right', '', 'data-next' ) );
         $data .= _post();
     $data .= _post();
     return $data;

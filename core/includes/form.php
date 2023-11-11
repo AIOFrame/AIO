@@ -1217,10 +1217,7 @@ class FORM {
         }
         //skel( $steps );
         if( count( $fields ) == count( $steps ) ) {
-            $style = $f['style'] ?? ( $f['s'] ?? '' );
-            //skel( $steps );
-            $translate = $f['translate'] ?? ( $f['tr'] ?? false );
-            $return .= _steps( $steps, $style, $translate );
+            $return .= _steps( $steps, $form_type );
         }
         $return .= in_array( $form_type, [ 'get', 'post', 'form' ] ) ? '</form>' : '</div>';
         //skel( count( $fields ) );

@@ -19,6 +19,11 @@
   line-height: 42px;
   text-align: center;
 }
+.steps .steps_controls [data-prev][disabled], .steps .steps_controls [data-next][disabled] {
+  opacity: 0.1;
+  cursor: not-allowed;
+  pointer-events: none;
+}
 .steps .steps_controls [data-next] {
   left: auto;
   right: 0;
@@ -42,31 +47,6 @@
   justify-content: center;
   margin-bottom: 30px;
 }
-.steps .step {
-  position: relative;
-  text-align: center;
-  margin: 0 30px;
-}
-.steps .step_no {
-  border-radius: 50px;
-  overflow: hidden;
-  width: 60px;
-  height: 60px;
-  line-height: 60px;
-  font-size: 2rem;
-  font-weight: bold;
-  background: rgba(0, 0, 0, 0.1);
-}
-.steps .step_title {
-  position: absolute;
-  font-size: 12px;
-  top: calc(100% + 4px);
-  color: #000;
-  left: 50%;
-  transform: translateX(-50%);
-  text-transform: none;
-  font-weight: 500;
-}
 .steps .step:after {
   position: absolute;
   right: -60px;
@@ -77,20 +57,51 @@
   z-index: -1;
   border: 0;
 }
-.steps .step.on .step_no {
+
+.steps:not(.flat):not(.side) .step {
+  position: relative;
+  text-align: center;
+  margin: 0 30px;
+}
+.steps:not(.flat):not(.side) .step:not(:last-child):after {
+  content: "";
+  position: absolute;
+  left: calc(100% + 10px);
+  width: 40px;
+  border-bottom: 4px dashed #ccc;
+}
+.steps:not(.flat):not(.side) .step_no {
+  border-radius: 50px;
+  overflow: hidden;
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  font-size: 2rem;
+  font-weight: bold;
+  background: rgba(0, 0, 0, 0.1);
+}
+.steps:not(.flat):not(.side) .step_title {
+  position: absolute;
+  font-size: 12px;
+  top: calc(100% + 4px);
+  color: #000;
+  left: 50%;
+  transform: translateX(-50%);
+  text-transform: none;
+  font-weight: 500;
+}
+.steps:not(.flat):not(.side) .step.on .step_no {
   color: #fff;
   background: var(--primary_color);
   background: linear-gradient(-45deg, var(--secondary_color) 0%, var(--primary_color) 100%);
 }
-.steps .step.on .step_title {
+.steps:not(.flat):not(.side) .step.on .step_title {
   color: var(--primary_color);
 }
 
 .steps.flat .step {
-  -ms-flex-preferred-size: 0;
-  flex-basis: 0;
-  -ms-flex-positive: 1;
   flex-grow: 1;
+  display: flex;
   text-align: center;
   cursor: pointer;
   padding: 12px 0;
@@ -98,6 +109,12 @@
   font-size: 14px;
   background: #eee;
   position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.steps.flat .step_no {
+  margin: 0 10px;
+  font-weight: bold;
 }
 .steps.flat .step:first-child {
   border-top-left-radius: 5px;
@@ -124,6 +141,37 @@
 }
 .steps.flat .step.on:after {
   border-left: 10px solid var(--secondary_color);
+}
+
+.steps.side {
+  display: flex;
+}
+.steps.side .step_heads {
+  flex: 0 0 150px;
+  display: block;
+}
+.steps.side .step {
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+}
+.steps.side .step .step_no {
+  font-size: 1.4rem;
+}
+.steps.side .step .step_title {
+  font-size: 0.9rem;
+}
+.steps.side .step.on {
+  color: #fff;
+  background: var(--primary_color);
+  background: linear-gradient(-45deg, var(--secondary_color) 0%, var(--primary_color) 100%);
+}
+.steps.side .steps_content {
+  flex: calc(100% - 150px);
+}
+
+.steps.side.right {
+  flex-direction: row-reverse;
 }
 
 .step:last-child:after {

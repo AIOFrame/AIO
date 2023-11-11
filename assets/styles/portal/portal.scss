@@ -91,7 +91,7 @@ $color-active-dark: var(--input_color_active_dark);
   font-weight: 400;
   position: relative;
 }
-[data-prev]:after, [data-next]:after {
+[data-prev]:not(.mat-ico):after, [data-next]:not(.mat-ico):after {
   content:'';
   position: absolute;
   top: 50%;
