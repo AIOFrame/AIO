@@ -821,7 +821,103 @@ function text_to_image( string $text, string $type = 'img', int $break = 40, int
 // ACCORDION TAGS
 
 function accordion( string $title = '', string $content = '', string $class = '', string $attr = '' ): void {
-    echo "<div class='accordion {$class}' ".$attr."><div class='accordion_head'>{$title}<div class='act'><div class='mat-ico' data-close>expand_less</div><div class='mat-ico' data-open>expand_more</div></div></div><div class='accordion_body'>{$content}</div></div>";
+    //echo "<div class='accordion {$class}' ".$attr."><div class='accordion_head'>{$title}<div class='act'><div class='mat-ico' data-close>expand_less</div><div class='mat-ico' data-open>expand_more</div></div></div><div class='accordion_body'>{$content}</div></div>";
+    echo _accordion( $title, $content, $class, $attr );
+}
+
+function _accordion( string $title = '', string $content = '', string $class = '', string $attr = '' ): string {
+    //echo "<div class='accordion {$class}' ".$attr."><div class='accordion_head'>{$title}<div class='act'><div class='mat-ico' data-close>expand_less</div><div class='mat-ico' data-open>expand_more</div></div></div><div class='accordion_body'>{$content}</div></div>";
+    $acts = _div( 'act', _div( 'mat-ico', 'expand_less', '', 'data-close' ) . _div( 'mat-ico', 'expand_more', '', 'data-open' ) );
+    return _div( 'accordion '.$class, _div( 'accordion_head', $title . $acts ) . _div( 'accordion_body', $content ) );
+}
+
+/**
+ * Renders Tabs
+ * @param array $tabs [ [ 'User' => 'User Content' ], [ 'Account Details' => 'Acc Details Content' ] ]
+ * @param string $style CSS Style
+ * @param bool $translate_titles True, to translate titles (Default False)
+ * @return void
+ */
+function tabs( array $tabs = [], string $style = '', bool $translate_titles = false ): void {
+    echo _tabs( $tabs, $style, $translate_titles );
+}
+
+/**
+ * Renders Tabs
+ * @param array $tabs [ [ 'User' => 'User Content' ], [ 'Account Details' => 'Acc Details Content' ] ]
+ * @param string $style CSS Style
+ * @param bool $translate_titles True, to translate titles (Default False)
+ * @return string
+ */
+function _tabs( array $tabs = [], string $style = '', bool $translate_titles = false ): string {
+    $data = _pre( '', 'tabs rev '.$style );
+        $data .= _pre( '', 'tab_heads' );
+            foreach( $tabs as $i => $content ) {
+                $id = str_replace(' ','_',strtolower( $i ));
+                $data .= _div( 'tab', $i, '', 'data-tab="#'.$id.'"', $translate_titles );
+            }
+        $data .= _post();
+        $data .= _pre( '', 'tab_content' );
+            $x = 0;
+            foreach( $tabs as $i => $content ) {
+                $id = str_replace(' ','_',strtolower( $i ));
+                $data .= _div( ( $x !== 0 ? 'dn' : '' ), $content, $id );
+                $x++;
+            }
+        $data .= _post();
+    $data .= _post();
+    return $data;
+}
+
+/**
+ * Renders Tabs HTML
+ * @param array $steps [ [ 'title' => 'User', 'icon' => '', 'icon_class' => '', 'color' => '', 'content' => 'User Content' ], ... ]
+ * @param string $style CSS Style
+ * @param bool $translate_titles True, to translate titles (Default False)
+ * @return void
+ */
+function steps( array $steps = [], string $style = '', bool $translate_titles = false ): void {
+    echo _steps( $steps, $style, $translate_titles );
+}
+
+/**
+ * Returns Tabs HTML
+ * @param array $steps [ [ 'title' => 'User', 'icon' => '', 'icon_class' => '', 'color' => '', 'content' => 'User Content' ], ... ]
+ * @param string $style CSS Style
+ * @param bool $translate_titles True, to translate titles (Default False)
+ * @return string
+ */
+function _steps( array $steps = [], string $style = '', bool $translate_titles = false ): string {
+    $data = _pre( '', 'steps rev '.$style );
+        $data .= _pre( '', 'step_heads' );
+            $x = 0;
+            foreach( $steps as $s ) {
+                $title = $s['title'] ?? ( $s['name'] ?? ( $s['t'] ?? ( $s['n'] ?? '' ) ) );
+                $id = str_replace(' ','_',strtolower( $title ));
+                $icon = $s['icon'] ?? ( $s['ico'] ?? ( $s['i'] ?? '' ) );
+                $ic = $s['icon_class'] ?? ( $s['ic'] ?? 'mat-ico' );
+                $big_title = $title . ( !empty( $icon ) ? _div( $ic, $icon ) : '' );
+                $color = $s['color'] ?? ( $s['c'] ?? '' );
+                $color = !empty( $color ) ? 'style="background-color:'.$color.'"' : '';
+                $data .= _div( $x == 0 ? 'step on' : 'step', $big_title, '', 'data-step="#'.$id.'" '.$color, $translate_titles );
+                $x++;
+            }
+        $data .= _post();
+        $data .= _pre( '', 'steps_content' );
+            $data .= _pre( '', 'steps_pages' );
+                $x = 0;
+                foreach( $steps as $s ) {
+                    $title = $s['title'] ?? ( $s['name'] ?? ( $s['t'] ?? ( $s['n'] ?? '' ) ) );
+                    $id = str_replace(' ','_',strtolower( $title ));
+                    $content = $s['content'] ?? ( $s['con'] ?? '' );
+                    $data .= _div( ( $x !== 0 ? 'dn' : '' ), $content, $id );
+                    $x++;
+                }
+            $data .= _post();
+            $data .= _div( 'steps_controls', _div( 'mat-ico', 'chevron_left', '', 'data-prev' ) . _div( 'mat-ico', 'chevron_right', '', 'data-next' ) );
+        $data .= _post();
+    $data .= _post();
+    return $data;
 }
 
 function _r(): void {
@@ -832,8 +928,8 @@ function r_(): void {
     echo '</div>';
 }
 
-function _c( string|int $column = 12 ): void {
-    echo '<div class="col-12 col-md-'.$column.'">';
+function _c( string|int $column = 12, string $class = '' ): void {
+    echo '<div class="col-12 col-md-'.$column.' '.$class.'">';
 }
 
 function c_(): void {

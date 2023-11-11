@@ -1130,13 +1130,19 @@ class FORM {
      * @param string $form_type Type of wrap around the form ( 'get' or 'post' or 'row' )
      * @param string $data_attr Common data attribute for all inputs
      */
-    function _form( array $fields = [], string $form_type = '', string $data_attr = '' ): string {
-        $return = $form_type == 'get' || $form_type == '$_GET' ? '<form method="get">' : ( $form_type == 'post' || $form_type == '$_POST' ? '<form method="post">' : ( $form_type == 'row' || $form_type == 'r' ? '<div class="form row">' : ( $form_type == 'settings' ? '<div class="settings form">' : '<div class="form">' ) ) );
+    function _form( array $fields = [], string $form_type = '', string $data_attr = '', string $group_by = '' ): string {
+        $return = in_array( $form_type, [ 'get', '$_GET' ] ) ? '<form method="get">' : ( in_array( $form_type, [ 'post', '$_POST' ] ) ? '<form method="post">' : ( in_array( $form_type, [ 'row', 'r' ] ) ? '<div class="form row">' : ( $form_type == 'settings' ? '<div class="settings form">' : ( in_array( $form_type, [ 'steps', 's' ] ) ? '<div class="steps form">' : '<div class="form">' ) ) ) );
         // x = count( fields ) && $col == 12 ?
+        //if( $form_type == 'steps' || $form_type == 's' ) {
+            //div( 'step_heads', $this->_form(  ) )
+        //}
+        $steps = [];
         foreach( $fields as $x => $f ) {
-            $type = $f['type'] ?? ( $f['t'] ?? 'text' );
-            $id = $f['id'] ?? ( $f['i'] ?? '' );
+            $type = $f['type'] ?? ( $f['ty'] ?? ( $f['t'] ?? 'text' ) );
+            //skel( $type );
             $label = $f['label'] ?? ( $f['l'] ?? ( $f['title'] ?? ( $f['name'] ?? ( $f['n'] ?? '' ) ) ) );
+            //$return = '';
+            $id = $f['id'] ?? ( $f['i'] ?? '' );
             $place = $f['place'] ?? ($f['placeholder'] ?? ( $f['p'] ?? $label));
             //$val = $f['value'] ?? ($method == 'POST' ? ($_POST[$id] ?? '') : ($_GET[$id] ?? ''));
             $val = $f['value'] ?? ( $f['va'] ?? ( $f['v'] ?? ( $_POST[$id] ?? ( $_GET[$id] ?? '' ) ) ) );
@@ -1144,32 +1150,42 @@ class FORM {
             $attrs = $data . ( $f['attr'] ?? ($f['a'] ?? '') );
             $pre = $form_type == 'settings' ? '<div class="setting_set">' : ( $f['pre'] ?? ($f['col'] ?? ( $f['c'] ?? ( $form_type == 'row' || $form_type == 'r' ? 12 : '<div>' ) )) );
             $post = ( !empty( $pre ) && empty( $f['post'] ) ) ? '</div>' : ( $f['post'] ?? 'ted' );
-            if( $type == 'select' || $type == 'select2' ) {
+            if( in_array( $type, [ 'accordion', 'acc', 'a' ] ) ) {
+                $return .= _accordion( $label, $this->_form( $f['fields'] ?? $f['form'], $type, $data_attr ) );
+            } else if( in_array( $type, [ 'steps', 'step', 'st' ] ) ) {
+                $ico = $f['icon'] ?? ( $f['ico'] ?? ( $f['i'] ?? '' ) );
+                $ic = $f['icon_class'] ?? ( $f['ic'] ?? 'mat-ico' );
+                $color = $s['color'] ?? ( $s['c'] ?? '' );
+                $step_fields = $f['fields'] ?? ( $f['form'] ?? ( $f['f'] ?? [] ) );
+                if( is_array( $step_fields ) && !empty( $step_fields ) ) {
+                    $steps[] = [ 'title' => $label, 'icon' => $ico, 'icon_class' => $ic, 'color' => $color, 'content' => $this->_form( $step_fields, 'row' ) ]; //$this->_form( $step_fields )
+                }
+            } else if( in_array( $type, [ 'select', 'select2', 'dropdown', 's', 's2', 'd' ] ) ) {
                 $options = $f['options'] ?? ( $f['os'] ?? ( $f['o'] ?? [] ) );
                 $value = $_POST[ $id ] ?? ( $_GET[ $id ] ?? $val );
                 $keyed = $f['keyed'] ?? ( $f['k'] ?? 0 );
                 $trans = $f['translate'] ?? ( $f['tr'] ?? 0 );
                 $attrs = isset( $f['multiple'] ) || isset( $f['m'] ) ? $attrs . ' multiple' : $attrs;
                 $return .= $this->_select2( $id, $label, $place, $options, $value, $attrs, $pre, $keyed, $trans, $post );
-            } else if( $type == 'rich' || $type == 'richtext' ) {
+            } else if( in_array( $type, [ 'rich', 'richtext', 'r' ] ) ) {
                 $return .= $this->_richtext( $id, $label, $val, $attrs, $pre, $post );
-            } else if( in_array( $type, [ 'content_builder', 'content_build', 'content' ] ) ) {
-                $return .= $this->_content_builder( $id, $label, $place, $val, $attrs, $pre, $post );
-            } else if( $type == 'date' ) {
+            //} else if( in_array( $type, [ 'content_builder', 'content_build', 'content', 'cb' ] ) ) {
+                //$return .= $this->_content( $id, $label, $place, $val, $attrs, $pre, $post );
+            } else if( $type == 'date' || $type == 'dt' ) {
                 $range = $f['range'] ?? ( $f['r'] ?? '' );
                 $min = $f['min'] ?? '';
                 $max = $f['max'] ?? '';
                 $multiple = $f['multiple'] ?? ( $f['m'] ?? 0 );
                 $return .= $this->_date( $id, $label, $place, $val, $attrs, 'bottom center', $pre, $range, $multiple, '', $min, $max, $post );
-            } else if( $type == 'slide' || $type == 'slides' ) {
+            } else if( in_array( $type, [ 'slide', 'slides', 'toggle', 't' ] ) ) {
                 $off_text = $f['off'] ?? 'Off';
                 $on_text = $f['on'] ?? 'On';
                 $return .= $type == 'slide' ? $this->_slide( $id, $label, $off_text, $on_text, $val, '', $attrs, $pre, $post ) : $this->_checkboxes( $id, $label, );
-            } else if( $type == 'color' ) {
+            } else if( $type == 'color' || $type == 'cl' ) {
                 $border = $f['border'] ?? ( $f['b'] ?? '' );
                 $preview = $f['preview'] ?? ( $f['view'] ?? '' );
                 $return .= $this->_color( $id, $label, $place, $val, $attrs, $pre, $border, $preview, $post );
-            } else if( $type == 'checkboxes' || $type == 'radios' ) {
+            } else if( in_array( $type, [ 'checkboxes', 'radios', 'checkbox', 'radio', 'cb', 'r' ] ) ) {
                 $values = $f['values'] ?? ( $f['v'] ?? ( $f['options'] ?? ( $f['o'] ?? [] ) ) );
                 $checked = $f['checked'] ?? ( $f['check'] ?? ( $f['selected'] ?? ( $f['s'] ?? '' ) ) );
                 $label_first = $f['label_first'] ?? ( $f['lf'] ?? 0 );
@@ -1177,13 +1193,13 @@ class FORM {
                 $inputs_post = $f['inputs_post'] ?? ( $f['ip_'] ?? '' );
                 $inputs_wrap = $f['inputs_wrap'] ?? ( $f['iw'] ?? ( is_numeric( $inputs_pre ) || is_float( $inputs_pre ) ? 'row' : '' ) );
                 $return .= $type == 'checkboxes' ? $this->_checkboxes( $id, $label, $values, $checked, $attrs, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post ) : $this->_radios( $id, $label, $values, $checked, $attrs, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post );
-            } else if( $type == 'phone' ) {
+            } else if( $type == 'phone' || $type == 'p' ) {
                 $id_2 = $f['id2'] ?? ( $f['i2'] ?? '' );
                 $label_2 = $f['label2'] ?? ( $f['l2'] ?? ( $f['title2'] ?? ( $f['name2'] ?? ( $f['n2'] ?? '' ) ) ) );
                 $place_2 = $f['place2'] ?? ($f['placeholder2'] ?? ( $f['p2'] ??= ''));
                 $val_2 = $f['value2'] ?? ( $f['va2'] ?? ( $f['v2'] ?? ( $_POST[$id_2] ?? ( $_GET[$id_2] ?? '' ) ) ) );
                 $return .= $this->_phone( $id, $id_2, $label, $label_2, $place, $place_2, $val, $val_2, $attrs, $pre, $post );
-            } else if( $type == 'upload' ) {
+            } else if( $type == 'upload' || $type == 'file' || $type == 'u' || $type == 'f' ) {
                 $btn_label = $f['btn_label'] ?? ( $f['button'] ?? ( $f['b'] ?? ( $label ?? 'Upload...' ) ) );
                 $multiple = $f['multiple'] ?? ( $f['m'] ?? 0 );
                 $history = $f['history'] ?? ( $f['h'] ?? 0 );
@@ -1199,7 +1215,15 @@ class FORM {
                 $return .= $this->_input( $type, $id, $label, $place, $val, $attrs, $pre, $post );
             }
         }
-        $return .= str_contains( $form_type, 'get' ) || str_contains( $form_type, 'post' ) || str_contains( $form_type, 'form' ) ? '</form>' : '</div>';
+        //skel( $steps );
+        if( count( $fields ) == count( $steps ) ) {
+            $style = $f['style'] ?? ( $f['s'] ?? '' );
+            //skel( $steps );
+            $translate = $f['translate'] ?? ( $f['tr'] ?? false );
+            $return .= _steps( $steps, $style, $translate );
+        }
+        $return .= in_array( $form_type, [ 'get', 'post', 'form' ] ) ? '</form>' : '</div>';
+        //skel( count( $fields ) );
         return $return;
     }
 
@@ -1492,11 +1516,29 @@ class FORM {
      */
     function filters( array $filter_params = [], string $clear_url = '', string $method = 'GET', string $filter_text = 'Filter', string $class = '' ): void {
         $clear_url = !empty( $clear_url ) ? APPURL . $clear_url : APPURL . PAGEPATH;
-        echo '<div class="filters_wrap '.$class.'"><form method="'.$method.'" class="auto_filters"><div class="row"><div class="col-12 col-md-10 inputs"><div class="row">';
-        $this->form( $filter_params );
-        echo '</div></div><div class="col-12 col-md-2 filter_actions"><div class="row"><div class="col"><button type="submit" class="filter mat-ico-after">'. $filter_text .'</button></div>';
-        echo '<div class="col"><a href="'.$clear_url.'" class="btn clear">'.T('Clear').'</a></div>';
-        echo '</div></div></div></form></div>';
+        //echo '<div class="row"><div class="col-12 col-md-10 inputs">';
+        pre( '', 'filters_wrap '.$class );
+            pre( '', 'auto_filters', 'form', 'method="'.$method.'"' );
+                _r();
+                    _c( 10, 'inputs' );
+                        $this->form( $filter_params, 'row' );
+                    c_();
+                    _c( 2, 'filter_actions' );
+                        _r();
+                            _c( 6 );
+                                b( 'filter mat-ico-after', $filter_text );
+                            c_();
+                            _c( 6 );
+                                a( $clear_url, T('Clear'), 'btn clear', T('Clear search filters.') );
+                            c_();
+                        r_();
+                    c_();
+                r_();
+            post( 'form' );
+        post();
+        //echo '<div class="col-12 col-md-2 filter_actions"><div class="row"><div class="col"><button type="submit" class="filter mat-ico-after">'. $filter_text .'</button></div>';
+        //echo '<div class="col"><a href="'.$clear_url.'" class="btn clear">'.T('Clear').'</a></div>';
+        //echo '</div></div></div></div>';
     }
 
     /**
