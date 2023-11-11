@@ -682,16 +682,18 @@ function soon( string $date, string $text = 'Coming Soon...', string $bg = '', s
  * @param string $validator Frontend JS script to add custom validation to the form data
  * @param string $reset_fields Reset input fields with data attribute (Tip: Use 1 to reset provided data fields)
  * @param string $submit_text Text on submit button
+ * @param string $submit_class Class on submit trigger
+ * @param string $submit_wrap Wrapper class for submit trigger
  * @return void
  */
-function modal( string $title = '', bool $editable = true, string $size = 'm', string $target = '', array|string $fields = [], array $hidden = [], string $pre = '', int $notify = 0, int $reload = 0, string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '', string $submit_text = '' ): void {
+function modal( string $title = '', bool $editable = true, string $size = 'm', string $target = '', array|string $fields = [], array $hidden = [], string $pre = '', int $notify = 0, int $reload = 0, string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '', string $submit_text = '', string $submit_class = '', string $submit_wrap = '' ): void {
     $f = new FORM();
     $r = substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 8);
     pre_modal( $title, $size, $editable );
     if( is_array( $fields ) ) {
         $f->pre_process( 'data-wrap', $target, $r, $pre, $notify, $reload, $hidden, $success_alert, $callback, $confirm, $redirect, $validator, $reset_fields );
             $f->form( $fields, 'row', $r );
-            $f->process_trigger( !empty( $submit_text ) ? $submit_text : 'Save '.$title, 'mb0' );
+            $f->process_trigger( !empty( $submit_text ) ? $submit_text : 'Save '.$title, $submit_class.' mb0', '', '', $submit_wrap.' .tac' );
         $f->post_process();
     } else {
         echo $fields;
@@ -896,7 +898,7 @@ function _steps( array $steps = [], string $style = '', bool $translate_titles =
                 $id = str_replace(' ','_',strtolower( $title ));
                 $icon = $s['icon'] ?? ( $s['ico'] ?? ( $s['i'] ?? '' ) );
                 $ic = $s['icon_class'] ?? ( $s['ic'] ?? 'mat-ico' );
-                $big_title = $title . ( !empty( $icon ) ? _div( $ic, $icon ) : '' );
+                $big_title = _div( 'step_no', $x + 1 ) . _div( 'step_title', $title ) . ( !empty( $icon ) ? _div( $ic, $icon ) : '' );
                 $color = $s['color'] ?? ( $s['c'] ?? '' );
                 $color = !empty( $color ) ? 'style="background-color:'.$color.'"' : '';
                 $data .= _div( $x == 0 ? 'step on' : 'step', $big_title, '', 'data-step="#'.$id.'" '.$color, $translate_titles );

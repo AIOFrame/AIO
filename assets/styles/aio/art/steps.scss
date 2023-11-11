@@ -3,50 +3,140 @@ $secondary: var(--secondary_color);
 
 /* Steps */
 
+.steps {
+  [data-step] {
+    cursor: pointer;
+  }
+  .steps_content {
+    position: relative;
+  }
+  .steps_pages {
+    margin: 0 42px;
+  }
+  .steps_controls {
+    [data-prev], [data-next] {
+      position: absolute;
+      left: 0;
+      top: calc(50% - 21px);
+      cursor: pointer;
+      padding: 0;
+      width: 42px;
+      height: 42px;
+      line-height: 42px;
+      text-align: center;
+    }
+    [data-next] {
+      left: auto;
+      right: 0;
+    }
+    [data-prev].mat-ico, [data-next].mat-ico {
+      font-size: 2rem;
+    }
+  }
+  .sno {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+}
 .step_head, .step_heads, .steps_head {
   display: -ms-flexbox;
   display: flex;
   margin-bottom: 20px;
   font-size: 0;
 }
-.step {
-  -ms-flex-preferred-size: 0;
-  flex-basis: 0;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  text-align: center;
-  cursor: pointer;
-  padding: 12px 0;
-  text-transform: uppercase;
-  font-size: 14px;
-  background: #eee;
-  position: relative;
+// Style: Circled / Default
+.steps {
+  .step_heads, .steps_head {
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+  .step {
+    position: relative;
+    text-align: center;
+    margin:0 30px;
+  }
+  .step_no {
+    border-radius:50px;
+    overflow: hidden;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    font-size: 2rem;
+    font-weight: bold;
+    background: rgba(0,0,0,.1);
+  }
+  .step_title {
+    position: absolute;
+    font-size: 12px;
+    top: calc(100% + 4px);
+    color:#000;
+    left: 50%;
+    transform:translateX(-50%);
+    text-transform: none;
+    font-weight: 500;
+  }
+  .step:after {
+    position: absolute;
+    right: -60px;
+    width: 60px;
+    top: calc(50% - 1px);
+    height: 2px;
+    background:#eee;
+    z-index:-1;
+    border: 0;
+  }
+  .step.on {
+    .step_no {
+      color:#fff;
+      background: $primary;
+      background: linear-gradient(-45deg, $secondary 0%, $primary 100%);
+    }
+    .step_title {
+      color: $primary;
+    }
+  }
 }
-.step:first-child {
-  border-top-left-radius: 5px;
-}
-.step:last-child {
-  border-top-right-radius: 5px;
-}
-.step.on {
-  color:#fff;
-  background: $primary;
-  background: linear-gradient(-45deg, $secondary 0%, $primary 100%);
-}
-.step:after {
-  position: absolute;
-  right: -9px;
-  top: 0;
-  content: '';
-  width: 0;
-  height: 0;
-  border-top: 20px solid transparent;
-  border-bottom: 20px solid transparent;
-  border-left: 10px solid #eee;
-  z-index:1;
-}
-.step.on:after {
-  border-left: 10px solid $secondary;
+// Style: Flat
+.steps.flat {
+  .step {
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    text-align: center;
+    cursor: pointer;
+    padding: 12px 0;
+    text-transform: uppercase;
+    font-size: 14px;
+    background: #eee;
+    position: relative;
+  }
+  .step:first-child {
+    border-top-left-radius: 5px;
+  }
+  .step:last-child {
+    border-top-right-radius: 5px;
+  }
+  .step:after {
+    position: absolute;
+    right: -9px;
+    top: 0;
+    content: '';
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 10px solid #eee;
+    z-index:1;
+  }
+  .step.on {
+    color:#fff;
+    background: $primary;
+    background: linear-gradient(-45deg, $secondary 0%, $primary 100%);
+  }
+  .step.on:after {
+    border-left: 10px solid $secondary;
+  }
 }
 .step:last-child:after {
   display: none;
@@ -82,40 +172,7 @@ $secondary: var(--secondary_color);
   z-index: 1
 }
 .rounded {
-  .step_heads, .steps_head {
-    justify-content: center;
-    margin-bottom: 30px;
-  }
-  .step {
-    border-radius:50px;
-    flex:0 0 50px;
-    max-width:50px;
-    height: 50px;
-    font-size: 20px;
-    margin:0 30px;
-    font-weight: bold;
-    padding: 15px;
-    span {
-      position: absolute;
-      font-size: 12px;
-      top: calc(100% + 4px);
-      color:#000;
-      left: 50%;
-      transform:translateX(-50%);
-      text-transform: none;
-      font-weight: 500;
-    }
-  }
-  .step:after {
-    position: absolute;
-    right: -60px;
-    width: 60px;
-    top: calc(50% - 1px);
-    height: 2px;
-    background:#eee;
-    z-index:-1;
-    border: 0;
-  }
+
 }
 
 body.d {
