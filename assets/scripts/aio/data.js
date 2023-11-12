@@ -142,9 +142,9 @@ function get_values( parent, attribute, prepend ) {
             data[ pre_key ] = value;
         }
 
-        elog(key);
-        elog( 'Updated:' );
-        elog( data );
+        //elog(key);
+        //elog( 'Updated:' );
+        //elog( data );
 
     });
     $.each(data,function(a,b){
@@ -410,9 +410,9 @@ function process_data( e, ne ){
     //if( $(p).attr('required') !== undefined ) {
     // Check for empty values
     let breaker = [];
-    console.log( data );
 
-    let required = is_empty( p, '[data-'+data+'] [required]' );
+    let required = is_empty( p, '[data-'+data+'][required]' );
+    console.log( required );
     if( required.length > 0 ) {
         $(p).removeClass('load');
         //console.log(required);
@@ -506,7 +506,7 @@ function process_data( e, ne ){
     } else {
         cb = 'process_end';
     }
-    post( d.action, d, p.data('notify'), p.data('reload'), p.data('redirect'), 0, cb, p.data('reset'), p, validation );
+    //post( d.action, d, p.data('notify'), p.data('reload'), p.data('redirect'), 0, cb, p.data('reset'), p, validation );
 
 }
 

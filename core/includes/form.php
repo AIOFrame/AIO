@@ -1157,8 +1157,9 @@ class FORM {
                 $ic = $f['icon_class'] ?? ( $f['ic'] ?? 'mat-ico' );
                 $color = $s['color'] ?? ( $s['c'] ?? '' );
                 $step_fields = $f['fields'] ?? ( $f['form'] ?? ( $f['f'] ?? [] ) );
+                $style = $f['form_type'] ?? ( $f['fields_style'] ?? ( $f['type'] ?? ( $f['style'] ?? ( $f['ft'] ?? ( $f['fs'] ?? 'row' ) ) ) ) );
                 if( is_array( $step_fields ) && !empty( $step_fields ) ) {
-                    $steps[] = [ 'title' => $label, 'icon' => $ico, 'icon_class' => $ic, 'color' => $color, 'content' => $this->_form( $step_fields, 'row' ) ]; //$this->_form( $step_fields )
+                    $steps[] = [ 'title' => $label, 'icon' => $ico, 'icon_class' => $ic, 'color' => $color, 'content' => $this->_form( $step_fields, $style, $data_attr ) ]; //$this->_form( $step_fields )
                 }
             } else if( in_array( $type, [ 'select', 'select2', 'dropdown', 's', 's2', 'd' ] ) ) {
                 $options = $f['options'] ?? ( $f['os'] ?? ( $f['o'] ?? [] ) );

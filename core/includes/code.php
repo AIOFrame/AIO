@@ -917,7 +917,7 @@ function _steps( array $steps = [], string $style = '', bool $translate_titles =
                     $x++;
                 }
             $data .= _post();
-            $data .= _div( 'steps_controls', _div( 'mat-ico', 'chevron_left', '', 'data-prev disabled' ) . _div( 'mat-ico', 'chevron_right', '', 'data-next' ) );
+            $data .= _div( 'steps_controls', _div( 'mat-ico', 'chevron_left', '', 'data-prev' ) . _div( 'mat-ico', 'chevron_right', '', 'data-next' ) );
         $data .= _post();
     $data .= _post();
     return $data;
