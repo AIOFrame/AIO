@@ -533,6 +533,12 @@ select.mb0 + .select2-container {
 
 /* AIR DATEPICKER */
 
+.air-datepicker {
+  z-index: 250;
+  box-shadow: 0 5px 35px rgba(0,0,0,.1);
+  border: 0;
+  border-radius: 10px;
+}
 .air-datepicker-body--day-name {
   background: -webkit-linear-gradient( 45deg, $primary, $secondary );
   -webkit-background-clip: text;
