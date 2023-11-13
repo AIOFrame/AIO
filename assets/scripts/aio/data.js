@@ -506,7 +506,7 @@ function process_data( e, ne ){
     } else {
         cb = 'process_end';
     }
-    //post( d.action, d, p.data('notify'), p.data('reload'), p.data('redirect'), 0, cb, p.data('reset'), p, validation );
+    post( d.action, d, p.data('notify'), p.data('reload'), p.data('redirect'), 0, cb, p.data('reset'), p, validation );
 
 }
 
