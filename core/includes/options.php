@@ -73,53 +73,53 @@ class OPTIONS {
         $brands = defined( 'REGION' ) ? pre_keys( $this->brand_options, $r ) : $this->brand_options;
         $ops = $db->get_options( $brands );
         $f->option_params_wrap( 'brand', 2, 2, $brands );
-        $attr = 'data-brand';
-        $ext = 'jpg,svg,png';
-        $name = !empty( $ops[$r.'app_name'] ) ? $ops[$r.'app_name'] : 'fake_name';
-        $desc = !empty( $ops[$r.'app_desc'] ) ? $ops[$r.'app_desc'] : 'fake_text';
-        $theme = !empty( $ops[$r.'default_theme'] ) ? $ops[$r.'default_theme'] : '';
-        $c1 = !empty( $ops[$r.'primary_color'] ) ? $ops[$r.'primary_color'] : 'fake_hex';
-        $c2 = !empty( $ops[$r.'secondary_color'] ) ? $ops[$r.'secondary_color'] : 'fake_hex';
-        $c3 = !empty( $ops[$r.'color_light'] ) ? $ops[$r.'color_light'] : 'fake_hex';
-        $c4 = !empty( $ops[$r.'filled_color_light'] ) ? $ops[$r.'filled_color_light'] : 'fake_hex';
-        $dc1 = !empty( $ops[$r.'primary_color_dark'] ) ? $ops[$r.'primary_color_dark'] : 'fake_hex';
-        $dc2 = !empty( $ops[$r.'secondary_color_dark'] ) ? $ops[$r.'secondary_color_dark'] : 'fake_hex';
-        $dc3 = !empty( $ops[$r.'color_dark'] ) ? $ops[$r.'color_dark'] : 'fake_hex';
-        $dc4 = !empty( $ops[$r.'filled_color_dark'] ) ? $ops[$r.'filled_color_dark'] : 'fake_hex';
-        $light = !empty( $ops[$r.'logo_light'] ) ? $ops[$r.'logo_light'] : '';
-        $dark = !empty( $ops[$r.'logo_dark'] ) ? $ops[$r.'logo_dark'] : '';
-        $fav = !empty( $ops[$r.'fav'] ) ? $ops[$r.'fav'] : '';
-        $uis = [ 'default' => 'Default - Light' ];
-        $ui_list = scandir( ROOTPATH . 'assets/styles/portal/ui' );
-        foreach( $ui_list as $ui ) {
-            if( str_contains( $ui, '.scss' ) ) {
-                $s = str_replace( '.scss', '', $ui );
-                $uis[ $s ] = ucwords( str_replace( '-', ' ', $s ) );
+            $attr = 'data-brand';
+            $ext = 'jpg,svg,png';
+            $name = !empty( $ops[$r.'app_name'] ) ? $ops[$r.'app_name'] : 'fake_name';
+            $desc = !empty( $ops[$r.'app_desc'] ) ? $ops[$r.'app_desc'] : 'fake_text';
+            $theme = !empty( $ops[$r.'default_theme'] ) ? $ops[$r.'default_theme'] : '';
+            $c1 = !empty( $ops[$r.'primary_color'] ) ? $ops[$r.'primary_color'] : 'fake_hex';
+            $c2 = !empty( $ops[$r.'secondary_color'] ) ? $ops[$r.'secondary_color'] : 'fake_hex';
+            $c3 = !empty( $ops[$r.'color_light'] ) ? $ops[$r.'color_light'] : 'fake_hex';
+            $c4 = !empty( $ops[$r.'filled_color_light'] ) ? $ops[$r.'filled_color_light'] : 'fake_hex';
+            $dc1 = !empty( $ops[$r.'primary_color_dark'] ) ? $ops[$r.'primary_color_dark'] : 'fake_hex';
+            $dc2 = !empty( $ops[$r.'secondary_color_dark'] ) ? $ops[$r.'secondary_color_dark'] : 'fake_hex';
+            $dc3 = !empty( $ops[$r.'color_dark'] ) ? $ops[$r.'color_dark'] : 'fake_hex';
+            $dc4 = !empty( $ops[$r.'filled_color_dark'] ) ? $ops[$r.'filled_color_dark'] : 'fake_hex';
+            $light = !empty( $ops[$r.'logo_light'] ) ? $ops[$r.'logo_light'] : '';
+            $dark = !empty( $ops[$r.'logo_dark'] ) ? $ops[$r.'logo_dark'] : '';
+            $fav = !empty( $ops[$r.'fav'] ) ? $ops[$r.'fav'] : '';
+            $uis = [ 'default' => 'Default - Light' ];
+            $ui_list = scandir( ROOTPATH . 'assets/styles/portal/ui' );
+            foreach( $ui_list as $ui ) {
+                if( str_contains( $ui, '.scss' ) ) {
+                    $s = str_replace( '.scss', '', $ui );
+                    $uis[ $s ] = ucwords( str_replace( '-', ' ', $s ) );
+                }
             }
-        }
-        $f->text($r.'app_name','Web App / Site Name','Ex: AIO University...',$name,$attr,8);
-        $f->upload($r.'fav','Fav Icon','Upload',$fav,0,0,'upload',$attr,'png',.1,1,'',4);
-        $f->textarea($r.'app_desc','Web App / Site Description','Ex: We provide...',$desc,$attr,12);
-        $f->select2( $r.'default_theme', 'Default Admin Theme', 'Select Theme...', $uis, $theme, $attr, 12, 1 );
-        //$f->select( 'input_theme', 'Input Style', 'Select Theme...', [], '', 'data-data class="select2"', 6, 1 );
-        echo '<h3 class="col-12">'.T('Light Color Options').'</h3>';
-        $f->upload($r.'logo_light','Logo','Upload',$light,0,0,'upload',$attr,$ext,.2,1,'',4);
-        $f->color($r.'primary_color','Primary','Ex: F1F1F1',$c1,$attr,2,'','[data-key=primary_color]');
-        $f->color($r.'secondary_color','Secondary','Ex: A2A2A2',$c2,$attr,2,'','[data-key=secondary_color]');
-        $f->color($r.'color_light','Text Color','Ex: A2A2A2',$c3,$attr,2,'','[data-key=color_light]');
-        $f->color($r.'filled_color_light','Text on Theme BG','Ex: A2A2A2',$c4,$attr,2,'','[data-key=filled_color_light]');
-        if( $dark_mode_options ) {
-            echo '<h3 class="col-12">'.T('Dark Color Options').'</h3>';
-            $f->upload($r.'logo_dark','Logo','Upload',$dark,0,0,'upload',$attr,$ext,.2,1,'',4);
-            $f->color($r.'primary_color_dark','Primary','Ex: F1F1F1',$dc1,$attr,2,'','[data-key=primary_color_dark]');
-            $f->color($r.'secondary_color_dark','Secondary','Ex: A2A2A2',$dc2,$attr,2,'','[data-key=secondary_color_dark]');
-            $f->color($r.'color_dark','Text Color','Ex: A2A2A2',$dc3,$attr,2,'','[data-key=color_dark]');
-            $f->color($r.'filled_color_dark','Text on Theme BG','Ex: A2A2A2',$dc4,$attr,2,'','[data-key=filled_color_dark]');
-        }
-        $f->process_options($this->region_flag().'Save Brand Options','store grad','','.col-12 tac');
-        $f->post_process();
-        $this->region_notice();
-        echo '</div>';
+            $f->text($r.'app_name','Web App / Site Name','Ex: AIO University...',$name,$attr,8);
+            $f->upload($r.'fav','Fav Icon','Upload',$fav,0,0,'upload',$attr,'png',.1,1,'',4);
+            $f->textarea($r.'app_desc','Web App / Site Description','Ex: We provide...',$desc,$attr,12);
+            $f->select2( $r.'default_theme', 'Default Admin Theme', 'Select Theme...', $uis, $theme, $attr, 12, 1 );
+            //$f->select( 'input_theme', 'Input Style', 'Select Theme...', [], '', 'data-data class="select2"', 6, 1 );
+            echo '<h3 class="col-12">'.T('Light Color Options').'</h3>';
+            $f->upload($r.'logo_light','Logo','Upload',$light,0,0,'upload',$attr,$ext,.2,1,'',4);
+            $f->color($r.'primary_color','Primary','Ex: F1F1F1',$c1,$attr,2,'','[data-key=primary_color]');
+            $f->color($r.'secondary_color','Secondary','Ex: A2A2A2',$c2,$attr,2,'','[data-key=secondary_color]');
+            $f->color($r.'color_light','Text Color','Ex: A2A2A2',$c3,$attr,2,'','[data-key=color_light]');
+            $f->color($r.'filled_color_light','Text on Theme BG','Ex: A2A2A2',$c4,$attr,2,'','[data-key=filled_color_light]');
+            if( $dark_mode_options ) {
+                echo '<h3 class="col-12">'.T('Dark Color Options').'</h3>';
+                $f->upload($r.'logo_dark','Logo','Upload',$dark,0,0,'upload',$attr,$ext,.2,1,'',4);
+                $f->color($r.'primary_color_dark','Primary','Ex: F1F1F1',$dc1,$attr,2,'','[data-key=primary_color_dark]');
+                $f->color($r.'secondary_color_dark','Secondary','Ex: A2A2A2',$dc2,$attr,2,'','[data-key=secondary_color_dark]');
+                $f->color($r.'color_dark','Text Color','Ex: A2A2A2',$dc3,$attr,2,'','[data-key=color_dark]');
+                $f->color($r.'filled_color_dark','Text on Theme BG','Ex: A2A2A2',$dc4,$attr,2,'','[data-key=filled_color_dark]');
+            }
+            $f->process_options($this->region_flag().'Save Brand Options','store grad','','.col-12 tac');
+            $f->post_process();
+            $this->region_notice();
+        post();
         file_upload();
         get_scripts('iro,color');
     }
@@ -502,6 +502,38 @@ class OPTIONS {
         return 'option_name = \'' . implode( '\' ' . $relation . ' option_name = \'', $options_array ) . '\'';
     }
 
+    function form( array $form = [], string $data = '', string $success = '', int $notify = 2, int $reload = 2, array|string $auto_load = [], array|string $unique = [], array|string $encrypt = '', string $confirm = '', string $callback = '' ): void {
+        $f = new FORM();
+        $db = new DB();
+        // Fetch Options
+        $os = [];
+        if( !empty( $form ) ) {
+            foreach( $form as $f ) {
+                $id = $f['identity'] ?? ( $f['id'] ?? ( $f['i'] ?? '' ) );
+                if( !empty( $id ) ) {
+                    $os[] = $id;
+                }
+            }
+        }
+        $os = $db->get_options( $os );
+        // Add values to fields
+        if( !empty( $form ) && !empty( $os ) ) {
+            foreach( $form as $f ) {
+                $id = $f['identity'] ?? ( $f['id'] ?? ( $f['i'] ?? '' ) );
+                $value = $os[ $id ] ?? ( $f['value'] ?? ( $f['val'] ?? ( $f['v'] ?? '' ) ) );
+                unset( $f['value'] );
+                unset( $f['val'] );
+                if( !empty( $id ) && !empty( $value ) ) {
+                    $f['v'] = $value;
+                }
+            }
+        }
+        $f->option_params_wrap( $data, $notify, $reload, $auto_load, $unique, $encrypt, $success, $callback, $confirm );
+            $f->form( $form );
+            $f->process_trigger( 'Save Options', 'store grad', '', '', '.col-12 tac' );
+        post();
+    }
+
     /**
      * @param int $display_type 1 = Tabbed, 2 = Accordion, 3 = Normal
      * @param string $enterprise
@@ -548,7 +580,7 @@ class OPTIONS {
 }
 
 function import_options_ajax(): void {
-    if( isset( $_POST['import'] ) && !empty( $_POST['import'] ) ) {
+    if(!empty( $_POST['import'] )) {
         // Parse Import Data
         $e = Encrypt::initiate();
         $options = $e->decrypt_array( $_POST['import'] );

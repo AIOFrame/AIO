@@ -397,7 +397,16 @@ class PORTAL {
      * @return void
      */
     function options(): void {
+        $f = new FORM();
+        $db = new DB();
+        $light = !empty( $ops['logo_light'] ) ? $ops['logo_light'] : '';
+        $dark = !empty( $ops['logo_dark'] ) ? $ops['logo_dark'] : '';
+        $f->option_params_wrap( 'brand', 2, 2,  );
+        $f->form([
 
+        ], 'row', $f->pre_process() );
+        $f->text($r.'app_name','Web App / Site Name','Ex: AIO University...',$name,$attr,8);
+        post();
     }
 }
 

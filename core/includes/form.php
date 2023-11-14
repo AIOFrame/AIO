@@ -1248,6 +1248,29 @@ class FORM {
         //skel( $h );
     }
 
+    /**
+     * Returns HTML for Options Auto Save
+     * @param string $attr
+     * @param string $data
+     * @param int $notify
+     * @param int $reload
+     * @param array|string $autoload
+     * @param array|string $unique
+     * @param array|string $encrypt
+     * @param string $success_text
+     * @param string $callback
+     * @param string $confirm
+     * @return string
+     */
+    function _option_params( string $attr = '', string $data = '', int $notify = 0, int $reload = 0, array|string $autoload = [], array|string $unique = [], array|string $encrypt = [], string $success_text = 'Successfully Updated Preferences!', string $callback = '', string $confirm = '' ): string {
+        $h = [];
+        !empty( $autoload ) ? $h['autoload'] = $autoload : '';
+        !empty( $unique ) ? $h['unique'] = $unique : '';
+        !empty( $encrypt ) ? $h['encrypt'] = $encrypt : '';
+        return $this->_pre_process( $attr, '', $data, '', $notify, $reload, $h, $success_text, $callback, $confirm );
+        //skel( $h );
+    }
+
     function option_params_wrap( string $data = '', int $notify = 0, int $reload = 0, array|string $autoload = [], array|string $unique = [], array|string $encrypt = [], string $success_text = 'Successfully Updated Preferences!', string $callback = '', string $confirm = '' ): void {
         $h = [];
         !empty( $autoload ) ? $h['autoload'] = $autoload : '';
