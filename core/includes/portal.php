@@ -187,7 +187,7 @@ class PORTAL {
 
             // User Panel
             pre( 'user_panel' );
-/*
+
                 // Show Alerts
                 if( $show_alerts ) {
                     $alerts = $db->select( 'alerts', '', 'alert_user = "'.get_user_id().'" AND alert_seen = "0"' );
@@ -248,7 +248,7 @@ class PORTAL {
                 if( $link_to_front ) {
                     div( '', _a( APPURL, _div( 'nav_ico', _div( 'mat-ico', 'desktop_windows' ) ), '', T( 'Go to Frontend Website' ), 'target="_blank"' ), 'link_to_front' );
                 }
-*/
+
                 // Show User
                 if( $show_user ) {
                     $user_pic = $_SESSION['user']['picture'] ?? '';
@@ -290,19 +290,14 @@ class PORTAL {
      */
     function render_menu( array $menus = [], string $root_url = 'portal', string $content = '', string $class = '', bool $gradient_icons = false ): void {
         //$menus = !empty( $menus ) ? array_group_by( $menus, 'group' ) : [];
-        ?>
-        <aside class="menu <?php echo $class; ?>">
-            <div class="row">
-                <div class="col-2" data-intro>
-                    <a href="<?php echo APPURL.$root_url; ?>" class="home_link">
-                        <i class="ico l mat-ico">home</i>
-                    </a>
-                </div>
-                <div class="col-10">
-                    <input type="search" placeholder="<?php E('Search in Menu...'); ?>">
-                </div>
-            </div>
-            <?php echo $content;
+        pre( '', 'menu '.$class, 'aside' );
+            _r();
+                div( 'col-2', _a( APPURL . $root_url, _el( 'i', 'ico l mat-ico', 'home' ) ), '', 'data-intro' );
+                pre( '', 'col-10' );
+                    echo '<input type="search" placeholder="'.T('Search in Menu...').'">';
+                post();
+            r_();
+            echo $content;
             if( !empty( $menus ) ) {
                 $user_type = isset( $_SESSION['user']['type'] ) && !empty( $_SESSION['user']['type'] ) ? $_SESSION['user']['type'] : '';
                 foreach( $menus as $menu_set ) {
@@ -327,11 +322,9 @@ class PORTAL {
                     }
                     if( empty( $group_restricted ) ) {
                         //skel( $menu_set );
-                    ?>
-                    <div class="set">
-                        <div class="title"><?php E( $group_title ); ?></div>
-                        <div class="row" <?php echo 'data-'.$data; ?>>
-                            <?php
+                        pre( '', 'set' );
+                            div( 'title', T( $group_title ) );
+                            pre( '', 'row', 'div', 'data-'.$data );
                             if( !empty( $menu_list ) ) {
                                 foreach( $menu_list as $menu ) {
                                     $col = isset( $menu['col'] ) ? 'item col-'.$menu['col'] : 'item col-4';
@@ -356,28 +349,17 @@ class PORTAL {
                                     }
                                     if( empty( $restricted ) ) {
                                         $ico_class = $gradient_icons ? 'mat-ico l grad-bg' : 'mat-ico l';
-                                    ?>
-                                    <div class="<?php echo $col; ?>">
-                                        <a href="<?php echo APPURL.$url; ?>">
-                                            <?php echo '<i class="'.$ico_class.'">'.$icon.'</i>' ?>
-                                            <div class="title"><?php E( $title ); ?></div>
-                                        </a>
-                                    </div>
-                                    <?php
+                                        div( $col, _a( APPURL . $url, _el( 'i', $ico_class, $icon ) . _div( 'title', T( $title ) ) ) );
                                     }
                                 }
                             }
-                            ?>
-                        </div>
-                    </div>
-                    <?php
+                            post();
+                        post();
                     }
                 }
             }
-            ?>
-        </aside>
-        <div class="credit"><?php echo T('Copyright ©').' '.date('Y').' '.APPNAME; ?></div>
-        <?php
+        post( 'aside' );
+        div( 'credit', T('Copyright ©').' '.date('Y').' '.APPNAME );
     }
 
     /**
@@ -409,9 +391,17 @@ class PORTAL {
         div( 'actions' );
         post();
     }
+
+    /**
+     * Renders PORTAL Options
+     * @return void
+     */
+    function options(): void {
+
+    }
 }
 
 function back_url( string $url = '' ): void {
-    a(APPURL.$url,'arrow_back','mat-ico back','Go Back');
+    a( APPURL.$url, 'arrow_back', 'mat-ico back', 'Go Back' );
     //echo '<a class="mat-ico back" href="'.APPURL . $url.'">arrow_back</a>';
 }
