@@ -924,11 +924,11 @@ function _steps( array $steps = [], string $style = '', bool $translate_titles =
 }
 
 function _r(): void {
-    echo '<div class="row">';
+    pre( '', 'row' );
 }
 
 function r_(): void {
-    echo '</div>';
+    post();
 }
 
 function _c( string|int $column = 12, string $class = '' ): void {

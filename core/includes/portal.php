@@ -169,36 +169,41 @@ class PORTAL {
         global $is_light;
         //$c = json_decode( CONFIG, 1 );
         $c = CONFIG;
+        // TODO: Implement most params to be from user options
 
         if( $is_light ) {
             $logo = !empty( $options['logo_light'] ) ? 'style="background:url(\''.storage_url( $options['logo_light'] ).'\') no-repeat center / contain"' : '';
         } else {
             $logo = !empty( $options['logo_dark'] ) ? 'style="background:url(\''.storage_url( $options['logo_dark'] ).'\') no-repeat center / contain"' : '';
         }
-        ?>
-        <header>
-            <div id="brand_panel">
-                <?php echo $show_navigation ? '<div id="menu" class="nav_ico">'. ( str_contains( ICONS, 'Bootstrap' ) ? '<i class="bi bi-list menu"></i><i class="bi bi-x-lg close"></i>' : '<div class="mat-ico menu">menu</div><div class="mat-ico close">close</div>' ) .'</div>' : ''; ?>
-                <a href="<?php echo APPURL.$logo_url ?>" class="brand" <?php echo $logo; ?>></a>
-                <?php if( is_mobile() || is_tablet() ){?>
 
-                <?php } ?>
-            </div>
-            <div id="user_panel">
-                <?php
+        pre( '', '', 'header' );
 
+            // Brand Panel
+            pre( 'brand_panel' );
+                $show_navigation ? div( 'nav_ico', ( str_contains( ICONS, 'Bootstrap' ) ? _el( 'i', 'bi bi-list menu' ) . _el( 'i', 'bi bi-x-lg close' ) : _div( 'mat-ico menu', 'menu' ) . _div( 'mat-ico close', 'close' ) ), 'menu' ) : '';
+                a( APPURL . $logo_url, '', 'brand', '', $logo );
+            post();
+
+            // User Panel
+            pre( 'user_panel' );
+/*
                 // Show Alerts
                 if( $show_alerts ) {
                     $alerts = $db->select( 'alerts', '', 'alert_user = "'.get_user_id().'" AND alert_seen = "0"' );
-                    echo '<div id="alert" class="nav_ico" title="View Notifications"><div class="mat-ico">notifications</div><span>';
-                    echo !empty( $alerts ) ? count( $alerts ) : 0;
-                    echo '</span><div class="events drop"><div class="n_events">';
-                    if( !empty( $alerts )) {
-                        foreach( $alerts as $a ){
-                            echo '<div class="n_event" data-type="'.$a['alert_type'].'">'.$a['alert_msg'].'</div>';
-                        }
-                    }
-                    echo '</div></div></div>';
+                    pre( 'alert', 'nav_ico', 'div', 'title="'.T('View Notifications').'"' );
+                        div( 'mat-ico', 'notifications' );
+                        el( 'span', '', !empty( $alerts ) ? count( $alerts ) : 0 );
+                        pre( '', 'events drop' );
+                            pre( '', 'n_events' );
+                                if( !empty( $alerts )) {
+                                    foreach( $alerts as $a ){
+                                        div( 'n_event', $a['alert_msg'], '', 'data-type="'.$a['alert_type'].'"' );
+                                    }
+                                }
+                            post();
+                        post();
+                    post();
                 }
 
                 // Show Regions
@@ -227,48 +232,51 @@ class PORTAL {
 
                 // Show Languages
                 if( $show_languages && in_array( 'languages', $c ) ) {
-                    echo '<div id="lang" class="nav_ico" title="Change Language"><div class="mat-ico">translate</div><div class="drop">';
                     // TODO: Get Languages
-                    foreach( [] as $l => $n ){
-                        $class = !empty( $_SESSION['lang'] ) ? $_SESSION['lang'] == $l ? ' on' : '' : '';
-                        echo '<div class="ln list'.$class.'" data-lang="'.$l.'">'.$n.'</div>';
-                    }
-                    echo '</div></div>';
+                    pre( 'lang', 'nav_ico' );
+                        div( 'mat-ico', 'translate' );
+                        pre( '', 'drop' );
+                            foreach( [] as $l => $n ){
+                                $class = !empty( $_SESSION['lang'] ) ? $_SESSION['lang'] == $l ? ' on' : '' : '';
+                                div( 'ln list '.$class, $n, '', 'data-lang="'.$l.'"' );
+                            }
+                        post();
+                    post();
                 }
 
                 // Link to Front-end
                 if( $link_to_front ) {
-                    echo '<div id="link_to_front"><a target="_blank" href="'.APPURL.'"><div class="nav_ico"><div class="mat-ico">desktop_windows</div></div></a></div>';
+                    div( '', _a( APPURL, _div( 'nav_ico', _div( 'mat-ico', 'desktop_windows' ) ), '', T( 'Go to Frontend Website' ), 'target="_blank"' ), 'link_to_front' );
                 }
-
+*/
                 // Show User
                 if( $show_user ) {
                     $user_pic = $_SESSION['user']['picture'] ?? '';
                     $user_name = $_SESSION['user']['name'] ?? 'Developer';
                     $user_role = $_SESSION['user']['role'] ?? $_SESSION['user']['type'];
-                    ?>
-                    <div class="user_drop mr20">
-                        <?php if( !is_mobile() && !is_tablet() ) { ?>
-                        <div class="user_pic" <?php echo !empty( $user_pic ) ? 'style="background-image:url('. storage_url($user_pic) .')" class="bg"' : ''; ?>></div>
-                        <div class="user_name"><?php echo $user_name; ?></div>
-                        <div class="user_details">
-                            <div class="pic" <?php echo !empty( $user_pic ) ? 'style="background-image:url('. storage_url($user_pic) .')" class="bg"' : ''; ?>></div>
-                            <h4 class="name"><?php echo $user_name; ?></h4>
-                            <h4 class="role"><?php echo $user_role; ?></h4>
-                            <div class="row">
-                                <div class="col tal"><a href="<?php echo APPURL.$profile_url; ?>" class="r5 bsn s btn m0"><?php E('My Profile'); ?></a></div>
-                                <div class="col tar"><button class="red r5 bsn s m0" onclick="logout(<?php echo '\''.(APPDEBUG ? 'logout_ajax' : $e->encrypt('logout_ajax') ).'\',\''.$logout_to.'\''; ?>)"><?php E('Log out'); ?></button></div>
-                            </div>
-                        </div>
-                        <?php } else { ?>
-                            <a href="<?php echo APPURL.$profile_url; ?>" class="user_pic" <?php echo !empty( $user_pic ) ? 'style="background-image:url('. storage_url($user_pic) .')" class="bg"' : ''; ?>></a>
-                        <?php } ?>
-                    </div>
-                <?php } ?>
-<!--                    <div id="log_off" class="nav_ico" onclick="log_off()"></div>-->
-            </div>
-        </header>
-        <?php
+                    pre( '', 'user_drop mr20' );
+                        if( !is_mobile() && !is_tablet() ) {
+                            div( 'user_pic', '', '', ( !empty( $user_pic ) ? 'style="background-image:url('. storage_url($user_pic) .')" class="bg"' : '' ) );
+                            div( 'user_name', $user_name );
+                            pre( '', 'user_details' );
+                                div( 'pic', '', '', ( !empty( $user_pic ) ? 'style="background-image:url('. storage_url($user_pic) .')" class="bg"' : '' ) );
+                                h4( $user_name, 0 );
+                                h5( $user_role, 0 );
+                                _r();
+                                    div( 'col tal', _a( APPURL . $profile_url, T('My Profile'), 'r5 bsn s btn m0' ) );
+                                    $logout_action = APPDEBUG ? 'logout_ajax' : $e->encrypt('logout_ajax');
+                                    div( 'col tar', _b( 'red r5 bsn s m0', 'Logout', '', 'onclick="logout(\''.$logout_action.'\',\''.$logout_to.'\')"' ) );
+                                r_();
+                            post();
+                        } else {
+                            a( APPURL . $profile_url, '', 'user_pic', '', !empty( $user_pic ) ? 'style="background-image:url('. storage_url($user_pic) .')"' : '' );
+                        }
+                    post();
+                }
+
+            post();
+
+        post( 'header' );
     }
 
     /**
@@ -383,23 +391,23 @@ class PORTAL {
      * @return void
      */
     function title_bar( string $title = '', string $back_url = '', string $list_view = '', string $grid_view = '', string $active_view = '', array $actions = [], ): void {
-        echo '<div class="header">';
-        echo !empty( $back_url ) ? ( defined( 'ICONS' ) ? ( str_contains( ICONS, 'Material' ) ? '<a class="mat-ico back" href="'.APPURL . $back_url.'">arrow_back</a>' : ( str_contains( ICONS, 'Bootstrap' ) ? '<a class="back" href="'.APPURL . $back_url.'"><i class="bi bi-arrow-90deg-left"></i></a>' : '' ) ) : '' ) : '';
-        echo !empty( $title ) ? '<h1 class="title">'.T($title).'</h1>' : '';
-        echo !empty( $list_view ) || !empty( $grid_view ) ? '<div class="views">' : '';
+        pre( '', 'header' );
+        !empty( $back_url ) ? ( defined( 'ICONS' ) ? ( str_contains( ICONS, 'Material' ) ? a( APPURL.$back_url, 'arrow_back', 'mat-ico back', 'Return' ) : ( str_contains( ICONS, 'Bootstrap' ) ? a( APPURL . $back_url, _el( 'i', 'bi bi-arrow-90deg-left' ), 'back' ) : '' ) ) : '' ) : '';
+        !empty( $title ) ? h1( $title, 1, 'title' ) : '';
+        !empty( $list_view ) || !empty( $grid_view ) ? pre( '', 'views' ) : '';
         if( !empty( $list_view ) ){
-            echo '<div class="list_toggle'.($active_view == $list_view ? ' on' : '').'" data-show="'.$list_view.'" data-off=".grid_toggle" data-on=".list_toggle" '.(!empty( $grid_view ) ? 'data-hide="'.$grid_view.'"' : '').'>';
-            echo defined('ICONS') ? ( str_contains( ICONS, 'Material' ) ? '<div class="mat-ico">list</div>' : ( str_contains( ICONS, 'Bootstrap' ) ? '<i class="bi bi-list"></i>' : '' ) ) : '';
-            echo '</div>';
+            pre( '', 'list_toggle'.($active_view == $list_view ? ' on' : ''), 'div', 'data-show="'.$list_view.'" data-off=".grid_toggle" data-on=".list_toggle" '.(!empty( $grid_view ) ? 'data-hide="'.$grid_view.'"' : '') );
+            defined('ICONS') ? ( str_contains( ICONS, 'Material' ) ? div( 'mat-ico', 'list' ) : ( str_contains( ICONS, 'Bootstrap' ) ? el( 'i', 'bi bi-list' ) : '' ) ) : '';
+            post();
         }
         if( !empty( $grid_view ) ){
-            echo '<div class="grid_toggle'.($active_view == $grid_view ? ' on' : '').'" data-show="'.$grid_view.'" data-on=".grid_toggle" data-off=".list_toggle" '.(!empty( $list_view ) ? 'data-hide="'.$list_view.'"' : '').'>';
-            echo defined('ICONS') ? ( str_contains( ICONS, 'Material' ) ? '<div class="mat-ico">grid_view</div>' : ( str_contains( ICONS, 'Bootstrap' ) ? '<i class="bi bi-grid-3x2"></i>' : '' ) ) : '';
-            echo '</div>';
+            pre( '', 'grid_toggle'.($active_view == $grid_view ? ' on' : ''), 'div', 'data-show="'.$grid_view.'" data-on=".grid_toggle" data-off=".list_toggle" '.(!empty( $list_view ) ? 'data-hide="'.$list_view.'"' : '') );
+            defined('ICONS') ? ( str_contains( ICONS, 'Material' ) ? div( 'mat-ico', 'grid_view' ) : ( str_contains( ICONS, 'Bootstrap' ) ? el( 'i', 'bi bi-grid-3x2' ) : '' ) ) : '';
+            post();
         }
         echo !empty( $list_view ) || !empty( $grid_view ) ? '</div>' : '';
-        echo '<div class="actions">';
-        echo '</div></div>';
+        div( 'actions' );
+        post();
     }
 }
 
