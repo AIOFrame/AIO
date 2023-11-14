@@ -57,9 +57,54 @@
   color: #fff;
 }
 
+.tabs.side, .tabs.vertical {
+  display: flex;
+}
+.tabs.side .tab_heads:not(.fluid), .tabs.vertical .tab_heads:not(.fluid) {
+  flex: 0 0 150px;
+}
+.tabs.side .tab_heads, .tabs.vertical .tab_heads {
+  display: block;
+  flex: 0 0 100%;
+}
+.tabs.side .tab, .tabs.vertical .tab {
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid transparent;
+  border-right: 1px solid #ccc;
+  text-transform: none;
+  background: none;
+  opacity: 0.5;
+  box-shadow: none;
+}
+.tabs.side .tab .tab_title, .tabs.vertical .tab .tab_title {
+  font-size: 0.9rem;
+}
+.tabs.side .tab.on, .tabs.vertical .tab.on {
+  border: 1px solid #ccc;
+  border-right: 1px solid transparent;
+  opacity: 1;
+  color: var(--primary_color);
+}
+.tabs.side .tab.on:after, .tabs.vertical .tab.on:after {
+  display: none;
+}
+.tabs.side .tabs_content, .tabs.vertical .tabs_content {
+  flex: calc(100% - 150px);
+}
+
+.tabs.side.right {
+  flex-direction: row-reverse;
+}
+
 .tabs.float .tab {
   margin: 0 15px 15px 0;
   border-radius: 10px;
+}
+.tabs.float .tab.on {
+  border: 1px solid #ccc;
+  border-left: 1px solid transparent;
 }
 
 .tabs.material {
@@ -160,7 +205,6 @@ body.d .tab:not(.on) {
     display: flex;
     overflow-x: auto;
   }
-
   .tab {
     white-space: nowrap;
   }

@@ -143,30 +143,31 @@
   border-left: 10px solid var(--secondary_color);
 }
 
-.steps.side {
+.steps.side, .steps.vertical {
   display: flex;
 }
-.steps.side .step_heads {
+.steps.side .step_heads, .steps.vertical .step_heads {
   flex: 0 0 150px;
   display: block;
 }
-.steps.side .step {
+.steps.side .step, .steps.vertical .step {
   margin: 0;
   padding: 10px;
   text-align: center;
+  background: none;
 }
-.steps.side .step .step_no {
+.steps.side .step .step_no, .steps.vertical .step .step_no {
   font-size: 1.4rem;
 }
-.steps.side .step .step_title {
+.steps.side .step .step_title, .steps.vertical .step .step_title {
   font-size: 0.9rem;
 }
-.steps.side .step.on {
+.steps.side .step.on, .steps.vertical .step.on {
   color: #fff;
   background: var(--primary_color);
   background: linear-gradient(-45deg, var(--secondary_color) 0%, var(--primary_color) 100%);
 }
-.steps.side .steps_content {
+.steps.side .steps_content, .steps.vertical .steps_content {
   flex: calc(100% - 150px);
 }
 

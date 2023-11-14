@@ -157,7 +157,7 @@ $secondary: var(--secondary_color);
   }
 }
 // Style: Side
-.steps.side {
+.steps.side, .steps.vertical {
   display: flex;
   .step_heads {
     flex: 0 0 150px;
@@ -167,6 +167,7 @@ $secondary: var(--secondary_color);
     margin: 0;
     padding: 10px;
     text-align: center;
+    background: none;
     .step_no {
       font-size: 1.4rem;
     }

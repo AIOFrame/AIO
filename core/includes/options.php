@@ -117,9 +117,9 @@ class OPTIONS {
                 $f->color($r.'filled_color_dark','Text on Theme BG','Ex: A2A2A2',$dc4,$attr,2,'','[data-key=filled_color_dark]');
             }
             $f->process_options($this->region_flag().'Save Brand Options','store grad','','.col-12 tac');
-            $f->post_process();
+        $f->post_process();
             $this->region_notice();
-        post();
+        //post();
         file_upload();
         get_scripts('iro,color');
     }

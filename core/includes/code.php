@@ -853,11 +853,13 @@ function tabs( array $tabs = [], string $style = '', bool $translate_titles = fa
  * @return string
  */
 function _tabs( array $tabs = [], string $style = '', bool $translate_titles = false ): string {
-    $data = _pre( '', 'tabs rev '.$style );
+    $data = _pre( '', 'tabs '.$style );
         $data .= _pre( '', 'tab_heads' );
+            $x = 0;
             foreach( $tabs as $i => $content ) {
                 $id = str_replace(' ','_',strtolower( $i ));
-                $data .= _div( 'tab', $i, '', 'data-tab="#'.$id.'"', $translate_titles );
+                $data .= _div( $x == 0 ? 'tab on' : 'tab', $i, '', 'data-tab="#'.$id.'"', $translate_titles );
+                $x++;
             }
         $data .= _post();
         $data .= _pre( '', 'tab_content' );
@@ -865,6 +867,24 @@ function _tabs( array $tabs = [], string $style = '', bool $translate_titles = f
             foreach( $tabs as $i => $content ) {
                 $id = str_replace(' ','_',strtolower( $i ));
                 $data .= _div( ( $x !== 0 ? 'dn' : '' ), $content, $id );
+                $x++;
+            }
+        $data .= _post();
+    $data .= _post();
+    return $data;
+}
+
+function tab_heads( array $tab_titles = [], string $style = '', bool $translate_titles = false ): void {
+    echo _tab_heads( $tab_titles, $style, $translate_titles );
+}
+
+function _tab_heads( array $tab_titles = [], string $style = '', bool $translate_titles = false ): string {
+    $data = _pre( '', 'tabs separate '.$style );
+        $data .= _pre( '', 'tab_heads fluid' );
+            $x = 0;
+            foreach( $tab_titles as $i => $content ) {
+                $id = str_replace(' ','_',strtolower( is_assoc( $tab_titles ) ? $i : $content ));
+                $data .= _div( $x == 0 ? 'tab on' : 'tab', $content, '', 'data-tab="#'.$id.'"', $translate_titles );
                 $x++;
             }
         $data .= _post();
@@ -918,6 +938,37 @@ function _steps( array $steps = [], string $style = '', bool $translate_titles =
                 }
             $data .= _post();
             $data .= _div( 'steps_controls', _div( 'mat-ico', 'chevron_left', '', 'data-prev' ) . _div( 'mat-ico', 'chevron_right', '', 'data-next' ) );
+        $data .= _post();
+    $data .= _post();
+    return $data;
+}
+
+/**
+ * Renders Tabs HTML
+ * @param array $steps [ [ 'title' => 'User', 'icon' => '', 'icon_class' => '', 'color' => '', 'content' => 'User Content' ], ... ]
+ * @param string $style CSS Style
+ * @param bool $translate_titles True, to translate titles (Default False)
+ * @return void
+ */
+function step_heads( array $steps = [], string $style = '', bool $translate_titles = false ): void {
+    echo _step_heads( $steps, $style, $translate_titles );
+}
+
+function _step_heads( array $steps = [], string $style = '', bool $translate_titles = false ): string {
+    $data = _pre( '', 'steps separate '.$style );
+        $data .= _pre( '', 'step_heads fluid' );
+            $x = 0;
+            foreach( $steps as $s ) {
+                $title = is_assoc( $steps ) ? $s['title'] ?? ( $s['name'] ?? ( $s['t'] ?? ( $s['n'] ?? '' ) ) ) : $s;
+                $id = str_replace(' ','_',strtolower( $title ));
+                $icon = $s['icon'] ?? ( $s['ico'] ?? ( $s['i'] ?? '' ) );
+                $ic = $s['icon_class'] ?? ( $s['ic'] ?? 'mat-ico' );
+                $big_title = ( empty( $icon ) ? _div( 'step_no', $x + 1 ) : '' ) . ( !empty( $icon ) ? _div( $ic.' step_no ico', $icon ) : '' ) . _div( 'step_title', $title );
+                $color = $s['color'] ?? ( $s['c'] ?? '' );
+                $color = !empty( $color ) ? 'style="background-color:'.$color.'"' : '';
+                $data .= _div( $x == 0 ? 'step on' : 'step', $big_title, '', 'data-step="#'.$id.'" '.$color, $translate_titles );
+                $x++;
+            }
         $data .= _post();
     $data .= _post();
     return $data;
