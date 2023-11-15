@@ -1095,6 +1095,24 @@ function user_role_is( $role = '' ): bool {
     return user_logged_in() ? $_SESSION['user']['role'] == $role : 0;
 }
 
+function _user_registration_fields(  string $pre = 'user_', string $data = '', string $array = '', int $name = 2, int $last_name = 2, int $email = 4, int $pass = 4, int $gender = 0, int $dob = 0, int $phone = 0 ): array {
+    global $genders;
+    $genders = $genders ?? [ 'Male', 'Female', 'Others', 'No Specify' ];
+    global $phone_code;
+    $phone_code = $phone_code ?? '+971';
+    $data = $data ?? 'data';
+    $attr = $array !== '' ? 'data-'.$data.' data-empty data-array="'.$array.'"' : 'data-'.$data.' data-empty';
+    $return = [];
+    !empty( $name ) ? $return[] = [ 'i' => 'name', 'l' => ( $last_name == 0 ? 'Full Name' : 'First Name' ), 'p' => 'Ex: John', 'v' => 'fake_name', 'a' => $attr.' required', 'c' => $name ] : '';
+    !empty( $last_name ) ? $return[] = [ 'i' => 'last_name', 'l' => 'Last Name', 'p' => 'Ex: Doe', 'v' => 'fake_name', 'a' => $attr.' required', 'c' => $last_name ] : '';
+    !empty( $email ) ? $return[] = [ 't' => 'email', 'i' => 'login', 'l' => 'Login Email Address', 'p' => 'Ex: john_doe@gmail.com', 'v' => 'fake_email', 'a' => $attr.'  data-help required', 'c' => $email ] : '';
+    !empty( $pass ) ? $return[] = [ 't' => 'password', 'i' => 'pass', 'l' => 'Login Password', 'p' => '***********', 'v' => 'fake_password', 'a' => $attr.' data-help autocomplete="new-password"', 'c' => $pass ] : '';
+    !empty( $gender ) ? $return[] = [ 't' => 'select', 'i' => 'gender', 'l' => 'Gender', 'p' => 'Choose Gender...', 'a' => $attr, 'c' => $gender ] : '';
+    !empty( $dob ) ? $return[] = [ 't' => 'date', 'i' => 'dob', 'l' => 'Date of Birth', 'p' => 'Ex: 15-05-1990', 'a' => $attr, 'c' => $dob ] : '';
+    !empty( $phone ) ? $return[] = [ 't' => 'phone', 'i' => 'phone_code', 'i2' => 'phone', 'l' => 'Code', 'l2' => 'Phone', 'p' => 'Ex: +1', 'p2' => 'Ex: 50012345', 'v' => $phone_code, 'a' => $attr. ' required', 'c' => $phone ] : '';
+    return $return;
+}
+
 /**
  * Renders User Registration Fields
  * @param string $pre Pre text for keys
