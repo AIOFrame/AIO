@@ -48,13 +48,17 @@ class CODE {
         $bg_img = $dark_mode ? ( $aos['ac_bg_d'] ?? '' ) : ( $aos['ac_bg_l'] ?? '' );
         $bg = !empty( $bg ) ? 'style="background:url(\''.storage_url( $bg_img ).'\') '.$bg_style.'"' : '';
         //$options['ac_bg_repeat']
-        echo '<article '.$bg.'><div class="access_wrap"><div class="access_panel">';
-        echo !isset( $aos['ac_show_logo'] ) || $aos['ac_show_logo'] !== 1 ? '<a href="'. APPURL . $login_redirect_url . '" class="brand" '.$logo.'></a>' : '';
-        $u_text = $aos['ac_username_text'] ?? 'User Login / Email';
-        $p_text = $aos['ac_password_text'] ?? 'Password';
-        $l_text = $aos['ac_login_btn_text'] ?? 'Login';
-        access_html( $u_text, $p_text, 'Remember for', $l_text, 2, 2, $login_redirect_url );
-        echo '</div></div></article>';
+        pre( '', '', 'article' );
+            pre( '', 'access_wrap' );
+                pre( '', 'access_panel' );
+                    !isset( $aos['ac_show_logo'] ) || $aos['ac_show_logo'] !== 1 ? a( APPURL . $login_redirect_url, '', 'brand', '', $logo ) : '';
+                    $u_text = $aos['ac_username_text'] ?? 'User Login / Email';
+                    $p_text = $aos['ac_password_text'] ?? 'Password';
+                    $l_text = $aos['ac_login_btn_text'] ?? 'Login';
+                    access_html( $u_text, $p_text, 'Remember for', $l_text, 2, 2, $login_redirect_url );
+                post();
+            post();
+        post( 'article' );
 
         // Foot
         $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'air-datepicker', 'data', 'validator', 'login' ] ) : $scripts . ',air-datepicker,data,validator,login';

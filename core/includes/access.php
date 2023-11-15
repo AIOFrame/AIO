@@ -847,8 +847,12 @@ function access_html( string $login_title = 'Username or Email', string $pass_ti
         div( 'more', T( $return_text ), '', 'data-hide=".forgot_wrap" data-show=".login_wrap"' );
         $f->post_process();
     }
+    //skel( $aos );
     if( empty( $aos ) || ( isset( $aos['ac_register'] ) && $aos['ac_register'] == 1 ) ) {
-        div( 'register_outer_wrap', register_html() .  div( 'more', T( $return_text ), '', 'data-hide=".register_outer_wrap" data-show=".login_wrap"' ) );
+        pre( '', 'register_outer_wrap dn' );
+            register_html();
+            div( 'more', T( $return_text ), '', 'data-hide=".register_outer_wrap" data-show=".login_wrap"' );
+        post();
     }
     get_script('access');
     $a->config_users();
