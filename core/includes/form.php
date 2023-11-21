@@ -1173,11 +1173,12 @@ class FORM {
             //} else if( in_array( $type, [ 'content_builder', 'content_build', 'content', 'cb' ] ) ) {
                 //$return .= $this->_content( $id, $label, $place, $val, $attrs, $pre, $post );
             } else if( $type == 'date' || $type == 'dt' ) {
-                $range = $f['range'] ?? ( $f['r'] ?? '' );
+                $range = $f['range'] ?? ( $f['r'] ?? 0 );
                 $min = $f['min'] ?? '';
                 $max = $f['max'] ?? '';
                 $multiple = $f['multiple'] ?? ( $f['m'] ?? 0 );
-                $return .= $this->_date( $id, $label, $place, $val, $attrs, 'bottom center', $pre, $range, $multiple, '', $min, $max, $post );
+                $pos = $f['dp'] ?? ( $f['pos'] ?? ( $f['d_p'] ?? 'top center' ) );
+                $return .= $this->_date( $id, $label, $place, $val, $attrs, $pos, $pre, $range, $multiple, '', $min, $max, $post );
             } else if( in_array( $type, [ 'slide', 'slides', 'toggle', 't' ] ) ) {
                 $off_text = $f['off'] ?? 'Off';
                 $on_text = $f['on'] ?? 'On';
