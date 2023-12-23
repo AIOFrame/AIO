@@ -298,6 +298,8 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
     } else if( !empty( $icon_fonts ) ) {
         !defined( 'ICONS' ) ? define( 'ICONS', $icon_fonts ) : '';
         $fonts[ $icon_fonts ] = '';
+    } else {
+        !defined( 'ICONS' ) ? define( 'ICONS', '' ) : '';
     }
     //skel( ICONS );
     //skel( $fonts );

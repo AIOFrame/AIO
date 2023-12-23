@@ -22,6 +22,8 @@ class PORTAL {
         $theme = $options['default_theme'] ?? '';
         $theme = $options['theme'] ?? $theme;
         global $dark_mode;
+        //skel( $options );
+        //skel( $theme );
         if( str_contains( $theme, 'dark' ) ) {
             $class .= $theme . ' d';
             $dark_mode = 1;
@@ -405,7 +407,7 @@ class PORTAL {
         $f->form([
 
         ], 'row', $f->pre_process() );
-        $f->text($r.'app_name','Web App / Site Name','Ex: AIO University...',$name,$attr,8);
+        //$f->text($r.'app_name','Web App / Site Name','Ex: AIO University...',$name,$attr,8);
         post();
     }
 }
