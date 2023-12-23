@@ -289,7 +289,7 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
         reset_styles( $font1, $weight );
     }
     // Icon Fonts
-    $icon_fonts = str_contains( $icon_fonts, ',' ) ? explode( ',', $icon_fonts ) : $icon_fonts;
+    $icon_fonts = is_string( $icon_fonts ) && str_contains( $icon_fonts, ',' ) ? explode( ',', $icon_fonts ) : $icon_fonts;
     if( !empty( $icon_fonts ) && is_array( $icon_fonts ) ) {
         foreach( $icon_fonts as $if ) {
             $fonts[ $if ] = '';
@@ -301,7 +301,7 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
     }
     //skel( ICONS );
     //skel( $fonts );
-    $icons = is_array( ICONS ) ? implode( ',', ICONS ) : ICONS;
+    $icons = defined( 'ICONS' ) ? ( is_array( ICONS ) ? implode( ',', ICONS ) : ICONS ) : '';
     $is_bootstrap = str_contains( strtolower( $icons ), 'bootstrap' );
     $pre_styles = $is_bootstrap ? ( !empty( $pre_styles ) ? ( is_array( $pre_styles ) ? array_merge( [ 'bootstrap-icons', $pre_styles ] ) : $pre_styles.',bootstrap-icons' ) : 'bootstrap-icons' ) : $pre_styles;
     fonts( $fonts );
@@ -655,15 +655,15 @@ function soon( string $date, string $text = 'Coming Soon...', string $bg = '', s
     }
     $logo = !empty( $logo ) ? 'style="background:url(\''.storage_url($logo).'\') no-repeat center / contain"' : '';
     pre('','aio_soon '.($is_light ? '' : 'd').$bg);
-    pre('','vc');
-    pre('','brand',$logo.' title="'.$app.'"');
-    pre('','box');
-    div('text',$text);
-    div('date',$date);
-    post();
-    post();
-    post();
-    div('credits',_a('https://github.com/AIOFrame/AIO','Powered by AIO'));
+        pre('','vc');
+            pre('','brand','div',$logo.' title="'.$app.'"');
+                pre('','box');
+                    div('text',$text);
+                    div('date',$date);
+                    div('credits',_a('https://github.com/AIOFrame/AIO','Powered by AIO'));
+                post();
+            post();
+        post();
     post();
     get_script( 'soon' );
     post_html();
