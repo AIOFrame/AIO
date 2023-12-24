@@ -1348,11 +1348,12 @@ class FORM {
      * @param string $class Class
      * @param string $attr Additional attributes
      * @param string $i_class Applied class to i element and places before text
+     * @param string $i_text Text for i element
      * @param string|int $pre Pre Wrap HTML or Bootstrap Column
      * @param string|int $post Post Wrap HTML
      */
-    function view_html( string $url = '', string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', string|int $pre = '', string|int $post = '' ): void {
-        echo $this->_view_html( $url, $html, $text, $class, $attr, $i_class, $pre, $post );
+    function view_html( string $url = '', string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): void {
+        echo $this->_view_html( $url, $html, $text, $class, $attr, $i_class, $i_text, $pre, $post );
     }
 
     /**
@@ -1363,6 +1364,7 @@ class FORM {
      * @param string $class Class
      * @param string $attr Additional attributes
      * @param string $i_class Applied class to i element and places before text
+     * @param string $i_text Text for i element
      * @param string|int $pre Pre Wrap HTML or Bootstrap Column
      * @param string|int $post Post Wrap HTML
      */
