@@ -248,7 +248,7 @@ class PORTAL {
 
                 // Link to Front-end
                 if( $link_to_front ) {
-                    div( '', _a( APPURL, _div( 'nav_ico', _div( 'mat-ico', 'desktop_windows' ) ), '', T( 'Go to Frontend Website' ), 'target="_blank"' ), 'link_to_front' );
+                    div( '', __a( APPURL, _div( 'nav_ico', _div( 'mat-ico', 'desktop_windows' ) ), '', T( 'Go to Frontend Website' ), 'target="_blank"' ), 'link_to_front' );
                 }
 
                 // Show User
@@ -265,7 +265,7 @@ class PORTAL {
                                 h4( $user_name, 0 );
                                 h5( $user_role, 0 );
                                 _r();
-                                    div( 'col tal', _a( APPURL . $profile_url, T('My Profile'), 'r5 bsn s btn m0' ) );
+                                    div( 'col tal', __a( APPURL . $profile_url, T('My Profile'), 'r5 bsn s btn m0' ) );
                                     $logout_action = APPDEBUG ? 'logout_ajax' : $e->encrypt('logout_ajax');
                                     div( 'col tar', _b( 'red r5 bsn s m0', 'Logout', '', 'onclick="logout(\''.$logout_action.'\',\''.$logout_to.'\')"' ) );
                                 r_();
@@ -294,7 +294,7 @@ class PORTAL {
         //$menus = !empty( $menus ) ? array_group_by( $menus, 'group' ) : [];
         pre( '', 'menu '.$class, 'aside' );
             _r();
-                div( 'col-2', _a( APPURL . $root_url, _el( 'i', 'ico l mat-ico', 'home' ) ), '', 'data-intro' );
+                div( 'col-2', __a( APPURL . $root_url, _el( 'i', 'ico l mat-ico', 'home' ) ), '', 'data-intro' );
                 pre( '', 'col-10' );
                     echo '<input type="search" placeholder="'.T('Search in Menu...').'">';
                 post();
@@ -351,7 +351,7 @@ class PORTAL {
                                     }
                                     if( empty( $restricted ) ) {
                                         $ico_class = $gradient_icons ? 'mat-ico l grad-bg' : 'mat-ico l';
-                                        div( $col, _a( APPURL . $url, _el( 'i', $ico_class, $icon ) . _div( 'title', T( $title ) ) ) );
+                                        div( $col, __a( APPURL . $url, _el( 'i', $ico_class, $icon ) . _div( 'title', T( $title ) ) ) );
                                     }
                                 }
                             }

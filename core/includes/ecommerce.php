@@ -1166,8 +1166,8 @@ class ECOMMERCE {
                     $p['ua_a_name'],
                     $p['ua_name'],
                     T('Address: ') . $p['ua_address'] . '<br/>' . T('Street: ') . $p['ua_street'] . '<br/>' . T('City: ') . $p['ua_city'] . '<br/>' . T('State: ') . $p['ua_state'] . '<br/>' .  T('Postal Code: ') . $p['ua_po'] . '<br/>' .  T('Country: ') . $country . '<br/>',
-                    _a( 'mailto:'.$p['ua_email'], $p['ua_email'] ),
-                    _a( 'tel:'.$p['ua_code'].$p['ua_phone'], $p['ua_code'].$p['ua_phone'] ),
+                    __a( 'mailto:'.$p['ua_email'], $p['ua_email'] ),
+                    __a( 'tel:'.$p['ua_code'].$p['ua_phone'], $p['ua_code'].$p['ua_phone'] ),
                     $status,
                     _pre('','acts').$f->_edit_html( $edit_form, $p, 'div', '', '', '', 'mat-ico', 'edit' )._post()
                 ];

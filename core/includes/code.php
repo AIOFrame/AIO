@@ -442,19 +442,57 @@ function div( string $class = '', string $content = '', string $id = '', string 
     echo _div( $class, $content, $id, $attrs, $translate );
 }
 
+function _d( string $class = '', string $id = '', string $attrs = '' ): void {
+    pre( $id, $class, 'div', $attrs );
+}
+
+function d_(): void {
+    post();
+}
+
 function _div( string $class = '', string $content = '', string $id = '', string $attrs = '', bool $translate = false ): string {
     return _el( 'div', $class, $content, $id, $attrs, $translate );
 }
 
 function a( string $hyperlink = '#', string $content = '', string $class = '', string $hover_title = '', string $attr = '', string $id = '' ): void {
-    echo _a($hyperlink,$content,$class,$hover_title,$attr,$id);
+    echo __a($hyperlink,$content,$class,$hover_title,$attr,$id);
 }
 
-function _a( string $hyperlink = '#', string $content = '', string $class = '', string $hover_title = '', string $attr = '', string $id = '' ): string {
+function _a( string $hyperlink = '#', string $class = '', string $hover_title = '', string $attr = '', string $id = '' ): void {
+    $id = !empty( $id ) ? ' id="'.$id.'"' : '';
+    $class = !empty( $class ) ? ' class="'.$class.'"' : '';
+    $alt = !empty( $hover_title ) ? ' title="'.$hover_title.'"' : '';
+    echo '<a href="'.$hyperlink.'" '.$id.$class.$alt.' '.$attr.'>';
+}
+
+function a_(): void {
+    post('a');
+}
+
+function __a( string $hyperlink = '#', string $content = '', string $class = '', string $hover_title = '', string $attr = '', string $id = '' ): string {
     $id = !empty( $id ) ? ' id="'.$id.'"' : '';
     $class = !empty( $class ) ? ' class="'.$class.'"' : '';
     $alt = !empty( $hover_title ) ? ' title="'.$hover_title.'"' : '';
     return '<a href="'.$hyperlink.'" '.$id.$class.$alt.' '.$attr.'>'.$content.'</a>';
+}
+
+function _sc(): void {
+    echo '<script>';
+}
+
+function sc_(): void {
+    echo '</script>';
+}
+
+function _f( string $class = '', string $method = '', string $action = '', string $id = '', string $enctype = '' ): void {
+    $a = in_array( $method, [ 'post', 'p' ] ) ? 'method="POST"' : ( in_array( $method, [ 'get', 'g' ] ) ? 'method="GET"' : '' );
+    $a .= !empty( $action ) ? ' action="'.$action.'"' : '';
+    $a .= !empty( $enctype ) ? ' enctype="'.$enctype.'"' : '';
+    echo _pre( $id, $class, 'form', $a );
+}
+
+function f_(): void {
+    echo '</form>';
 }
 
 function b( string $class = '', string $content = '', string $id = '', string $attr = '', bool $translate = false ): void {
@@ -917,12 +955,13 @@ function steps( array $steps = [], string $style = '', bool $translate_titles = 
  * @return string
  */
 function _steps( array $steps = [], string $style = '', bool $translate_titles = false ): string {
+    $r = rand( 0, 9999 );
     $data = _pre( '', 'steps '.$style );
         $data .= _pre( '', 'step_heads' );
             $x = 0;
             foreach( $steps as $s ) {
                 $title = $s['title'] ?? ( $s['name'] ?? ( $s['t'] ?? ( $s['n'] ?? '' ) ) );
-                $id = str_replace(' ','_',strtolower( $title ));
+                $id = str_replace(' ','_',strtolower( $title )) . '_' . $r;
                 $icon = $s['icon'] ?? ( $s['ico'] ?? ( $s['i'] ?? '' ) );
                 $ic = $s['icon_class'] ?? ( $s['ic'] ?? 'mat-ico' );
                 $big_title = ( empty( $icon ) ? _div( 'step_no', $x + 1 ) : '' ) . ( !empty( $icon ) ? _div( $ic.' step_no ico', $icon ) : '' ) . _div( 'step_title', $title );
@@ -937,7 +976,7 @@ function _steps( array $steps = [], string $style = '', bool $translate_titles =
                 $x = 0;
                 foreach( $steps as $s ) {
                     $title = $s['title'] ?? ( $s['name'] ?? ( $s['t'] ?? ( $s['n'] ?? '' ) ) );
-                    $id = str_replace(' ','_',strtolower( $title ));
+                    $id = str_replace(' ','_',strtolower( $title )) . '_' . $r;
                     $content = $s['content'] ?? ( $s['con'] ?? '' );
                     $data .= _div( ( $x !== 0 ? 'dn' : '' ), $content, $id );
                     $x++;
@@ -1003,29 +1042,29 @@ function mini_browser_tab( int $width = 600, int $height = 300 ): string {
 }
 
 function _fb( string $page_link = '', string $page_title = '', string $content = '', string $class = '' ): string {
-    return _a( 'https://www.facebook.com/sharer/sharer.php?u='.$page_link.'&amp;t='.$page_title, $content, $class, T('Share on Facebook'), mini_browser_tab() );
+    return __a( 'https://www.facebook.com/sharer/sharer.php?u='.$page_link.'&amp;t='.$page_title, $content, $class, T('Share on Facebook'), mini_browser_tab() );
 }
 
 function _tw( string $page_link = '', string $page_title = '', string $content = '', string $class = '' ): string {
-    return _a( 'https://www.twitter.com/share?url='.$page_link.'&amp;text='.$page_title, $content, $class, T('Share on Twitter'), mini_browser_tab() );
+    return __a( 'https://www.twitter.com/share?url='.$page_link.'&amp;text='.$page_title, $content, $class, T('Share on Twitter'), mini_browser_tab() );
 }
 
 function _ln( string $page_link = '', string $content = '', string $class = '' ): string {
-    return _a( 'https://www.linkedin.com/sharing/share-offsite/?url='.$page_link, $content, $class, T('Share on LinkedIn'), mini_browser_tab() );
+    return __a( 'https://www.linkedin.com/sharing/share-offsite/?url='.$page_link, $content, $class, T('Share on LinkedIn'), mini_browser_tab() );
 }
 
 function _pn( string $page_link = '', string $page_title = '', string $content = '', string $class = '' ): string {
-    return _a( 'https://pinterest.com/pin/create/button/?url='.$page_link.'&amp;description='.$page_title, $content, $class, T('Share on Pinterest'), mini_browser_tab() );
+    return __a( 'https://pinterest.com/pin/create/button/?url='.$page_link.'&amp;description='.$page_title, $content, $class, T('Share on Pinterest'), mini_browser_tab() );
 }
 
 function _wa( string $page_link = '', string $content = '', string $class = '' ): string {
-    return _a( 'https://api.whatsapp.com/send?text='.$page_link, $content, $class, T('Share on Whatsapp'), mini_browser_tab() );
+    return __a( 'https://api.whatsapp.com/send?text='.$page_link, $content, $class, T('Share on Whatsapp'), mini_browser_tab() );
 }
 
 function _tg( string $page_link = '', string $page_title = '', string $content = '', string $class = '' ): string {
-    return _a( 'https://telegram.me/share/url?url='.$page_link.'&amp;text='.$page_title, $content, $class, T('Share on Telegram'), mini_browser_tab() );
+    return __a( 'https://telegram.me/share/url?url='.$page_link.'&amp;text='.$page_title, $content, $class, T('Share on Telegram'), mini_browser_tab() );
 }
 
 function _em( string $page_link = '', string $page_title = '', string $content = '', string $class = '' ): string {
-    return _a( 'mailto:?subject'.$page_title.'&body='.$page_link, $content, $class, T('Share thru email'), mini_browser_tab() );
+    return __a( 'mailto:?subject'.$page_title.'&body='.$page_link, $content, $class, T('Share thru email'), mini_browser_tab() );
 }

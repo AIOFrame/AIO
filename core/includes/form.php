@@ -1152,6 +1152,18 @@ class FORM {
             $post = ( !empty( $pre ) && empty( $f['post'] ) ) ? '</div>' : ( $f['post'] ?? 'ted' );
             if( in_array( $type, [ 'accordion', 'acc', 'a' ] ) ) {
                 $return .= _accordion( $label, $this->_form( $f['fields'] ?? $f['form'], $type, $data_attr ) );
+            } else if( in_array( $type, [ 'column', 'col' ] ) ) {
+                $class = $f['class'] ?? ( $f['c'] ?? '' );
+                $class = is_numeric( $class ) ? $this->_col( $class ) : $class;
+                $sub_type = $f['sub_type'] ?? ( $f['type'] ?? 'row' );
+                $return .= _div( 'col '. $class, $this->_form( $f['fields'] ?? $f['form'], $sub_type, $data_attr ) );
+            } else if( in_array( $type, [ 'row', 'r' ] ) ) {
+                $class = $f['class'] ?? ( $f['c'] ?? '' );
+                $return .= _div( 'col-12 '. $class, $this->_form( $f['fields'] ?? $f['form'], $type, $data_attr ) );
+            } else if( in_array( $type, [ 'row_start', 'rs', '_r' ] ) ) {
+                $return .= _pre( '', 'row' );
+            } else if( in_array( $type, [ 'row_end', 're', 'r_' ] ) ) {
+                $return .= '</div>';
             } else if( in_array( $type, [ 'steps', 'step', 'st' ] ) ) {
                 $ico = $f['icon'] ?? ( $f['ico'] ?? ( $f['i'] ?? '' ) );
                 $ic = $f['icon_class'] ?? ( $f['ic'] ?? 'mat-ico' );
@@ -1695,6 +1707,17 @@ class FORM {
 
     function pre( string|int|float $pre ): void {
         echo $this->_pre( $pre );
+    }
+
+    function _col( string|int|float $pre ): string {
+        if( is_float( $pre ) ) {
+            $pre = explode( '.', $pre );
+            return $pre[1] == 1 ? 'col-12 col-md-'.$pre[0].' end' : $pre[0];
+        } else if( is_numeric( $pre ) ) {
+            return $pre == 0 ? 'col' : 'col-12 col-md-'.$pre;
+        } else {
+            return '';
+        }
     }
 
     function _pre( string|int|float $pre ): string {
