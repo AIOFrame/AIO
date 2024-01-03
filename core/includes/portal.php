@@ -307,8 +307,8 @@ class PORTAL {
         //$menus = !empty( $menus ) ? array_group_by( $menus, 'group' ) : [];
         pre( '', 'menu '.$class, 'aside' );
             _r();
-                div( 'col-2', __a( APPURL . $root_url, _el( 'i', 'ico l mat-ico', 'home' ) ), '', 'data-intro' );
-                pre( '', 'col-10' );
+                div( 'col-3', __a( APPURL . $root_url, _el( 'i', 'ico m mat-ico', 'home' ) ), '', 'data-intro' );
+                pre( '', 'col-9' );
                     echo '<input type="search" placeholder="'.T('Search in Menu...').'">';
                 post();
             r_();
@@ -383,27 +383,27 @@ class PORTAL {
      * @param string $back_url URL for back arrow if exist
      * @param string $list_view ID of the element shows table list view of content
      * @param string $grid_view ID of the element shows card / grid view of content
-     * @param string $active_view
-     * @param array $actions
+     * @param string $active_view Active view either list or grid
+     * @param string|array $comp_or_actions String of comp path or array of actions
      * @return void
      */
-    function title_bar( string $title = '', string $back_url = '', string $list_view = '', string $grid_view = '', string $active_view = '', array $actions = [], ): void {
+    function title_bar( string $title = '', string $back_url = '', string $list_view = '', string $grid_view = '', string $active_view = '', string|array $comp_or_actions = [], ): void {
         pre( '', 'header' );
-        !empty( $back_url ) ? ( defined( 'ICONS' ) ? ( str_contains( ICONS, 'Material' ) ? a( APPURL.$back_url, 'arrow_back', 'mat-ico back', 'Return' ) : ( str_contains( ICONS, 'Bootstrap' ) ? a( APPURL . $back_url, _el( 'i', 'bi bi-arrow-90deg-left' ), 'back' ) : '' ) ) : '' ) : '';
-        !empty( $title ) ? h1( $title, 1, 'title' ) : '';
-        !empty( $list_view ) || !empty( $grid_view ) ? pre( '', 'views' ) : '';
-        if( !empty( $list_view ) ){
-            pre( '', 'list_toggle'.($active_view == $list_view ? ' on' : ''), 'div', 'data-show="'.$list_view.'" data-off=".grid_toggle" data-on=".list_toggle" '.(!empty( $grid_view ) ? 'data-hide="'.$grid_view.'"' : '') );
-            defined('ICONS') ? ( str_contains( ICONS, 'Material' ) ? div( 'mat-ico', 'list' ) : ( str_contains( ICONS, 'Bootstrap' ) ? el( 'i', 'bi bi-list' ) : '' ) ) : '';
-            post();
-        }
-        if( !empty( $grid_view ) ){
-            pre( '', 'grid_toggle'.($active_view == $grid_view ? ' on' : ''), 'div', 'data-show="'.$grid_view.'" data-on=".grid_toggle" data-off=".list_toggle" '.(!empty( $list_view ) ? 'data-hide="'.$list_view.'"' : '') );
-            defined('ICONS') ? ( str_contains( ICONS, 'Material' ) ? div( 'mat-ico', 'grid_view' ) : ( str_contains( ICONS, 'Bootstrap' ) ? el( 'i', 'bi bi-grid-3x2' ) : '' ) ) : '';
-            post();
-        }
-        echo !empty( $list_view ) || !empty( $grid_view ) ? '</div>' : '';
-        div( 'actions' );
+            echo !empty( $back_url ) ? ( defined( 'ICONS' ) ? ( str_contains( ICONS, 'Material' ) ? __a( APPURL.$back_url, 'arrow_back', 'mat-ico back', 'Return' ) : ( str_contains( ICONS, 'Bootstrap' ) ? __a( APPURL . $back_url, _el( 'i', 'bi bi-arrow-90deg-left' ), 'back' ) : '' ) ) : '' ) : '';
+            !empty( $title ) ? h1( $title, 1, 'title' ) : '';
+            !empty( $list_view ) || !empty( $grid_view ) ? pre( '', 'views' ) : '';
+            if( !empty( $list_view ) ){
+                pre( '', 'list_toggle'.($active_view == $list_view ? ' on' : ''), 'div', 'data-show="'.$list_view.'" data-off=".grid_toggle" data-on=".list_toggle" '.(!empty( $grid_view ) ? 'data-hide="'.$grid_view.'"' : '') );
+                    echo defined('ICONS') ? ( str_contains( ICONS, 'Material' ) ? _div( 'mat-ico', 'list' ) : ( str_contains( ICONS, 'Bootstrap' ) ? _el( 'i', 'bi bi-list' ) : '' ) ) : '';
+                post();
+            }
+            if( !empty( $grid_view ) ){
+                pre( '', 'grid_toggle'.($active_view == $grid_view ? ' on' : ''), 'div', 'data-show="'.$grid_view.'" data-on=".grid_toggle" data-off=".list_toggle" '.(!empty( $list_view ) ? 'data-hide="'.$list_view.'"' : '') );
+                    echo defined('ICONS') ? ( str_contains( ICONS, 'Material' ) ? _div( 'mat-ico', 'grid_view' ) : ( str_contains( ICONS, 'Bootstrap' ) ? _el( 'i', 'bi bi-grid-3x2' ) : '' ) ) : '';
+                post();
+            }
+            echo !empty( $list_view ) || !empty( $grid_view ) ? '</div>' : '';
+            is_array( $comp_or_actions ) ? div( 'actions' ) : get_comp( $comp_or_actions );
         post();
     }
 
