@@ -626,7 +626,7 @@ class FORM {
         $return = $this->_pre( $pre );
         $return .= '<div class="row">';
         $return .= $this->_select2( $code_id, $code_label, $code_placeholder, $codes, $code_default, $attr, 5, 1, $post );
-        $return .= $this->_text( $phone_id, $phone_label, $phone_placeholder, $phone_default, $attr, 7, $post );
+        $return .= $this->_input( 'number', $phone_id, $phone_label, $phone_placeholder, $phone_default, $attr, 7, $post );
         $return .= '</div>';
         $return .= $this->_post( $pre, $post );
         return $return;
@@ -1089,7 +1089,7 @@ class FORM {
      */
     function _pre_process( string $attr = '', string $target = '', string $data = '', string $pre = '', int $notify = 0, int $reload = 0, array $hidden = [], string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '' ): string {
         $c = Encrypt::initiate();
-        $r = !empty( $attr ) ? '<div '.$attr.' ' : '';
+        $r = $attr == '_' ? '' : '<div '.$attr.' ';
         if( APPDEBUG ) {
             $target = !empty( $target ) ? $target : 'process_data_ajax';
             $hidden = json_encode( $hidden );
@@ -1110,7 +1110,7 @@ class FORM {
         $rf = !empty( $reset_fields ) ? ( $reset_fields == 1 ? ' data-reset="'.$data.'"' : ' data-reset="'.$reset_fields.'"' ) : '';
         $cn = !empty( $confirm ) ? ' data-confirm="'.T($confirm).'"' : '';
         $r .= $t.$nt.$rl.$d.$p.$h.$st.$cb.$v.$rd.$cn.$rf;
-        $r .= !empty( $attr ) ? '>' : '';
+        $r .= $attr == '_' ? '' : '>';
         return $r;
     }
 

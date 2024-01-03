@@ -593,6 +593,7 @@ a.brand {
   margin: 0 auto 15px;
   width: 80px;
   height: 80px;
+  border-radius: 40px;
   background: url("../../images/user.svg") no-repeat center/cover;
 }
 .user_drop .user_details .links > a, .user_drop .user_details .links > div {

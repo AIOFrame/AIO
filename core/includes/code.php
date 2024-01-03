@@ -689,9 +689,9 @@ function soon( string $date, string $text = 'Coming Soon...', string $bg = '', s
     $app = $options['app_name'] ?? APPNAME;
     //skel( $options );
     if( $is_light ) {
-        $logo = !empty( $logo ) ? $logo : $options['logo_light'];
+        $logo = !empty( $logo ) ? $logo : ( $options['logo_light'] ?? '' );
     } else {
-        $logo = !empty( $logo ) ? $logo : $options['logo_dark'];
+        $logo = !empty( $logo ) ? $logo : ( $options['logo_dark'] ?? '' );
     }
     $logo = !empty( $logo ) ? 'style="background:url(\''.storage_url($logo).'\') no-repeat center / contain"' : '';
     pre('','aio_soon '.($is_light ? '' : 'd').$bg);
@@ -699,8 +699,8 @@ function soon( string $date, string $text = 'Coming Soon...', string $bg = '', s
             pre('','brand','div',$logo.' title="'.$app.'"');
                 pre('','box');
                     div('text',$text);
-                    div('date',$date);
-                    div('credits',_a('https://github.com/AIOFrame/AIO','Powered by AIO'));
+                    div('date mb20',$date);
+                    div('credits',__a('https://github.com/AIOFrame/AIO','Powered by AIO'));
                 post();
             post();
         post();

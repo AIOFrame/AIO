@@ -314,25 +314,24 @@ class ACCESS {
         $db = new DB();
         $user = $db->select( 'users', '', 'user_id = \''.get_user_id().'\'', 1 );
         $f = new FORM();
+        global $genders;
+        $genders = $genders ?? [ 'Male', 'Female', 'Others', 'No Specify' ];
         pre( $wrap_id, $wrap_class );
             $form = [
                 [ 'i' => 'login', 'n' => 'User Login', 'v' => $user['user_login'], 'a' => 'disabled', 'c' => 6 ],
                 [ 'i' => 'since', 'n' => 'Registered Since', 'v' => easy_date($user['user_since']), 'a' => 'disabled', 'c' => 6 ],
-                [ 'i' => 'name', 'n' => 'Full Name', 'a' => 'data-user', 'p' => 'Ex: John Doe', 'c' => 6 ],
-                [ 'i' => 'email', 'n' => 'Email Address', 'a' => 'data-user required data-help', 'p' => 'Ex: john@company.com', 't' => 'email', 'c' => 6 ],
-                [ 'i' => 'phone_code', 'i2' => 'phone', 'n' => 'Code', 'n2' => 'Phone', 'a' => 'data-user', 'p' => 'Code', 'p2' => 'Phone', 't' => 'phone', 'c' => 6 ],
+                [ 'i' => 'name', 'n' => 'Full Name', 'a' => 'data-user', 'p' => 'Ex: John Doe','v' => $user['user_name'], 'c' => 6 ],
+                [ 'i' => 'email', 'n' => 'Email Address', 'a' => 'data-user required data-help', 'p' => 'Ex: john@company.com', 'v' => $user['user_email'], 't' => 'email', 'c' => 6 ],
+                [ 'i' => 'phone_code', 'i2' => 'phone', 'n' => 'Code', 'n2' => 'Phone', 'a' => 'data-user', 'p' => 'Code', 'p2' => 'Phone', 't' => 'phone', 'v1' => $user['user_phone_code'], 'v2' => $user['user_phone'], 'c' => 6 ],
                 [ 'i' => 'picture', 'n' => 'Profile Picture', 'p' => 'Upload Picture', 't' => 'upload', 'e' => 'jpg,jpeg,bmp,png,gif,webp', 's' => 1, 'a' => 'data-user', 'v' => $user['user_picture'], 'c' => 6 ],
+                [ 'i' => 'gender', 'n' => 'Gender', 'p' => 'Select gender...', 't' => 'select', 'o' => $genders, 'a' => 'data-user', 'v' => $user['user_gender'], 'c' => 6 ],
+                [ 'i' => 'dob', 'n' => 'Date of Birth', 't' => 'date', 'a' => 'data-user', 'v' => $user['user_dob'], 'c' => 6 ],
             ];
-            $f->pre_process(' ','','user','user_',3,3,[],'Successfully updated user details!');
+            $f->pre_process('','','user');
                 $f->form( $form, 'row' );
-                /* _r();
-                    $f->texts([['login','User Login','',$user['user_login']],['since','User Since','',easy_date($user['user_since'])]],'disabled','6');
-                    $f->texts([['name','Full Name','Ex: John Doe',$user['user_name']]],'required data-user','6');
-                    $f->input('email','email','E Mail','Ex: john@company.com',$user['user_email'],'data-help',6);
-                    $f->upload('picture','Upload Picture','Upload',$user['user_picture'],0,0,'upload','data-user','svg,jpg,png',10,1,'',6);
-                r_(); */
-                $f->process_trigger('Update Profile','r5 xl mb0','','','.tac');
+                $f->process_trigger('Update Profile','r5 xl mb0','','update_user_ajax','.tac');
             $f->post_process();
+            h6('You may need to re-login once user details are updated!',1,'tac op3');
         post();
         file_upload();
     }
@@ -509,7 +508,7 @@ class ACCESS {
      * @param string $login_or_id
      * @return void
      */
-    function remove( string $login_or_id ) {
+    function remove( string $login_or_id ): void {
         $db = new DB();
         // Find existing User
         if( is_numeric( $login_or_id ) ) {
@@ -605,6 +604,7 @@ class ACCESS {
      * @return void
      */
     function access_options( int $type = 1 ): void {
+        // TODO: Update access options
         $f = new FORM();
         $ops = $this->get_options( $type );
         $f->option_params_wrap('ao',2,2);
@@ -745,6 +745,25 @@ function access_ajax(): void {
     } else {
         ef('User not found!');
     }
+}
+
+function update_user_ajax(): void {
+    $uid = get_user_id();
+    $cols = [];
+    !empty( $_POST['email'] ) ? $cols['email'] = $_POST['email'] : '';
+    !empty( $_POST['name'] ) ? $cols['name'] = $_POST['name'] : '';
+    !empty( $_POST['phone'] ) ? $cols['phone'] = $_POST['phone'] : '';
+    !empty( $_POST['phone_code'] ) ? $cols['phone_code'] = $_POST['phone_code'] : '';
+    !empty( $_POST['picture'] ) ? $cols['picture'] = $_POST['picture'] : '';
+    !empty( $_POST['dob'] ) ? $cols['dob'] = $_POST['dob'] : '';
+    !empty( $_POST['gender'] ) ? $cols['gender'] = $_POST['gender'] : '';
+    if( !empty( $cols ) ) {
+        $a = new ACCESS();
+        $r = $a->update( $uid, '', $cols );
+        elog( $r );
+        $r[0] == 1 ? es( $r[1] ) : ef( $r[1] );
+    }
+
 }
 
 /* function access_ajax(): void {
