@@ -138,8 +138,7 @@ class Response
     /**
      * Decodes a mailjet string response to an object representing that response.
      *
-     * @param string $body The mailjet response as string
-     *
+     * @param  string $body The mailjet response as string
      * @return array Object representing the mailjet response
      */
     protected function decodeBody(string $body): array

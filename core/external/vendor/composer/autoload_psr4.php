@@ -24,7 +24,6 @@ return array(
     'SendGrid\\' => array($vendorDir . '/sendgrid/php-http-client/lib'),
     'React\\Stream\\' => array($vendorDir . '/react/stream/src'),
     'React\\Socket\\' => array($vendorDir . '/react/socket/src'),
-    'React\\Promise\\Timer\\' => array($vendorDir . '/react/promise-timer/src'),
     'React\\Promise\\' => array($vendorDir . '/react/promise/src'),
     'React\\EventLoop\\' => array($vendorDir . '/react/event-loop/src'),
     'React\\Dns\\' => array($vendorDir . '/react/dns/src'),
@@ -55,6 +54,7 @@ return array(
     'GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
     'GeoIp2\\' => array($vendorDir . '/geoip2/geoip2/src'),
     'Faker\\' => array($vendorDir . '/fakerphp/faker/src/Faker'),
+    'Evenement\\' => array($vendorDir . '/evenement/evenement/src'),
     'Composer\\CaBundle\\' => array($vendorDir . '/composer/ca-bundle/src'),
     'Complex\\' => array($vendorDir . '/markbaker/complex/classes/src'),
 );

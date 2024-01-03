@@ -44,9 +44,9 @@ class CODE {
         $logo_img = $dark_mode ? ( !empty( $aos['ac_logo_d'] ) ? $aos['ac_logo_d'] : ( !empty( $options['logo_dark'] ) ? $options['logo_dark'] : '' ) ) : ( !empty( $aos['ac_logo_l'] ) ? $aos['ac_logo_l'] : ( !empty( $options['logo_light'] ) ? $options['logo_light'] : '' ) );
         $logo_img = !empty( $logo_img ) ? $logo_img : ( $dark_mode ? APPURL.'assets/images/aio_l.svg' : APPURL.'assets/images/aio_d.svg' );
         $logo = !empty( $logo_img ) ? 'style="background:url(\''.storage_url( $logo_img ).'\') no-repeat center / contain"' : '';
-        $bg_style = !empty( $aos['ac_bg_repeat'] ) && $aos['ac_bg_repeat'] == 1 ? 'repeat center / 100%' : 'no-repeat center / contain';
-        $bg_img = $dark_mode ? ( $aos['ac_bg_d'] ?? '' ) : ( $aos['ac_bg_l'] ?? '' );
-        $bg = !empty( $bg ) ? 'style="background:url(\''.storage_url( $bg_img ).'\') '.$bg_style.'"' : '';
+        //$bg_style = !empty( $aos['ac_bg_repeat'] ) && $aos['ac_bg_repeat'] == 1 ? 'repeat center / 100%' : 'no-repeat center / contain';
+        //$bg_img = $dark_mode ? ( $aos['ac_bg_d'] ?? '' ) : ( $aos['ac_bg_l'] ?? '' );
+        //$bg = !empty( $bg ) ? 'style="background:url(\''.storage_url( $bg_img ).'\') '.$bg_style.'"' : '';
         //$options['ac_bg_repeat']
         pre( '', '', 'article' );
             pre( '', 'access_wrap' );

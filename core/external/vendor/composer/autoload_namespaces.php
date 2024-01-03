@@ -8,5 +8,4 @@ $baseDir = dirname($vendorDir);
 return array(
     'Mailjet' => array($vendorDir . '/mailjet/mailjet-apiv3-php/src'),
     'HTMLPurifier' => array($vendorDir . '/ezyang/htmlpurifier/library'),
-    'Evenement' => array($vendorDir . '/evenement/evenement/src'),
 );
