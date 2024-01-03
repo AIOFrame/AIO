@@ -253,17 +253,30 @@ class PORTAL {
 
                 // Show User
                 if( $show_user ) {
-                    $user_pic = $_SESSION['user']['picture'] ?? '';
                     $user_name = $_SESSION['user']['name'] ?? 'Developer';
-                    $user_role = $_SESSION['user']['role'] ?? $_SESSION['user']['type'];
+                    $user_data = [
+                        [ 'b' => [ T('Name'), $user_name ] ],
+                    ];
+                    $user_pic = $_SESSION['user']['picture'] ?? '';
+                    !empty( $_SESSION['user']['role'] ) ? $user_data[] = [ 'b' => [ T('Type'), $_SESSION['user']['type'] ] ] : '';
+                    $code = $_SESSION['user']['phone_code'] ?? '';
+                    $phone = $_SESSION['user']['phone'] ?? '';
+                    $phone = $code . $phone;
+                    !empty( $_SESSION['user']['gender'] ) ? $user_data[] = [ 'b' => [ T('Gender'), $_SESSION['user']['gender'] ] ] : '';
+                    !empty( $_SESSION['user']['email'] ) ? $user_data[] = [ 'b' => [ T('Email'), $_SESSION['user']['email'] ] ] : '';
+                    !empty( $phone ) ? $user_data[] = [ 'b' => [ T('Phone'), $phone ] ] : '';
+                    !empty( $_SESSION['user']['dob'] ) ? $user_data[] = [ 'b' => [ T('Date of Birth'), easy_date( $_SESSION['user']['dob'] ) ] ] : '';
+                    !empty( $_SESSION['user']['since'] ) ? $user_data[] = [ 'b' => [ T('Since'), easy_date( $_SESSION['user']['since'] ) ] ] : '';
+                    //skel( $_SESSION );
                     pre( '', 'user_drop mr20' );
                         if( !is_mobile() && !is_tablet() ) {
                             div( 'user_pic', '', '', ( !empty( $user_pic ) ? 'style="background-image:url('. storage_url($user_pic) .')" class="bg"' : '' ) );
                             div( 'user_name', $user_name );
                             pre( '', 'user_details' );
                                 div( 'pic', '', '', ( !empty( $user_pic ) ? 'style="background-image:url('. storage_url($user_pic) .')" class="bg"' : '' ) );
-                                h4( $user_name, 0 );
-                                h5( $user_role, 0 );
+                                table($user_data,'user_data plain s mb10');
+                                //h4( $user_name, 0, 'tac' );
+                                //h5( $user_role, 0, 'tac' );
                                 _r();
                                     div( 'col tal', __a( APPURL . $profile_url, T('My Profile'), 'r5 bsn s btn m0' ) );
                                     $logout_action = APPDEBUG ? 'logout_ajax' : $e->encrypt('logout_ajax');

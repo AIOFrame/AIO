@@ -315,14 +315,23 @@ class ACCESS {
         $user = $db->select( 'users', '', 'user_id = \''.get_user_id().'\'', 1 );
         $f = new FORM();
         pre( $wrap_id, $wrap_class );
-            $f->pre_process(' ','update_profile_ajax','user','user_',3,3,[],'Successfully updated user details!');
-                _r();
+            $form = [
+                [ 'i' => 'login', 'n' => 'User Login', 'v' => $user['user_login'], 'a' => 'disabled', 'c' => 6 ],
+                [ 'i' => 'since', 'n' => 'Registered Since', 'v' => easy_date($user['user_since']), 'a' => 'disabled', 'c' => 6 ],
+                [ 'i' => 'name', 'n' => 'Full Name', 'a' => 'data-user', 'p' => 'Ex: John Doe', 'c' => 6 ],
+                [ 'i' => 'email', 'n' => 'Email Address', 'a' => 'data-user required data-help', 'p' => 'Ex: john@company.com', 't' => 'email', 'c' => 6 ],
+                [ 'i' => 'phone_code', 'i2' => 'phone', 'n' => 'Code', 'n2' => 'Phone', 'a' => 'data-user', 'p' => 'Code', 'p2' => 'Phone', 't' => 'phone', 'c' => 6 ],
+                [ 'i' => 'picture', 'n' => 'Profile Picture', 'p' => 'Upload Picture', 't' => 'upload', 'e' => 'jpg,jpeg,bmp,png,gif,webp', 's' => 1, 'a' => 'data-user', 'v' => $user['user_picture'], 'c' => 6 ],
+            ];
+            $f->pre_process(' ','','user','user_',3,3,[],'Successfully updated user details!');
+                $f->form( $form, 'row' );
+                /* _r();
                     $f->texts([['login','User Login','',$user['user_login']],['since','User Since','',easy_date($user['user_since'])]],'disabled','6');
                     $f->texts([['name','Full Name','Ex: John Doe',$user['user_name']]],'required data-user','6');
                     $f->input('email','email','E Mail','Ex: john@company.com',$user['user_email'],'data-help',6);
-                    $f->upload('picture','Upload Picture','Upload',$user['user_picture'],0,0,'upload','data-user','svg,jpg,png',10,1,'',4);
-                r_();
-                $f->process_trigger('Update Profile','r5 xl mb0');
+                    $f->upload('picture','Upload Picture','Upload',$user['user_picture'],0,0,'upload','data-user','svg,jpg,png',10,1,'',6);
+                r_(); */
+                $f->process_trigger('Update Profile','r5 xl mb0','','','.tac');
             $f->post_process();
         post();
         file_upload();
@@ -405,6 +414,7 @@ class ACCESS {
     /**
      * Updates user data
      * @param string $login_or_id
+     * @param string $pass
      * @param array $columns
      * @param array $data
      * @param array $access User Permissions, Custom array with permission name key and boolean value
