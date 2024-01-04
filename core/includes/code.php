@@ -604,7 +604,7 @@ function _table( array $rows = [], string $class = '' ): string {
 function _card( string $class = '', string $title = '', string $link = '', string $desc = '', string|null $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], string $table_class = '', array $actions = [], string $actions_class = '', string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '' ): string {
     $f = new FORM();
     $return = !empty ( $link ) ? _pre('','card '.($class??''),'a','href="'.$link.'"') : _pre('','card '.($class ?? ''));
-    $return .= !empty( $image ) ? ( str_contains( $image, '<' ) ? $image : _image( str_contains( $image, 'http' ) ? $image : storage_url( $image ), '', $image_class ) ) : '';
+    $return .= !is_null( $image ) ? ( str_contains( $image, '<' ) ? $image : _image( str_contains( $image, 'http' ) ? $image : storage_url( $image ), '', $image_class ) ) : '';
     $return .= _pre('','head tac');
     $return .= !empty( $title ) ? _el('h2','title grad',$title) : '';
     $return .= !empty( $desc ) ? _el('h5','desc',$desc) : '';
