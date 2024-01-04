@@ -243,9 +243,9 @@ function files_ui() {
             let id = $(b).prev('button').data('url');
             //let wrap = getComputedStyle( b );
             let w = Math.round( $(b).parent().width() );
-            console.log( w );
+            //console.log( w );
             let col = w > 1024 ? 'quarter' : ( w > 512 ? 'half' : 'full' );
-            console.log( col );
+            //console.log( col );
             $(b).after('<div class="aio_fsp aio_files" data-col="' + col + '" data-url="'+ id +'"></div>');
         }
 

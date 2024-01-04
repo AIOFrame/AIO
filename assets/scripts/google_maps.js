@@ -1,9 +1,34 @@
-let loc = {lat: 25.212212, lng: 55.275135};
+let map;
+
+async function render_google_maps() {
+    const { Map } = await google.maps.importLibrary("maps");
+    setTimeout(function(){
+        let map_elements = document.querySelectorAll('[data-google-map-render]');
+        /* $.each( $('div[data-google-map-render]'), function( i,e ){
+            GoogleMap(e, window.google_maps_key );
+        }); */
+        for (let m = 0; m < map_elements.length; m++) {
+            console.log( map_elements[m] );
+            map = new Map( map_elements[m], {
+                center: { lat: -34.397, lng: 150.644 },
+                zoom: 8,
+            });
+        }
+    },1000)
+    /* map = new Map(document.getElementById("map"), {
+        center: { lat: -34.397, lng: 150.644 },
+        zoom: 8,
+    }); */
+}
+
+//render_google_maps();
+
+/* let loc = {lat: 25.212212, lng: 55.275135};
 
 $(document).ready(function(){
     setTimeout(function(){
         $.each( $('div[data-google-map-render]'), function( i,e ){
-            //GoogleMap(e, window.google_maps_key );
+            GoogleMap(e, window.google_maps_key );
         })
     },1000)
 });
@@ -17,12 +42,12 @@ function renderGoogleMap() {
 
 function GoogleMap(e, key ) {
     if(key === ''){ elog('Google Maps Key Error, Option \'google_maps_key\' is missing in options database or pass key as second parameter in GoogleMaps(e, key)'); return }
-    /* if($(e).data('value')){
+    if($(e).data('value')){
         let d = $(e).data('value');
         d = d.split(',');
         loc['lat'] = parseFloat(d[0]);
         loc['lng'] = parseFloat(d[1]);
-    } */
+    }
     loc['lat'] = $(e).attr('lat') ? parseFloat( $(e).attr('lat') ) : loc['lat'];
     loc['lng'] = $(e).attr('long') ? parseFloat( $(e).attr('long') ) : loc['lng'];
     let con = { center: loc };
@@ -93,15 +118,15 @@ function GoogleMap(e, key ) {
         }
 
         // Clear out the old markers.
-        /* markers.forEach((marker) => {
-            marker.setMap(null);
-        });
-        markers = []; */
+        // markers.forEach((marker) => {
+        //    marker.setMap(null);
+        //});
+        //markers = [];
 
         // For each place, get the icon, name and location.
         const bounds = new google.maps.LatLngBounds();
 
-        /* places.forEach((place) => { */
+        // places.forEach((place) => {
         if( places.length > 0 ) {
             const place = places[0];
             if (!place.geometry || !place.geometry.location) {
@@ -121,12 +146,12 @@ function GoogleMap(e, key ) {
                 draggable: true,
                 position: place.geometry.location
             });
-            /* new_marker.addListener('dragend', function () {
-                //console.log(map);
-                z = map.getZoom();
-                pos = {lat: this.position.lat(), lng: this.position.lng()};
-                GMapValues(e,marker,pos);
-            }); */
+            //new_marker.addListener('dragend', function () {
+            //    //console.log(map);
+            //    z = map.getZoom();
+            //    pos = {lat: this.position.lat(), lng: this.position.lng()};
+            //     GMapValues(e,marker,pos);
+            //});
             // markers.push(new_marker);
             if (place.geometry.viewport) {
                 // Only geocodes have viewport.
@@ -183,4 +208,4 @@ function GMapValues( e, m, p ){
             }
         })
     }
-}
+}*/

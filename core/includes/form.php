@@ -1223,6 +1223,20 @@ class FORM {
                 $deletable = $f['deletable'] ?? ( $f['delete'] ?? ( $f['del'] ?? ( $f['d'] ?? 0 ) ) );
                 $path = $f['path'] ?? '';
                 $return .= $this->_upload( $id, $label, $btn_label, $val, $multiple, $history, $btn_class, $attrs, $exts, $size, $deletable, $path, $pre, $post );
+            } else if( $type == 'google_maps' || $type == 'gmaps' || $type == 'maps' || $type == 'map' || $type == 'm' ) {
+                $latitude_field = $f['latitude_field'] ?? ( $f['latitude'] ?? ( $f['lat'] ?? '' ) );
+                $longitude_field = $f['longitude_field'] ?? ( $f['longitude'] ?? ( $f['long'] ?? '' ) );
+                $address_field = $f['address_field'] ?? ( $f['address'] ?? ( $f['addr'] ?? ( $f['adr'] ?? '' ) ) );
+                $area_field = $f['area_field'] ?? ( $f['area'] ?? ( $f['ar'] ?? '' ) );
+                $city_field = $f['city_field'] ?? ( $f['city'] ?? ( $f['ct'] ?? '' ) );
+                $country_field = $f['country_field'] ?? ( $f['country'] ?? ( $f['co'] ?? '' ) );
+                $coordinates = $f['coordinates'] ?? ( $f['gps'] ?? ( $f['cor'] ?? '' ) );
+                $height = $f['height'] ?? ( $f['hi'] ?? ( $f['h'] ?? 200 ) );
+                $latitude_value = $f['latitude_value'] ?? ( $f['lat_val'] ?? ( $f['lat_v'] ?? ( $f['ltv'] ?? '' ) ) );
+                $longitude_value = $f['longitude_value'] ?? ( $f['long_val'] ?? ( $f['long_v'] ?? ( $f['lgv'] ?? '' ) ) );
+                $zoom = $f['map_zoom'] ?? ( $f['zoom'] ?? ( $f['zm'] ?? ( $f['z'] ?? 13 ) ) );
+                $type = $f['map_type'] ?? ( $f['mt'] ?? 'terrain' );
+                $return .= $this->_map( $latitude_field, $longitude_field, $address_field, $area_field, $city_field, $country_field, $coordinates, $pre, $height, $latitude_value, $longitude_value, $zoom, $type, $post );
             } else {
                 //skel( $pre );
                 //skel( !empty( $pre ) && empty( $f['post'] ) );

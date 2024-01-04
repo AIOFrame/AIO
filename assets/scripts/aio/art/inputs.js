@@ -128,7 +128,7 @@ function select_init( el ) {
         select_config.templateResult = $( el ).data('template');
         //select_config.templateSelection = $(b).data('template');
     }
-    console.log(select_config);
+    //console.log(select_config);
     $( el ).select2(select_config);
 }
 
