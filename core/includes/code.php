@@ -587,32 +587,34 @@ function _table( array $rows = [], string $class = '' ): string {
  * @param string $title Title of the Card
  * @param string $link Hyperlink for the card to navigate to
  * @param string $desc Description
- * @param string $image Image or Logo URL
+ * @param string|null $image Image or Logo URL
  * @param string $image_class Image or Logo class [ 'logo', 'image', 'logo xl', 'image f' ]
  * @param string $status Status text for the card
  * @param string $status_class Status class [ 'orange', 'blue', 'green', 'red', 'l', 'r' ]
  * @param array $data Information to be displayed as table list [ [ 'Age', '25 Years' ], [ 'Gender', 'Male' ] ]
+ * @param string $table_class Class for the table displaying data
  * @param array $actions General actions like view a page, print a page [ [ 'url' => '', 'title' => '', 'ico' => 'mat-ico printer' ] ]
+ * @param string $actions_class Class to actions wrapper div
  * @param string $edit_modal Modal identifier to insert editable data json
  * @param array $edit_data Editable data json
  * @param string $delete_table Database table name to delete data from Ex: 'contacts'
  * @param string $delete_logic Database deletion logic Ex: 'contact_id = 5'
  * @return string
  */
-function _card( string $class = '', string $title = '', string $link = '', string $desc = '', string|null $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], array $actions = [], string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '' ): string {
+function _card( string $class = '', string $title = '', string $link = '', string $desc = '', string|null $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], string $table_class = '', array $actions = [], string $actions_class = '', string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '' ): string {
     $f = new FORM();
     $return = !empty ( $link ) ? _pre('','card '.($class??''),'a','href="'.$link.'"') : _pre('','card '.($class ?? ''));
-    $return .= !empty( $image ) ? ( str_contains( $image, '<' ) ? $image : _image( $image, '', $image_class ) ) : '';
+    $return .= !empty( $image ) ? ( str_contains( $image, '<' ) ? $image : _image( str_contains( $image, 'http' ) ? $image : storage_url( $image ), '', $image_class ) ) : '';
     $return .= _pre('','head tac');
     $return .= !empty( $title ) ? _el('h2','title grad',$title) : '';
     $return .= !empty( $desc ) ? _el('h5','desc',$desc) : '';
     $return .= _post();
     $return .= !empty( $status ) ? _div('status '.$status_class,$status) : '';
     if( !empty( $data ) ) {
-        $return .= _table( [ 'body' => $data ], 'plain' );
+        $return .= _table( [ 'body' => $data ], 'plain mb10 ' . $table_class );
     }
     if( !empty( $actions ) || ( !empty( $edit_data ) && !empty( $edit_modal ) ) || ( !empty( $delete_table ) && !empty( $delete_logic ) ) ) {
-        $return .= '<div class="acts">';
+        $return .= _pre( '', 'acts '. $actions_class );
         if( !empty( $actions ) ) {
             foreach( $actions as $act ) {
                 $return .= $f->_view_html( $act['url'] ?? '', $act['html'] ?? 'div', $act['title'] ?? ( $act['text'] ?? '' ), 'grad', '', $act['ico'] ?? '' );
@@ -624,7 +626,7 @@ function _card( string $class = '', string $title = '', string $link = '', strin
         if( !empty( $delete_table ) && !empty( $delete_logic ) ) {
             $return .= $f->_trash_html( $delete_table, $delete_logic, 'div', '', 'grad', '', 'mat-ico', 2, 2, 'Are you sure to delete?', 'delete' );
         }
-        $return .= '</div>';
+        $return .= _post();
     }
     $return .= _post( !empty ( $link ) ? 'a' : 'div' );
     return $return;
@@ -636,20 +638,22 @@ function _card( string $class = '', string $title = '', string $link = '', strin
  * @param string $title Title of the Card
  * @param string $link Hyperlink for the card to navigate to
  * @param string $desc Description
- * @param string $image Image or Logo URL
+ * @param string|null $image Image or Logo URL
  * @param string $image_class Image or Logo class [ 'logo', 'image', 'logo xl', 'image f' ]
  * @param string $status Status text for the card
  * @param string $status_class Status class [ 'orange', 'blue', 'green', 'red', 'l', 'r' ]
  * @param array $data Information to be displayed as table list [ [ 'Age', '25 Years' ], [ 'Gender', 'Male' ] ]
+ * @param string $table_class Class for the table displaying data
  * @param array $actions General actions like view a page, print a page [ [ 'url' => '', 'title' => '', 'ico' => 'mat-ico printer' ] ]
+ * @param string $actions_class Class to actions wrapper div
  * @param string $edit_modal Modal identifier to insert editable data json
  * @param array $edit_data Editable data json
  * @param string $delete_table Database table name to delete data from Ex: 'contacts'
  * @param string $delete_logic Database deletion logic Ex: 'contact_id = 5'
  * @return void
  */
-function card( string $class = '', string $title = '', string $link = '', string $desc = '', string|null $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], array $actions = [], string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '' ): void {
-    echo _card( $class, $title, $link, $desc, $image, $image_class, $status, $status_class, $data, $actions, $edit_modal, $edit_data, $delete_table, $delete_logic );
+function card( string $class = '', string $title = '', string $link = '', string $desc = '', string|null $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], string $table_class = '', array $actions = [], string $actions_class = '', string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '' ): void {
+    echo _card( $class, $title, $link, $desc, $image, $image_class, $status, $status_class, $data, $table_class, $actions, $actions_class, $edit_modal, $edit_data, $delete_table, $delete_logic );
 }
 
 function pre_modal( string $title = '', string $size = '', bool $editable = true ): void {
