@@ -241,6 +241,10 @@ button:after, .btn:after {
   left: 0;
   right: 0;
   text-align: center;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
 }
 .actions.float button, .actions.float .btn {
   border-radius: 20px;
@@ -1086,6 +1090,9 @@ fieldset {
 }
 .acts i.view:after {
   content: "\e8a0";
+}
+.acts i.go:after {
+  content: "\e5e1";
 }
 .acts i.delete:after, .acts i.trash:after {
   content: "\e872";
