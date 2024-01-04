@@ -1213,9 +1213,9 @@ class FORM {
                 $place_2 = $f['place2'] ?? ($f['placeholder2'] ?? ( $f['p2'] ??= ''));
                 $val_2 = $f['value2'] ?? ( $f['va2'] ?? ( $f['v2'] ?? ( $_POST[$id_2] ?? ( $_GET[$id_2] ?? '' ) ) ) );
                 $return .= $this->_phone( $id, $id_2, $label, $label_2, $place, $place_2, $val, $val_2, $attrs, $pre, $post );
-            } else if( $type == 'upload' || $type == 'file' || $type == 'u' || $type == 'f' ) {
+            } else if( $type == 'uploads' || $type == 'upload' || $type == 'files' || $type == 'file' || $type == 'u' || $type == 'f' ) {
                 $btn_label = $f['btn_label'] ?? ( $f['button'] ?? ( $f['b'] ?? ( $label ?? 'Upload...' ) ) );
-                $multiple = $f['multiple'] ?? ( $f['m'] ?? 0 );
+                $multiple = $f['multiple'] ?? ( $f['m'] ?? ( $type == 'uploads' ? 1 : ( $type == 'files' ? 1 : 0 ) ) );
                 $history = $f['history'] ?? ( $f['h'] ?? 0 );
                 $btn_class = $f['btn_class'] ?? ( $f['h'] ?? 0 );
                 $exts = $f['extensions'] ?? ( $f['exts'] ?? ( $f['ex'] ?? ( $f['e'] ?? '' ) ) );

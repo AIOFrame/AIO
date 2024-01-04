@@ -59,7 +59,7 @@ $secondary: var(--secondary_color);
     position: absolute;
     right: -60px;
     width: 60px;
-    top: calc(50% - 1px);
+    top: 8px;
     height: 2px;
     background:#eee;
     z-index:-1;
@@ -70,34 +70,38 @@ $secondary: var(--secondary_color);
   .step {
     position: relative;
     text-align: center;
-    margin:0 30px;
+    //padding:0 40px;
+    margin:0 4%;
+    max-width: 20%;
   }
   .step:not(:last-child):after {
     content: '';
     position: absolute;
     left: calc( 100% + 10px);
     width: 40px;
-    border-bottom: 4px dashed #ccc;
+    border-bottom: 2px solid #ccc;
   }
   .step_no {
-    border-radius:50px;
+    border-radius:10px;
     overflow: hidden;
-    width: 60px;
-    height: 60px;
-    line-height: 60px;
-    font-size: 2rem;
+    width: 20px;
+    height: 20px;
+    margin: 0 auto 5px;
+    line-height: 20px;
+    font-size: .6rem;
     font-weight: bold;
     background: rgba(0,0,0,.1);
   }
   .step_title {
-    position: absolute;
-    font-size: 12px;
-    top: calc(100% + 4px);
+    //position: absolute;
+    font-size: .8rem;
+    //top: calc(100% + 4px);
     color:#000;
-    left: 50%;
-    transform:translateX(-50%);
+    //left: 50%;
+    //transform:translateX(-50%);
     text-transform: none;
     font-weight: 500;
+    //width: 100%;
   }
   .step.on {
     .step_no {
@@ -219,6 +223,24 @@ $secondary: var(--secondary_color);
 }
 .step:nth-child(10), .tab:nth-child(10) {
   z-index: 1
+}
+.steps:not(.flat):not(.side).dashed {
+  .step:not(:last-child):after {
+    border-bottom: 2px dashed #ccc;
+  }
+}
+.steps.no_arrows {
+  .steps_pages {
+    margin: 0;
+  }
+  .steps_controls {
+    display: none;
+  }
+}
+.steps.no_number, .steps.no_numbers {
+  .step_no {
+    font-size: 0 !important;
+  }
 }
 .rounded {
 

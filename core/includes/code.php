@@ -599,7 +599,7 @@ function _table( array $rows = [], string $class = '' ): string {
  * @param string $delete_logic Database deletion logic Ex: 'contact_id = 5'
  * @return string
  */
-function _card( string $class = '', string $title = '', string $link = '', string $desc = '', string $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], array $actions = [], string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '' ): string {
+function _card( string $class = '', string $title = '', string $link = '', string $desc = '', string|null $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], array $actions = [], string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '' ): string {
     $f = new FORM();
     $return = !empty ( $link ) ? _pre('','card '.($class??''),'a','href="'.$link.'"') : _pre('','card '.($class ?? ''));
     $return .= !empty( $image ) ? ( str_contains( $image, '<' ) ? $image : _image( $image, '', $image_class ) ) : '';
@@ -626,7 +626,7 @@ function _card( string $class = '', string $title = '', string $link = '', strin
         }
         $return .= '</div>';
     }
-    $return .= _post( !empty ( $link ) ? 'a' : '' );
+    $return .= _post( !empty ( $link ) ? 'a' : 'div' );
     return $return;
 }
 
@@ -648,7 +648,7 @@ function _card( string $class = '', string $title = '', string $link = '', strin
  * @param string $delete_logic Database deletion logic Ex: 'contact_id = 5'
  * @return void
  */
-function card( string $class = '', string $title = '', string $link = '', string $desc = '', string $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], array $actions = [], string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '' ): void {
+function card( string $class = '', string $title = '', string $link = '', string $desc = '', string|null $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], array $actions = [], string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '' ): void {
     echo _card( $class, $title, $link, $desc, $image, $image_class, $status, $status_class, $data, $actions, $edit_modal, $edit_data, $delete_table, $delete_logic );
 }
 
