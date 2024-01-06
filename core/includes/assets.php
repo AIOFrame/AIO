@@ -711,34 +711,29 @@ function pagination( int $page, int $records, int $limit = 24, string $wrap_clas
     $url = APPURL . PAGEPATH;
     if( $limit > 0 ) {
         $wrap_class = !empty( $wrap_class ) ? $wrap_class . ' pagination' : 'pagination';
-        ?>
-        <div class="<?php echo $wrap_class; ?>">
-            <?php
+        pre( '', $wrap_class );
             $total_pages = !empty( $records ) ? ceil( $records / $limit ) : 0;
             //skel( $total_pages );
             if( $total_pages > 3 ) {
-                // echo '<a href="'.$url.'/1" class="first '.$class.'"></a>';
-                echo $page > 3 ? '<a href="' . $url . '/1" class="first ' . $class . '">1</a>' : '';
-                echo $page > 3 ? '<a  class="blank">...</a>' : '';
+                $page > 3 ? a( $url.'/1', 1, $class.' first', 'Goto first page' ) : '';
+                $page > 3 ? a( '', '...', 'blank' ) : '';
                 for ($x = ($page - 2); $x < $page; $x++) {
-                    echo $x > 0 ? '<a href="' . $url . '/' . $x . '" class="pre ' . $class . '">' . $x . '</a>' : '';
+                    $x > 0 ? a( $url.'/'.$x, $x, $class.' pre', 'Goto '.$x.' page' ) : '';
                 }
-                echo '<a href="' . $url . '/' . $page . '" class="on ' . $class . '">' . $page . '</a>';
+                a( $url.'/'.$page, $page, $class.' on', 'Reload current page' );
                 for ($y = ($page + 1); $y <= ($page + 2); $y++) {
-                    echo $page < $total_pages ? '<a href="' . $url . '/' . $y . '" class="post ' . $class . '">' . $y . '</a>' : '';
+                    $page < $total_pages ? a( $url.'/'.$y, $y, $class.' post', 'Goto '.$y.' page' ) : '';
                 }
-                echo $page < ($total_pages - 3) ? '<a  class="blank">...</a>' : '';
-                echo $page < ($total_pages - 2) ? '<a href="' . $url . '/' . $total_pages . '" class="last ' . $class . '">' . $total_pages . '</a>' : '';
+                $page < ($total_pages - 3) ? a( '', '...', 'blank' ) : '';
+                $page < ($total_pages - 2) ? a( $url.'/'.$total_pages, $total_pages, $class.' last', 'Goto last page' ) : '';
             } else if( $total_pages > 1 ) {
                 for($x = 1; $x <= $total_pages; $x++) {
                     $on = $x == $page ? ' on' : '';
-                    echo '<a href="' . $url . '/' . $x . '" class="'. $class . $on . '">' . $x . '</a>';
+                    a( $url.'/'.$x, $x, $class.$on, 'Goto '.$x.' page' );
                 }
             }
             // echo '<a href="'.$url.'/'.$total_pages.'" class="last '.$class.'"></a>';
-            ?>
-        </div>
-        <?php
+        post();
     }
 }
 
@@ -746,7 +741,7 @@ function pagination( int $page, int $records, int $limit = 24, string $wrap_clas
  * Create jQuery Notification
  * @param string $message
  */
-function notify( string $message ) {
+function notify( string $message ): void {
     echo '<script>$(document).ready(function(){ notify("' . $message . '"); });</script>';
 }
 
@@ -767,25 +762,31 @@ function clear_log_viewer() {
 }
 
 function tab_nav( bool $show_prev_button = false, bool $show_next_button = false, string $prev_text = '', string $next_text = '', string $class = '', string $col = '6' ): void {
-    echo '<div class="row">';
+    pre( '', 'row' );
     $col = is_numeric( $col ) ? 'col-'.$col : $col;
     if( $show_prev_button ) {
         previous_tab( $prev_text, $class, $col );
     } else {
-        echo '<div class="'.$col.'"></div>';
+        div( $col );
     }
     if( $show_next_button ) {
         next_tab( $next_text, $class, $col );
     }
-    echo '</div>';
+    post();
 }
 
 function previous_tab( string $text = '', string $class = 'prev', string $col = '6' ): void {
     $col = is_numeric( $col ) ? 'col-'.$col : $col;
-    echo '<div class="'.$col.'"><button type="button" class="'.$class.'" data-prev>'. T( $text ). '</button></div>';
+    pre( '', $col );
+        b( $class, $text, '', 'data-prev', 1 );
+    post();
+    //echo '<button type="button" class="'.$class.'" data-prev>'. T( $text ). '</button>';
 }
 
 function next_tab( string $text = '', string $class = 'next', string $col = '6' ): void {
     $col = is_numeric( $col ) ? 'col-'.$col : $col;
-    echo '<div class="'.$col.' tar"><button type="button" class="'.$class.'" data-next>'. T( $text ). '</button></div>';
+    pre( '', $col );
+        b( $class, $text, '', 'data-next', 1 );
+    post();
+    //echo '<div class="'.$col.' tar"><button type="button" class="'.$class.'" data-next>'. T( $text ). '</button></div>';
 }

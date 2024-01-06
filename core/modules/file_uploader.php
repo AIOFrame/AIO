@@ -7,40 +7,24 @@ class FUP {
         get_style('upload');
         get_scripts(['jquery','upload']);
         // TODO: Translations as data attr
-        ?>
-        <div id="aio_up" class="file_modal" data-dir="<?php echo APPURL.'apps/'.APPDIR; ?>" data-action="<?php echo APPDEBUG ? 'file_process_ajax' : $cry->encrypt('file_process_ajax'); ?>" data-delete-action="<?php echo $cry->encrypt('file_delete_ajax'); ?>">
-            <div class="files_head">
-                <h3><?php E('File Uploader'); ?></h3>
-                <div class="info">
-                    <div class="sizes">
-                        <div class="mat-ico">sd_card</div>
-                        <div class="title"><?php E('Max File Size'); ?></div>
-                        <div class="size"></div>
-                        <div class="measure">Mb</div>
-                    </div>
-                    <div class="types">
-                        <div class="mat-ico">description</div>
-                        <div class="title"><?php E('File Types'); ?></div>
-                        <div class="types"></div>
-                    </div>
-                    <div class="max">
-                        <div class="mat-ico">file_copy</div>
-                        <div class="title"><?php E('Files Limit'); ?></div>
-                        <div class="qty">2</div>
-                    </div>
-                </div>
-                <div class="acts">
-                    <?php echo str_contains( ICONS, 'Bootstrap' ) ? '<i class="bi bi-arrows-angle-expand expand"></i><i class="bi bi-x-lg close"></i>' : '<div class="mat-ico expand"></div><div class="mat-ico close">close</div>'; ?>
-
-                </div>
-                <input type="file" id="file_input">
-            </div>
-            <div class="files_body">
-                <div class="search_wrap">
-                    <input type="search" placeholder="<?php E('Search in files...'); ?>" class="search">
-                </div>
-                <div class="uploaded_files">
-                    <?php
+        pre( 'aio_up', 'file_modal', 'div', 'data-dir="'.APPURL.'apps/'.APPDIR.'" data-action="'.APPDEBUG ? 'file_process_ajax' : $cry->encrypt('file_process_ajax').'" data-delete-action="'.$cry->encrypt('file_delete_ajax').'"' );
+            pre( '', 'files_head' );
+                h3( 'File Uploader' );
+                pre( '', 'info' );
+                    div( 'sizes', _div( 'mat-ico', 'sd_card' ) . _div( 'title', T('Max File Size') . _div( 'size' ) . _div( 'measure', 'Mb' ) ) );
+                    div( 'types', _div( 'mat-ico', 'description' ) . _div( 'title', T('File Types') . _div( 'types' ) ) );
+                    div( 'max', _div( 'mat-ico', 'file_copy' ) . _div( 'title', T('Files Limit') . _div( 'qty', 2 ) ) );
+                post();
+                pre( '', 'acts' );
+                    echo str_contains( ICONS, 'Bootstrap' ) ? '<i class="bi bi-arrows-angle-expand expand"></i><i class="bi bi-x-lg close"></i>' : '<div class="mat-ico expand"></div><div class="mat-ico close">close</div>';
+                post();
+                echo '<input type="file" id="file_input">';
+            post();
+            pre( '', 'files_body' );
+                pre( '', 'search_wrap' );
+                    echo '<input type="search" placeholder="'.T('Search in files...').'" class="search">';
+                post();
+                pre( '', 'uploaded_files' );
                     $db = new DB();
                     $fs = $db ? ( !empty( $_SESSION ) && isset( $_SESSION['user']['id'] ) ? $db->select( 'storage', '*', 'file_scope = "'.$_SESSION['user']['id'].'" OR file_scope = "0"', '40', 0, '', '', 'DESC', 'file_id' ) : $db->select( 'storage', '*', 'file_scope = "0"', '40', 0, '', '', 'DESC', 'file_id' ) ) : '';
                     if( !empty($fs) ){ foreach( $fs as $f ){
@@ -49,29 +33,23 @@ class FUP {
                         echo '<div '.$bg.' class="f '.$f['file_type'].'" data-id="'.$cry->encrypt($f['file_id']).'" data-url="'.$f['file_url'].'" data-delete="'.$f['file_delete'].'"><div class="name">'.$f['file_name'].'</div><div class="size">'.$size.'</div></div>';
                     } } else {
                         echo '<div class="no_uploaded_files"><span>'. T('NO FILES FOUND!').'</span></div>';
-                    } ?>
-                </div>
-                <div class="camera_view"></div>
-                <div class="drop_files"><span><?php E('Drop files to Upload!'); ?></span></div>
-            </div>
-            <div class="files_actions">
-                <label class="fi i select"><?php E('Choose'); ?></label>
-                <label for="file_input" class="fb i browse"><?php E('Browse'); ?></label>
-                <label class="disabled fd i trash"><?php E('Delete'); ?></label>
-            </div>
-            <div class="translations">
-                <div class="extension_limit"><?php E('The file should be one of the extensions'); ?></div>
-                <div class="size_limit"><?php E('Selected file size exceeds file size limit of '); ?></div>
-                <div class="file_select"><?php E('File Selected Successfully!'); ?></div>
-                <div class="no_file_select"><?php E('NO FILE SELECTED! File Uploader Closed!!'); ?></div>
-                <div class="remove_confirm"><?php E('Are you sure to remove attached file ?'); ?></div>
-                <div class="upload_success"><?php E('File Uploaded Successfully!'); ?></div>
-            </div>
-        </div>
-        <div class="file_notify"></div>
-        <?php
+                    }
+                post();
+                div( 'camera_view' );
+                div( 'drop_files', _el( 'span', '', T('Drop files to Upload!') ) );
+                div( 'files_actions', _el( 'label', 'fi i select', T('Choose') ) . _el( 'label', 'fb i browse', 'Browse', '', 'for="file_input"', 1 ) . _el( 'label', 'disabled fd i trash', T('Delete') ) );
+                div( 'translations',
+                    _div( 'extension_limit', T('The file should be one of the extensions') ) .
+                    _div( 'size_limit', T('Selected file size exceeds file size limit of ') ) .
+                    _div( 'file_select', T('File Selected Successfully!') ) .
+                    _div( 'no_file_select', T('NO FILE SELECTED! File Uploader Closed!!') ) .
+                    _div( 'remove_confirm', T('Are you sure to remove attached file ?') ) .
+                    _div( 'upload_success', T('File Uploaded Successfully!') )
+                );
+            post();
+        post();
+        div( 'file_notify' );
     }
-
 }
 
 /* HOW TO USE
