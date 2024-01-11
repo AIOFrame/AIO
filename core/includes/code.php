@@ -370,24 +370,48 @@ function h1( string $title = '', bool $translate = true, string $class = '', str
     el( 'h1', $class, $title, '', $attrs, $translate );
 }
 
+function _h1( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): string {
+    return _el( 'h1', $class, $title, '', $attrs, $translate );
+}
+
 function h2( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): void {
     el( 'h2', $class, $title, '', $attrs, $translate );
+}
+
+function _h2( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): string {
+    return _el( 'h2', $class, $title, '', $attrs, $translate );
 }
 
 function h3( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): void {
     el( 'h3', $class, $title, '', $attrs, $translate );
 }
 
+function _h3( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): string {
+    return _el( 'h3', $class, $title, '', $attrs, $translate );
+}
+
 function h4( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): void {
     el( 'h4', $class, $title, '', $attrs, $translate );
+}
+
+function _h4( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): string {
+    return _el( 'h4', $class, $title, '', $attrs, $translate );
 }
 
 function h5( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): void {
     el( 'h5', $class, $title, '', $attrs, $translate );
 }
 
+function _h5( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): string {
+    return _el( 'h5', $class, $title, '', $attrs, $translate );
+}
+
 function h6( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): void {
     el( 'h6', $class, $title, '', $attrs, $translate );
+}
+
+function _h6( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): string {
+    return _el( 'h6', $class, $title, '', $attrs, $translate );
 }
 
 function el( string $element = 'div', string $class = '', string $content = '', string $id = '', string $attrs = '', bool $translate = false ): void {
@@ -556,11 +580,12 @@ function table( array $rows = [], string $class = '' ): void {
 /**
  * @param array $rows Array of table data [ 'head' => [ 'Name', 'Age' ], 'body' => [ 'Ahmed', 25 ] ]
  * @param string $class Class for the table
+ * @param string $attr HTML Attributes for the table
  * @return string
  */
-function _table( array $rows = [], string $class = '' ): string {
+function _table( array $rows = [], string $class = '', string $attr = '' ): string {
     // TODO: Support art designs like statuses
-    $return = _pre('',$class,'table');
+    $return = _pre('',$class,'table',$attr);
     foreach( $rows as $row ) {
         $type = array_key_first( $row );
         $return .= in_array( $type, [ 'thead', 'head', 'h' ] ) ? '<thead>' : ( in_array( $type, [ 'tfoot', 'foot', 'f' ] ) ? '<tfoot>' : '<tbody>' );
@@ -848,6 +873,24 @@ function easy_dt( $datetime = '', $format = 'd M, Y H:i a' ): string {
 /**
  * Converts a text to image
  * @param string $text
+ * @param int $size
+ * @param string $type
+ * @param int $break
+ * @param int $rotate
+ * @param int $padding
+ * @param bool $transparent
+ * @param array $color
+ * @param array $bg_color
+ * @return void
+ */
+function text_to_image( string $text, int $size = 32, string $type = 'img', int $break = 40, int $rotate = 0, int $padding = 2, bool $transparent = false, array $color = ['r'=>255,'g'=>255,'b'=>255], array $bg_color = ['r'=>0,'g'=>0,'b'=>0] ): void {
+    echo _text_to_image( $text, $type, $break, $size, $rotate, $padding, $transparent, $color, $bg_color );
+}
+
+
+/**
+ * Converts a text to image
+ * @param string $text
  * @param string $type
  * @param int $break
  * @param int $size
@@ -858,7 +901,7 @@ function easy_dt( $datetime = '', $format = 'd M, Y H:i a' ): string {
  * @param array $bg_color
  * @return string
  */
-function text_to_image( string $text, string $type = 'img', int $break = 40, int $size = 24, int $rotate = 0, int $padding = 2, bool $transparent = false, array $color = ['r'=>255,'g'=>255,'b'=>255], array $bg_color = ['r'=>0,'g'=>0,'b'=>0] ): string {
+function _text_to_image( string $text, string $type = 'img', int $break = 40, int $size = 24, int $rotate = 0, int $padding = 2, bool $transparent = false, array $color = ['r'=>255,'g'=>255,'b'=>255], array $bg_color = ['r'=>0,'g'=>0,'b'=>0] ): string {
     $e = Encrypt::initiate();
     $text = $e->encrypt( $text );
     $url = APPURL . 'core/modules/tti.php?t='.$text.'&b='.$break.'&s='.$size.'&r='.$rotate.'&p='.$padding.'&tr='.$transparent.'&c='.json_encode($color).'&bg='.json_encode($bg_color);
