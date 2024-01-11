@@ -474,6 +474,38 @@ function d_(): void {
     post();
 }
 
+function _sp( string $class = '', string $id = '', string $attrs = '' ): void {
+    pre( $id, $class, 'span', $attrs );
+}
+
+function sp_(): void {
+    post('span');
+}
+
+function _nav( string $class = '', string $id = '', string $attrs = '' ): void {
+    pre( $id, $class, 'nav', $attrs );
+}
+
+function nav_(): void {
+    post('nav');
+}
+
+function _as( string $class = '', string $id = '', string $attrs = '' ): void {
+    pre( $id, $class, 'aside', $attrs );
+}
+
+function as_(): void {
+    post('aside');
+}
+
+function _sec( string $class = '', string $id = '', string $attrs = '' ): void {
+    pre( $id, $class, 'section', $attrs );
+}
+
+function sec_(): void {
+    post('section');
+}
+
 function _div( string $class = '', string $content = '', string $id = '', string $attrs = '', bool $translate = false ): string {
     return _el( 'div', $class, $content, $id, $attrs, $translate );
 }
