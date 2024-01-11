@@ -474,6 +474,24 @@ function d_(): void {
     post();
 }
 
+/**
+ * Writes div html element start or end tag
+ * @param string $class Class for the div element
+ * @param string $id ID for the div element
+ * @param string $attrs HTML Attributes for the div element
+ * @return void
+ */
+function d_experimental( string $class = '', string $id = '', string $attrs = '' ): void {
+    global $code;
+    if( isset( $code['div'] ) && $code['div'] ) {
+        post();
+        $code['div'] = false;
+    } else {
+        pre( $id, $class, 'div', $attrs );
+        $code['div'] = true;
+    }
+}
+
 function _sp( string $class = '', string $id = '', string $attrs = '' ): void {
     pre( $id, $class, 'span', $attrs );
 }
@@ -1098,6 +1116,17 @@ function _step_heads( array $steps = [], string $style = '', bool $translate_tit
     return $data;
 }
 
+function r_experimental(): void {
+    global $code;
+    if( isset( $code['row'] ) && $code['row'] ) {
+        post();
+        $code['row'] = false;
+    } else {
+        pre( '', 'row' );
+        $code['row'] = true;
+    }
+}
+
 function _r(): void {
     pre( '', 'row' );
 }
@@ -1106,12 +1135,43 @@ function r_(): void {
     post();
 }
 
-function _c( string|int $column = 12, string $class = '' ): void {
-    echo '<div class="col-12 col-md-'.$column.' '.$class.'">';
+/**
+ * Writes start and end bootstrap column div html elements
+ * @param string|int $col_md Column for middle size screens
+ * @param string $class Overwrite class
+ * @param string $id ID for the element
+ * @param string $attr HTML Attributes for the element
+ * @return void
+ */
+function c_experimental( string|int $col_md = 12, string $class = '', string $id = '', string $attr = '' ): void {
+    global $code;
+    if( isset( $code['col'] ) && $code['col'] ) {
+        post();
+        $code['col'] = false;
+    } else {
+        d_experimental( 'col-md-'.$col_md. ( str_contains( $class, 'col-' ) ? $class : ' col-12 '. $class ) );
+        $code['col'] = true;
+    }
 }
 
+/**
+ * Writes bootstrap column div html element start tag
+ * @param string|int $col_md Column for middle size screens
+ * @param string $class Overwrite class
+ * @param string $id ID for the element
+ * @param string $attr HTML Attributes for the element
+ * @return void
+ */
+function _c( string|int $col_md = 12, string $class = '', string $id = '', string $attr = '' ): void {
+    pre( $id, 'col-md-'.$col_md. ( str_contains( $class, 'col-' ) ? $class : ' col-12 '. $class ), 'div', $attr );
+}
+
+/**
+ * Writes bootstrap column div html element end tag
+ * @return void
+ */
 function c_(): void {
-    echo '</div>';
+    post();
 }
 
 // Social Share
