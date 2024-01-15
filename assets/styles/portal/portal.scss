@@ -30,7 +30,13 @@ $border-color-active-dark: var(--input_border_color_active_dark);
 $color-dark: var(--input_color_dark);
 $color-active-dark: var(--input_color_active_dark);
 
-
+body.modal_open {
+  article > div:not(.header) {
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+    opacity: .3;
+  }
+}
 .aio_fsp.aio_files {
   border: 2px solid #eee;
   background: #eee;

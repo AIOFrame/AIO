@@ -2,6 +2,7 @@ $(document).ready(function(){
 
     // Open Modal
     $('body').on('click','[data-modal]',function(){
+        $('body').addClass('modal_open');
         let e = $(this).data('modal');
         $(e).addClass('on');
         $(e).find('[data-add]').show();
@@ -17,8 +18,8 @@ $(document).ready(function(){
                 removeFade.push(1);
             }
         });
-        console.log( removeFade );
-        if( removeFade.length === 0 ) { $('article').removeClass('fade'); }
+        //console.log( removeFade );
+        if( removeFade.length === 0 ) { $('body').removeClass('modal_open'); }
         reset_modal(this);
     });
 })
