@@ -466,12 +466,20 @@ function div( string $class = '', string $content = '', string $id = '', string 
     echo _div( $class, $content, $id, $attrs, $translate );
 }
 
+function __d( string $class = '', string $id = '', string $attrs = '' ): string {
+    return _pre( $id, $class, 'div', $attrs );
+}
+
 function _d( string $class = '', string $id = '', string $attrs = '' ): void {
     pre( $id, $class, 'div', $attrs );
 }
 
 function d_(): void {
     post();
+}
+
+function d__(): string {
+    return _post();
 }
 
 /**

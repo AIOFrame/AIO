@@ -136,9 +136,11 @@ class REGION {
         }
         $f->option_params_wrap('reg',2,2,'base_region,regions');
         $f->select2('regions','Set Operating Regions','Choose countries...',$countries,$regions['regions']??'','multiple data-reg',12,1);
-        $f->select2('base_region','Set Base Region','Choose country...',$limit_regions,$regions['base_region']??'','data-reg',12,1);
+        if( !empty( $regions['regions'] ) )
+            $f->select2('base_region','Set Base Region','Choose country...',$limit_regions,$regions['base_region']??'','data-reg',12,1);
         $f->process_options('Save Options','store grad','','.col-12 tac');
-        echo '<div style="text-align:center; font-size: .8rem">'.T('Please set and save operating regions, then set primary region.').'</div></div>';
+        div( '', 'Please set and save operating regions, then set primary region.', '', 'style="text-align:center; font-size: .8rem"', 1 );
+        d_();
     }
 
     /**

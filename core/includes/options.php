@@ -242,32 +242,8 @@ class OPTIONS {
      * @return void
      */
     function map_options(): void {
-        $f = new FORM();
-        $db = new DB();
-        $r = defined( 'REGION' ) && isset( REGION['cca2'] ) ? strtolower( REGION['cca2'] ).'_' : '';
-        $options_array = [ 'default_map_lat', 'default_map_long', 'default_map_zoom', 'default_map_type' ];
-        $options_array = defined( 'REGION' ) ? prepare_values( $options_array, $r ) : $options_array;
-        //skel( $options_array );
-        $ops = $db->get_options( array_merge( $options_array, ['google_maps_key'] ) );
-        //skel( $ops );
-        $f->option_params_wrap('google-map', 2, 2 );
-        $key = $ops['google_maps_key'] ?? '';
-        $lat = !empty( $ops[$r.'default_map_lat'] ) ? $ops[$r.'default_map_lat'] : 'fake_lat';
-        $v_lat = !empty( $ops[$r.'default_map_lat'] ) ? $ops[$r.'default_map_lat'] : '';
-        $long = !empty( $ops[$r.'default_map_long'] ) ? $ops[$r.'default_map_long'] : 'fake_long';
-        $v_long = !empty( $ops[$r.'default_map_long'] ) ? $ops[$r.'default_map_long'] : '';
-        $zoom = $ops[$r.'default_map_zoom'] ?? 13;
-        $type = !empty( $ops[$r.'default_map_type'] ) ? $ops[$r.'default_map_type'] : 'terrain';
-        $attr = 'data-google-map';
-        $f->text('google_maps_key','Google Maps - API Key','Ex: AIvcDfDtd04QuAYdfgRN-aZBF5DuSFhMUnbdehD9',$key,$attr,12);
-        $f->map( '[data-key='.$r.'default_map_lat]', '[data-key='.$r.'default_map_long]', '', '', '', '', '', 12, 200, $v_lat, $v_long, $zoom, $type );
-        $f->text($r.'default_map_lat','Default Map Latitude','Ex: 12.34233',$lat,$attr,3);
-        $f->text($r.'default_map_long','Default Map Longitude','Ex: 24.43555',$long,$attr,3);
-        $f->select2($r.'default_map_zoom','Default Zoom Level','Select Level...',range(0,19),$zoom,$attr,3);
-        $f->select2($r.'default_map_type','Default Map Type','Select Type...',['roadmap','satellite','hybrid','terrain'],$type,$attr,3);
-        $f->process_options($this->region_flag().'Save Map Options','store grad','','.col-12 tac');
-        $this->region_notice();
-        echo '</div>';
+        $m = new MAPS();
+        $m->options();
     }
 
     function communication_options(): void {

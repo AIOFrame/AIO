@@ -1233,15 +1233,18 @@ fieldset {
 /* GOOGLE MAP */
 
 .map_wrap {
-  input[type=text] {
+  input[type=search] {
     margin: 0;
     //border: $border;
     border-radius: $radius $radius 0 0;
   }
+  [type=search] + .google_map {
+    border-radius:0 0 $radius $radius;
+  }
 }
 .google_map {
   min-height: 200px;
-  border-radius:0 0 $radius $radius;
+  border-radius: $radius;
   margin-bottom: 15px;
 }
 

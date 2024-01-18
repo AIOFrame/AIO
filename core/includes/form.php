@@ -687,8 +687,8 @@ class FORM {
      * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
      * @return void
      */
-    function map( string $latitude_field = '', string $longitude_field = '', string $address_field = '', string $area_field = '', string $city_field = '', string $country_field = '', string $coordinates = '', string|float|int $pre = '', int $height = 200, string $latitude_value = '', string $longitude_value = '', string $zoom = '13', string $type = 'terrain', string $post = '' ): void {
-        echo $this->_map( $latitude_field, $longitude_field, $address_field, $area_field, $city_field, $country_field, $coordinates, $pre, $height, $latitude_value, $longitude_value, $zoom, $type, $post );
+    function map( string $latitude_field = '', string $longitude_field = '', string $address_field = '', string $area_field = '', string $city_field = '', string $country_field = '', string $coordinates = '', string|float|int $pre = '', int $height = 200, string $latitude_value = '', string $longitude_value = '', bool $show_search = true, bool $show_full = true, string $zoom = '13', bool $show_zoom = true, string $type = 'terrain', bool $show_type = false, string $post = '' ): void {
+        echo $this->_map( $latitude_field, $longitude_field, $address_field, $area_field, $city_field, $country_field, $coordinates, $pre, $height, $latitude_value, $longitude_value, $show_search, $show_full, $zoom, $show_zoom, $type, $show_type, $post );
     }
 
     /**
@@ -701,15 +701,19 @@ class FORM {
      * @param string $country_field Input field ID to be filled with country
      * @param string $coordinates Input field ID to be filled with co-ordinates
      * @param string|float|int $pre Prepend wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
-     * @param int $height
+     * @param int $height Set the height of the Google map box (default 200px)
      * @param string $latitude_value Default map starting latitude value
      * @param string $longitude_value Default map starting longitude value
-     * @param string $zoom Default map zoom level
+     * @param bool|int $show_search To display an input to show search box to find address
+     * @param bool|int $show_full To display full screen toggle control
+     * @param string|int $zoom Default map zoom level
+     * @param bool|int $show_zoom Show zoom controls (default true)
      * @param string $type Default map type
+     * @param bool|int $show_type Show map type controls (default false)
      * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
      * @return string
      */
-    function _map( string $latitude_field = '', string $longitude_field = '', string $address_field = '', string $area_field = '', string $city_field = '', string $country_field = '', string $coordinates = '', string|float|int $pre = '', int $height = 200, string $latitude_value = '', string $longitude_value = '', string $zoom = '13', string $type = 'terrain', string $post = '' ): string {
+    function _map( string $latitude_field = '', string $longitude_field = '', string $address_field = '', string $area_field = '', string $city_field = '', string $country_field = '', string $coordinates = '', string|float|int $pre = '', int $height = 200, string $latitude_value = '', string $longitude_value = '', bool|int $show_search = true, bool|int $show_full = true, string|int $zoom = 13, bool|int $show_zoom = true, string $type = 'terrain', bool|int $show_type = false, string $post = '' ): string {
         //$height = $height !== '' ? $height : 400;
         if( is_numeric( $pre ) ){
             $pre = $pre == 0 ? _pre( '', 'map_col col' ) : _pre( '', 'map_col col-12 col-md-'.$pre );
@@ -718,20 +722,35 @@ class FORM {
             $pre = _pre( '', str_replace('.','',$pre) );
             $post = _post();
         }
-        if( ( empty( $latitude_value ) || empty( $longitude_value ) ) && defined( 'DB_TYPE' ) ) {
+        $r = defined( 'REGION' ) && isset( REGION['cca2'] ) ? strtolower( REGION['cca2'] ).'_' : '';
+        if( defined( 'DB_TYPE' ) ) {
             $db = new DB();
-            $ops = $db->get_options([ 'default_map_lat', 'default_map_long', 'default_map_zoom', 'default_map_type' ]);
-            $latitude_value = $ops['default_map_lat'] ?? '';
-            $longitude_value = $ops['default_map_long'] ?? '';
-            $zoom = $ops['default_map_zoom'] ?? $zoom;
-            $type = $ops['default_map_type'] ?? $type;
-            $style = $ops['style'] ?? '';
+            $m = new MAPS();
+            $options_array = $m->options;
+            $options_array = defined( 'REGION' ) ? prepare_values( $options_array, $r ) : $options_array;
+            $ops = $db->get_options( $options_array );
+            //skel( $ops );
+            $latitude_value = $ops[$r.'default_map_lat'] ?? '';
+            $longitude_value = $ops[$r.'default_map_long'] ?? '';
+            $map_marker = $ops[$r.'map_marker'] ?? 'red';
+            $show_search = !empty( $show_search ) ? $show_search : $ops[$r.'show_map_search'];
+            $show_full = !empty( $show_full ) ? $show_full : $ops[$r.'show_map_full'];
+            $show_type = !empty( $show_type ) ? $show_type : $ops[$r.'show_map_type'];
+            $show_zoom = !empty( $show_zoom ) ? $show_zoom : $ops[$r.'show_map_zoom'];
+            $zoom = !empty( $zoom ) ? $zoom : $ops[$r.'default_map_zoom'];
+            $type = !empty( $type ) ? $type : $ops[$r.'default_map_type'];
+            $style = $ops[$r.'map_style'] ?? '';
         }
-        $def_lat = !empty( $latitude_value ) ? ' lat="'.$latitude_value.'"' : '';
-        $def_long = !empty( $longitude_value ) ? ' long="'.$longitude_value.'"' : '';
+        $def_lat = !empty( $latitude_value ) ? ( APPDEBUG && str_contains( $latitude_value, 'fake_' ) ? ' lat="'.$this->fake( $latitude_value ).'"' : ' lat="'.$latitude_value.'"' ) : '';
+        $def_long = !empty( $longitude_value ) ? ( APPDEBUG && str_contains( $longitude_value, 'fake_' ) ? ' long="'.$this->fake( $longitude_value ).'"' : ' long="'.$longitude_value.'"' ) : '';
+        //$def_long = !empty( $longitude_value ) ? ' long="'.$longitude_value.'"' : '';
         $def_zoom = !empty( $zoom ) ? ' level="'.$zoom.'"' : '';
+        $zoom_control = $show_zoom == 1 ? ' zoom_controls="1"' : '';
+        $type_control = $show_type == 1 ? ' type_controls="1"' : '';
+        $full_control = $show_full == 1 ? ' full_screen_controls="1"' : '';
         $def_type = !empty( $type ) ? ' type="'.$type.'"' : '';
-        $def_style = !empty( $style ) ? ' design="'.$style.'"' : '';
+        $def_style = !empty( $style ) ? ' data-style="'.$style.'"' : '';
+        $marker = !empty( $map_marker ) ? ' data-marker="'.$map_marker.'"' : '';
         $co = !empty( $coordinates ) ? ' data-coordinates="'.$coordinates.'"' : '';
         $add = !empty( $address_field ) ? ' data-address="'.$address_field.'"' : '';
         $area = !empty( $area_field ) ? ' data-area="'.$area_field.'"' : '';
@@ -743,8 +762,10 @@ class FORM {
         $r = rand(0,999);
         $return = $pre;
         $return .= _pre( '', 'map_wrap' );
-        $return .= $this->_text(['search_'.$r,'search_'.$r],'','Search for Address...');
-        $return .= _pre( 'map_'.$r, 'google_map', 'div', $height.'search="search_'.$r.'" data-google-map-render'.$def_zoom.$def_lat.$def_long.$def_type.$def_style.$co.$add.$area.$city.$country.$lat.$long );
+        if( $show_search == 1 )
+            $return .= $this->_input('search',['search_'.$r,'search_'.$r],'','Search for Address...');
+        $search = $show_search == 1 ? ' search="search_'.$r.'" ' : '';
+        $return .= _pre( 'map_'.$r, 'google_map', 'div', $height.$search.'data-google-map-render'.$marker.$def_zoom.$zoom_control.$full_control.$type_control.$def_lat.$def_long.$def_type.$def_style.$co.$add.$area.$city.$country.$lat.$long );
         $return .= _post()._post();
         $m = new MAPS();
         $return .= $m->_google_maps();
@@ -1131,13 +1152,13 @@ class FORM {
      * @param string $data_attr Common data attribute for all inputs
      */
     function _form( array $fields = [], string $form_type = '', string $data_attr = '', string $group_by = '' ): string {
-        $return = in_array( $form_type, [ 'get', '$_GET' ] ) ? '<form method="get">' : ( in_array( $form_type, [ 'post', '$_POST' ] ) ? '<form method="post">' : ( in_array( $form_type, [ 'row', 'r' ] ) ? '<div class="form row">' : ( $form_type == 'settings' ? '<div class="settings form">' : ( in_array( $form_type, [ 'steps', 's' ] ) ? '<div class="steps form">' : '<div class="form">' ) ) ) );
+        $return = in_array( $form_type, [ 'get', '$_GET' ] ) ? '<form method="get">' : ( in_array( $form_type, [ 'post', '$_POST' ] ) ? '<form method="post">' : ( in_array( $form_type, [ 'row', 'r' ] ) ? __d( 'form row' ) : ( $form_type == 'settings' ? __d( 'settings form' ) : ( in_array( $form_type, [ 'steps', 's' ] ) ? __d( 'steps form' ) : __d( 'form' ) ) ) ) );
         // x = count( fields ) && $col == 12 ?
         //if( $form_type == 'steps' || $form_type == 's' ) {
             //div( 'step_heads', $this->_form(  ) )
         //}
         $steps = [];
-        foreach( $fields as $x => $f ) {
+        foreach( $fields as $f ) {
             $type = $f['type'] ?? ( $f['ty'] ?? ( $f['t'] ?? 'text' ) );
             //skel( $type );
             $label = $f['label'] ?? ( $f['l'] ?? ( $f['title'] ?? ( $f['name'] ?? ( $f['n'] ?? '' ) ) ) );
@@ -1214,7 +1235,7 @@ class FORM {
                 $val_2 = $f['value2'] ?? ( $f['va2'] ?? ( $f['v2'] ?? ( $_POST[$id_2] ?? ( $_GET[$id_2] ?? '' ) ) ) );
                 $return .= $this->_phone( $id, $id_2, $label, $label_2, $place, $place_2, $val, $val_2, $attrs, $pre, $post );
             } else if( $type == 'uploads' || $type == 'upload' || $type == 'files' || $type == 'file' || $type == 'u' || $type == 'f' ) {
-                $btn_label = $f['btn_label'] ?? ( $f['button'] ?? ( $f['b'] ?? ( $label ?? 'Upload...' ) ) );
+                $btn_label = $f['btn_label'] ?? ( $f['button'] ?? ( $f['b'] ?? ( $f['placeholder'] ?? ( $f['place'] ?? ( $f['p'] ?? ( $label ?? 'Upload' ) ) ) ) ) );
                 $multiple = $f['multiple'] ?? ( $f['m'] ?? ( $type == 'uploads' ? 1 : ( $type == 'files' ? 1 : 0 ) ) );
                 $history = $f['history'] ?? ( $f['h'] ?? 0 );
                 $btn_class = $f['btn_class'] ?? ( $f['h'] ?? 0 );
@@ -1224,19 +1245,26 @@ class FORM {
                 $path = $f['path'] ?? '';
                 $return .= $this->_upload( $id, $label, $btn_label, $val, $multiple, $history, $btn_class, $attrs, $exts, $size, $deletable, $path, $pre, $post );
             } else if( $type == 'google_maps' || $type == 'gmaps' || $type == 'maps' || $type == 'map' || $type == 'm' ) {
-                $latitude_field = $f['latitude_field'] ?? ( $f['latitude'] ?? ( $f['lat'] ?? '' ) );
-                $longitude_field = $f['longitude_field'] ?? ( $f['longitude'] ?? ( $f['long'] ?? '' ) );
+                $latitude_field = $f['latitude_field'] ?? ( $f['latitude'] ?? ( $f['lat'] ?? ( $f['x'] ?? '' ) ) );
+                $longitude_field = $f['longitude_field'] ?? ( $f['longitude'] ?? ( $f['long'] ?? ( $f['y'] ?? '' ) ) );
                 $address_field = $f['address_field'] ?? ( $f['address'] ?? ( $f['addr'] ?? ( $f['adr'] ?? '' ) ) );
                 $area_field = $f['area_field'] ?? ( $f['area'] ?? ( $f['ar'] ?? '' ) );
                 $city_field = $f['city_field'] ?? ( $f['city'] ?? ( $f['ct'] ?? '' ) );
                 $country_field = $f['country_field'] ?? ( $f['country'] ?? ( $f['co'] ?? '' ) );
                 $coordinates = $f['coordinates'] ?? ( $f['gps'] ?? ( $f['cor'] ?? '' ) );
                 $height = $f['height'] ?? ( $f['hi'] ?? ( $f['h'] ?? 200 ) );
-                $latitude_value = $f['latitude_value'] ?? ( $f['lat_val'] ?? ( $f['lat_v'] ?? ( $f['ltv'] ?? '' ) ) );
-                $longitude_value = $f['longitude_value'] ?? ( $f['long_val'] ?? ( $f['long_v'] ?? ( $f['lgv'] ?? '' ) ) );
+                $latitude_value = $f['latitude_value'] ?? ( $f['lat_val'] ?? ( $f['lat_v'] ?? ( $f['ltv'] ?? ( $f['xv'] ?? '' ) ) ) );
+                $longitude_value = $f['longitude_value'] ?? ( $f['long_val'] ?? ( $f['long_v'] ?? ( $f['lgv'] ?? ( $f['yv'] ?? '' ) ) ) );
                 $zoom = $f['map_zoom'] ?? ( $f['zoom'] ?? ( $f['zm'] ?? ( $f['z'] ?? 13 ) ) );
                 $type = $f['map_type'] ?? ( $f['mt'] ?? 'terrain' );
-                $return .= $this->_map( $latitude_field, $longitude_field, $address_field, $area_field, $city_field, $country_field, $coordinates, $pre, $height, $latitude_value, $longitude_value, $zoom, $type, $post );
+                $show_search = $f['show_search'] ?? ( $f['search'] ?? ( $f['ss'] ?? 1 ) );
+                $show_full = $f['show_full'] ?? ( $f['full'] ?? ( $f['sf'] ?? 1 ) );
+                //skel( $show_full );
+                $show_zoom = $f['show_zoom'] ?? ( $f['zoom'] ?? ( $f['sz'] ?? 1 ) );
+                $show_type = $f['show_type'] ?? ( $f['type'] ?? ( $f['st'] ?? 0 ) );
+                $return .= $this->_map( $latitude_field, $longitude_field, $address_field, $area_field, $city_field, $country_field, $coordinates, $pre, $height, $latitude_value, $longitude_value, $show_search, $show_full, $zoom, $show_zoom, $type, $show_type, $post );
+            } else if( $type == 'code' || $type == 'c' ) {
+                $return .= $this->_code( $id, $label, $val, $attrs, $pre, $post );
             } else {
                 //skel( $pre );
                 //skel( !empty( $pre ) && empty( $f['post'] ) );
@@ -1304,7 +1332,7 @@ class FORM {
         !empty( $unique ) ? $h['unique'] = $unique : '';
         !empty( $encrypt ) ? $h['encrypt'] = $encrypt : '';
         //echo '<div class="row"';
-        $this->pre_process( 'class="row"', '', $data, '', $notify, $reload, $h, $success_text, $callback, $confirm, '', '', '', 'row' );
+        $this->pre_process( 'class="row"', '', $data, '', $notify, $reload, $h, $success_text, $callback, $confirm, '', '', '' );
         //echo '>';
     }
 
