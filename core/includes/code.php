@@ -682,9 +682,11 @@ function _table( array $rows = [], string $class = '', string $attr = '' ): stri
  * @param array $edit_data Editable data json
  * @param string $delete_table Database table name to delete data from Ex: 'contacts'
  * @param string $delete_logic Database deletion logic Ex: 'contact_id = 5'
+ * @param bool $show_edit Show edit action (default true)
+ * @param bool $show_delete Show delete action (default true)
  * @return string
  */
-function _card( string $class = '', string $title = '', string $link = '', string $desc = '', string|null $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], string $table_class = '', array $actions = [], string $actions_class = '', string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '' ): string {
+function _card( string $class = '', string $title = '', string $link = '', string $desc = '', string|null $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], string $table_class = '', array $actions = [], string $actions_class = '', string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '', bool $show_edit = true, bool $show_delete = true ): string {
     $f = new FORM();
     $return = !empty ( $link ) ? _pre('','card '.($class??''),'a','href="'.$link.'"') : _pre('','card '.($class ?? ''));
     $return .= !is_null( $image ) ? ( str_contains( $image, '<' ) ? $image : _image( str_contains( $image, 'http' ) ? $image : storage_url( $image ), '', $image_class ) ) : '';
@@ -703,10 +705,10 @@ function _card( string $class = '', string $title = '', string $link = '', strin
                 $return .= $f->_view_html( $act['url'] ?? '', $act['html'] ?? 'div', $act['title'] ?? ( $act['text'] ?? '' ), 'grad', '', $act['ico'] ?? '' );
             }
         }
-        if( !empty( $edit_data ) && !empty( $edit_modal ) ) {
+        if( !empty( $edit_data ) && !empty( $edit_modal ) && $show_edit ) {
             $return .= $f->_edit_html( $edit_modal, $edit_data, 'div', '', 'grad', '', 'mat-ico', 'edit' );
         }
-        if( !empty( $delete_table ) && !empty( $delete_logic ) ) {
+        if( !empty( $delete_table ) && !empty( $delete_logic ) && $show_delete ) {
             $return .= $f->_trash_html( $delete_table, $delete_logic, 'div', '', 'grad', '', 'mat-ico', 2, 2, 'Are you sure to delete?', 'delete' );
         }
         $return .= _post();
@@ -733,9 +735,11 @@ function _card( string $class = '', string $title = '', string $link = '', strin
  * @param array $edit_data Editable data json
  * @param string $delete_table Database table name to delete data from Ex: 'contacts'
  * @param string $delete_logic Database deletion logic Ex: 'contact_id = 5'
+ * @param bool $show_edit Show edit action (default true)
+ * @param bool $show_delete Show delete action (default true)
  * @return void
  */
-function card( string $class = '', string $title = '', string $link = '', string $desc = '', string|null $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], string $table_class = '', array $actions = [], string $actions_class = '', string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '' ): void {
+function card( string $class = '', string $title = '', string $link = '', string $desc = '', string|null $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], string $table_class = '', array $actions = [], string $actions_class = '', string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '', bool $show_edit = true, bool $show_delete = true ): void {
     echo _card( $class, $title, $link, $desc, $image, $image_class, $status, $status_class, $data, $table_class, $actions, $actions_class, $edit_modal, $edit_data, $delete_table, $delete_logic );
 }
 
