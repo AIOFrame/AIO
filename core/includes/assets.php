@@ -706,6 +706,46 @@ function render_details( string $title = '', array $data = [], int $col = 4 ): v
 
 
 /**
+ * Returns pagination
+ * @param int $page Current page
+ * @param int $records Number of total records in database
+ * @param int $limit Maximum items limit per page
+ * @param string $wrap_class = '' Class for page links wrapper element
+ * @param string $class Class for page links
+ */
+function _pagination( int $page, int $records, int $limit = 24, string $wrap_class = '', string $class = 'page_link' ): string {
+    $url = APPURL . PAGEPATH;
+    $r = '';
+    if( $limit > 0 ) {
+        $wrap_class = !empty( $wrap_class ) ? $wrap_class . ' pagination' : 'pagination';
+        $r .= _pre( '', $wrap_class );
+            $total_pages = !empty( $records ) ? ceil( $records / $limit ) : 0;
+            //skel( $total_pages );
+            if( $total_pages > 3 ) {
+                $r .= $page > 3 ? __a( $url.'/1', 1, $class.' first', 'Goto first page' ) : '';
+                $r .= $page > 3 ? __a( '', '...', 'blank' ) : '';
+                for ($x = ($page - 2); $x < $page; $x++) {
+                    $x > 0 ? a( $url.'/'.$x, $x, $class.' pre', 'Goto '.$x.' page' ) : '';
+                }
+                $r .= __a( $url.'/'.$page, $page, $class.' on', T('Reload current page') );
+                for ($y = ($page + 1); $y <= ($page + 2); $y++) {
+                    $r .= $page < $total_pages ? __a( $url.'/'.$y, $y, $class.' post', 'Goto '.$y.' page' ) : '';
+                }
+                $r .= $page < ($total_pages - 3) ? __a( '', '...', 'blank' ) : '';
+                $r .= $page < ($total_pages - 2) ? __a( $url.'/'.$total_pages, $total_pages, $class.' last', 'Goto last page' ) : '';
+            } else if( $total_pages > 1 ) {
+                for($x = 1; $x <= $total_pages; $x++) {
+                    $on = $x == $page ? ' on' : '';
+                    $r .= __a( $url.'/'.$x, $x, $class.$on, 'Goto '.$x.' page' );
+                }
+            }
+            // echo '<a href="'.$url.'/'.$total_pages.'" class="last '.$class.'"></a>';
+        $r .= _post();
+    }
+    return $r;
+}
+
+/**
  * Renders pagination
  * @param int $page Current page
  * @param int $records Number of total records in database
@@ -714,33 +754,7 @@ function render_details( string $title = '', array $data = [], int $col = 4 ): v
  * @param string $class Class for page links
  */
 function pagination( int $page, int $records, int $limit = 24, string $wrap_class = '', string $class = 'page_link' ): void {
-    $url = APPURL . PAGEPATH;
-    if( $limit > 0 ) {
-        $wrap_class = !empty( $wrap_class ) ? $wrap_class . ' pagination' : 'pagination';
-        pre( '', $wrap_class );
-            $total_pages = !empty( $records ) ? ceil( $records / $limit ) : 0;
-            //skel( $total_pages );
-            if( $total_pages > 3 ) {
-                $page > 3 ? a( $url.'/1', 1, $class.' first', 'Goto first page' ) : '';
-                $page > 3 ? a( '', '...', 'blank' ) : '';
-                for ($x = ($page - 2); $x < $page; $x++) {
-                    $x > 0 ? a( $url.'/'.$x, $x, $class.' pre', 'Goto '.$x.' page' ) : '';
-                }
-                a( $url.'/'.$page, $page, $class.' on', 'Reload current page' );
-                for ($y = ($page + 1); $y <= ($page + 2); $y++) {
-                    $page < $total_pages ? a( $url.'/'.$y, $y, $class.' post', 'Goto '.$y.' page' ) : '';
-                }
-                $page < ($total_pages - 3) ? a( '', '...', 'blank' ) : '';
-                $page < ($total_pages - 2) ? a( $url.'/'.$total_pages, $total_pages, $class.' last', 'Goto last page' ) : '';
-            } else if( $total_pages > 1 ) {
-                for($x = 1; $x <= $total_pages; $x++) {
-                    $on = $x == $page ? ' on' : '';
-                    a( $url.'/'.$x, $x, $class.$on, 'Goto '.$x.' page' );
-                }
-            }
-            // echo '<a href="'.$url.'/'.$total_pages.'" class="last '.$class.'"></a>';
-        post();
-    }
+    echo _pagination( $page, $records, $limit, $wrap_class, $class );
 }
 
 /**
