@@ -685,19 +685,25 @@ function dashboard_menu() {
 
 }
 
-function render_details( string $title = '', array $data = [], int $col = 4 ) {
-    echo '<div class="group_details"><h2>'. T( $title ). '</h2><div class="row">';
+function _render_details( string $title = '', array $data = [], int $col = 4 ): string {
+    $return = _pre( '', 'group_details' ) . _h2( T( $title ) ) . _pre( '', 'row' );
     if( !empty( $data ) ) {
         foreach( $data as $dk => $d ) {
             $k = $d['k'] ?? '';
             $v = $d['v'] && isset( $d['s'] ) ? implode( '</div><div class="tag">', explode( $d['s'], $d['v'] ) ) : $d['v'];
             $v = !empty( $v ) ? '<div class="tag">'.$v.'</div>' : '';
             $c = $d['c'] ?? $col;
-            echo '<div class="col-12 col-md-'.$c.'"><div class="set"><div class="key">'.$k.'</div><div class="tags">'.$v.'</div></div></div>';
+            $return .= _div( 'col-12 col-md-' . $c, _div( 'set', _div( 'key', $k ) . _div( 'tags', $v ) ) );
         }
     }
-    echo '</div></div>';
+    $return .= _post() . _post();
+    return $return;
 }
+
+function render_details( string $title = '', array $data = [], int $col = 4 ): void {
+    echo _render_details( $title, $data, $col );
+}
+
 
 /**
  * Renders pagination
