@@ -180,28 +180,37 @@
   left: auto;
   right: 10px;
 }
-.card .status.orange, .card .status.in-progress, .card .status.progress {
+.card .status.plain, .card .status.clean, .card .status.p, .card .status.c {
+  border: 1px solid transparent;
+  background: none;
+}
+.card .status.grey, .card .status.gr {
+  color: #fff;
+  background: grey;
+  border: 1px solid grey;
+}
+.card .status.orange, .card .status.in-progress, .card .status.progress, .card .status.o {
   color: var(--progress_color);
   border: 1px solid var(--progress_color);
 }
-.card .status.bg.orange, .card .status.bg.in-progress, .card .status.bg.progress {
+.card .status.bg.orange, .card .status.bg.in-progress, .card .status.bg.progress, .card .status.bg.o {
   background: var(--progress_color);
   border: 1px solid var(--progress_color);
 }
-.card .status.blue {
+.card .status.blue, .card .status.b {
   color: #1b7dbb;
   border: 1px solid #1b7dbb;
 }
-.card .status.bg.blue {
+.card .status.bg.blue, .card .status.bg.b {
   color: #fff;
   background: #1b7dbb;
   border: 1px solid #1b7dbb;
 }
-.card .status.green, .card .status.success {
+.card .status.green, .card .status.success, .card .status.g {
   color: var(--success_color);
   border: 1px solid var(--success_color);
 }
-.card .status.bg.green, .card .status.bg.success {
+.card .status.bg.green, .card .status.bg.success, .card .status.bg.s {
   color: #fff;
   background: var(--success_color);
   border: 1px solid var(--success_color);
@@ -210,7 +219,7 @@
   color: var(--error_color);
   border: 1px solid var(--error_color);
 }
-.card .status.bg.red, .card .status.bg.error {
+.card .status.bg.red, .card .status.bg.error, .card .status.bg.r {
   color: #fff;
   background: var(--error_color);
   border: 1px solid var(--error_color);

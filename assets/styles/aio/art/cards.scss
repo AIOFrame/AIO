@@ -191,28 +191,37 @@ $success: var(--success_color);
     left:auto;
     right:10px;
   }
-  .status.orange, .status.in-progress, .status.progress {
+  .status.plain, .status.clean, .status.p, .status.c {
+    border: 1px solid transparent;
+    background: none;
+  }
+  .status.grey, .status.gr {
+    color: #fff;
+    background: grey;
+    border: 1px solid grey;
+  }
+  .status.orange, .status.in-progress, .status.progress, .status.o {
     color: $progress;
     border:1px solid $progress;
   }
-  .status.bg.orange, .status.bg.in-progress, .status.bg.progress {
+  .status.bg.orange, .status.bg.in-progress, .status.bg.progress, .status.bg.o {
     background: $progress;
     border:1px solid $progress;
   }
-  .status.blue {
+  .status.blue, .status.b {
     color: #1b7dbb;
     border:1px solid #1b7dbb;
   }
-  .status.bg.blue {
+  .status.bg.blue, .status.bg.b {
     color: #fff;
     background: #1b7dbb;
     border:1px solid #1b7dbb;
   }
-  .status.green, .status.success {
+  .status.green, .status.success, .status.g {
     color: $success;
     border:1px solid $success;
   }
-  .status.bg.green, .status.bg.success {
+  .status.bg.green, .status.bg.success, .status.bg.s {
     color:#fff;
     background: $success;
     border:1px solid $success;
@@ -221,7 +230,7 @@ $success: var(--success_color);
     color: $error;
     border:1px solid $error
   }
-  .status.bg.red, .status.bg.error {
+  .status.bg.red, .status.bg.error, .status.bg.r {
     color:#fff;
     background: $error;
     border:1px solid $error
