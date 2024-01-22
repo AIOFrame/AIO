@@ -808,7 +808,7 @@ function soon( string $date, string $text = 'Coming Soon...', string $bg = '', s
  * @param array|string $fields Input fields to render
  * @param string $form_style Style of the form
  * @param array $hidden Hidden data for Database
- * @param string $pre String to prepend to keys for database table columns
+ * @param string $prepend_to_keys String to prepend to keys for database table columns
  * @param int $notify Notification Time in Seconds
  * @param int $reload Reload in Seconds
  * @param string $success_alert Text to notify upon successfully storing data
@@ -822,12 +822,12 @@ function soon( string $date, string $text = 'Coming Soon...', string $bg = '', s
  * @param string $submit_wrap Wrapper class for submit trigger
  * @return void
  */
-function modal( string $title = '', bool $editable = true, string $size = 'm', string $target = '', array|string $fields = [], string $form_style = 'row', array $hidden = [], string $pre = '', int $notify = 0, int $reload = 0, string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '', string $submit_text = '', string $submit_class = '', string $submit_wrap = '' ): void {
+function modal( string $title = '', bool $editable = true, string $size = 'm', string $target = '', array|string $fields = [], string $form_style = 'row', array $hidden = [], string $prepend_to_keys = '', int $notify = 0, int $reload = 0, string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '', string $submit_text = '', string $submit_class = '', string $submit_wrap = '' ): void {
     $f = new FORM();
     $r = substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 8);
     pre_modal( $title, $size, $editable );
     if( is_array( $fields ) ) {
-        $f->pre_process( 'data-wrap', $target, $r, $pre, $notify, $reload, $hidden, $success_alert, $callback, $confirm, $redirect, $validator, $reset_fields );
+        $f->pre_process( 'data-wrap', $target, $r, $prepend_to_keys, $notify, $reload, $hidden, $success_alert, $callback, $confirm, $redirect, $validator, $reset_fields );
             $f->form( $fields, $form_style, $r );
             $f->process_trigger( !empty( $submit_text ) ? $submit_text : 'Save '.$title, $submit_class.' mb0', '', '', $submit_wrap.' .tac' );
         $f->post_process();
