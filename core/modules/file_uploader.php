@@ -11,7 +11,7 @@ class FUP {
             pre( '', 'files_head' );
                 h3( 'File Uploader' );
                 pre( '', 'info' );
-                    div( 'sizes', _div( 'mat-ico', 'sd_card' ) . _div( 'title', T('Max File Size') . _div( 'size' ) . _div( 'measure', 'Mb' ) ) );
+                    div( 'sizes', _div( 'mat-ico', 'sd_card' ) . _div( 'title', _div( '', T('Max File Size') ) . _div( '', _el( 'span', 'size' ) . _el( 'span', 'measure', 'Mb' ) ) ) );
                     div( 'types', _div( 'mat-ico', 'description' ) . _div( 'title', T('File Types') . _div( 'types' ) ) );
                     div( 'max', _div( 'mat-ico', 'file_copy' ) . _div( 'title', T('Files Limit') . _div( 'qty', 2 ) ) );
                 post();

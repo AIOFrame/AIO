@@ -142,6 +142,7 @@ body.d .file_modal, body.d .file_notify {
   cursor: pointer;
   padding: 0;
   display: flex;
+  margin: 0;
 }
 .file_modal .files_head .acts > div {
   width: 40px;
@@ -168,6 +169,10 @@ body.d .file_modal, body.d .file_notify {
 }
 .file_modal .files_head .info div {
   color: var(--filled_color);
+}
+.file_modal .files_head .info .size, .file_modal .files_head .info .measure {
+  display: inline-block;
+  font-size: 1rem;
 }
 .file_modal .files_head .info > div {
   margin: 0 10px;
