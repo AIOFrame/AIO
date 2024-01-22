@@ -244,6 +244,7 @@ class FORM {
         if( $type == 'textarea' ) {
             $va = $value !== '' ? $value : '';
         } else {
+            $value = is_array( $value ) ? implode( ' ', $value ) : $value;
             $va = $value !== '' ? ' value="'.$value.'"' : '';
         }
         $nn = str_contains( $attrs, 'no_post' ) ? '' : ' name="'.$n.'"';
