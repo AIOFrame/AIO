@@ -682,8 +682,12 @@ class FORM {
      * @param int $height
      * @param string $latitude_value Default map starting latitude value
      * @param string $longitude_value Default map starting longitude value
+     * @param bool $show_search
+     * @param bool $show_full
      * @param string $zoom Default map zoom level
+     * @param bool $show_zoom
      * @param string $type Default map type
+     * @param bool $show_type
      * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
      * @return void
      */
