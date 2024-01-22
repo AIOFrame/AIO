@@ -16,7 +16,7 @@ class FUP {
                     div( 'max', _div( 'mat-ico', 'file_copy' ) . _div( 'title', T('Files Limit') . _div( 'qty', 2 ) ) );
                 post();
                 pre( '', 'acts' );
-                    echo str_contains( ICONS, 'Bootstrap' ) ? '<i class="bi bi-arrows-angle-expand expand"></i><i class="bi bi-x-lg close"></i>' : '<div class="mat-ico expand"></div><div class="mat-ico close">close</div>';
+                    str_contains( ICONS, 'Bootstrap' ) ? el( 'i', 'bi bi-arrows-angle-expand expand' ) . el( 'i', 'bi bi-x-lg close' ) : div( 'mat-ico expand' ) . div( 'mat-ico close', 'close' );
                 post();
                 echo '<input type="file" id="file_input">';
             post();
@@ -32,7 +32,7 @@ class FUP {
                         $size = $f['file_size'] > 1024 ? number_format((float)($f['file_size'] / 1024), 2, '.', '') . ' MB' : $f['file_size'].' KB';
                         echo '<div '.$bg.' class="f '.$f['file_type'].'" data-id="'.$cry->encrypt($f['file_id']).'" data-url="'.$f['file_url'].'" data-delete="'.$f['file_delete'].'"><div class="name">'.$f['file_name'].'</div><div class="size">'.$size.'</div></div>';
                     } } else {
-                        echo '<div class="no_uploaded_files"><span>'. T('NO FILES FOUND!').'</span></div>';
+                        div( 'no_uploaded_files', _el( 'span', '', T('NO FILES FOUND!') ) );
                     }
                 post();
                 div( 'camera_view' );
