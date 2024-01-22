@@ -702,7 +702,7 @@ function _card( string $class = '', string $title = '', string $link = '', strin
         $return .= _pre( '', 'acts '. $actions_class );
         if( !empty( $actions ) ) {
             foreach( $actions as $act ) {
-                $return .= $f->_view_html( $act['url'] ?? '', $act['html'] ?? 'div', $act['title'] ?? ( $act['text'] ?? '' ), 'grad', '', $act['ico'] ?? '' );
+                $return .= $f->_view_html( $act['url'] ?? '', $act['html'] ?? 'div', $act['title'] ?? ( $act['text'] ?? '' ), $act['class'] ?? ( $act['c'] ?? 'grad' ), $act['attr'] ?? ( $act['a'] ?? '' ), $act['ico_class'] ?? ( $act['ic'] ?? 'ico' ), $act['ico_text'] ?? ( $act['it'] ?? '' ) );
             }
         }
         if( !empty( $edit_data ) && !empty( $edit_modal ) && $show_edit ) {
@@ -871,23 +871,6 @@ function float_triggers( array $triggers, string $wrap_class = '' ): void {
     post();
 }
 
-/**
- * Displays a NO ACCESS content and end further code execution
- * @param string $message Message to be displayed
- * @param string $suggestion Suggestions like Try clearing filters or reload page!
- * @param string $class Wrapping class
- * @return void
- */
-function no_content( string $message = "No data found!", string $suggestion = "", string $class = '' ): void {
-    $db = new DB();
-    $image = $db->get_option('no_content_image') ?? '';
-    $message = T( $message );
-    echo '<div class="no_content '.$class.'" style="padding: 20px; text-align: center"><h1 class="tac">'.$message.'</h1>';
-    echo !empty( $suggestion ) ? '<h4>'.T($suggestion).'</h4>' : '';
-    echo !empty( $image ) ? '<img src="'.storage_url($image).'" alt="'.$message.'" class="no_content_image" />' : '';
-    echo '</div>';
-}
-
 function store_template_ajax(): void {
     elog( $_POST );
 }
@@ -1007,11 +990,11 @@ function tabs( array $tabs = [], string $style = '', bool $translate_titles = fa
  */
 function _tabs( array $tabs = [], string $style = '', bool $translate_titles = false ): string {
     $data = _pre( '', 'tabs '.$style );
-        $data .= _pre( '', 'tab_heads' );
+        $data .= _pre( '', 'tab_heads', 'div', 'data-store' );
             $x = 0;
             foreach( $tabs as $i => $content ) {
                 $id = str_replace(' ','_',strtolower( $i ));
-                $data .= _div( $x == 0 ? 'tab on' : 'tab', $i, '', 'data-tab="#'.$id.'"', $translate_titles );
+                $data .= _div( $x == 0 ? 'tab on' : 'tab', $i, '', 'data-tab="'.$id.'"', $translate_titles );
                 $x++;
             }
         $data .= _post();
@@ -1027,17 +1010,17 @@ function _tabs( array $tabs = [], string $style = '', bool $translate_titles = f
     return $data;
 }
 
-function tab_heads( array $tab_titles = [], string $style = '', bool $translate_titles = false ): void {
-    echo _tab_heads( $tab_titles, $style, $translate_titles );
+function tab_heads( array $tab_titles = [], string $style = '', string $wrap_class = '', bool $translate_titles = false ): void {
+    echo _tab_heads( $tab_titles, $style, $wrap_class, $translate_titles );
 }
 
-function _tab_heads( array $tab_titles = [], string $style = '', bool $translate_titles = false ): string {
+function _tab_heads( array $tab_titles = [], string $style = '', string $wrap_class = '', bool $translate_titles = false ): string {
     $data = _pre( '', 'tabs separate '.$style );
-        $data .= _pre( '', 'tab_heads fluid' );
+        $data .= _pre( '', 'tab_heads fluid '.$wrap_class, 'div', 'data-store' );
             $x = 0;
-            foreach( $tab_titles as $i => $content ) {
-                $id = str_replace(' ','_',strtolower( is_assoc( $tab_titles ) ? $i : $content ));
-                $data .= _div( $x == 0 ? 'tab on' : 'tab', $content, '', 'data-tab="#'.$id.'"', $translate_titles );
+            foreach( $tab_titles as $i => $title ) {
+                $id = str_replace(' ','_',strtolower( is_assoc( $tab_titles ) ? $i : $title ));
+                $data .= _div( $x == 0 ? 'tab on' : 'tab', $title, '', 'data-tab="'.$id.'"', $translate_titles );
                 $x++;
             }
         $data .= _post();
@@ -1139,8 +1122,8 @@ function r_experimental(): void {
     }
 }
 
-function _r(): void {
-    pre( '', 'row' );
+function _r( string $class = '' ): void {
+    pre( '', !empty( $class ) ? 'row '.$class : 'row' );
 }
 
 function r_(): void {
@@ -1218,4 +1201,28 @@ function _tg( string $page_link = '', string $page_title = '', string $content =
 
 function _em( string $page_link = '', string $page_title = '', string $content = '', string $class = '' ): string {
     return __a( 'mailto:?subject'.$page_title.'&body='.$page_link, $content, $class, T('Share thru email'), mini_browser_tab() );
+}
+
+/**
+ * Displays a NO ACCESS content and end further code execution
+ * @param string $message Message to be displayed
+ * @param string $suggestion Suggestions like Try clearing filters or reload page!
+ * @param string $link_text URL text to redirect user to somewhere else
+ * @param string $link_url URL link to redirect user to somewhere else
+ * @param string $class Wrapping class
+ * @param bool $translate
+ * @return void
+ */
+function no_content( string $message = "You are trying to reach restricted content!", string $suggestion = '', string $link_text = '', string $link_url = '', string $class = '', bool $translate = false ): void {
+    $db = new DB();
+    $image = $db->get_option('no_content_image') ?? '';
+    $message = T( $message );
+    _d( 'no_content '.$class );
+        h1( $message, $translate, 'tac' );
+        h4( $suggestion, $translate, 'tac' );
+        if( !empty( $image ) )
+            img( $image, '', 'no_content_image', $message, $message );
+        if( !empty( $link_text ) || $link_url )
+            a( $link_url, $translate ? T( $link_text ) : $link_text );
+    d_();
 }

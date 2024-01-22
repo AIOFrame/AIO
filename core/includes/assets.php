@@ -685,23 +685,45 @@ function dashboard_menu() {
 
 }
 
-function _render_details( string $title = '', array $data = [], int $col = 4 ): string {
-    $return = _pre( '', 'group_details' ) . _h2( T( $title ) ) . _pre( '', 'row' );
+/**
+ * Returns info sets
+ * @param string $title Title of the whole group of details
+ * @param array $data Data as assoc array [ 'key' => 'value' ] or [ [ 'key' => '', 'v' => '', 'col' => '' ] ]
+ * @param int|string $col Bootstrap column for each data set
+ * @param string $wrap_class Wrapper class
+ * @return string
+ */
+function _render_details( string $title = '', array $data = [], int|string $col = 4, string $wrap_class = '' ): string {
+    $return = _pre( '', 'group_details '.$wrap_class ) . _h2( T( $title ) ) . _pre( '', 'row' );
     if( !empty( $data ) ) {
-        foreach( $data as $dk => $d ) {
-            $k = $d['k'] ?? '';
-            $v = $d['v'] && isset( $d['s'] ) ? implode( '</div><div class="tag">', explode( $d['s'], $d['v'] ) ) : $d['v'];
-            $v = !empty( $v ) ? '<div class="tag">'.$v.'</div>' : '';
-            $c = $d['c'] ?? $col;
-            $return .= _div( 'col-12 col-md-' . $c, _div( 'set', _div( 'key', $k ) . _div( 'tags', $v ) ) );
+        if( is_assoc( $data ) ) {
+            foreach( $data as $dk => $d ) {
+                $return .= _div( 'col-12 col-md-' . $col, _div( 'set', _div( 'key', $dk ) . _div( 'tags', $d ) ) );
+            }
+        } else {
+            foreach( $data as $d ) {
+                $k = $d['key'] ?? ( $d['k'] ?? '' );
+                $v = $d['v'] && isset( $d['s'] ) ? implode( '</div><div class="tag">', explode( $d['s'], $d['v'] ) ) : $d['v'];
+                $v = !empty( $v ) ? '<div class="tag">'.$v.'</div>' : '';
+                $c = $d['col'] ?? ( $d['c'] ?? $col );
+                $return .= _div( 'col-12 col-md-' . $c, _div( 'set', _div( 'key', $k ) . _div( 'tags', $v ) ) );
+            }
         }
     }
     $return .= _post() . _post();
     return $return;
 }
 
-function render_details( string $title = '', array $data = [], int $col = 4 ): void {
-    echo _render_details( $title, $data, $col );
+/**
+ * Renders info sets
+ * @param string $title Title of the whole group of details
+ * @param array $data Data as assoc array [ 'key' => 'value' ] or [ [ 'key' => '', 'v' => '', 'col' => '' ] ]
+ * @param int|string $col Bootstrap column for each data set
+ * @param string $wrap_class Wrapper class
+ * @return void
+ */
+function render_details( string $title = '', array $data = [], int|string $col = 4, string $wrap_class = '' ): void {
+    echo _render_details( $title, $data, $col, $wrap_class );
 }
 
 

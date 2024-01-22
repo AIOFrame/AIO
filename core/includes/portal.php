@@ -421,7 +421,8 @@ function title_bar( string $title = '', string $back_url = '', string $list_view
         post();
     }
     echo !empty( $list_view ) || !empty( $grid_view ) ? '</div>' : '';
-    is_array( $comp_or_actions ) ? div( 'actions' ) : get_comp( $comp_or_actions );
+    if( !empty( $actions ) || !empty( $comp_or_actions ) )
+        is_array( $comp_or_actions ) ? div( 'actions' ) : get_comp( $comp_or_actions );
     post();
 }
 

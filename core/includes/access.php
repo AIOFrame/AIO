@@ -1187,10 +1187,13 @@ function no_access( string $message = "You are trying to reach restricted conten
     $db = new DB();
     $image = $db->get_option('no_access_image') ?? '';
     $message = T( $message );
-    echo '<div class="no_access '.$class.'"><h1 class="tac">'.$message.'</h1>';
-    echo !empty( $image ) ? '<img src="'.storage_url($image).'" alt="'.$message.'" class="no_access_image" />' : '';
-    echo $show_return ? '<a onclick="history.back()">'.T('Return to Previous Page').'</a>' : '';
-    echo '</div>';
+    _d( 'no_access '.$class );
+    h1( $message, 1, 'tac' );
+    if( !empty( $image ) )
+        img( $image, '', 'no_access_image', $message, $message );
+    if( $show_return )
+        a( '', T('Return to Previous Page'), '', 'Return to Previous Page', 'onclick="history.back()"' );
+    d_();
     if( $die ) {
         die();
     }
