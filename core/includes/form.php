@@ -738,12 +738,12 @@ class FORM {
             $latitude_value = $ops[$r.'default_map_lat'] ?? '';
             $longitude_value = $ops[$r.'default_map_long'] ?? '';
             $map_marker = $ops[$r.'map_marker'] ?? 'red';
-            $show_search = !empty( $show_search ) ? $show_search : $ops[$r.'show_map_search'];
-            $show_full = !empty( $show_full ) ? $show_full : $ops[$r.'show_map_full'];
-            $show_type = !empty( $show_type ) ? $show_type : $ops[$r.'show_map_type'];
-            $show_zoom = !empty( $show_zoom ) ? $show_zoom : $ops[$r.'show_map_zoom'];
-            $zoom = !empty( $zoom ) ? $zoom : $ops[$r.'default_map_zoom'];
-            $type = !empty( $type ) ? $type : $ops[$r.'default_map_type'];
+            $show_search = !empty( $show_search ) ? $show_search : ( $ops[$r.'show_map_search'] ?? '' );
+            $show_full = !empty( $show_full ) ? $show_full : ( $ops[$r.'show_map_full'] ?? '' );
+            $show_type = !empty( $show_type ) ? $show_type : ( $ops[$r.'show_map_type'] ?? '' );
+            $show_zoom = !empty( $show_zoom ) ? $show_zoom : ( $ops[$r.'show_map_zoom'] ?? '' );
+            $zoom = !empty( $zoom ) ? $zoom : ( $ops[$r.'default_map_zoom'] ?? '' );
+            $type = !empty( $type ) ? $type : ( $ops[$r.'default_map_type'] ?? '' );
             $style = $ops[$r.'map_style'] ?? '';
         }
         $def_lat = !empty( $latitude_value ) ? ( APPDEBUG && str_contains( $latitude_value, 'fake_' ) ? ' lat="'.$this->fake( $latitude_value ).'"' : ' lat="'.$latitude_value.'"' ) : '';
