@@ -745,20 +745,20 @@ function _pagination( int $page, int $records, int $limit = 24, string $wrap_cla
             //skel( $total_pages );
             if( $total_pages > 3 ) {
                 $r .= $page > 3 ? __a( $url.'/1', 1, $class.' first', 'Goto first page' ) : '';
-                $r .= $page > 3 ? __a( '', '...', 'blank' ) : '';
+                $r .= $page > 4 ? __a( '', '...', 'blank' ) : '';
                 for ($x = ($page - 2); $x < $page; $x++) {
-                    $x > 0 ? a( $url.'/'.$x, $x, $class.' pre', 'Goto '.$x.' page' ) : '';
+                    $r .=$x > 0 ? __a( $url.'/'.$x, $x, $class.' pre', 'Goto page '.$x ) : '';
                 }
                 $r .= __a( $url.'/'.$page, $page, $class.' on', T('Reload current page') );
                 for ($y = ($page + 1); $y <= ($page + 2); $y++) {
-                    $r .= $page < $total_pages ? __a( $url.'/'.$y, $y, $class.' post', 'Goto '.$y.' page' ) : '';
+                    $r .= $y <= $total_pages ? __a( $url.'/'.$y, $y, $class.' post', 'Goto page '.$y ) : '';
                 }
                 $r .= $page < ($total_pages - 3) ? __a( '', '...', 'blank' ) : '';
                 $r .= $page < ($total_pages - 2) ? __a( $url.'/'.$total_pages, $total_pages, $class.' last', 'Goto last page' ) : '';
             } else if( $total_pages > 1 ) {
                 for($x = 1; $x <= $total_pages; $x++) {
                     $on = $x == $page ? ' on' : '';
-                    $r .= __a( $url.'/'.$x, $x, $class.$on, 'Goto '.$x.' page' );
+                    $r .= __a( $url.'/'.$x, $x, $class.$on, 'Goto page '.$x );
                 }
             }
             // echo '<a href="'.$url.'/'.$total_pages.'" class="last '.$class.'"></a>';

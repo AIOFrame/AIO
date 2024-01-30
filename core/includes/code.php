@@ -702,7 +702,7 @@ function _card( string $class = '', string $title = '', string $link = '', strin
         $return .= _pre( '', 'acts '. $actions_class );
         if( !empty( $actions ) ) {
             foreach( $actions as $act ) {
-                $return .= $f->_view_html( $act['url'] ?? '', $act['html'] ?? 'div', $act['title'] ?? ( $act['text'] ?? '' ), $act['class'] ?? ( $act['c'] ?? 'grad' ), $act['attr'] ?? ( $act['a'] ?? '' ), $act['ico_class'] ?? ( $act['ic'] ?? 'ico' ), $act['ico_text'] ?? ( $act['it'] ?? '' ) );
+                $return .= $f->_view_html( $act['url'] ?? '', $act['html'] ?? 'div', $act['title'] ?? ( $act['text'] ?? '' ), $act['class'] ?? ( $act['c'] ?? 'grad' ), $act['attr'] ?? ( $act['a'] ?? '' ), $act['icon_class'] ?? ( $act['ico_class'] ?? ( $act['icon'] ?? ( $act['ico'] ?? ( $act['i'] ?? ( $act['ic'] ?? 'ico' ) ) ) ) ), $act['icon_text'] ?? ( $act['ico_text'] ?? ( $act['icon'] ?? ( $act['ico'] ?? ( $act['it'] ?? '' ) ) ) ) );
             }
         }
         if( !empty( $edit_data ) && !empty( $edit_modal ) && $show_edit ) {
