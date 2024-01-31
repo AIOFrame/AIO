@@ -23,16 +23,21 @@ $(document).ready( function(){
     });
 
     // Type in Search
-    $('[type=search]').on('keyup',function(e){
+    $('[type=search]').on('keyup search change',function(e){
         let sv = $(this).val();
-        console.log(sv);
-        $.each($('.error_log>.b'),function(a,b){
-            if( $(b).find('.l').html().indexOf(sv) >= 0 || $(b).find('.t').html().indexOf(sv) >= 0 ) {
-                $(b).show();
-            } else {
-                $(b).hide();
-            }
-        })
+        if( sv.length > 3 ) {
+            $.each( $('.events_log > .b'),function(a,b){
+                console.log( $(b).find('.l').html() );
+                console.log( sv );
+                if( $(b).find('.l').html().indexOf(sv) >= 0 || $(b).find('.t').html().indexOf(sv) >= 0 ) {
+                    $(b).show();
+                } else {
+                    $(b).hide();
+                }
+            })
+        } else {
+            $(b).show();
+        }
     });
 
 });
