@@ -370,22 +370,24 @@ function process_data( e, ne ){
     //console.log(e);
     //console.log(ne);
     //$(e).attr('disabled',true);
-    let p;
+    let p = $(e).closest('[data-t]') !== undefined && $(e).closest('[data-t]') !== null && $(e).closest('[data-t]').length > 0 ? $(e).closest('[data-t]') : $(e);
+    // Avoid load
+    if( p.hasClass('load') ) {
+        return;
+    }
+    // Add Load
     if( $(e).closest('[data-t]') !== undefined && $(e).closest('[data-t]') !== null && $(e).closest('[data-t]').length > 0 ) {
-        p =  $(e).closest('[data-t]');
         $(p).find('[onclick="process_data(this)"]').attr('disabled',true).addClass('load');
         setTimeout(function(){
             $(p).removeClass('load').find('[onclick="process_data(this)"]').attr('disabled',false).removeClass('load');
         },5000);
-        elog( $(e).parents('[data-t]') );
+        //elog( $(e).parents('[data-t]') );
     } else { // TODO: Add logic to get all params from html button and parent element from where inputs inside will be validated
-        p =  $(e);
         $(p).attr('disabled',true).addClass('load');
         setTimeout(function(){
             $(p).attr('disabled',false).removeClass('load');
         },5000);
     }
-
     // Confirm
     let con = $(p).data('confirm');
     if( con !== undefined && con !== '' ) {
@@ -394,10 +396,8 @@ function process_data( e, ne ){
         }
     }
     //elog('testtt');
-    elog(p);
-    if( p.hasClass('load') ) {
-        return;
-    }
+    //elog(p);
+    //elog('testtt');
     p = ( p.length !== 0 && p[0].tagName === 'DIV' ) ? p : $(e).parents('[data-data]');
     p.addClass('load');
 
