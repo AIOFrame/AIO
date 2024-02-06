@@ -7,7 +7,7 @@ class FUP {
         get_style('upload');
         get_scripts(['jquery','upload']);
         // TODO: Translations as data attr
-        pre( 'aio_up', 'file_modal', 'div', 'data-dir="'.APPURL.'apps/'.APPDIR.'" data-action="'.APPDEBUG ? 'file_process_ajax' : $cry->encrypt('file_process_ajax').'" data-delete-action="'.$cry->encrypt('file_delete_ajax').'"' );
+        pre( 'aio_up', 'file_modal', 'div', 'data-dir="'.APPURL.'apps/'.APPDIR.'" data-action="'.( APPDEBUG ? 'file_process_ajax' : $cry->encrypt('file_process_ajax') ).'" data-delete-action="'.$cry->encrypt('file_delete_ajax').'"' );
             pre( '', 'files_head' );
                 h3( 'File Uploader' );
                 pre( '', 'info' );
@@ -37,16 +37,16 @@ class FUP {
                 post();
                 div( 'camera_view' );
                 div( 'drop_files', _el( 'span', '', T('Drop files to Upload!') ) );
-                div( 'files_actions', _el( 'label', 'fi i select', T('Choose') ) . _el( 'label', 'fb i browse', 'Browse', '', 'for="file_input"', 1 ) . _el( 'label', 'disabled fd i trash', T('Delete') ) );
-                div( 'translations',
-                    _div( 'extension_limit', T('The file should be one of the extensions') ) .
-                    _div( 'size_limit', T('Selected file size exceeds file size limit of ') ) .
-                    _div( 'file_select', T('File Selected Successfully!') ) .
-                    _div( 'no_file_select', T('NO FILE SELECTED! File Uploader Closed!!') ) .
-                    _div( 'remove_confirm', T('Are you sure to remove attached file ?') ) .
-                    _div( 'upload_success', T('File Uploaded Successfully!') )
-                );
             post();
+            div( 'files_actions', _el( 'label', 'fi i select', T('Choose') ) . _el( 'label', 'fb i browse', 'Browse', '', 'for="file_input"', 1 ) . _el( 'label', 'disabled fd i trash', T('Delete') ) );
+            div( 'translations',
+                _div( 'extension_limit', T('The file should be one of the extensions') ) .
+                _div( 'size_limit', T('Selected file size exceeds file size limit of ') ) .
+                _div( 'file_select', T('File Selected Successfully!') ) .
+                _div( 'no_file_select', T('NO FILE SELECTED! File Uploader Closed!!') ) .
+                _div( 'remove_confirm', T('Are you sure to remove attached file ?') ) .
+                _div( 'upload_success', T('File Uploaded Successfully!') )
+            );
         post();
         div( 'file_notify' );
     }

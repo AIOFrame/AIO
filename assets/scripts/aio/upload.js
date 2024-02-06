@@ -309,7 +309,9 @@ function file_upload(e){
             let types = exs.split(',');
             let types_html = '';
             $.each(types,function(i,ext){
-                types_html += '<div class="type">'+ext+'</div>';
+                if( ext.length > 0 ) {
+                    types_html += '<div class="type">'+ext+'</div>';
+                }
             });
             $('#aio_up .types .types').html(types_html);
         } else {
