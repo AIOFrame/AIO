@@ -9,6 +9,10 @@ $(document).ready(function(){
         $(e).find('[data-update],[data-edit]').hide();
     })
 
+    .on('click','[data-edit-action]',function () {
+        $('body').addClass('modal_open');
+    })
+
     // Modal Close Logics
     .on('click','.modal .close',function(){
         $(this).parent('.modal').removeClass('on');
@@ -18,7 +22,7 @@ $(document).ready(function(){
                 removeFade.push(1);
             }
         });
-        //console.log( removeFade );
+        //console.log( removeFade.length );
         if( removeFade.length === 0 ) { $('body').removeClass('modal_open'); }
         reset_modal(this);
     });

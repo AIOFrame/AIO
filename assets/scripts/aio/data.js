@@ -524,7 +524,7 @@ function edit_data( e, modal ) {
         $(t).addClass('on');
     }
 
-    $('article').addClass('fade');
+    $('body').addClass('modal_open');
     $(modal).find('[data-add]').hide();
     $(modal).find('[data-update],[data-edit]').show();
     //elog(data);
