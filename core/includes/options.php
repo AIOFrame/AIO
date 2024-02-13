@@ -70,11 +70,12 @@ class OPTIONS {
         $f = new FORM();
         $db = new DB();
         $r = defined( 'REGION' ) && isset( REGION['cca2'] ) ? strtolower( REGION['cca2'] ).'_' : '';
-        $brands = defined( 'REGION' ) ? pre_keys( $this->brand_options, $r ) : $this->brand_options;
+        $brands = defined( 'REGION' ) ? prepare_values( $this->brand_options, $r ) : $this->brand_options;
         $ops = $db->get_options( $brands );
+        //skel( prepare_values( $this->brand_options, $r ) );
         $f->option_params_wrap( 'brand', 2, 2, $brands );
             $attr = 'data-brand';
-            $ext = 'jpg,svg,png';
+            $ext = 'jpg,svg,png,gif';
             $name = !empty( $ops[$r.'app_name'] ) ? $ops[$r.'app_name'] : 'fake_name';
             $desc = !empty( $ops[$r.'app_desc'] ) ? $ops[$r.'app_desc'] : 'fake_text';
             $theme = !empty( $ops[$r.'default_theme'] ) ? $ops[$r.'default_theme'] : '';
@@ -250,7 +251,7 @@ class OPTIONS {
         $f = new FORM();
         $db = new DB();
         $r = defined( 'REGION' ) && isset( REGION['cca2'] ) ? strtolower( REGION['cca2'] ).'_' : '';
-        $comm_options = defined( 'REGION' ) ? pre_keys( $this->communication_options, $r ) : $this->communication_options;
+        $comm_options = defined( 'REGION' ) ? prepare_values( $this->communication_options, $r ) : $this->communication_options;
         //skel( $comm_options );
         $os = $db->get_options( $comm_options );
         //skel( $r );
@@ -296,7 +297,7 @@ class OPTIONS {
         $f->select2($r.'zone','Timezone','Choose Zone...',$zones,$os[$r.'zone'] ?? '','data-add',3);
         $f->process_options($this->region_flag().'Save Options','store grad','','.col-12 tac');
         $this->region_notice();
-        echo '</div>';
+        post();
     }
 
     //private array $finance_options = ['reg_name','reg','trn','tax','sign','rate','spot'];
@@ -324,7 +325,7 @@ class OPTIONS {
         $f->slide($r.'spot','Currency Side','Left','Right',$os[$r.'spot'] ?? '','','data-cd',3);
         $f->process_options($this->region_flag().'Save Options','store grad','','.col-12 tac');
         $this->region_notice();
-        echo '</div>';
+        post();
     }
 
     function content_options(): void {
@@ -417,7 +418,7 @@ class OPTIONS {
         $f->select2('languages','Set Languages','Choose Languages...',$all_languages,$languages,'data-al multiple',12,1);
         $f->text('languages_updated','','',1,'hidden data-al');
         $f->process_options('Save Options','store grad','','.col-12 tac');
-        echo '<div style="text-align:center; font-size: .8rem">English is default, you can add additional languages.</div></div>';
+        div( 'region_info', 'English is default, you can add additional languages.', '', 'style="text-align:center; font-size: .8rem"', 1 );
     }
 
     function export_import_options(): void {
@@ -435,10 +436,11 @@ class OPTIONS {
         //$f->process_params('','ei','',2,2,[],'Successfully imported options!','','','','','','row');
         $f->textarea('export','Export Options','',$e->encrypt_array($data),'rows="5"',6);
         $f->textarea('import','Import Options','','','data-ei rows="5"',6);
-        echo '<div class="col-6"></div>';
+        _c('6');
+        c_();
         $f->process_trigger('Import Options','store grad','','import_options_ajax','.col-12 tac');
         //$this->region_notice();
-        echo '</div>';
+        $f->post_process();
     }
 
     /**
@@ -520,7 +522,6 @@ class OPTIONS {
      * @return void
      */
     function render_options( int $display_type = 1, string $enterprise = '', string $brand = '', string $input = '', string $social = '', string $languages = '' ): void {
-        $c = new CODE();
         if( $display_type == 1 ) {
             pre_tabs();
             !empty( $enterprise ) ? tab( T( $enterprise ), 0, 'aio_enterprise_options' ) : '';
@@ -543,9 +544,9 @@ class OPTIONS {
         if( !empty( $r ) ) {
             $n = $r['name']['common'] ?? '';
             $f = $r['flag'] ?? '';
-            echo '<div style="text-align:center; font-size: .8rem">' . T('Settings apply to region ') . $n . ' ' . $f . '</div>';
+            div( 'region_info', T('Settings apply to region ') . $n . ' ' . $f, '', 'style="text-align:center; font-size: .8rem"' );
         } else if( in_array( 'regions', $c['features'] ) ) {
-            echo '<div style="text-align:center; font-size: .8rem">' . T('Regions feature enabled! Please select a region in header and then save settings to apply to selected region!') . '</div>';
+            div( 'region_info', T('Regions feature enabled! Please select a region in header and then save settings to apply to selected region!'), '', 'style="text-align:center; font-size: .8rem"' );
         }
     }
 
