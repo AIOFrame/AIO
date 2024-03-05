@@ -8,7 +8,7 @@
   background-size:contain !important;
   cursor: pointer;
 }
-.mat-ico, .mat-ico-after:after {
+.mat-ico, .mico, .mat-ico-after:after, .mica:after {
   font-family: 'MaterialIcons',sans-serif;
   font-weight: normal;
   font-style: normal;
@@ -39,29 +39,29 @@
 .bi::before, [class^=bi-]::before, [class*=" bi-"]::before {
   font-family: "bootstrapicons" !important;
 }
-.mat-ico.bg {
+.mat-ico.bg, .mico.bg {
   color: #fff;
 }
-.mat-ico.grad-bg {
+.mat-ico.grad-bg, .mico.grad-bg {
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
 }
-.mat-ico.xs {
+.mat-ico.xs, .mico.xs {
   font-size: 1rem;
 }
-.mat-ico.s {
+.mat-ico.s, .mico.s {
   font-size: 1.4rem;
 }
-.mat-ico {
+.mat-ico, .mico {
   font-size: 1.8rem;
 }
-.mat-ico.l {
+.mat-ico.l, .mico.l {
   font-size: 2.2rem;
 }
-.mat-ico.xl {
+.mat-ico.xl, .mico.xl {
   font-size: 2.6rem;
 }
-.mat-ico.xxl {
+.mat-ico.xxl, .mico.xxl {
   font-size: 3.2rem;
 }
 .mat-ico.orange, .mat-ico.green, .mat-ico.red, .mat-ico.blue, .bi.orange, .bi.green, .bi.red, .bi.blue {

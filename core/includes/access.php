@@ -850,40 +850,44 @@ function access_html( string $login_title = 'Username or Email', string $pass_ti
     $forgot_pass_title = !empty( $aos['ac_forgot_text'] ) ? $aos['ac_forgot_text'] : T('Forgot Password?');
     $register_title = !empty( $aos['register_text'] ) ? $aos['register_text'] : T('Register');
     $return_text = !empty( $aos['ac_return_text'] ) ? $aos['ac_return_text'] : T('Return to Login');
-    $f->pre_process('class="login_wrap"','access_login_ajax','log','login_',$notify_for,$reload_in,[],'','','',$redirect_to,'',1);
-        pre( '', 'inputs', 'form' );
-            $f->text('username',$login_title,$login_title,'','data-log required autocomplete="username" data-click-on-enter="#aio_login_init"','<div class="user_wrap">','</div>');
-            $f->input('password','password',$pass_title,$pass_title,'','data-assist data-log required autocomplete="current-password" data-click-on-enter="#aio_login_init"','<div class="pass_wrap">','</div>');
-            if( !empty( $aos ) && isset( $aos['ac_remember'] ) && $aos['ac_remember'] == 1 ) {
-                $f->radios('remember',$session_title,[1=>'1 Hour',8=>'8 Hours',24=>'1 Day',168=>'1 Week'],1,'data-log',0,'.mb20','','row df fg','.col');
+    pre( '', 'access_inner_wrap' );
+        pre( '', 'login_outer_wrap' );
+            $f->pre_process('class="login_wrap"','access_login_ajax','log','login_',$notify_for,$reload_in,[],'','','',$redirect_to,'',1);
+                pre( '', 'inputs', 'form' );
+                    $f->text('username',$login_title,$login_title,'','data-log required autocomplete="username" data-click-on-enter="#aio_login_init"','<div class="user_wrap">','</div>');
+                    $f->input('password','password',$pass_title,$pass_title,'','data-assist data-log required autocomplete="current-password" data-click-on-enter="#aio_login_init"','<div class="pass_wrap">','</div>');
+                    if( !empty( $aos ) && isset( $aos['ac_remember'] ) && $aos['ac_remember'] == 1 ) {
+                        $f->radios('remember',$session_title,[1=>'1 Hour',8=>'8 Hours',24=>'1 Day',168=>'1 Week'],1,'data-log',0,'.mb20','','row df fg','.col');
+                    }
+                post( 'form' );
+                $f->process_trigger( T( $login_button_title ), 'grad '. $class, 'id="aio_login_init"' );
+                if( $show_reset == 1 ) {
+                    div( 'more', T( $forgot_pass_title ), '', 'data-hide=".login_wrap" data-show=".forgot_wrap"' );
+                }
+                if( empty( $aos ) || ( isset( $aos['ac_register'] ) && $aos['ac_register'] == 1 ) ) {
+                    div( 'more', T( $register_title ), '', 'data-hide=".login_wrap" data-show=".register_outer_wrap"' );
+                }
+            $f->post_process();
+            if( $show_reset == 1 ) {
+                $reset_btn_title = !empty( $aos['ac_reset_btn_text'] ) ? $aos['ac_reset_btn_text'] : T('Reset Password');
+                $f->pre_process('class="forgot_wrap"  style="display:none;"','forg','forgot_',$notify_for,$reload_in,[],'','','',$redirect_to,'',1);
+                pre( '', 'inputs' );
+                    $f->text('username',$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"','<div class="forgot_user_wrap">','</div>');
+                post();
+                $f->process_trigger( $reset_btn_title, 'grad '. $class, 'id="aio_forgot_init"', 'access_forgot_ajax' );
+                div( 'more', T( $return_text ), '', 'data-hide=".forgot_wrap" data-show=".login_wrap"' );
+                $f->post_process();
             }
-        post( 'form' );
-        $f->process_trigger( T( $login_button_title ), 'grad '. $class, 'id="aio_login_init"' );
-        if( $show_reset == 1 ) {
-            div( 'more', T( $forgot_pass_title ), '', 'data-hide=".login_wrap" data-show=".forgot_wrap"' );
-        }
+        post();
+        //skel( $aos );
         if( empty( $aos ) || ( isset( $aos['ac_register'] ) && $aos['ac_register'] == 1 ) ) {
-            div( 'more', T( $register_title ), '', 'data-hide=".login_wrap" data-show=".register_outer_wrap"' );
+            pre( '', 'register_outer_wrap dn' );
+                register_html();
+                div( 'more', T( $return_text ), '', 'data-hide=".register_outer_wrap" data-show=".login_wrap"' );
+            post();
         }
-    $f->post_process();
-    if( $show_reset == 1 ) {
-        $reset_btn_title = !empty( $aos['ac_reset_btn_text'] ) ? $aos['ac_reset_btn_text'] : T('Reset Password');
-        $f->pre_process('class="forgot_wrap"  style="display:none;"','forg','forgot_',$notify_for,$reload_in,[],'','','',$redirect_to,'',1);
-        pre( '', 'inputs' );
-            $f->text('username',$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"','<div class="forgot_user_wrap">','</div>');
-        post();
-        $f->process_trigger( $reset_btn_title, 'grad '. $class, 'id="aio_forgot_init"', 'access_forgot_ajax' );
-        div( 'more', T( $return_text ), '', 'data-hide=".forgot_wrap" data-show=".login_wrap"' );
-        $f->post_process();
-    }
-    //skel( $aos );
-    if( empty( $aos ) || ( isset( $aos['ac_register'] ) && $aos['ac_register'] == 1 ) ) {
-        pre( '', 'register_outer_wrap dn' );
-            register_html();
-            div( 'more', T( $return_text ), '', 'data-hide=".register_outer_wrap" data-show=".login_wrap"' );
-        post();
-    }
-    get_script('access');
+        get_script('access');
+    post();
     $a->config_users();
 }
 

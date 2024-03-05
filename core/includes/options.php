@@ -360,7 +360,7 @@ class OPTIONS {
         $f = new FORM();
         $db = new DB();
         $os = $db->get_options( $options );
-        $f->option_params_wrap('soc',2,2);
+        $f->option_params_wrap('soc','',2,2);
         $social_form = [];
         foreach( $options as $ok => $ov ) {
             $val = $os[ $ok ] ?? '';
@@ -414,7 +414,7 @@ class OPTIONS {
         $all_languages = get_languages();
         unset( $all_languages['en'] );
         $languages = $db->get_option('languages');
-        $f->option_params_wrap('al',2,2,['languages','languages_updated']);
+        $f->option_params_wrap('al','settings',2,2,['languages','languages_updated']);
         $f->select2('languages','Set Languages','Choose Languages...',$all_languages,$languages,'data-al multiple',12,1);
         $f->text('languages_updated','','',1,'hidden data-al');
         $f->process_options('Save Options','store grad','','.col-12 tac');
@@ -432,7 +432,7 @@ class OPTIONS {
                 $data[ $o['option_name'] ] = $o['option_value'];
             }
         }
-        $f->option_params_wrap( 'ei', 2, 2 );
+        $f->option_params_wrap( 'ei', 'settings', 2, 2 );
         //$f->process_params('','ei','',2,2,[],'Successfully imported options!','','','','','','row');
         $f->textarea('export','Export Options','',$e->encrypt_array($data),'rows="5"',6);
         $f->textarea('import','Import Options','','','data-ei rows="5"',6);
@@ -480,34 +480,36 @@ class OPTIONS {
         return 'option_name = \'' . implode( '\' ' . $relation . ' option_name = \'', $options_array ) . '\'';
     }
 
-    function form( array $form = [], string $data = '', string $success = '', int $notify = 2, int $reload = 2, array|string $auto_load = [], array|string $unique = [], array|string $encrypt = '', string $confirm = '', string $callback = '' ): void {
+    function form( array $form = [], string $type = '', bool $get_options = false, string $data = '', string $success = '', int $notify = 2, int $reload = 2, array|string $auto_load = [], array|string $unique = [], array|string $encrypt = '', string $confirm = '', string $callback = '' ): void {
+        if( $get_options ) {
+            $db = new DB();
+            // Fetch Options
+            $os = [];
+            if( !empty( $form ) ) {
+                foreach( $form as $f ) {
+                    $id = $f['identity'] ?? ( $f['id'] ?? ( $f['i'] ?? '' ) );
+                    if( !empty( $id ) ) {
+                        $os[] = $id;
+                    }
+                }
+            }
+            $os = $db->get_options( $os );
+            // Add values to fields
+            if( !empty( $form ) && !empty( $os ) ) {
+                foreach( $form as $f ) {
+                    $id = $f['identity'] ?? ( $f['id'] ?? ( $f['i'] ?? '' ) );
+                    $value = $os[ $id ] ?? ( $f['value'] ?? ( $f['val'] ?? ( $f['v'] ?? '' ) ) );
+                    unset( $f['value'] );
+                    unset( $f['val'] );
+                    if( !empty( $id ) ) {
+                        $f['v'] = $value;
+                    }
+                }
+            }
+        }
         $f = new FORM();
-        $db = new DB();
-        // Fetch Options
-        $os = [];
-        if( !empty( $form ) ) {
-            foreach( $form as $f ) {
-                $id = $f['identity'] ?? ( $f['id'] ?? ( $f['i'] ?? '' ) );
-                if( !empty( $id ) ) {
-                    $os[] = $id;
-                }
-            }
-        }
-        $os = $db->get_options( $os );
-        // Add values to fields
-        if( !empty( $form ) && !empty( $os ) ) {
-            foreach( $form as $f ) {
-                $id = $f['identity'] ?? ( $f['id'] ?? ( $f['i'] ?? '' ) );
-                $value = $os[ $id ] ?? ( $f['value'] ?? ( $f['val'] ?? ( $f['v'] ?? '' ) ) );
-                unset( $f['value'] );
-                unset( $f['val'] );
-                if( !empty( $id ) && !empty( $value ) ) {
-                    $f['v'] = $value;
-                }
-            }
-        }
-        $f->option_params_wrap( $data, $notify, $reload, $auto_load, $unique, $encrypt, $success, $callback, $confirm );
-            $f->form( $form );
+        $f->option_params_wrap( $data, '', $notify, $reload, $auto_load, $unique, $encrypt, $success, $callback, $confirm );
+            $f->form( $form, $type );
             $f->process_trigger( 'Save Options', 'store grad', '', '', '.col-12 tac' );
         post();
     }

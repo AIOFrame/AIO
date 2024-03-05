@@ -818,9 +818,10 @@ function prepare_keys( array|string $array = '', string $pre = '', bool $remove_
  * @param array|string $array
  * @param string $pre
  * @param bool $remove_empty
+ * @param string $post
  * @return array
  */
-function prepare_values( array|string $array = '', string $pre = '', bool $remove_empty = true ): array {
+function prepare_values( array|string $array = '', string $pre = '', bool $remove_empty = true, string $post = '' ): array {
     $values = [];
     $array = is_array( $array ) ? $array : $_POST;
     unset( $array['action'] );
@@ -829,10 +830,10 @@ function prepare_values( array|string $array = '', string $pre = '', bool $remov
             $v = is_array( $v ) ? serialize( $v ) : $v;
             if( $remove_empty ){
                 if( $v !== '' ){
-                    $values[] = $pre.$v;
+                    $values[] = $pre.$v.$post;
                 }
             } else {
-                $values[] = $pre.$v;
+                $values[] = $pre.$v.$post;
             }
         }
     }
@@ -849,7 +850,7 @@ function process_data_ajax(): void {
         $table = APPDEBUG ? $a['t'] : $cry->decrypt( $a['t'] );
         unset( $a['t'] );
 
-        if( isset( $a[ $a['pre'].'id'] ) ){
+        if( isset( $a['pre'] ) && isset( $a[ $a['pre'].'id'] ) ){
             $id = is_numeric( $a[ $a['pre'].'id'] ) ? $a[ $a['pre'].'id'] : ( APPDEBUG ? $a[$a['pre'].'id'] : $cry->decrypt( $a[$a['pre'].'id'] ) );
             //elog( $id );
             unset($a[$a['pre'].'id']);

@@ -384,14 +384,36 @@ class PORTAL {
     function options(): void {
         $f = new FORM();
         $db = new DB();
-        $light = !empty( $ops['logo_light'] ) ? $ops['logo_light'] : '';
+        $portal_header_search_style = !empty( $ops['portal_header_search_style'] ) ? $ops['portal_header_search_style'] : '';
+        $portal_header_search_show = !empty( $ops['portal_header_search_show'] ) ? $ops['portal_header_search_show'] : '';
+        $portal_header_list_icon_text = !empty( $ops['portal_header_list_icon_text'] ) ? $ops['portal_header_list_icon_text'] : '';
+        $portal_header_list_icon_class = !empty( $ops['portal_header_list_icon_class'] ) ? $ops['portal_header_list_icon_class'] : '';
+        $portal_header_grid_icon_text = !empty( $ops['portal_header_grid_icon_text'] ) ? $ops['portal_header_grid_icon_text'] : '';
+        $portal_header_grid_icon_class = !empty( $ops['portal_header_grid_icon_class'] ) ? $ops['portal_header_grid_icon_class'] : '';
         $dark = !empty( $ops['logo_dark'] ) ? $ops['logo_dark'] : '';
         $f->option_params_wrap( 'brand', 2, 2,  );
         $f->form([
 
-        ], 'row', $f->pre_process() );
+        ], 'row' );
         //$f->text($r.'app_name','Web App / Site Name','Ex: AIO University...',$name,$attr,8);
         post();
+    }
+
+    public array $icon_options = [ 'menu' => 'menu', 'alerts' => 'notifications', 'languages' => 'language', 'frontend' => 'desktop_windows', 'user' => 'account_circle', 'logout' => 'logout', 'create' => 'add_circle', 'edit' => 'border_color', 'view' => 'file_open', 'delete' => 'delete', 'back' => 'keyboard_backspace', 'close' => 'close', 'save' => 'save', 'download' => 'download_for_offline' ];
+
+    function icon_options(): void {
+        $form[] = [ 'i' => 'portal_universal_icon_class', 'n' => 'Universal Icon Class', 'v' => 'mat-ico', 'c' => 12 ];
+        $autoload = [ 'portal_universal_icon_class' ];
+        foreach( $this->icon_options as $o => $v ) {
+            $idt = 'port_ico_'.$o.'_text';
+            $idc = 'port_ico_'.$o.'_class';
+            $autoload[] = $idt;
+            $autoload[] = $idc;
+            $form[] = [ 'i' => $idt, 'n' => ucwords( $o ). ' Ico Text', 'v' => $v, 'c' => 2 ];
+            $form[] = [ 'i' => $idc, 'n' => ucwords( $o ). ' Ico Class', 'v' => $v, 'c' => 2 ];
+        }
+        $o = new OPTIONS();
+        $o->form( $form, 'row', 1, '', 'Successfully saved icon settings!', 2, 2, $autoload );
     }
 }
 
@@ -402,27 +424,32 @@ class PORTAL {
  * @param string $list_view ID of the element shows table list view of content
  * @param string $grid_view ID of the element shows card / grid view of content
  * @param string $active_view Active view either list or grid
+ * @param bool $show_search To show a search input
  * @param string|array $comp_or_actions String of comp path or array of actions
+ * @param string $list_icon Content for list icon
+ * @param string $grid_icon Content for grid icon
  * @return void
  */
-function title_bar( string $title = '', string $back_url = '', string $list_view = '', string $grid_view = '', string $active_view = '', string|array $comp_or_actions = [], ): void {
+function title_bar( string $title = '', string $back_url = '', string $list_view = '', string $grid_view = '', string $active_view = '', bool $show_search = true, string|array $comp_or_actions = [], string $list_icon = '', string $grid_icon = '' ): void {
     pre( '', 'header' );
-    echo !empty( $back_url ) ? ( defined( 'ICONS' ) ? ( str_contains( ICONS, 'Material' ) ? __a( APPURL.$back_url, 'arrow_back', 'mat-ico back', 'Return' ) : ( str_contains( ICONS, 'Bootstrap' ) ? __a( APPURL . $back_url, _el( 'i', 'bi bi-arrow-90deg-left' ), 'back' ) : '' ) ) : '' ) : '';
-    !empty( $title ) ? h1( $title, 1, 'title' ) : '';
-    !empty( $list_view ) || !empty( $grid_view ) ? pre( '', 'views' ) : '';
-    if( !empty( $list_view ) ){
-        pre( '', 'list_toggle'.($active_view == $list_view ? ' on' : ''), 'div', 'data-show="'.$list_view.'" data-off=".grid_toggle" data-on=".list_toggle" '.(!empty( $grid_view ) ? 'data-hide="'.$grid_view.'"' : '') );
-        echo defined('ICONS') ? ( str_contains( ICONS, 'Material' ) ? _div( 'mat-ico', 'list' ) : ( str_contains( ICONS, 'Bootstrap' ) ? _el( 'i', 'bi bi-list' ) : '' ) ) : '';
-        post();
-    }
-    if( !empty( $grid_view ) ){
-        pre( '', 'grid_toggle'.($active_view == $grid_view ? ' on' : ''), 'div', 'data-show="'.$grid_view.'" data-on=".grid_toggle" data-off=".list_toggle" '.(!empty( $list_view ) ? 'data-hide="'.$list_view.'"' : '') );
-        echo defined('ICONS') ? ( str_contains( ICONS, 'Material' ) ? _div( 'mat-ico', 'grid_view' ) : ( str_contains( ICONS, 'Bootstrap' ) ? _el( 'i', 'bi bi-grid-3x2' ) : '' ) ) : '';
-        post();
-    }
-    echo !empty( $list_view ) || !empty( $grid_view ) ? '</div>' : '';
-    if( !empty( $actions ) || !empty( $comp_or_actions ) )
-        is_array( $comp_or_actions ) ? div( 'actions' ) : get_comp( $comp_or_actions );
+        echo !empty( $back_url ) ? ( defined( 'ICONS' ) ? ( str_contains( ICONS, 'Material' ) ? __a( APPURL.$back_url, 'arrow_back', 'mat-ico back', 'Return' ) : ( str_contains( ICONS, 'Bootstrap' ) ? __a( APPURL . $back_url, _el( 'i', 'bi bi-arrow-90deg-left' ), 'back' ) : '' ) ) : '' ) : '';
+        !empty( $title ) ? h1( $title, 1, 'title' ) : '';
+        $show_search ? div( 'search_wrap', '<input type="search" class="header_search" placeholder="Search..." >' ) : '';
+
+        !empty( $list_view ) || !empty( $grid_view ) ? pre( '', 'views' ) : '';
+        if( !empty( $list_view ) ){
+            pre( '', 'list_toggle'.($active_view == $list_view ? ' on' : ''), 'div', 'data-show="'.$list_view.'" data-off=".grid_toggle" data-on=".list_toggle" '.(!empty( $grid_view ) ? 'data-hide="'.$grid_view.'"' : '') );
+            echo defined('ICONS') ? ( str_contains( ICONS, 'Material' ) ? _div( 'mat-ico', 'view_stream' ) : ( str_contains( ICONS, 'Bootstrap' ) ? _el( 'i', 'bi bi-list' ) : '' ) ) : '';
+            post();
+        }
+        if( !empty( $grid_view ) ){
+            pre( '', 'grid_toggle'.($active_view == $grid_view ? ' on' : ''), 'div', 'data-show="'.$grid_view.'" data-on=".grid_toggle" data-off=".list_toggle" '.(!empty( $list_view ) ? 'data-hide="'.$list_view.'"' : '') );
+            echo defined('ICONS') ? ( str_contains( ICONS, 'Material' ) ? _div( 'mat-ico', 'grid_view' ) : ( str_contains( ICONS, 'Bootstrap' ) ? _el( 'i', 'bi bi-grid-3x2' ) : '' ) ) : '';
+            post();
+        }
+        echo !empty( $list_view ) || !empty( $grid_view ) ? '</div>' : '';
+        if( !empty( $actions ) || !empty( $comp_or_actions ) )
+            is_array( $comp_or_actions ) ? div( 'actions' ) : get_comp( $comp_or_actions );
     post();
 }
 

@@ -110,8 +110,6 @@
 .tabs.material {
   width: 100%;
   display: block;
-  margin-left: -20px;
-  margin-right: -20px;
 }
 .tabs.material .tab {
   background: none;

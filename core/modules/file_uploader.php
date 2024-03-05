@@ -16,7 +16,10 @@ class FUP {
                     div( 'max', _div( 'mat-ico', 'file_copy' ) . _div( 'title', T('Files Limit') . _div( 'qty', 2 ) ) );
                 post();
                 pre( '', 'acts' );
-                    str_contains( ICONS, 'Bootstrap' ) ? el( 'i', 'bi bi-arrows-angle-expand expand' ) . el( 'i', 'bi bi-x-lg close' ) : div( 'mat-ico expand' ) . div( 'mat-ico close', 'close' );
+                    if( is_array( ICONS ) )
+                        in_array( 'Bootstrap', ICONS ) ? el( 'i', 'bi bi-arrows-angle-expand expand' ) . el( 'i', 'bi bi-x-lg close' ) : div( 'mat-ico expand' ) . div( 'mat-ico close', 'close' );
+                    else
+                        str_contains( ICONS, 'Bootstrap' ) ? el( 'i', 'bi bi-arrows-angle-expand expand' ) . el( 'i', 'bi bi-x-lg close' ) : div( 'mat-ico expand' ) . div( 'mat-ico close', 'close' );
                 post();
                 echo '<input type="file" id="file_input">';
             post();
