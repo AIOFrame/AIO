@@ -73,7 +73,7 @@ class OPTIONS {
         $brands = defined( 'REGION' ) ? prepare_values( $this->brand_options, $r ) : $this->brand_options;
         $ops = $db->get_options( $brands );
         //skel( prepare_values( $this->brand_options, $r ) );
-        $f->option_params_wrap( 'brand', 2, 2, $brands );
+        $f->option_params_wrap( 'brand', 'row', 2, 2, $brands );
             $attr = 'data-brand';
             $ext = 'jpg,svg,png,gif';
             $name = !empty( $ops[$r.'app_name'] ) ? $ops[$r.'app_name'] : 'fake_name';
@@ -135,7 +135,7 @@ class OPTIONS {
         $attr = 'data-colors';
         $colors = $this->colors;
         $ops = $db->get_options( $colors );
-        $f->option_params_wrap(  'colors', 2, 2, $colors );
+        $f->option_params_wrap(  'colors', 'row', 2, 2, $colors );
         foreach( $colors as $c => $cv ) {
             $f->color($c,ucwords(str_replace('_',' ',$c)),'Ex: F1F1F1',$ops[$c]??$cv,$attr,0,'','[data-key='.$c.']');
         }
@@ -156,7 +156,7 @@ class OPTIONS {
         $options = $f->input_options;
         //skel( $options );
         $ops = $db->get_options( $options );
-        $f->option_params_wrap(  'input', 2, 2, $options );
+        $f->option_params_wrap(  'input', 'row', 2, 2, $options );
         $attr = 'data-input';
         foreach( $options as $iok => $iov ) {
             $v[ $iok ] = $ops[ $iok ] ?? $iov;
@@ -206,7 +206,7 @@ class OPTIONS {
         $options_array = [ 'font_1', 'font_1_weights', 'font_weight', 'font_2', 'font_2_weights' ];
         $options_array = defined( 'REGION' ) ? prepare_values( $options_array, $r ) : $options_array;
         $ops = $db->get_options( $options_array );
-        $f->option_params_wrap(  'fonts', 2, 2, $options_array );
+        $f->option_params_wrap( 'fonts', 'row', 2, 2, $options_array );
         $font_1 = $ops['font_1'] ?? 'Lato';
         $font_1_weights = $ops['font_1_weights'] ?? '400';
         $font_weight = $ops['font_weight'] ?? '400';
@@ -256,7 +256,7 @@ class OPTIONS {
         $os = $db->get_options( $comm_options );
         //skel( $r );
         //skel( $os );
-        $f->option_params_wrap('com',2,2);
+        $f->option_params_wrap('com','row',2,2);
         $phone = !empty( $os[$r.'phone'] ) ? $os[$r.'phone'] : 'fake_phone';
         $mobile = !empty( $os[$r.'mobile'] ) ? $os[$r.'mobile'] : 'fake_phone';
         $email = !empty( $os[$r.'email'] ) ? $os[$r.'email'] : 'fake_email';
@@ -279,7 +279,7 @@ class OPTIONS {
         $add_ops = ['address','add_name','city','state','post','country','date_format','time_format','zone'];
         $add_ops = defined( 'REGION' ) ? prepare_values( $add_ops, $r ) : $add_ops;
         $os = $db->get_options($add_ops);
-        $f->option_params_wrap('add',2,2);
+        $f->option_params_wrap('add','row',2,2);
         $address = !empty( $os[$r.'address'] ) ? $os[$r.'address'] : 'fake_address';
         $city = !empty( $os[$r.'city'] ) ? $os[$r.'city'] : 'fake_city';
         $state = !empty( $os[$r.'state'] ) ? $os[$r.'state'] : 'fake_state';
@@ -310,7 +310,7 @@ class OPTIONS {
         $fin_ops = defined( 'REGION' ) ? prepare_keys( $fin_ops, $r ) : $fin_ops;
         $finance_keys = array_merge( $fin_ops, [ 'base_region' ] );
         $os = $db->get_options( $finance_keys );
-        $f->option_params_wrap('cd',2,2);
+        $f->option_params_wrap('cd','row',2,2);
         //skel( REGIONS );
         $base = defined('REGIONS') && isset( REGIONS['base'] ) ? REGIONS['base']['cca2'] . ' - ' .REGIONS['base']['symbol'] : 'US';
         $now = defined('REGIONS') && isset( REGIONS['now'] ) ? REGIONS['now']['cca2'] . ' - ' .REGIONS['now']['symbol'] : 'US';
@@ -332,7 +332,7 @@ class OPTIONS {
         $f = new FORM();
         $db = new DB();
         $os = $db->get_options(['no_access_image','no_content_image']);
-        $f->option_params_wrap('cn',2,2);
+        $f->option_params_wrap('cn','row',2,2);
         $no_access_image = $os['no_access_image'] ?? '';
         $no_content_image = $os['no_content_image'] ?? '';
         $f->upload('no_access_image','Image to show when user has no access!','Upload',$no_access_image,0,1,'','data-cn','jpg,png,svg',.1,0,'',6);
@@ -360,7 +360,7 @@ class OPTIONS {
         $f = new FORM();
         $db = new DB();
         $os = $db->get_options( $options );
-        $f->option_params_wrap('soc','',2,2);
+        $f->option_params_wrap('soc','settings',2,2);
         $social_form = [];
         foreach( $options as $ok => $ov ) {
             $val = $os[ $ok ] ?? '';

@@ -626,57 +626,69 @@ function page_of( string|array $p ): bool {
 /**
  * Renders menu html from array
  * @param array $array
- * @param string $prefix
+ * @param string $url_prefix
+ * @param string $wrap_class
+ * @param string $list_class
  */
-function render_menu( array $array, string $prefix = '', string $wrap_class = '', string $list_class = '' ): void {
+function render_menu( array $array, string $url_prefix = '', string $wrap_class = '', string $list_class = '' ): void {
+    global $options;
     //$array = is_array( $array ) ? $array : explode(',',$array);
     $wrap_class = !empty( $wrap_class ) ? ' class="'.$wrap_class.'"' : '';
     $list_class_text = !empty( $list_class ) ? $list_class : '';
     $list_class = !empty( $list_class ) ? ' class="'.$list_class.'"' : '';
-    echo '<ul'.$wrap_class.'>';
-    foreach( $array as $first_row ){
-
-        $title = !empty( $first_row[1] ) && !is_array( $first_row[1] ) ? $first_row[1] : ucwords( $first_row[0] );
-
-        $url = explode( '/', PAGEPATH );
-        $page_class = strtolower(str_replace(' ','_',$title));
-        $first_row_class = PAGEPATH == $first_row[0] ? 'class="on '.$page_class.'"' : 'class="'.$page_class.'"';
-        $first_li_class = $url[0] == $first_row[0] ? 'class="open '.$list_class_text.'"' : '';
-
-        $sec_rows = '';
-        if( !empty( $first_row[2] ) && is_array( $first_row[2] ) ){
-            $sec_rows = $first_row[2];
-        } else if( !empty( $first_row[1] ) && is_array( $first_row[1] ) ) {
-            $sec_rows = $first_row[1];
+    pre( '', $wrap_class, 'ul' );
+    if( is_assoc( $array ) ) {
+        foreach( $array as $url => $data ) {
+            $title = $data['title'] ?? ( $data['t'] ?? ( $data['name'] ?? ( $data['n'] ?? '' ) ) );
+            $ico = $data['icon'] ?? ( $data['ico'] ?? ( $data['i'] ?? '' ) );
+            $ico = !empty( $ico ) ? _div( $options['portal_universal_icon_class'] ?? '', $ico ) : '';
+            el( 'li', '', __a( APPURL . $url_prefix . $url, $ico . $title ) );
         }
+    } else {
+        foreach( $array as $first_row ){
 
-        $sec = '';
-        if( !empty( $sec_rows ) && is_array( $sec_rows ) ){
-            $sec .= '<i></i><ul>';
-            foreach( $sec_rows as $sec_row ){
-                $sec_title = !empty( $sec_row[1] ) && !is_array( $sec_row[1] ) ? $sec_row[1] : ucwords( $sec_row[0] );
-                $sec_row_class = $url[count($url)-1] == $sec_row[0] ? 'class="on '.strtolower(str_replace(' ','_',$sec_title)).'"' : '';
-                if( $sec_row[0] == '' && $url[count($url)-1] == $url[0] ){
-                    $sec_row_class = 'class="on '.strtolower(str_replace(' ','_',$sec_title)).'"';
+            $title = !empty( $first_row[1] ) && !is_array( $first_row[1] ) ? $first_row[1] : ucwords( $first_row[0] );
+
+            $url = explode( '/', PAGEPATH );
+            $page_class = strtolower(str_replace(' ','_',$title));
+            $first_row_class = PAGEPATH == $first_row[0] ? 'class="on '.$page_class.'"' : 'class="'.$page_class.'"';
+            $first_li_class = $url[0] == $first_row[0] ? 'class="open '.$list_class_text.'"' : '';
+
+            $sec_rows = '';
+            if( !empty( $first_row[2] ) && is_array( $first_row[2] ) ){
+                $sec_rows = $first_row[2];
+            } else if( !empty( $first_row[1] ) && is_array( $first_row[1] ) ) {
+                $sec_rows = $first_row[1];
+            }
+
+            $sec = '';
+            if( !empty( $sec_rows ) && is_array( $sec_rows ) ){
+                $sec .= '<i></i><ul>';
+                foreach( $sec_rows as $sec_row ){
+                    $sec_title = !empty( $sec_row[1] ) && !is_array( $sec_row[1] ) ? $sec_row[1] : ucwords( $sec_row[0] );
+                    $sec_row_class = $url[count($url)-1] == $sec_row[0] ? 'class="on '.strtolower(str_replace(' ','_',$sec_title)).'"' : '';
+                    if( $sec_row[0] == '' && $url[count($url)-1] == $url[0] ){
+                        $sec_row_class = 'class="on '.strtolower(str_replace(' ','_',$sec_title)).'"';
+                    }
+                    $sec .= '<li'.$list_class.'><a href="'.APPURL.$url_prefix.$first_row[0].'/'.$url_prefix.$sec_row[0].'" '.$sec_row_class.'>'.T($sec_title).'</a></li>';
                 }
-                $sec .= '<li'.$list_class.'><a href="'.APPURL.$prefix.$first_row[0].'/'.$prefix.$sec_row[0].'" '.$sec_row_class.'>'.T($sec_title).'</a></li>';
+                $sec .= '</ul>';
             }
-            $sec .= '</ul>';
-        }
-        echo '<li '.$first_li_class.'><a href="'.APPURL.$prefix.$first_row[0].'" '.$first_row_class.'>'.T($title).'</a>'.$sec.'</li>';
-        /*    $title = ucfirst( $l );
-            $sls .= '<ul>';
-            foreach( $t as $sl => $st ){
-                $link = APPURL.$l.'/'.$prefix.$sl;
-                if( PAGEPATH == $sl ) { $sc = 'class="on"'; $c = 'on'; } else { $sc = ''; }
-                $sls .= '<li><a href="'.$link.'" '.$sc.'>'.$st.'</a></li>';
+            echo '<li '.$first_li_class.'><a href="'.APPURL.$url_prefix.$first_row[0].'" '.$first_row_class.'>'.T($title).'</a>'.$sec.'</li>';
+            /*    $title = ucfirst( $l );
+                $sls .= '<ul>';
+                foreach( $t as $sl => $st ){
+                    $link = APPURL.$l.'/'.$prefix.$sl;
+                    if( PAGEPATH == $sl ) { $sc = 'class="on"'; $c = 'on'; } else { $sc = ''; }
+                    $sls .= '<li><a href="'.$link.'" '.$sc.'>'.$st.'</a></li>';
+                }
+                $sls .= '</ul>';
             }
-            $sls .= '</ul>';
+            $s = !empty($sls) ? $c.' sub' : $c.'';
+            echo '<li><a href="'.APPURL.$prefix.$l.'" class="'.$c.'">'.$title.'</a>'.$sls.'</li>'; */
         }
-        $s = !empty($sls) ? $c.' sub' : $c.'';
-        echo '<li><a href="'.APPURL.$prefix.$l.'" class="'.$c.'">'.$title.'</a>'.$sls.'</li>'; */
     }
-    echo '</ul>';
+    post('ul');
 
     !empty( $title ) && !defined( 'PAGET' ) ? define( 'PAGET', $title ) : '';
 }

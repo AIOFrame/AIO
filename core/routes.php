@@ -42,6 +42,7 @@ if( isset( $routes[ implode( '/', $url_routes ) ] ) ) {
                 $page = substr( $page, 0, -1);
                 !defined( 'PAGENAME' ) ? define( 'PAGENAME', substr($n, 0, -1) ) : '';
             } else {
+                //print_r( $n );
                 !defined( 'PAGENAME' ) ? define( 'PAGENAME', $n ) : '';
                 $page_link .= $n . '.php';
                 $page .= $n;
@@ -58,8 +59,8 @@ if( isset( $routes[ implode( '/', $url_routes ) ] ) ) {
     !defined( 'PAGENAME' ) ? define( 'PAGENAME', 'index' ) : '';
 }
 //print_r( $page );
-$group_page = str_replace( '.php', '', $page_link ) . '/index.php';
-
+//print_r( $page_link );
+$group_page = file_exists( str_replace( '.php', '', $page_link ) . '/'. PAGENAME .'.php' ) ? str_replace( '.php', '', $page_link ) . '/'.PAGENAME.'.php' : str_replace( '.php', '', $page_link ) . '/index.php';
 $paths = explode( '/', $page_link );
 $parent_page = $parent_group_page = '';
 foreach( $paths as $k => $path ){
@@ -67,7 +68,7 @@ foreach( $paths as $k => $path ){
 }
 if( !empty( $parent_page ) && $parent_page !== '' ) {
     $parent_page = rtrim( $parent_page, '/' ) . '.php';
-    $parent_group_page = str_replace( '.php', '', $parent_page ) . '/index.php';
+    $parent_group_page = file_exists( str_replace( '.php', '', $parent_page ) . '/'. PAGENAME .'.php' ) ? str_replace( '.php', '', $parent_page ) . '/'. PAGENAME .'.php' : str_replace( '.php', '', $parent_page ) . '/index.php';
 }
 !defined( 'PAGENAME' ) ? define( 'PAGENAME', 'home') : '';
 
@@ -90,45 +91,35 @@ function define_page( $page ): void {
 
 if( !isset( $_POST['action'] ) && !isset( $_POST['t'] ) ) { // Checks if AJAX Action Request is sent so content will not be rendered
 
-    /**
-     * Sets page by url to page.php if file exists
-     */
+    // Sets page by url to page.php if file exists
     if( file_exists( $page_link ) ){
         define_path( $page );
         define_page( $page_link );
         return;
     }
 
-    /**
-     * Sets page by url to page/index.php if folder/file exists
-     */
+    // Sets page by url to page/index.php if folder/file exists
     if( file_exists( $group_page ) ) {
         define_path( $page );
         define_page( $group_page );
         return;
     }
 
-    /**
-     * Set page to parent if page.php is missing
-     */
+    // Set page to parent if page.php is missing
     if( file_exists( $parent_page ) ) {
         define_path( $page, 1 );
         define_page( $parent_page );
         return;
     }
 
-    /**
-     * Sets page to parent group if page.php is missing
-     */
+    // Sets page to parent group if page.php is missing
     if( file_exists( $parent_group_page ) ) {
         define_path( $page, 1 );
         define_page( $parent_group_page );
         return;
     }
 
-    /**
-     * Loads 404 page if exists
-     */
+    // Loads 404 page if exists
     if( file_exists( ROOTPATH . 'apps/' . $t . '/pages/404.php' ) ) { // Doesn't exist on sub domain or defaults, so check if 404 page exists
         define_path( '404' );
         define_page( ROOTPATH . 'apps/' . $t . '/pages/404.php'); // Exists so load 404

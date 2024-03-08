@@ -399,7 +399,7 @@ class PORTAL {
         post();
     }
 
-    public array $icon_options = [ 'menu' => 'menu', 'alerts' => 'notifications', 'languages' => 'language', 'frontend' => 'desktop_windows', 'user' => 'account_circle', 'logout' => 'logout', 'create' => 'add_circle', 'edit' => 'border_color', 'view' => 'file_open', 'delete' => 'delete', 'back' => 'keyboard_backspace', 'close' => 'close', 'save' => 'save', 'download' => 'download_for_offline' ];
+    public array $icon_options = [ 'menu' => 'menu', 'alerts' => 'notifications', 'languages' => 'language', 'frontend' => 'desktop_windows', 'user' => 'account_circle', 'logout' => 'logout', 'create' => 'add_circle', 'edit' => 'border_color', 'view' => 'file_open', 'delete' => 'delete', 'back' => 'keyboard_backspace', 'close' => 'close', 'save' => 'save', 'download' => 'download_for_offline', 'list' => 'view_stream', 'grid' => 'grid_view', 'accordion' => 'view_day', 'calendar' => 'calendar_month' ];
 
     function icon_options(): void {
         $form[] = [ 'i' => 'portal_universal_icon_class', 'n' => 'Universal Icon Class', 'v' => 'mat-ico', 'c' => 12 ];
@@ -426,31 +426,39 @@ class PORTAL {
  * @param string $active_view Active view either list or grid
  * @param bool $show_search To show a search input
  * @param string|array $comp_or_actions String of comp path or array of actions
- * @param string $list_icon Content for list icon
- * @param string $grid_icon Content for grid icon
  * @return void
  */
-function title_bar( string $title = '', string $back_url = '', string $list_view = '', string $grid_view = '', string $active_view = '', bool $show_search = true, string|array $comp_or_actions = [], string $list_icon = '', string $grid_icon = '' ): void {
-    pre( '', 'header' );
-        echo !empty( $back_url ) ? ( defined( 'ICONS' ) ? ( str_contains( ICONS, 'Material' ) ? __a( APPURL.$back_url, 'arrow_back', 'mat-ico back', 'Return' ) : ( str_contains( ICONS, 'Bootstrap' ) ? __a( APPURL . $back_url, _el( 'i', 'bi bi-arrow-90deg-left' ), 'back' ) : '' ) ) : '' ) : '';
-        !empty( $title ) ? h1( $title, 1, 'title' ) : '';
-        $show_search ? div( 'search_wrap', '<input type="search" class="header_search" placeholder="Search..." >' ) : '';
+function title_bar( string $title = '', string $back_url = '', string $list_view = '', string $grid_view = '', string $active_view = '', bool $show_search = false, string|array $comp_or_actions = [] ): void {
+    global $options;
+    pre( '', 'header df aic jsb', 'header' );
+        pre( '', 'left df' );
+            !empty( $back_url ) ? a( APPURL.$back_url, $options['port_ico_back_text'] ?? '', ( $options['portal_universal_icon_class'] ?? '' ) . ' ' . ( $options['port_ico_back_class'] ?? '' ), T('Return') ) : '';
+            !empty( $title ) ? h1( $title, 1, 'title mx-3' ) : '';
+        post();
 
-        !empty( $list_view ) || !empty( $grid_view ) ? pre( '', 'views' ) : '';
-        if( !empty( $list_view ) ){
-            pre( '', 'list_toggle'.($active_view == $list_view ? ' on' : ''), 'div', 'data-show="'.$list_view.'" data-off=".grid_toggle" data-on=".list_toggle" '.(!empty( $grid_view ) ? 'data-hide="'.$grid_view.'"' : '') );
-            echo defined('ICONS') ? ( str_contains( ICONS, 'Material' ) ? _div( 'mat-ico', 'view_stream' ) : ( str_contains( ICONS, 'Bootstrap' ) ? _el( 'i', 'bi bi-list' ) : '' ) ) : '';
-            post();
-        }
-        if( !empty( $grid_view ) ){
-            pre( '', 'grid_toggle'.($active_view == $grid_view ? ' on' : ''), 'div', 'data-show="'.$grid_view.'" data-on=".grid_toggle" data-off=".list_toggle" '.(!empty( $list_view ) ? 'data-hide="'.$list_view.'"' : '') );
-            echo defined('ICONS') ? ( str_contains( ICONS, 'Material' ) ? _div( 'mat-ico', 'grid_view' ) : ( str_contains( ICONS, 'Bootstrap' ) ? _el( 'i', 'bi bi-grid-3x2' ) : '' ) ) : '';
-            post();
-        }
-        echo !empty( $list_view ) || !empty( $grid_view ) ? '</div>' : '';
-        if( !empty( $actions ) || !empty( $comp_or_actions ) )
-            is_array( $comp_or_actions ) ? div( 'actions' ) : get_comp( $comp_or_actions );
-    post();
+        pre( '', 'center df' );
+            $show_search ? div( 'search_wrap mica bi', '<input type="search" class="header_search" placeholder="Search..." >' ) : '';
+            if( !empty( $list_view ) || !empty( $grid_view ) ) {
+                pre( '', 'views df' );
+                    if( !empty( $list_view ) ){
+                        pre( '', 'list_toggle'.($active_view == $list_view ? ' on' : ''), 'div', 'data-show="'.$list_view.'" data-off=".grid_toggle" data-on=".list_toggle" '.(!empty( $grid_view ) ? 'data-hide="'.$grid_view.'"' : '') );
+                            div( ( $options['portal_universal_icon_class'] ?? '' ) . ' ' . ( $options['port_ico_list_class'] ?? '' ), $options['port_ico_list_text'] ?? '' );
+                        post();
+                    }
+                    if( !empty( $grid_view ) ){
+                        pre( '', 'grid_toggle'.($active_view == $grid_view ? ' on' : ''), 'div', 'data-show="'.$grid_view.'" data-on=".grid_toggle" data-off=".list_toggle" '.(!empty( $list_view ) ? 'data-hide="'.$list_view.'"' : '') );
+                            div( ( $options['portal_universal_icon_class'] ?? '' ) . ' ' . ( $options['port_ico_grid_class'] ?? '' ), $options['port_ico_grid_text'] ?? '' );
+                        post();
+                    }
+                post();
+            }
+        post();
+
+        pre( '', 'right' );
+            if( !empty( $actions ) || !empty( $comp_or_actions ) )
+                is_array( $comp_or_actions ) ? div( 'actions' ) : get_comp( $comp_or_actions );
+        post();
+    post( 'header' );
 }
 
 function back_url( string $url = '' ): void {

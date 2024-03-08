@@ -11,6 +11,10 @@ $user_struct[] = [ 'users', [
     [ 'status', 'BOOLEAN', '', 1 ],
     [ 'access', 'VARCHAR', 4096, 0 ],
     [ 'since', 'DATETIME', '', 1 ],
+    [ 'phone_code', 'VARCHAR', 8, 0 ],
+    [ 'phone', 'VARCHAR', 128, 0 ],
+    [ 'gender', 'VARCHAR', 24, 0 ],
+    [ 'dob', 'date', '', 0 ],
     [ 'last_name', 'VARCHAR', 128, 0 ],
 ], 'user', 1 ];
 

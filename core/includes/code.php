@@ -1158,7 +1158,12 @@ function c_experimental( string|int $col_md = 12, string $class = '', string $id
  * @return void
  */
 function _c( string|int $col_md = 12, string $class = '', string $id = '', string $attr = '' ): void {
-    pre( $id, 'col-md-'.$col_md. ( str_contains( $class, 'col-' ) ? $class : ' col-12 '. $class ), 'div', $attr );
+    if( $col_md == 'col' ) {
+        $class = 'col';
+    } else {
+        $class = 'col-md-'.$col_md . ( str_contains( $class, 'col-' ) ? $class : ' col-12 '. $class );
+    }
+    pre( $id, $class, 'div', $attr );
 }
 
 /**

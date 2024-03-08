@@ -134,7 +134,7 @@ class REGION {
                 }
             }
         }
-        $f->option_params_wrap('reg',2,2,'base_region,regions');
+        $f->option_params_wrap('reg','row',2,2,'base_region,regions');
         $f->select2('regions','Set Operating Regions','Choose countries...',$countries,$regions['regions']??'','multiple data-reg',12,1);
         if( !empty( $regions['regions'] ) )
             $f->select2('base_region','Set Base Region','Choose country...',$limit_regions,$regions['base_region']??'','data-reg',12,1);
