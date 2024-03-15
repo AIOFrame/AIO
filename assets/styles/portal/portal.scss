@@ -404,7 +404,7 @@ article.fade > div {
   vertical-align: top;
   cursor: pointer;
   position: relative;
-  .ico, .mat-ico {
+  > div, > span, > i, > a {
     width: 50px;
     height: 100%;
     line-height: 70px;

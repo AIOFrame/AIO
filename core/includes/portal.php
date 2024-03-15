@@ -48,12 +48,13 @@ class PORTAL {
 
     /**
      * @param string|array $scripts
+     * @param string $alert_position
      * @return void
      */
-    function post_html( string|array $scripts = [] ): void {
-        $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'iro', 'scrollto', 'data', 'portal/portal' ] ) : $scripts.',iro,data,portal/portal';
+    function post_html( string|array $scripts = [], string $alert_position = 't r' ): void {
+        $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'iro', 'select2', 'scrollto', 'data', 'portal/portal' ] ) : $scripts.',iro,select2,data,portal/portal';
         //$c = new CODE();
-        post_html( $scripts );
+        post_html( $scripts, $alert_position );
     }
 
     /**
@@ -167,8 +168,10 @@ class PORTAL {
     function render_header( bool $show_navigation = false, string $logo_url = 'admin', bool $show_alerts = false, bool $show_languages = false, bool $link_to_front = false, bool $show_user = false, string $profile_url = '', string $logout_to = '' ): void {
         $db = new DB();
         $e = Encrypt::initiate();
-        global $options;
+        //global $options;
         global $is_light;
+        global $options;
+        //skel( $options );
         //$c = json_decode( CONFIG, 1 );
         $c = CONFIG;
         // TODO: Implement most params to be from user options
@@ -182,8 +185,11 @@ class PORTAL {
         pre( '', '', 'header' );
 
             // Brand Panel
+            // TODO: Update dynamic icon 1
             pre( 'brand_panel' );
-                $show_navigation ? div( 'nav_ico', ( str_contains( ICONS, 'Bootstrap' ) ? _el( 'i', 'bi bi-list menu' ) . _el( 'i', 'bi bi-x-lg close' ) : _div( 'mat-ico menu', 'menu' ) . _div( 'mat-ico close', 'close' ) ), 'menu' ) : '';
+                $menu_icon = _div( ( $options['portal_universal_icon_class'] ?? 'mico' ) . ' ' . ( $options['port_ico_menu_class'] ?? 'menu' ), $options['port_ico_menu_text'] ?? 'menu' );
+                $close_icon = _div( ( $options['portal_universal_icon_class'] ?? 'mico' ) . ' ' . ( $options['port_ico_close_class'] ?? 'close' ), $options['port_ico_close_text'] ?? 'close' );
+                $show_navigation ? div( 'nav_ico', $menu_icon . $close_icon, 'menu' ) : '';
                 a( APPURL . $logo_url, '', 'brand', '', $logo );
             post();
 
@@ -196,15 +202,15 @@ class PORTAL {
                     pre( 'alert', 'nav_ico', 'div', 'title="'.T('View Notifications').'"' );
                         div( 'mat-ico', 'notifications' );
                         el( 'span', '', !empty( $alerts ) ? count( $alerts ) : 0 );
-                        pre( '', 'events drop' );
-                            pre( '', 'n_events' );
-                                if( !empty( $alerts )) {
-                                    foreach( $alerts as $a ){
-                                        div( 'n_event', $a['alert_msg'], '', 'data-type="'.$a['alert_type'].'"' );
-                                    }
-                                }
+                        if( !empty( $alerts )) {
+                            pre( '', 'events drop' );
+                                pre( '', 'n_events' );
+                                        foreach( $alerts as $a ){
+                                            div( 'n_event', $a['alert_msg'], '', 'data-type="'.$a['alert_type'].'"' );
+                                        }
+                                post();
                             post();
-                        post();
+                        }
                     post();
                 }
 
@@ -217,17 +223,19 @@ class PORTAL {
                     $cr = !empty( $my_region ) ? $my_region : ( !empty( $options['primary_region'] ) ? $options['primary_region'] : $set_countries[ 0 ] );
                     $live = isset( $countries[$cr] ) ? explode( ' ', $countries[$cr] ) : [];
                     if( !empty( $set_countries ) ) {
-                        $rico = !empty( $cr ) ? '<div class="reg-ico">'.$live[0].'</div>' : '<div class="mat-ico">map</div>';
-                        echo '<div id="region" class="nav_ico" title="Change Region">'.$rico.'<div class="drop" data-action="'. ( APPDEBUG ? 'set_region_ajax' : $e->encrypt('set_region_ajax') ) .'">';
+                        _d( 'nav_ico', 'region', 'title='.T('Change Region') );
+                        echo !empty( $cr ) ? _div( 'reg-ico', $live[0] ) : _div( 'mat-ico', 'map' );
+                        _d( 'drop', '', 'data-action="'.( APPDEBUG ? 'set_region_ajax' : $e->encrypt('set_region_ajax') ).'"' );
                         foreach( $set_countries as $r ){
                             $t = $countries[$r] ?? '';
                             if( !empty( $cr ) && $cr == $r  ) {
-                                echo '<div class="ln list on">'.$t.'</div>';
+                                div( 'ln list on', $t );
                             } else {
-                                echo '<div class="ln list" data-set-region="'.$r.'">'.$t.'</div>';
+                                div( 'ln list', $t, '', 'data-set-region="'.$r.'"' );
                             }
                         }
-                        echo '</div></div>';
+                        d_();
+                        d_();
                     }
                     //skel( $regions );
                 }
@@ -237,12 +245,12 @@ class PORTAL {
                     // TODO: Get Languages
                     pre( 'lang', 'nav_ico' );
                         div( 'mat-ico', 'translate' );
-                        pre( '', 'drop' );
-                            foreach( [] as $l => $n ){
-                                $class = !empty( $_SESSION['lang'] ) ? $_SESSION['lang'] == $l ? ' on' : '' : '';
-                                div( 'ln list '.$class, $n, '', 'data-lang="'.$l.'"' );
-                            }
-                        post();
+                        //pre( '', 'drop' );
+                            //foreach( [] as $l => $n ){
+                                //$class = !empty( $_SESSION['lang'] ) ? $_SESSION['lang'] == $l ? ' on' : '' : '';
+                                //div( 'ln list '.$class, $n, '', 'data-lang="'.$l.'"' );
+                            //}
+                        //post();
                     post();
                 }
 
@@ -298,12 +306,13 @@ class PORTAL {
      * Renders Side Menu
      * @param array $menus Array set of [ 'title' => 'Contacts', 'url' => 'contacts', 'icon' => 'users', 'perm' => 'view_contacts', 'type' => 'admin', 'col' => 4, 'group' => 'Contacts', 'data' => 'contacts', 'menu' => [] ];
      * @param string $root_url URL of root Dashboard
+     * @param string $url_prefix Appends prefix before each url
      * @param string $content Any HTML content to be shown after Search Bar
      * @param string $class Class for the wrapper aside element
      * @param bool $gradient_icons Gradient Icons
      * @return void
      */
-    function render_menu( array $menus = [], string $root_url = 'portal', string $content = '', string $class = '', bool $gradient_icons = false ): void {
+    function render_menu( array $menus = [], string $root_url = 'portal', string $url_prefix = '', string $content = '', string $class = '', bool $gradient_icons = false ): void {
         //$menus = !empty( $menus ) ? array_group_by( $menus, 'group' ) : [];
         pre( '', 'menu '.$class, 'aside' );
             _r();
@@ -314,7 +323,8 @@ class PORTAL {
             r_();
             echo $content;
             if( !empty( $menus ) ) {
-                $user_type = isset( $_SESSION['user']['type'] ) && !empty( $_SESSION['user']['type'] ) ? $_SESSION['user']['type'] : '';
+                $user_type = $_SESSION['user']['type'] ?? '';
+                _d( 'menu_sets' );
                 foreach( $menus as $menu_set ) {
                     //skel( $menu_set );
                     $group_title = $menu_set['group'] ?? '';
@@ -364,7 +374,7 @@ class PORTAL {
                                     }
                                     if( empty( $restricted ) ) {
                                         $ico_class = $gradient_icons ? 'mat-ico l grad-bg' : 'mat-ico l';
-                                        div( $col, __a( APPURL . $url, _el( 'i', $ico_class, $icon ) . _div( 'title', T( $title ) ) ) );
+                                        div( $col, __a( APPURL . $url_prefix . $url, _el( 'i', $ico_class, $icon ) . _div( 'title', T( $title ) ) ) );
                                     }
                                 }
                             }
@@ -372,6 +382,7 @@ class PORTAL {
                         post();
                     }
                 }
+                d_();
             }
         post( 'aside' );
         div( 'credit', T('Copyright ©').' '.date('Y').' '.APPNAME );
@@ -432,8 +443,8 @@ function title_bar( string $title = '', string $back_url = '', string $list_view
     global $options;
     pre( '', 'header df aic jsb', 'header' );
         pre( '', 'left df' );
-            !empty( $back_url ) ? a( APPURL.$back_url, $options['port_ico_back_text'] ?? '', ( $options['portal_universal_icon_class'] ?? '' ) . ' ' . ( $options['port_ico_back_class'] ?? '' ), T('Return') ) : '';
-            !empty( $title ) ? h1( $title, 1, 'title mx-3' ) : '';
+            !empty( $back_url ) ? a( APPURL.$back_url, $options['port_ico_back_text'] ?? '', ( $options['portal_universal_icon_class'] ?? '' ) . ' back ' . ( $options['port_ico_back_class'] ?? '' ), T('Return') ) : '';
+            !empty( $title ) ? h1( $title, 1, 'title' ) : '';
         post();
 
         pre( '', 'center df' );

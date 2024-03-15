@@ -60,7 +60,7 @@
 .tabs.side, .tabs.vertical {
   display: flex;
 }
-.tabs.side .tab_heads:not(.fluid), .tabs.vertical .tab_heads:not(.fluid) {
+.tabs.side .tab_heads:not(.fluid):not(.wide), .tabs.vertical .tab_heads:not(.fluid):not(.wide) {
   flex: 0 0 150px;
 }
 .tabs.side .tab_heads, .tabs.vertical .tab_heads {

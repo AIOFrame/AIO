@@ -145,6 +145,12 @@ class CMS {
 
     }
 
+    /**
+     * @param string $modal_class s = small, m = medium, l = large, xl, f = full, l20, l40, l50, l60, l80, r20, r40...
+     * @param string $page_type
+     * @param bool $content_builder
+     * @return void
+     */
     function page_form( string $modal_class = '', string $page_type = 'page', bool $content_builder = false ): void {
         $f = new FORM();
         $statuses = $this->page_statuses;
@@ -168,6 +174,12 @@ class CMS {
         !empty( $modal_class ) ? pre_modal( $page_type, $modal_class ) : '';
         $f->pre_process( 'data-wrap id="'.$page_type.'_form"', 'update_page_ajax', $r, 'p_', 2, 2, [ 'page_type' => strtolower( $page_type ) ] );
         _r();
+            _c(4);
+                accordion( 'Identity', $f->_form( $publish_fields, 'row', $r ), 'br15 w on' );
+                accordion( 'Visibility', $f->_form( $visibility_fields, 'row', $r ), 'br15 w on' );
+                accordion( 'SEO', $f->_form( $seo_fields, 'row', $r ), 'br15 w' );
+                $f->process_trigger('Save '.$page_type,'w r');
+            c_();
             _c(8);
                 if( $content_builder ) {
                     $f->content_builder('content',ucwords( $page_type ).' Content','','','data-'.$r);
@@ -175,12 +187,6 @@ class CMS {
                     $f->richtext('content',ucwords( $page_type ).' Content','','data-'.$r);
                 }
             c_();
-        _c(4);
-        accordion( 'Identity', $f->_form( $publish_fields, 'row', $r ), 'br15 w on' );
-        accordion( 'Visibility', $f->_form( $visibility_fields, 'row', $r ), 'br15 w on' );
-        accordion( 'SEO', $f->_form( $seo_fields, 'row', $r ), 'br15 w' );
-        $f->process_trigger('Save '.$page_type,'w r');
-        c_();
         r_();
         $hidden_fields = [
             [ 'id' => 'date', 'a' => 'class="dn"', 'v' => date('Y-m-d H:i:s') ],
@@ -207,7 +213,7 @@ class CMS {
         $pages = $this->_pages( $page_type );
         $status = $this->page_statuses;
         if( empty( $pages ) ) {
-            no_content( 'No '.$page_type.' created yet!', '', $wrapper_class );
+            no_content( 'No '.$page_type.' created yet!', '', '', '', $wrapper_class );
         } else {
             $f = new FORM();
             $table[] = [ 'head' => [ 'ID', 'Name', 'Date', 'Visibility', 'Status', 'User', 'Actions' ] ];

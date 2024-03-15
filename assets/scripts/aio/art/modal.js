@@ -2,8 +2,10 @@ $(document).ready(function(){
 
     // Open Modal
     $('body').on('click','[data-modal]',function(){
-        $('body').addClass('modal_open');
         let e = $(this).data('modal');
+        if( $(e).length > 0 ) {
+            $('body').addClass('modal_open');
+        }
         $(e).addClass('on');
         $(e).find('[data-add]').show();
         $(e).find('[data-update],[data-edit]').hide();

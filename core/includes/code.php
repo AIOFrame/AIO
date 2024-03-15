@@ -434,16 +434,22 @@ function article__(): string {
     return _post( 'article' );
 }
 
-function pre_tabs( string $class = '' ): void {
+/**
+ * @param string $class Design class for tabs ( 'vertical' or 'material' )
+ * @param bool $remember_tab Remember the active tab on refresh (default false)
+ * @return void
+ */
+function pre_tabs( string $class = '', bool $remember_tab = false ): void {
     pre('','tabs '.$class);
-    pre('','tab_heads','div','data-store="tabs_'.str_replace( ' ', '_', $class ).'"');
+    $store = $remember_tab ? 'data-store="tabs_'.str_replace( ' ', '_', $class ).'"' : '';
+    pre('','tab_heads '.$class,'div',$store);
 }
 
 function tab( string $title = '', bool $active = false, string $target = '', string $icon = '' ): void {
     $target = empty( $target ) ? '#'.strtolower( str_replace( '___', '_', str_replace( ' ', '_', str_replace( '/', '_', $title ) ) ) ).'_data' : $target;
     $class = $active ? 'tab on' : 'tab';
     if( !empty( $icon ) ) {
-        $title = defined( 'ICONS' ) ? ( str_contains( ICONS, 'Material' ) ? '<i class="mat-ico">'.$icon.'</i>'.$title : '<i class="bi bi-'.$icon.'"></i>'.$title ) : $title;
+        $title = '<i class="mat-ico">'.$icon.'</i>'.$title;
     }
     div($class,$title,'','data-tab="'.$target.'"',1);
 }
@@ -1014,6 +1020,13 @@ function tab_heads( array $tab_titles = [], string $style = '', string $wrap_cla
     echo _tab_heads( $tab_titles, $style, $wrap_class, $translate_titles );
 }
 
+/**
+ * @param array $tab_titles [ 'User Accounts' ] or [ 'user' => 'User Account' ]
+ * @param string $style
+ * @param string $wrap_class
+ * @param bool $translate_titles
+ * @return string
+ */
 function _tab_heads( array $tab_titles = [], string $style = '', string $wrap_class = '', bool $translate_titles = false ): string {
     $data = _pre( '', 'tabs separate '.$style );
         $data .= _pre( '', 'tab_heads fluid '.$wrap_class, 'div', 'data-store' );

@@ -61,7 +61,7 @@ $error: var(--error_color);
 // Side Tabs
 .tabs.side, .tabs.vertical {
   display: flex;
-  .tab_heads:not(.fluid) {
+  .tab_heads:not(.fluid):not(.wide) {
     flex: 0 0 150px;
   }
   .tab_heads {
