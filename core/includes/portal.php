@@ -72,7 +72,6 @@ class PORTAL {
      * @return void
      */
     function auth_page( string $login_redirect_url = '', string $attrs = '', string $primary_color = '', string $secondary_color = '', string|array $pre_styles = [], string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [], string|array $icon_fonts = 'MaterialIcons' ): void {
-
         $styles = is_array( $styles ) ? array_merge( $styles, [ 'portal/login', 'login' ] ) : $styles . ',portal/login,login';
         $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'aio', 'portal/login', 'login' ] ) : $scripts . ',aio,portal/login,login';
 
@@ -82,9 +81,13 @@ class PORTAL {
 
     /**
      * Renders User Profile HTML
+     * @param bool $show_sessions Will show user login sessions
+     * @param bool $show_orders
+     * @param bool $show_addresses
+     * @param bool $show_employment
      * @return void
      */
-    function user_profile(): void {
+    function user_profile( bool $show_sessions = true, bool $show_orders = false, bool $show_addresses = false, bool $show_employment = false ): void {
         // TODO: Based on if ecom in features, implement my orders tab
         // TODO: Based on if ecom in features, implement my addresses tab
         // TODO: Based on if crm or ems in features, implement my expenses tab
@@ -101,7 +104,8 @@ class PORTAL {
                         tab( is_mobile() ? 'UI' : 'Appearance', 1, '#looks' );
                         tab( is_mobile() ? 'User' : 'User Details', 0, '#basic' );
                         tab( is_mobile() ? 'Pass' : 'Change Password', 0, '#pass' );
-                        tab( ( is_mobile() ? 'Sessions' : 'Active Sessions' ) . ' ('.count($ss).')', 0, '#sess' );
+                        if( $show_sessions )
+                            tab( ( is_mobile() ? 'Sessions' : 'Active Sessions' ) . ' ('.count($ss).')', 0, '#sess' );
                     post_tabs();
 
                     pre('','tab_data tab_data_box '.(is_mobile() ? 'p20' : 'p40'));
@@ -134,18 +138,20 @@ class PORTAL {
                         post();
 
                         // Sessions Tab Content
-                        pre('sess','dn');
-                            $sessions = [
-                                [ 'head' => [ 'OS', 'Start', 'Expiry', 'Browser' ] ],
-                            ];
-                            if( !empty( $ss ) ){
-                                foreach( $ss as $s ){
-                                    $id = !empty($s['session_id']) ? $c->encrypt($s['session_id']) : '';
-                                    $sessions[] = [ 'body' => [ $s['session_os'], easy_date($s['session_time'],'d M, Y H:i:s'), easy_date($s['session_expiry'],'d M, Y H:i:s'), $s['session_client'] ] ];
+                        if( $show_sessions ) {
+                            pre('sess','dn');
+                                $sessions = [
+                                    [ 'head' => [ 'OS', 'Start', 'Expiry', 'Browser' ] ],
+                                ];
+                                if( !empty( $ss ) ){
+                                    foreach( $ss as $s ){
+                                        $id = !empty($s['session_id']) ? $c->encrypt($s['session_id']) : '';
+                                        $sessions[ $id ] = [ 'body' => [ $s['session_os'], easy_date($s['session_time'],'d M, Y H:i:s'), easy_date($s['session_expiry'],'d M, Y H:i:s'), $s['session_client'] ] ];
+                                    }
                                 }
-                            }
-                            table( $sessions, 'plain' );
-                        post();
+                                table( $sessions, 'plain' );
+                            post();
+                       }
                     post();
                 c_();
             !is_mobile() ? div('col-2') : '';

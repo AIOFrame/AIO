@@ -154,8 +154,8 @@ if( defined( 'CONFIG' ) ) {
 
     }
 
-    // Get in config and include pages if user logged in
-    if (isset($c['logged_in']) && !empty($c['logged_in']) && user_logged_in()) {
+    // Load functions for signed-in user
+    if ( isset($c['logged_in']) && !empty($c['logged_in']) && user_logged_in() ) {
         if (is_assoc($c['logged_in'])) {
 
         } else if (is_array($c['logged_in'])) {
@@ -171,7 +171,7 @@ if( defined( 'CONFIG' ) ) {
         }
     }
 
-    // Get out config and include pages if user not logged in
+    // Load functions for signed out user
     if (isset($c['logged_out']) && !empty($c['logged_out']) && user_logged_in()) {
         if (is_assoc($c['logged_out'])) {
 
@@ -208,5 +208,4 @@ if( defined( 'CONFIG' ) ) {
         include_once( $fun );
     }
 }
-
 include_once( dirname( __FILE__ ) . '/includes/ajax.php' );
