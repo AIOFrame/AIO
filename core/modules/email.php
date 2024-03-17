@@ -474,10 +474,8 @@ class MAIL {
     function email_template_fields( array $fields = [], string $type = 'richtext', string|int $pre = 12 ): void {
         $f = new FORM();
         $db = new DB();
-        $pre =  $pre == 0 ? '<div class="col mb20">' : '<div class="col-12 col-md-'.$pre.' mb20">';
-        $post = '</div>';
         foreach( $fields as $fk => $fv ) {
-            echo $pre;
+            _c( $pre );
             $options = $db->get_options([$fk,$fk.'_subject']);
             $subject_val = $options[ $fk.'_subject' ] ?? '';
             $template_val = $options[ $fk ] ?? '';
@@ -489,7 +487,7 @@ class MAIL {
             } else if( $type == 'textarea' ) {
                 $f->textarea( $fk, $fv, '', $template_val, 'data-data class="editor"' );
             }
-            echo $post;
+            c_();
         }
         ?>
         <script>
@@ -517,15 +515,15 @@ class MAIL {
         echo '<div class="mail_view '.$wrap_class.'"><iframe style="width: 100%; margin-bottom: 30px;" class="template_preview" data-url="'.$url.'" src="'.$url.'" frameborder="0"></iframe></div>';
         global $template_strings;
         if( !empty( $template_strings ) && is_array( $template_strings ) ) {
-            echo '<div class="template_strings">';
-            echo '<h4>'.T('Template Strings').'</h4>';
-            echo '<div class="desc mb20">'.T('Copy the code within {{}} to replace with actual data!').'</div>';
+            _d( 'template_strings' );
+                h4( 'Template Strings', 1 );
+                div( 'desc mb20', T('Copy the code within {{}} to replace with actual data!') );
             foreach( $template_strings as $code => $replace ) {
-                echo '<div class="fz14 mb10">';
-                pre( $code . ' = ' . $replace );
-                echo '</div>';
+                _d( 'fz14 mb10' );
+                    pre( $code . ' = ' . $replace );
+                d_();
             }
-            echo '</div>';
+            d_();
         }
     }
 
@@ -565,7 +563,7 @@ class MAIL {
         $foot = $m->get_template('foot');
         $f = new FORM();
         $this->template_viewer( $template_url );
-        $f->pre_process('class="row"','','email','',3);
+        $f->pre_process('class="row"','','email');
         $os = $db->get_options(['from_email','smtp','smtp_server','smtp_port','smtp_username','smtp_password']);
         $attr = 'data-email';
         $f->text('test_content','','','',$attr.' class="dn"');
@@ -588,23 +586,21 @@ class MAIL {
         $f->input('password','smtp_password','SMTP Password','',$smtp_password,$attr,4);
         $f->process_trigger('Save API Details','store grad','','process_options_ajax','.col-12 tac');
         $f->post_process();
-        ?>
-        <form id="template" method="post">
-            <div class="row">
-                <?php
-                echo '<div class="col-12 col-md-6">';
-                $f->input( 'textarea','template_head','Email Header HTML','Ex: <html>',$head,'class="dn"' );
-                echo '<div id="head_code" class="email_code"></div>';
-                echo '</div>';
-                echo '<div class="col-12 col-md-6">';
-                $f->input( 'textarea','template_foot','Email Footer HTML','Ex: </html>',$foot,'class="dn"' );
-                echo '<div id="foot_code" class="email_code"></div>';
-                echo '</div>';
-                ?>
-            </div>
-            <div class="tac"><button class="store"><?php E('Build Template'); ?></button></div>
-        </form>
-        <?php
+        pre( 'template', '', 'form', 'method="post"' );
+            _r();
+                _c(6);
+                    $f->input( 'textarea','template_head','Email Header HTML','Ex: <html>',$head,'class="dn"' );
+                    div( 'email_code', '', 'head_code' );
+                c_();
+                _c(6);
+                    $f->input( 'textarea','template_foot','Email Footer HTML','Ex: </html>',$foot,'class="dn"' );
+                    div( 'email_code', '', 'foot_code' );
+                c_();
+            r_();
+            _d( 'tac' );
+                button_code( 'store', 'Build Template' );
+            d_();
+        post( 'form' );
         get_style('https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.21.0/ui/trumbowyg.min.css');
         get_scripts(['ace','https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.21.0/trumbowyg.min.js']);
         ?>

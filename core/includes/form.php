@@ -1006,7 +1006,7 @@ class FORM {
     function content_builder( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', int|float $height = 400, string $post = '' ): void {
         $this->pre( $pre );
         pre( '', 'd', 'div', 'style="display:non"' );
-            $this->textarea( $id, $label, '', $value, $attrs . ' data-content-field="'.$id.'"' );
+            $this->textarea( $id, $label, $placeholder, $value, $attrs . ' data-content-field="'.$id.'"' );
         post();
         pre( '', '', 'div', 'style="height:'.$height.'px" data-content-builder-field="'.$id.'"' );
             get_comp('content_builder');
@@ -1083,8 +1083,6 @@ class FORM {
      * @param string $target Database name if the data is supposed to store directly to db or ajax function name with _ajax at the end
      * @param string $data Data attribute of inputs to gather data
      * @param string $pre Pre-wrap string for database table columns
-     * @param int $notify Notification Time in Seconds
-     * @param int $reload Reload in Seconds
      * @param array $hidden Hidden data for Database
      * @param string $success_alert Text to notify upon successfully storing data
      * @param string $callback A JS Function to callback on results
@@ -1093,8 +1091,8 @@ class FORM {
      * @param string $validator Frontend JS script to add custom validation to the form data
      * @param string $reset_fields Reset input fields with data attribute (Tip: Use 1 to reset provided data fields)
      */
-    function pre_process( string $attr = '', string $target = '', string $data = '', string $pre = '', int $notify = 0, int $reload = 0, array $hidden = [], string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '' ): void {
-        echo $this->_pre_process( $attr, $target, $data, $pre, $notify, $reload, $hidden, $success_alert, $callback, $confirm, $redirect, $validator, $reset_fields );
+    function pre_process( string $attr = '', string $target = '', string $data = '', string $pre = '', array $hidden = [], string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '' ): void {
+        echo $this->_pre_process( $attr, $target, $data, $pre, $hidden, $success_alert, $callback, $confirm, $redirect, $validator, $reset_fields );
     }
 
     /**
@@ -1103,8 +1101,6 @@ class FORM {
      * @param string $data Data attribute of inputs to gather data
      * @param array $hidden Hidden data for Database
      * @param string $pre Pre-wrap string for database table columns
-     * @param int $notify Notification Time in Seconds
-     * @param int $reload Reload in Seconds
      * @param string $success_alert Text to notify upon successfully storing data
      * @param string $callback A JS Function to callback on results
      * @param string $confirm A confirmation popup will execute further code
@@ -1113,7 +1109,8 @@ class FORM {
      * @param string $reset_fields Reset input fields with data attribute (Tip: Use 1 to reset provided data fields)
      * @return string
      */
-    function _pre_process( string $attr = '', string $target = '', string $data = '', string $pre = '', int $notify = 0, int $reload = 0, array $hidden = [], string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '' ): string {
+    function _pre_process( string $attr = '', string $target = '', string $data = '', string $pre = '', array $hidden = [], string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '' ): string {
+        global $options;
         $c = Encrypt::initiate();
         $r = $attr == '_' ? '' : '<div '.$attr.' ';
         if( APPDEBUG ) {
@@ -1124,6 +1121,8 @@ class FORM {
             $hidden = $c->encrypt_array( $hidden );
         }
         $t = ' data-t="'.$target.'"';
+        $notify = $options['notify_time'] ?? 2;
+        $reload = $options['reload_time'] ?? 2;
         $nt = $notify > 0 ? ' data-notify="'.$notify.'"' : '';
         $rl = $reload > 0 ? ' data-reload="'.$reload.'"' : '';
         $d = !empty( $data ) ? ' data-data="'.$data.'"' : '';
@@ -1146,7 +1145,7 @@ class FORM {
      * @param string $form_type Type of wrap around the form ( 'get' or 'post' or 'row' or 'settings' )
      * @param string $data_attr Common data attribute for all inputs
      */
-    function form( array $fields = [], string $form_type = '', string $data_attr = '' ): void {
+    function form( array $fields = [], string $form_type = 'row', string $data_attr = '' ): void {
         echo $this->_form( $fields, $form_type, $data_attr );
     }
 
@@ -1331,13 +1330,13 @@ class FORM {
         //skel( $h );
     }
 
-    function option_params_wrap( string $data = '', string $class = '', int $notify = 0, int $reload = 0, array|string $autoload = [], array|string $unique = [], array|string $encrypt = [], string $success_text = 'Successfully Updated Preferences!', string $callback = '', string $confirm = '' ): void {
+    function option_params_wrap( string $data = '', string $class = '', array|string $autoload = [], array|string $unique = [], array|string $encrypt = [], string $success_text = 'Successfully Updated Preferences!', string $callback = '', string $confirm = '' ): void {
         $h = [];
         !empty( $autoload ) ? $h['autoload'] = $autoload : '';
         !empty( $unique ) ? $h['unique'] = $unique : '';
         !empty( $encrypt ) ? $h['encrypt'] = $encrypt : '';
         //echo '<div class="row"';
-        $this->pre_process( 'class="'.$class.'"', 'process_options_ajax', $data, '', $notify, $reload, $h, $success_text, $callback, $confirm );
+        $this->pre_process( 'class="'.$class.'"', 'process_options_ajax', $data, '', $h, $success_text, $callback, $confirm );
         //echo '>';
     }
 

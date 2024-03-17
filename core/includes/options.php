@@ -73,7 +73,7 @@ class OPTIONS {
         $brands = defined( 'REGION' ) ? prepare_values( $this->brand_options, $r ) : $this->brand_options;
         $ops = $db->get_options( $brands );
         //skel( prepare_values( $this->brand_options, $r ) );
-        $f->option_params_wrap( 'brand', 'row', 2, 2, $brands );
+        $f->option_params_wrap( 'brand', 'row', $brands );
             $attr = 'data-brand';
             $ext = 'jpg,svg,png,gif';
             $name = !empty( $ops[$r.'app_name'] ) ? $ops[$r.'app_name'] : 'fake_name';
@@ -135,7 +135,7 @@ class OPTIONS {
         $attr = 'data-colors';
         $colors = $this->colors;
         $ops = $db->get_options( $colors );
-        $f->option_params_wrap(  'colors', 'row', 2, 2, $colors );
+        $f->option_params_wrap(  'colors', 'row', $colors );
         foreach( $colors as $c => $cv ) {
             $f->color($c,ucwords(str_replace('_',' ',$c)),'Ex: F1F1F1',$ops[$c]??$cv,$attr,0,'','[data-key='.$c.']');
         }
@@ -156,27 +156,42 @@ class OPTIONS {
         $options = $f->input_options;
         //skel( $options );
         $ops = $db->get_options( $options );
-        $f->option_params_wrap(  'input', 'row', 2, 2, $options );
+        $f->option_params_wrap( 'input', 'row', $options );
         $attr = 'data-input';
         foreach( $options as $iok => $iov ) {
             $v[ $iok ] = $ops[ $iok ] ?? $iov;
         }
-        $f->input('number','input_radius','Corner Radius (Px)','Ex: 5',$v['input_radius'],$attr,4);
-        $f->input('number','input_border_top','Border - Top (Px)','Ex: 2',$v['input_border_top'],$attr,2);
-        $f->input('number','input_border_right','Border - Right (Px)','Ex: 2',$v['input_border_right'],$attr,2);
-        $f->input('number','input_border_bottom','Border - Bottom (Px)','Ex: 2',$v['input_border_bottom'],$attr,2);
-        $f->input('number','input_border_left','Border - Left (Px)','Ex: 2',$v['input_border_left'],$attr,2);
-        echo '<div class="col-6"><h4 class="mt0 ttu">'.T('Padding').' (Px)</h4><div class="row">';
-        $f->input('number','input_padding_top','Top','Ex: 2',$v['input_padding_top'],$attr,3);
-        $f->input('number','input_padding_right','Right','Ex: 2',$v['input_padding_right'],$attr,3);
-        $f->input('number','input_padding_bottom','Bottom','Ex: 2',$v['input_padding_bottom'],$attr,3);
-        $f->input('number','input_padding_left','Left','Ex: 2',$v['input_padding_left'],$attr,3);
-        echo '</div></div><div class="col-6"><h4 class="mt0 ttu">'.T('Margin').' (Px)</h4><div class="row">';
-        $f->input('number','input_margin_top','Top','Ex: 2',$v['input_margin_top'],$attr,3);
-        $f->input('number','input_margin_right','Right','Ex: 2',$v['input_margin_right'],$attr,3);
-        $f->input('number','input_margin_bottom','Bottom','Ex: 2',$v['input_margin_bottom'],$attr,3);
-        $f->input('number','input_margin_left','Left','Ex: 2',$v['input_margin_left'],$attr,3);
-        echo '</div></div>';
+        $input_borders = [
+            [ 't' => 'number', 'i' => 'input_radius', 'n' => 'Corner Radius (px)', 'p' => 'Ex: 5', 'v' => $v['input_radius'] ?? '', 'a' => $attr, 'c' => 4 ],
+            [ 't' => 'number', 'i' => 'input_border_top', 'n' => 'Border - Top (px)', 'p' => 'Ex: 2', 'v' => $v['input_border_top'] ?? '', 'a' => $attr, 'c' => 2 ],
+            [ 't' => 'number', 'i' => 'input_border_right', 'n' => 'Border - Right (px)', 'p' => 'Ex: 2', 'v' => $v['input_border_right'] ?? '', 'a' => $attr, 'c' => 2 ],
+            [ 't' => 'number', 'i' => 'input_border_bottom', 'n' => 'Border - Bottom (px)', 'p' => 'Ex: 2', 'v' => $v['input_border_bottom'] ?? '', 'a' => $attr, 'c' => 2 ],
+            [ 't' => 'number', 'i' => 'input_border_left', 'n' => 'Border - Left (px)', 'p' => 'Ex: 2', 'v' => $v['input_border_left'] ?? '', 'a' => $attr, 'c' => 2 ],
+        ];
+        $f->form( $input_borders );
+        _r();
+            _c(6);
+                h4(T('Padding'). ' (px)',0,'mt0 ttu');
+                $input_paddings = [
+                    [ 't' => 'number', 'i' => 'input_padding_top', 'n' => 'Top', 'p' => 'Ex: 5', 'v' => $v['input_padding_top'] ?? '', 'a' => $attr, 'c' => 3 ],
+                    [ 't' => 'number', 'i' => 'input_padding_right', 'n' => 'Right', 'p' => 'Ex: 5', 'v' => $v['input_padding_right'] ?? '', 'a' => $attr, 'c' => 3 ],
+                    [ 't' => 'number', 'i' => 'input_padding_bottom', 'n' => 'Bottom', 'p' => 'Ex: 5', 'v' => $v['input_padding_bottom'] ?? '', 'a' => $attr, 'c' => 3 ],
+                    [ 't' => 'number', 'i' => 'input_padding_left', 'n' => 'Left', 'p' => 'Ex: 5', 'v' => $v['input_padding_left'] ?? '', 'a' => $attr, 'c' => 3 ],
+                ];
+                $f->form( $input_paddings );
+            c_();
+            _c(6);
+                h4(T('Margins'). ' (px)',0,'mt0 ttu');
+                $input_margins = [
+                    [ 't' => 'number', 'i' => 'input_margin_top', 'n' => 'Top', 'p' => 'Ex: 5', 'v' => $v['input_margin_top'] ?? '', 'a' => $attr, 'c' => 3 ],
+                    [ 't' => 'number', 'i' => 'input_margin_right', 'n' => 'Right', 'p' => 'Ex: 5', 'v' => $v['input_margin_right'] ?? '', 'a' => $attr, 'c' => 3 ],
+                    [ 't' => 'number', 'i' => 'input_margin_bottom', 'n' => 'Bottom', 'p' => 'Ex: 5', 'v' => $v['input_margin_bottom'] ?? '', 'a' => $attr, 'c' => 3 ],
+                    [ 't' => 'number', 'i' => 'input_margin_left', 'n' => 'Left', 'p' => 'Ex: 5', 'v' => $v['input_margin_left'] ?? '', 'a' => $attr, 'c' => 3 ],
+                ];
+                $f->form( $input_margins );
+            c_();
+        r_();
+        h4(T('Light Theme Options'). ' (px)',0,'mt0 ttu');
         echo '<div class="col-12"><h4 class="mt0 ttu">'.T('Light Theme Options').'</h4></div>';
         $f->color('input_bg_light','Background','Ex: F1F1F1',$v['input_bg_light'],$attr,4,'','[data-key=input_bg_light]');
         $f->color('input_border_color_light','Border Color','Ex: F1F1F1',$v['input_border_color_light'],$attr,2,'','[data-key=input_border_color_light]');
@@ -206,7 +221,7 @@ class OPTIONS {
         $options_array = [ 'font_1', 'font_1_weights', 'font_weight', 'font_2', 'font_2_weights' ];
         $options_array = defined( 'REGION' ) ? prepare_values( $options_array, $r ) : $options_array;
         $ops = $db->get_options( $options_array );
-        $f->option_params_wrap( 'fonts', 'row', 2, 2, $options_array );
+        $f->option_params_wrap( 'fonts', 'row', $options_array );
         $font_1 = $ops['font_1'] ?? 'Lato';
         $font_1_weights = $ops['font_1_weights'] ?? '400';
         $font_weight = $ops['font_weight'] ?? '400';
@@ -256,18 +271,18 @@ class OPTIONS {
         $os = $db->get_options( $comm_options );
         //skel( $r );
         //skel( $os );
-        $f->option_params_wrap('com','row',2,2);
-        $phone = !empty( $os[$r.'phone'] ) ? $os[$r.'phone'] : 'fake_phone';
-        $mobile = !empty( $os[$r.'mobile'] ) ? $os[$r.'mobile'] : 'fake_phone';
-        $email = !empty( $os[$r.'email'] ) ? $os[$r.'email'] : 'fake_email';
-        $website = !empty( $os[$r.'website'] ) ? $os[$r.'website'] : 'fake_site';
-        $f->text($r.'phone','Official Phone No.','Ex: 403334444',$phone,'data-com',3);
-        $f->text($r.'mobile','Mobile No. for Social Media','Ex: 503334444',$mobile,'data-com',3);
-        $f->text($r.'email','Official Email','Ex: hello@company.com',$email,'data-com',3);
-        $f->text($r.'website','Official Website','Ex: company.com',$website,'data-com',3);
-        $f->process_options($this->region_flag().'Save Options','store grad','','.col-12 tac');
-        $this->region_notice();
-        echo '</div>';
+        $f->option_params_wrap('com','row');
+            $phone = !empty( $os[$r.'phone'] ) ? $os[$r.'phone'] : 'fake_phone';
+            $mobile = !empty( $os[$r.'mobile'] ) ? $os[$r.'mobile'] : 'fake_phone';
+            $email = !empty( $os[$r.'email'] ) ? $os[$r.'email'] : 'fake_email';
+            $website = !empty( $os[$r.'website'] ) ? $os[$r.'website'] : 'fake_site';
+            $f->text($r.'phone','Official Phone No.','Ex: 403334444',$phone,'data-com',3);
+            $f->text($r.'mobile','Mobile No. for Social Media','Ex: 503334444',$mobile,'data-com',3);
+            $f->text($r.'email','Official Email','Ex: hello@company.com',$email,'data-com',3);
+            $f->text($r.'website','Official Website','Ex: company.com',$website,'data-com',3);
+            $f->process_options($this->region_flag().'Save Options','store grad','','.col-12 tac');
+            $this->region_notice();
+        post();
     }
 
     function geo_options(): void {
@@ -279,7 +294,7 @@ class OPTIONS {
         $add_ops = ['address','add_name','city','state','post','country','date_format','time_format','zone'];
         $add_ops = defined( 'REGION' ) ? prepare_values( $add_ops, $r ) : $add_ops;
         $os = $db->get_options($add_ops);
-        $f->option_params_wrap('add','row',2,2);
+        $f->option_params_wrap('add','row');
         $address = !empty( $os[$r.'address'] ) ? $os[$r.'address'] : 'fake_address';
         $city = !empty( $os[$r.'city'] ) ? $os[$r.'city'] : 'fake_city';
         $state = !empty( $os[$r.'state'] ) ? $os[$r.'state'] : 'fake_state';
@@ -310,7 +325,7 @@ class OPTIONS {
         $fin_ops = defined( 'REGION' ) ? prepare_keys( $fin_ops, $r ) : $fin_ops;
         $finance_keys = array_merge( $fin_ops, [ 'base_region' ] );
         $os = $db->get_options( $finance_keys );
-        $f->option_params_wrap('cd','row',2,2);
+        $f->option_params_wrap('cd','row');
         //skel( REGIONS );
         $base = defined('REGIONS') && isset( REGIONS['base'] ) ? REGIONS['base']['cca2'] . ' - ' .REGIONS['base']['symbol'] : 'US';
         $now = defined('REGIONS') && isset( REGIONS['now'] ) ? REGIONS['now']['cca2'] . ' - ' .REGIONS['now']['symbol'] : 'US';
@@ -332,7 +347,7 @@ class OPTIONS {
         $f = new FORM();
         $db = new DB();
         $os = $db->get_options(['no_access_image','no_content_image']);
-        $f->option_params_wrap('cn','row',2,2);
+        $f->option_params_wrap('cn','row');
         $no_access_image = $os['no_access_image'] ?? '';
         $no_content_image = $os['no_content_image'] ?? '';
         $f->upload('no_access_image','Image to show when user has no access!','Upload',$no_access_image,0,1,'','data-cn','jpg,png,svg',.1,0,'',6);
@@ -360,7 +375,7 @@ class OPTIONS {
         $f = new FORM();
         $db = new DB();
         $os = $db->get_options( $options );
-        $f->option_params_wrap('soc','settings',2,2);
+        $f->option_params_wrap('soc','settings');
         $social_form = [];
         foreach( $options as $ok => $ov ) {
             $val = $os[ $ok ] ?? '';
@@ -414,7 +429,7 @@ class OPTIONS {
         $all_languages = get_languages();
         unset( $all_languages['en'] );
         $languages = $db->get_option('languages');
-        $f->option_params_wrap('al','settings',2,2,['languages','languages_updated']);
+        $f->option_params_wrap('al','settings','languages,languages_updated');
         $f->select2('languages','Set Languages','Choose Languages...',$all_languages,$languages,'data-al multiple',12,1);
         $f->text('languages_updated','','',1,'hidden data-al');
         $f->process_options('Save Options','store grad','','.col-12 tac');
@@ -432,7 +447,7 @@ class OPTIONS {
                 $data[ $o['option_name'] ] = $o['option_value'];
             }
         }
-        $f->option_params_wrap( 'ei', 'settings', 2, 2 );
+        $f->option_params_wrap( 'ei', 'settings' );
         //$f->process_params('','ei','',2,2,[],'Successfully imported options!','','','','','','row');
         $f->textarea('export','Export Options','',$e->encrypt_array($data),'rows="5"',6);
         $f->textarea('import','Import Options','','','data-ei rows="5"',6);
@@ -508,8 +523,25 @@ class OPTIONS {
             }
         }
         $f = new FORM();
-        $f->option_params_wrap( $data, '', $notify, $reload, $auto_load, $unique, $encrypt, $success, $callback, $confirm );
+        $f->option_params_wrap( $data, '', $auto_load, $unique, $encrypt, $success, $callback, $confirm );
             $f->form( $form, $type );
+            $f->process_trigger( 'Save Options', 'store grad', '', '', '.col-12 tac' );
+        post();
+    }
+
+    function data_options(): void {
+        $url = str_replace( '/', '', str_replace( '://', '', str_replace( 'http', '', str_replace( 'https', '', APPURL ) ) ) );
+        $form = [
+            [ 'i' => 'success_message', 'p' => 'Ex: Stored successfully!', 'n' => 'Data saved success Message', 'c' => 6 ],
+            [ 'i' => 'failure_message', 'p' => 'Ex: Failed to store data, please mail at support@'.$url, 'n' => 'Data save failure Message', 'c' => 6 ],
+            [ 'i' => 'notify_time', 't' => 'number', 'p' => 'Ex: 2', 'n' => 'Notification Display Time (seconds)', 'c' => 3 ],
+            [ 'i' => 'reload_time', 't' => 'number', 'p' => 'Ex: 2', 'n' => 'Page Reload Time (seconds)', 'c' => 3 ],
+            [ 'i' => 'save_class', 'p' => 'Ex: save_button', 'n' => 'Save button class', 'c' => 6 ],
+            //[ 't' => 'hidden', 'i' => 'autoload', 'v' => 'notify_time,reload_time,success_message,failure_message' ],
+        ];
+        $f = new FORM();
+        $f->option_params_wrap( '', '', 'notify_time,reload_time,success_message,failure_message,save_class' );
+            $f->form( $form, 'row' );
             $f->process_trigger( 'Save Options', 'store grad', '', '', '.col-12 tac' );
         post();
     }

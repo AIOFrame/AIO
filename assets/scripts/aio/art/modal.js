@@ -16,17 +16,19 @@ $(document).ready(function(){
     })
 
     // Modal Close Logics
-    .on('click','.modal .close',function(){
-        $(this).parent('.modal').removeClass('on');
+    .on('click','.modal .close,[data-close_modal]',function(){
+        let modal = $(this).hasClass('close') ? $(this).parent('.modal') : $(this).data('close_modal');
+        $( modal ).removeClass('on');
+
+        // Remove background fade if all modals are closed
         let removeFade = [];
         $('.modal').each(function(a,b){
             if( $(b).hasClass('on') ) {
                 removeFade.push(1);
             }
         });
-        //console.log( removeFade.length );
         if( removeFade.length === 0 ) { $('body').removeClass('modal_open'); }
-        reset_modal(this);
+        reset_modal( modal );
     });
 })
 

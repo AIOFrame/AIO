@@ -41,7 +41,7 @@ pre( '', 'aio_content_builder' );
                 //skel( $wk );
                 $widget_id = strtolower( str_replace( ' ', '_', $wd['name'] ) );
                 $image = _div('tac',_img($wd['image'],'','widget_image',$wd['name'],$wd['name'],'style="height: 100px"'));
-                $widget_add_buttons .= _div( 'col-12 col-md-3', _div( $wk.' add_widget', $image . _el( 'div', 'widget_title', $wd['name'], '', '', 1 ), $wk, 'data-off=".choose_widgets_modal" data-on="#'.$widget_id.'_modal" data-widget-link' ) );
+                $widget_add_buttons .= _div( 'col-12 col-md-3', _div( $wk.' add_widget', $image . _el( 'div', 'widget_title', $wd['name'], '', '', 1 ), $wk, 'data-close_modal=".choose_widgets_modal" data-modal="#'.$widget_id.'_modal" data-widget-link' ) );
             }
         }
         // Widget Picker Modal

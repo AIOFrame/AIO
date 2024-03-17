@@ -25,8 +25,9 @@ class CMS {
             'name' => 'Icon Widget',
             'desc' => 'A simple icon widget',
             'form' => [
-                [ 't' => 'upload', 'i' => 'icon', 'l' => 'Upload Icon', 'c' => 6 ],
-                [ 't' => 'select', 'i' => 'type', 'l' => 'Icon Font', 'c' => 6, 'o' => [ 'mat-ico' => 'Material Icons', 'bi bi-' => 'Bootstrap Icons', 'fa fa-' => 'Font Awesome' ], 'k' => 1 ],
+                [ 't' => 'upload', 'i' => 'icon', 'l' => 'Upload Icon', 'c' => 4 ],
+                [ 'i' => 'text', 'l' => 'Text', 'c' => 4 ],
+                [ 't' => 'select', 'i' => 'type', 'l' => 'Icon Font', 'c' => 4, 'o' => [ 'mat-ico ' => 'Material Icons', 'bi bi-' => 'Bootstrap Icons', 'fa fa-' => 'Font Awesome' ], 'k' => 1 ],
             ],
             'html' => '<div class="{{icon}} {{type}}">{{icon}}</div>'
         ],
@@ -39,10 +40,10 @@ class CMS {
             'name' => 'Image Widget',
             'desc' => 'A simple image widget',
             'form' => [
-                [ 't' => 'upload', 'i' => 'image', 'l' => 'Upload Image', 'c' => 6 ],
+                [ 't' => 'upload', 'i' => 'image', 'l' => 'Upload Image', 'c' => 2 ],
+                [ 't' => 'text', 'i' => 'height', 'l' => 'Height', 'c' => 2 ],
+                [ 't' => 'text', 'i' => 'width', 'l' => 'Width', 'c' => 2 ],
                 [ 't' => 'text', 'i' => 'title', 'l' => 'Image Title', 'c' => 6 ],
-                [ 't' => 'text', 'i' => 'height', 'l' => 'Height', 'c' => 6 ],
-                [ 't' => 'text', 'i' => 'width', 'l' => 'Width', 'c' => 6 ],
             ],
             'html' => '<img src="{{image}}" alt="{{title}}" style="height:{{height}};width:{{width}}">'
         ],
@@ -149,9 +150,10 @@ class CMS {
      * @param string $modal_class s = small, m = medium, l = large, xl, f = full, l20, l40, l50, l60, l80, r20, r40...
      * @param string $page_type
      * @param bool $content_builder
+     * @param string $widget_picker_class
      * @return void
      */
-    function page_form( string $modal_class = '', string $page_type = 'page', bool $content_builder = false ): void {
+    function page_form( string $modal_class = '', string $page_type = 'page', bool $content_builder = false, string $widget_picker_class = 'b80' ): void {
         $f = new FORM();
         $statuses = $this->page_statuses;
         unset( $statuses[4] );
@@ -295,6 +297,14 @@ class CMS {
     }
 
     function options(): void {
+        $form = [
+            [ 't' => 'text' ],
+        ];
+        $f = new FORM();
+        $f->option_params_wrap( '', '', 2, 2, $auto_load, $unique, $encrypt, $success, $callback, $confirm );
+            $f->form( $form, $type );
+            $f->process_trigger( 'Save Options', 'store grad', '', '', '.col-12 tac' );
+        post();
         // TODO: Implement CMS Options
     }
 
