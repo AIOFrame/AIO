@@ -78,11 +78,11 @@ class CRM {
         $db = new DB();
         $ops = ['lead_statuses','client_statuses'];
         $os = $db->get_options( $ops );
-        $f->option_params_wrap('cd',2,2);
-        $f->text('lead_statuses','Lead Statuses','Ex: Potential Client, New Lead, No Response...',$os['lead_statuses'] ?? '','data-cd',12);
+        $f->option_params_wrap('cd');
+            $f->text('lead_statuses','Lead Statuses','Ex: Potential Client, New Lead, No Response...',$os['lead_statuses'] ?? '','data-cd',12);
         //$f->text('client_statuses','Client Statuses','Ex: Potential Client, New Lead, No Response...',$os['lead_statuses'] ?? '','data-cd',12);
         $f->process_options('Save Options','store grad','','.col-12 tac');
-        echo '</div>';
+        post();
     }
 
 }

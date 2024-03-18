@@ -148,45 +148,46 @@ class CMS {
 
     /**
      * @param string $modal_class s = small, m = medium, l = large, xl, f = full, l20, l40, l50, l60, l80, r20, r40...
-     * @param string $page_type
-     * @param bool $content_builder
+     * @param string $content_type Ex: Page, Blog, News
+     * @param bool $content_builder Render Content Builder or show simple Rich Text editor
      * @param string $widget_picker_class
      * @return void
      */
-    function page_form( string $modal_class = '', string $page_type = 'page', bool $content_builder = false, string $widget_picker_class = 'b80' ): void {
+    function page_form( string $modal_class = '', string $content_type = 'page', bool $content_builder = false, string $widget_picker_class = 'b80' ): void {
         $f = new FORM();
         $statuses = $this->page_statuses;
         unset( $statuses[4] );
         $publish_fields = [
-            [ 'id' => 'title', 'title' => ucwords( $page_type ).' Title', 'a' => 'required' ],
+            [ 'id' => 'title', 'title' => ucwords( $content_type ).' Title', 'a' => 'required' ],
             [ 'id' => 'url', 'title' => 'URL Slug', 'p' => 'Ex: procedure-to-register', 'a' => 'data-no-space', 'c' => 12.1 ],
         ];
         $visibility_fields = [
             [ 't' => 'date', 'id' => 'birth', 'n' => 'Visible From', 'c' => 6 ],
             [ 't' => 'date', 'id' => 'expiry', 'n' => 'Visible Till', 'c' => 6 ],
-            [ 'type' => 'select', 'id' => 'status', 'title' => ucwords( $page_type ).' Status', 'o' => $statuses, 'v' => 1, 'a' => 'required', 'k' => 1 ],
-            [ 'id' => 'password', 'n' => 'Password', 'c' => 12.1 ],
+            [ 'type' => 'select', 'id' => 'status', 'title' => ucwords( $content_type ).' Status', 'o' => $statuses, 'v' => 1, 'a' => 'required', 'k' => 1 ],
+            [ 'id' => 'password', 'n' => 'Password', 'p' => 'Ex: **********', 'c' => 12.1 ],
         ];
         $seo_fields = [
-        [ 't' => 'textarea', 'id' => 'meta_desc', 'n' => 'Meta Description' ],
-            [ 't' => 'textarea', 'id' => 'meta_words', 'n' => 'Meta Keywords' ],
-            [ 'id' => 'meta_author', 'n' => 'Meta Author', 'c' => 12.1 ],
+            [ 't' => 'textarea', 'id' => 'meta_desc', 'n' => 'Meta Description', 'm' => 512 ],
+            [ 't' => 'textarea', 'id' => 'meta_words', 'p' => '', 'n' => 'Keywords', 'm' => 512 ],
+            [ 'id' => 'author', 'n' => 'Author', 'p' => 'Ex: Shaikh', 'm' => 256 ],
+            [ 't' => 'slide', 'id' => 'follow', 'n' => 'Visible to Search Engines', 'off' => 'No', 'on' => 'Yes', 'v' => 1, 'c' => 12.1 ],
         ];
         $r = $f->_random();
-        !empty( $modal_class ) ? pre_modal( $page_type, $modal_class ) : '';
-        $f->pre_process( 'data-wrap id="'.$page_type.'_form"', 'update_page_ajax', $r, 'p_', 2, 2, [ 'page_type' => strtolower( $page_type ) ] );
+        !empty( $modal_class ) ? pre_modal( $content_type, $modal_class ) : '';
+        $f->pre_process( 'data-wrap id="'.$content_type.'_form"', 'update_content_ajax', $r, 'p_', [ 'content_type' => strtolower( $content_type ) ] );
         _r();
             _c(4);
                 accordion( 'Identity', $f->_form( $publish_fields, 'row', $r ), 'br15 w on' );
-                accordion( 'Visibility', $f->_form( $visibility_fields, 'row', $r ), 'br15 w on' );
-                accordion( 'SEO', $f->_form( $seo_fields, 'row', $r ), 'br15 w' );
-                $f->process_trigger('Save '.$page_type,'w r');
+                accordion( 'SEO', $f->_form( $seo_fields, 'row', $r ), 'br15 w on' );
+                accordion( 'Visibility', $f->_form( $visibility_fields, 'row', $r ), 'br15 w' );
+                $f->process_trigger('Save '.$content_type,'w r');
             c_();
             _c(8);
                 if( $content_builder ) {
-                    $f->content_builder('content',ucwords( $page_type ).' Content','','','data-'.$r);
+                    $f->content_builder('content',ucwords( $content_type ).' Content','','','data-'.$r);
                 } else {
-                    $f->richtext('content',ucwords( $page_type ).' Content','','data-'.$r);
+                    $f->richtext('content',ucwords( $content_type ).' Content','','data-'.$r);
                 }
             c_();
         r_();
@@ -211,8 +212,8 @@ class CMS {
         }
     }
 
-    function pages_list( string $page_type = 'page', string $wrapper_class = '' ): void {
-        $pages = $this->_pages( $page_type );
+    function pages_list( string $page_type = 'page', bool $show_user = false, string $wrapper_class = '' ): void {
+        $pages = $this->_pages( $page_type, $show_user );
         $status = $this->page_statuses;
         if( empty( $pages ) ) {
             no_content( 'No '.$page_type.' created yet!', '', '', '', $wrapper_class );
@@ -221,12 +222,12 @@ class CMS {
             $table[] = [ 'head' => [ 'ID', 'Name', 'Date', 'Visibility', 'Status', 'User', 'Actions' ] ];
             foreach( $pages as $p ) {
                 $table[]['body'] = [
-                    $p['page_id'],
-                    $p['page_title'].'<div><small>/'.$p['page_url'].'</small></div>',
-                    easy_date($p['page_date']).'<div><small>'.T('Updated').': '.easy_date($p['page_update']).'</small></div>',
-                    (!empty($p['page_birth'])?'<div><small>'.T('Visible from').': '.easy_date($p['page_birth']).'</small></div>':'').(!empty($p['page_expiry'])?'<div><small>'.T('Visible till').': '.easy_date($p['page_expiry']).'</small></div>':''),
-                    $status[ $p['page_status'] ] ?? '',
-                    $p['user_name'],
+                    $p['content_id'],
+                    $p['content_title']. _div('', _el('small','',$p['content_url']) ),
+                    easy_date($p['content_date'])._div('', _el('small','',T('Updated').': '.easy_date($p['content_update'])) ),
+                    ( !empty($p['content_birth']) ? _div('', _el('small','',T('Visible from').': '.easy_date($p['content_birth'])) ) : '' ) . ( !empty($p['content_expiry']) ? _div('', _el('small','',T('Visible till').': '.easy_date($p['content_expiry'])) ) : '' ),
+                    $status[ $p['content_status'] ] ?? '',
+                    $show_user ? $p['user_name'] : '',
                     _pre('','acts').$f->_edit_html( '#'.$page_type.'_modal', $p, 'div', '', '', '', 'mat-ico', 'edit' )._post()
                 ];
             }
@@ -234,15 +235,15 @@ class CMS {
         }
     }
 
-    function page_cards( string $page_type = 'page', string $wrapper_class = '', string|int $cols = 4 ): void {
-        $pages = $this->_pages( $page_type );
+    function page_cards( string $page_type = 'page', bool $show_user = false, string $wrapper_class = '', string|int $cols = 4 ): void {
+        $pages = $this->_pages( $page_type, $show_user );
         $status = $this->page_statuses;
         if( empty( $pages ) ) {
             no_content( 'No '.$page_type.' created yet!', '', $wrapper_class );
         } else {
             $cards = [];
             foreach( $pages as $p ) {
-                $cards[] = _card( 'br15', $p['page_title'], '', '/'.$p['page_url'], '', '', $status[ $p['page_status'] ] ?? '', '', [], [], '#'.$page_type.'_modal', $p, 'pages', "page_id = {$p['page_id']}" );
+                $cards[] = _card( 'br15', $p['content_title'], '', '/'.$p['content_url'], '', '', $status[ $p['content_status'] ] ?? '', '', [], '', [], '', '#'.$page_type.'_modal', $p, 'pages', "content_id = {$p['page_id']}" );
             }
             grid_view( $page_type, $cards, $wrapper_class, $cols );
         }
@@ -262,23 +263,28 @@ class CMS {
     function page( string|int $id_url, bool $show_no_content = false ): void {
         $page = $this->_page( $id_url );
         if( $page ) {
-            echo $page['page_content'];
+            echo $page['content_content'];
         } else if( $show_no_content ) {
             no_content( 'Page not found!' );
         }
     }
 
-    function _pages( string $page_type = 'page' ): array {
+    function _pages( string $page_type = 'page', bool $show_user = false ): array {
         $d = new DB();
-        $data = [ 'id', 'date', 'update', 'title', 'url', 'password', 'status', 'birth', 'expiry', 'by' ];
-        return $d->select( [ 'pages', [ 'users', 'user_id', 'page_by' ] ], array_merge( prepare_values( $data, 'page_' ), [ 'user_name' ] ), 'page_type = \''.strtolower( $page_type ).'\' && page_status != \'4\'' );
+        $data = [ 'id', 'date', 'update', 'title', 'content', 'url', 'password', 'status', 'birth', 'expiry', 'by' ];
+        if( $show_user ) {
+            $pages = $d->select( [ 'content', [ 'users', 'user_id', 'content_by' ] ], array_merge( prepare_values( $data, 'content_' ), [ 'user_name' ] ), 'content_type = \''.strtolower( $page_type ).'\' && content_status != \'4\'' );
+        } else {
+            $pages = $d->select( 'content', prepare_values( $data, 'content_' ), 'content_type = \''.strtolower( $page_type ).'\' && content_status != \'4\'' );
+        }
+        return $pages;
     }
 
     function _page( string|int $id_url ): array {
         $return = [];
         if( !empty( $id_url ) ) {
             $db = new DB();
-            $page = is_numeric( $id_url ) ? $db->select( 'pages', '', "page_id = {$id_url}", 1 ) : $db->select( 'pages', '', "page_url= '{$id_url}'", 1 );
+            $page = is_numeric( $id_url ) ? $db->select( 'content', '', "content_id = {$id_url}", 1 ) : $db->select( 'content', '', "content_url= '{$id_url}'", 1 );
             if( $page ) {
                 $return = $page;
             }
@@ -301,10 +307,10 @@ class CMS {
             [ 't' => 'text' ],
         ];
         $f = new FORM();
-        $f->option_params_wrap( '', '', 2, 2, $auto_load, $unique, $encrypt, $success, $callback, $confirm );
-            $f->form( $form, $type );
-            $f->process_trigger( 'Save Options', 'store grad', '', '', '.col-12 tac' );
-        post();
+        //$f->option_params_wrap( '', '', $auto_load, $unique, $encrypt, $success, $callback, $confirm );
+            //$f->form( $form, $type );
+            //$f->process_trigger( 'Save Options', 'store grad', '', '', '.col-12 tac' );
+        //post();
         // TODO: Implement CMS Options
     }
 
@@ -340,7 +346,7 @@ class CMS {
         $f = new FORM();
         !empty( $modal_class ) ? pre_modal( $title, $modal_class ) : '';
         $r = $f->_random();
-        $f->pre_process( 'data-wrap id="static_widget_form"', 'widgets', 'widget', 'widget_', 2, 2 );
+        $f->pre_process( 'data-wrap id="static_widget_form"', 'widgets', 'widget', 'widget_' );
         _r();
         $f->text('name','Widget Name','Ex: Social Widget','','data-widget required',4);
         $f->text('desc','Description','Ex: Displays a social platform sharing widget','','data-widget',4);
@@ -474,14 +480,14 @@ function update_menu_ajax(): void {
 
 }
 
-function update_page_ajax(): void {
+function update_content_ajax(): void {
     $p = replace_in_keys( $_POST, 'p_', '' );
     if( !empty( $p['title'] ) ) {
         unset( $p['pre'] );
         unset( $p['t'] );
         $id = $p['id'] ?? 0;
         unset( $p['id'] );
-        $p['content'] = htmlspecialchars( $p['content'] );
+        //$p['content'] = htmlspecialchars( $p['content'] );
         $p['by'] = get_user_id();
         $p['update'] = date('Y-m-d H:i:s');
         $p['url'] = !empty( $p['url'] ) ? $p['url'] : strtolower( str_replace( ' ', '-', $p['title'] ) );
@@ -489,30 +495,30 @@ function update_page_ajax(): void {
         $db = new DB();
 
         // Check if page exists with same slug
-        $exist = $db->select( 'pages', 'page_id', "page_url = {$p['url']}" );
+        $exist = $db->select( 'content', 'content_id', "content_url = {$p['url']}" );
         if( $exist ) {
-            ef('Page with same url exist! Please change page title and url!!');
+            ef('Content with same url exist! Please change title and url!!');
             return;
         }
 
-        $saved = $db->insert( 'pages', prepare_keys( $p, 'page_' ), prepare_values( $p ) );
+        $saved = $db->insert( 'content', prepare_keys( $p, 'content_' ), prepare_values( $p ) );
         if( $saved ) {
             if( !empty( $id ) ) {
                 // Update History
-                $update = $db->update( 'pages', [ 'page_status', 'page_parent' ], [ 4, $saved ], "page_id = {$id}" );
+                $update = $db->update( 'content', [ 'content_status', 'content_parent' ], [ 4, $saved ], "content_id = {$id}" );
                 if( $update ) {
-                    es('Successfully updated page!');
+                    es('Successfully updated content!');
                 } else {
-                    ef('Failed to update page, Please consult administrator!');
+                    ef('Failed to update content, Please consult administrator!');
                 }
             } else {
                 es('Successfully saved new page!');
             }
         } else {
-            ef('Failed to store page, please consult administrator!');
+            ef('Failed to store content, please consult administrator!');
         }
         //skel( $p );
     } else {
-        ef('Failed due to page title not set!');
+        ef('Failed due to content title not set!');
     }
 }

@@ -51,7 +51,7 @@ class ECOMMERCE {
         ];
         $r = $f->_random();
         !empty( $modal_class ) ? pre_modal( 'product', $modal_class ) : '';
-        $f->pre_process( 'data-product-wrap id="product_form"', 'update_product_ajax', $r, 'p_', 92, 92 );
+        $f->pre_process( 'data-product-wrap id="product_form"', 'update_product_ajax', $r, 'p_' );
         _r();
         _c(8);
         $f->form( $main_fields, '', $r );
@@ -198,7 +198,7 @@ class ECOMMERCE {
             post();
             $va = 'var';
             pre( '', 'dn', 'div', 'data-var-template' );
-                $f->pre_process('data-pv','update_variation_ajax','var','var_',4);
+                $f->pre_process('data-pv','update_variation_ajax','var','var_');
                     el( 'fieldset', '', T( 'Variation Details' ) );
                     $f->input('hidden','id','','','','data-var');
                     // Variation Name
@@ -668,7 +668,7 @@ class ECOMMERCE {
         $all_ops = array_merge( $general_form_ops, $filters_form_ops, $store_form_ops, $product_form_ops, $review_form_ops, $stock_form_ops, $orders_form_ops );
         $ops = $d->get_options( $all_ops );
 
-        $f->option_params_wrap( '', 2, 2, $all_ops );
+        $f->option_params_wrap( '', '', $all_ops );
         pre_tabs( 'three mb30' );
             tab( 'Store', 1, '', 'store' );
             tab( 'Reviews', 0, '', 'hotel_class' );
@@ -848,7 +848,7 @@ class ECOMMERCE {
         ];
         $r = $f->_random();
         !empty( $modal_class ) ? pre_modal( $title, $modal_class ) : '';
-        $f->pre_process( 'data-wrap', 'product_prop_types', $r, 'prod_pt_', 2, 2 );
+        $f->pre_process( 'data-wrap', 'product_prop_types', $r, 'prod_pt_' );
             $f->form( $prop_type_fields, 'row', $r );
             $f->process_trigger('Save '. $title,'','','','.tac');
         $f->post_process();
@@ -904,7 +904,7 @@ class ECOMMERCE {
         ];
         $r = $f->_random();
         !empty( $modal_class ) ? pre_modal( $title, $modal_class ) : '';
-        $f->pre_process( 'data-wrap', 'product_prop_meta', $r, 'prod_pm_', 2, 2, [ "type" => $id ] );
+        $f->pre_process( 'data-wrap', 'product_prop_meta', $r, 'prod_pm_', [ "type" => $id ] );
             $f->form( $prop_meta_fields, 'row', $r );
             $f->process_trigger('Save '. $title,'','','','.tac');
         $f->post_process();
@@ -1041,7 +1041,7 @@ class ECOMMERCE {
                             div( 'cart_item_price', '{{price}} x {{quantity}}', '', 'data-price' );
                         post();
                     post( 'a' );
-                    $f->pre_process( ' ', 'remove_item_from_cart_ajax', '', '', 0, 0, [], '', 'render_cart', 'Are you sure to remove item from cart?' );
+                    $f->pre_process( ' ', 'remove_item_from_cart_ajax', '', '', [], '', 'render_cart', 'Are you sure to remove item from cart?' );
                     $f->text('id','','','','data-cart-item-id style="display: none"');
                     $f->process_trigger( $close_content, 'remove_item', 'data-remove', '', '', '', 'div' );
                     $f->post_process();
@@ -1087,7 +1087,7 @@ class ECOMMERCE {
                         post();
                     post( );
                     if( $editable ) {
-                        $f->pre_process(' ', 'remove_item_from_cart_ajax', '', '', 0, 0, [], '', 'render_cart', 'Are you sure to remove item from cart?');
+                        $f->pre_process(' ', 'remove_item_from_cart_ajax', '', '', [], '', 'render_cart', 'Are you sure to remove item from cart?');
                         $f->text('id', '', '', '', 'value="{{id}}" style="display: none"');
                         $f->process_trigger($close_content, 'remove_item', 'data-remove', '', '', '', 'div');
                         $f->post_process();
@@ -1247,7 +1247,7 @@ class ECOMMERCE {
             [ 'i' => 'status', 't' => 'slide', 'n' => 'Status', 'c' => 2, 'v' => 1, 'a' => $atr ],
         ];
         !empty( $modal_class ) ? pre_modal( $title, $modal_class ) : '';
-        $f->pre_process( 'data-wrap id="address_form"', 'update_address_ajax', 'addr', '', 2, 2, [] );
+        $f->pre_process( 'data-wrap id="address_form"', 'update_address_ajax', 'addr', '', [] );
             $f->form( $fields, 'row' );
             if( $show_map ) {
                 _r();

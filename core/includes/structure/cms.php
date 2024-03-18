@@ -19,7 +19,8 @@ $page_struct = [
     [ 'expiry', 'DATETIME', '', 0 ],
     [ 'meta_desc', 'VARCHAR', 512, 0 ],
     [ 'meta_words', 'VARCHAR', 512, 0 ],
-    [ 'meta_author', 'VARCHAR', 256, 0 ],
+    [ 'author', 'VARCHAR', 256, 0 ],
+    [ 'follow', 'BOOL', '', 1 ],
     [ 'by', 'INT', 13, 0 ],
     //[ 'pre', 'varchar', 128, 0 ],
     //[ 'post', 'varchar', 128, 0 ],
@@ -48,9 +49,9 @@ $widgets = [
     [ 'status', 'INT', 1, 1 ],
 ];
 
-$pages_struct[] = [ 'pages', $page_struct, 'page', 1 ];
-$pages_struct[] = [ 'page_data', $page_data, 'pd', 1 ];
-$pages_struct[] = [ 'page_terms', $page_terms, 'pt', 1 ];
+$pages_struct[] = [ 'content', $page_struct, 'content', 1 ];
+$pages_struct[] = [ 'content_data', $page_data, 'cd', 1 ];
+//$pages_struct[] = [ 'content_terms', $page_terms, 'pt', 1 ];
 $pages_struct[] = [ 'widgets', $widgets, 'widget', 1 ];
 
 $db = new DB();

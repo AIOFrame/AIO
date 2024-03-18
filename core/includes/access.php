@@ -339,7 +339,7 @@ class ACCESS {
     function change( string $wrap_id = '', string $wrap_class = '' ): void {
         $f = new FORM();
         pre( $wrap_id, $wrap_class );
-            $f->pre_process(' ','change_password_ajax','ps','',3,3,[],'Successfully updated user password!');
+            $f->pre_process(' ','change_password_ajax','ps','',[],'Successfully updated user password!');
                 _r();
                     $min_string = T('Minimum Characters');
                     $f->inputs('password',[['pass_old','Old Password'],['pass','New Password','','','data-length-notify="Password minimum length is 8 Characters"']],'data-ps minlength="8" data-minlength="'.$min_string.'" data-help required',6);
@@ -607,7 +607,7 @@ class ACCESS {
         // TODO: Update access options
         $f = new FORM();
         $ops = $this->get_options( $type );
-        $f->option_params_wrap('ao',2,2);
+        $f->option_params_wrap('ao');
         //$f->process_params('','ei','',2,2,[],'Successfully saved user access options!','','Are you sure to save user access options','','','','row');
         $ao_structure = $type == 1 ? $this->access_options : ( $type == 2 ? $this->login_options : $this->register_options );
         foreach( $ao_structure as $aok ) {
@@ -628,7 +628,7 @@ class ACCESS {
             }
         }
         $f->process_options('Save Options','store grad','','.col-12 tac');
-        echo '</div>';
+        post();
     }
 }
 
@@ -852,7 +852,7 @@ function access_html( string $login_title = 'Username or Email', string $pass_ti
     $return_text = !empty( $aos['ac_return_text'] ) ? $aos['ac_return_text'] : T('Return to Login');
     pre( '', 'access_inner_wrap' );
         pre( '', 'login_outer_wrap' );
-            $f->pre_process('class="login_wrap"','access_login_ajax','log','login_',$notify_for,$reload_in,[],'','','',$redirect_to,'',1);
+            $f->pre_process('class="login_wrap"','access_login_ajax','log','login_',[],'','','',$redirect_to,'',1);
                 pre( '', 'inputs', 'form' );
                     $f->text('username',$login_title,$login_title,'','data-log required autocomplete="username" data-click-on-enter="#aio_login_init"','<div class="user_wrap">','</div>');
                     $f->input('password','password',$pass_title,$pass_title,'','data-assist data-log required autocomplete="current-password" data-click-on-enter="#aio_login_init"','<div class="pass_wrap">','</div>');
@@ -870,7 +870,7 @@ function access_html( string $login_title = 'Username or Email', string $pass_ti
             $f->post_process();
             if( $show_reset == 1 ) {
                 $reset_btn_title = !empty( $aos['ac_reset_btn_text'] ) ? $aos['ac_reset_btn_text'] : T('Reset Password');
-                $f->pre_process('class="forgot_wrap"  style="display:none;"','forg','forgot_',$notify_for,$reload_in,[],'','','',$redirect_to,'',1);
+                $f->pre_process('class="forgot_wrap"  style="display:none;"','forg','forgot_',[],'','','',$redirect_to,'',1);
                 pre( '', 'inputs' );
                     $f->text('username',$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"','<div class="forgot_user_wrap">','</div>');
                 post();
@@ -916,7 +916,7 @@ function register_html( array $columns = [], bool $columns_before = true, array 
     $login_title = $ops['username_text'] ?? 'User Login / Email';
     $pass_title = $ops['password_text'] ?? 'Password';
     $register_button_title = $aos['register_button_text'] ?? '';
-    $f->pre_process('class="register_wrap"','','reg','register_',$notify_for,$reload_in,[],'',$callback,'',$redirect_to,'',1);
+    $f->pre_process('class="register_wrap"','','reg','register_',[],'',$callback,'',$redirect_to,'',1);
     pre( '', 'inputs' );
         $columns_html = '';
         foreach( $columns as $ck => $cv ) {
@@ -971,7 +971,7 @@ function register_html_pre( int|string $reload_in = 3, int|string $notify_for = 
         return;
     }
     $f = new FORM();
-    $f->pre_process('class="register_wrap"','','reg','register_',$notify_for,$reload_in,[],'',$callback,'',$redirect_to);
+    $f->pre_process('class="register_wrap"','','reg','register_',[],'',$callback,'',$redirect_to);
 }
 
 /**

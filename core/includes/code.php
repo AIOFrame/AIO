@@ -833,7 +833,7 @@ function modal( string $title = '', bool $editable = true, string $size = 'm', s
     $r = substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 8);
     pre_modal( $title, $size, $editable );
     if( is_array( $fields ) ) {
-        $f->pre_process( 'data-wrap', $target, $r, $prepend_to_keys, $notify, $reload, $hidden, $success_alert, $callback, $confirm, $redirect, $validator, $reset_fields );
+        $f->pre_process( 'data-wrap', $target, $r, $prepend_to_keys, $hidden, $success_alert, $callback, $confirm, $redirect, $validator, $reset_fields );
             $f->form( $fields, $form_style, $r );
             $f->process_trigger( !empty( $submit_text ) ? $submit_text : 'Save '.$title, $submit_class.' mb0', '', '', $submit_wrap.' .tac' );
         $f->post_process();

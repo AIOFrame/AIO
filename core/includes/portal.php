@@ -408,7 +408,7 @@ class PORTAL {
         $portal_header_grid_icon_text = !empty( $ops['portal_header_grid_icon_text'] ) ? $ops['portal_header_grid_icon_text'] : '';
         $portal_header_grid_icon_class = !empty( $ops['portal_header_grid_icon_class'] ) ? $ops['portal_header_grid_icon_class'] : '';
         $dark = !empty( $ops['logo_dark'] ) ? $ops['logo_dark'] : '';
-        $f->option_params_wrap( 'brand', 2, 2,  );
+        $f->option_params_wrap( 'brand' );
         $f->form([
 
         ], 'row' );
