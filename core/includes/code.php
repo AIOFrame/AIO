@@ -194,7 +194,7 @@ class RANGE {
  * @param string|array $icon_fonts Icon Fonts Ex: [ 'MaterialIcons', 'BootstrapIcons' ]
  * @return void
  */
-function pre_html( string $class = '', string $attrs = '', string|array $pre_styles = [], string $primary_color = '00A99D', string $secondary_color = '', string $art = '', string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [], string|array $icon_fonts = [] ): void {
+function pre_html( string $class = '', string $attrs = '', string|array $pre_styles = [], string $primary_color = '00A99D', string $secondary_color = '', string $art = '', string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [], string|array $icon_fonts = [], string $page_title = '' ): void {
 
     // Defines
     global $dark_mode;
@@ -319,7 +319,7 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
     get_styles( $styles );
     get_styles( defined( 'PAGEPATH' ) ? PAGEPATH . ',micro' : 'micro' );
 
-    get_title();
+    get_title( $page_title );
 
     //$f = new FORM();
     //$c = Encrypt::initiate();

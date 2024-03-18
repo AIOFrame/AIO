@@ -1004,14 +1004,14 @@ class FORM {
     }
 
     function content_builder( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', int|float $height = 400, string $post = '' ): void {
-        $this->pre( $pre );
-        pre( '', 'd', 'div', 'style="display:non"' );
-            $this->textarea( $id, $label, $placeholder, $value, $attrs . ' data-content-field="'.$id.'"' );
-        post();
-        pre( '', '', 'div', 'style="height:'.$height.'px" data-content-builder-field="'.$id.'"' );
-            get_comp('content_builder');
-        post();
-        $this->post( $pre, $post );
+        if( in_array_any( [ 'cms', 'pages' ], FEATURES ) ) {
+            $cms = new CMS();
+            $cms->content_builder($id, $label, $placeholder, $value, $attrs, $pre, $height, $post);
+        }
+    }
+
+    function render_builder_content( string|array $content = [] ): void {
+        
     }
 
     /* function _content_builder( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', string $post = '' ): string {

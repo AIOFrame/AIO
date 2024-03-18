@@ -327,9 +327,17 @@ class CMS {
         return [];
     }
 
-    function content_builder( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', string $post = '' ): void {
+    function content_builder( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', int|float $height = 400, string $post = '' ): void {
         $f = new FORM();
-        $f->content_builder( $id, $label, $placeholder, $value, $attrs, $pre, $post );
+        //$f->content_builder( $id, $label, $placeholder, $value, $attrs, $pre, $post );
+        $f->pre( $pre );
+        pre( '', 'd', 'div', 'style="display:non"' );
+            $f->textarea( $id, $label, $placeholder, $value, $attrs . ' data-content-field="'.$id.'"' );
+        post();
+        pre( '', '', 'div', 'style="height:'.$height.'px" data-content-builder-field="'.$id.'"' );
+            get_comp('content_builder');
+        post();
+        $f->post( $pre, $post );
         // TODO: Content Builder Header / Footer
         // TODO: Content Builder Rows, Grids and Widgets
         // TODO: Content Builder Widget Picker
