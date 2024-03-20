@@ -29,8 +29,6 @@ class CODE {
         }
 
         // Defines
-        global $options;
-        global $light_mode;
         $a = new ACCESS();
         $aos = $a->get_options();
 
@@ -39,15 +37,6 @@ class CODE {
         pre_html( '', $attrs, $pre_styles, '', '', 'icons,inputs,buttons,alerts', $styles, $scripts, $primary_font, $secondary_font, $icon_fonts );
 
         // Content
-        //skel( $aos );
-        //skel( $options );
-        //$logo_img = $light_mode == 'd' ? ( !empty( $aos['ac_logo_d'] ) ? $aos['ac_logo_d'] : ( !empty( $options['logo_dark'] ) ? $options['logo_dark'] : '' ) ) : ( !empty( $aos['ac_logo_l'] ) ? $aos['ac_logo_l'] : ( !empty( $options['logo_light'] ) ? $options['logo_light'] : '' ) );
-        //$logo_img = !empty( $logo_img ) ? $logo_img : ( $light_mode == 'l' ? APPURL.'assets/images/aio_l.svg' : APPURL.'assets/images/aio_d.svg' );
-        //$logo = !empty( $logo_img ) ? 'style="background:url(\''.storage_url( $logo_img ).'\') no-repeat center / contain"' : '';
-        //$bg_style = !empty( $aos['ac_bg_repeat'] ) && $aos['ac_bg_repeat'] == 1 ? 'repeat center / 100%' : 'no-repeat center / contain';
-        //$bg_img = $dark_mode ? ( $aos['ac_bg_d'] ?? '' ) : ( $aos['ac_bg_l'] ?? '' );
-        //$bg = !empty( $bg ) ? 'style="background:url(\''.storage_url( $bg_img ).'\') '.$bg_style.'"' : '';
-        //$options['ac_bg_repeat']
         pre( '', '', 'article' );
             pre( '', 'access_wrap' );
                 pre( '', 'access_panel' );
@@ -235,10 +224,12 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
         $color1 = $options['primary_color'] ?? $primary_color;
         $color2 = $options['secondary_color'] ?? $secondary_color;
     }
-    $logo = $light_mode == 'l' ? ( !empty( $options['logo_light'] ) ? storage_url( $options['logo_light'] ) : APPURL . 'assets/images/aio.svg' ) : ( !empty( $options['logo_dark'] ) ? storage_url( $options['logo_dark'] ) : APPURL . 'assets/images/aio.svg' );
+    $light_logo = !empty( $options['logo_light'] ) ? storage_url( $options['logo_light'] ) : APPURL . 'assets/images/aio.svg';
+    $dark_logo = !empty( $options['logo_dark'] ) ? storage_url( $options['logo_dark'] ) : APPURL . 'assets/images/aio.svg';
+    $logo = $light_mode == 'l' ? $light_logo : $dark_logo;
     echo '<style>:root {';
     echo '--dark_mode:'.$light_mode.';';
-    echo '--logo:url('.$logo.');';
+    echo "--logo:url($logo);--light_logo:url($light_logo);--dark_logo:url($dark_logo);";
     echo '--primary_color:'.$color1.';--secondary_color:'.$color2.';--color:'.$color.';--filled_color:'.$filled_color.';--disabled_color:'.$disabled.';--info_color:'.$info.';--progress_color:'.$progress.';--warning_color:'.$warning.';--error_color:'.$error.';--success_color:'.$success;
     echo '}.c1{color:'.$color1.'}.c2{color:'.$color2.'}.bg1{background:'.$color1.'}.bg2{background:'.$color2.'}.bs{border:1px solid '.$color1.'}.bf:focus{border:1px solid var(--primary_color)}.grad{color:var(--filled_color);background-color:var(--primary_color);background:-moz-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background:-webkit-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background-image:linear-gradient(45deg,var(--primary_color) 0%,var(--secondary_color) 100%);}.grad-text{background: -webkit-linear-gradient(var(--primary_color), var(--secondary_color));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}</style>';
 
@@ -771,13 +762,7 @@ function soon( string $date, string $text = 'Coming Soon...', string $bg = '', s
     global $light_mode;
     $bg = !empty( $bg ) ? 'style="background:url(\''.$bg.'\') no-repeat center / cover"' : '';
     $app = $options['app_name'] ?? APPNAME;
-    //skel( $options );
     $logo = $light_mode == 'd' ? ( $logo ?? $options['logo_dark'] ) : ( $logo ?? $options['logo_light'] );
-    /* if( $is_light ) {
-        $logo = !empty( $logo ) ? $logo : ( $options['logo_light'] ?? '' );
-    } else {
-        $logo = !empty( $logo ) ? $logo : ( $options['logo_dark'] ?? '' );
-    } */
     $logo = !empty( $logo ) ? 'style="background:url(\''.storage_url($logo).'\') no-repeat center / contain"' : '';
     pre('','aio_soon '.$light_mode.' '.$bg);
         pre('','vc');
