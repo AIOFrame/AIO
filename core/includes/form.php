@@ -1011,7 +1011,7 @@ class FORM {
     }
 
     function render_builder_content( string|array $content = [] ): void {
-        
+
     }
 
     /* function _content_builder( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', string $post = '' ): string {
@@ -1303,7 +1303,7 @@ class FORM {
         !empty( $autoload ) ? $h['autoload'] = $autoload : '';
         !empty( $unique ) ? $h['unique'] = $unique : '';
         !empty( $encrypt ) ? $h['encrypt'] = $encrypt : '';
-        $this->pre_process( $attr, '', $data, '', $notify, $reload, $h, $success_text, $callback, $confirm );
+        $this->pre_process( $attr, '', $data, '', $h, $success_text, $callback, $confirm );
         //skel( $h );
     }
 
@@ -1326,7 +1326,7 @@ class FORM {
         !empty( $autoload ) ? $h['autoload'] = $autoload : '';
         !empty( $unique ) ? $h['unique'] = $unique : '';
         !empty( $encrypt ) ? $h['encrypt'] = $encrypt : '';
-        return $this->_pre_process( $attr, '', $data, '', $notify, $reload, $h, $success_text, $callback, $confirm );
+        return $this->_pre_process( $attr, '', $data, '', $h, $success_text, $callback, $confirm );
         //skel( $h );
     }
 

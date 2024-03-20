@@ -19,7 +19,7 @@ button, .btn {
   background:$primary;
   background: linear-gradient(160deg, $primary 0%, $secondary 100%);
   color: $filled_color;
-  letter-spacing: 1px;
+  //letter-spacing: 1px;
   transition:.6s;
   border-radius: $radius;
   text-transform: uppercase;

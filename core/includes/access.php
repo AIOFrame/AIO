@@ -318,20 +318,19 @@ class ACCESS {
         $genders = $genders ?? [ 'Male', 'Female', 'Others', 'No Specify' ];
         pre( $wrap_id, $wrap_class );
             $form = [
-                [ 'i' => 'login', 'n' => 'User Login', 'v' => $user['user_login'], 'a' => 'disabled', 'c' => 6 ],
-                [ 'i' => 'since', 'n' => 'Registered Since', 'v' => easy_date($user['user_since']), 'a' => 'disabled', 'c' => 6 ],
-                [ 'i' => 'name', 'n' => 'Full Name', 'a' => 'data-user', 'p' => 'Ex: John Doe','v' => $user['user_name'], 'c' => 6 ],
-                [ 'i' => 'email', 'n' => 'Email Address', 'a' => 'data-user required data-help', 'p' => 'Ex: john@company.com', 'v' => $user['user_email'], 't' => 'email', 'c' => 6 ],
-                [ 'i' => 'phone_code', 'i2' => 'phone', 'n' => 'Code', 'n2' => 'Phone', 'a' => 'data-user', 'p' => 'Code', 'p2' => 'Phone', 't' => 'phone', 'v1' => $user['user_phone_code'], 'v2' => $user['user_phone'], 'c' => 6 ],
-                [ 'i' => 'picture', 'n' => 'Profile Picture', 'p' => 'Upload Picture', 't' => 'upload', 'e' => 'jpg,jpeg,bmp,png,gif,webp', 's' => 1, 'a' => 'data-user', 'v' => $user['user_picture'], 'c' => 6 ],
-                [ 'i' => 'gender', 'n' => 'Gender', 'p' => 'Select gender...', 't' => 'select', 'o' => $genders, 'a' => 'data-user', 'v' => $user['user_gender'], 'c' => 6 ],
-                [ 'i' => 'dob', 'n' => 'Date of Birth', 't' => 'date', 'a' => 'data-user', 'v' => $user['user_dob'], 'c' => 6 ],
+                [ 'i' => 'login', 'n' => 'User Login', 'v' => $user['user_login'] ?? '', 'a' => 'disabled', 'c' => 6 ],
+                [ 'i' => 'since', 'n' => 'Registered Since', 'v' => ( !empty( $user['user_since'] ) ? easy_date( $user['user_since'] ) : '' ), 'a' => 'disabled', 'c' => 6 ],
+                [ 'i' => 'name', 'n' => 'Full Name', 'a' => 'data-user', 'p' => 'Ex: John Doe','v' => $user['user_name'] ?? '', 'c' => 6 ],
+                [ 'i' => 'email', 'n' => 'Email Address', 'a' => 'data-user required data-help', 'p' => 'Ex: john@company.com', 'v' => $user['user_email'] ?? '', 't' => 'email', 'c' => 6 ],
+                [ 'i' => 'phone_code', 'i2' => 'phone', 'n' => 'Code', 'n2' => 'Phone', 'a' => 'data-user', 'p' => 'Code', 'p2' => 'Phone', 't' => 'phone', 'v1' => $user['user_phone_code'] ?? '', 'v2' => $user['user_phone'] ?? '', 'c' => 6 ],
+                [ 'i' => 'picture', 'n' => 'Profile Picture', 'p' => 'Upload Picture', 't' => 'upload', 'e' => 'jpg,jpeg,bmp,png,gif,webp', 's' => 1, 'a' => 'data-user', 'v' => $user['user_picture'] ?? '', 'c' => 6 ],
+                [ 'i' => 'gender', 'n' => 'Gender', 'p' => 'Select gender...', 't' => 'select', 'o' => $genders, 'a' => 'data-user', 'v' => $user['user_gender'] ?? '', 'c' => 6 ],
+                [ 'i' => 'dob', 'n' => 'Date of Birth', 't' => 'date', 'a' => 'data-user', 'v' => $user['user_dob'] ?? '', 'c' => 6 ],
             ];
             $f->pre_process('','','user');
                 $f->form( $form, 'row' );
                 $f->process_trigger('Update Profile','r5 xl mb0','','update_user_ajax','.tac');
             $f->post_process();
-            h6('You may need to re-login once user details are updated!',1,'tac op3');
         post();
         file_upload();
     }
@@ -870,7 +869,7 @@ function access_html( string $login_title = 'Username or Email', string $pass_ti
             $f->post_process();
             if( $show_reset == 1 ) {
                 $reset_btn_title = !empty( $aos['ac_reset_btn_text'] ) ? $aos['ac_reset_btn_text'] : T('Reset Password');
-                $f->pre_process('class="forgot_wrap"  style="display:none;"','forg','forgot_',[],'','','',$redirect_to,'',1);
+                $f->pre_process('class="forgot_wrap"  style="display:none;"','forg','forgot_','',[],'','','',$redirect_to,'',1);
                 pre( '', 'inputs' );
                     $f->text('username',$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"','<div class="forgot_user_wrap">','</div>');
                 post();

@@ -598,7 +598,7 @@ class MAIL {
                 c_();
             r_();
             _d( 'tac' );
-                button_code( 'store', 'Build Template' );
+                b( 'store', T('Build Template') );
             d_();
         post( 'form' );
         get_style('https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.21.0/ui/trumbowyg.min.css');

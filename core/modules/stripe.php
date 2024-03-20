@@ -127,7 +127,7 @@ class STRIPE {
             ?>
             </tbody>
             <tfoot>
-            <tr <?php $f->pre_process('','','sp','',2,2); ?>>
+            <tr <?php $f->pre_process('','','sp'); ?>>
                 <td><?php $f->text('name','','Ex: Platinum Plan','',$a); ?></td>
                 <td><?php $f->select2('interval','','Choose...',$intervals,'month',$a,'',1); ?></td>
                 <td><?php $f->text('price','','Ex: 250','',$a); ?></td>
@@ -170,7 +170,7 @@ class STRIPE {
 
             <div id="payment_response" class="dn" data-action="<?php echo APPDEBUG ? 'register_stripe_payment_ajax' : $e->encrypt('register_stripe_payment_ajax'); ?>"></div>
 
-            <?php $f->pre_process('id="subscription_form"','','pay','',2,0,[],'','process_payment'); ?>
+            <?php $f->pre_process('id="subscription_form"','','pay','',[],'','process_payment'); ?>
 
                 <div class="row">
                     <?php

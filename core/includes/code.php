@@ -30,7 +30,7 @@ class CODE {
 
         // Defines
         global $options;
-        global $dark_mode;
+        global $light_mode;
         $a = new ACCESS();
         $aos = $a->get_options();
 
@@ -41,9 +41,9 @@ class CODE {
         // Content
         //skel( $aos );
         //skel( $options );
-        $logo_img = $dark_mode ? ( !empty( $aos['ac_logo_d'] ) ? $aos['ac_logo_d'] : ( !empty( $options['logo_dark'] ) ? $options['logo_dark'] : '' ) ) : ( !empty( $aos['ac_logo_l'] ) ? $aos['ac_logo_l'] : ( !empty( $options['logo_light'] ) ? $options['logo_light'] : '' ) );
-        $logo_img = !empty( $logo_img ) ? $logo_img : ( $dark_mode ? APPURL.'assets/images/aio_l.svg' : APPURL.'assets/images/aio_d.svg' );
-        $logo = !empty( $logo_img ) ? 'style="background:url(\''.storage_url( $logo_img ).'\') no-repeat center / contain"' : '';
+        //$logo_img = $light_mode == 'd' ? ( !empty( $aos['ac_logo_d'] ) ? $aos['ac_logo_d'] : ( !empty( $options['logo_dark'] ) ? $options['logo_dark'] : '' ) ) : ( !empty( $aos['ac_logo_l'] ) ? $aos['ac_logo_l'] : ( !empty( $options['logo_light'] ) ? $options['logo_light'] : '' ) );
+        //$logo_img = !empty( $logo_img ) ? $logo_img : ( $light_mode == 'l' ? APPURL.'assets/images/aio_l.svg' : APPURL.'assets/images/aio_d.svg' );
+        //$logo = !empty( $logo_img ) ? 'style="background:url(\''.storage_url( $logo_img ).'\') no-repeat center / contain"' : '';
         //$bg_style = !empty( $aos['ac_bg_repeat'] ) && $aos['ac_bg_repeat'] == 1 ? 'repeat center / 100%' : 'no-repeat center / contain';
         //$bg_img = $dark_mode ? ( $aos['ac_bg_d'] ?? '' ) : ( $aos['ac_bg_l'] ?? '' );
         //$bg = !empty( $bg ) ? 'style="background:url(\''.storage_url( $bg_img ).'\') '.$bg_style.'"' : '';
@@ -51,7 +51,7 @@ class CODE {
         pre( '', '', 'article' );
             pre( '', 'access_wrap' );
                 pre( '', 'access_panel' );
-                    !isset( $aos['ac_show_logo'] ) || $aos['ac_show_logo'] !== 1 ? a( APPURL . $login_redirect_url, '', 'brand', '', $logo ) : '';
+                    !isset( $aos['ac_show_logo'] ) || $aos['ac_show_logo'] !== 1 ? a( APPURL . $login_redirect_url, '', 'brand' ) : '';
                     $u_text = $aos['ac_username_text'] ?? 'User Login / Email';
                     $p_text = $aos['ac_password_text'] ?? 'Password';
                     $l_text = $aos['ac_login_btn_text'] ?? 'Login';
@@ -192,16 +192,17 @@ class RANGE {
  * @param string|array $primary_font Array of primary font and weights Ex: [ 'Lato', '300, 400' ]
  * @param string|array $secondary_font Array of secondary font and weights Ex: [ 'Cairo', '300, 400' ]
  * @param string|array $icon_fonts Icon Fonts Ex: [ 'MaterialIcons', 'BootstrapIcons' ]
+ * @param string $page_title
  * @return void
  */
-function pre_html( string $class = '', string $attrs = '', string|array $pre_styles = [], string $primary_color = '00A99D', string $secondary_color = '', string $art = '', string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [], string|array $icon_fonts = [], string $page_title = '' ): void {
+function pre_html( string $class = '', string $attrs = '', string|array $pre_styles = [], string $primary_color = '00A99D', string $secondary_color = '00A99D', string $art = '', string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [], string|array $icon_fonts = [], string $page_title = '' ): void {
 
     // Defines
-    global $dark_mode;
+    global $light_mode;
     global $options;
     $theme = !empty( $options['theme'] ) ? $options['theme'] : ( !empty( $options['default_theme'] ) ? $options['default_theme'] : '' );
-    $dark_mode = !empty( $theme ) ? ( str_contains( $theme, 'dark' ) ? 1 : 0 ) : 0;
-    $class = $dark_mode ? $class . ' d' : $class;
+    $light_mode = !empty( $theme ) ? ( str_contains( $theme, 'dark' ) ? 'd' : 'l' ) : 'l';
+    $class = $light_mode == 'l' ? $class : $class . ' d';
     $class = isset( $_GET['add'] ) ? $class.' add' : $class;
 
     // <head>
@@ -210,49 +211,35 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
     echo '><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0"><meta http-equiv="X-UA-Compatible" content="ie=edge">';
 
     // SEO
-    $c = get_config();
+    /* $c = get_config();
     if( defined( 'PAGEPATH' ) ) {
         $seo = !empty( $c['seo'] ) && !empty( $c['seo'][PAGEPATH] ) ?? ( $options['seo'][PAGEPATH] ?? '' );
         echo !empty( $seo ) ? '<meta name="description" content="'.T( $seo ).'">' : '';
-    }
+    } */
 
     // Colors
-    $dark_mode = 0;
-    if( $primary_color == '222' && $secondary_color == '000' ) {
-        $theme = $options['default_theme'] ?? '';
-        $theme = $options['theme'] ?? $theme;
-        $disabled_color = $options['disabled_color'] ?? '';
-        $progress_color = $options['progress_color'] ?? '';
-        $warning_color = $options['warning_color'] ?? '';
-        $error_color = $options['error_color'] ?? '';
-        $success_color = $options['success_color'] ?? '';
-        $dark_mode = str_contains( $theme, 'dark' );
-        if( $dark_mode ) {
-            $color = $options['color_dark'] ?? '#fff';
-            $filled_color = $options['filled_color_dark'] ?? '#fff';
-            $color1 = $options['primary_color_dark'] ?? $primary_color;
-            $color2 = $options['secondary_color_dark'] ?? $secondary_color;
-        } else {
-            $color = $options['color_light'] ?? '#000';
-            $filled_color = $options['filled_color_dark'] ?? '#fff';
-            $color1 = $options['primary_color'] ?? '#111';
-            $color2 = $options['secondary_color'] ?? '#222';
-        }
+    $disabled = $options['disabled_color'] ?? 'lightgrey';
+    $info = $options['info_color'] ?? '#d4f2ff';
+    $progress = $options['progress_color'] ?? '#00A99D';
+    $warning = $options['warning_color'] ?? 'orange';
+    $error = $options['error_color'] ?? 'firebrick';
+    $success = $options['success_color'] ?? '#00A99D';
+    if( $light_mode == 'd' ) {
+        $color = $options['color_dark'] ?? '#fff';
+        $filled_color = $options['filled_color_dark'] ?? '#fff';
+        $color1 = $options['primary_color_dark'] ?? $primary_color;
+        $color2 = $options['secondary_color_dark'] ?? $secondary_color;
     } else {
-        $color = '#000';
-        $color1 = '#00A99D';
-        $color2 = '#00A99D';
-        $filled_color = '#fff';
-        $disabled_color = 'lightgrey';
-        $progress_color = '#00A99D';
-        $warning_color = 'orange';
-        $error_color = 'firebrick';
-        $success_color = '#00A99D';
+        $color = $options['color_light'] ?? '#000';
+        $filled_color = $options['filled_color'] ?? '#fff';
+        $color1 = $options['primary_color'] ?? $primary_color;
+        $color2 = $options['secondary_color'] ?? $secondary_color;
     }
+    $logo = $light_mode == 'l' ? ( !empty( $options['logo_light'] ) ? storage_url( $options['logo_light'] ) : APPURL . 'assets/images/aio.svg' ) : ( !empty( $options['logo_dark'] ) ? storage_url( $options['logo_dark'] ) : APPURL . 'assets/images/aio.svg' );
     echo '<style>:root {';
-    //skel( $options );
-    echo $dark_mode ? '--dark_mode:1;' : '--dark_mode:0;';
-    echo '--primary_color:'.$color1.';--secondary_color:'.$color2.';--color:'.$color.';--filled_color:'.$filled_color.';--disabled_color:'.$disabled_color.';--progress_color:'.$progress_color.';--warning_color:'.$warning_color.';--error_color:'.$error_color.';--success_color:'.$success_color;
+    echo '--dark_mode:'.$light_mode.';';
+    echo '--logo:url('.$logo.');';
+    echo '--primary_color:'.$color1.';--secondary_color:'.$color2.';--color:'.$color.';--filled_color:'.$filled_color.';--disabled_color:'.$disabled.';--info_color:'.$info.';--progress_color:'.$progress.';--warning_color:'.$warning.';--error_color:'.$error.';--success_color:'.$success;
     echo '}.c1{color:'.$color1.'}.c2{color:'.$color2.'}.bg1{background:'.$color1.'}.bg2{background:'.$color2.'}.bs{border:1px solid '.$color1.'}.bf:focus{border:1px solid var(--primary_color)}.grad{color:var(--filled_color);background-color:var(--primary_color);background:-moz-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background:-webkit-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background-image:linear-gradient(45deg,var(--primary_color) 0%,var(--secondary_color) 100%);}.grad-text{background: -webkit-linear-gradient(var(--primary_color), var(--secondary_color));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}</style>';
 
     // Fav Icon
@@ -781,17 +768,18 @@ function soon( string $date, string $text = 'Coming Soon...', string $bg = '', s
     pre_html();
     get_style( 'soon' );
     global $options;
-    global $is_light;
+    global $light_mode;
     $bg = !empty( $bg ) ? 'style="background:url(\''.$bg.'\') no-repeat center / cover"' : '';
     $app = $options['app_name'] ?? APPNAME;
     //skel( $options );
-    if( $is_light ) {
+    $logo = $light_mode == 'd' ? ( $logo ?? $options['logo_dark'] ) : ( $logo ?? $options['logo_light'] );
+    /* if( $is_light ) {
         $logo = !empty( $logo ) ? $logo : ( $options['logo_light'] ?? '' );
     } else {
         $logo = !empty( $logo ) ? $logo : ( $options['logo_dark'] ?? '' );
-    }
+    } */
     $logo = !empty( $logo ) ? 'style="background:url(\''.storage_url($logo).'\') no-repeat center / contain"' : '';
-    pre('','aio_soon '.($is_light ? '' : 'd').$bg);
+    pre('','aio_soon '.$light_mode.' '.$bg);
         pre('','vc');
             pre('','brand','div',$logo.' title="'.$app.'"');
                 pre('','box');
@@ -1219,6 +1207,14 @@ function _tg( string $page_link = '', string $page_title = '', string $content =
 
 function _em( string $page_link = '', string $page_title = '', string $content = '', string $class = '' ): string {
     return __a( 'mailto:?subject'.$page_title.'&body='.$page_link, $content, $class, T('Share thru email'), mini_browser_tab() );
+}
+
+function notice( string $content = '', string $type = 'info', string $class = '', string $icon_text = 'info', string $icon_class = '' ): void {
+    global $options;
+    _d( 'card df ais nf ' . $class . ' ' . $type );
+        div( 'ico l ' . $icon_class . ' ' . ( $options['universal_icon_class'] ?? '' ), $icon_text );
+        div( 'message', $content );
+    d_();
 }
 
 /**

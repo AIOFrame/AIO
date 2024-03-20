@@ -1247,7 +1247,7 @@ class ECOMMERCE {
             [ 'i' => 'status', 't' => 'slide', 'n' => 'Status', 'c' => 2, 'v' => 1, 'a' => $atr ],
         ];
         !empty( $modal_class ) ? pre_modal( $title, $modal_class ) : '';
-        $f->pre_process( 'data-wrap id="address_form"', 'update_address_ajax', 'addr', '', [] );
+        $f->pre_process( 'data-wrap id="address_form"', 'update_address_ajax', 'addr' );
             $f->form( $fields, 'row' );
             if( $show_map ) {
                 _r();

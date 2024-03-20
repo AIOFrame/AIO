@@ -143,6 +143,15 @@
   left: 20px;
 }
 
+.notice {
+  border-top: var(--card_border_top) solid var(--card_border_color);
+  border-right: var(--card_border_right) solid var(--card_border_color);
+  border-bottom: var(--card_border_bottom) solid var(--card_border_color);
+  border-left: var(--card_border_left) solid var(--card_border_color);
+  border-radius: var(--card_radius);
+  padding: var(--card_padding_top) var(--card_padding_right) var(--card_padding_bottom) var(--card_padding_left);
+}
+
 @media all and (min-width: 0px) and (max-width: 800px) {
   [data-alerts] {
     max-width: calc(100vw - 40px);

@@ -38,24 +38,24 @@ function reset_styles( string $font = 'Lato', string|int $weight = 'normal', int
 function art( array|string $arts = '', string $color1 = '222', string $color2 = '000' ): void {
     global $options;
     global $universal_assets;
-    global $dark_mode;
+    global $light_mode;
 
     $cache = get_config( 'cache' );
     $v = $cache ? '&v=' . round( time() / ( $cache * 60 ) ) : '';
     $arts = !is_array( $arts ) ? explode( ',', $arts ) : $arts;
 
     // Setting Colors
-    $dark_mode = 0;
+    // TODO: Colors logic is repeating
     if( $color1 == '222' && $color2 == '000' ) {
         $theme = $options['default_theme'] ?? '';
         $theme = $options['theme'] ?? $theme;
         $dark_mode = str_contains( $theme, 'dark' );
-        if( $dark_mode ) {
+        if( $light_mode == 'l' ) {
             $color = $options['color_dark'] ?? '#fff';
             $filled_color = $options['filled_color_dark'] ?? '#fff';
             $color1 = $options['primary_color_dark'] ?? $color1;
             $color2 = $options['secondary_color_dark'] ?? $color2;
-        } else {
+        } else if( $light_mode == 'd' ) {
             $color = $options['color_light'] ?? '#000';
             $filled_color = $options['filled_color_dark'] ?? '#fff';
             $color1 = $options['primary_color'] ?? '#111';
@@ -86,7 +86,6 @@ function art( array|string $arts = '', string $color1 = '222', string $color2 = 
     }
 
     // Loop colors
-    echo '<style>:root {';
     if( defined('DB_TYPE') ) {
         $o = new OPTIONS();
         $colors = $o->colors;
@@ -95,6 +94,8 @@ function art( array|string $arts = '', string $color1 = '222', string $color2 = 
     $input_options = $f->input_options;
     $themed_options = $f->themed_options;
     //skel( $options );
+    //skel( $input_options );
+    echo '<style>:root {';
     if( !empty( $colors ) ) {
         foreach( $colors as $c ) {
             echo isset( $options[$c] ) ? '--'.$c.':'.$options[$c].';' : '';
@@ -104,7 +105,7 @@ function art( array|string $arts = '', string $color1 = '222', string $color2 = 
         $rendered = [];
         // Loop through input options from DB
         foreach( $input_options as $ik => $div ){
-            $iv = !empty( $options[ $ik ] ) ? $options[ $ik ] : $div;
+            $iv = $options[ $ik ] ?? $div;
             $iv = strlen( $iv ) > 2 ? $iv.';' : $iv.'px;';
             if( !empty( $iv ) ) {
                 echo '--'.$ik.':'.$iv;
@@ -641,7 +642,7 @@ function render_menu( array $array, string $url_prefix = '', string $wrap_class 
         foreach( $array as $url => $data ) {
             $title = $data['title'] ?? ( $data['t'] ?? ( $data['name'] ?? ( $data['n'] ?? '' ) ) );
             $ico = $data['icon'] ?? ( $data['ico'] ?? ( $data['i'] ?? '' ) );
-            $ico = !empty( $ico ) ? _div( $options['portal_universal_icon_class'] ?? '', $ico ) : '';
+            $ico = !empty( $ico ) ? _div( $options['universal_icon_class'] ?? '', $ico ) : '';
             el( 'li', '', __a( APPURL . $url_prefix . $url, $ico . $title ) );
         }
     } else {

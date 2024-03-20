@@ -331,7 +331,7 @@ function file_upload(e){
         // If file size is defined
         let size = parseFloat( $(e).data('size') );
         size = !isNaN(size) ? size * 1024 : 0;
-        elog(size);
+        //elog(size);
         let measure = ' Mb';
         if( size > 0 ) {
             if( size > 1024 ) {
@@ -367,8 +367,8 @@ function file_upload(e){
 function process_upload(fs) {
     let au = $('#aio_up');
     for (let i = 0, f; f = fs[i]; i++) {
-        elog(au);
-        elog(f);
+        //elog(au);
+        //elog(f);
         // File Size Validation
         if( au.data('size') ) {
             let size = Math.round( au.data('size') * 1024 );

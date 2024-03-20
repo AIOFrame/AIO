@@ -1,8 +1,11 @@
-@charset "UTF-8";
 body {
   margin: 0;
   height: 100vh;
   background-color: #eee;
+}
+
+.brand {
+  background: var(--logo) no-repeat center/contain;
 }
 
 /* Inputs */
@@ -34,11 +37,11 @@ body {
 }
 
 .user_wrap:after {
-  content: "";
+  content: "\e7fd";
 }
 
 .pass_wrap:after {
-  content: "";
+  content: "\e897";
 }
 
 /* Login */
@@ -126,22 +129,18 @@ input.empty {
   .access_wrap {
     width: calc(100vw - 40px);
   }
-
   .access_panel {
     width: 100%;
     max-width: none;
     padding: 20px;
   }
-
   #logo {
     height: 50px;
   }
-
   input, button, select, textarea {
     padding: 10px;
     margin-bottom: 8px;
   }
-
   .access #set_access {
     padding: 10px 0;
   }

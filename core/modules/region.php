@@ -174,7 +174,7 @@ class REGION {
                 $replaces = [ 'cca2', 'cca3', 'country', 'flag', 'currency', 'symbol', 'call' ];
                 $f = new FORM();
                 $wrap = $element == 'li' || $element == 'ul' ? 'ul' : $element;
-                pre( 'aio_language_changer', 'aio_language_changer_wrap', $wrap, $f->_pre_process( '', 'set_region_ajax', '', '', 4, $reload_time ) );
+                pre( 'aio_language_changer', 'aio_language_changer_wrap', $wrap, $f->_pre_process( '', 'set_region_ajax' ) );
                 foreach( REGIONS['regions'] as $r ){
                     $title = $title_format;
                     foreach( $replaces as $rep ) {

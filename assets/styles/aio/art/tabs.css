@@ -179,6 +179,43 @@
   border-radius: 8px;
 }
 
+.tabs.process .tab {
+  box-shadow: none;
+  height: auto;
+  font-weight: bold;
+  background: none;
+}
+.tabs.process .tab:not(:last-child):after {
+  content: "";
+  position: absolute;
+  height: 4px;
+  width: 100%;
+  z-index: -1;
+  display: block;
+  left: 50%;
+  top: 35px;
+  background: #eee;
+}
+.tabs.process .mat-ico {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  border-radius: 25px;
+  display: block;
+  margin: 0 auto 10px;
+  background: #eee;
+}
+.tabs.process .tab.on {
+  background: none;
+  color: var(--primary_color);
+}
+.tabs.process .tab.on .mat-ico {
+  color: var(--filled_color);
+  background: var(--primary_color);
+  background: linear-gradient(-15deg, var(--secondary_color) 0, var(--primary_color) 100%);
+}
+
 .tabs.vertical {
   display: flex;
 }

@@ -21,16 +21,8 @@ class PORTAL {
         global $options;
         $theme = $options['default_theme'] ?? '';
         $theme = $options['theme'] ?? $theme;
-        global $dark_mode;
-        //skel( $options );
-        //skel( $theme );
-        if( str_contains( $theme, 'dark' ) ) {
-            $class .= $theme . ' d';
-            $dark_mode = 1;
-        } else {
-            $class .= $theme . ' l';
-            $dark_mode = 0;
-        }
+        //global $light_mode;
+        //$light_mode = !empty( $theme ) ? ( str_contains( $theme, 'dark' ) ? 'd' : 'l' ) : 'l';
 
         // Prepare Pre Styles
         $pre_styles = ['bootstrap/css/bootstrap-grid','select2','air-datepicker'];
@@ -100,59 +92,61 @@ class PORTAL {
         _r();
             !is_mobile() ? div('col-2') : '';
                 _c(8);
-                    pre_tabs('two');
-                        tab( is_mobile() ? 'UI' : 'Appearance', 1, '#looks' );
-                        tab( is_mobile() ? 'User' : 'User Details', 0, '#basic' );
-                        tab( is_mobile() ? 'Pass' : 'Change Password', 0, '#pass' );
-                        if( $show_sessions )
-                            tab( ( is_mobile() ? 'Sessions' : 'Active Sessions' ) . ' ('.count($ss).')', 0, '#sess' );
-                    post_tabs();
-
-                    pre('','tab_data tab_data_box '.(is_mobile() ? 'p20' : 'p40'));
-
-                        // UI / Appearance Tab Content
-                        $f->option_params('id="looks"','data',2,2,'','theme,input_theme');
-                        _r();
-                            $uis = [ 'default' => 'Default - Light' ];
-                            $ui_list = scandir( ROOTPATH . 'assets/styles/portal/ui' );
-                            foreach( $ui_list as $ui ) {
-                                if( str_contains( $ui, '.scss' ) ) {
-                                    $s = str_replace( '.scss', '', $ui );
-                                    $uis[ $s ] = ucwords( str_replace( '-', ' ', $s ) );
-                                }
-                            }
-                            $f->select( 'theme', 'Dashboard Style', 'Select Theme...', $uis, '', 'data-data class="select2"', 6, 1 );
-                            $f->select( 'input_theme', 'Input Style', 'Select Theme...', [], '', 'data-data class="select2"', 6, 1 );
-                        r_();
-                        $f->process_options('Update Preferences','r5 xl mb0');
-                        $f->post_process();
-
-                        // User Details Tab Content
-                        pre( 'basic', 'dn' );
-                            $a->profile();
-                        post();
-
-                        // Password Tab Content
-                        pre( 'pass', 'dn' );
-                            $a->change();
-                        post();
-
-                        // Sessions Tab Content
-                        if( $show_sessions ) {
-                            pre('sess','dn');
-                                $sessions = [
-                                    [ 'head' => [ 'OS', 'Start', 'Expiry', 'Browser' ] ],
-                                ];
-                                if( !empty( $ss ) ){
-                                    foreach( $ss as $s ){
-                                        $id = !empty($s['session_id']) ? $c->encrypt($s['session_id']) : '';
-                                        $sessions[ $id ] = [ 'body' => [ $s['session_os'], easy_date($s['session_time'],'d M, Y H:i:s'), easy_date($s['session_expiry'],'d M, Y H:i:s'), $s['session_client'] ] ];
+                    if( user_logged_in() ) {
+                        pre_tabs('two');
+                            tab( is_mobile() ? 'UI' : 'Appearance', 1, '#looks' );
+                            tab( is_mobile() ? 'User' : 'User Details', 0, '#basic' );
+                            tab( is_mobile() ? 'Pass' : 'Change Password', 0, '#pass' );
+                            if( $show_sessions )
+                                tab( ( is_mobile() ? 'Sessions' : 'Active Sessions' ) . ' ('.count($ss).')', 0, '#sess' );
+                        post_tabs();
+                        pre('','tab_data tab_data_box '.(is_mobile() ? 'p20' : 'p40'));
+                            // UI / Appearance Tab Content
+                            $f->option_params('id="looks"','data',2,2,'','theme,input_theme');
+                            _r();
+                                $uis = [ 'default' => 'Default - Light' ];
+                                $ui_list = scandir( ROOTPATH . 'assets/styles/portal/ui' );
+                                foreach( $ui_list as $ui ) {
+                                    if( str_contains( $ui, '.scss' ) ) {
+                                        $s = str_replace( '.scss', '', $ui );
+                                        $uis[ $s ] = ucwords( str_replace( '-', ' ', $s ) );
                                     }
                                 }
-                                table( $sessions, 'plain' );
+                                $f->select( 'theme', 'Dashboard Style', 'Select Theme...', $uis, '', 'data-data class="select2"', 6, 1 );
+                                $f->select( 'input_theme', 'Input Style', 'Select Theme...', [], '', 'data-data class="select2"', 6, 1 );
+                            r_();
+                            $f->process_options('Update Preferences','r5 xl mb0');
+                            $f->post_process();
+
+                            // User Details Tab Content
+                            pre( 'basic', 'dn' );
+                                $a->profile();
                             post();
-                       }
-                    post();
+
+                            // Password Tab Content
+                            pre( 'pass', 'dn' );
+                                $a->change();
+                            post();
+
+                            // Sessions Tab Content
+                            if( $show_sessions ) {
+                                pre('sess','dn');
+                                    $sessions = [
+                                        [ 'head' => [ 'OS', 'Start', 'Expiry', 'Browser' ] ],
+                                    ];
+                                    if( !empty( $ss ) ){
+                                        foreach( $ss as $s ){
+                                            $id = !empty($s['session_id']) ? $c->encrypt($s['session_id']) : '';
+                                            $sessions[ $id ] = [ 'body' => [ $s['session_os'], easy_date($s['session_time'],'d M, Y H:i:s'), easy_date($s['session_expiry'],'d M, Y H:i:s'), $s['session_client'] ] ];
+                                        }
+                                    }
+                                    table( $sessions, 'plain' );
+                                post();
+                           }
+                        post();
+                    } else {
+                        notice('You are able to access this page without login!','warning','','error');
+                    }
                 c_();
             !is_mobile() ? div('col-2') : '';
         r_();
@@ -162,7 +156,7 @@ class PORTAL {
     /**
      * Renders Admin Portal Header HTML
      * @param bool $show_navigation Show Navigation
-     * @param string $logo_url URL link for the Logo
+     * @param string $logo_url URL direction link for the Logo
      * @param bool $show_alerts Show Alerts Icons and Dropdown
      * @param bool $show_languages Show Languages Toggle / Dropdown
      * @param bool $link_to_front Shows a hyperlink to front-end
@@ -174,27 +168,31 @@ class PORTAL {
     function render_header( bool $show_navigation = false, string $logo_url = 'admin', bool $show_alerts = false, bool $show_languages = false, bool $link_to_front = false, bool $show_user = false, string $profile_url = '', string $logout_to = '' ): void {
         $db = new DB();
         $e = Encrypt::initiate();
-        //global $options;
-        global $is_light;
+        global $light_mode;
         global $options;
-        //skel( $options );
+        //skel( $light_mode );
         //$c = json_decode( CONFIG, 1 );
         $c = CONFIG;
         // TODO: Implement most params to be from user options
 
-        if( $is_light ) {
-            $logo = !empty( $options['logo_light'] ) ? 'style="background:url(\''.storage_url( $options['logo_light'] ).'\') no-repeat center / contain"' : '';
+        $logo = $light_mode == 'l' ? ( $options['logo_light'] ?? '' ) : ( $options['logo_dark'] ?? '' );
+        $logo = !empty( $logo ) ? 'style="background:url(\''.storage_url( $logo ).'\') no-repeat center / contain"' : '';
+        //skel( $logo );
+        //skel( $options['logo_light'] );
+        //skel( $options['logo_dark'] );
+
+        /* if( $is_light ) {
+            $logo = isset( $options['logo_light'] ) ? 'style="background:url(\''.storage_url( $options['logo_light'] ).'\') no-repeat center / contain"' : '';
         } else {
-            $logo = !empty( $options['logo_dark'] ) ? 'style="background:url(\''.storage_url( $options['logo_dark'] ).'\') no-repeat center / contain"' : '';
-        }
+            $logo = isset( $options['logo_dark'] ) ? 'style="background:url(\''.storage_url( $options['logo_dark'] ).'\') no-repeat center / contain"' : '';
+        } */
 
         pre( '', '', 'header' );
 
             // Brand Panel
-            // TODO: Update dynamic icon 1
             pre( 'brand_panel' );
-                $menu_icon = _div( ( $options['portal_universal_icon_class'] ?? 'mico' ) . ' ' . ( $options['port_ico_menu_class'] ?? 'menu' ), $options['port_ico_menu_text'] ?? 'menu' );
-                $close_icon = _div( ( $options['portal_universal_icon_class'] ?? 'mico' ) . ' ' . ( $options['port_ico_close_class'] ?? 'close' ), $options['port_ico_close_text'] ?? 'close' );
+                $menu_icon = _div( ( $options['universal_icon_class'] ?? 'mico' ) . ' ' . ( $options['port_ico_menu_class'] ?? 'menu' ), $options['port_ico_menu_text'] ?? 'menu' );
+                $close_icon = _div( ( $options['universal_icon_class'] ?? 'mico' ) . ' ' . ( $options['port_ico_close_class'] ?? 'close' ), $options['port_ico_close_text'] ?? 'close' );
                 $show_navigation ? div( 'nav_ico', $menu_icon . $close_icon, 'menu' ) : '';
                 a( APPURL . $logo_url, '', 'brand', '', $logo );
             post();
@@ -288,7 +286,11 @@ class PORTAL {
                             div( 'user_name', $user_name );
                             pre( '', 'user_details' );
                                 div( 'pic', '', '', ( !empty( $user_pic ) ? 'style="background-image:url('. storage_url($user_pic) .')" class="bg"' : '' ) );
-                                table($user_data,'user_data plain s mb10');
+                                if( isset( $_SESSION['user'] ) ) {
+                                    table($user_data,'user_data plain s mb10');
+                                } else {
+                                    notice( 'Using developer mode, actual user access is not authenticated!', 'warning', '', 'error' );
+                                }
                                 //h4( $user_name, 0, 'tac' );
                                 //h5( $user_role, 0, 'tac' );
                                 _r();
@@ -419,8 +421,8 @@ class PORTAL {
     public array $icon_options = [ 'menu' => 'menu', 'alerts' => 'notifications', 'languages' => 'language', 'frontend' => 'desktop_windows', 'user' => 'account_circle', 'logout' => 'logout', 'create' => 'add_circle', 'edit' => 'border_color', 'view' => 'file_open', 'delete' => 'delete', 'back' => 'keyboard_backspace', 'close' => 'close', 'save' => 'save', 'download' => 'download_for_offline', 'list' => 'view_stream', 'grid' => 'grid_view', 'accordion' => 'view_day', 'calendar' => 'calendar_month' ];
 
     function icon_options(): void {
-        $form[] = [ 'i' => 'portal_universal_icon_class', 'n' => 'Universal Icon Class', 'v' => 'mat-ico', 'c' => 12 ];
-        $autoload = [ 'portal_universal_icon_class' ];
+        $form[] = [ 'i' => 'universal_icon_class', 'n' => 'Universal Icon Class', 'v' => 'mat-ico', 'c' => 12 ];
+        $autoload = [ 'universal_icon_class' ];
         foreach( $this->icon_options as $o => $v ) {
             $idt = 'port_ico_'.$o.'_text';
             $idc = 'port_ico_'.$o.'_class';
@@ -449,7 +451,7 @@ function title_bar( string $title = '', string $back_url = '', string $list_view
     global $options;
     pre( '', 'header df aic jsb', 'header' );
         pre( '', 'left df' );
-            !empty( $back_url ) ? a( APPURL.$back_url, $options['port_ico_back_text'] ?? '', ( $options['portal_universal_icon_class'] ?? '' ) . ' back ' . ( $options['port_ico_back_class'] ?? '' ), T('Return') ) : '';
+            !empty( $back_url ) ? a( APPURL.$back_url, $options['port_ico_back_text'] ?? '', ( $options['universal_icon_class'] ?? '' ) . ' back ' . ( $options['port_ico_back_class'] ?? '' ), T('Return') ) : '';
             !empty( $title ) ? h1( $title, 1, 'title' ) : '';
         post();
 
@@ -459,12 +461,12 @@ function title_bar( string $title = '', string $back_url = '', string $list_view
                 pre( '', 'views df' );
                     if( !empty( $list_view ) ){
                         pre( '', 'list_toggle'.($active_view == $list_view ? ' on' : ''), 'div', 'data-show="'.$list_view.'" data-off=".grid_toggle" data-on=".list_toggle" '.(!empty( $grid_view ) ? 'data-hide="'.$grid_view.'"' : '') );
-                            div( ( $options['portal_universal_icon_class'] ?? '' ) . ' ' . ( $options['port_ico_list_class'] ?? '' ), $options['port_ico_list_text'] ?? '' );
+                            div( ( $options['universal_icon_class'] ?? '' ) . ' ' . ( $options['port_ico_list_class'] ?? '' ), $options['port_ico_list_text'] ?? '' );
                         post();
                     }
                     if( !empty( $grid_view ) ){
                         pre( '', 'grid_toggle'.($active_view == $grid_view ? ' on' : ''), 'div', 'data-show="'.$grid_view.'" data-on=".grid_toggle" data-off=".list_toggle" '.(!empty( $list_view ) ? 'data-hide="'.$list_view.'"' : '') );
-                            div( ( $options['portal_universal_icon_class'] ?? '' ) . ' ' . ( $options['port_ico_grid_class'] ?? '' ), $options['port_ico_grid_text'] ?? '' );
+                            div( ( $options['universal_icon_class'] ?? '' ) . ' ' . ( $options['port_ico_grid_class'] ?? '' ), $options['port_ico_grid_text'] ?? '' );
                         post();
                     }
                 post();

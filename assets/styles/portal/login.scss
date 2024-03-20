@@ -5,6 +5,9 @@ body {
   height: 100vh;
   background-color: #eee;
 }
+.brand {
+  background: var(--logo) no-repeat center / contain;
+}
 
 /* Inputs */
 
