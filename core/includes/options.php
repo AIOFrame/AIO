@@ -164,7 +164,7 @@ class OPTIONS {
             //$v[ $iok ] = $ops[ $iok ] ?? $iov;
         }
         $f->option_params_wrap( 'input', 'row', $autoload );
-        $options_base = [
+        $dimensions_form = [
             //[ 't' => 'number', 'i' => 'radius', 'n' => 'Corner Radius (px)', 'p' => 'Ex: 5', 'v' => $v['radius'] ?? '', 'a' => $attr, 'c' => 4 ],
             [ 't' => 'number', 'i' => '', 'n' => ' (px)', 'p' => 'Ex: 2', 'a' => $attr, 'c' => 4 ],
             [ 't' => 'number', 'i' => '_top', 'n' => ' - Top (px)', 'p' => 'Ex: 2', 'a' => $attr, 'c' => 2 ],
@@ -172,32 +172,48 @@ class OPTIONS {
             [ 't' => 'number', 'i' => '_bottom', 'n' => ' - Bottom (px)', 'p' => 'Ex: 2', 'a' => $attr, 'c' => 2 ],
             [ 't' => 'number', 'i' => '_left', 'n' => ' - Left (px)', 'p' => 'Ex: 2', 'a' => $attr, 'c' => 2 ],
         ];
-        $option_elements = [ 'input', 'card', 'button' ];
+        $colors_form = [
+            [ 't' => 'color', 'i' => '_text_color', 'n' => 'Text', 'p' => 'Ex: #000', 'a' => $attr, 'c' => 2 ],
+            [ 't' => 'color', 'i' => '_filled_color', 'n' => 'Text on theme', 'p' => 'Ex: #000', 'a' => $attr, 'c' => 2 ],
+            [ 't' => 'color', 'i' => '_focus_color', 'n' => 'Text on hover', 'p' => 'Ex: #000', 'a' => $attr, 'c' => 2 ],
+            [ 't' => 'color', 'i' => '_active_color', 'n' => 'Text on hover', 'p' => 'Ex: #000', 'a' => $attr, 'c' => 2 ],
+            [ 't' => 'color', 'i' => '_focus_border', 'n' => 'Border on hover', 'p' => 'Ex: #000', 'a' => $attr, 'c' => 2 ],
+            [ 't' => 'color', 'i' => '_active_border', 'n' => 'Border on hover', 'p' => 'Ex: #000', 'a' => $attr, 'c' => 2 ],
+        ];
+        $option_elements = [ 'input' => 'Input Form', 'card' => 'Cards', 'button' => 'Generic Buttons' ];
         $option_types = [ 'border', 'radius', 'margin', 'padding' ];
         // Loop option elements for tab heads
         pre_tabs( 'material mb20' );
         foreach( $option_elements as $x => $oe ) {
-            tab( T( ucwords( $oe ) . ' design' ), $x == 0, '#'.$oe.'_options' );
+            tab( T( ucwords( $oe ) . ' design' ), $x == 'input', '#'.$oe.'_options' );
         }
         post_tabs();
         // Loop option elements
         _d( 'design_options_data' );
         foreach( $option_elements as $x => $oe ) {
-            _d( $x == 0 ? '' : 'dn', $oe.'_options' );
-            // Loop option types
-            foreach( $option_types as $ot ) {
-                // h4( T( ucfirst( $ot ) ), 0, 'mt0 ttu' );
-                $type_options = [];
-                foreach( $options_base as $ob ) {
-                    $ob['i'] = $oe . '_' . $ot . $ob['i'];
-                    $ob['n'] = ucwords( $ot ) . $ob['n'];
-                    $ob['v'] = $ops[ $ob['i'] ] ?? '';
-                    $type_options[] = $ob;
-                    //skel( $ob );
+            _d( $x == 'input' ? '' : 'dn', $oe.'_options' );
+                // Loop option types
+                foreach( $option_types as $ot ) {
+                    // h4( T( ucfirst( $ot ) ), 0, 'mt0 ttu' );
+                    $type_options = [];
+                    foreach( $dimensions_form as $df ) {
+                        $df['i'] = $x . '_' . $ot . $df['i'];
+                        $df['n'] = ucwords( $ot ) . $df['n'];
+                        $df['v'] = $ops[ $df['i'] ] ?? '';
+                        $type_options[] = $df;
+                        //skel( $ob );
+                    }
+                    //skel( $type_options );
+                    $f->form( $type_options, 'row' );
                 }
-                //skel( $type_options );
-                $f->form( $type_options, 'row' );
-            }
+                h4( 'Color Options' );
+                $color_options = [];
+                foreach( $colors_form as $cf ) {
+                    $cf['i'] = $x . '_' . $cf['i'];
+                    $cf['v'] = $ops[ $cf['i'] ] ?? '';
+                    $color_options[] = $cf;
+                }
+                $f->form( $color_options );
             d_();
         }
         d_();
