@@ -1222,7 +1222,7 @@ class FORM {
                 $return .= $type == 'slide' ? $this->_slide( $id, $label, $off_text, $on_text, $val, '', $attrs, $pre, $post ) : $this->_checkboxes( $id, $label, );
             } else if( $type == 'color' || $type == 'cl' ) {
                 $border = $f['border'] ?? ( $f['b'] ?? '' );
-                $preview = $f['preview'] ?? ( $f['view'] ?? '' );
+                $preview = $f['preview'] ?? ( $f['view'] ?? '[data-key='.$id.']' );
                 $return .= $this->_color( $id, $label, $place, $val, $attrs, $pre, $border, $preview, $post );
             } else if( in_array( $type, [ 'checkboxes', 'radios', 'checkbox', 'radio', 'cb', 'r' ] ) ) {
                 $values = $f['values'] ?? ( $f['v'] ?? ( $f['options'] ?? ( $f['o'] ?? [] ) ) );

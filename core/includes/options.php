@@ -60,6 +60,29 @@ class OPTIONS {
         'side' => 'Currency Side',
         'rate' => 'Rate',
     ];
+    public array $dimensions_fields = [
+        '' => ' (px)',
+        '_top' => ' - Top (px)',
+        '_right' => ' - Right (px)',
+        '_bottom' => ' - Bottom (px)',
+        '_left' => ' - Left (px)',
+    ];
+    public array $colors_fields = [
+        '_text_color' => 'Text',
+        '_filled_color' => 'Text on theme',
+        '_focus_color' => 'Text on hover',
+        '_active_color' => 'Text on click',
+        '_focus_border' => 'Border on hover',
+        '_active_border' => 'Border on click',
+        '_bg_color_primary' => 'BG Primary',
+        '_bg_color_secondary' => 'BG Secondary',
+        '_bg_color_primary_focus' => 'BG Primary on focus',
+        '_bg_color_secondary_focus' => 'BG Secondary on focus',
+        '_bg_color_primary_active' => 'BG Primary on click',
+        '_bg_color_secondary_active' => 'BG Secondary on click',
+    ];
+    public array $option_elements = [ 'input' => 'Input Form', 'card' => 'Cards', 'button' => 'Generic Buttons', 'modal' => 'Modal Popup', 'alert' => 'Alert' ];
+    public array $option_types = [ 'border', 'radius', 'margin', 'padding' ];
 
     /**
      * Renders app branding options
@@ -157,106 +180,66 @@ class OPTIONS {
         //skel( $options );
         $ops = $db->get_options( $options );
         //skel( $ops );
-        $attr = 'data-input';
         $autoload = [];
-        foreach( $options as $iok => $iov ) {
-            $autoload[] = $iok;
-            //$v[ $iok ] = $ops[ $iok ] ?? $iov;
-        }
-        $f->option_params_wrap( 'input', 'row', $autoload );
-        $dimensions_form = [
-            //[ 't' => 'number', 'i' => 'radius', 'n' => 'Corner Radius (px)', 'p' => 'Ex: 5', 'v' => $v['radius'] ?? '', 'a' => $attr, 'c' => 4 ],
-            [ 't' => 'number', 'i' => '', 'n' => ' (px)', 'p' => 'Ex: 2', 'a' => $attr, 'c' => 4 ],
-            [ 't' => 'number', 'i' => '_top', 'n' => ' - Top (px)', 'p' => 'Ex: 2', 'a' => $attr, 'c' => 2 ],
-            [ 't' => 'number', 'i' => '_right', 'n' => ' - Right (px)', 'p' => 'Ex: 2', 'a' => $attr, 'c' => 2 ],
-            [ 't' => 'number', 'i' => '_bottom', 'n' => ' - Bottom (px)', 'p' => 'Ex: 2', 'a' => $attr, 'c' => 2 ],
-            [ 't' => 'number', 'i' => '_left', 'n' => ' - Left (px)', 'p' => 'Ex: 2', 'a' => $attr, 'c' => 2 ],
-        ];
-        $colors_form = [
-            [ 't' => 'color', 'i' => '_text_color', 'n' => 'Text', 'p' => 'Ex: #000', 'a' => $attr, 'c' => 2 ],
-            [ 't' => 'color', 'i' => '_filled_color', 'n' => 'Text on theme', 'p' => 'Ex: #000', 'a' => $attr, 'c' => 2 ],
-            [ 't' => 'color', 'i' => '_focus_color', 'n' => 'Text on hover', 'p' => 'Ex: #000', 'a' => $attr, 'c' => 2 ],
-            [ 't' => 'color', 'i' => '_active_color', 'n' => 'Text on hover', 'p' => 'Ex: #000', 'a' => $attr, 'c' => 2 ],
-            [ 't' => 'color', 'i' => '_focus_border', 'n' => 'Border on hover', 'p' => 'Ex: #000', 'a' => $attr, 'c' => 2 ],
-            [ 't' => 'color', 'i' => '_active_border', 'n' => 'Border on hover', 'p' => 'Ex: #000', 'a' => $attr, 'c' => 2 ],
-        ];
-        $option_elements = [ 'input' => 'Input Form', 'card' => 'Cards', 'button' => 'Generic Buttons' ];
-        $option_types = [ 'border', 'radius', 'margin', 'padding' ];
+        $dimensions_form = $this->dimensions_fields;
+        $colors_form = $this->colors_fields;
+        $option_elements = $this->option_elements;
+        $option_types = $this->option_types;
         // Loop option elements for tab heads
         pre_tabs( 'material mb20' );
         foreach( $option_elements as $x => $oe ) {
-            tab( T( ucwords( $oe ) . ' design' ), $x == 'input', '#'.$oe.'_options' );
+            tab( T( ucwords( $oe ) ), $x == 'input', '#'.$x.'_options' );
         }
         post_tabs();
         // Loop option elements
         _d( 'design_options_data' );
-        foreach( $option_elements as $x => $oe ) {
-            _d( $x == 'input' ? '' : 'dn', $oe.'_options' );
-                // Loop option types
-                foreach( $option_types as $ot ) {
-                    // h4( T( ucfirst( $ot ) ), 0, 'mt0 ttu' );
-                    $type_options = [];
-                    foreach( $dimensions_form as $df ) {
-                        $df['i'] = $x . '_' . $ot . $df['i'];
-                        $df['n'] = ucwords( $ot ) . $df['n'];
-                        $df['v'] = $ops[ $df['i'] ] ?? '';
-                        $type_options[] = $df;
-                        //skel( $ob );
+            foreach( $option_elements as $x => $oe ) {
+                _d( $x == 'input' ? '' : 'dn', $x.'_options' );
+                    // Loop option types
+                    $autoload = $type_options = [];
+                    foreach( $option_types as $ot ) {
+                        // h4( T( ucfirst( $ot ) ), 0, 'mt0 ttu' );
+                        foreach( $dimensions_form as $dk => $df ) {
+                            if( ( $x == 'modal' && $ot == 'margin' ) ) {
+                                continue;
+                            }
+                            $d = [];
+                            $d['t'] = 'number';
+                            $d['i'] = $x . '_' . $ot . $dk;
+                            $d['n'] = ucwords( $ot ) . $df;
+                            $d['p'] = 'Ex: 2';
+                            $d['c'] = $dk == '' ? 4 : 2;
+                            $d['v'] = $ops[ $dk ] ?? '';
+                            $type_options[] = $d;
+                            $autoload[] = $d['i'];
+                            //skel( $ob );
+                        }
                     }
-                    //skel( $type_options );
-                    $f->form( $type_options, 'row' );
-                }
-                h4( 'Color Options' );
-                $color_options = [];
-                foreach( $colors_form as $cf ) {
-                    $cf['i'] = $x . '_' . $cf['i'];
-                    $cf['v'] = $ops[ $cf['i'] ] ?? '';
-                    $color_options[] = $cf;
-                }
-                $f->form( $color_options );
-            d_();
-        }
+                    $f->option_params_wrap( 'input', 'row', $autoload );
+                        //skel( $autoload );
+                        $f->form( $type_options, 'row' );
+                        $f->process_options('Save Styling Options','store grad','','.col-12 tac');
+                    post();
+                    h4( 'Color Options' );
+                    $autoload = $color_options = [];
+                    foreach( $colors_form as $ck => $cf ) {
+                        $d = [];
+                        $d['t'] = 'color';
+                        $d['i'] = $x . $ck;
+                        $d['n'] = $cf;
+                        $d['p'] = 'Ex: #000000';
+                        $d['c'] = 2;
+                        $d['v'] = $ops[ $ck ] ?? '';
+                        $color_options[] = $d;
+                    }
+                    $f->option_params_wrap( 'input', 'row', $autoload );
+                        $f->form( $color_options );
+                        $f->process_options('Save Color Options','store grad','','.col-12 tac');
+                    post();
+                d_();
+            }
         d_();
-        //$f->form( $input_borders );
-        /* _r();
-            _c(6);
-                h4(T('Padding'). ' (px)',0,'mt0 ttu');
-                $input_paddings = [
-                    [ 't' => 'number', 'i' => 'input_padding_top', 'n' => 'Top', 'p' => 'Ex: 5', 'v' => $v['input_padding_top'] ?? '', 'a' => $attr, 'c' => 3 ],
-                    [ 't' => 'number', 'i' => 'input_padding_right', 'n' => 'Right', 'p' => 'Ex: 5', 'v' => $v['input_padding_right'] ?? '', 'a' => $attr, 'c' => 3 ],
-                    [ 't' => 'number', 'i' => 'input_padding_bottom', 'n' => 'Bottom', 'p' => 'Ex: 5', 'v' => $v['input_padding_bottom'] ?? '', 'a' => $attr, 'c' => 3 ],
-                    [ 't' => 'number', 'i' => 'input_padding_left', 'n' => 'Left', 'p' => 'Ex: 5', 'v' => $v['input_padding_left'] ?? '', 'a' => $attr, 'c' => 3 ],
-                ];
-                $f->form( $input_paddings );
-            c_();
-            _c(6);
-                h4(T('Margins'). ' (px)',0,'mt0 ttu');
-                $input_margins = [
-                    [ 't' => 'number', 'i' => 'input_margin_top', 'n' => 'Top', 'p' => 'Ex: 5', 'v' => $v['input_margin_top'] ?? '', 'a' => $attr, 'c' => 3 ],
-                    [ 't' => 'number', 'i' => 'input_margin_right', 'n' => 'Right', 'p' => 'Ex: 5', 'v' => $v['input_margin_right'] ?? '', 'a' => $attr, 'c' => 3 ],
-                    [ 't' => 'number', 'i' => 'input_margin_bottom', 'n' => 'Bottom', 'p' => 'Ex: 5', 'v' => $v['input_margin_bottom'] ?? '', 'a' => $attr, 'c' => 3 ],
-                    [ 't' => 'number', 'i' => 'input_margin_left', 'n' => 'Left', 'p' => 'Ex: 5', 'v' => $v['input_margin_left'] ?? '', 'a' => $attr, 'c' => 3 ],
-                ];
-                $f->form( $input_margins );
-            c_();
-        r_();
-        h4(T('Light Theme Options'). ' (px)',0,'mt0 ttu');
-        echo '<div class="col-12"><h4 class="mt0 ttu">'.T('Light Theme Options').'</h4></div>';
-        $f->color('input_bg_light','Background','Ex: F1F1F1',$v['input_bg_light'],$attr,4,'','[data-key=input_bg_light]');
-        $f->color('input_border_color_light','Border Color','Ex: F1F1F1',$v['input_border_color_light'],$attr,2,'','[data-key=input_border_color_light]');
-        $f->color('input_border_color_active_light','Border Color - Active','Ex: F1F1F1',$v['input_border_color_active_light'],$attr,2,'','[data-key=input_border_color_active_light]');
-        $f->color('input_color_light','Text Color','Ex: F1F1F1',$v['input_color_light'],$attr,2,'','[data-key=input_color_light]');
-        $f->color('input_color_active_light','Text Color - Active','Ex: F1F1F1',$v['input_color_active_light'],$attr,2,'','[data-key=input_color_active_light]');
-        if( $dark_mode_options ) {
-            echo '<div class="col-12"><h4 class="mt0 ttu">'.T('Dark Theme Options').'</h4></div>';
-            $f->color('input_bg_dark','Background','Ex: F1F1F1',$v['input_bg_dark'],$attr,4,'','[data-key=input_bg_dark]');
-            $f->color('input_border_color_dark','Border Color','Ex: F1F1F1',$v['input_border_color_dark'],$attr,2,'','[data-key=input_border_color_dark]');
-            $f->color('input_border_color_active_dark','Border Color - Active','Ex: F1F1F1',$v['input_border_color_active_dark'],$attr,2,'','[data-key=input_border_color_active_dark]');
-            $f->color('input_color_dark','Text Color','Ex: F1F1F1',$v['input_color_dark'],$attr,2,'','[data-key=input_color_dark]');
-            $f->color('input_color_active_dark','Text Color - Active','Ex: F1F1F1',$v['input_color_active_dark'],$attr,2,'','[data-key=input_color_active_dark]');
-        }*/
-        $f->process_options('Save Brand Options','store grad','','.col-12 tac');
-        post();
+
     }
 
     /**
