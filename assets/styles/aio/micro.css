@@ -401,6 +401,11 @@
   justify-content: flex-end;
 }
 
+.df.fc {
+  justify-content: center;
+  align-items: center;
+}
+
 select.tar {
   text-align-last: right;
 }

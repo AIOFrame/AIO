@@ -39,22 +39,6 @@ body.modal_open article > div:not(.header) {
   position: relative;
 }
 
-.aio_upload:after {
-  content: "";
-  position: absolute;
-  right: 6px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #000;
-  font-family: "MaterialIcons", sans-serif;
-  font-size: 1.8rem;
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
-  text-align: center;
-  left: auto;
-}
-
 [data-prev], [data-next] {
   border-radius: 20px;
   box-shadow: none;
@@ -220,8 +204,6 @@ body.modal_open article > div:not(.header) {
 /* Buttons */
 button.store, .btn.store {
   position: relative;
-  padding: 14px 20px;
-  border-radius: 8px;
   margin: 15px 6px;
 }
 
@@ -682,27 +664,39 @@ a.brand {
   flex: 0 0 33.3333%;
   max-width: 33.3333%;
 }
+.header [type=search] {
+  margin: 0;
+  padding: 6px 10px;
+}
 .header .title {
   display: block;
   font-size: 1.4rem;
   letter-spacing: 2px;
   font-weight: lighter;
   padding-left: 50px;
+  margin: 0;
 }
 .header .tabs, .header .views {
   display: flex;
   justify-content: center;
 }
 .header .tabs > a, .header .tabs > div, .header .views > a, .header .views > div {
-  padding: 0 10px;
+  padding: 0;
   display: block;
   position: relative;
   opacity: 0.3;
   cursor: pointer;
-  height: auto;
   box-shadow: none;
+  width: 50px;
+  height: 50px;
+  text-align: center;
 }
 .header .tabs > a > div, .header .tabs > a > i, .header .tabs > div > div, .header .tabs > div > i, .header .views > a > div, .header .views > a > i, .header .views > div > div, .header .views > div > i {
+  line-height: 50px;
+}
+.header .tabs > a .bi:before, .header .tabs > div .bi:before, .header .views > a .bi:before, .header .views > div .bi:before {
+  width: 50px;
+  font-size: 1.6rem;
   line-height: 50px;
 }
 .header .tabs > a.on, .header .tabs > div.on, .header .views > a.on, .header .views > div.on {
@@ -714,8 +708,8 @@ a.brand {
   content: "";
   display: block;
   left: 10px;
-  bottom: -10px;
-  height: 2px;
+  bottom: -4px;
+  height: 4px;
   background: var(--primary_color);
   position: absolute;
   width: calc(100% - 20px);

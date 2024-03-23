@@ -61,16 +61,22 @@
 [data-alerts] .alert .data .ico {
   position: absolute;
   left: 0;
-  height: calc(100% - 10px);
+  height: calc( 100% - 10px );
   width: 50px;
+  min-height: 50px;
+  text-align: center;
   z-index: 2;
   overflow: hidden;
 }
-[data-alerts] .alert .data .ico .mat-ico {
+[data-alerts] .alert .data .ico > .ico {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+[data-alerts] .alert .data .ico > .bi:before {
+  line-height: 50px;
+  font-size: 1.4rem;
 }
 [data-alerts] .alert .data .message {
   border-radius: var(--input_radius);
@@ -83,7 +89,6 @@
   padding: 12px 30px 20px 50px;
 }
 [data-alerts] .alert .close {
-  font-family: "MaterialIcons", sans-serif;
   position: absolute;
   right: 5px;
   top: 5px;

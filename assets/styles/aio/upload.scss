@@ -163,9 +163,15 @@ body.d .file_modal, body.d .file_notify {
         font-size: 2rem;
         line-height: 40px;
       }
-    }
-    .expand {
-      content: '\f1ce'
+      > div.bi {
+        font-size: 1.5rem;
+      }
+      .expand {
+        display: block;
+      }
+      .contract {
+        display: none;
+      }
     }
     .close {
       left:auto;
@@ -210,13 +216,16 @@ body.d .file_modal, body.d .file_notify {
           }
         }
       }
-      .mat-ico {
+      .ico {
         position: absolute;
         left: 10px;
         top: 6px;
         margin: 0 5px;
         font-size: 1.6rem;
         color: $filled_color;
+      }
+      .ico.bi {
+        font-size: 1.2rem;
       }
       .title {
         flex: 0 0 100%;
@@ -579,6 +588,20 @@ td .aio_fsp {
     padding-right: 36px;
     position: relative;
     text-transform: none;
+    .ico {
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      width: 35px;
+      height: 35px;
+      transform: translateY(-50%);
+      display: block;
+      color: $primary;
+    }
+    .ico.bi:before {
+      font-size: 1.4rem;
+      line-height: 35px;
+    }
     //box-shadow: none;
     //background: none;
   }
@@ -651,6 +674,14 @@ td .aio_fsp {
   .f, > .uploaded_files > .uploading {
     flex: 0 0 220px !important;
     max-width: 220px !important;
+  }
+  .acts {
+    .expand {
+      display: none;
+    }
+    .contract {
+      display: block;
+    }
   }
 }
 //.aio_df {

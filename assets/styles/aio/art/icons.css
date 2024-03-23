@@ -40,7 +40,7 @@
 
 .bi::before, [class^=bi-]::before, [class*=" bi-"]::before {
   font-family: "bootstrapicons" !important;
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 
 .mat-ico.bg, .mico.bg {

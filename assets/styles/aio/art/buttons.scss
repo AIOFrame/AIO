@@ -306,7 +306,22 @@ button.bsn, .btn.bsn, button.bsn:hover, .btn.bsn:hover, button.ns, .btn.ns, .btn
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
 }
-button {
+button.store, button.save {
+  padding-left: 40px;
+  padding-right: 40px;
+  .ico {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 8px;
+  }
+  .ico.bi:before {
+    font-size: 1rem;
+  }
+  .ico.l {
+    right: auto;
+    left: 8px;
+  }
   .loader {
     display: none;
   }

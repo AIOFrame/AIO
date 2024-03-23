@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .file_modal, .file_notify {
   position: fixed;
   z-index: 999;
@@ -151,8 +152,14 @@ body.d .file_modal, body.d .file_notify {
   font-size: 2rem;
   line-height: 40px;
 }
-.file_modal .files_head .expand {
-  content: "\f1ce";
+.file_modal .files_head .acts > div.bi {
+  font-size: 1.5rem;
+}
+.file_modal .files_head .acts .expand {
+  display: block;
+}
+.file_modal .files_head .acts .contract {
+  display: none;
 }
 .file_modal .files_head .close {
   left: auto;
@@ -198,13 +205,16 @@ body.d .file_modal, body.d .file_notify {
   margin: 0 2px;
   text-transform: uppercase;
 }
-.file_modal .files_head .info .mat-ico {
+.file_modal .files_head .info .ico {
   position: absolute;
   left: 10px;
   top: 6px;
   margin: 0 5px;
   font-size: 1.6rem;
   color: var(--filled_color);
+}
+.file_modal .files_head .info .ico.bi {
+  font-size: 1.2rem;
 }
 .file_modal .files_head .info .title {
   flex: 0 0 100%;
@@ -250,7 +260,7 @@ body.d .file_modal, body.d .file_notify {
 }
 
 body.d .file_modal .files_head {
-  background: rgb(35, 35, 35);
+  background: #232323;
 }
 
 /*.files_head .browse_file {
@@ -473,13 +483,13 @@ body.d .file_modal .files_head {
   transform: translateY(-50%);
 }
 .files_actions .i.select:after {
-  content: "\e86c";
+  content: "";
 }
 .files_actions .i.browse:after {
-  content: "\e9fc";
+  content: "";
 }
 .files_actions .i.trash:after {
-  content: "\e872";
+  content: "";
 }
 .files_actions .i.disabled {
   background: none;
@@ -490,7 +500,7 @@ body.d .file_modal .files_head {
 }
 
 body.d .files_actions {
-  border-top: 1px solid rgb(35, 35, 35);
+  border-top: 1px solid #232323;
 }
 body.d .files_actions div, body.d .files_actions label {
   color: #fff;
@@ -595,6 +605,20 @@ td .aio_fsp {
   position: relative;
   text-transform: none;
 }
+.aio_fp .aio_upload .ico {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  width: 35px;
+  height: 35px;
+  transform: translateY(-50%);
+  display: block;
+  color: var(--primary_color);
+}
+.aio_fp .aio_upload .ico.bi:before {
+  font-size: 1.4rem;
+  line-height: 35px;
+}
 
 .aio_files > .f {
   display: block;
@@ -661,6 +685,12 @@ td .aio_fsp {
   flex: 0 0 220px !important;
   max-width: 220px !important;
 }
+.file_modal.max .acts .expand {
+  display: none;
+}
+.file_modal.max .acts .contract {
+  display: block;
+}
 
 body.d .aio_files .trash {
   color: #fff;
@@ -681,9 +711,11 @@ body.d .aio_files .trash {
     max-height: none;
     padding-bottom: 20vh;
   }
+
   .file_notify {
     width: 100vw;
   }
+
   .files_actions {
     position: fixed;
     left: 0;
@@ -694,12 +726,14 @@ body.d .aio_files .trash {
     padding: 20px 10px;
     background: #fff !important;
   }
+
   #aio_up .f:after {
     left: 5px;
     top: 5px;
     width: 15px;
     height: 15px;
   }
+
   .aio_fsp > .w {
     margin: 0;
   }

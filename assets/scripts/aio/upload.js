@@ -57,7 +57,7 @@ $(document).ready(function(){
     })
 
     // Resize Uploader
-    .on('click','#aio_up .expand',function(){
+    .on('click','#aio_up .expand, #aio_up .contract',function(){
         $('.file_modal').toggleClass('max');
     })
 

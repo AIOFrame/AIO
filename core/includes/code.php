@@ -318,10 +318,15 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
 }
 
 function post_html( string|array $scripts = [], string $alert_position = 'top right' ): void {
+    global $options;
     div($alert_position,'','','data-alerts');
     get_scripts( $scripts );
     if( defined( 'PAGEPATH' ) )
         get_script( PAGEPATH );
+    $close_button = _div( ( $options['universal_icon_class'] ?? '' ) .' close ' . ( $options['port_ico_close'] ?? '' ), $options['port_ico_close'] ?? 'close' );
+    $icon = _div( 'ico', _div( ( $options['universal_icon_class'] ?? '' ) .' ico {{icon}} ' . ( $options['port_ico_alerts'] ?? '' ), $options['port_ico_alerts'] ?? '' ) );
+    // '<div class="alert in '+type+' n_'+r+'"><div class="data"><div class="mat-ico bi bi-x-lg close">close</div>'+ico+'<div class="message">'+text+'</div></div><div class="time"></div></div>'
+    div( 'dn', _div( 'alert in {{type}} n_{{random}}', _div( 'data', $close_button . $icon . _div( 'message', '{{text}}' ) ) . _div( 'time' ) ), '', 'alert-html-template' );
     echo '</body></html>';
 }
 
@@ -801,7 +806,7 @@ function soon( string $date, string $text = 'Coming Soon...', string $bg = '', s
  * @param string $submit_wrap Wrapper class for submit trigger
  * @return void
  */
-function modal( string $title = '', bool $editable = true, string $size = 'm', string $target = '', array|string $fields = [], string $form_style = 'row', array $hidden = [], string $prepend_to_keys = '', int $notify = 0, int $reload = 0, string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '', string $submit_text = '', string $submit_class = '', string $submit_wrap = '' ): void {
+function modal( string $title = '', bool $editable = true, string $size = 'm', string $target = '', array|string $fields = [], string $form_style = 'row', array $hidden = [], string $prepend_to_keys = '', string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '', string $submit_text = '', string $submit_class = '', string $submit_wrap = '' ): void {
     $f = new FORM();
     $r = substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 8);
     pre_modal( $title, $size, $editable );

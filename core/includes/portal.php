@@ -430,8 +430,8 @@ class PORTAL {
         'logout' => 'logout',
         'back' => 'keyboard_backspace',
         'close' => 'close',
+        'new' => 'add_circle',
         'save' => 'save',
-        'create' => 'add_circle',
         'edit' => 'border_color',
         'view' => 'file_open',
         'delete' => 'delete',
@@ -439,7 +439,14 @@ class PORTAL {
         'list_view' => 'view_stream',
         'grid_view' => 'grid_view',
         'accordion_view' => 'view_day',
-        'calendar' => 'calendar_month'
+        'calendar' => 'calendar_month',
+        'search' => 'search',
+        'file_upload' => 'file_upload',
+        'file_size' => 'straighten',
+        'file_type' => 'description',
+        'file_limit' => 'content_copy',
+        'file_expand' => 'open_in_full',
+        'file_contract' => 'close_fullscreen',
     ];
 
     function icon_options(): void {
@@ -473,13 +480,13 @@ class PORTAL {
 function title_bar( string $title = '', string $back_url = '', string $list_view = '', string $grid_view = '', string $active_view = '', bool $show_search = false, string|array $comp_or_actions = [] ): void {
     global $options;
     pre( '', 'header df aic jsb', 'header' );
-        pre( '', 'left df' );
+        pre( '', 'left df aic' );
             !empty( $back_url ) ? a( APPURL.$back_url, $options['port_ico_back'] ?? '', ( $options['universal_icon_class'] ?? '' ) . ' back ' . ( $options['port_ico_back'] ?? '' ), T('Return') ) : '';
             !empty( $title ) ? h1( $title, 1, 'title' ) : '';
         post();
 
-        pre( '', 'center df' );
-            $show_search ? div( 'search_wrap mica bi', '<input type="search" class="header_search" placeholder="Search..." >' ) : '';
+        pre( '', 'center df fc' );
+            $show_search ? div( 'search_wrap', '<input type="search" class="header_search" placeholder="Search..." >' ) : '';
             if( !empty( $list_view ) || !empty( $grid_view ) ) {
                 pre( '', 'views df' );
                     if( !empty( $list_view ) ){
@@ -496,7 +503,7 @@ function title_bar( string $title = '', string $back_url = '', string $list_view
             }
         post();
 
-        pre( '', 'right' );
+        pre( '', 'right df aic' );
             if( !empty( $actions ) || !empty( $comp_or_actions ) )
                 is_array( $comp_or_actions ) ? div( 'actions' ) : get_comp( $comp_or_actions );
         post();

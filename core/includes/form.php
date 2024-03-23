@@ -667,7 +667,16 @@ class FORM {
         $attrs .= ' data-color-picker';
         $attrs = !empty( $border ) ? $attrs . ' data-border="'.$border.'"' : $attrs;
         $attrs = !empty( $preview ) ? $attrs . ' data-preview="'.$preview.'"' : $attrs;
-        return $this->_text( $id, $label, $placeholder, $value, $attrs, $pre, $post );
+        global $color_picker;
+        global $options;
+        if( $color_picker == 1 ) {
+            //$code = '<div class="color_picker_wrap"><div class="color-picker"></div><div class="color_controls"></div><div class="close">close</div></div>';
+            $code = '';
+        } else {
+            $code = _div( 'dn', _div( 'color_picker_wrap', _div( 'color-picker' ) . _div( 'color_controls', '<input type="text" value="#ffffff" class="code" onfocus="this.select();">' ) . _div( ( $options['universal_icon_class'] ?? '' ) . ' close ' . ( $options['port_ico_close'] ?? '' ), $options['port_ico_close'] ?? 'close' ) ), '', 'color-picker-html' );
+            $color_picker = 1;
+        }
+        return $this->_text( $id, $label, $placeholder, $value, $attrs, $pre, $post ) . $code;
     }
 
     /**
@@ -915,6 +924,7 @@ class FORM {
      * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
      */
     function _upload( string|array $identity, string $label, string $button_label = 'Upload', string $value = '', int $multiple = 1, bool $show_history = false, string $button_class = '', string $attrs = '', string $extensions = '', string $size = '', bool $deletable = false, string $path = '', string|float|int $pre = '', string $post = '' ): string {
+        global $options;
         $rand = rand( 0, 99999 );
         $id = $identity.'_'.$rand; // is_array($identity) ? $identity[0] : $identity;
         $name = $identity; // is_array($identity) ? $identity[1] : $identity;
@@ -931,7 +941,8 @@ class FORM {
         $req = str_contains( $attrs, 'required' ) ? '<i>*</i>' : '';
         $label = !empty( $label ) ? '<label for="'.$id.'">'.T($label).$req.'</label>' : '';
         $value = APPDEBUG && str_contains( $value, 'fake_' ) ? $this->fake( $value ) : ( str_contains( $value, 'fake_' ) ? '' : $value );
-        return $_p.$label.'<button type="button" class="aio_upload '.$button_class.'" data-url="#'.$id.'" onclick="file_upload(this)" '.$sh.$ext.$sz.$mul.$del.$pat.'>'.T($button_label).'</button><input id="'.$id.'" name="'.$name.'" data-key="'.$name.'" type="text" data-'.$type.' value="'.$value.'" '.$attrs.'>'.$p_;
+        $ico = _div( ( $options['universal_icon_class'] ?? 'mico' ) . ' ico ' . ( $options['port_ico_file_upload'] ?? '' ), $options['port_ico_file_upload'] ?? '' );
+        return $_p.$label.'<button type="button" class="aio_upload '.$button_class.'" data-url="#'.$id.'" onclick="file_upload(this)" '.$sh.$ext.$sz.$mul.$del.$pat.'>'.T($button_label).$ico.'</button><input id="'.$id.'" name="'.$name.'" data-key="'.$name.'" type="text" data-'.$type.' value="'.$value.'" '.$attrs.'>'.$p_;
     }
 
     /**
@@ -1121,8 +1132,8 @@ class FORM {
             $hidden = $c->encrypt_array( $hidden );
         }
         $t = ' data-t="'.$target.'"';
-        $notify = $options['notify_time'] ?? 2;
-        $reload = $options['reload_time'] ?? 2;
+        $notify = $options['notify_time'] ?? 4;
+        $reload = $options['reload_time'] ?? 4;
         $nt = $notify > 0 ? ' data-notify="'.$notify.'"' : '';
         $rl = $reload > 0 ? ' data-reload="'.$reload.'"' : '';
         $d = !empty( $data ) ? ' data-data="'.$data.'"' : '';
@@ -1367,19 +1378,22 @@ class FORM {
      * @param string|int $post Post Wrap HTML
      * @param string $element HTML Element
      * @param string $confirm Message to show as confirmation before process
-     * @param int $reload Time to reload the page 0 for no reload
-     * @param int $notify Time for notification visibility of the process response
      */
-    function _process_trigger( string $text = '', string $class = '', string $attr = '', string $action = '', string|int $pre = '', int|string $post = '', string $element = 'button', string $confirm = '', int $reload = 0, int $notify = 0 ): string {
+    function _process_trigger( string $text = 'Save', string $class = '', string $attr = '', string $action = '', string|int $pre = '', int|string $post = '', string $element = 'button', string $confirm = '' ): string {
         $_p = $this->_pre( $pre );
         $p_ = $this->_post( $pre, $post );
         $c = Encrypt::initiate();
+        global $options;
         //$action = empty( $action ) ? 'process_data_ajax' : $action;
-        $a = !empty( $action ) ? ' data-action="'. ( APPDEBUG ? $action : $c->encrypt($action) ) .'"' : '';
+        $a = $attr;
+        $a .= !empty( $action ) ? ' data-action="'. ( APPDEBUG ? $action : $c->encrypt($action) ) .'"' : '';
         $a .= $confirm !== '' ? ' onclick="if(confirm(\''.T($confirm).'\')){process_data(this)}else{event.stopPropagation();event.preventDefault();}"' : ' onclick="process_data(this)"';
-        $a .= $reload > 0 ? ' data-reload="'.$reload.'"' : '';
-        $a .= $notify > 0 ? ' data-notify="'.$notify.'"' : '';
-        return $_p.'<'.$element.$a.' class="'.$class.'" '.$attr.'><span class="loader"></span>'.T( $text ).'</'.$element.'>'.$p_;
+        //$a .= $reload > 0 ? ' data-reload="'.$reload.'"' : '';
+        //$a .= $notify > 0 ? ' data-notify="'.$notify.'"' : '';
+        $text .= _el( 'span', 'loader' );
+        $text .= _el( 'span', ( $options['universal_icon_class'] ?? 'mico' ) . ' ico ' . ( $options['port_ico_save'] ?? '' ), ( $options['port_ico_save'] ?? 'save' ) );
+        return $_p . _el( $element, $class . ' save', $text, '', $a ) . $p_;
+        //return $_p.'<'.$element.$a.' class="'.$class.'" '.$attr.'><span class="loader"></span>'.T( $text ).'</'.$element.'>'.$p_;
     }
 
     function post_process(): void {

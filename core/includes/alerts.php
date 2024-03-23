@@ -9,8 +9,8 @@ class ALERTS {
         $days = empty( $days ) ? '30' : $days;
         $q = 'al_time > DATE_SUB(NOW(), INTERVAL '.$days.' DAY)';
         $q .= $unseen ? ' AND al_seen = 0': '';
-        $alerts = select( 'alerts', '*', $q, $limit, $offset );
-        return $alerts;
+        //$alerts = select( 'alerts', '*', $q, $limit, $offset );
+        return []; //$alerts;
     }
 
     /**
