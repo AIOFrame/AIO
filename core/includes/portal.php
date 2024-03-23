@@ -15,7 +15,7 @@ class PORTAL {
      * @param string|array $icon_fonts Icon Fonts Ex: 'MaterialIcons' or [ 'MaterialIcons', 'BootstrapIcons' ]
      * @return void
      */
-    function pre_html( string $class = '', string $attrs = '', string $primary_color = '00A99D', string $secondary_color = '', string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [], string|array $icon_fonts = '' ): void {
+    function pre_html( string $class = '', string $attrs = '', string $primary_color = '00A99D', string $secondary_color = '00A99D', string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [], string|array $icon_fonts = '' ): void {
 
         // Appearance
         global $options;
@@ -34,6 +34,8 @@ class PORTAL {
         !empty( $scripts ) ? ( is_array( $scripts ) ? $scripts[] = 'jquery' : $scripts .= ',jquery' ) : '';
 
         //$c = new CODE();
+        $primary_color = strlen( $primary_color ) == 6 ? '#' . $primary_color : $primary_color;
+        $secondary_color = strlen( $secondary_color ) == 6 ? '#' . $secondary_color : $secondary_color;
         pre_html($class,$attrs,$pre_styles,$primary_color,$secondary_color,'icons,cards,modal,buttons,inputs,icons,tabs,steps,color,table,alerts,accordion',$styles,$scripts,$primary_font,$secondary_font,$icon_fonts);
 
     }
@@ -190,8 +192,8 @@ class PORTAL {
 
             // Brand Panel
             pre( 'brand_panel' );
-                $menu_icon = _div( ( $options['universal_icon_class'] ?? 'mico' ) . ' ' . ( $options['port_ico_menu_class'] ?? 'menu' ), $options['port_ico_menu_text'] ?? 'menu' );
-                $close_icon = _div( ( $options['universal_icon_class'] ?? 'mico' ) . ' ' . ( $options['port_ico_close_class'] ?? 'close' ), $options['port_ico_close_text'] ?? 'close' );
+                $menu_icon = _div( ( $options['universal_icon_class'] ?? 'mico' ) . ' ' . ( $options['port_ico_menu'] ?? 'menu' ), $options['port_ico_menu'] ?? 'menu' );
+                $close_icon = _div( ( $options['universal_icon_class'] ?? 'mico' ) . ' ' . ( $options['port_ico_close'] ?? 'close' ), $options['port_ico_close'] ?? 'close' );
                 $show_navigation ? div( 'nav_ico', $menu_icon . $close_icon, 'menu' ) : '';
                 a( APPURL . $logo_url, '', 'brand', '', $logo );
             post();
@@ -203,7 +205,7 @@ class PORTAL {
                 if( $show_alerts ) {
                     $alerts = $db->select( 'alerts', '', 'alert_user = "'.get_user_id().'" AND alert_seen = "0"' );
                     pre( 'alert', 'nav_ico', 'div', 'title="'.T('View Notifications').'"' );
-                        div( 'mat-ico', 'notifications' );
+                        div( ( $options['universal_icon_class'] ?? 'mico' ), 'notifications' );
                         el( 'span', '', !empty( $alerts ) ? count( $alerts ) : 0 );
                         if( !empty( $alerts )) {
                             pre( '', 'events drop' );
@@ -227,17 +229,17 @@ class PORTAL {
                     $live = isset( $countries[$cr] ) ? explode( ' ', $countries[$cr] ) : [];
                     if( !empty( $set_countries ) ) {
                         _d( 'nav_ico', 'region', 'title='.T('Change Region') );
-                        echo !empty( $cr ) ? _div( 'reg-ico', $live[0] ) : _div( 'mat-ico', 'map' );
-                        _d( 'drop', '', 'data-action="'.( APPDEBUG ? 'set_region_ajax' : $e->encrypt('set_region_ajax') ).'"' );
-                        foreach( $set_countries as $r ){
-                            $t = $countries[$r] ?? '';
-                            if( !empty( $cr ) && $cr == $r  ) {
-                                div( 'ln list on', $t );
-                            } else {
-                                div( 'ln list', $t, '', 'data-set-region="'.$r.'"' );
+                            !empty( $cr ) ? div( 'reg-ico', $live[0] ) : div( ( $options['universal_icon_class'] ?? 'mico' ), 'map' );
+                            _d( 'drop', '', 'data-action="'.( APPDEBUG ? 'set_region_ajax' : $e->encrypt('set_region_ajax') ).'"' );
+                            foreach( $set_countries as $r ){
+                                $t = $countries[$r] ?? '';
+                                if( !empty( $cr ) && $cr == $r  ) {
+                                    div( 'ln list on', $t );
+                                } else {
+                                    div( 'ln list', $t, '', 'data-set-region="'.$r.'"' );
+                                }
                             }
-                        }
-                        d_();
+                            d_();
                         d_();
                     }
                     //skel( $regions );
@@ -247,7 +249,7 @@ class PORTAL {
                 if( $show_languages && in_array( 'languages', $c ) ) {
                     // TODO: Get Languages
                     pre( 'lang', 'nav_ico' );
-                        div( 'mat-ico', 'translate' );
+                        div( ( $options['universal_icon_class'] ?? 'mico' ), 'translate' );
                         //pre( '', 'drop' );
                             //foreach( [] as $l => $n ){
                                 //$class = !empty( $_SESSION['lang'] ) ? $_SESSION['lang'] == $l ? ' on' : '' : '';
@@ -259,7 +261,7 @@ class PORTAL {
 
                 // Link to Front-end
                 if( $link_to_front ) {
-                    div( '', __a( APPURL, _div( 'nav_ico', _div( 'mat-ico', 'desktop_windows' ) ), '', T( 'Go to Frontend Website' ), 'target="_blank"' ), 'link_to_front' );
+                    div( '', __a( APPURL, _div( 'nav_ico', _div( ( $options['universal_icon_class'] ?? 'mico' ), 'desktop_windows' ) ), '', T( 'Go to Frontend Website' ), 'target="_blank"' ), 'link_to_front' );
                 }
 
                 // Show User
@@ -320,10 +322,11 @@ class PORTAL {
      * @return void
      */
     function render_menu( array $menus = [], string $root_url = 'portal', string $url_prefix = '', string $content = '', string $class = '', bool $gradient_icons = false ): void {
+        global $options;
         //$menus = !empty( $menus ) ? array_group_by( $menus, 'group' ) : [];
         pre( '', 'menu '.$class, 'aside' );
             _r();
-                div( 'col-3', __a( APPURL . $root_url, _el( 'i', 'ico m mat-ico', 'home' ) ), '', 'data-intro' );
+                div( 'col-3', __a( APPURL . $root_url, _el( 'i', ( $options['universal_icon_class'] ?? 'mico' ) .' ico m', 'home' ) ), '', 'data-intro' );
                 pre( '', 'col-9' );
                     echo '<input type="search" placeholder="'.T('Search in Menu...').'">';
                 post();
@@ -380,7 +383,7 @@ class PORTAL {
                                         }
                                     }
                                     if( empty( $restricted ) ) {
-                                        $ico_class = $gradient_icons ? 'mat-ico l grad-bg' : 'mat-ico l';
+                                        $ico_class = ( $options['universal_icon_class'] ?? 'mico' ) . ( $gradient_icons ? ' l grad-bg' : ' l' );
                                         div( $col, __a( APPURL . $url_prefix . $url, _el( 'i', $ico_class, $icon ) . _div( 'title', T( $title ) ) ) );
                                     }
                                 }
@@ -404,11 +407,6 @@ class PORTAL {
         $db = new DB();
         $portal_header_search_style = !empty( $ops['portal_header_search_style'] ) ? $ops['portal_header_search_style'] : '';
         $portal_header_search_show = !empty( $ops['portal_header_search_show'] ) ? $ops['portal_header_search_show'] : '';
-        $portal_header_list_icon_text = !empty( $ops['portal_header_list_icon_text'] ) ? $ops['portal_header_list_icon_text'] : '';
-        $portal_header_list_icon_class = !empty( $ops['portal_header_list_icon_class'] ) ? $ops['portal_header_list_icon_class'] : '';
-        $portal_header_grid_icon_text = !empty( $ops['portal_header_grid_icon_text'] ) ? $ops['portal_header_grid_icon_text'] : '';
-        $portal_header_grid_icon_class = !empty( $ops['portal_header_grid_icon_class'] ) ? $ops['portal_header_grid_icon_class'] : '';
-        $dark = !empty( $ops['logo_dark'] ) ? $ops['logo_dark'] : '';
         $f->option_params_wrap( 'brand' );
         $f->form([
 
@@ -417,18 +415,19 @@ class PORTAL {
         post();
     }
 
-    public array $icon_options = [ 'menu' => 'menu', 'alerts' => 'notifications', 'languages' => 'language', 'frontend' => 'desktop_windows', 'user' => 'account_circle', 'logout' => 'logout', 'create' => 'add_circle', 'edit' => 'border_color', 'view' => 'file_open', 'delete' => 'delete', 'back' => 'keyboard_backspace', 'close' => 'close', 'save' => 'save', 'download' => 'download_for_offline', 'list' => 'view_stream', 'grid' => 'grid_view', 'accordion' => 'view_day', 'calendar' => 'calendar_month' ];
+    public array $icon_options = [ 'menu' => 'menu', 'alerts' => 'notifications', 'languages' => 'language', 'frontend' => 'desktop_windows', 'user' => 'account_circle', 'logout' => 'logout', 'create' => 'add_circle', 'edit' => 'border_color', 'view' => 'file_open', 'delete' => 'delete', 'back' => 'keyboard_backspace', 'close' => 'close', 'save' => 'save', 'download' => 'download_for_offline', 'list_view' => 'view_stream', 'grid_view' => 'grid_view', 'accordion_view' => 'view_day', 'calendar' => 'calendar_month' ];
 
     function icon_options(): void {
-        $form[] = [ 'i' => 'universal_icon_class', 'n' => 'Universal Icon Class', 'v' => 'mat-ico', 'c' => 12 ];
+        global $options;
+        $form[] = [ 'i' => 'universal_icon_class', 'n' => 'Universal Icon Class', 'v' => 'mico', 'c' => 12 ];
         $autoload = [ 'universal_icon_class' ];
         foreach( $this->icon_options as $o => $v ) {
-            $idt = 'port_ico_'.$o.'_text';
-            $idc = 'port_ico_'.$o.'_class';
-            $autoload[] = $idt;
-            $autoload[] = $idc;
-            $form[] = [ 'i' => $idt, 'n' => ucwords( $o ). ' Ico Text', 'v' => $v, 'c' => 2 ];
-            $form[] = [ 'i' => $idc, 'n' => ucwords( $o ). ' Ico Class', 'v' => $v, 'c' => 2 ];
+            $ico = 'port_ico_'.$o;
+            //$idc = 'port_ico_'.$o.'_class';
+            $autoload[] = $ico;
+            //$autoload[] = $idc;
+            $form[] = [ 'i' => $ico, 'n' => ucwords( $o ). ' Ico', 'v' => $v, 'c' => 2 ];
+            //$form[] = [ 'i' => $idc, 'n' => ucwords( $o ). ' Ico Class', 'v' => $v, 'c' => 2 ];
         }
         $o = new OPTIONS();
         $o->form( $form, 'row', 1, '', 'Successfully saved icon settings!', 2, 2, $autoload );
@@ -450,7 +449,7 @@ function title_bar( string $title = '', string $back_url = '', string $list_view
     global $options;
     pre( '', 'header df aic jsb', 'header' );
         pre( '', 'left df' );
-            !empty( $back_url ) ? a( APPURL.$back_url, $options['port_ico_back_text'] ?? '', ( $options['universal_icon_class'] ?? '' ) . ' back ' . ( $options['port_ico_back_class'] ?? '' ), T('Return') ) : '';
+            !empty( $back_url ) ? a( APPURL.$back_url, $options['port_ico_back'] ?? '', ( $options['universal_icon_class'] ?? '' ) . ' back ' . ( $options['port_ico_back'] ?? '' ), T('Return') ) : '';
             !empty( $title ) ? h1( $title, 1, 'title' ) : '';
         post();
 
@@ -460,12 +459,12 @@ function title_bar( string $title = '', string $back_url = '', string $list_view
                 pre( '', 'views df' );
                     if( !empty( $list_view ) ){
                         pre( '', 'list_toggle'.($active_view == $list_view ? ' on' : ''), 'div', 'data-show="'.$list_view.'" data-off=".grid_toggle" data-on=".list_toggle" '.(!empty( $grid_view ) ? 'data-hide="'.$grid_view.'"' : '') );
-                            div( ( $options['universal_icon_class'] ?? '' ) . ' ' . ( $options['port_ico_list_class'] ?? '' ), $options['port_ico_list_text'] ?? '' );
+                            div( ( $options['universal_icon_class'] ?? '' ) . ' ' . ( $options['port_ico_list_view'] ?? '' ), $options['port_ico_list_view'] ?? '' );
                         post();
                     }
                     if( !empty( $grid_view ) ){
                         pre( '', 'grid_toggle'.($active_view == $grid_view ? ' on' : ''), 'div', 'data-show="'.$grid_view.'" data-on=".grid_toggle" data-off=".list_toggle" '.(!empty( $list_view ) ? 'data-hide="'.$list_view.'"' : '') );
-                            div( ( $options['universal_icon_class'] ?? '' ) . ' ' . ( $options['port_ico_grid_class'] ?? '' ), $options['port_ico_grid_text'] ?? '' );
+                            div( ( $options['universal_icon_class'] ?? '' ) . ' ' . ( $options['port_ico_grid_view'] ?? '' ), $options['port_ico_grid_view'] ?? '' );
                         post();
                     }
                 post();
@@ -480,6 +479,7 @@ function title_bar( string $title = '', string $back_url = '', string $list_view
 }
 
 function back_url( string $url = '' ): void {
-    a( APPURL.$url, 'arrow_back', 'mat-ico back', 'Go Back' );
+    global $options;
+    a( APPURL.$url, 'arrow_back', ( $options['universal_icon_class'] ?? 'mico' ) . ' back', T('Go Back') );
     //echo '<a class="mat-ico back" href="'.APPURL . $url.'">arrow_back</a>';
 }

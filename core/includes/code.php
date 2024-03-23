@@ -1197,7 +1197,7 @@ function _em( string $page_link = '', string $page_title = '', string $content =
 function notice( string $content = '', string $type = 'info', string $class = '', string $icon_text = 'info', string $icon_class = '' ): void {
     global $options;
     _d( 'card df ais nf ' . $class . ' ' . $type );
-        div( 'ico l ' . $icon_class . ' ' . ( $options['universal_icon_class'] ?? '' ), $icon_text );
+        div( ( $options['universal_icon_class'] ?? 'mico' ) . ' l ' . $icon_class . ' ' . ( $options['universal_icon_class'] ?? '' ), $icon_text );
         div( 'message', $content );
     d_();
 }
