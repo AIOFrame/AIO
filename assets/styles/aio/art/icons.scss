@@ -35,9 +35,11 @@
 }
 .bi {
   overflow: hidden;
+  font-size: 0;
 }
 .bi::before, [class^=bi-]::before, [class*=" bi-"]::before {
   font-family: "bootstrapicons" !important;
+  font-size: 1rem;
 }
 .mat-ico.bg, .mico.bg {
   color: #fff;

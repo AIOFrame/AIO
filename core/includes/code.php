@@ -267,6 +267,7 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
         reset_styles( $font1, $weight );
     }
     // Icon Fonts
+    //skel( $icon_fonts );
     $icon_fonts = is_string( $icon_fonts ) && str_contains( $icon_fonts, ',' ) ? explode( ',', $icon_fonts ) : $icon_fonts;
     if( !empty( $icon_fonts ) && is_array( $icon_fonts ) ) {
         foreach( $icon_fonts as $if ) {
@@ -279,11 +280,10 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
     } else {
         !defined( 'ICONS' ) ? define( 'ICONS', '' ) : '';
     }
-    //skel( ICONS );
-    //skel( $fonts );
     $icons = defined( 'ICONS' ) ? ( is_array( ICONS ) ? implode( ',', ICONS ) : ICONS ) : '';
-    $is_bootstrap = str_contains( strtolower( $icons ), 'bootstrap' );
-    $pre_styles = $is_bootstrap ? ( !empty( $pre_styles ) ? ( is_array( $pre_styles ) ? array_merge( [ 'bootstrap-icons', $pre_styles ] ) : $pre_styles.',bootstrap-icons' ) : 'bootstrap-icons' ) : $pre_styles;
+    if( str_contains( strtolower( $icons ), 'bootstrap' ) ) {
+        !empty( $pre_styles ) ? ( is_array( $pre_styles ) ? ( $pre_styles[] = 'bootstrap-icons' ) : ( $pre_styles .= $pre_styles.',bootstrap-icons' ) ) : ( $pre_styles = 'bootstrap-icons' );
+    }
     fonts( $fonts );
 
     // Appearance

@@ -440,6 +440,10 @@ article.fade > div {
     background:rgba(0,0,0,.05);
   }
 }
+.nav_ico .bi:before {
+  font-size: 1.6rem;
+  line-height: 70px;
+}
 .reg-ico {
   font-size: 1.8rem;
   position: relative;
@@ -685,6 +689,12 @@ a.brand {
     left: 0;
     top: 0;
   }
+  .back.bi:before {
+    font-size: 1.4rem;
+    line-height: 50px;
+    width: 50px;
+    text-align: center;
+  }
   > div, > .title {
     flex: 0 0 33.3333%;
     max-width: 33.3333%;
@@ -887,7 +897,7 @@ aside {
   .set:not(:last-child) {
     border-bottom:2px solid #efefef;
   }
-  i.mico.l {
+  i.l {
     height: 45px;
     width: 45px;
     margin: 5px auto;
@@ -905,6 +915,17 @@ aside {
     background: #fff;
     transition: .8s;
     margin: 0 0 12px;
+  }
+  i.bi {
+    font-size: 0;
+  }
+  i.bi:before {
+    font-size: 1.6rem;
+    line-height: 32px;
+  }
+  i.bi.l:before {
+    font-size: 2rem;
+    line-height: 45px;
   }
   a:hover {
     transform: translateY(-1px);

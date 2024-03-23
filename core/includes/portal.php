@@ -192,8 +192,8 @@ class PORTAL {
 
             // Brand Panel
             pre( 'brand_panel' );
-                $menu_icon = _div( ( $options['universal_icon_class'] ?? 'mico' ) . ' ' . ( $options['port_ico_menu'] ?? 'menu' ), $options['port_ico_menu'] ?? 'menu' );
-                $close_icon = _div( ( $options['universal_icon_class'] ?? 'mico' ) . ' ' . ( $options['port_ico_close'] ?? 'close' ), $options['port_ico_close'] ?? 'close' );
+                $menu_icon = _div( ( $options['universal_icon_class'] ?? 'mico' ) . ' menu ' . ( $options['port_ico_menu'] ?? 'menu' ), $options['port_ico_menu'] ?? 'menu' );
+                $close_icon = _div( ( $options['universal_icon_class'] ?? 'mico' ) . ' close ' . ( $options['port_ico_menu_close'] ?? 'close' ), $options['port_ico_menu_close'] ?? 'close' );
                 $show_navigation ? div( 'nav_ico', $menu_icon . $close_icon, 'menu' ) : '';
                 a( APPURL . $logo_url, '', 'brand', '', $logo );
             post();
@@ -205,7 +205,7 @@ class PORTAL {
                 if( $show_alerts ) {
                     $alerts = $db->select( 'alerts', '', 'alert_user = "'.get_user_id().'" AND alert_seen = "0"' );
                     pre( 'alert', 'nav_ico', 'div', 'title="'.T('View Notifications').'"' );
-                        div( ( $options['universal_icon_class'] ?? 'mico' ), 'notifications' );
+                        div( ( $options['universal_icon_class'] ?? 'mico' ) . ' ' . ( $options['port_ico_alerts'] ?? '' ), $options['port_ico_alerts'] ?? 'notifications' );
                         el( 'span', '', !empty( $alerts ) ? count( $alerts ) : 0 );
                         if( !empty( $alerts )) {
                             pre( '', 'events drop' );
@@ -229,7 +229,7 @@ class PORTAL {
                     $live = isset( $countries[$cr] ) ? explode( ' ', $countries[$cr] ) : [];
                     if( !empty( $set_countries ) ) {
                         _d( 'nav_ico', 'region', 'title='.T('Change Region') );
-                            !empty( $cr ) ? div( 'reg-ico', $live[0] ) : div( ( $options['universal_icon_class'] ?? 'mico' ), 'map' );
+                            !empty( $cr ) ? div( 'reg-ico', $live[0] ) : div( ( $options['universal_icon_class'] ?? 'mico' . ' ' . $options['port_ico_languages'] ?? '' ), $options['port_ico_languages'] ?? 'map' );
                             _d( 'drop', '', 'data-action="'.( APPDEBUG ? 'set_region_ajax' : $e->encrypt('set_region_ajax') ).'"' );
                             foreach( $set_countries as $r ){
                                 $t = $countries[$r] ?? '';
@@ -249,7 +249,7 @@ class PORTAL {
                 if( $show_languages && in_array( 'languages', $c ) ) {
                     // TODO: Get Languages
                     pre( 'lang', 'nav_ico' );
-                        div( ( $options['universal_icon_class'] ?? 'mico' ), 'translate' );
+                        div( ( ( $options['universal_icon_class'] ?? 'mico' ) . ' ' . ( $options['port_ico_languages'] ?? '' ) ), $options['port_ico_languages'] ?? 'translate' );
                         //pre( '', 'drop' );
                             //foreach( [] as $l => $n ){
                                 //$class = !empty( $_SESSION['lang'] ) ? $_SESSION['lang'] == $l ? ' on' : '' : '';
@@ -261,7 +261,7 @@ class PORTAL {
 
                 // Link to Front-end
                 if( $link_to_front ) {
-                    div( '', __a( APPURL, _div( 'nav_ico', _div( ( $options['universal_icon_class'] ?? 'mico' ), 'desktop_windows' ) ), '', T( 'Go to Frontend Website' ), 'target="_blank"' ), 'link_to_front' );
+                    div( '', __a( APPURL, _div( 'nav_ico', _div( ( ( $options['universal_icon_class'] ?? 'mico' ) . ' ' . ( $options['port_ico_frontend'] ?? '' ) ), $options['port_ico_frontend'] ?? 'desktop_windows' ) ), '', T( 'Go to Frontend Website' ), 'target="_blank"' ), 'link_to_front' );
                 }
 
                 // Show User
@@ -326,7 +326,7 @@ class PORTAL {
         //$menus = !empty( $menus ) ? array_group_by( $menus, 'group' ) : [];
         pre( '', 'menu '.$class, 'aside' );
             _r();
-                div( 'col-3', __a( APPURL . $root_url, _el( 'i', ( $options['universal_icon_class'] ?? 'mico' ) .' ico m', 'home' ) ), '', 'data-intro' );
+                div( 'col-3', __a( APPURL . $root_url, _el( 'i', ( $options['universal_icon_class'] ?? 'mico' ) .' ico m ' . ( $options['port_ico_home'] ?? 'home' ), $options['port_ico_home'] ?? 'home' ) ), '', 'data-intro' );
                 pre( '', 'col-9' );
                     echo '<input type="search" placeholder="'.T('Search in Menu...').'">';
                 post();
@@ -362,11 +362,13 @@ class PORTAL {
                             pre( '', 'row', 'div', 'data-'.$data );
                             if( !empty( $menu_list ) ) {
                                 foreach( $menu_list as $menu ) {
-                                    $col = isset( $menu['col'] ) ? 'item col-'.$menu['col'] : 'item col-4';
-                                    $user_can = $menu['user_can'] ?? '';
-                                    $url = $menu['url'] ?? '';
-                                    $icon = $menu['icon'] ?? '';
-                                    $title = $menu['title'] ?? '';
+
+                                    $col = $menu['col'] ?? ( $menu['c'] ?? 4 );
+                                    $user_can = $menu['user_can'] ?? ( $menu['uc'] ?? '' );
+                                    $url = $menu['url'] ?? ( $menu['u'] ?? '' );
+                                    $icon = $menu['icon'] ?? ( $menu['i'] ?? '' );
+                                    $ico_class = ( $options['universal_icon_class'] ?? 'mico' ) . ( $gradient_icons ? ' l grad-bg' : ' l' );
+                                    $title = $menu['title'] ?? ( $menu['name'] ?? ( $menu['t'] ?? ( $menu['n'] ?? '' ) ) );
                                     $restricted = [];
                                     if( !empty( $perm ) ) {
                                         $user_can = explode( ',', $user_can );
@@ -383,8 +385,9 @@ class PORTAL {
                                         }
                                     }
                                     if( empty( $restricted ) ) {
-                                        $ico_class = ( $options['universal_icon_class'] ?? 'mico' ) . ( $gradient_icons ? ' l grad-bg' : ' l' );
-                                        div( $col, __a( APPURL . $url_prefix . $url, _el( 'i', $ico_class, $icon ) . _div( 'title', T( $title ) ) ) );
+                                        _c( $col );
+                                            div( '', __a( APPURL . $url_prefix . $url, _el( 'i', $ico_class . ' ' . $icon, $icon ) . _div( 'title', T( $title ) ) ) );
+                                        c_();
                                     }
                                 }
                             }
@@ -415,18 +418,40 @@ class PORTAL {
         post();
     }
 
-    public array $icon_options = [ 'menu' => 'menu', 'alerts' => 'notifications', 'languages' => 'language', 'frontend' => 'desktop_windows', 'user' => 'account_circle', 'logout' => 'logout', 'create' => 'add_circle', 'edit' => 'border_color', 'view' => 'file_open', 'delete' => 'delete', 'back' => 'keyboard_backspace', 'close' => 'close', 'save' => 'save', 'download' => 'download_for_offline', 'list_view' => 'view_stream', 'grid_view' => 'grid_view', 'accordion_view' => 'view_day', 'calendar' => 'calendar_month' ];
+    public array $icon_options = [
+        'menu' => 'menu',
+        'menu_close' => 'close',
+        'alerts' => 'notifications',
+        'regions' => 'public',
+        'languages' => 'language',
+        'frontend' => 'desktop_windows',
+        'user' => 'account_circle',
+        'home' => 'home',
+        'logout' => 'logout',
+        'back' => 'keyboard_backspace',
+        'close' => 'close',
+        'save' => 'save',
+        'create' => 'add_circle',
+        'edit' => 'border_color',
+        'view' => 'file_open',
+        'delete' => 'delete',
+        'download' => 'download_for_offline',
+        'list_view' => 'view_stream',
+        'grid_view' => 'grid_view',
+        'accordion_view' => 'view_day',
+        'calendar' => 'calendar_month'
+    ];
 
     function icon_options(): void {
         global $options;
-        $form[] = [ 'i' => 'universal_icon_class', 'n' => 'Universal Icon Class', 'v' => 'mico', 'c' => 12 ];
+        $form[] = [ 'i' => 'universal_icon_class', 'n' => 'Universal Icon Class', 'v' => $options['universal_icon_class'] ?? 'mico', 'c' => 12 ];
         $autoload = [ 'universal_icon_class' ];
         foreach( $this->icon_options as $o => $v ) {
             $ico = 'port_ico_'.$o;
             //$idc = 'port_ico_'.$o.'_class';
             $autoload[] = $ico;
             //$autoload[] = $idc;
-            $form[] = [ 'i' => $ico, 'n' => ucwords( $o ). ' Ico', 'v' => $v, 'c' => 2 ];
+            $form[] = [ 'i' => $ico, 'n' => ucwords( str_replace( '_', ' ', $o ) ). ' Ico', 'v' => $options[$ico] ?? $v, 'c' => 2 ];
             //$form[] = [ 'i' => $idc, 'n' => ucwords( $o ). ' Ico Class', 'v' => $v, 'c' => 2 ];
         }
         $o = new OPTIONS();

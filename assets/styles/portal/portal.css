@@ -1,3 +1,4 @@
+@charset "UTF-8";
 body.modal_open article > div:not(.header) {
   filter: blur(8px);
   -webkit-filter: blur(8px);
@@ -39,7 +40,7 @@ body.modal_open article > div:not(.header) {
 }
 
 .aio_upload:after {
-  content: "\e9fc";
+  content: "";
   position: absolute;
   right: 6px;
   top: 50%;
@@ -182,8 +183,8 @@ body.modal_open article > div:not(.header) {
 }
 .banner_wrap .banner_bg:after {
   content: "";
-  background: rgb(0, 0, 0);
-  background: linear-gradient(0deg, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%);
+  background: black;
+  background: linear-gradient(0deg, black 0%, rgba(0, 0, 0, 0) 100%);
 }
 .banner_wrap .banner_image.l {
   background-position: left center;
@@ -283,7 +284,7 @@ button:after, .btn:after {
 body {
   background: #f3f3f3;
   margin: 120px 0 90px;
-  min-height: calc(100vh - 210px);
+  min-height: calc( 100vh - 210px);
 }
 
 .invoice_view {
@@ -409,6 +410,11 @@ article.fade > div {
 }
 .nav_ico .list.on {
   background: rgba(0, 0, 0, 0.05);
+}
+
+.nav_ico .bi:before {
+  font-size: 1.6rem;
+  line-height: 70px;
 }
 
 .reg-ico {
@@ -666,6 +672,12 @@ a.brand {
   left: 0;
   top: 0;
 }
+.header .back.bi:before {
+  font-size: 1.4rem;
+  line-height: 50px;
+  width: 50px;
+  text-align: center;
+}
 .header > div, .header > .title {
   flex: 0 0 33.3333%;
   max-width: 33.3333%;
@@ -852,7 +864,7 @@ aside .set > .title {
 aside .set:not(:last-child) {
   border-bottom: 2px solid #efefef;
 }
-aside i.mico.l {
+aside i.l {
   height: 45px;
   width: 45px;
   margin: 5px auto;
@@ -870,6 +882,17 @@ aside a {
   background: #fff;
   transition: 0.8s;
   margin: 0 0 12px;
+}
+aside i.bi {
+  font-size: 0;
+}
+aside i.bi:before {
+  font-size: 1.6rem;
+  line-height: 32px;
+}
+aside i.bi.l:before {
+  font-size: 2rem;
+  line-height: 45px;
 }
 aside a:hover {
   transform: translateY(-1px);
@@ -1095,31 +1118,31 @@ fieldset {
   line-height: 45px;
 }
 .acts i.edit:after {
-  content: "\e3c9";
+  content: "";
 }
 .acts i.view:after {
-  content: "\e8a0";
+  content: "";
 }
 .acts i.go:after {
-  content: "\e5e1";
+  content: "";
 }
 .acts i.delete:after, .acts i.trash:after {
-  content: "\e872";
+  content: "";
 }
 .acts i.inspect:after {
-  content: "\ea9b";
+  content: "";
 }
 .acts i.pay:after {
-  content: "\ef63";
+  content: "";
 }
 .acts i.map:after {
-  content: "\e55f";
+  content: "";
 }
 .acts i.up:after, .acts i.upload:after {
-  content: "\f09b";
+  content: "";
 }
 .acts i.down:after, .acts i.download:after {
-  content: "\e2c4";
+  content: "";
 }
 
 /* Tabs */
