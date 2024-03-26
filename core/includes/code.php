@@ -212,18 +212,20 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
     $progress = $options['progress_color'] ?? '#00A99D';
     $warning = $options['warning_color'] ?? 'orange';
     $error = $options['error_color'] ?? 'firebrick';
-    $success = $options['success_color'] ?? '#00A99D';
+    $success = $options['success_color'] ?? '00A99D';
     if( $light_mode == 'd' ) {
         $color = $options['color_dark'] ?? '#fff';
         $filled_color = $options['filled_color_dark'] ?? '#fff';
-        $color1 = $options['primary_color_dark'] ?? $primary_color;
-        $color2 = $options['secondary_color_dark'] ?? $secondary_color;
+        $color1 = $primary_color ?? ( $options['primary_color_dark'] ?? '00A99D' );
+        $color2 = $secondary_color ?? ( $options['secondary_color_dark'] ?? '00A99D' );
     } else {
         $color = $options['color_light'] ?? '#000';
         $filled_color = $options['filled_color'] ?? '#fff';
-        $color1 = $options['primary_color'] ?? $primary_color;
-        $color2 = $options['secondary_color'] ?? $secondary_color;
+        $color1 = $primary_color ?? ( $options['primary_color'] ?? '#00A99D' );
+        $color2 = $secondary_color ?? ( $options['secondary_color'] ?? '#00A99D' );
     }
+    $color1 = strlen( $color1 ) == 6 ? '#' . $color1 : $color1;
+    $color2 = strlen( $color2 ) == 6 ? '#' . $color2 : $color2;
     $light_logo = !empty( $options['logo_light'] ) ? storage_url( $options['logo_light'] ) : APPURL . 'assets/images/aio.svg';
     $dark_logo = !empty( $options['logo_dark'] ) ? storage_url( $options['logo_dark'] ) : APPURL . 'assets/images/aio.svg';
     $logo = $light_mode == 'l' ? $light_logo : $dark_logo;
