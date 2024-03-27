@@ -157,14 +157,14 @@ class DB {
 
     /**
      * Automatically saves calling file md5 to not repeat create table requests
-     * @param $tables
+     * @param array $tables
      * @return array
      */
-    function automate_tables( $tables ): array {
-        $table_names = '';
+    function automate_tables( array $tables = [] ): array {
+        /* $table_names = '';
         foreach( $tables as $tb ) {
             $table_names .= $tb[0].'_';
-        }
+        } */
         $result = [];
         $db = new DB();
         $trace = debug_backtrace();
@@ -184,6 +184,79 @@ class DB {
             }
         }
         return $result;
+    }
+
+    /**
+     * @param $struct Array Form structure of app
+     * @return array
+     */
+    function app_structure( array $struct = [] ): array {
+        $trace = debug_backtrace();
+        $file_path = $trace[0]['file'] ?? '';
+        if( !empty( $file_path ) ) {
+
+            // Get file properties & options
+            $file = str_replace( '/', '_', str_replace( '.php', '', $file_path ) );
+            $md5 = md5_file( $file_path );
+            global $options;
+            $exist = $options[ $file . '_md5' ] ?? '';
+            //skel( $file );
+            //skel( $options );
+            //skel( $md5 );
+            if( empty( $exist ) || $exist !== $md5 ) {
+
+                // Prepare App Structure
+                $tables = [];
+                if( !empty( $struct ) ) {
+                    foreach( $struct as $name => $structure ) {
+                        $table_structure = [];
+                        if( is_array( $structure ) && !empty( $structure ) ) {
+                            $table_structure[] = str_replace( ' ', '', $name );
+                            foreach( $structure as $row ) {
+                                //skel( $data )
+                                $id = $row['identity'] ?? ( $row['id'] ?? ( $row['i'] ?? '' ) );
+                                $type = $row['type'] ?? ( $row['t'] ?? 'text' );
+                                $length = $row['max'] ?? ( $row['m'] ?? 64 );
+                                $required = $row['required'] ?? ( $row['r'] ?? 0 );
+                                if( in_array( $type, [ 'date', 'dt', 'd' ] ) ) {
+                                    $type = 'DATETIME';
+                                    $length = '';
+                                } else if( in_array( $type, [ 'rich', 'richtext', 'r', 'code', 'c', 'textarea' ] ) ) {
+                                    $type = 'VARCHAR';
+                                    empty( $length ) ? $length = 1024 : '';
+                                } else if( in_array( $type, [ 'slide', 'slides', 'toggle', 't' ] ) ) {
+                                    $type = 'INT';
+                                    empty( $length ) ? $length = 1 : '';
+                                } else if( in_array( $type, [ 'color', 'cl', 'toggle', 't' ] ) ) {
+                                    $type = 'VARCHAR';
+                                    empty( $length ) ? $length = 7 : '';
+                                } else if( in_array( $type, [ 'uploads', 'upload', 'files', 'file', 'u', 'f' ] ) ) {
+                                    $type = 'VARCHAR';
+                                    empty( $length ) ? $length = 512 : '';
+                                } else {
+                                    $type = 'VARCHAR';
+                                }
+                                $table_structure[1][] = [ $id, $type, $length, $required ];
+                            }
+                            $table_structure[] = str_replace( ' ', '', $name );
+                            $table_structure[] = 1;
+                            $tables[] = $table_structure;
+                        }
+                    }
+                }
+
+                // Create Database
+                skel( $tables );
+                $db = new DB();
+                $db->update_option( $file . '_md5', $md5, 0, 1 );
+                return $db->automate_tables( $tables );
+
+            } else {
+                return [];
+            }
+        } else {
+            return [];
+        }
     }
 
     /**

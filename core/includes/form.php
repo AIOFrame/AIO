@@ -1187,6 +1187,8 @@ class FORM {
             $val = $f['value'] ?? ( $f['va'] ?? ( $f['v'] ?? ( $_POST[$id] ?? ( $_GET[$id] ?? '' ) ) ) );
             $data = !empty( $data_attr ) ? ' data-'.$data_attr.' ' : '';
             $attrs = $data . ( $f['attr'] ?? ($f['a'] ?? '') );
+            $required = $f['required'] ?? ( $f['r'] ?? '' );
+            $required ? ( $attrs .= ' required' ) : '';
             $pre = $form_type == 'settings' ? '<div class="setting_set">' : ( $f['pre'] ?? ($f['col'] ?? ( $f['c'] ?? ( $form_type == 'row' || $form_type == 'r' ? 12 : '<div>' ) )) );
             $post = ( !empty( $pre ) && empty( $f['post'] ) ) ? '</div>' : ( $f['post'] ?? 'ted' );
             if( in_array( $type, [ 'accordion', 'acc', 'a' ] ) ) {
@@ -1258,7 +1260,7 @@ class FORM {
                 $place_2 = $f['place2'] ?? ($f['placeholder2'] ?? ( $f['p2'] ??= ''));
                 $val_2 = $f['value2'] ?? ( $f['va2'] ?? ( $f['v2'] ?? ( $_POST[$id_2] ?? ( $_GET[$id_2] ?? '' ) ) ) );
                 $return .= $this->_phone( $id, $id_2, $label, $label_2, $place, $place_2, $val, $val_2, $attrs, $pre, $post );
-            } else if( $type == 'uploads' || $type == 'upload' || $type == 'files' || $type == 'file' || $type == 'u' || $type == 'f' ) {
+            } else if( in_array( $type, [ 'uploads', 'upload', 'files', 'file', 'u', 'f' ] ) ) {
                 $btn_label = $f['btn_label'] ?? ( $f['button'] ?? ( $f['b'] ?? ( $f['placeholder'] ?? ( $f['place'] ?? ( $f['p'] ?? ( $label ?? 'Upload' ) ) ) ) ) );
                 $multiple = $f['multiple'] ?? ( $f['m'] ?? ( $type == 'uploads' ? 1 : ( $type == 'files' ? 1 : 0 ) ) );
                 $history = $f['history'] ?? ( $f['h'] ?? 0 );
@@ -1268,7 +1270,7 @@ class FORM {
                 $deletable = $f['deletable'] ?? ( $f['delete'] ?? ( $f['del'] ?? ( $f['d'] ?? 0 ) ) );
                 $path = $f['path'] ?? '';
                 $return .= $this->_upload( $id, $label, $btn_label, $val, $multiple, $history, $btn_class, $attrs, $exts, $size, $deletable, $path, $pre, $post );
-            } else if( $type == 'google_maps' || $type == 'gmaps' || $type == 'maps' || $type == 'map' || $type == 'm' ) {
+            } else if( in_array( $type, [ 'google_maps', 'gmaps', 'maps', 'map', 'm' ] ) ) {
                 $latitude_field = $f['latitude_field'] ?? ( $f['latitude'] ?? ( $f['lat'] ?? ( $f['x'] ?? '' ) ) );
                 $longitude_field = $f['longitude_field'] ?? ( $f['longitude'] ?? ( $f['long'] ?? ( $f['y'] ?? '' ) ) );
                 $address_field = $f['address_field'] ?? ( $f['address'] ?? ( $f['addr'] ?? ( $f['adr'] ?? '' ) ) );

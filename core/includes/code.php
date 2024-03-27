@@ -184,7 +184,7 @@ class RANGE {
  * @param string $page_title
  * @return void
  */
-function pre_html( string $class = '', string $attrs = '', string|array $pre_styles = [], string $primary_color = '00A99D', string $secondary_color = '00A99D', string $art = '', string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [], string|array $icon_fonts = [], string $page_title = '' ): void {
+function pre_html( string $class = '', string $attrs = '', string|array $pre_styles = [], string $primary_color = '', string $secondary_color = '', string $art = '', string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [], string|array $icon_fonts = [], string $page_title = '' ): void {
 
     // Defines
     global $light_mode;
@@ -213,16 +213,18 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
     $warning = $options['warning_color'] ?? 'orange';
     $error = $options['error_color'] ?? 'firebrick';
     $success = $options['success_color'] ?? '00A99D';
+    //skel( $primary_color );
     if( $light_mode == 'd' ) {
-        $color = $options['color_dark'] ?? '#fff';
-        $filled_color = $options['filled_color_dark'] ?? '#fff';
-        $color1 = $primary_color ?? ( $options['primary_color_dark'] ?? '00A99D' );
-        $color2 = $secondary_color ?? ( $options['secondary_color_dark'] ?? '00A99D' );
+        $color = !empty( $options['color_dark'] ) ? $options['color_dark'] : '#fff';
+        $filled_color = !empty( $options['filled_color_dark'] ) ? $options['filled_color_dark'] : '#fff';
+        $color1 = !empty( $primary_color ) ? $primary_color : ( !empty( $options['primary_color_dark'] ) ? $options['primary_color_dark'] : '00A99D' );
+        $color2 = !empty( $secondary_color ) ? $secondary_color : ( !empty( $options['secondary_color_dark'] ) ? $options['secondary_color_dark'] : '00A99D' );
     } else {
-        $color = $options['color_light'] ?? '#000';
-        $filled_color = $options['filled_color'] ?? '#fff';
-        $color1 = $primary_color ?? ( $options['primary_color'] ?? '#00A99D' );
-        $color2 = $secondary_color ?? ( $options['secondary_color'] ?? '#00A99D' );
+        $color = !empty( $options['color_light'] ) ? $options['color_light'] : '#000';
+        $filled_color = !empty( $options['filled_color_light'] ) ? $options['filled_color_light'] : '#fff';
+        $color1 = !empty( $primary_color ) ? $primary_color : ( !empty( $options['primary_color'] ) ? $options['primary_color'] : '#00A99D' );
+        $color2 = !empty( $secondary_color ) ? $secondary_color : ( !empty( $options['secondary_color'] ) ? $options['secondary_color'] : '#00A99D' );
+        //skel( $options['primary_color'] );
     }
     $color1 = strlen( $color1 ) == 6 ? '#' . $color1 : $color1;
     $color2 = strlen( $color2 ) == 6 ? '#' . $color2 : $color2;
