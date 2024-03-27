@@ -207,23 +207,6 @@ button.store, .btn.store {
   margin: 15px 6px;
 }
 
-button.pop, .btn.pop {
-  position: relative;
-  padding: 14px 20px 14px 40px;
-  border-radius: 8px;
-  margin: 15px 6px;
-}
-
-button:after, .btn:after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 14px;
-  width: 20px;
-  height: 20px;
-}
-
 .actions.float {
   position: fixed;
   bottom: 20px;
@@ -234,32 +217,6 @@ button:after, .btn:after {
   gap: 20px;
   align-items: center;
   justify-content: center;
-}
-.actions.float button, .actions.float .btn {
-  border-radius: 20px;
-  font-size: 1em;
-  padding: 12px 15px;
-  border: 0;
-  color: #fff;
-  position: relative;
-}
-.actions.float button.pop, .actions.float .btn.pop, .actions.float button.trash, .actions.float .btn.trash, .actions.float button.print, .actions.float .btn.print {
-  padding: 12px 15px 12px 40px;
-}
-.actions.float button.pop:after, .actions.float button.trash:after, .actions.float button.print:after {
-  background: #fff;
-}
-.actions.float button.pop:after, .actions.float .btn.pop:after {
-  mask: url("../../icons/open.svg") no-repeat center/contain;
-  -webkit-mask: url("../../icons/open.svg") no-repeat center/contain;
-}
-.actions.float button.trash:after, .actions.float .btn.trash:after {
-  mask: url("../../icons/trash.svg") no-repeat center/contain;
-  -webkit-mask: url("../../icons/trash.svg") no-repeat center/contain;
-}
-.actions.float button.print:after, .actions.float .btn.print:after {
-  mask: url("../../icons/print.svg") no-repeat center/contain;
-  -webkit-mask: url("../../icons/print.svg") no-repeat center/contain;
 }
 
 /* General */
@@ -1250,24 +1207,6 @@ fieldset {
 }
 .modal .foot.df .t {
   text-align: right;
-}
-.modal button.save {
-  border-radius: 10px;
-  padding: 15px 20px 15px 40px;
-  margin: 0;
-  position: relative;
-}
-.modal button.save:after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 14px;
-  width: 20px;
-  height: 20px;
-  background: #fff;
-  mask: url("../../icons/save.svg") no-repeat center/contain;
-  -webkit-mask: url("../../icons/save.svg") no-repeat center/contain;
 }
 
 /* FOOT */

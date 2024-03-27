@@ -838,7 +838,9 @@ function logout_html( string $tag = 'div', string $class = '', string $text = 'L
 }
 
 function modal_trigger( string $modal_identifier = '', string $title = '' ): void {
-    el('button','grad',$title,'','data-modal="'.$modal_identifier.'"',1);
+    global $options;
+    $i = _el( 'span', ( $options['universal_icon_class'] ?? 'mico' ) . ' ico ' . ( $options['port_ico_new'] ?? '' ), ( $options['port_ico_new'] ?? 'add_circle' ) );
+    el('button','pop grad r',$i.$title,'','data-modal="'.$modal_identifier.'"',1);
 }
 
 function float_triggers( array $triggers, string $wrap_class = '' ): void {

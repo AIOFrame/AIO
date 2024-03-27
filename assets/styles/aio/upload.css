@@ -616,7 +616,7 @@ td .aio_fsp {
   color: var(--primary_color);
 }
 .aio_fp .aio_upload .ico.bi:before {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   line-height: 35px;
 }
 

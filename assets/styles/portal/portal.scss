@@ -237,23 +237,6 @@ button.store, .btn.store {
   position: relative;
   margin: 15px 6px;
 }
-button.pop, .btn.pop {
-  position: relative;
-  padding: 14px 20px 14px 40px;
-  border-radius: 8px;
-  margin: 15px 6px;
-}
-button:after, .btn:after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 14px;
-  width: 20px;
-  height: 20px;
-  //mask: url(../../../icons/save.svg) no-repeat center/contain;
-  //-webkit-mask: url(../../../icons/save.svg) no-repeat center/contain;
-}
 .actions.float {
   position: fixed;
   bottom: 20px;
@@ -264,32 +247,6 @@ button:after, .btn:after {
   gap: 20px;
   align-items: center;
   justify-content: center;
-  button, .btn {
-    border-radius: 20px;
-    font-size: 1em;
-    padding: 12px 15px;
-    border: 0;
-    color: #fff;
-    position: relative;
-  }
-  button.pop, .btn.pop, button.trash, .btn.trash, button.print, .btn.print {
-    padding: 12px 15px 12px 40px;
-  }
-  button.pop:after, button.trash:after, button.print:after {
-    background: #fff;
-  }
-  button.pop:after, .btn.pop:after {
-    mask: url('../../icons/open.svg') no-repeat center / contain;
-    -webkit-mask: url('../../icons/open.svg') no-repeat center / contain;
-  }
-  button.trash:after, .btn.trash:after {
-    mask: url('../../icons/trash.svg') no-repeat center / contain;
-    -webkit-mask: url('../../icons/trash.svg') no-repeat center / contain;
-  }
-  button.print:after, .btn.print:after {
-    mask: url('../../icons/print.svg') no-repeat center / contain;
-    -webkit-mask: url('../../icons/print.svg') no-repeat center / contain;
-  }
 }
 
 /* General */
@@ -1298,24 +1255,6 @@ fieldset {
     .t {
       text-align: right;
     }
-  }
-  button.save {
-    border-radius: 10px;
-    padding: 15px 20px 15px 40px;
-    margin: 0;
-    position: relative;
-  }
-  button.save:after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 14px;
-    width: 20px;
-    height: 20px;
-    background: #fff;
-    mask: url('../../icons/save.svg') no-repeat center/contain;
-    -webkit-mask: url('../../icons/save.svg') no-repeat center/contain;
   }
 }
 
