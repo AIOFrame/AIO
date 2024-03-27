@@ -646,7 +646,7 @@ a.brand {
   }
   [type=search] {
     margin: 0;
-    padding: 6px 10px;
+    padding: 6px 45px;
   }
   .title {
     display: block;
@@ -1081,51 +1081,6 @@ fieldset {
 }
 .acts {
   color: var(--filled_color);
-  [title=View] {
-    background: $primary;
-    background: linear-gradient(160deg, $primary 0%, $secondary 100%);
-  }
-  [title=Edit] {
-    background-color: #FAD961;
-    background-image: linear-gradient(145deg, #FAD961 0%, #F76B1C 100%);
-  }
-  [title=Delete] {
-    background-color: #be0909;
-    background-image: linear-gradient(147deg, #be0909 0%, #9d1d1d 74%);
-  }
-  i:after {
-    color: #fff;
-    font-family: 'MaterialIcons', sans-serif;
-    font-size: 1.6rem;
-    line-height: 45px;
-  }
-  i.edit:after {
-    content:'\e3c9';
-  }
-  i.view:after {
-    content:'\e8a0'
-  }
-  i.go:after {
-    content:'\e5e1'
-  }
-  i.delete:after, i.trash:after {
-    content: '\e872'
-  }
-  i.inspect:after {
-    content: '\ea9b'
-  }
-  i.pay:after {
-    content: '\ef63'
-  }
-  i.map:after {
-    content: '\e55f'
-  }
-  i.up:after, i.upload:after {
-    content: '\f09b'
-  }
-  i.down:after, i.download:after {
-    content: '\e2c4'
-  }
 }
 
 /* Tabs */

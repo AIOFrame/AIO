@@ -36,7 +36,7 @@ $(document).ready(function(){
         let target = $('.color-picker').data('target');
         let v = $(this).val();
         let vl = v.length;
-        if( vl === 4 || vl === 7 ) {
+        if( vl === 7 ) {
             $( target ).val( v );
             init_color_picker( target, v );
             generate_background( target, v );

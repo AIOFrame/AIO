@@ -485,7 +485,7 @@ function title_bar( string $title = PAGENAME, string $back_url = '', string $lis
         post();
 
         pre( '', 'center df fc' );
-            $show_search ? div( 'search_wrap', '<input type="search" class="header_search" placeholder="Search..." >' ) : '';
+            $show_search ? div( 'search_wrap ' . ( $options['universal_icon_after_class'] ?? 'mica' ), '<input type="search" class="header_search" placeholder="Search..." >' ) : '';
             if( !empty( $list_view ) || !empty( $grid_view ) ) {
                 pre( '', 'views df' );
                     if( !empty( $list_view ) ){

@@ -116,8 +116,8 @@ button.w, .btn.w, .btn-w button, .btn-w .btn {
 }
 
 button.red, .btn.red, .btn-red button, .btn-red .btn, .gr_red {
-  background: #990101;
-  background: linear-gradient(160deg, #990101 0%, #770018 100%);
+  background: rgb(153, 1, 1);
+  background: linear-gradient(160deg, rgb(153, 1, 1) 0%, rgb(119, 0, 24) 100%);
   box-shadow: 0 0 20px rgba(153, 1, 1, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
@@ -130,13 +130,13 @@ button.red:active, .btn.red:active, .btn-red button:active, .btn-red .btn:active
 }
 
 button.b.red, .btn.b.red, .btn-red.b button, .btn-red.b .btn {
-  color: #990101;
-  border: 1px solid #990101;
+  color: rgb(153, 1, 1);
+  border: 1px solid rgb(153, 1, 1);
 }
 
 button.blue, .btn.blue, .btn-blue button, .btn-blue .btn, .gr_blue {
-  background: #007dcc;
-  background: linear-gradient(160deg, #007dcc 0%, #014d7a 100%);
+  background: rgb(0, 125, 204);
+  background: linear-gradient(160deg, rgb(0, 125, 204) 0%, rgb(1, 77, 122) 100%);
   box-shadow: 0 0 20px rgba(0, 125, 204, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
@@ -149,13 +149,13 @@ button.blue:active, .btn.blue:active, .btn-blue button:active, .btn-blue .btn:ac
 }
 
 button.b.blue, .btn.b.blue, .btn-blue.b button, .btn-blue.b .btn {
-  color: #007dcc;
-  border: 1px solid #007dcc;
+  color: rgb(0, 125, 204);
+  border: 1px solid rgb(0, 125, 204);
 }
 
 button.skyblue, .btn.skyblue, .btn-skyblue button, .btn-skyblue .btn {
-  background: #55c9ff;
-  background: linear-gradient(160deg, #55c9ff 0%, #00a1d9 100%);
+  background: rgb(85, 201, 255);
+  background: linear-gradient(160deg, rgb(85, 201, 255) 0%, rgb(0, 161, 217) 100%);
   box-shadow: 0 0 20px rgba(2, 107, 146, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
@@ -168,8 +168,8 @@ button.skyblue:active, .btn.skyblue:active, .btn-skyblue button:active, .btn-sky
 }
 
 button.b.skyblue, .btn.b.skyblue, .btn-skyblue.b button, .btn-skyblue.b .btn {
-  color: #55c9ff;
-  border: 1px solid #55c9ff;
+  color: rgb(85, 201, 255);
+  border: 1px solid rgb(85, 201, 255);
 }
 
 button.ocean, .btn.ocean, .btn-ocean button, .btn-ocean .btn {
@@ -195,8 +195,8 @@ button.b.silver, .btn.b.silver, .btn-silver.b button, .btn-silver.b .btn {
 }
 
 button.teal, .btn.teal, .btn-teal button, .btn-teal .btn {
-  background: #00b1c1;
-  background: linear-gradient(160deg, #00d5e0 0%, #00b1c1 100%);
+  background: rgb(0, 177, 193);
+  background: linear-gradient(160deg, rgb(0, 213, 224) 0%, rgb(0, 177, 193) 100%);
   box-shadow: 0 0 20px rgba(0, 213, 224, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
@@ -209,13 +209,13 @@ button.teal:active, .btn.teal:active, .btn-teal button:active, .btn-teal .btn:ac
 }
 
 button.b.teal, .btn.b.teal, .btn-teal.b button, .btn-teal.b .btn {
-  color: #00b1c1;
-  border: 1px solid #00b1c1;
+  color: rgb(0, 177, 193);
+  border: 1px solid rgb(0, 177, 193);
 }
 
 button.green, .btn.green, .btn-green button, .btn-green .btn {
-  background: #007f00;
-  background: linear-gradient(160deg, #26a300 0%, #007f00 100%);
+  background: rgb(0, 127, 0);
+  background: linear-gradient(160deg, rgb(38, 163, 0) 0%, rgb(0, 127, 0) 100%);
   box-shadow: 0 0 20px rgba(38, 163, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
@@ -228,13 +228,13 @@ button.green:active, .btn.green:active, .btn-green button:active, .btn-green .bt
 }
 
 button.b.green, .btn.b.green, .btn-green.b button, .btn-green.b .btn {
-  color: #007f00;
-  border: 1px solid #007f00;
+  color: rgb(0, 127, 0);
+  border: 1px solid rgb(0, 127, 0);
 }
 
 button.gold, .btn.gold, .btn-gold button, .btn-gold .btn {
-  background: #ad9572;
-  background: linear-gradient(160deg, #d3bb8b 0%, #ad9572 100%);
+  background: rgb(173, 149, 114);
+  background: linear-gradient(160deg, rgb(211, 187, 139) 0%, rgb(173, 149, 114) 100%);
   box-shadow: 0 0 20px rgba(211, 187, 139, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
@@ -247,13 +247,13 @@ button.gold:active, .btn.gold:active, .btn-gold button:active, .btn-gold .btn:ac
 }
 
 button.b.gold, .btn.b.gold, .btn-gold.b button, .btn-gold.b .btn {
-  color: #ad9572;
-  border: 1px solid #ad9572;
+  color: rgb(173, 149, 114);
+  border: 1px solid rgb(173, 149, 114);
 }
 
 button.grey, .btn.grey, .btn-grey button, .btn-grey .btn {
-  background: #adadad;
-  background: linear-gradient(160deg, #c4c4c4 0%, #adadad 100%);
+  background: rgb(173, 173, 173);
+  background: linear-gradient(160deg, rgb(196, 196, 196) 0%, rgb(173, 173, 173) 100%);
   box-shadow: 0 0 20px rgba(196, 196, 196, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
@@ -262,24 +262,24 @@ button.grey:hover, .btn.grey:hover, .btn-grey button:hover, .btn-grey .btn:hover
 }
 
 button.b.grey, .btn.b.grey, .btn-grey.b button, .btn-grey.b .btn {
-  color: #969696;
-  border: 1px solid #969696;
+  color: rgb(150, 150, 150);
+  border: 1px solid rgb(150, 150, 150);
 }
 
 button.darkgrey, .btn.darkgrey, .btn-darkgrey button, .btn-darkgrey .btn {
-  background: #5a5a5a;
-  background: linear-gradient(160deg, #5a5a5a 0%, #3c3c3c 100%);
+  background: rgb(90, 90, 90);
+  background: linear-gradient(160deg, rgb(90, 90, 90) 0%, rgb(60, 60, 60) 100%);
   box-shadow: 0 0 20px rgba(50, 50, 50, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 button.b.darkgrey, .btn.b.darkgrey, .btn-darkgrey.b button, .btn-darkgrey.b .btn {
-  color: #5a5a5a;
-  border: 1px solid #5a5a5a;
+  color: rgb(90, 90, 90);
+  border: 1px solid rgb(90, 90, 90);
 }
 
 button.black, .btn.black, .btn-black button, .btn-black .btn {
-  background: black;
-  background: linear-gradient(160deg, #323232 0%, black 100%);
+  background: rgb(0, 0, 0);
+  background: linear-gradient(160deg, rgb(50, 50, 50) 0%, rgb(0, 0, 0) 100%);
   box-shadow: 0 0 20px rgba(91, 91, 91, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
@@ -292,13 +292,13 @@ button.black:active, .btn.black:active, .btn-black button:active, .btn-black .bt
 }
 
 button.b.black, .btn.b.black, .btn-black.b button, .btn-black.b .btn {
-  color: black;
-  border: 1px solid black;
+  color: rgb(0, 0, 0);
+  border: 1px solid rgb(0, 0, 0);
 }
 
 button.violet, .btn.violet, .btn-violet button, .btn-violet .btn {
-  background: #6200db;
-  background: linear-gradient(160deg, #9a2afc 0%, #6200db 100%);
+  background: rgb(98, 0, 219);
+  background: linear-gradient(160deg, rgb(154, 42, 252) 0%, rgb(98, 0, 219) 100%);
   box-shadow: 0 0 20px rgba(154, 42, 252, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
@@ -311,13 +311,13 @@ button.violet:active, .btn.violet:active, .btn-violet button:active, .btn-violet
 }
 
 button.b.violet, .btn.b.violet, .btn-violet.b button, .btn-violet.b .btn {
-  color: #6200db;
-  border: 1px solid #6200db;
+  color: rgb(98, 0, 219);
+  border: 1px solid rgb(98, 0, 219);
 }
 
 button.orange, .btn.orange, .btn-orange button, .btn-orange .btn {
-  background: #d07000;
-  background: linear-gradient(160deg, #ff8400 0%, #d07000 100%);
+  background: rgb(208, 112, 0);
+  background: linear-gradient(160deg, rgb(255, 132, 0) 0%, rgb(208, 112, 0) 100%);
   box-shadow: 0 0 20px rgba(255, 157, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
@@ -330,8 +330,8 @@ button.orange:active, .btn.orange:active, .btn-orange button:active, .btn-orange
 }
 
 button.b.orange, .btn.b.orange, .btn-orange.b button, .btn-orange.b .btn {
-  color: #ce8600;
-  border: 1px solid #ce8600;
+  color: rgb(206, 134, 0);
+  border: 1px solid rgb(206, 134, 0);
 }
 
 button.b, .btn.b, .btn-b button, .btn-b .btn {
@@ -380,6 +380,9 @@ button.store, button.save, button.grad {
     right: auto;
     left: 8px;
   } */
+}
+button.store .ico.mico, button.save .ico.mico, button.grad .ico.mico {
+  font-size: 1.4rem;
 }
 button.store .ico.bi:before, button.save .ico.bi:before, button.grad .ico.bi:before {
   font-size: 1rem;
