@@ -34,7 +34,7 @@ class PORTAL {
         !empty( $scripts ) ? ( is_array( $scripts ) ? $scripts[] = 'jquery' : $scripts .= ',jquery' ) : '';
 
         //$c = new CODE();
-        pre_html($class,$attrs,$pre_styles,$primary_color,$secondary_color,'icons,cards,modal,buttons,inputs,icons,tabs,steps,color,table,alerts,accordion',$styles,$scripts,$primary_font,$secondary_font,$icon_fonts);
+        pre_html($class,$attrs,$pre_styles,$primary_color,$secondary_color,'icons,cards,modal,buttons,inputs,tabs,steps,color,table,alerts,accordion',$styles,$scripts,$primary_font,$secondary_font,$icon_fonts);
 
     }
 
@@ -449,8 +449,9 @@ class PORTAL {
 
     function icon_options(): void {
         global $options;
-        $form[] = [ 'i' => 'universal_icon_class', 'n' => 'Universal Icon Class', 'v' => $options['universal_icon_class'] ?? 'mico', 'c' => 12 ];
-        $autoload = [ 'universal_icon_class' ];
+        $form[] = [ 'i' => 'universal_icon_class', 'n' => 'Universal Icon Class', 'v' => $options['universal_icon_class'] ?? 'mico', 'c' => 6 ];
+        $form[] = [ 'i' => 'universal_icon_after_class', 'n' => 'Universal Icon After Class', 'v' => $options['universal_icon_after_class'] ?? 'mica', 'c' => 6 ];
+        $autoload = [ 'universal_icon_class', 'universal_icon_after_class' ];
         foreach( $this->icon_options as $o => $v ) {
             $ico = 'port_ico_'.$o;
             //$idc = 'port_ico_'.$o.'_class';
@@ -475,7 +476,7 @@ class PORTAL {
  * @param string|array $comp_or_actions String of comp path or array of actions
  * @return void
  */
-function title_bar( string $title = '', string $back_url = '', string $list_view = '', string $grid_view = '', string $active_view = '', bool $show_search = false, string|array $comp_or_actions = [] ): void {
+function title_bar( string $title = PAGENAME, string $back_url = '', string $list_view = '', string $grid_view = '', string $active_view = '', bool $show_search = false, string|array $comp_or_actions = [] ): void {
     global $options;
     pre( '', 'header df aic jsb', 'header' );
         pre( '', 'left df aic' );

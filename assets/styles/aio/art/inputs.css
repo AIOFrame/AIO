@@ -42,6 +42,16 @@ label i {
   color: var(--input_color_active);
 }
 
+.range_input {
+  display: flex;
+  gap: 10px;
+}
+.range_input output {
+  flex: 0 0 10%;
+  min-width: 20px;
+  text-align: right;
+}
+
 [type=range] {
   -webkit-appearance: none;
   width: 100%;

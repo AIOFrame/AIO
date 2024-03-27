@@ -82,6 +82,15 @@ label {
   border-left:$border-left solid $border-color-active;
   color: $color-active;
 }
+.range_input {
+  display: flex;
+  gap: 10px;
+  output {
+    flex:0 0 10%;
+    min-width: 20px;
+    text-align: right;
+  }
+}
 [type=range] {
   -webkit-appearance: none;
   width: 100%;

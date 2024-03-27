@@ -258,6 +258,9 @@ class FORM {
                 $ch = $value == 'true' || $value == '1' ? 'checked' : '';
                 $input .= '<input type="checkbox" data-check="#'.$id.'" class="slide m" '.$ch.'></div>';
                 break;
+            case 'range':
+                $input = '<div class="df range_input"><input type="range" id="'.$id.'" data-key="'.$n.'" '.$at.$ph.$va.$nn.' oninput="this.nextElementSibling.value = this.value"><output>0</output></div>';
+                break;
             default:
                 $input = '<input type="'.$type.'" id="'.$id.'" data-key="'.$n.'" '.$at.$ph.$va.$nn.'>';
                 break;
@@ -1391,7 +1394,7 @@ class FORM {
         //$a .= $reload > 0 ? ' data-reload="'.$reload.'"' : '';
         //$a .= $notify > 0 ? ' data-notify="'.$notify.'"' : '';
         $text .= _el( 'span', 'loader' );
-        $text .= _el( 'span', ( $options['universal_icon_class'] ?? 'mico' ) . ' ico ' . ( $options['port_ico_save'] ?? '' ), ( $options['port_ico_save'] ?? 'save' ) );
+        $text .= !empty( $options['port_ico_save'] ) ? ( _el( 'span', ( $options['universal_icon_class'] ?? 'mico' ) . ' ico ' . ( $options['port_ico_save'] ?? '' ), ( $options['port_ico_save'] ?? 'save' ) ) ) : '';
         return $_p . _el( $element, $class . ' save', $text, '', $a ) . $p_;
         //return $_p.'<'.$element.$a.' class="'.$class.'" '.$attr.'><span class="loader"></span>'.T( $text ).'</'.$element.'>'.$p_;
     }
