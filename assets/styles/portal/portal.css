@@ -1,8 +1,9 @@
 @charset "UTF-8";
-body.modal_open article > div:not(.header) {
+body.modal_open article > div:not(.header), body.modal_open article > table, body.modal_open .actions.float {
   filter: blur(8px);
   -webkit-filter: blur(8px);
   opacity: 0.3;
+  pointer-events: none;
 }
 
 .aio_fsp.aio_files {
@@ -62,15 +63,11 @@ body.modal_open article > div:not(.header) {
 [data-prev]:after {
   left: 5px;
   right: auto;
-  mask: url("../../icons/left.svg") no-repeat center/contain;
-  -webkit-mask: url("../../icons/left.svg") no-repeat center/contain;
 }
 
 [data-next]:after {
   left: auto;
   right: 5px;
-  mask: url("../../icons/right.svg") no-repeat center/contain;
-  -webkit-mask: url("../../icons/right.svg") no-repeat center/contain;
 }
 
 /* Banner Image */
@@ -421,8 +418,6 @@ a.brand {
   width: 50px;
   height: 50px;
   background: #000;
-  mask: url("../../icons/search.svg") no-repeat center/45%;
-  -webkit-mask: url("../../icons/search.svg") no-repeat center/45%;
   content: "";
 }
 #finder input {
@@ -448,8 +443,6 @@ a.brand {
 
 #log_off {
   background: #000;
-  mask: url("../../icons/power.svg") no-repeat center/60%;
-  -webkit-mask: url("../../icons/power.svg") no-repeat center/60%;
 }
 
 #alert span {
@@ -471,7 +464,6 @@ a.brand {
 }
 
 #back {
-  background: url("../../icons/back.svg") center no-repeat;
   background-size: 50%;
   opacity: 0.5;
   transition: 0.3s;
@@ -870,7 +862,6 @@ aside [type=search] {
   padding: 12px 15px 12px 40px;
   font-size: 1rem;
   border-radius: var(--input_radius);
-  background: #eee url("../../icons/search.svg") no-repeat 10px center/24px;
 }
 
 aside.colored .item .bg {
@@ -973,10 +964,6 @@ aside::-webkit-scrollbar {
 }
 .reports_wrap .auto_filters .clear {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-.reports_wrap .auto_filters .filter:after {
-  mask: url("../../icons/search.svg") no-repeat center/contain;
-  -webkit-mask: url("../../icons/search.svg") no-repeat center/contain;
 }
 
 /* CONTENT */
@@ -1182,11 +1169,6 @@ fieldset {
 }
 .modal .row > div {
   position: relative;
-}
-.modal .close {
-  background: #000;
-  mask: url("../../icons/close.svg") no-repeat center/26px;
-  -webkit-mask: url("../../icons/close.svg") no-repeat center/26px;
 }
 .modal .title {
   text-transform: uppercase;

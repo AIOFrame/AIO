@@ -735,6 +735,7 @@ function card( string $class = '', string $title = '', string $link = '', string
 }
 
 function pre_modal( string $title = '', string $size = '', bool $editable = true ): void {
+    global $options;
     $s = strtolower( str_replace( ' ', '_', $title ) );
     pre($s.'_modal','modal '.$size.' '.$s.'_modal');
         pre('','modal_head');
@@ -745,7 +746,7 @@ function pre_modal( string $title = '', string $size = '', bool $editable = true
                 h2($title,1,'title');
             }
         post();
-    el('div','close');
+    el( 'div', ( $options['universal_icon_class'] ?? 'mico' ) . ' ico close ' . ( $options['port_ico_close'] ?? '' ), ( $options['port_ico_close'] ?? 'close' ) );
     pre('','modal_body');
 }
 

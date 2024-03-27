@@ -31,10 +31,11 @@ $color-dark: var(--input_color_dark);
 $color-active-dark: var(--input_color_active_dark);
 
 body.modal_open {
-  article > div:not(.header) {
+  article > div:not(.header), article > table, .actions.float {
     filter: blur(8px);
     -webkit-filter: blur(8px);
     opacity: .3;
+    pointer-events: none;
   }
 }
 .aio_fsp.aio_files {
@@ -94,14 +95,14 @@ body.modal_open {
 [data-prev]:after {
   left: 5px;
   right: auto;
-  mask: url('../../icons/left.svg') no-repeat center / contain;
-  -webkit-mask: url('../../icons/left.svg') no-repeat center / contain;
+  //mask: url('../../icons/left.svg') no-repeat center / contain;
+  //-webkit-mask: url('../../icons/left.svg') no-repeat center / contain;
 }
 [data-next]:after {
   left: auto;
   right: 5px;
-  mask: url('../../icons/right.svg') no-repeat center / contain;
-  -webkit-mask: url('../../icons/right.svg') no-repeat center / contain;
+  //mask: url('../../icons/right.svg') no-repeat center / contain;
+  //-webkit-mask: url('../../icons/right.svg') no-repeat center / contain;
 }
 
 /* Banner Image */
@@ -446,8 +447,6 @@ a.brand {
     width:50px;
     height:50px;
     background: #000;
-    mask: url('../../icons/search.svg') no-repeat center / 45%;
-    -webkit-mask: url('../../icons/search.svg') no-repeat center / 45%;
     content:'';
   }
   input {
@@ -473,8 +472,6 @@ a.brand {
 }
 #log_off {
   background: #000;
-  mask: url('../../icons/power.svg') no-repeat center / 60%;
-  -webkit-mask: url('../../icons/power.svg') no-repeat center / 60%;
 }
 #alert {
   span {
@@ -496,7 +493,6 @@ a.brand {
   }
 }
 #back {
-  background:url('../../icons/back.svg') center no-repeat;
   background-size:50%;
   opacity:.5;
   transition:.3s
@@ -904,7 +900,7 @@ aside {
     padding: 12px 15px 12px 40px;
     font-size: 1rem;
     border-radius:$radius;
-    background:#eee url('../../icons/search.svg') no-repeat 10px center / 24px;
+    //background:#eee url('../../icons/search.svg') no-repeat 10px center / 24px;
   }
 }
 aside.colored {
@@ -1014,10 +1010,6 @@ aside::-webkit-scrollbar {
     }
     .clear {
       box-shadow: 0 5px 15px rgba(0,0,0,.1);
-    }
-    .filter:after {
-      mask: url('../../icons/search.svg') no-repeat center/contain;
-      -webkit-mask: url('../../icons/search.svg') no-repeat center/contain;
     }
   }
 }
@@ -1230,11 +1222,6 @@ fieldset {
   border-radius: 10px;
   .row > div {
     position: relative;
-  }
-  .close {
-    background: #000;
-    mask: url('../../icons/close.svg') no-repeat center / 26px;
-    -webkit-mask: url('../../icons/close.svg') no-repeat center / 26px;
   }
   .title {
     text-transform: uppercase;
