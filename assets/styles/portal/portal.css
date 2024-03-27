@@ -1,8 +1,9 @@
 @charset "UTF-8";
-body.modal_open article > div:not(.header) {
+body.modal_open article > div:not(.header), body.modal_open article > table, body.modal_open .actions.float {
   filter: blur(8px);
   -webkit-filter: blur(8px);
   opacity: 0.3;
+  pointer-events: none;
 }
 
 .aio_fsp.aio_files {
@@ -62,15 +63,11 @@ body.modal_open article > div:not(.header) {
 [data-prev]:after {
   left: 5px;
   right: auto;
-  mask: url("../../icons/left.svg") no-repeat center/contain;
-  -webkit-mask: url("../../icons/left.svg") no-repeat center/contain;
 }
 
 [data-next]:after {
   left: auto;
   right: 5px;
-  mask: url("../../icons/right.svg") no-repeat center/contain;
-  -webkit-mask: url("../../icons/right.svg") no-repeat center/contain;
 }
 
 /* Banner Image */
@@ -207,23 +204,6 @@ button.store, .btn.store {
   margin: 15px 6px;
 }
 
-button.pop, .btn.pop {
-  position: relative;
-  padding: 14px 20px 14px 40px;
-  border-radius: 8px;
-  margin: 15px 6px;
-}
-
-button:after, .btn:after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 14px;
-  width: 20px;
-  height: 20px;
-}
-
 .actions.float {
   position: fixed;
   bottom: 20px;
@@ -234,32 +214,6 @@ button:after, .btn:after {
   gap: 20px;
   align-items: center;
   justify-content: center;
-}
-.actions.float button, .actions.float .btn {
-  border-radius: 20px;
-  font-size: 1em;
-  padding: 12px 15px;
-  border: 0;
-  color: #fff;
-  position: relative;
-}
-.actions.float button.pop, .actions.float .btn.pop, .actions.float button.trash, .actions.float .btn.trash, .actions.float button.print, .actions.float .btn.print {
-  padding: 12px 15px 12px 40px;
-}
-.actions.float button.pop:after, .actions.float button.trash:after, .actions.float button.print:after {
-  background: #fff;
-}
-.actions.float button.pop:after, .actions.float .btn.pop:after {
-  mask: url("../../icons/open.svg") no-repeat center/contain;
-  -webkit-mask: url("../../icons/open.svg") no-repeat center/contain;
-}
-.actions.float button.trash:after, .actions.float .btn.trash:after {
-  mask: url("../../icons/trash.svg") no-repeat center/contain;
-  -webkit-mask: url("../../icons/trash.svg") no-repeat center/contain;
-}
-.actions.float button.print:after, .actions.float .btn.print:after {
-  mask: url("../../icons/print.svg") no-repeat center/contain;
-  -webkit-mask: url("../../icons/print.svg") no-repeat center/contain;
 }
 
 /* General */
@@ -464,8 +418,6 @@ a.brand {
   width: 50px;
   height: 50px;
   background: #000;
-  mask: url("../../icons/search.svg") no-repeat center/45%;
-  -webkit-mask: url("../../icons/search.svg") no-repeat center/45%;
   content: "";
 }
 #finder input {
@@ -491,8 +443,6 @@ a.brand {
 
 #log_off {
   background: #000;
-  mask: url("../../icons/power.svg") no-repeat center/60%;
-  -webkit-mask: url("../../icons/power.svg") no-repeat center/60%;
 }
 
 #alert span {
@@ -514,7 +464,6 @@ a.brand {
 }
 
 #back {
-  background: url("../../icons/back.svg") center no-repeat;
   background-size: 50%;
   opacity: 0.5;
   transition: 0.3s;
@@ -913,7 +862,6 @@ aside [type=search] {
   padding: 12px 15px 12px 40px;
   font-size: 1rem;
   border-radius: var(--input_radius);
-  background: #eee url("../../icons/search.svg") no-repeat 10px center/24px;
 }
 
 aside.colored .item .bg {
@@ -1016,10 +964,6 @@ aside::-webkit-scrollbar {
 }
 .reports_wrap .auto_filters .clear {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-.reports_wrap .auto_filters .filter:after {
-  mask: url("../../icons/search.svg") no-repeat center/contain;
-  -webkit-mask: url("../../icons/search.svg") no-repeat center/contain;
 }
 
 /* CONTENT */
@@ -1226,11 +1170,6 @@ fieldset {
 .modal .row > div {
   position: relative;
 }
-.modal .close {
-  background: #000;
-  mask: url("../../icons/close.svg") no-repeat center/26px;
-  -webkit-mask: url("../../icons/close.svg") no-repeat center/26px;
-}
 .modal .title {
   text-transform: uppercase;
   font-size: 1.2rem;
@@ -1250,24 +1189,6 @@ fieldset {
 }
 .modal .foot.df .t {
   text-align: right;
-}
-.modal button.save {
-  border-radius: 10px;
-  padding: 15px 20px 15px 40px;
-  margin: 0;
-  position: relative;
-}
-.modal button.save:after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 14px;
-  width: 20px;
-  height: 20px;
-  background: #fff;
-  mask: url("../../icons/save.svg") no-repeat center/contain;
-  -webkit-mask: url("../../icons/save.svg") no-repeat center/contain;
 }
 
 /* FOOT */

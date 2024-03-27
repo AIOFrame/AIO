@@ -31,10 +31,11 @@ $color-dark: var(--input_color_dark);
 $color-active-dark: var(--input_color_active_dark);
 
 body.modal_open {
-  article > div:not(.header) {
+  article > div:not(.header), article > table, .actions.float {
     filter: blur(8px);
     -webkit-filter: blur(8px);
     opacity: .3;
+    pointer-events: none;
   }
 }
 .aio_fsp.aio_files {
@@ -94,14 +95,14 @@ body.modal_open {
 [data-prev]:after {
   left: 5px;
   right: auto;
-  mask: url('../../icons/left.svg') no-repeat center / contain;
-  -webkit-mask: url('../../icons/left.svg') no-repeat center / contain;
+  //mask: url('../../icons/left.svg') no-repeat center / contain;
+  //-webkit-mask: url('../../icons/left.svg') no-repeat center / contain;
 }
 [data-next]:after {
   left: auto;
   right: 5px;
-  mask: url('../../icons/right.svg') no-repeat center / contain;
-  -webkit-mask: url('../../icons/right.svg') no-repeat center / contain;
+  //mask: url('../../icons/right.svg') no-repeat center / contain;
+  //-webkit-mask: url('../../icons/right.svg') no-repeat center / contain;
 }
 
 /* Banner Image */
@@ -237,23 +238,6 @@ button.store, .btn.store {
   position: relative;
   margin: 15px 6px;
 }
-button.pop, .btn.pop {
-  position: relative;
-  padding: 14px 20px 14px 40px;
-  border-radius: 8px;
-  margin: 15px 6px;
-}
-button:after, .btn:after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 14px;
-  width: 20px;
-  height: 20px;
-  //mask: url(../../../icons/save.svg) no-repeat center/contain;
-  //-webkit-mask: url(../../../icons/save.svg) no-repeat center/contain;
-}
 .actions.float {
   position: fixed;
   bottom: 20px;
@@ -264,32 +248,6 @@ button:after, .btn:after {
   gap: 20px;
   align-items: center;
   justify-content: center;
-  button, .btn {
-    border-radius: 20px;
-    font-size: 1em;
-    padding: 12px 15px;
-    border: 0;
-    color: #fff;
-    position: relative;
-  }
-  button.pop, .btn.pop, button.trash, .btn.trash, button.print, .btn.print {
-    padding: 12px 15px 12px 40px;
-  }
-  button.pop:after, button.trash:after, button.print:after {
-    background: #fff;
-  }
-  button.pop:after, .btn.pop:after {
-    mask: url('../../icons/open.svg') no-repeat center / contain;
-    -webkit-mask: url('../../icons/open.svg') no-repeat center / contain;
-  }
-  button.trash:after, .btn.trash:after {
-    mask: url('../../icons/trash.svg') no-repeat center / contain;
-    -webkit-mask: url('../../icons/trash.svg') no-repeat center / contain;
-  }
-  button.print:after, .btn.print:after {
-    mask: url('../../icons/print.svg') no-repeat center / contain;
-    -webkit-mask: url('../../icons/print.svg') no-repeat center / contain;
-  }
 }
 
 /* General */
@@ -489,8 +447,6 @@ a.brand {
     width:50px;
     height:50px;
     background: #000;
-    mask: url('../../icons/search.svg') no-repeat center / 45%;
-    -webkit-mask: url('../../icons/search.svg') no-repeat center / 45%;
     content:'';
   }
   input {
@@ -516,8 +472,6 @@ a.brand {
 }
 #log_off {
   background: #000;
-  mask: url('../../icons/power.svg') no-repeat center / 60%;
-  -webkit-mask: url('../../icons/power.svg') no-repeat center / 60%;
 }
 #alert {
   span {
@@ -539,7 +493,6 @@ a.brand {
   }
 }
 #back {
-  background:url('../../icons/back.svg') center no-repeat;
   background-size:50%;
   opacity:.5;
   transition:.3s
@@ -947,7 +900,7 @@ aside {
     padding: 12px 15px 12px 40px;
     font-size: 1rem;
     border-radius:$radius;
-    background:#eee url('../../icons/search.svg') no-repeat 10px center / 24px;
+    //background:#eee url('../../icons/search.svg') no-repeat 10px center / 24px;
   }
 }
 aside.colored {
@@ -1057,10 +1010,6 @@ aside::-webkit-scrollbar {
     }
     .clear {
       box-shadow: 0 5px 15px rgba(0,0,0,.1);
-    }
-    .filter:after {
-      mask: url('../../icons/search.svg') no-repeat center/contain;
-      -webkit-mask: url('../../icons/search.svg') no-repeat center/contain;
     }
   }
 }
@@ -1274,11 +1223,6 @@ fieldset {
   .row > div {
     position: relative;
   }
-  .close {
-    background: #000;
-    mask: url('../../icons/close.svg') no-repeat center / 26px;
-    -webkit-mask: url('../../icons/close.svg') no-repeat center / 26px;
-  }
   .title {
     text-transform: uppercase;
     font-size: 1.2rem;
@@ -1298,24 +1242,6 @@ fieldset {
     .t {
       text-align: right;
     }
-  }
-  button.save {
-    border-radius: 10px;
-    padding: 15px 20px 15px 40px;
-    margin: 0;
-    position: relative;
-  }
-  button.save:after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 14px;
-    width: 20px;
-    height: 20px;
-    background: #fff;
-    mask: url('../../icons/save.svg') no-repeat center/contain;
-    -webkit-mask: url('../../icons/save.svg') no-repeat center/contain;
   }
 }
 

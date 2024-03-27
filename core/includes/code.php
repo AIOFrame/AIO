@@ -735,6 +735,7 @@ function card( string $class = '', string $title = '', string $link = '', string
 }
 
 function pre_modal( string $title = '', string $size = '', bool $editable = true ): void {
+    global $options;
     $s = strtolower( str_replace( ' ', '_', $title ) );
     pre($s.'_modal','modal '.$size.' '.$s.'_modal');
         pre('','modal_head');
@@ -745,7 +746,7 @@ function pre_modal( string $title = '', string $size = '', bool $editable = true
                 h2($title,1,'title');
             }
         post();
-    el('div','close');
+    el( 'div', ( $options['universal_icon_class'] ?? 'mico' ) . ' ico close ' . ( $options['port_ico_close'] ?? '' ), ( $options['port_ico_close'] ?? 'close' ) );
     pre('','modal_body');
 }
 
@@ -840,7 +841,9 @@ function logout_html( string $tag = 'div', string $class = '', string $text = 'L
 }
 
 function modal_trigger( string $modal_identifier = '', string $title = '' ): void {
-    el('button','grad',$title,'','data-modal="'.$modal_identifier.'"',1);
+    global $options;
+    $i = _el( 'span', ( $options['universal_icon_class'] ?? 'mico' ) . ' ico ' . ( $options['port_ico_new'] ?? '' ), ( $options['port_ico_new'] ?? 'add_circle' ) );
+    el('button','pop grad r',$i.$title,'','data-modal="'.$modal_identifier.'"',1);
 }
 
 function float_triggers( array $triggers, string $wrap_class = '' ): void {

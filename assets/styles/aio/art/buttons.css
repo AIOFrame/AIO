@@ -365,24 +365,27 @@ button.bsn, .btn.bsn, button.bsn:hover, .btn.bsn:hover, button.ns, .btn.ns, .btn
   border-bottom-right-radius: 5px;
 }
 
-button.store, button.save {
-  padding-left: 40px;
-  padding-right: 40px;
+button.store, button.save, button.grad {
+  display: inline-flex;
+  gap: 6px;
+  justify-content: center;
+  align-items: center;
+  /* .ico {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 8px;
+  } */
+  /* .ico.l {
+    right: auto;
+    left: 8px;
+  } */
 }
-button.store .ico, button.save .ico {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 8px;
-}
-button.store .ico.bi:before, button.save .ico.bi:before {
+button.store .ico.bi:before, button.save .ico.bi:before, button.grad .ico.bi:before {
   font-size: 1rem;
+  line-height: 20px;
 }
-button.store .ico.l, button.save .ico.l {
-  right: auto;
-  left: 8px;
-}
-button.store .loader, button.save .loader {
+button.store .loader, button.save .loader, button.grad .loader {
   display: none;
 }
 
