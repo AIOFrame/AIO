@@ -34,8 +34,6 @@ class PORTAL {
         !empty( $scripts ) ? ( is_array( $scripts ) ? $scripts[] = 'jquery' : $scripts .= ',jquery' ) : '';
 
         //$c = new CODE();
-        $primary_color = strlen( $primary_color ) == 6 ? '#' . $primary_color : $primary_color;
-        $secondary_color = strlen( $secondary_color ) == 6 ? '#' . $secondary_color : $secondary_color;
         pre_html($class,$attrs,$pre_styles,$primary_color,$secondary_color,'icons,cards,modal,buttons,inputs,icons,tabs,steps,color,table,alerts,accordion',$styles,$scripts,$primary_font,$secondary_font,$icon_fonts);
 
     }
