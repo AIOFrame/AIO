@@ -1230,9 +1230,15 @@ class FORM {
                 $multiple = $f['multiple'] ?? ( $f['m'] ?? 0 );
                 $pos = $f['dp'] ?? ( $f['pos'] ?? ( $f['d_p'] ?? 'top center' ) );
                 $return .= $this->_date( $id, $label, $place, $val, $attrs, $pos, $pre, $range, $multiple, '', $min, $max, $post );
+            } else if( in_array( $type, [ 'range', 'r', 'slider' ] ) ) {
+                $min = $f['min'] ?? '';
+                $max = $f['max'] ?? '';
+                $attrs .= !empty( $min ) ? ' min="'.$min.'"' : '';
+                $attrs .= !empty( $max ) ? ' max="'.$max.'"' : '';
+                $return .= $this->_input( 'range', $id, $label, $place, $val, $attrs, $pre, $post );
             } else if( in_array( $type, [ 'slide', 'slides', 'toggle', 't' ] ) ) {
-                $off_text = $f['off'] ?? 'Off';
-                $on_text = $f['on'] ?? 'On';
+                $off_text = $f['off'] ?? '';
+                $on_text = $f['on'] ?? '';
                 $return .= $type == 'slide' ? $this->_slide( $id, $label, $off_text, $on_text, $val, '', $attrs, $pre, $post ) : $this->_checkboxes( $id, $label, );
             } else if( $type == 'color' || $type == 'cl' ) {
                 $border = $f['border'] ?? ( $f['b'] ?? '' );
