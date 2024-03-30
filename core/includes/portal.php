@@ -357,7 +357,7 @@ class PORTAL {
                         //skel( $menu_set );
                         pre( '', 'set' );
                             div( 'title', T( $group_title ) );
-                            pre( '', 'row', 'div', 'data-'.$data );
+                            _r( '', 'data-'.$data );
                             if( !empty( $menu_list ) ) {
                                 foreach( $menu_list as $menu ) {
 
@@ -368,6 +368,7 @@ class PORTAL {
                                     $ico_class = ( $options['universal_icon_class'] ?? 'mico' ) . ( $gradient_icons ? ' l grad-bg' : ' l' );
                                     $title = $menu['title'] ?? ( $menu['name'] ?? ( $menu['t'] ?? ( $menu['n'] ?? '' ) ) );
                                     $restricted = [];
+                                    $class = $url_prefix . $url == PAGEPATH ? 'on' : '';
                                     if( !empty( $perm ) ) {
                                         $user_can = explode( ',', $user_can );
                                         foreach( $user_can as $uc ) {
@@ -383,13 +384,13 @@ class PORTAL {
                                         }
                                     }
                                     if( empty( $restricted ) ) {
-                                        _c( $col );
-                                            div( '', __a( APPURL . $url_prefix . $url, _el( 'i', $ico_class . ' ' . $icon, $icon ) . _div( 'title', T( $title ) ) ) );
+                                        _c( $col, $class );
+                                            div( $class, __a( APPURL . $url_prefix . $url, _el( 'i', $ico_class . ' ' . $icon, $icon ) . _div( 'title', T( $title ) ), $class ) );
                                         c_();
                                     }
                                 }
                             }
-                            post();
+                            r_();
                         post();
                     }
                 }

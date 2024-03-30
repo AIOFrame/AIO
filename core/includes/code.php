@@ -1120,8 +1120,8 @@ function r_experimental(): void {
     }
 }
 
-function _r( string $class = '' ): void {
-    pre( '', !empty( $class ) ? 'row '.$class : 'row' );
+function _r( string $class = '', string $attr = '' ): void {
+    pre( '', ( !empty( $class ) ? 'row '.$class : 'row' ), 'div', $attr );
 }
 
 function r_(): void {
