@@ -384,7 +384,8 @@ class PORTAL {
                                 foreach( $menu_list as $menu ) {
 
                                     $col = $menu['col'] ?? ( $menu['c'] ?? 4 );
-                                    $user_can = $menu['user_can'] ?? ( $menu['uc'] ?? '' );
+                                    $user_can = $menu['user_can'] ?? ( $menu['uc'] ?? ( $menu['can'] ?? '' ) );
+                                    $user_type = $menu['user_type'] ?? ( $menu['ut'] ?? ( $menu['for'] ?? ( $menu['f'] ?? '' ) ) );
                                     $url = $menu['url'] ?? ( $menu['u'] ?? '' );
                                     $icon = $menu['icon'] ?? ( $menu['i'] ?? '' );
                                     $ico_class = ( $options['icon_class'] ?? 'mico' ) . ( $gradient_icons ? ' l grad-bg' : ' l' );
@@ -399,8 +400,8 @@ class PORTAL {
                                             }
                                         }
                                     }
-                                    if( isset( $menu['type'] ) ) {
-                                        $user_types = explode( ',', $menu['type'] );
+                                    if( !empty( $type ) ) {
+                                        $user_types = explode( ',', $type );
                                         if( !in_array( $user_type, $user_types ) ) {
                                             $restricted[] = 1;
                                         }
