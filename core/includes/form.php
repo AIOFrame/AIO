@@ -676,7 +676,7 @@ class FORM {
             //$code = '<div class="color_picker_wrap"><div class="color-picker"></div><div class="color_controls"></div><div class="close">close</div></div>';
             $code = '';
         } else {
-            $code = _div( 'dn', _div( 'color_picker_wrap', _div( 'color-picker' ) . _div( 'color_controls', '<input type="text" value="#ffffff" class="code" onfocus="this.select();">' ) . _div( ( $options['universal_icon_class'] ?? '' ) . ' close ' . ( $options['port_ico_close'] ?? '' ), $options['port_ico_close'] ?? 'close' ) ), '', 'color-picker-html' );
+            $code = _div( 'dn', _div( 'color_picker_wrap', _div( 'color-picker' ) . _div( 'color_controls', '<input type="text" value="#ffffff" class="code" onfocus="this.select();">' ) . _div( ( $options['icon_class'] ?? '' ) . ' close ' . ( $options['ico_close'] ?? '' ), $options['ico_close'] ?? 'close' ) ), '', 'color-picker-html' );
             $color_picker = 1;
         }
         return $this->_text( $id, $label, $placeholder, $value, $attrs, $pre, $post ) . $code;
@@ -944,7 +944,7 @@ class FORM {
         $req = str_contains( $attrs, 'required' ) ? '<i>*</i>' : '';
         $label = !empty( $label ) ? '<label for="'.$id.'">'.T($label).$req.'</label>' : '';
         $value = APPDEBUG && str_contains( $value, 'fake_' ) ? $this->fake( $value ) : ( str_contains( $value, 'fake_' ) ? '' : $value );
-        $ico = _div( ( $options['universal_icon_class'] ?? 'mico' ) . ' ico ' . ( $options['port_ico_file_upload'] ?? '' ), $options['port_ico_file_upload'] ?? '' );
+        $ico = _div( ( $options['icon_class'] ?? 'mico' ) . ' ico ' . ( $options['ico_file_upload'] ?? '' ), $options['ico_file_upload'] ?? '' );
         return $_p.$label.'<button type="button" class="aio_upload '.$button_class.'" data-url="#'.$id.'" onclick="file_upload(this)" '.$sh.$ext.$sz.$mul.$del.$pat.'>'.T($button_label).$ico.'</button><input id="'.$id.'" name="'.$name.'" data-key="'.$name.'" type="text" data-'.$type.' value="'.$value.'" '.$attrs.'>'.$p_;
     }
 
@@ -1402,7 +1402,7 @@ class FORM {
         //$a .= $reload > 0 ? ' data-reload="'.$reload.'"' : '';
         //$a .= $notify > 0 ? ' data-notify="'.$notify.'"' : '';
         $text .= _el( 'span', 'loader' );
-        $text .= !empty( $options['port_ico_save'] ) ? ( _el( 'span', ( $options['universal_icon_class'] ?? 'mico' ) . ' ico ' . ( $options['port_ico_save'] ?? '' ), ( $options['port_ico_save'] ?? 'save' ) ) ) : '';
+        $text .= !empty( $options['ico_save'] ) ? ( _el( 'span', ( $options['icon_class'] ?? 'mico' ) . ' ico ' . ( $options['ico_save'] ?? '' ), ( $options['ico_save'] ?? 'save' ) ) ) : '';
         return $_p . _el( $element, $class . ' save', $text, '', $a ) . $p_;
         //return $_p.'<'.$element.$a.' class="'.$class.'" '.$attr.'><span class="loader"></span>'.T( $text ).'</'.$element.'>'.$p_;
     }

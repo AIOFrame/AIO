@@ -81,6 +81,17 @@ class OPTIONS {
         '_bg_color_primary_active' => 'BG Primary on click',
         '_bg_color_secondary_active' => 'BG Secondary on click',
     ];
+    public array $icon_options = [
+        'accordion_view' => 'view_day',
+        'calendar' => 'calendar_month',
+        'search' => 'search',
+        'file_upload' => 'file_upload',
+        'file_size' => 'straighten',
+        'file_type' => 'description',
+        'file_limit' => 'content_copy',
+        'modal_expand' => 'open_in_full',
+        'modal_contract' => 'close_fullscreen',
+    ];
     public array $option_elements = [ 'input' => 'Input Form', 'card' => 'Cards', 'button' => 'Generic Buttons', 'modal' => 'Modal Popup', 'alert' => 'Alert' ];
     public array $option_types = [ 'border', 'radius', 'margin', 'padding' ];
 
@@ -165,6 +176,32 @@ class OPTIONS {
         $f->process_options('Save Color Options','store grad','','.col-12 tac');
         post();
         get_scripts('iro,color');
+    }
+
+    function icon_options(): void {
+        global $options;
+        $icons = $this->icon_options;
+        $a = 'data-ico';
+        if( class_exists( 'PORTAL' ) ) {
+            $p = new PORTAL();
+            $icons = array_merge( $icons, $p->icon_options );
+        }
+        $form = [
+            [ 'i' => 'icon_font', 'n' => 'Icon Fonts', 'v' => $options['icon_font'] ?? 'MaterialIcons', 'o' => [ 'MaterialIcons' => 'Material Icons', 'BootstrapIcons' => 'Bootstrap Icons' ], 'c' => 12, 't' => 's', 'k' => 1, 'm' => 1, 'a' => $a ],
+            [ 'i' => 'icon_class', 'n' => 'Icon Class', 'v' => $options['icon_class'] ?? 'mico', 'c' => 6, 'a' => $a ],
+            [ 'i' => 'icon_after_class', 'n' => 'Icon After Class', 'v' => $options['icon_after_class'] ?? 'mica', 'c' => 6, 'a' => $a ],
+        ];
+        $autoload = [ 'icon_font', 'icon_class', 'icon_after_class' ];
+        foreach( $icons as $o => $v ) {
+            $ico = 'ico_'.$o;
+            //$idc = 'port_ico_'.$o.'_class';
+            $autoload[] = $ico;
+            //$autoload[] = $idc;
+            $form[] = [ 'i' => $ico, 'n' => ucwords( str_replace( '_', ' ', $o ) ). ' Ico', 'v' => $options[$ico] ?? $v, 'c' => 2, 'a' => $a ];
+            //$form[] = [ 'i' => $idc, 'n' => ucwords( $o ). ' Ico Class', 'v' => $v, 'c' => 2 ];
+        }
+        $o = new OPTIONS();
+        $o->form( $form, 'row', 1, 'ico', 'Successfully saved icon settings!', 2, 2, $autoload );
     }
 
     /**

@@ -12,14 +12,14 @@ class FUP {
             pre( '', 'files_head' );
                 h3( 'File Uploader' );
                 pre( '', 'info' );
-                    div( 'sizes', _div( ( $options['universal_icon_class'] ?? 'mico' ) . ' ico ' . ( $options['port_ico_file_size'] ?? '' ), ( $options['port_ico_file_size'] ??  'sd_card' ) ) . _div( 'title', _div( '', T('Max File Size') ) . _div( '', _el( 'span', 'size' ) . _el( 'span', 'measure', 'Mb' ) ) ) );
-                    div( 'types', _div( ( $options['universal_icon_class'] ?? 'mico' ) . ' ico ' . ( $options['port_ico_file_type'] ?? '' ), ( $options['port_ico_file_type'] ?? 'description' ) ) . _div( 'title', T('File Types') . _div( 'types' ) ) );
-                    div( 'max', _div( ( $options['universal_icon_class'] ?? 'mico' ) . ' ico ' . ( $options['port_ico_file_limit'] ?? '' ), $options['port_ico_file_limit'] ?? 'file_copy' ) . _div( 'title', T('Files Limit') . _div( 'qty', 2 ) ) );
+                    div( 'sizes', _div( ( $options['icon_class'] ?? 'mico' ) . ' ico ' . ( $options['ico_file_size'] ?? '' ), ( $options['ico_file_size'] ??  'sd_card' ) ) . _div( 'title', _div( '', T('Max File Size') ) . _div( '', _el( 'span', 'size' ) . _el( 'span', 'measure', 'Mb' ) ) ) );
+                    div( 'types', _div( ( $options['icon_class'] ?? 'mico' ) . ' ico ' . ( $options['ico_file_type'] ?? '' ), ( $options['ico_file_type'] ?? 'description' ) ) . _div( 'title', T('File Types') . _div( 'types' ) ) );
+                    div( 'max', _div( ( $options['icon_class'] ?? 'mico' ) . ' ico ' . ( $options['ico_file_limit'] ?? '' ), $options['ico_file_limit'] ?? 'file_copy' ) . _div( 'title', T('Files Limit') . _div( 'qty', 2 ) ) );
                 post();
                 pre( '', 'acts' );
-                    div( ( $options['universal_icon_class'] ?? 'mico' ) . ' expand ' . ( $options['port_ico_file_expand'] ?? '' ), $options['port_ico_file_expand'] ?? 'open_in_full' );
-                    div( ( $options['universal_icon_class'] ?? 'mico' ) . ' contract ' . ( $options['port_ico_file_contract'] ?? '' ), $options['port_ico_file_contract'] ?? 'close_fullscreen' );
-                    div( ( $options['universal_icon_class'] ?? 'mico' ) . ' close ' . ( $options['port_ico_close'] ?? '' ), $options['port_ico_close'] ?? 'close' );
+                    div( ( $options['icon_class'] ?? 'mico' ) . ' expand ' . ( $options['ico_file_expand'] ?? '' ), $options['ico_file_expand'] ?? 'open_in_full' );
+                    div( ( $options['icon_class'] ?? 'mico' ) . ' contract ' . ( $options['ico_file_contract'] ?? '' ), $options['ico_file_contract'] ?? 'close_fullscreen' );
+                    div( ( $options['icon_class'] ?? 'mico' ) . ' close ' . ( $options['ico_close'] ?? '' ), $options['ico_close'] ?? 'close' );
                     /* if( is_array( ICONS ) )
                         in_array( 'Bootstrap', ICONS ) ? el( 'i', 'bi bi-arrows-angle-expand expand' ) . el( 'i', 'bi bi-x-lg close' ) : div( 'mat-ico expand' ) . div( 'mat-ico close', 'close' );
                     else

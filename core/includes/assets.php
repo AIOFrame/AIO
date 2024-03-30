@@ -642,7 +642,7 @@ function render_menu( array $array, string $url_prefix = '', string $wrap_class 
         foreach( $array as $url => $data ) {
             $title = $data['title'] ?? ( $data['t'] ?? ( $data['name'] ?? ( $data['n'] ?? '' ) ) );
             $ico = $data['icon'] ?? ( $data['ico'] ?? ( $data['i'] ?? '' ) );
-            $ico = !empty( $ico ) ? _div( $options['universal_icon_class'] ?? '', $ico ) : '';
+            $ico = !empty( $ico ) ? _div( $options['icon_class'] ?? '', $ico ) : '';
             el( 'li', '', __a( APPURL . $url_prefix . $url, $ico . $title ) );
         }
     } else {

@@ -272,6 +272,7 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
     }
     // Icon Fonts
     //skel( $icon_fonts );
+    $icon_fonts = !empty( $icon_fonts ) ? $icon_fonts : $options['icon_font'];
     $icon_fonts = is_string( $icon_fonts ) && str_contains( $icon_fonts, ',' ) ? explode( ',', $icon_fonts ) : $icon_fonts;
     if( !empty( $icon_fonts ) && is_array( $icon_fonts ) ) {
         foreach( $icon_fonts as $if ) {
@@ -327,8 +328,8 @@ function post_html( string|array $scripts = [], string $alert_position = 'top ri
     get_scripts( $scripts );
     if( defined( 'PAGEPATH' ) )
         get_script( PAGEPATH );
-    $close_button = _div( ( $options['universal_icon_class'] ?? '' ) .' close ' . ( $options['port_ico_close'] ?? '' ), $options['port_ico_close'] ?? 'close' );
-    $icon = _div( 'ico', _div( ( $options['universal_icon_class'] ?? '' ) .' ico {{icon}} ' . ( $options['port_ico_alerts'] ?? '' ), $options['port_ico_alerts'] ?? '' ) );
+    $close_button = _div( ( $options['icon_class'] ?? '' ) .' close ' . ( $options['ico_close'] ?? '' ), $options['ico_close'] ?? 'close' );
+    $icon = _div( 'ico', _div( ( $options['icon_class'] ?? '' ) .' ico {{icon}} ' . ( $options['ico_alerts'] ?? '' ), $options['ico_alerts'] ?? '' ) );
     // '<div class="alert in '+type+' n_'+r+'"><div class="data"><div class="mat-ico bi bi-x-lg close">close</div>'+ico+'<div class="message">'+text+'</div></div><div class="time"></div></div>'
     div( 'dn', _div( 'alert in {{type}} n_{{random}}', _div( 'data', $close_button . $icon . _div( 'message', '{{text}}' ) ) . _div( 'time' ) ), '', 'alert-html-template' );
     echo '</body></html>';
@@ -748,7 +749,7 @@ function pre_modal( string $title = '', string $size = '', bool $editable = true
                 h2($title,1,'title');
             }
         post();
-    el( 'div', ( $options['universal_icon_class'] ?? 'mico' ) . ' ico close ' . ( $options['port_ico_close'] ?? '' ), ( $options['port_ico_close'] ?? 'close' ) );
+    el( 'div', ( $options['icon_class'] ?? 'mico' ) . ' ico close ' . ( $options['ico_close'] ?? '' ), ( $options['ico_close'] ?? 'close' ) );
     pre('','modal_body');
 }
 
@@ -844,7 +845,7 @@ function logout_html( string $tag = 'div', string $class = '', string $text = 'L
 
 function modal_trigger( string $modal_identifier = '', string $title = '' ): void {
     global $options;
-    $i = _el( 'span', ( $options['universal_icon_class'] ?? 'mico' ) . ' ico ' . ( $options['port_ico_new'] ?? '' ), ( $options['port_ico_new'] ?? 'add_circle' ) );
+    $i = _el( 'span', ( $options['icon_class'] ?? 'mico' ) . ' ico ' . ( $options['ico_new'] ?? '' ), ( $options['ico_new'] ?? 'add_circle' ) );
     el('button','pop grad r',$i.$title,'','data-modal="'.$modal_identifier.'"',1);
 }
 
@@ -1209,7 +1210,7 @@ function _em( string $page_link = '', string $page_title = '', string $content =
 function notice( string $content = '', string $type = 'info', string $class = '', string $icon_text = 'info', string $icon_class = '' ): void {
     global $options;
     _d( 'card df ais nf ' . $class . ' ' . $type );
-        div( ( $options['universal_icon_class'] ?? 'mico' ) . ' l ' . $icon_class . ' ' . ( $options['universal_icon_class'] ?? '' ), $icon_text );
+        div( ( $options['icon_class'] ?? 'mico' ) . ' l ' . $icon_class . ' ' . ( $options['icon_class'] ?? '' ), $icon_text );
         div( 'message', $content );
     d_();
 }

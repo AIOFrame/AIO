@@ -641,6 +641,7 @@ class DB {
         $encrypt = !is_array( $encrypt ) && !empty( $encrypt ) ? explode( ',', $encrypt ) : $encrypt;
         $unique = !is_array( $unique ) && !empty( $unique ) ? explode( ',', $unique ) : $unique;
         $autoload = !is_array( $autoload ) && !empty( $autoload ) ? explode( ',', $autoload ) : $autoload;
+        unset( $array['autoload'] );
         foreach( $array as $key => $value ){
             // If value has optional parameters
             if( is_array( $value ) ) {
