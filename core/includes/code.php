@@ -975,7 +975,7 @@ function tabs( array $tabs = [], string $style = '', bool $translate_titles = fa
 
 /**
  * Renders Tabs
- * @param array $tabs [ [ 'User' => 'User Content' ], [ 'Account Details' => 'Acc Details Content' ] ]
+ * @param array $tabs [ 'User' => 'User Content', 'Account Details' => 'Acc Details Content' ]
  * @param string $style CSS Style
  * @param bool $translate_titles True, to translate titles (Default False)
  * @return string
