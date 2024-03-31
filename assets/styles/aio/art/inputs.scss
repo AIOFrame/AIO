@@ -54,6 +54,9 @@ label {
     font-style: normal;
     margin:0 5px;
   }
+  span {
+    margin: auto 5px;
+  }
   //display: block;
 }
 /* [type=radio]+label, [type=checkbox]+label {
@@ -82,7 +85,7 @@ label {
   border-left:$border-left solid $border-color-active;
   color: $color-active;
 }
-.range_input {
+/* .range_input {
   display: flex;
   gap: 10px;
   output {
@@ -90,7 +93,7 @@ label {
     min-width: 20px;
     text-align: right;
   }
-}
+} */
 [type=range] {
   -webkit-appearance: none;
   width: 100%;
@@ -101,6 +104,8 @@ label {
   -webkit-transition: .2s;
   transition: opacity .2s;
   border-radius: 10px;
+  padding-left: 0;
+  padding-right: 0;
   margin: var(--input_margin_top) var(--input_margin_right) var(--input_margin_bottom) var(--input_margin_left);
 }
 [type=range]:hover {

@@ -60,27 +60,30 @@ class OPTIONS {
         'side' => 'Currency Side',
         'rate' => 'Rate',
     ];
-    public array $dimensions_fields = [
-        '' => ' (px)',
-        '_top' => ' - Top (px)',
-        '_right' => ' - Right (px)',
-        '_bottom' => ' - Bottom (px)',
-        '_left' => ' - Left (px)',
+    public array $dimension_fields = [
+        [ 'i' => 'all', 'n' => ' (px)', 't' => 'range', 'c' => 12 ],
+        [ 'i' => '', 't' => 'col', 'c' => 3 ],
+        [ 'i' => 'top', 'n' => 'Top ↑', 't' => 'range', 'c' => 6 ],
+        [ 'i' => '', 't' => 'col', 'c' => 3 ],
+        [ 'i' => 'left', 'n' => 'Left ←', 't' => 'range', 'c' => 6 ],
+        [ 'i' => 'right', 'n' => 'Right →', 't' => 'range', 'c' => 6 ],
+        [ 'i' => '', 't' => 'col', 'c' => 3 ],
+        [ 'i' => 'bottom', 'n' => 'Bottom ↓', 't' => 'range', 'c' => 6 ],
+        [ 'i' => '', 't' => 'col', 'c' => 3 ],
     ];
     public array $colors_fields = [
-        '_text_color' => 'Text',
-        '_filled_color' => 'Text on theme',
-        '_focus_color' => 'Text on hover',
-        '_active_color' => 'Text on click',
-        '_focus_border' => 'Border on hover',
-        '_active_border' => 'Border on click',
-        '_bg_color_primary' => 'BG Primary',
-        '_bg_color_secondary' => 'BG Secondary',
-        '_bg_color_primary_focus' => 'BG Primary on focus',
-        '_bg_color_secondary_focus' => 'BG Secondary on focus',
-        '_bg_color_primary_active' => 'BG Primary on click',
-        '_bg_color_secondary_active' => 'BG Secondary on click',
+        [ 'i' => 'bg_color_one', 'n' => 'BG Primary', 't' => 'color', 'c' => 4 ],
+        [ 'i' => 'bg_color_two', 'n' => 'BG Secondary', 't' => 'color', 'c' => 4 ],
+        [ 'i' => 'text_color', 'n' => 'Text', 't' => 'color', 'c' => 4 ],
     ];
+    public array $shadow_fields = [
+        [ 'i' => '_shadow_x', 'n' => 'Shadow X', 't' => 'r', 'min' => 0, 'max' => 50, 'c' => 2 ],
+        [ 'i' => '_shadow_y', 'n' => 'Shadow Y', 't' => 'r', 'min' => 0, 'max' => 50, 'c' => 2 ],
+        [ 'i' => '_shadow_blur', 'n' => 'Shadow Blur', 't' => 'r', 'min' => 0, 'max' => 50, 'c' => 2 ],
+        [ 'i' => '_shadow_color', 'n' => 'Shadow Color', 't' => 'c', 'c' => 3 ],
+        [ 'i' => '_shadow_angle', 'n' => 'Shadow Angle', 't' => 'c', 'min' => 0, 'max' => 365, 'c' => 3 ],
+    ];
+    public array $events = [ 'normal', 'hover', 'click' ];
     public array $icon_options = [
         'accordion_view' => 'view_day',
         'calendar' => 'calendar_month',
@@ -100,10 +103,10 @@ class OPTIONS {
         'alert' => 'Alert'
     ];
     public array $option_types = [
+        'padding',
         'border',
-        'radius',
+        //'radius',
         'margin',
-        'padding'
     ];
 
     /**
@@ -229,8 +232,9 @@ class OPTIONS {
         $ops = [];
         //$ops = $db->get_options( $options );
         //skel( $ops );
-        $dimensions_form = $this->dimensions_fields;
+        $dimensions_form = $this->dimension_fields;
         $colors_form = $this->colors_fields;
+        $shadow_form = $this->shadow_fields;
         $option_elements = $this->option_elements;
         $option_types = $this->option_types;
         // Loop option elements for tab heads
@@ -244,40 +248,54 @@ class OPTIONS {
             foreach( $option_elements as $x => $oe ) {
                 _d( $x == 'input' ? '' : 'dn', $x.'_options' );
                     // Loop option types
-                    $autoload = $type_options = [];
+                    $autoload = [];
+                    _r();
                     foreach( $option_types as $ot ) {
+                        $type_options = [];
                         // h4( T( ucfirst( $ot ) ), 0, 'mt0 ttu' );
-                        foreach( $dimensions_form as $dk => $df ) {
-                            if( ( $x == 'modal' && $ot == 'margin' ) ) {
-                                continue;
+                        _c( 4 );
+                            //skel( $dimensions_form );
+                            ;
+                            foreach( $dimensions_form as $dk => $dd ) {
+                                if( ( $ot == 'border' ) ) {
+                                    $dd['max'] = 5;
+                                    if( $dk == 0 ) {
+                                        $dd['c'] = 6;
+                                    } else if( $dk == 1 ) {
+                                        $type_options[] = [ 'i' => 'radius', 'n' => 'Radius', 't' => 'range', 'min' => 0, 'max' => 50, 'c' => 6 ];
+                                    }
+                                }
+                                $radius_titles = [ 1 => '◜', 3 => '◝', 6 => '◟', 8 => '◞' ];
+                                if( $ot == 'border' && $dd['c'] == 3 ) {
+                                    $dd['t'] = 'range';
+                                    $dd['n'] = $radius_titles[ $dk ];
+                                    $dd['max'] = 50;
+                                }
+                                //skel( $dd['i'] );
+                                $dd['i'] == 'all' ? $dd['n'] = ucwords( $ot ) . $dd['n'] : '';
+                                $type_options[] = $dd;
+                                $autoload[] = $dd['i'];
+                                //skel( $ob );
                             }
-                            $d = [];
-                            $d['t'] = 'range';
-                            $d['i'] = $x . '_' . $ot . $dk;
-                            $d['n'] = ucwords( $ot ) . $df;
-                            $d['p'] = 'Ex: 2';
-                            $d['c'] = $dk == '' ? 4 : 2;
-                            $d['v'] = $ops[ $dk ] ?? '';
-                            $type_options[] = $d;
-                            $autoload[] = $d['i'];
-                            //skel( $ob );
-                        }
+                                $f->form( $type_options );
+                        c_();
                     }
+                    r_();
                     $f->option_params_wrap( 'input', 'row', $autoload );
                         //skel( $autoload );
-                        $f->form( $type_options, 'row' );
-                        $f->process_options('Save Styling Options','store grad','','.col-12 tac');
+                        //$f->form( $type_options, 'row' );
+                        $f->process_options('Save ' . $x . ' Styling Options','store grad','','.col-12 tac');
                     post();
                     h4( 'Color Options' );
                     $autoload = $color_options = [];
-                    foreach( $colors_form as $ck => $cf ) {
+                    foreach( $colors_form as $cc ) {
                         $d = [];
-                        $d['t'] = 'color';
-                        $d['i'] = $x . $ck;
-                        $d['n'] = $cf;
+                        $d['t'] = $cc['t'];
+                        $d['i'] = $x . '_' . $cc['i'];
+                        $d['n'] = $cc['n'];
                         $d['p'] = 'Ex: #000000';
-                        $d['c'] = 2;
-                        $d['v'] = $ops[ $ck ] ?? '';
+                        $d['c'] = $cc['c'];
+                        //$d['v'] = $ops[ $ck ] ?? '';
                         $color_options[] = $d;
                     }
                     $f->option_params_wrap( 'input', 'row', $autoload );

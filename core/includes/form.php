@@ -259,14 +259,15 @@ class FORM {
                 $input .= '<input type="checkbox" data-check="#'.$id.'" class="slide m" '.$ch.'></div>';
                 break;
             case 'range':
-                $input = '<div class="df range_input"><input type="range" id="'.$id.'" data-key="'.$n.'" '.$at.$ph.$va.$nn.' oninput="this.nextElementSibling.value = this.value"><output>0</output></div>';
+                $input = '<input type="range" id="'.$id.'" data-key="'.$n.'" '.$at.$ph.$va.$nn.' oninput="this.previousElementSibling.getElementsByTagName(\'span\')[0].innerHTML = this.value">';
                 break;
             default:
                 $input = '<input type="'.$type.'" id="'.$id.'" data-key="'.$n.'" '.$at.$ph.$va.$nn.'>';
                 break;
         }
         $req = str_contains( $attrs, 'required' ) ? '<i>*</i>' : '';
-        return $_p . ( !empty( $label ) ? '<label for="'.$id.'">'.T($label).$req.'</label>' : '' ) . $input.$p_;
+        $title = !empty( $label ) ? '<label for="'.$id.'">' . T( $label ) . $req . ( $type == 'range' ? '<span>'.$value.'</span>' : '' ) . '</label>' : '';
+        return $_p . $title . $input . $p_;
     }
 
     /**
@@ -1197,7 +1198,8 @@ class FORM {
                 $class = $f['class'] ?? ( $f['c'] ?? '' );
                 $class = is_numeric( $class ) ? $this->_col( $class ) : $class;
                 $sub_type = $f['sub_type'] ?? ( $f['type'] ?? 'row' );
-                $return .= _div( 'col '. $class, $this->_form( $f['fields'] ?? $f['form'], $sub_type, $data_attr ) );
+                $col_fields = $f['fields'] ?? ( $f['form'] ?? ( $f['f'] ?? [] ) );
+                $return .= !empty( $col_fields ) ?  _div( 'col '. $class, $this->_form( $col_fields, $sub_type, $data_attr ) ) : _div( $class );
             } else if( in_array( $type, [ 'row', 'r' ] ) ) {
                 $class = $f['class'] ?? ( $f['c'] ?? '' );
                 $return .= _div( 'col-12 '. $class, $this->_form( $f['fields'] ?? $f['form'], $type, $data_attr ) );
