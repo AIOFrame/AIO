@@ -272,7 +272,7 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
     }
     // Icon Fonts
     //skel( $icon_fonts );
-    $icon_fonts = !empty( $icon_fonts ) ? $icon_fonts : $options['icon_font'];
+    $icon_fonts = !empty( $icon_fonts ) ? $icon_fonts : ( $options['icon_font'] ?? '' );
     $icon_fonts = is_string( $icon_fonts ) && str_contains( $icon_fonts, ',' ) ? explode( ',', $icon_fonts ) : $icon_fonts;
     if( !empty( $icon_fonts ) && is_array( $icon_fonts ) ) {
         foreach( $icon_fonts as $if ) {

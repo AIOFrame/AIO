@@ -92,8 +92,19 @@ class OPTIONS {
         'modal_expand' => 'open_in_full',
         'modal_contract' => 'close_fullscreen',
     ];
-    public array $option_elements = [ 'input' => 'Input Form', 'card' => 'Cards', 'button' => 'Generic Buttons', 'modal' => 'Modal Popup', 'alert' => 'Alert' ];
-    public array $option_types = [ 'border', 'radius', 'margin', 'padding' ];
+    public array $option_elements = [
+        'input' => 'Input Form',
+        'card' => 'Cards',
+        'button' => 'Generic Buttons',
+        'modal' => 'Modal Popup',
+        'alert' => 'Alert'
+    ];
+    public array $option_types = [
+        'border',
+        'radius',
+        'margin',
+        'padding'
+    ];
 
     /**
      * Renders app branding options
@@ -213,11 +224,11 @@ class OPTIONS {
         $f = new FORM();
         $db = new DB();
         //$v = [];
-        $options = $f->input_options;
+        //$options = $f->design_options;
         //skel( $options );
-        $ops = $db->get_options( $options );
+        $ops = [];
+        //$ops = $db->get_options( $options );
         //skel( $ops );
-        $autoload = [];
         $dimensions_form = $this->dimensions_fields;
         $colors_form = $this->colors_fields;
         $option_elements = $this->option_elements;
@@ -241,7 +252,7 @@ class OPTIONS {
                                 continue;
                             }
                             $d = [];
-                            $d['t'] = 'number';
+                            $d['t'] = 'range';
                             $d['i'] = $x . '_' . $ot . $dk;
                             $d['n'] = ucwords( $ot ) . $df;
                             $d['p'] = 'Ex: 2';
