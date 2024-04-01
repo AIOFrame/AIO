@@ -72,8 +72,8 @@ class OPTIONS {
         [ 'i' => '', 't' => 'col', 'c' => 3 ],
     ];
     public array $colors_fields = [
-        [ 'i' => 'bgc1', 'n' => 'BG Primary', 't' => 'color', 'c' => 4 ],
-        [ 'i' => 'bgc2', 'n' => 'BG Secondary', 't' => 'color', 'c' => 4 ],
+        [ 'i' => 'bg_c1', 'n' => 'BG Primary', 't' => 'color', 'c' => 4 ],
+        [ 'i' => 'bg_c2', 'n' => 'BG Secondary', 't' => 'color', 'c' => 4 ],
         [ 'i' => 'text_color', 'n' => 'Text', 't' => 'color', 'c' => 4 ],
     ];
     public array $shadow_fields = [
@@ -98,7 +98,7 @@ class OPTIONS {
     public array $option_elements = [
         'input' => 'Input Fields',
         'card' => 'Cards',
-        'button' => 'Generic Buttons',
+        'btn' => 'Generic Buttons',
         'modal' => 'Modal Popup',
         'alert' => 'Alert'
     ];
@@ -224,7 +224,7 @@ class OPTIONS {
      */
     function design_options( bool $dark_mode_options = true ): void {
         $f = new FORM();
-        $db = new DB();
+        //$db = new DB();
         //$v = [];
         //$options = $f->design_options;
         //skel( $options );
@@ -236,9 +236,11 @@ class OPTIONS {
         $shadow_form = $this->shadow_fields;
         $option_elements = $this->option_elements;
         $option_types = $this->option_types;
+        get_script('design_options');
         // Loop option elements for tab heads
         pre_tabs( 'material mb20' );
         foreach( $option_elements as $x => $oe ) {
+            //skel( $x );
             tab( T( ucwords( $oe ) ), $x == 'input', '#'.$x.'_options' );
         }
         post_tabs();
@@ -249,7 +251,7 @@ class OPTIONS {
                     // Loop option types
                     $autoload = [];
                     _r();
-                    foreach( $option_types as $ot ) {
+                    foreach( $option_types as $ok => $ot ) {
                         $type_options = [];
                         // h4( T( ucfirst( $ot ) ), 0, 'mt0 ttu' );
                         _c( 4 );
@@ -261,18 +263,23 @@ class OPTIONS {
                                     if( $dk == 0 ) {
                                         $dd['c'] = 6;
                                     } else if( $dk == 1 ) {
-                                        $type_options[] = [ 'i' => $ot . 'radius', 'n' => 'Radius', 't' => 'range', 'min' => 0, 'max' => 50, 'c' => 6 ];
+                                        $type_options[] = [ 'i' => $x . '_' . 'radius_all', 'n' => 'Radius', 't' => 'range', 'min' => 0, 'max' => 50, 'c' => 6, 'a' => 'data-unified_trigger' ];
                                     }
                                 }
+                                //skel( $dk );
                                 $radius_titles = [ 1 => '◜', 3 => '◝', 6 => '◟', 8 => '◞' ];
                                 if( $ot == 'border' && $dd['c'] == 3 ) {
                                     $dd['t'] = 'range';
                                     $dd['n'] = $radius_titles[ $dk ];
+                                    $dd['i'] = $x . '_' . $ot . '_' . $radius_titles[ $dk ];
+                                    $dd['a'] = 'data-override_radius';
                                     $dd['max'] = 50;
+                                } else {
+                                    $dd['i'] == 'all' ? $dd['n'] = ucwords( $ot ) . $dd['n'] : '';
+                                    $dd['a'] = $dd['i'] == 'all' ? 'data-unified_trigger' : 'data-override_'.$ot;
+                                    $dd['i'] = $x . '_' . $ot . '_' . $dd['i'];
                                 }
                                 //skel( $dd['i'] );
-                                $dd['i'] == 'all' ? $dd['n'] = ucwords( $ot ) . $dd['n'] : '';
-                                $dd['i'] = $x . '_' . $ot . '_' . $dd['i'];
                                 $type_options[] = $dd;
                                 $autoload[] = $dd['i'];
                                 //skel( $ob );
