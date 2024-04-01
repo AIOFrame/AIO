@@ -63,25 +63,25 @@ class OPTIONS {
     public array $dimension_fields = [
         [ 'i' => 'all', 'n' => ' (px)', 't' => 'range', 'c' => 12 ],
         [ 'i' => '', 't' => 'col', 'c' => 3 ],
-        [ 'i' => 'top', 'n' => 'Top ↑', 't' => 'range', 'c' => 6 ],
+        [ 'i' => 't', 'n' => 'Top ↑', 't' => 'range', 'c' => 6 ],
         [ 'i' => '', 't' => 'col', 'c' => 3 ],
-        [ 'i' => 'left', 'n' => 'Left ←', 't' => 'range', 'c' => 6 ],
-        [ 'i' => 'right', 'n' => 'Right →', 't' => 'range', 'c' => 6 ],
+        [ 'i' => 'l', 'n' => 'Left ←', 't' => 'range', 'c' => 6 ],
+        [ 'i' => 'r', 'n' => 'Right →', 't' => 'range', 'c' => 6 ],
         [ 'i' => '', 't' => 'col', 'c' => 3 ],
-        [ 'i' => 'bottom', 'n' => 'Bottom ↓', 't' => 'range', 'c' => 6 ],
+        [ 'i' => 'b', 'n' => 'Bottom ↓', 't' => 'range', 'c' => 6 ],
         [ 'i' => '', 't' => 'col', 'c' => 3 ],
     ];
     public array $colors_fields = [
-        [ 'i' => 'bg_color_one', 'n' => 'BG Primary', 't' => 'color', 'c' => 4 ],
-        [ 'i' => 'bg_color_two', 'n' => 'BG Secondary', 't' => 'color', 'c' => 4 ],
+        [ 'i' => 'bgc1', 'n' => 'BG Primary', 't' => 'color', 'c' => 4 ],
+        [ 'i' => 'bgc2', 'n' => 'BG Secondary', 't' => 'color', 'c' => 4 ],
         [ 'i' => 'text_color', 'n' => 'Text', 't' => 'color', 'c' => 4 ],
     ];
     public array $shadow_fields = [
-        [ 'i' => '_shadow_x', 'n' => 'Shadow X', 't' => 'r', 'min' => 0, 'max' => 50, 'c' => 2 ],
-        [ 'i' => '_shadow_y', 'n' => 'Shadow Y', 't' => 'r', 'min' => 0, 'max' => 50, 'c' => 2 ],
-        [ 'i' => '_shadow_blur', 'n' => 'Shadow Blur', 't' => 'r', 'min' => 0, 'max' => 50, 'c' => 2 ],
-        [ 'i' => '_shadow_color', 'n' => 'Shadow Color', 't' => 'c', 'c' => 3 ],
-        [ 'i' => '_shadow_angle', 'n' => 'Shadow Angle', 't' => 'c', 'min' => 0, 'max' => 365, 'c' => 3 ],
+        [ 'i' => '_sx', 'n' => 'Shadow X', 't' => 'r', 'min' => 0, 'max' => 50, 'c' => 2 ],
+        [ 'i' => '_sy', 'n' => 'Shadow Y', 't' => 'r', 'min' => 0, 'max' => 50, 'c' => 2 ],
+        [ 'i' => '_sb', 'n' => 'Shadow Blur', 't' => 'r', 'min' => 0, 'max' => 50, 'c' => 2 ],
+        [ 'i' => '_sc', 'n' => 'Shadow Color', 't' => 'c', 'c' => 3 ],
+        [ 'i' => '_sa', 'n' => 'Shadow Angle', 't' => 'c', 'min' => 0, 'max' => 365, 'c' => 3 ],
     ];
     public array $events = [ 'normal', 'hover', 'click' ];
     public array $icon_options = [
@@ -96,17 +96,16 @@ class OPTIONS {
         'modal_contract' => 'close_fullscreen',
     ];
     public array $option_elements = [
-        'input' => 'Input Form',
+        'input' => 'Input Fields',
         'card' => 'Cards',
         'button' => 'Generic Buttons',
         'modal' => 'Modal Popup',
         'alert' => 'Alert'
     ];
     public array $option_types = [
-        'padding',
-        'border',
-        //'radius',
-        'margin',
+        'p' => 'padding',
+        'b' => 'border',
+        'm' => 'margin',
     ];
 
     /**
@@ -262,7 +261,7 @@ class OPTIONS {
                                     if( $dk == 0 ) {
                                         $dd['c'] = 6;
                                     } else if( $dk == 1 ) {
-                                        $type_options[] = [ 'i' => 'radius', 'n' => 'Radius', 't' => 'range', 'min' => 0, 'max' => 50, 'c' => 6 ];
+                                        $type_options[] = [ 'i' => $ot . 'radius', 'n' => 'Radius', 't' => 'range', 'min' => 0, 'max' => 50, 'c' => 6 ];
                                     }
                                 }
                                 $radius_titles = [ 1 => '◜', 3 => '◝', 6 => '◟', 8 => '◞' ];
@@ -273,6 +272,7 @@ class OPTIONS {
                                 }
                                 //skel( $dd['i'] );
                                 $dd['i'] == 'all' ? $dd['n'] = ucwords( $ot ) . $dd['n'] : '';
+                                $dd['i'] = $x . '_' . $ot . '_' . $dd['i'];
                                 $type_options[] = $dd;
                                 $autoload[] = $dd['i'];
                                 //skel( $ob );
