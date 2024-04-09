@@ -69,7 +69,7 @@ header .options .ico {
   cursor: pointer;
   box-shadow: none;
 }
-header .options .ico .mat-ico {
+header .options .ico .mat-ico, header .options .ico .mico {
   background: -webkit-linear-gradient(45deg, var(--primary_color), var(--secondary_color));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -79,10 +79,10 @@ header .options .ico .mat-ico {
   font-size: 2.2rem;
   text-align: center;
 }
-header .options .mat-ico:hover {
+header .options .mat-ico:hover, header .options .mico:hover {
   transform: none;
 }
-header .options .mat-ico:hover .tip {
+header .options .mat-ico:hover .tip, header .options .mico:hover .tip {
   opacity: 1;
 }
 header .drop {
@@ -509,7 +509,7 @@ body.d [type=text], body.d [type=search], body.d [type=password], body.d [type=n
     height: 40px;
     margin: 0 5px;
   }
-  header .options .ico .mat-ico {
+  header .options .ico .mat-ico, header .options .ico .mico {
     width: 40px;
     height: 40px;
     line-height: 40px;
