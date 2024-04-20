@@ -1,13 +1,20 @@
 <?php
 $f = new FORM();
 $c = new CMS();
+global $options;
 pre( '', 'aio_content_builder' );
 
     // Content View
     pre( 'aio_cb_view', 'aio_cb_view' );
 
     post();
-    el( 'button', 'add_button', '+', '', ' data-show-widgets data-add-row' );
+
+    // Add Buttons
+    pre( '', 'aio_actions df aic' );
+        el( 'button', 'add_button add_content', _el( 'i', 'add_content ' . ( $options['ico_add'] ?? '' ) . ' add ' . ( $options['icon_class'] ?? 'mico' ), ( $options['ico_add'] ?? 'post_add' ) ) . T('Add Content'), '', 'data-show-widgets data-add-row' );
+        el( 'button', 'add_button add_row', _el( 'i', 'add_row ' . ( $options['ico_add_row'] ?? '' ) . ' add_row ' . ( $options['icon_class'] ?? 'mico' ), ( $options['ico_add'] ?? 'playlist_add' ) ) . T('Add Row'), '', 'data-add-row' );
+        el( 'button', 'add_button add_row', _el( 'i', 'add_row ' . ( $options['ico_add_row'] ?? '' ) . ' add_row ' . ( $options['icon_class'] ?? 'mico' ), ( $options['ico_add'] ?? 'playlist_add' ) ) . T('Add Gap'), '', 'data-add-gap' );
+    post();
 
     // Structural Templates
     pre( 'aio_cb_templates', 'aio_cb_templates', 'div', 'style="display: none"' );
@@ -27,7 +34,7 @@ pre( '', 'aio_content_builder' );
         // Column Template
         div( '', _div( 'col', '{{content}}', '', 'data-col' ), '', 'data-col-template' );
         // Add Button Template
-        el( 'button', 'add_button', '+', '', 'data-add-col data-show-widgets' );
+        //el( 'button', 'add_button', '+', '', 'data-add-col data-show-widgets' );
     post();
 
     // Widget Picker
@@ -38,10 +45,11 @@ pre( '', 'aio_content_builder' );
         if( !empty( $widgets ) ) {
             //skel( $widgets );
             foreach( $widgets as $wk => $wd ) {
-                //skel( $wk );
+                //skel( $wd );
                 $widget_id = strtolower( str_replace( ' ', '_', $wd['name'] ) );
-                $image = _div('tac',_img($wd['image'],'','widget_image',$wd['name'],$wd['name'],'style="height: 100px"'));
-                $widget_add_buttons .= _div( 'col-12 col-md-3', _div( $wk.' add_widget', $image . _el( 'div', 'widget_title', $wd['name'], '', '', 1 ), $wk, 'data-close_modal=".choose_widgets_modal" data-modal="#'.$widget_id.'_modal" data-widget-link' ) );
+                //$image = _div('tac',_img($wd['image'],'','widget_image',$wd['name'],$wd['name'],'style="height: 100px"'));
+                $icon = _div( 'widget_icon xl ' . ( $options['icon_class'] ?? 'mico' ), ( $wd['ico'] ?? ( $options['add'] ?? 'add_circle' ) ) );
+                $widget_add_buttons .= _div( 'col-12 col-md-3', _div( $wk.' add_widget', $icon . _el( 'div', 'widget_title', $wd['name'], '', '', 1 ), $wk, 'data-close_modal=".choose_widgets_modal" data-modal="#'.$widget_id.'_modal" data-widget-link' ) );
             }
         }
         // Widget Picker Modal
@@ -55,7 +63,7 @@ pre( '', 'aio_content_builder' );
             $form = is_array( $wd['form'] ) ? $wd['form'] : json_decode( $wd['form'], 1 );
             //skel( $form );
             pre_modal( $wd['name'], 'b', 0 );
-                pre( '', '', 'div', 'data-widget="'.$wk.'" data-widget-name="'.$wd['name'].'" data-widget-image="'.$wd['image'].'"' );
+                pre( '', '', 'div', 'data-widget="'.$wk.'" data-widget-name="'.$wd['name'].'" data-widget-icon="'.$wd['ico'].'"' );
                 $f->form( $form, 'row', $wd['name'] );
                     pre( '', 'tac' );
                     b('add_widget','Add Widget','','data-add-widget');
