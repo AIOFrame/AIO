@@ -590,11 +590,11 @@ function _img( string $image_src, string $id = '', string $class = '', string $a
     return '<img src="'.$image_src.'" '.$id.$class.$alt.$title.$attr.' />';
 }
 
-function image( string $image_url, string $id = '', string $class = '' ): void {
-    echo _image( $image_url, $id, $class );
+function image( string $image_url, string $id = '', string $class = '', string $attr = '' ): void {
+    echo _image( $image_url, $id, $class, $attr );
 }
-function _image( string $image_url, string $id = '', string $class = '' ): string {
-    return "<div style=\"background-image:url('".$image_url."')\" class=\"".$class."\"></div>";
+function _image( string $image_url, string $id = '', string $class = '', string $attr = '' ): string {
+    return "<div style=\"background-image:url('".$image_url."')\" class=\"".$class."\" $attr ></div>";
 }
 
 function grid_view( string $wrapper = '', array $cards = [], string $wrapper_class = '', string|int|float $col = '' ): void {
