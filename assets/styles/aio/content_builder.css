@@ -2,7 +2,7 @@
   margin: 0;
   width: 100%;
   background: none;
-  font-size: 1.4rem;
+  font-size: 1rem;
   font-weight: bold;
   box-shadow: none;
   color: #000;
@@ -11,7 +11,7 @@
   align-items: center;
 }
 .aio_content_builder .add_button .mico, .aio_content_builder .add_button .mat-ico {
-  font-size: 2rem;
+  font-size: 1.6rem;
   margin: 0 10px;
 }
 .aio_content_builder .add_button:hover {
@@ -61,6 +61,26 @@
 }
 .aio_cb_widget_picker [data-widget-link]:hover {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.row_set {
+  display: block;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+}
+.row_set .row_title {
+  border-bottom: 2px solid #ccc;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.row_set [data-min], .row_set [data-max], .row_set [data-del] {
+  cursor: pointer;
+}
+.row_set [data-drag] {
+  cursor: move;
 }
 
 /*# sourceMappingURL=content_builder.css.map */

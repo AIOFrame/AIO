@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
         widget.type = type;
         widget.name = p.data('widget-name');
         widget.ico = p.data('widget-ico');
-        console.log( widget );
+        //console.log( widget );
 
         // Get Templates
         let widget_wrap;
@@ -62,36 +62,30 @@ function render_content( element ) {
     let view = $( '#view_' + uid );
 
     // Loop Widget and prepare Content
-    let content = '';
     let data = JSON.parse( element.val() );
-    $.each( data, function (i, w) {
-        let content_set = '';
-        if( w.type === 'row' ) {
-            let content_child_one = '';
-            if( w.children !== undefined ) {
-                content_child_one = build_content( 'row' );
-            }
-            content_set = content_child_one;
-        }
-        content += content_set;
-        //console.log( content );
-    } );
-    view.html( content );
+    view.html( build_content( data ) );
 }
 
-function build_content( type, data ) {
-    if( type === 'widget' ) {
-        let temp = $('[data-widget-template]').html();
-        console.log( temp );
-        console.log( type );
-        console.log( data );
-        return temp
-            .replaceAll('{{widget_name}}',data.name)
-            .replaceAll('{{widget_image}}',data.ico)
-            .replaceAll('{{widget_data}}','data-data="'+JSON.stringify(data.data)+'"')
-            .replaceAll('{{widget_type}}','data-type="'+data.type+'"')
-    } else {
-        let temp = type === 'row' ? $('[data-row-template]').html() : $('[data-col-template]').html();
-        return temp.replaceAll('{{content}}',data);
-    }
+function build_content( content ) {
+    let view = '';
+    $.each( content, function (i, set) {
+        if( type === 'row' ) {
+            let template = $('[data-row-template]').html();
+            view += template.replaceAll('{{content}}',set.data);
+        } else if( type === 'col' ) {
+            let template = $('[data-col-template]').html();
+            view += template.replaceAll('{{content}}',set.data);
+        } else if( type === 'widget' ) {
+            let template = $('[data-widget-template]').html();
+            console.log( template );
+            console.log( type );
+            console.log( data );
+            view += template
+                .replaceAll('{{widget_name}}',data.name)
+                .replaceAll('{{widget_image}}',data.ico)
+                .replaceAll('{{widget_data}}','data-data="'+JSON.stringify(data.data)+'"')
+                .replaceAll('{{widget_type}}','data-type="'+data.type+'"')
+        }
+    });
+    return view;
 }

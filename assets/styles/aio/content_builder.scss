@@ -3,7 +3,7 @@
     margin: 0;
     width: 100%;
     background: none;
-    font-size: 1.4rem;
+    font-size: 1rem;
     font-weight: bold;
     box-shadow: none;
     color: #000;
@@ -11,7 +11,7 @@
     justify-content: center;
     align-items: center;
     .mico, .mat-ico {
-      font-size: 2rem;
+      font-size: 1.6rem;
       margin: 0 10px;
     }
   }
@@ -62,5 +62,26 @@
   [data-widget-link]:hover {
     box-shadow: 0 5px 15px rgba(0,0,0,.1);
     //transform: translateY(-2px);
+  }
+}
+
+// Content Viewer
+.row_set {
+  display: block;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+  .row_title {
+    border-bottom: 2px solid #ccc;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  [data-min], [data-max], [data-del] {
+    cursor: pointer;
+  }
+  [data-drag] {
+    cursor: move;
   }
 }

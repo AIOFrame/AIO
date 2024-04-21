@@ -19,14 +19,14 @@ pre( '', 'aio_content_builder' );
     // Structural Templates
     pre( 'aio_cb_templates', 'aio_cb_templates', 'div', 'style="display: none"' );
         // Widget Template
-        $del_icon = _div( 'mat-ico', 'remove_circle', '', 'data-del' );
+        $del_icon = _div( ( $options['icon_class'] ?? 'mico' ), ( $options['icon_class'] ?? 'delete' ), '', 'data-del' );
         $widget_head = _div( 'widget_head', _div( '', '{{widget_name}}', 'widget_name', 'data-name' ) . $del_icon );
         $widget_body = _div( 'widget_body', _img( '{{widget_image}}', '', 'widget_image' ), '', 'data-body' );
         div( '', _div( 'widget_set', $widget_head . $widget_body ), '', '{{widget_data}} data-widget-template data-data' );
         // Rows Template
-        $row_left = _div( 'left', _div( 'mat-ico', 'drag_handle', '', 'data-drag' ) );
-        $min_icon = _div( 'mat-ico', 'expand_less', '', 'data-min' );
-        $max_icon = _div( 'mat-ico', 'expand_more', '', 'data-max' );
+        $row_left = _div( 'left', _div( ( $options['icon_class'] ?? 'mico' ), ( $options['ico_drag'] ?? 'drag_indicator' ), '', 'data-drag' ) );
+        $min_icon = ''; //_div( ( $options['icon_class'] ?? 'mico' ), ( $options['ico_contract'] ?? 'expand_less' ), '', 'data-up' );
+        $max_icon =  ''; //_div( ( $options['icon_class'] ?? 'mico' ), ( $options['ico_expand'] ?? 'expand_more' ), '', 'data-down' );
         $row_right = _div( 'right', $min_icon . $max_icon . $del_icon );
         $row_head = _div( 'row_title', $row_left . $row_right );
         $row_body = _div( 'row', '{{content}}', '', 'data-body' );
