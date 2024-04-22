@@ -273,6 +273,15 @@ $success: var(--success_color);
     font-size: .6rem;
     text-align: center;
   }
+  .view, .go {
+    background: $success
+  }
+  .edit {
+    background: $progress;
+  }
+  .delete, .trash {
+    background: $error;
+  }
   i {
     width: 45px;
     height: 45px;

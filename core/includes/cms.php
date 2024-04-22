@@ -215,6 +215,7 @@ class CMS {
     function pages_list( string $page_type = 'page', bool $show_user = false, string $wrapper_class = '' ): void {
         $pages = $this->_pages( $page_type, $show_user );
         $status = $this->page_statuses;
+        global $options;
         if( empty( $pages ) ) {
             no_content( 'No '.$page_type.' created yet!', '', '', '', $wrapper_class );
         } else {
@@ -228,7 +229,7 @@ class CMS {
                     ( !empty($p['content_birth']) ? _div('', _el('small','',T('Visible from').': '.easy_date($p['content_birth'])) ) : '' ) . ( !empty($p['content_expiry']) ? _div('', _el('small','',T('Visible till').': '.easy_date($p['content_expiry'])) ) : '' ),
                     $status[ $p['content_status'] ] ?? '',
                     $show_user ? $p['user_name'] : '',
-                    _pre('','acts').$f->_edit_html( '#'.$page_type.'_modal', $p, 'div', '', '', '', 'mat-ico', 'edit' )._post()
+                    _pre('','acts').$f->_edit_html( '#'.$page_type.'_modal', $p, 'div', '', '', '', ( $options['icon_class'] ?? 'mico' ), ( $options['ico_edit'] ?? 'edit' ) )._post()
                 ];
             }
             table_view( $page_type, $table, $wrapper_class );

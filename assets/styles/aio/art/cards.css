@@ -267,6 +267,15 @@
   font-size: 0.6rem;
   text-align: center;
 }
+.acts .view, .acts .go {
+  background: var(--success_color);
+}
+.acts .edit {
+  background: var(--progress_color);
+}
+.acts .delete, .acts .trash {
+  background: var(--error_color);
+}
 .acts i {
   width: 45px;
   height: 45px;
