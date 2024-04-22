@@ -22,11 +22,11 @@ document.addEventListener('DOMContentLoaded', function () {
         // Widget Data
         let widget = {};
         widget.type = 'widget';
-        widget.widget_data = fields;
-        widget.widget_type = type;
-        widget.widget_name = p.data('widget-name');
-        widget.widget_image = p.data('widget-image');
-        console.log( widget );
+        widget.data = fields;
+        widget.type = type;
+        widget.name = p.data('widget-name');
+        widget.ico = p.data('widget-ico');
+        //console.log( widget );
 
         // Get Templates
         let widget_wrap;
@@ -39,8 +39,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // Insert Widget to JSON
-        let content_field_target = $(this).parents('[data-content-builder-field]').data('content-builder-field');
-        let content_field = $( '[data-key="' + content_field_target + '"]' );
+        let content_field_target = $(this).parents('[data-aio_cb_field]').data('aio_cb_field');
+        //console.log( content_field_target );
+        let content_field = $( '[data-aio_cb_code="' + content_field_target + '"]' );
         let data = content_field.val() !== '' ? JSON.parse( content_field.val() ) : [];
         data.push( widget_wrap );
         $(content_field).val( JSON.stringify( data ) );
@@ -57,35 +58,34 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 
 function render_content( element ) {
-    console.log( element );
-
+    let uid = $( element ).data('aio_cb_code');
+    let view = $( '#view_' + uid );
 
     // Loop Widget and prepare Content
-    let content = '';
     let data = JSON.parse( element.val() );
-    $.each( data, function (i, w) {
-        let content_set = '';
-        if( w.type === 'row' ) {
-            let content_child_one = '';
-            if( w.children !== undefined ) {
-                content_child_one = build_content( 'row' );
-            }
-        }
-        content += content_set;
-        console.log( w );
-    } )
+    view.html( build_content( data ) );
 }
 
-function build_content( type, data ) {
-    if( type === 'widget' ) {
-        let temp = $('[data-widget-template]').html();
-        return temp
-            .replaceAll('{{widget_name}}',data.widget_name)
-            .replaceAll('{{widget_image}}',data.widget_image)
-            .replaceAll('{{widget_data}}','data-data="'+JSON.stringify(data.widget_data)+'"')
-            .replaceAll('{{widget_type}}','data-type="'+data.widget_data+'"')
-    } else {
-        let temp = type === 'row' ? $('[data-row-template]').html() : $('[data-col-template]').html();
-        return temp.replaceAll('{{content}}',data);
-    }
+function build_content( content ) {
+    let view = '';
+    $.each( content, function (i, set) {
+        if( type === 'row' ) {
+            let template = $('[data-row-template]').html();
+            view += template.replaceAll('{{content}}',set.data);
+        } else if( type === 'col' ) {
+            let template = $('[data-col-template]').html();
+            view += template.replaceAll('{{content}}',set.data);
+        } else if( type === 'widget' ) {
+            let template = $('[data-widget-template]').html();
+            console.log( template );
+            console.log( type );
+            console.log( data );
+            view += template
+                .replaceAll('{{widget_name}}',data.name)
+                .replaceAll('{{widget_image}}',data.ico)
+                .replaceAll('{{widget_data}}','data-data="'+JSON.stringify(data.data)+'"')
+                .replaceAll('{{widget_type}}','data-type="'+data.type+'"')
+        }
+    });
+    return view;
 }

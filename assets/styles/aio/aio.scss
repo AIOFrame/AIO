@@ -72,7 +72,7 @@ header {
       position: relative;
       cursor:pointer;
       box-shadow:none;
-      .mat-ico {
+      .mat-ico, .mico {
         background: -webkit-linear-gradient( 45deg, $primary, $secondary );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -83,7 +83,7 @@ header {
         text-align: center;
       }
     }
-    .mat-ico:hover {
+    .mat-ico:hover, .mico:hover {
       transform: none;
       .tip {
         opacity: 1;
@@ -520,7 +520,7 @@ body.d {
         width: $mobile_icon_size;
         height: $mobile_icon_size;
         margin: 0 5px;
-        .mat-ico {
+        .mat-ico, .mico {
           width: $mobile_icon_size;
           height: $mobile_icon_size;
           line-height: $mobile_icon_size;

@@ -40,7 +40,7 @@ $ext_ops = [
 // Steps Data
 global $steps;
 $steps = [
-    [ 'title' => 'Basic Configuration', 'fields' => [
+    [ 'title' => 'Basic Configuration', 'type' => 'settings', 'fields' => [
         [ 'i' => 'name', 'n' => 'Name your Web App', 'p' => 'Ex: Food Delivery, Events, CRM, '.ucfirst( APPDIR ).' App, '.ucfirst( APPDIR ).' etc.', 'v' => APPDIR, 'c' => 12, 'a' => 'required' ],
         [ 't' => 'slide', 'i' => 'force_ssl', 'n' => 'Do you want to force SSL ?', 'off' => 'No', 'on' => 'Yes', 'v' => 1, 'c' => 6 ],
         [ 't' => 'slide', 'i' => 'debug', 'n' => 'Do you prefer debug mode ?', 'off' => 'No', 'on' => 'Yes', 'v' => 1, 'c' => 6 ],

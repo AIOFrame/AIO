@@ -3,10 +3,17 @@
     margin: 0;
     width: 100%;
     background: none;
-    font-size: 2rem;
+    font-size: 1rem;
     font-weight: bold;
     box-shadow: none;
     color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .mico, .mat-ico {
+      font-size: 1.6rem;
+      margin: 0 10px;
+    }
   }
   .add_button:hover {
     box-shadow: none;
@@ -28,16 +35,24 @@
     transition: .6s;
     flex: 0 0 calc(20% - 20px);
     margin-bottom: 20px;
-    i {
-      height: 40px;
-      line-height: 40px;
+    i, .widget_icon {
+      height: 50px;
+      line-height: 50px;
       left: auto;
       right: auto;
       top: auto;
       bottom: auto;
       position: relative;
       display: block;
-      margin: 0 auto;
+      margin: 10px auto;
+      background: #ccc;
+      border-radius: 15px;
+    }
+    .widget_icon {
+      width: 50px;
+    }
+    .mico, .mat-ico {
+      font-size: 2rem;
     }
     .widget_title {
       font-size: .8rem;
@@ -46,6 +61,27 @@
   }
   [data-widget-link]:hover {
     box-shadow: 0 5px 15px rgba(0,0,0,.1);
-    transform: translateY(-2px);
+    //transform: translateY(-2px);
+  }
+}
+
+// Content Viewer
+.row_set {
+  display: block;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+  .row_title {
+    border-bottom: 2px solid #ccc;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  [data-min], [data-max], [data-del] {
+    cursor: pointer;
+  }
+  [data-drag] {
+    cursor: move;
   }
 }
