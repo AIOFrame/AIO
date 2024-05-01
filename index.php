@@ -1,21 +1,13 @@
 <?php
 
 /**
- * Defines the Path of AIO Core
+ * Defines the Root Path of AIO Framework Repository
  * Ex: /home/user/public_html/
  */
 !defined( 'ROOTPATH' ) ? define( 'ROOTPATH', dirname( __FILE__ ) . '/' ) : '';
-!defined( 'ROOTPATH' ) ? define( 'ROOTPATH', __DIR__ . '/' ) : '';
-!defined( 'COREPATH' ) ? define( 'COREPATH', ROOTPATH . '/core/' ) : '';
-!defined( 'INCPATH' ) ? define( 'INCPATH', COREPATH . '/includes/' ) : '';
+//print_r( ROOTPATH );
 
-$pre = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on" ? "https://" : "http://";
-
-/**
- * Defines the URL of the Main Application
- * Ex: www.example.com
- */
-!defined( 'APPURL' ) ? define( 'APPURL', $pre.$_SERVER['HTTP_HOST']."/" ) : '';
+require_once ROOTPATH . 'core/includes/defines.php';
 
 /**
  * Checks and creates AIO htaccess
