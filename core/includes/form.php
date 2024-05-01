@@ -1374,11 +1374,11 @@ class FORM {
      * @param string|int $post Post Wrap HTML
      * @param string $element HTML Element
      * @param string $confirm Message to show as confirmation before process
-     * @param int $reload Time to reload the page 0 for no reload
-     * @param int $notify Time for notification visibility of the process response
+     * @param string $icon Icon text to display
+     * @param string $icon_class Icon class to display
      */
-    function process_trigger( string $text = '', string $class = '', string $attr = '', string $action = '', string|int $pre = '', int|string $post = '', string $element = 'button', string $confirm = '', int $reload = 0, int $notify = 0 ): void {
-        echo $this->_process_trigger( $text, $class, $attr, $action, $pre, $post, $element, $confirm, $reload, $notify );
+    function process_trigger( string $text = '', string $class = '', string $attr = '', string $action = '', string|int $pre = '', int|string $post = '', string $element = 'button', string $confirm = '', string $icon = 'save', string $icon_class = 'mico' ): void {
+        echo $this->_process_trigger( $text, $class, $attr, $action, $pre, $post, $element, $confirm, $icon, $icon_class );
     }
 
     /**
@@ -1391,8 +1391,10 @@ class FORM {
      * @param string|int $post Post Wrap HTML
      * @param string $element HTML Element
      * @param string $confirm Message to show as confirmation before process
+     * @param string $icon Icon text to display
+     * @param string $icon_class Icon class to display
      */
-    function _process_trigger( string $text = 'Save', string $class = '', string $attr = '', string $action = '', string|int $pre = '', int|string $post = '', string $element = 'button', string $confirm = '' ): string {
+    function _process_trigger( string $text = 'Save', string $class = '', string $attr = '', string $action = '', string|int $pre = '', int|string $post = '', string $element = 'button', string $confirm = '', string $icon = 'save', string $icon_class = 'mico' ): string {
         $_p = $this->_pre( $pre );
         $p_ = $this->_post( $pre, $post );
         $c = Encrypt::initiate();
@@ -1404,7 +1406,11 @@ class FORM {
         //$a .= $reload > 0 ? ' data-reload="'.$reload.'"' : '';
         //$a .= $notify > 0 ? ' data-notify="'.$notify.'"' : '';
         $text .= _el( 'span', 'loader' );
-        $text .= !empty( $options['ico_save'] ) ? ( _el( 'span', ( $options['icon_class'] ?? 'mico' ) . ' ico ' . ( $options['ico_save'] ?? '' ), ( $options['ico_save'] ?? 'save' ) ) ) : '';
+        if( !empty( $icon ) ) {
+            $text .= _el( 'span', ( $icon_class ?? 'mico' ) . ' ico ' . $icon, $icon );
+        } else {
+            $text .= !empty( $options['ico_save'] ) ? ( _el( 'span', ( $options['icon_class'] ?? 'mico' ) . ' ico ' . ( $options['ico_save'] ?? '' ), ( $options['ico_save'] ?? 'save' ) ) ) : '';
+        }
         return $_p . _el( $element, $class . ' save', $text, '', $a ) . $p_;
         //return $_p.'<'.$element.$a.' class="'.$class.'" '.$attr.'><span class="loader"></span>'.T( $text ).'</'.$element.'>'.$p_;
     }
