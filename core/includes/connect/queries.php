@@ -246,7 +246,7 @@ class DB {
                 }
 
                 // Create Database
-                skel( $tables );
+                //skel( $tables );
                 $db = new DB();
                 $db->update_option( $file . '_md5', $md5, 0, 1 );
                 return $db->automate_tables( $tables );

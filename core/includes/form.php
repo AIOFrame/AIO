@@ -1312,8 +1312,6 @@ class FORM {
      * Renders HTML for Options Auto Save
      * @param string $attr
      * @param string $data
-     * @param int $notify
-     * @param int $reload
      * @param array|string $autoload
      * @param array|string $unique
      * @param array|string $encrypt
@@ -1322,7 +1320,7 @@ class FORM {
      * @param string $confirm
      * @return void
      */
-    function option_params( string $attr = '', string $data = '', int $notify = 0, int $reload = 0, array|string $autoload = [], array|string $unique = [], array|string $encrypt = [], string $success_text = 'Successfully Updated Preferences!', string $callback = '', string $confirm = '' ): void {
+    function option_params( string $attr = '', string $data = '', array|string $autoload = [], array|string $unique = [], array|string $encrypt = [], string $success_text = 'Successfully Updated Preferences!', string $callback = '', string $confirm = '' ): void {
         $h = [];
         !empty( $autoload ) ? $h['autoload'] = $autoload : '';
         !empty( $unique ) ? $h['unique'] = $unique : '';

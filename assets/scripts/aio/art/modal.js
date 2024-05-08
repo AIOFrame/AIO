@@ -3,7 +3,7 @@ $(document).ready(function(){
     // Open Modal
     $('body').on('click','[data-modal]',function(){
         let e = $(this).data('modal');
-        if( $(e).length > 0 ) {
+        if( $(e).length > 0 && $(e).hasClass('modal') ) {
             $('body').addClass('modal_open');
         }
         $(e).addClass('on');
@@ -12,7 +12,7 @@ $(document).ready(function(){
     })
 
     .on('click','[data-edit-action]',function () {
-        $('body').addClass('modal_open');
+        $(this).hasClass('modal') ? $('body').addClass('modal_open') : '';
     })
 
     // Modal Close Logics

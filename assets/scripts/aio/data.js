@@ -411,8 +411,8 @@ function process_data( e, ne ){
     // Check for empty values
     let breaker = [];
 
-    let required = is_empty( p, '[data-'+data+'][required]' );
-    console.log( required );
+    let data_attr = data !== undefined && data !== '' ? '[data-'+data+']' : '';
+    let required = is_empty( p, data_attr + '[required]' );
     if( required.length > 0 ) {
         $(p).removeClass('load');
         //console.log(required);
@@ -523,8 +523,8 @@ function edit_data( e, modal ) {
     if( !$(t).hasClass('on') ) {
         $(t).addClass('on');
     }
-
-    $('body').addClass('modal_open');
+    //alert( modal );
+    $(modal).hasClass('modal') ? $('body').addClass('modal_open') : '';
     $(modal).find('[data-add]').hide();
     $(modal).find('[data-update],[data-edit]').show();
     //elog(data);

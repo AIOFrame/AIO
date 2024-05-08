@@ -342,7 +342,7 @@ function pre( string $id = '', string $class = '', string $element = 'div', stri
 function _pre( string $id = '', string $class = '', string $element = 'div', string $attr = '' ): string {
     $id = !empty( $id ) ? ' id="'.$id.'"' : '';
     $class = !empty( $class ) ? ' class="'.$class.'"' : '';
-    $attr = !empty( $attr ) ? ' '.$attr : $attr;
+    $attr = !empty( $attr ) ? ' '.$attr : '';
     return '<'.$element.$id.$class.$attr.'>';
 }
 
@@ -452,7 +452,7 @@ function _el( string $element = 'div', string $class = '', string $content = '',
         return _pre( $id, $class, $element, $attrs );
     } else {
         $content = $translate ? T( $content ) : $content;
-        return _pre($id,$class,$element,$attrs).$content._post($element);
+        return _pre( $id, $class, $element, $attrs ) . $content . _post( $element );
     }
 }
 
@@ -758,6 +758,22 @@ function post_modal(): void {
     post();
 }
 
+function video( string $url, string $class = '', string $id = '', string $width = '640px', string $height = '480px', bool $show_controls = true, bool $autoplay = false, bool $muted = false ): void {
+    echo _video( $url, $class, $id, $width, $height, $show_controls, $autoplay, $muted );
+}
+
+function _video( string $url, string $class = '', string $id = '', string $width = '640px', string $height = '480px', bool $show_controls = true, bool $autoplay = false, bool $muted = false ): string {
+    $attr = !empty( $width ) ? 'width="'.$width.'"' : '';
+    $attr .= !empty( $height ) ? 'height="'.$height.'"' : '';
+    $attr .= !empty( $autoplay ) ? ' autoplay ' : '';
+    $attr .= !empty( $muted ) ? ' muted ' : '';
+    $attr .= !empty( $show_controls ) ? ' controls ' : '';
+    $r = _pre( $id, $class, 'video', $attr );
+        $r .= '<source src="'.$url.'">';
+    $r .= _post( 'video' );
+    return $r;
+}
+
 /**
  * Renders a coming / launching soon HTML
  * @param string $date Estimated Launch Date
@@ -799,8 +815,6 @@ function soon( string $date, string $text = 'Coming Soon...', string $bg = '', s
  * @param string $form_style Style of the form
  * @param array $hidden Hidden data for Database
  * @param string $prepend_to_keys String to prepend to keys for database table columns
- * @param int $notify Notification Time in Seconds
- * @param int $reload Reload in Seconds
  * @param string $success_alert Text to notify upon successfully storing data
  * @param string $callback A JS Function to callback on results
  * @param string $confirm A confirmation popup will execute further code

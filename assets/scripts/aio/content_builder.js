@@ -42,8 +42,21 @@ document.addEventListener('DOMContentLoaded', function () {
         let content_field_target = $(this).parents('[data-aio_cb_field]').data('aio_cb_field');
         //console.log( content_field_target );
         let content_field = $( '[data-aio_cb_code="' + content_field_target + '"]' );
-        let data = content_field.val() !== '' ? JSON.parse( content_field.val() ) : [];
+        let data = [];
+        try {
+            data = JSON.parse( content_field.val() );
+        } catch(e) {
+            if( confirm( 'Page not built using AIO Page Builder, erase content and start fresh ?' ) ) {
+                data = [];
+            } else {
+                alert( 'Widget cannot be added due to existing page content! Erase content and try again!!' );
+                return console.error( e );
+            }
+        }
+        console.log( data );
+        console.log( widget_wrap );
         data.push( widget_wrap );
+        console.log(data);
         $(content_field).val( JSON.stringify( data ) );
 
         // Render Content Builder Area
