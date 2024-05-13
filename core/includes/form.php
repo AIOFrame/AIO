@@ -1252,8 +1252,8 @@ class FORM {
                 $values = $f['values'] ?? ( $f['v'] ?? ( $f['options'] ?? ( $f['o'] ?? [] ) ) );
                 $checked = $f['checked'] ?? ( $f['check'] ?? ( $f['selected'] ?? ( $f['s'] ?? '' ) ) );
                 $label_first = $f['label_first'] ?? ( $f['lf'] ?? 0 );
-                $inputs_pre = $f['inputs_pre'] ?? ( $f['i_p'] ?? '' );
-                $inputs_post = $f['inputs_post'] ?? ( $f['ip_'] ?? '' );
+                $inputs_pre = $f['inputs_pre'] ?? ( $f['i_p'] ?? ( $f['_ip'] ?? ( $f['_i'] ?? '' ) ) );
+                $inputs_post = $f['inputs_post'] ?? ( $f['ip_'] ?? ( $f['i_'] ?? '' ) );
                 $inputs_wrap = $f['inputs_wrap'] ?? ( $f['iw'] ?? ( is_numeric( $inputs_pre ) || is_float( $inputs_pre ) ? 'row' : '' ) );
                 $return .= $type == 'checkboxes' ? $this->_checkboxes( $id, $label, $values, $checked, $attrs, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post ) : $this->_radios( $id, $label, $values, $checked, $attrs, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post );
             } else if( $type == 'phone' || $type == 'p' ) {
