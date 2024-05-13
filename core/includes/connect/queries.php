@@ -249,7 +249,7 @@ class DB {
                 //skel( $tables );
                 $db = new DB();
                 $db->update_option( $file . '_md5', $md5, 0, 1 );
-                return $db->automate_tables( $tables );
+                return $db->create_tables( $tables );
 
             } else {
                 return [];

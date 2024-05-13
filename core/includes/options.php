@@ -600,7 +600,7 @@ class OPTIONS {
         return 'option_name = \'' . implode( '\' ' . $relation . ' option_name = \'', $options_array ) . '\'';
     }
 
-    function form( array $form = [], string $type = '', bool $get_options = false, string $data = '', string $success = '', int $notify = 2, int $reload = 2, array|string $auto_load = [], array|string $unique = [], array|string $encrypt = '', string $confirm = '', string $callback = '' ): void {
+    function form( array $form = [], string $type = '', bool $get_options = false, string $data = '', string $button_text = 'Save Options', string $button_class = 'store grad', string $success = '', array|string $auto_load = [], array|string $unique = [], array|string $encrypt = '', string $confirm = '', string $callback = '' ): void {
         if( $get_options ) {
             $db = new DB();
             // Fetch Options
@@ -630,7 +630,7 @@ class OPTIONS {
         $f = new FORM();
         $f->option_params_wrap( $data, '', $auto_load, $unique, $encrypt, $success, $callback, $confirm );
             $f->form( $form, $type );
-            $f->process_trigger( 'Save Options', 'store grad', '', '', '.col-12 tac' );
+            $f->process_trigger( $button_text, $button_class, '', '', '.col-12 tac' );
         post();
     }
 
