@@ -217,7 +217,7 @@ class DB {
                                 $id = $row['identity'] ?? ( $row['id'] ?? ( $row['i'] ?? '' ) );
                                 $type = $row['type'] ?? ( $row['t'] ?? 'text' );
                                 $length = $row['max'] ?? ( $row['m'] ?? 64 );
-                                $required = $row['required'] ?? ( $row['r'] ?? 0 );
+                                $required = $row['required'] ?? ( $row['req'] ?? ( $row['r'] ?? 0 ) );
                                 if( in_array( $type, [ 'date', 'dt', 'd' ] ) ) {
                                     $type = 'DATETIME';
                                     $length = '';
@@ -235,6 +235,10 @@ class DB {
                                     empty( $length ) ? $length = 512 : '';
                                 } else {
                                     $type = 'VARCHAR';
+                                }
+                                if( $length == 'text' ) {
+                                    $type = 'TEXT';
+                                    $length = '';
                                 }
                                 $table_structure[1][] = [ $id, $type, $length, $required ];
                             }
