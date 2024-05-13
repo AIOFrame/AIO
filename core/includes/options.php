@@ -614,19 +614,22 @@ class OPTIONS {
                 }
             }
             $os = $db->get_options( $os );
+            //skel( $os );
             // Add values to fields
             if( !empty( $form ) && !empty( $os ) ) {
-                foreach( $form as $f ) {
+                foreach( $form as $fk => $f ) {
                     $id = $f['identity'] ?? ( $f['id'] ?? ( $f['i'] ?? '' ) );
                     $value = $os[ $id ] ?? ( $f['value'] ?? ( $f['val'] ?? ( $f['v'] ?? '' ) ) );
                     unset( $f['value'] );
                     unset( $f['val'] );
                     if( !empty( $id ) ) {
-                        $f['v'] = $value;
+                        $form[ $fk ]['v'] = $value;
+                        //$f['v'] = $value;
                     }
                 }
             }
         }
+        //skel( $form );
         $f = new FORM();
         $f->option_params_wrap( $data, '', $auto_load, $unique, $encrypt, $success, $callback, $confirm );
             $f->form( $form, $type );
