@@ -34,9 +34,9 @@
   font-feature-settings: 'liga';
 }
 .social-ico:before, .soc-ico:before, .sico:before {
-  content: attr(title);
-  margin-right: 0.3em;
-  font-size: 130%;
+  //content: attr(title);
+  //margin-right: 0.3em;
+  //font-size: 130%;
 }
 .bi {
   overflow: hidden;
