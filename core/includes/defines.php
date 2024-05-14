@@ -91,7 +91,7 @@ require_once ROOTPATH . 'core/includes/config.php';
  * Defines the URL of the Main Application
  * Ex: www.example.com
  */
-$url = CONFIG['appurl'] ?? $_SERVER['HTTP_HOST'];
+$url = defined('CONFIG') && isset( CONFIG['appurl'] ) ? CONFIG['appurl'] : $_SERVER['HTTP_HOST'];
 $url = str_replace( 'http://', '', str_replace( 'https://', '', $url ) );
 !defined( 'APPURL' ) ? define( 'APPURL', $pre . $url . "/" ) : '';
 //print_r( APPURL );
