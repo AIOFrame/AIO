@@ -21,17 +21,22 @@
   white-space: nowrap;
   direction: ltr;
   text-align: center;
-
-  /* Support for all WebKit browsers. */
   -webkit-font-smoothing: antialiased;
-  /* Support for Safari and Chrome. */
   text-rendering: optimizeLegibility;
-
-  /* Support for Firefox. */
   -moz-osx-font-smoothing: grayscale;
-
-  /* Support for IE. */
   font-feature-settings: 'liga';
+}
+.social-ico, .soc-ico, .sico, .social-ico:before, .soc-ico:before, .sico:before {
+  font-family: 'SocialIcons', serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'liga';
+}
+.social-ico:before, .soc-ico:before, .sico:before {
+  content: attr(title);
+  margin-right: 0.3em;
+  font-size: 130%;
 }
 .bi {
   overflow: hidden;
@@ -48,22 +53,22 @@
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
 }
-.mat-ico.xs, .mico.xs {
+.mat-ico.xs, .mico.xs, .social-ico.xs, .soc-ico.xs, .sico.xs {
   font-size: 1rem;
 }
-.mat-ico.s, .mico.s {
+.mat-ico.s, .mico.s, .social-ico.s, .soc-ico.s, .sico.s {
   font-size: 1.4rem;
 }
-.mat-ico, .mico {
+.mat-ico, .mico, .social-ico, .soc-ico, .sico {
   font-size: 1.8rem;
 }
-.mat-ico.l, .mico.l {
+.mat-ico.l, .mico.l, .social-ico.l, .soc-ico.l, .sico.l {
   font-size: 2.2rem;
 }
-.mat-ico.xl, .mico.xl {
+.mat-ico.xl, .mico.xl, .social-ico.xl, .soc-ico.xl, .sico.xl {
   font-size: 2.6rem;
 }
-.mat-ico.xxl, .mico.xxl {
+.mat-ico.xxl, .mico.xxl, .social-ico.xxl, .soc-ico.xxl, .sico.xxl {
   font-size: 3.2rem;
 }
 .mat-ico.orange, .mat-ico.green, .mat-ico.red, .mat-ico.blue, .bi.orange, .bi.green, .bi.red, .bi.blue {
