@@ -967,13 +967,25 @@ function _text_to_image( string $text, string $type = 'img', int $break = 40, in
 
 function accordion( string $title = '', string $content = '', string $class = '', string $attr = '' ): void {
     //echo "<div class='accordion {$class}' ".$attr."><div class='accordion_head'>{$title}<div class='act'><div class='mat-ico' data-close>expand_less</div><div class='mat-ico' data-open>expand_more</div></div></div><div class='accordion_body'>{$content}</div></div>";
-    echo _accordion( $title, $content, $class, $attr );
+    echo __accordion( $title, $content, $class, $attr );
 }
 
-function _accordion( string $title = '', string $content = '', string $class = '', string $attr = '' ): string {
+function __accordion( string $title = '', string $content = '', string $class = '', string $attr = '' ): string {
     //echo "<div class='accordion {$class}' ".$attr."><div class='accordion_head'>{$title}<div class='act'><div class='mat-ico' data-close>expand_less</div><div class='mat-ico' data-open>expand_more</div></div></div><div class='accordion_body'>{$content}</div></div>";
     $acts = _div( 'act', _div( 'mat-ico', 'expand_less', '', 'data-close' ) . _div( 'mat-ico', 'expand_more', '', 'data-open' ) );
     return _div( 'accordion '.$class, _div( 'accordion_head', $title . $acts ) . _div( 'accordion_body', $content ) );
+}
+
+function _accordion( string $title = '', string $class = '' ): void {
+    $acts = _div( 'act', _div( 'mat-ico', 'expand_less', '', 'data-close' ) . _div( 'mat-ico', 'expand_more', '', 'data-open' ) );
+    pre( '', 'accordion '.$class );
+        div( 'accordion_head', $title . $acts );
+            pre( '', 'accordion_body' );
+}
+
+function accordion_(): void {
+    post();
+    post();
 }
 
 /**
