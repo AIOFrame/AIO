@@ -455,34 +455,37 @@ class ACCESS {
             return [ 0, T('User not found!') ];
         }
     }
-
+    public array $session_times = [ 1 => '1 Hour' , 8 => '8 Hours', 24 => '1 Day', 168 => '1 Week' ];
     private array $access_options = [
-        //[ 'id' => 'ac_logo_l', 'type' => 'upload', 'title' => 'Brand Logo - Light', 'col' => 3 ],
-        //[ 'id' => 'ac_logo_d', 'type' => 'upload', 'title' => 'Brand Logo - Dark', 'col' => 3 ],
-        [ 'id' => 'ac_bg_l', 'type' => 'upload', 'title' => 'Background - Light', 'col' => 2 ],
-        [ 'id' => 'ac_bg_d', 'type' => 'upload', 'title' => 'Background - Dark', 'col' => 2 ],
-        [ 'id' => 'ac_show_logo', 'type' => 'slide', 'title' => 'Show Logo ?', 'col' => 2 ],
-        [ 'id' => 'ac_show_a11y', 'type' => 'slide', 'title' => 'Show Accessibility', 'col' => 2 ],
-        [ 'id' => 'ac_bg_repeat', 'type' => 'slide', 'title' => 'BG Repeat', 'col' => 2 ],
-        [ 'id' => 'ac_show_dark', 'type' => 'slide', 'title' => 'Show Dark Toggle', 'col' => 2 ],
-        //[ 'id' => 'ac_show_a11y', 'type' => 'slide', 'title' => 'Show Accessibility', 'col' => 4 ],
+        [ 'i' => 'ac_logo_l', 't' => 'upload', 'n' => 'Brand Logo - Light', 'p' => 'Upload', 'c' => 4 ],
+        [ 'i' => 'ac_logo_d', 't' => 'upload', 'n' => 'Brand Logo - Dark', 'p' => 'Upload', 'c' => 4 ],
+        [ 'i' => 'ac_show_logo', 't' => 'slide', 'n' => 'Show Logo ?', 'c' => 4, 'no' => 'Hide', 'yes' => 'Show' ],
+        [ 'i' => 'ac_bg_l', 't' => 'upload', 'n' => 'Background - Light', 'p' => 'Upload', 'c' => 4 ],
+        [ 'i' => 'ac_bg_d', 't' => 'upload', 'n' => 'Background - Dark', 'p' => 'Upload', 'c' => 4 ],
+        [ 'i' => 'ac_bg_repeat', 't' => 'slide', 'n' => 'BG Repeat', 'c' => 4, 'no' => 'Hide', 'yes' => 'Show' ],
+        [ 'i' => 'ac_show_a11y', 't' => 'slide', 'n' => 'Show Accessibility', 'c' => 4, 'no' => 'Hide', 'yes' => 'Show' ],
+        [ 'i' => 'ac_show_dark', 't' => 'slide', 'n' => 'Show Dark Toggle', 'c' => 4, 'no' => 'Hide', 'yes' => 'Show' ],
+        //[ 'id' => 'ac_show_a11y', 'type' => 'slide', 'n' => 'Show Accessibility', 'c' => 4 ],
     ];
     private array $login_options = [
-        [ 'id' => 'ac_username_text', 'type' => 'text', 'title' => 'Username Text', 'col' => 3 ],
-        [ 'id' => 'ac_password_text', 'type' => 'text', 'title' => 'Password Text', 'col' => 3 ],
-        [ 'id' => 'ac_forgot_text', 'type' => 'text', 'title' => 'Forgot Pass Text', 'col' => 3 ],
-        [ 'id' => 'ac_reset_btn_text', 'type' => 'text', 'title' => 'Reset Pass Button Text', 'col' => 3 ],
-        [ 'id' => 'ac_return_text', 'type' => 'text', 'title' => 'Return to Login Text', 'col' => 3 ],
-        [ 'id' => 'ac_login_btn_text', 'type' => 'text', 'title' => 'Login Button Text', 'col' => 3 ],
-        [ 'id' => 'ac_register_text', 'type' => 'text', 'title' => 'Register Link Text', 'col' => 3 ],
-        [ 'id' => 'ac_register_btn_text', 'type' => 'text', 'title' => 'Register Button Text', 'col' => 3 ],
-        [ 'id' => 'ac_session_hours', 'type' => 'select', 'title' => 'Login Session Duration', 'options' => [1=>'1 Hour',8=>'8 Hours',24=>'1 Day',168=>'1 Week'], 'col' => 3 ],
-        [ 'id' => 'ac_reset', 'type' => 'slide', 'title' => 'Allow Reset Password', 'col' => 3 ],
-        [ 'id' => 'ac_remember', 'type' => 'slide', 'title' => 'Show Remember Options', 'col' => 3 ],
-        [ 'id' => 'ac_register', 'type' => 'slide', 'title' => 'Allow Registration?', 'col' => 3 ],
+        [ 'i' => 'ac_username_text', 'n' => 'Username Text', 'c' => 4, 'p' => 'Ex: User Login' ],
+        [ 'i' => 'ac_username_icon', 'n' => 'Username Icon', 'c' => 2, 'p' => 'Ex: account_circle' ],
+        [ 'i' => 'ac_password_text', 'n' => 'Password Text', 'c' => 4, 'p' => 'Ex: Password' ],
+        [ 'i' => 'ac_password_icon', 'n' => 'Password Icon', 'c' => 2, 'p' => 'Ex: lock' ],
+        [ 'i' => 'ac_forgot_text', 'n' => 'Forgot Password Text', 'c' => 4, 'p' => 'Ex: Forgot Password?' ],
+        [ 'i' => 'ac_reset', 't' => 'slide', 'n' => 'Allow reset Password', 'c' => 2, 'no' => 'No', 'yes' => 'Allow', 'v' => 1 ],
+        [ 'i' => 'ac_login_btn_text', 'n' => 'Login Button Text', 'c' => 6, 'p' => 'Ex: Sign In' ],
+        [ 'i' => 'ac_reset_btn_text', 'n' => 'Reset Password Button Text', 'c' => 4, 'p' => 'Ex: Reset Password?' ],
+        [ 'i' => 'ac_reset_btn_icon', 'n' => 'Reset Password Icon', 'c' => 2, 'p' => 'Ex: forward_to_inbox' ],
+        [ 'i' => 'ac_return_text', 'n' => 'Return to Login Text', 'c' => 4, 'p' => 'Ex: Back to Login' ],
+        [ 'i' => 'ac_session_hours', 't' => 'select', 'n' => 'Default Session Duration', 'o' => [ 1 => '1 Hour' , 8 => '8 Hours', 24 => '1 Day', 168 => '1 Week' ], 'c' => 2 ],
+        [ 'i' => 'ac_remember', 't' => 'slide', 'n' => 'Show Remember Options', 'c' => 3, 'no' => 'Hide', 'yes' => 'Show', 'v' => 1 ],
     ];
     private array $register_options = [
-        [ 'id' => 'ac_register_name', 'type' => 'slide', 'title' => 'Ask Full Name?', 'col' => 3 ],
+        [ 'i' => 'ac_register', 't' => 'slide', 'n' => 'Allow Registration?', 'c' => 3, 'no' => 'No', 'yes' => 'Allow', 'v' => 1 ],
+        [ 'i' => 'ac_register_name', 't' => 'slide', 'n' => 'Ask Full Name?', 'c' => 3 ],
+        [ 'i' => 'ac_register_text', 'n' => 'Register Link Text', 'c' => 3, 'p' => 'Ex: Dont have an account?' ],
+        [ 'i' => 'ac_register_btn_text', 'n' => 'Register Button Text', 'c' => 3, 'p' => 'Ex: Sign Up' ],
     ];
 
     /**
@@ -585,13 +588,13 @@ class ACCESS {
         return '';
     }
 
-    function get_options( int $type = 1 ): array {
+    function get_options( bool $get_access = true, bool $get_login = true, bool $get_register = true ): array {
         $db = new DB();
-        $ao_structure = $type == 1 ? $this->access_options : ( $type == 2 ? $this->login_options : $this->register_options );
+        $fields = array_merge( ( $get_access ? $this->access_options : [] ), ( $get_login ? $this->login_options : [] ), ( $get_register ? $this->register_options : [] ) );
         $param_array = [];
-        foreach( $ao_structure as $aok ) {
-            if( isset( $aok['id'] ) ) {
-                $param_array[] = $aok['id'];
+        foreach( $fields as $aok ) {
+            if( isset( $aok['i'] ) ) {
+                $param_array[] = $aok['i'];
             }
         }
         return $db->get_options( $param_array );
@@ -599,35 +602,40 @@ class ACCESS {
 
     /**
      * Renders ACCESS page options
-     * @param int $type
+     * @param bool $show_access Show access page options (Default true)
+     * @param bool $show_login Show login form options (Default true)
+     * @param bool $show_register Show register form options (Default true)
+     * @param string $form_type 'row' or 'settings' type to render inputs
      * @return void
      */
-    function access_options( int $type = 1 ): void {
+    function options( bool $show_access = true, bool $show_login = true, bool $show_register = true, string $form_type = 'row' ): void {
         // TODO: Update access options
         $f = new FORM();
-        $ops = $this->get_options( $type );
-        $f->option_params_wrap('ao');
+        $o = new OPTIONS();
+        $form = array_merge( ( $show_access ? $this->access_options : [] ), ( $show_login ? $this->login_options : [] ), ( $show_register ? $this->register_options : [] ) );
+        // skel( $form );
+        $o->form( $form, $form_type );
+        //$ops = $this->get_options( $type );
         //$f->process_params('','ei','',2,2,[],'Successfully saved user access options!','','Are you sure to save user access options','','','','row');
-        $ao_structure = $type == 1 ? $this->access_options : ( $type == 2 ? $this->login_options : $this->register_options );
+        /* $ao_structure = $type == 1 ? $this->access_options : ( $type == 2 ? $this->login_options : $this->register_options );
         foreach( $ao_structure as $aok ) {
             $v = isset( $aok['id'] ) && isset( $ops[ $aok['id'] ] ) ? $ops[ $aok['id'] ] : '';
-            $c = $aok['col'] ?? '';
+            $c = $aok['c'] ?? '';
             if( $aok['type'] == 'text' ) {
-                $f->text( $aok['id'], $aok['title'], $aok['title'], $v, 'data-ao', $c );
+                $f->text( $aok['id'], $aok['n'], $aok['n'], $v, 'data-ao', $c );
             } else if( $aok['type'] == 'upload' ) {
-                $f->upload( $aok['id'], $aok['title'], 'Upload', $v, 0, 0, 'upload', 'data-ao', 'jpg,jpeg,png,svg,bmp', '0.2', 1, '', $c );
+                $f->upload( $aok['id'], $aok['n'], 'Upload', $v, 0, 0, 'upload', 'data-ao', 'jpg,jpeg,png,svg,bmp', '0.2', 1, '', $c );
             } else if( $aok['type'] == 'slide' ) {
                 $check = $ops[ $aok['id'] ] ?? 0;
                 //skel( $check );
-                $f->slide( $aok['id'], $aok['title'], 'No', 'Yes', $check, 'm', 'data-ao', $c );
+                $f->slide( $aok['id'], $aok['n'], 'No', 'Yes', $check, 'm', 'data-ao', $c );
             } else if( $aok['type'] == 'select' ) {
-                $f->select2( $aok['id'], $aok['title'], $aok['title'], $aok['options'], '', 'data-ao', $c, 1 );
+                $f->select2( $aok['id'], $aok['n'], $aok['n'], $aok['options'], '', 'data-ao', $c, 1 );
             } else if( isset( $aok['id'] ) ) {
-                $f->input( $aok['type'], $aok['id'], $aok['title'], 'No', 'Yes', $check, 'm', 'data-ao', $c );
+                $f->input( $aok['type'], $aok['id'], $aok['n'], 'No', 'Yes', $check, 'm', 'data-ao', $c );
             }
         }
-        $f->process_options('Save Options','store grad','','.col-12 tac');
-        post();
+        $f->process_options('Save Options','store grad','','.col-12 tac'); */
     }
 }
 
@@ -853,11 +861,15 @@ function access_html( string $login_title = 'Username or Email', string $pass_ti
         pre( '', 'login_outer_wrap' );
             $f->pre_process('class="login_wrap"','access_login_ajax','log','login_',[],'','','',$redirect_to,'',1);
                 pre( '', 'inputs', 'form' );
-                    $f->text('username',$login_title,$login_title,'','data-log required autocomplete="username" data-click-on-enter="#aio_login_init"','<div class="user_wrap">','</div>');
-                    $f->input('password','password',$pass_title,$pass_title,'','data-assist data-log required autocomplete="current-password" data-click-on-enter="#aio_login_init"','<div class="pass_wrap">','</div>');
+                    $session_times = [ 1 => '1 Hour' , 8 => '8 Hours' , 24 => '1 Day', 168 => '1 Week' ];
+                    $login_form = [
+                        [ 'i' => 'username', 'n' => $login_title, 'p' => $login_title, 'c' => '.col-12 user_wrap', 'a' => 'data-log required autocomplete="username" data-click-on-enter="#aio_login_init"' ],
+                        [ 'i' => 'password', 'n' => $pass_title, 'p' => $pass_title, 'c' => '.col-12 pass_wrap', 'a' => 'data-assist data-log required autocomplete="current-password" data-click-on-enter="#aio_login_init"', 't' => 'password' ],
+                    ];
                     if( !empty( $aos ) && isset( $aos['ac_remember'] ) && $aos['ac_remember'] == 1 ) {
-                        $f->radios('remember',$session_title,[1=>'1 Hour',8=>'8 Hours',24=>'1 Day',168=>'1 Week'],1,'data-log',0,'.mb20','','row df fg','.col');
+                        $login_form[] = [ 'i' => 'remember', 'n' => $session_title, 'o' => $session_times, 's' => 1, 'd' => 'log', 't' => 'radios', 'iw' => 'row df fg', '_ip' => '.col' ];
                     }
+                    $f->form( $login_form, 'row' );
                 post( 'form' );
                 $f->process_trigger( T( $login_button_title ), 'grad '. $class, 'id="aio_login_init"' );
                 if( $show_reset == 1 ) {
@@ -914,7 +926,7 @@ function register_html( array $columns = [], bool $columns_before = true, array 
     $aos = $a->get_options(2);
     $login_title = $ops['username_text'] ?? 'User Login / Email';
     $pass_title = $ops['password_text'] ?? 'Password';
-    $register_button_title = $aos['register_button_text'] ?? '';
+    $register_button_title = $aos['register_button_text'] ?? 'Register';
     $f->pre_process('class="register_wrap"','','reg','register_',[],'',$callback,'',$redirect_to,'',1);
     pre( '', 'inputs' );
         $columns_html = '';
@@ -925,20 +937,26 @@ function register_html( array $columns = [], bool $columns_before = true, array 
         }
         echo $columns_before ? $columns_html : '';
         $min_string = T('Minimum Characters');
-        $f->text('username',$login_title,$login_title,'','data-reg minlength="8" data-minlength="'.$min_string.'" data-help required','<div>','</div>');
-        $f->input('password','password',$pass_title,'Password','','data-reg minlength="8" data-minlength="'.$min_string.'" data-help required','<div>','</div>');
+        $reg_form = [
+            [ 'i' => 'username', 'n' => $login_title, 'p' => $login_title, 'a' => 'data-reg minlength="8" data-minlength="'.$min_string.'" data-help required', 'c' => '.reg_user_wrap col-12' ],
+            [ 'i' => 'password', 'n' => $pass_title, 'p' => $pass_title, 'a' => 'data-reg minlength="8" data-minlength="'.$min_string.'" data-help required', 'c' => '.reg_pass_wrap col-12', 't' => 'password' ],
+        ];
+        //$f->text('username',$login_title,$login_title,'','data-reg minlength="8" data-minlength="'.$min_string.'" data-help required','<div>','</div>');
+        //$f->input('password','password',$pass_title,'Password','','data-reg minlength="8" data-minlength="'.$min_string.'" data-help required','<div>','</div>');
         $empty_logic = in_array( 'email', $compulsory ) ? 'required="true"' : '';
-        $f->input('email','email','Email','Email','','data-reg data-help required'.$empty_logic,'<div>','</div>');
-        $defs = [ [ 'id' => 'name', 'title' => 'Full Name' ], [ 'id' => 'picture', 'title' => 'Picture', 'type' => 'upload' ], [ 'id' => 'dob', 'title' => 'Date of Birth', 'type' => 'date' ] ];
+        $reg_form[] = [ 'i' => 'email', 'n' => 'Email', 'p' => 'Ex: john_doe@email.com', 'a' => 'data-reg data-help required'.$empty_logic, 'c' => 12, 't' => 'email' ];
+        //$f->input('email','email','Email','Email','','data-reg data-help required'.$empty_logic,'<div>','</div>');
+        $defs = [ [ 'id' => 'name', 'n' => 'Full Name' ], [ 'id' => 'picture', 'n' => 'Picture', 'type' => 'upload' ], [ 'id' => 'dob', 'n' => 'Date of Birth', 'type' => 'date' ] ];
         foreach( $defs as $df ) {
             if( !in_array( $df['id'], $hide ) ) {
                 $req = in_array( $df['id'], $compulsory ) ? 'required' : '';
                 if( isset( $df['type'] ) && $df['type'] == 'upload' ) {
-                    $f->upload( $df['id'], $df['title'], 'Upload Profile Picture', '', 0, 0, '', 'data-reg', 'jpg,jpeg,png', .2, 0, '', '<div>', '</div>' );
+                    //$f->upload( $df['id'], $df['n'], 'Upload Profile Picture', '', 0, 0, '', 'data-reg', 'jpg,jpeg,png', .2, 0, '', '<div>', '</div>' );
+                    $reg_form[] = [ 'i' => $df['id'], 'n' => $df['n'], 'p' => 'Upload', 't' => 'upload', 'e' => 'jpg,jpeg,png,svg', 'd' => 'reg', 'c' => 6 ];
                 } else if( isset( $df['type'] ) && $df['type'] == 'date' ) {
-                    $f->date( $df['id'], $df['title'], '', '', 'data-reg', 'top center', '<div>', 0, 0, '', '', '', '</div>' );
+                    $f->date( $df['id'], $df['n'], '', '', 'data-reg', 'top center', '<div>', 0, 0, '', '', '', '</div>' );
                 } else {
-                    $f->text( $df['id'], $df['title'], $df['placeholder'] ?? $df['title'], '', 'data-reg', '<div>', '</div>' );
+                    $f->text( $df['id'], $df['n'], $df['placeholder'] ?? $df['n'], '', 'data-reg', '<div>', '</div>' );
                 }
                 //echo '<div><label for="register_'.$dk.'_'.$rand.'">'.T( $dv ).'</label>';
                 //echo '<input type="text" class="'.$dk.'" data-reg name="'.$dk.'" id="register_'.$dk.'_'.$rand.'" data-key="'.$dk.'" placeholder="'.$dv.'" '.$empty_logic.'></div>';
@@ -953,7 +971,7 @@ function register_html( array $columns = [], bool $columns_before = true, array 
         echo !$columns_before ? $columns_html : '';
     post();
     file_upload();
-    $f->process_trigger( 'Register', 'grad', 'id="aio_forgot_init"', 'access_register_ajax' );
+    $f->process_trigger( $register_button_title, 'grad', 'id="aio_forgot_init"', 'access_register_ajax' );
     $f->post_process();
 }
 

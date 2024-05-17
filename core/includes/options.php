@@ -565,11 +565,15 @@ class OPTIONS {
 
     /**
      * Renders ACCESS page options
+     * @param bool $show_access Show access page options (Default true)
+     * @param bool $show_login Show login form options (Default true)
+     * @param bool $show_register Show register form options (Default true)
+     * @param string $form_type 'row' or 'settings' type to render inputs
      * @return void
      */
-    function access_options(): void {
+    function access_options( bool $show_access = true, bool $show_login = true, bool $show_register = true, string $form_type = 'row' ): void {
         $a = new ACCESS();
-        $a->access_options();
+        $a->options( $show_access, $show_login, $show_register, $form_type );
     }
 
     /**
@@ -578,7 +582,7 @@ class OPTIONS {
      */
     function login_options(): void {
         $a = new ACCESS();
-        $a->access_options(2);
+        $a->options( 0, 1, 0 );
     }
 
     /**
@@ -587,7 +591,7 @@ class OPTIONS {
      */
     function register_options(): void {
         $a = new ACCESS();
-        $a->access_options(3);
+        $a->options( 0, 0, 1 );
     }
 
     /**

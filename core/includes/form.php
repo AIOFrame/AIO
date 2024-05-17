@@ -1241,8 +1241,8 @@ class FORM {
                 $attrs .= !empty( $max ) ? ' max="'.$max.'"' : '';
                 $return .= $this->_input( 'range', $id, $label, $place, $val, $attrs, $pre, $post );
             } else if( in_array( $type, [ 'slide', 'slides', 'toggle', 't' ] ) ) {
-                $off_text = $f['off'] ?? '';
-                $on_text = $f['on'] ?? '';
+                $off_text = $f['off'] ?? ( $f['no'] ?? '' );
+                $on_text = $f['on'] ?? ( $f['yes'] ?? '' );
                 $return .= $type == 'slide' ? $this->_slide( $id, $label, $off_text, $on_text, $val, '', $attrs, $pre, $post ) : $this->_checkboxes( $id, $label, );
             } else if( $type == 'color' || $type == 'cl' ) {
                 $border = $f['border'] ?? ( $f['b'] ?? '' );
