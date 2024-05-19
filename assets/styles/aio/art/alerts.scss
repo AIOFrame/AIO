@@ -28,6 +28,15 @@ $error: var(--error_color);
     .data {
       transition:.6s;
       position: relative;
+      display: flex;
+      border-radius: $radius;
+      padding: 10px;
+      border:1px solid var(--input_border_color);
+      background: var(--input_bg);
+      box-shadow:0 10px 30px rgba(0,0,0,.2);
+      gap: 10px;
+      align-items: center;
+      min-width: 320px;
       .fields {
         display: flex;
         margin: 10px -5px -5px;
@@ -48,20 +57,19 @@ $error: var(--error_color);
           display: flex;
         }
       }
-      .ico {
-        position: absolute;
-        left: 0;
-        height: calc( 100% - 10px );
-        width: 50px;
-        min-height: 50px;
-        text-align: center;
+      > .ico {
+        height: 50px;
+        flex:0 0 50px;
         z-index: 2;
         overflow: hidden;
         > .ico {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%,-50%);
+          background: rgba(0,0,0,.1);
+          height: 50px;
+          width: 50px;
+          min-height: 50px;
+          line-height: 50px;
+          border-radius: 20px;
+          text-align: center;
         }
         > .bi:before {
           line-height: 50px;
@@ -69,14 +77,11 @@ $error: var(--error_color);
         }
       }
       .message {
-        border-radius: $radius;
-        padding:12px 30px 20px 12px;
-        border:1px solid var(--input_border_color);
-        background: var(--input_bg);
-        box-shadow:0 10px 30px rgba(0,0,0,.2);
+        padding:0;
+        flex-grow: 1;
       }
       .ico + .message {
-        padding:12px 30px 20px 50px;
+        //padding:px 30px 30px 70px;
       }
     }
     /* .data:before {

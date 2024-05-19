@@ -37,6 +37,15 @@
 [data-alerts] .alert .data {
   transition: 0.6s;
   position: relative;
+  display: flex;
+  border-radius: var(--input_radius);
+  padding: 10px;
+  border: 1px solid var(--input_border_color);
+  background: var(--input_bg);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  gap: 10px;
+  align-items: center;
+  min-width: 320px;
 }
 [data-alerts] .alert .data .fields {
   display: flex;
@@ -58,35 +67,28 @@
 [data-alerts] .alert .data .invalid_fields .invalid {
   display: flex;
 }
-[data-alerts] .alert .data .ico {
-  position: absolute;
-  left: 0;
-  height: calc( 100% - 10px );
-  width: 50px;
-  min-height: 50px;
-  text-align: center;
+[data-alerts] .alert .data > .ico {
+  height: 50px;
+  flex: 0 0 50px;
   z-index: 2;
   overflow: hidden;
 }
-[data-alerts] .alert .data .ico > .ico {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+[data-alerts] .alert .data > .ico > .ico {
+  background: rgba(0, 0, 0, 0.1);
+  height: 50px;
+  width: 50px;
+  min-height: 50px;
+  line-height: 50px;
+  border-radius: 20px;
+  text-align: center;
 }
-[data-alerts] .alert .data .ico > .bi:before {
+[data-alerts] .alert .data > .ico > .bi:before {
   line-height: 50px;
   font-size: 1.4rem;
 }
 [data-alerts] .alert .data .message {
-  border-radius: var(--input_radius);
-  padding: 12px 30px 20px 12px;
-  border: 1px solid var(--input_border_color);
-  background: var(--input_bg);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-}
-[data-alerts] .alert .data .ico + .message {
-  padding: 12px 30px 20px 50px;
+  padding: 0;
+  flex-grow: 1;
 }
 [data-alerts] .alert .close {
   position: absolute;

@@ -169,7 +169,7 @@ label.beta {
 }
 [type=radio], [type=checkbox] {
   cursor: pointer;
-  margin: var(--input_margin_top) var(--input_margin_right) var(--input_margin_bottom) var(--input_margin_left);
+  //margin: var(--input_margin_top) var(--input_margin_right) var(--input_margin_bottom) var(--input_margin_left);
   display: inline-block;
   vertical-align: middle;
   border-radius: 8px;
@@ -220,6 +220,7 @@ label.beta {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: var(--input_margin_top) var(--input_margin_right) var(--input_margin_bottom) var(--input_margin_left);
   .slide_label {
     margin: 0 6px;
   }
