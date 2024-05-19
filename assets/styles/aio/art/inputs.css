@@ -175,6 +175,10 @@ label.beta {
   display: inline-block;
   vertical-align: middle;
   padding-left: 10px;
+  margin: 0;
+}
+
+.check_set {
   margin: var(--input_margin_top) var(--input_margin_right) var(--input_margin_bottom) var(--input_margin_left);
 }
 

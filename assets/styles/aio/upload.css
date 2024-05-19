@@ -603,6 +603,7 @@ td .aio_fsp {
   padding-right: 36px;
   position: relative;
   text-transform: none;
+  background: rgba(0, 0, 0, 0.05);
 }
 .aio_fp .aio_upload .ico {
   position: absolute;

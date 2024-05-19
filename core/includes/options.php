@@ -168,7 +168,7 @@ class OPTIONS {
         $f->post_process();
             $this->region_notice();
         //post();
-        file_upload();
+        //file_upload();
         get_scripts('iro,color');
     }
 

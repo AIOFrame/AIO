@@ -388,14 +388,14 @@ class FORM {
     /**
      * Renders &lt;input type="radio"&gt; elements
      * @param string|array $name Name of the input elements
-     * @param array $values Array of values
+     * @param string|array $values Array of values
      * @param string|array $checked Checked value or values separated by (,) comma
      * @param string $attr Attributes like class or data tags
      * @param bool $label_first If label should be before input element
      * @param string|float|int $pre Prepend wrap html or element with class before date Ex: '<div class="wrap">' or '.wrap' or '6'
      * @param string $post Append wrap html or element with class after date Ex: '</div>' Auto closes div if class or int provided in $pre
      */
-    function _radios( string|array $name, string $label = '', array $values = [], string|array $checked = '', string $attr = '', bool $label_first = false, string|float|int $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ): string {
+    function _radios( string|array $name, string $label = '', string|array $values = [], string|array $checked = '', string $attr = '', bool $label_first = false, string|float|int $pre = '', string $post = '', string $inputs_wrap = '', string $inputs_pre = '', string $inputs_post = '' ): string {
         return $this->_render_options( 'radio', $label, $name, $values, $checked, $attr, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post );
     }
 
@@ -1249,10 +1249,12 @@ class FORM {
                 $preview = $f['preview'] ?? ( $f['view'] ?? '[data-key='.$id.']' );
                 $return .= $this->_color( $id, $label, $place, $val, $attrs, $pre, $border, $preview, $post );
             } else if( in_array( $type, [ 'checkboxes', 'radios', 'checkbox', 'radio', 'cb', 'r' ] ) ) {
-                $values = $f['values'] ?? ( $f['v'] ?? ( $f['options'] ?? ( $f['o'] ?? [] ) ) );
-                $checked = $f['checked'] ?? ( $f['check'] ?? ( $f['selected'] ?? ( $f['s'] ?? '' ) ) );
+                $values = $f['values'] ?? ( $f['options'] ?? ( $f['os'] ?? ( $f['o'] ?? ( $f['v'] ?? [] ) ) ) );
+                //skel( $f );
+                $checked = $f['checked'] ?? ( $f['check'] ?? ( $f['selected'] ?? ( $f['s'] ?? ( $f['v'] ?? '' ) ) ) );
                 $label_first = $f['label_first'] ?? ( $f['lf'] ?? 0 );
                 $inputs_pre = $f['inputs_pre'] ?? ( $f['i_p'] ?? ( $f['_ip'] ?? ( $f['_i'] ?? '' ) ) );
+                $inputs_pre .= empty( $inputs_pre ) ? '.check_set' : ' check_set';
                 $inputs_post = $f['inputs_post'] ?? ( $f['ip_'] ?? ( $f['i_'] ?? '' ) );
                 $inputs_wrap = $f['inputs_wrap'] ?? ( $f['iw'] ?? ( is_numeric( $inputs_pre ) || is_float( $inputs_pre ) ? 'row' : '' ) );
                 $return .= $type == 'checkboxes' ? $this->_checkboxes( $id, $label, $values, $checked, $attrs, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post ) : $this->_radios( $id, $label, $values, $checked, $attrs, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post );

@@ -37,17 +37,18 @@ class CODE {
         pre_html( '', $attrs, $pre_styles, '', '', 'icons,inputs,buttons,alerts', $styles, $scripts, $primary_font, $secondary_font, $icon_fonts );
 
         // Content
-        pre( '', '', 'article' );
+        _article();
             pre( '', 'access_wrap' );
                 pre( '', 'access_panel' );
                     !isset( $aos['ac_show_logo'] ) || $aos['ac_show_logo'] !== 1 ? a( APPURL . $login_redirect_url, '', 'brand' ) : '';
                     $u_text = $aos['ac_username_text'] ?? 'User Login / Email';
                     $p_text = $aos['ac_password_text'] ?? 'Password';
                     $l_text = $aos['ac_login_btn_text'] ?? 'Login';
-                    access_html( $u_text, $p_text, 'Remember for', $l_text, 2, 2, $login_redirect_url );
+                    $l_icon = $aos['ac_login_btn_icon'] ?? 'login';
+                    access_html( $u_text, $p_text, 'Remember for', $l_text, $l_icon, $login_redirect_url );
                 post();
             post();
-        post( 'article' );
+        article_();
 
         // Foot
         $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'air-datepicker', 'data', 'validator', 'login' ] ) : $scripts . ',air-datepicker,data,validator,login';
