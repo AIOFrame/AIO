@@ -457,20 +457,21 @@ class ACCESS {
     }
     public array $session_times = [ 1 => '1 Hour' , 8 => '8 Hours', 24 => '1 Day', 168 => '1 Week' ];
     private array $access_options = [
+        [ 'i' => 'ac_style', 't' => 'radios', 'n' => 'Access Panel Style', 'c' => 12, 'o' => [ 'l f' => 'Left Full Panel', 'c f' => 'Center Full Panel', 'c b' => 'Center Boxed', 'r f' => 'Right Full Panel' ], 'v' => 'c b', '_i' => '.col-3', 'iw' => 'row' ],
         [ 'i' => 'ac_logo_l', 't' => 'file', 'n' => 'Brand Logo - Light', 'p' => 'Upload', 'c' => 4, 'e' => 'svg,png,jpg,jpeg', 's' => .5 ],
         [ 'i' => 'ac_logo_d', 't' => 'upload', 'n' => 'Brand Logo - Dark', 'p' => 'Upload', 'c' => 4, 'e' => 'svg,png,jpg,jpeg', 's' => .5 ],
         [ 'i' => 'ac_show_logo', 't' => 'slide', 'n' => 'Show Logo ?', 'c' => 4, 'no' => 'Hide', 'yes' => 'Show', 'v' => 1 ],
         [ 'i' => 'ac_bg_l', 't' => 'upload', 'n' => 'Background - Light', 'p' => 'Upload', 'c' => 4, 'e' => 'svg,png,jpg,jpeg', 's' => 1 ],
         [ 'i' => 'ac_bg_d', 't' => 'upload', 'n' => 'Background - Dark', 'p' => 'Upload', 'c' => 4, 'e' => 'svg,png,jpg,jpeg', 's' => 1 ],
-        [ 'i' => 'ac_bg_repeat', 't' => 'slide', 'n' => 'Repeat Background?', 'c' => 4, 'no' => 'No', 'yes' => 'Yes' ],
-        [ 'i' => 'ac_show_a11y', 't' => 'slide', 'n' => 'Show Accessibility', 'c' => 4, 'no' => 'Hide', 'yes' => 'Show', 'v' => 1 ],
-        [ 'i' => 'ac_show_dark', 't' => 'slide', 'n' => 'Show Dark Mode Toggle', 'c' => 4, 'no' => 'Hide', 'yes' => 'Show', 'v' => 1 ],
+        [ 'i' => 'ac_bg_style', 't' => 'radios', 'n' => 'Background Style', 'c' => 4, 'o' => [ 'no-repeat center / cover' => 'Cover', 'repeat center' => 'Pattern' ], '_i' => '.col-6', 'iw' => 'row', 'v' => 'no-repeat center / cover' ],
+        //[ 'i' => 'ac_show_a11y', 't' => 'slide', 'n' => 'Show Accessibility', 'c' => 4, 'no' => 'Hide', 'yes' => 'Show', 'v' => 1 ],
+        //[ 'i' => 'ac_show_dark', 't' => 'slide', 'n' => 'Show Dark Mode Toggle', 'c' => 4, 'no' => 'Hide', 'yes' => 'Show', 'v' => 1 ],
         [ 'i' => 'ac_show_labels', 't' => 'slide', 'n' => 'Show Input Labels?', 'c' => 4, 'no' => 'Hide', 'yes' => 'Show', 'v' => 1 ],
         //[ 'i' => 'ac_labels_align', 't' => 'radio', 'n' => 'Labels Text Alignment', 'p' => 'Select...', 'o' => [ 'tal' => 'Left' , 'tac' => 'Center', 'tar' => 'Right' ], 'c' => 4, '_ip' => '.col-4', 'iw' => 'row', 'v' => 'tal' ],
         //[ 'i' => 'ac_inputs_align', 't' => 'radio', 'n' => 'Inputs Text Alignment', 'p' => 'Select...', 'o' => [ 'tal' => 'Left' , 'tac' => 'Center', 'tar' => 'Right' ], 'c' => 4, '_ip' => '.col-4', 'iw' => 'row', 'v' => 'tal' ],
         //[ 'i' => 'ac_buttons_align', 't' => 'radio', 'n' => 'Buttons Text Alignment', 'p' => 'Select...', 'o' => [ 'tal' => 'Left' , 'tac' => 'Center', 'tar' => 'Right' ], 'c' => 4, '_ip' => '.col-4', 'iw' => 'row', 'v' => 'tal' ],
-        [ 'i' => 'ac_alert_time', 't' => 'number', 'n' => 'Alert Visible Duration (sec)', 'c' => 4, 'v' => 4 ],
-        [ 'i' => 'ac_reload_time', 't' => 'number', 'n' => 'Reload in Duration (sec)', 'c' => 4, 'v' => 4 ],
+        //[ 'i' => 'ac_alert_time', 't' => 'number', 'n' => 'Alert Visible Duration (sec)', 'c' => 4, 'v' => 4 ],
+        //[ 'i' => 'ac_reload_time', 't' => 'number', 'n' => 'Reload in Duration (sec)', 'c' => 4, 'v' => 4 ],
         //[ 'id' => 'ac_show_a11y', 'type' => 'slide', 'n' => 'Show Accessibility', 'c' => 4 ],
     ];
     private array $login_options = [

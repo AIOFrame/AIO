@@ -29,8 +29,16 @@ class CODE {
         }
 
         // Defines
-        //$a = new ACCESS();
-        //$aos = $a->get_options();
+        global $light_mode;
+        $a = new ACCESS();
+        $aos = $a->get_options();
+        $show_logo = $aos['ac_show_logo'] ?? 1;
+        $logo = $light_mode == 'd' ? ( $aos['ac_logo_d'] ?? ( $options['logo_dark'] ?? '' ) ) : ( $aos['ac_logo_l'] ?? ( $options['logo_light'] ?? '' ) );
+        $logo = !empty( $logo ) ? 'style="background:url(\''.storage_url( $logo ).'\') no-repeat center / contain"' : '';
+        $bg = $light_mode == 'd' ? ( $aos['ac_bg_d'] ?? '' ) : ( $aos['ac_bg_l'] ?? '' );
+        $bg_style = $aos['ac_bg_style'] ?? 'no-repeat center / cover';
+        $attrs .= !empty( $bg ) ? ' style="background:url(\''.storage_url( $bg ).'\') '.$bg_style.'"' : '';
+        $style = $aos['ac_style'] ?? '';
 
         // Head
         $styles = is_array( $styles ) ? array_merge( $styles, [ 'air-datepicker' ] ) : $styles . ',air-datepicker';
@@ -38,9 +46,10 @@ class CODE {
 
         // Content
         _article();
-            pre( '', 'access_wrap' );
+            pre( '', 'access_wrap ' . $style );
                 pre( '', 'access_panel' );
-                    !isset( $aos['ac_show_logo'] ) || $aos['ac_show_logo'] !== 1 ? a( APPURL . $login_redirect_url, '', 'brand' ) : '';
+                    $show_logo == 1 ? a( APPURL . $login_redirect_url, '', 'brand', APP_NAME, $logo.' title="'.APP_NAME.'"' ) : '';
+                    //!isset( $aos['ac_show_logo'] ) || $aos['ac_show_logo'] !== 1 ? a( APPURL . $login_redirect_url, '', 'brand' ) : '';
                     access_html( '', '', '', '', '', $login_redirect_url );
                 post();
             post();

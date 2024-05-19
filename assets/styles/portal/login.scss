@@ -69,6 +69,32 @@ label + input + .icon, label + input + .password_visibility .icon, label + input
   width: 40vw;
   max-width:600px;
   position:fixed;
+}
+.access_wrap.f {
+  height: 100vh;
+  > .access_panel {
+    border-radius: 0 !important;
+    height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    > div {
+      flex: 0 0 100%;
+    }
+  }
+}
+.access_wrap.l {
+  left: 0;
+}
+.access_wrap.r {
+  right: 0;
+}
+.access_wrap.c.f {
+  left:50%;
+  transform:translateX(-50%);
+}
+.access_wrap.c.b {
   left:50%;
   top:50%;
   transform:translate(-50%,-50%);
@@ -156,6 +182,14 @@ input.empty {
 // RTL
 
 [dir=rtl] {
+  .access_wrap.l {
+    left: auto;
+    right: 0;
+  }
+  .access_wrap.r {
+    right: auto;
+    left: 0;
+  }
   .icon {
     left: auto;
     right: 15px;
