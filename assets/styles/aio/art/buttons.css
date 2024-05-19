@@ -14,6 +14,7 @@ button, .btn {
   padding: var(--input_padding_top) 15px var(--input_padding_bottom) 15px;
   cursor: pointer;
   line-height: normal;
+  position: relative;
 }
 
 button:not(.nf):hover, .btn:not(.nf):hover {

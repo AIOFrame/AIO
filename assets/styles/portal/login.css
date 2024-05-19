@@ -15,35 +15,47 @@ body {
   text-align: center;
   transition: 0.6s;
   font-weight: normal;
-  padding: 15px 40px;
-  position: relative;
-  margin: 0 0 20px;
-}
-
-.user_wrap, .pass_wrap {
   position: relative;
 }
 
-.user_wrap:after, .pass_wrap:after {
+.icon {
+  width: 25px;
+  min-height: 25px;
+  line-height: 25px;
+  position: absolute;
+  left: 15px;
+  top: 0;
+  text-align: center;
+  padding: var(--input_padding_top) 0 var(--input_padding_bottom) 0;
+}
+
+.password_visibility .icon {
+  left: auto;
+  right: 15px;
+}
+
+label + input + .icon, label + input + .password_visibility .icon, label + input + .icon + .password_visibility .icon {
+  top: 30px;
+}
+
+/* .user_wrap:after, .pass_wrap:after {
   position: absolute;
   left: 5px;
   bottom: calc(20px + 6px);
+  //transform: translateY( calc( 50% + calc( $border-bottom / 2 )) );
   width: 40px;
   height: 40px;
-  font-family: "MaterialIcons", sans-serif;
+  font-family: 'MaterialIcons', sans-serif;
   font-size: 1.8rem;
   line-height: 40px;
   text-align: center;
 }
-
 .user_wrap:after {
-  content: "\e7fd";
+  content: '\e7fd'
 }
-
 .pass_wrap:after {
-  content: "\e897";
-}
-
+  content: '\e897'
+} */
 /* Login */
 .brand {
   display: block;
@@ -145,6 +157,15 @@ input.empty {
     padding: 10px 0;
   }
 }
+[dir=rtl] .icon {
+  left: auto;
+  right: 15px;
+}
+[dir=rtl] .password_visibility .icon {
+  right: auto;
+  left: 15px;
+}
+
 /* Dark Mode */
 body.d {
   background-color: #111;

@@ -645,10 +645,10 @@ select.mb0 + .select2-container {
   display: block;
 }
 
-[type=password] + .password_visibility .on {
+.password_visibility .on {
   display: block;
 }
-[type=password] + .password_visibility .off {
+.password_visibility .off {
   display: none;
 }
 

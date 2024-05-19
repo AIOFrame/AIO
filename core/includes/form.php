@@ -1190,8 +1190,9 @@ class FORM {
             $attrs = $data . ( $f['attr'] ?? ($f['a'] ?? '') );
             $required = $f['required'] ?? ( $f['r'] ?? '' );
             $required ? ( $attrs .= ' required' ) : '';
-            $pre = $form_type == 'settings' ? '<div class="setting_set">' : ( $f['pre'] ?? ($f['col'] ?? ( $f['c'] ?? ( $form_type == 'row' || $form_type == 'r' ? 12 : '<div>' ) )) );
-            $post = ( !empty( $pre ) && empty( $f['post'] ) ) ? '</div>' : ( $f['post'] ?? 'ted' );
+            $pre = $form_type == 'settings' ? '<div class="setting_set">' : ( $f['pre'] ?? ($f['col'] ?? ( $f['c'] ?? ( $f['_p'] ?? ( $form_type == 'row' || $form_type == 'r' ? 12 : '<div>' ) ) )) );
+            $post = $f['post'] ?? ( $f['p_'] ?? '' );
+            $post = !empty( $pre ) && empty( $post ) ? _post() : $post;
             if( in_array( $type, [ 'accordion', 'acc', 'a' ] ) ) {
                 $return .= _accordion( $label, $this->_form( $f['fields'] ?? $f['form'], $type, $data_attr ) );
             } else if( in_array( $type, [ 'column', 'col' ] ) ) {

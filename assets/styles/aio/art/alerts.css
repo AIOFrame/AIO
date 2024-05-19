@@ -159,6 +159,19 @@
   padding: var(--card_padding_top) var(--card_padding_right) var(--card_padding_bottom) var(--card_padding_left);
 }
 
+[dir=rtl] [data-alerts].r, [dir=rtl] [data-alerts].right {
+  right: auto;
+  left: 20px;
+}
+[dir=rtl] [data-alerts].l, [dir=rtl] [data-alerts].left {
+  left: auto;
+  right: 20px;
+}
+[dir=rtl] [data-alerts] .alert .close {
+  right: auto;
+  left: 5px;
+}
+
 @media all and (min-width: 0px) and (max-width: 800px) {
   [data-alerts] {
     max-width: calc(100vw - 40px);

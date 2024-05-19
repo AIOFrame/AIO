@@ -160,7 +160,27 @@ $error: var(--error_color);
   border-left: var(--card_border_left) solid var(--card_border_color);
   border-radius: var(--card_radius);
   padding: var(--card_padding_top) var(--card_padding_right) var(--card_padding_bottom) var(--card_padding_left);
+}
 
+// RTL
+
+[dir=rtl] {
+  [data-alerts].r, [data-alerts].right {
+    right: auto;
+    left: 20px;
+  }
+  [data-alerts].l, [data-alerts].left {
+    left: auto;
+    right: 20px;
+  }
+  [data-alerts] {
+    .alert {
+      .close {
+        right: auto;
+        left: 5px;
+      }
+    }
+  }
 }
 
 @media all and (min-width: 0px) and (max-width: 800px) {

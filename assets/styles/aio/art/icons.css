@@ -153,8 +153,85 @@
   position: absolute;
 }
 
+.ico.l {
+  left: 0;
+}
+
+.ico.l5 {
+  left: 5px;
+}
+
+.ico.l1, .ico.l10 {
+  left: 10px;
+}
+
+.ico.l15 {
+  left: 15px;
+}
+
+.ico.l2, .ico.l20 {
+  left: 20px;
+}
+
 .ico.r {
   right: 0;
+}
+
+.ico.r5 {
+  right: 5px;
+}
+
+.ico.r1, .ico.r10 {
+  right: 10px;
+}
+
+.ico.r15 {
+  right: 15px;
+}
+
+.ico.r2, .ico.r20 {
+  right: 20px;
+}
+
+[dir=rtl] .ico.l {
+  left: auto;
+  right: 0;
+}
+[dir=rtl] .ico.l5 {
+  left: auto;
+  right: 5px;
+}
+[dir=rtl] .ico.l1, [dir=rtl] .ico.l10 {
+  left: auto;
+  right: 10px;
+}
+[dir=rtl] .ico.l15 {
+  left: auto;
+  right: 15px;
+}
+[dir=rtl] .ico.l2, [dir=rtl] .ico.l20 {
+  left: auto;
+  right: 20px;
+}
+[dir=rtl] .ico.r {
+  right: auto;
+  left: 0;
+}
+[dir=rtl] .ico.r5 {
+  right: auto;
+  left: 5px;
+}
+[dir=rtl] .ico.r1, [dir=rtl] .ico.r10 {
+  right: auto;
+  left: 10px;
+}
+[dir=rtl] .ico.r15 {
+  right: auto;
+  left: 15px;
+}
+[dir=rtl] .ico.r2, [dir=rtl] .ico.r20 {
+  right: auto;
+  left: 20px;
 }
 
 /*# sourceMappingURL=icons.css.map */

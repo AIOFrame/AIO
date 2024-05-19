@@ -29,8 +29,8 @@ class CODE {
         }
 
         // Defines
-        $a = new ACCESS();
-        $aos = $a->get_options();
+        //$a = new ACCESS();
+        //$aos = $a->get_options();
 
         // Head
         $styles = is_array( $styles ) ? array_merge( $styles, [ 'air-datepicker' ] ) : $styles . ',air-datepicker';
@@ -41,11 +41,7 @@ class CODE {
             pre( '', 'access_wrap' );
                 pre( '', 'access_panel' );
                     !isset( $aos['ac_show_logo'] ) || $aos['ac_show_logo'] !== 1 ? a( APPURL . $login_redirect_url, '', 'brand' ) : '';
-                    $u_text = $aos['ac_username_text'] ?? 'User Login / Email';
-                    $p_text = $aos['ac_password_text'] ?? 'Password';
-                    $l_text = $aos['ac_login_btn_text'] ?? 'Login';
-                    $l_icon = $aos['ac_login_btn_icon'] ?? 'login';
-                    access_html( $u_text, $p_text, 'Remember for', $l_text, $l_icon, $login_redirect_url );
+                    access_html( '', '', '', '', '', $login_redirect_url );
                 post();
             post();
         article_();

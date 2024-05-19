@@ -17,14 +17,27 @@ body {
   text-align: center;
   transition:.6s;
   font-weight: normal;
-  padding: 15px 40px;
   position: relative;
-  margin:0 0 $margin-bottom;
+  //margin:0 0 $margin-bottom;
 }
-.user_wrap, .pass_wrap {
-  position: relative;
+.icon {
+  width: 25px;
+  min-height: 25px;
+  line-height: 25px;
+  position: absolute;
+  left: 15px;
+  top: 0;
+  text-align: center;
+  padding: var(--input_padding_top) 0 var(--input_padding_bottom) 0;
 }
-.user_wrap:after, .pass_wrap:after {
+.password_visibility .icon {
+  left: auto;
+  right: 15px;
+}
+label + input + .icon, label + input + .password_visibility .icon, label + input + .icon + .password_visibility .icon {
+  top: 30px;
+}
+/* .user_wrap:after, .pass_wrap:after {
   position: absolute;
   left: 5px;
   bottom: calc(#{$margin-bottom} + 6px);
@@ -41,7 +54,7 @@ body {
 }
 .pass_wrap:after {
   content: '\e897'
-}
+} */
 
 /* Login */
 
@@ -137,6 +150,19 @@ input.empty {
   }
   .access #set_access {
     padding:10px 0;
+  }
+}
+
+// RTL
+
+[dir=rtl] {
+  .icon {
+    left: auto;
+    right: 15px;
+  }
+  .password_visibility .icon {
+    right: auto;
+    left: 15px;
   }
 }
 

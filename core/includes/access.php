@@ -457,29 +457,39 @@ class ACCESS {
     }
     public array $session_times = [ 1 => '1 Hour' , 8 => '8 Hours', 24 => '1 Day', 168 => '1 Week' ];
     private array $access_options = [
-        [ 'i' => 'ac_logo_l', 't' => 'upload', 'n' => 'Brand Logo - Light', 'p' => 'Upload', 'c' => 4 ],
-        [ 'i' => 'ac_logo_d', 't' => 'upload', 'n' => 'Brand Logo - Dark', 'p' => 'Upload', 'c' => 4 ],
-        [ 'i' => 'ac_show_logo', 't' => 'slide', 'n' => 'Show Logo ?', 'c' => 4, 'no' => 'Hide', 'yes' => 'Show' ],
-        [ 'i' => 'ac_bg_l', 't' => 'upload', 'n' => 'Background - Light', 'p' => 'Upload', 'c' => 4 ],
-        [ 'i' => 'ac_bg_d', 't' => 'upload', 'n' => 'Background - Dark', 'p' => 'Upload', 'c' => 4 ],
-        [ 'i' => 'ac_bg_repeat', 't' => 'slide', 'n' => 'BG Repeat', 'c' => 4, 'no' => 'Hide', 'yes' => 'Show' ],
-        [ 'i' => 'ac_show_a11y', 't' => 'slide', 'n' => 'Show Accessibility', 'c' => 4, 'no' => 'Hide', 'yes' => 'Show' ],
-        [ 'i' => 'ac_show_dark', 't' => 'slide', 'n' => 'Show Dark Toggle', 'c' => 4, 'no' => 'Hide', 'yes' => 'Show' ],
+        [ 'i' => 'ac_logo_l', 't' => 'file', 'n' => 'Brand Logo - Light', 'p' => 'Upload', 'c' => 4, 'e' => 'svg,png,jpg,jpeg', 's' => .5 ],
+        [ 'i' => 'ac_logo_d', 't' => 'upload', 'n' => 'Brand Logo - Dark', 'p' => 'Upload', 'c' => 4, 'e' => 'svg,png,jpg,jpeg', 's' => .5 ],
+        [ 'i' => 'ac_show_logo', 't' => 'slide', 'n' => 'Show Logo ?', 'c' => 4, 'no' => 'Hide', 'yes' => 'Show', 'v' => 1 ],
+        [ 'i' => 'ac_bg_l', 't' => 'upload', 'n' => 'Background - Light', 'p' => 'Upload', 'c' => 4, 'e' => 'svg,png,jpg,jpeg', 's' => 1 ],
+        [ 'i' => 'ac_bg_d', 't' => 'upload', 'n' => 'Background - Dark', 'p' => 'Upload', 'c' => 4, 'e' => 'svg,png,jpg,jpeg', 's' => 1 ],
+        [ 'i' => 'ac_bg_repeat', 't' => 'slide', 'n' => 'Repeat Background?', 'c' => 4, 'no' => 'No', 'yes' => 'Yes' ],
+        [ 'i' => 'ac_show_a11y', 't' => 'slide', 'n' => 'Show Accessibility', 'c' => 4, 'no' => 'Hide', 'yes' => 'Show', 'v' => 1 ],
+        [ 'i' => 'ac_show_dark', 't' => 'slide', 'n' => 'Show Dark Mode Toggle', 'c' => 4, 'no' => 'Hide', 'yes' => 'Show', 'v' => 1 ],
+        [ 'i' => 'ac_show_labels', 't' => 'slide', 'n' => 'Show Input Labels?', 'c' => 4, 'no' => 'Hide', 'yes' => 'Show', 'v' => 1 ],
+        //[ 'i' => 'ac_labels_align', 't' => 'radio', 'n' => 'Labels Text Alignment', 'p' => 'Select...', 'o' => [ 'tal' => 'Left' , 'tac' => 'Center', 'tar' => 'Right' ], 'c' => 4, '_ip' => '.col-4', 'iw' => 'row', 'v' => 'tal' ],
+        //[ 'i' => 'ac_inputs_align', 't' => 'radio', 'n' => 'Inputs Text Alignment', 'p' => 'Select...', 'o' => [ 'tal' => 'Left' , 'tac' => 'Center', 'tar' => 'Right' ], 'c' => 4, '_ip' => '.col-4', 'iw' => 'row', 'v' => 'tal' ],
+        //[ 'i' => 'ac_buttons_align', 't' => 'radio', 'n' => 'Buttons Text Alignment', 'p' => 'Select...', 'o' => [ 'tal' => 'Left' , 'tac' => 'Center', 'tar' => 'Right' ], 'c' => 4, '_ip' => '.col-4', 'iw' => 'row', 'v' => 'tal' ],
+        [ 'i' => 'ac_alert_time', 't' => 'number', 'n' => 'Alert Visible Duration (sec)', 'c' => 4, 'v' => 4 ],
+        [ 'i' => 'ac_reload_time', 't' => 'number', 'n' => 'Reload in Duration (sec)', 'c' => 4, 'v' => 4 ],
         //[ 'id' => 'ac_show_a11y', 'type' => 'slide', 'n' => 'Show Accessibility', 'c' => 4 ],
     ];
     private array $login_options = [
-        [ 'i' => 'ac_username_text', 'n' => 'Username Text', 'c' => 4, 'p' => 'Ex: User Login' ],
-        [ 'i' => 'ac_username_icon', 'n' => 'Username Icon', 'c' => 2, 'p' => 'Ex: account_circle' ],
-        [ 'i' => 'ac_password_text', 'n' => 'Password Text', 'c' => 4, 'p' => 'Ex: Password' ],
-        [ 'i' => 'ac_password_icon', 'n' => 'Password Icon', 'c' => 2, 'p' => 'Ex: lock' ],
-        [ 'i' => 'ac_forgot_text', 'n' => 'Forgot Password Text', 'c' => 4, 'p' => 'Ex: Forgot Password?' ],
-        [ 'i' => 'ac_reset', 't' => 'slide', 'n' => 'Allow reset Password', 'c' => 2, 'no' => 'No', 'yes' => 'Allow', 'v' => 1 ],
-        [ 'i' => 'ac_login_btn_text', 'n' => 'Login Button Text', 'c' => 6, 'p' => 'Ex: Sign In' ],
-        [ 'i' => 'ac_reset_btn_text', 'n' => 'Reset Password Button Text', 'c' => 4, 'p' => 'Ex: Reset Password?' ],
-        [ 'i' => 'ac_reset_btn_icon', 'n' => 'Reset Password Icon', 'c' => 2, 'p' => 'Ex: forward_to_inbox' ],
-        [ 'i' => 'ac_return_text', 'n' => 'Return to Login Text', 'c' => 4, 'p' => 'Ex: Back to Login' ],
-        [ 'i' => 'ac_session_hours', 't' => 'select', 'n' => 'Default Session Duration', 'o' => [ 1 => '1 Hour' , 8 => '8 Hours', 24 => '1 Day', 168 => '1 Week' ], 'c' => 2 ],
+        [ 'i' => 'ac_username_text', 'n' => 'Username Text', 'c' => 3, 'p' => 'Ex: User Login' ],
+        [ 'i' => 'ac_username_icon', 'n' => 'Username Icon', 'c' => 3, 'p' => 'Ex: account_circle', 'v' => 'account_circle' ],
+        [ 'i' => 'ac_password_text', 'n' => 'Password Text', 'c' => 3, 'p' => 'Ex: Password' ],
+        [ 'i' => 'ac_password_icon', 'n' => 'Password Icon', 'c' => 3, 'p' => 'Ex: lock', 'v' => 'lock' ],
+        [ 'i' => 'ac_pass_show_icon', 'n' => 'Password Visible Icon', 'c' => 3, 'p' => 'Ex: visibility', 'v' => 'visibility' ],
+        [ 'i' => 'ac_pass_hide_icon', 'n' => 'Password Hide Icon', 'c' => 3, 'p' => 'Ex: visibility_off', 'v' => 'visibility_off' ],
+        [ 'i' => 'ac_login_btn_text', 'n' => 'Login Button Text', 'c' => 3, 'p' => 'Ex: Sign In or Login or Get In etc.' ],
+        [ 'i' => 'ac_login_btn_icon', 'n' => 'Login Button Icon', 'c' => 3, 'p' => 'Ex: login', 'v' => 'login' ],
+        [ 'i' => 'ac_reset', 't' => 'slide', 'n' => 'Allow Password Reset?', 'c' => 3, 'no' => 'No', 'yes' => 'Allow', 'v' => 1 ],
+        [ 'i' => 'ac_forgot_text', 'n' => 'Forgot Password Link Text', 'c' => 3, 'p' => 'Ex: Forgot Password?' ],
+        [ 'i' => 'ac_reset_btn_text', 'n' => 'Reset Password Button Text', 'c' => 3, 'p' => 'Ex: Reset Password' ],
+        [ 'i' => 'ac_reset_btn_icon', 'n' => 'Reset Password Icon', 'c' => 3, 'p' => 'Ex: forward_to_inbox', 'v' => 'forward_to_inbox' ],
+        [ 'i' => 'ac_return_text', 'n' => 'Return to Login Text', 'c' => 6, 'p' => 'Ex: Back to Login' ],
+        [ 'i' => 'ac_remember_text', 'n' => 'Remember Me For Text', 'c' => 3, 'p' => 'Ex: Remember Me' ],
         [ 'i' => 'ac_remember', 't' => 'slide', 'n' => 'Show Remember Options', 'c' => 3, 'no' => 'Hide', 'yes' => 'Show', 'v' => 1 ],
+        //[ 'i' => 'ac_session_hours', 't' => 'select', 'n' => 'Default Session Duration', 'p' => 'Select...', 'o' => [ 1 => '1 Hour' , 8 => '8 Hours', 24 => '1 Day', 168 => '1 Week' ], 'c' => 3 ],
     ];
     private array $register_options = [
         [ 'i' => 'ac_register', 't' => 'slide', 'n' => 'Allow Registration?', 'c' => 3, 'no' => 'No', 'yes' => 'Allow', 'v' => 1 ],
@@ -614,7 +624,7 @@ class ACCESS {
         $o = new OPTIONS();
         $form = array_merge( ( $show_access ? $this->access_options : [] ), ( $show_login ? $this->login_options : [] ), ( $show_register ? $this->register_options : [] ) );
         // skel( $form );
-        $o->form( $form, $form_type );
+        $o->form( $form, $form_type, 1 );
         //$ops = $this->get_options( $type );
         //$f->process_params('','ei','',2,2,[],'Successfully saved user access options!','','Are you sure to save user access options','','','','row');
         /* $ao_structure = $type == 1 ? $this->access_options : ( $type == 2 ? $this->login_options : $this->register_options );
@@ -833,45 +843,56 @@ function access_change_ajax(): void {
 // TODO: Add language switcher during login
 /**
  * Renders frontend code for user login
- * @param string $login_title Replacement text for default "Username" title
+ * @param string $user_title Replacement text for default "Username" title
  * @param string $pass_title Replacement text for default "Password" title
  * @param string $session_title Replacement text for default "Remember access for" title
  * @param string $login_button_title Replacement text for "Login" button title
- * @param int|string $reload_in Seconds to Reload Page
- * @param int|string $notify_for Seconds to Notify
+ * @param string $login_button_icon Replacement icon for "Login" button
  * @param string $redirect_to Page to redirect to upon success
  * @param string $class Login, Forgot Password button class
  */
-function access_html( string $login_title = 'Username or Email', string $pass_title = 'Password', string $session_title = 'Remember access for', string $login_button_title = 'Login', int|string $reload_in = 1, int|string $notify_for = 1, string $redirect_to = '', string $class = '' ): void {
+function access_html( string $user_title = 'Username or Email', string $pass_title = 'Password', string $session_title = 'Remember access for', string $login_button_title = 'Login', string $login_button_icon = 'login', string $redirect_to = '', string $class = '' ): void {
     if( user_logged_in() ) {
         return;
     }
     $f = new FORM();
     $a = new ACCESS();
-    $aos = $a->get_options(1);
+    global $options;
+    //skel( $options );
+    $aos = $a->get_options(1,1);
     //skel( $aos );
-    $login_title = $login_title ?? $aos['ac_username_text'];
-    $pass_title = $pass_title ?? $aos['ac_password_text'];
-    $login_button_title = !empty( $login_button_title ) ? $login_button_title : ( $aos['login_button_text'] ?? '' );
-    $show_reset = $aos['ac_reset'] ?? 0;
+    $user_title = !empty( $user_title ) ? $user_title : ( $aos['ac_username_text'] ?? '' );
+    $icon_class = 'icon ' . ( $options['universal_icon_class'] ?? 'mico' );
+    $user_icon = $aos['ac_username_icon'] ?? 'account_circle';
+    $pass_title = !empty( $pass_title ) ? $pass_title : ( $aos['ac_password_text'] ?? '' );
+    $session_title = !empty( $session_title ) ? $session_title : ( $aos['ac_remember_text'] ?? '' );
+    $pass_icon = $aos['ac_password_icon'] ?? 'lock';
+    $pass_show_icon = $aos['ac_pass_show_icon'] ?? 'visibility';
+    $pass_hide_icon = $aos['ac_pass_hide_icon'] ?? 'visibility_off';
+    $login_button_title = !empty( $login_button_title ) ? $login_button_title : ( $aos['ac_login_btn_text'] ?? '' );
+    $login_button_icon = !empty( $login_button_icon ) ? $login_button_icon : ( $aos['ac_login_btn_icon'] ?? '' );
+    $show_reset = $aos['ac_reset'] ?? 1;
     $forgot_pass_title = !empty( $aos['ac_forgot_text'] ) ? $aos['ac_forgot_text'] : T('Forgot Password?');
     $register_title = !empty( $aos['register_text'] ) ? $aos['register_text'] : T('Register');
     $return_text = !empty( $aos['ac_return_text'] ) ? $aos['ac_return_text'] : T('Return to Login');
+    $show_labels = !empty( $aos['ac_show_labels'] ) && $aos['ac_show_labels'] == 1 ? $aos['ac_show_labels'] : 0;
+    $show_sessions = !empty( $aos['ac_remember'] ) && $aos['ac_remember'] == 1 ? 1 : 0;
     pre( '', 'access_inner_wrap' );
         pre( '', 'login_outer_wrap' );
             $f->pre_process('class="login_wrap"','access_login_ajax','log','login_',[],'','','',$redirect_to,'',1);
                 pre( '', 'inputs', 'form' );
                     $session_times = [ 1 => '1 Hour' , 8 => '8 Hours' , 24 => '1 Day', 168 => '1 Week' ];
                     $login_form = [
-                        [ 'i' => 'username', 'n' => $login_title, 'p' => $login_title, 'c' => '.col-12 user_wrap', 'a' => 'data-log required autocomplete="username" data-click-on-enter="#aio_login_init"' ],
-                        [ 'i' => 'password', 'n' => $pass_title, 'p' => $pass_title, 'c' => '.col-12 pass_wrap', 'a' => 'data-assist data-log required autocomplete="current-password" data-click-on-enter="#aio_login_init"', 't' => 'password' ],
+                        [ 'i' => 'username', 'n' => ( $show_labels ? $user_title : '' ), 'p' => $user_title, 'c' => '.col-12 rel user_wrap', 'a' => 'data-log required autocomplete="username" data-click-on-enter="#aio_login_init"', 'p_' => _el( 'div', $icon_class, $user_icon ) . _post() ],
+                        [ 'i' => 'password', 'n' => ( $show_labels ? $pass_title : '' ), 'p' => $pass_title, 'c' => '.col-12 rel pass_wrap', 'a' => 'data-assist data-log required autocomplete="current-password" data-click-on-enter="#aio_login_init"', 't' => 'password', 'p_' => _el( 'div', $icon_class, $pass_icon ) . _post() ],
                     ];
-                    if( !empty( $aos ) && isset( $aos['ac_remember'] ) && $aos['ac_remember'] == 1 ) {
-                        $login_form[] = [ 'i' => 'remember', 'n' => $session_title, 'o' => $session_times, 's' => 1, 'd' => 'log', 't' => 'radios', 'iw' => 'row df fg', '_ip' => '.col' ];
+                    if( $show_sessions ) {
+                        $login_form[] = [ 'i' => 'remember', 'n' => ( $show_labels ? $session_title : '' ), 'o' => $session_times, 's' => 1, 'd' => 'log', 't' => 'radios', 'iw' => 'row df fg', '_ip' => '.col' ];
                     }
                     $f->form( $login_form, 'row' );
+                    div( 'dn', _div( 'password_visibility', _div( $icon_class . ' on', $pass_show_icon ) . _div( $icon_class . ' off', $pass_hide_icon ) ), '', 'data-password_toggle_template' );
                 post( 'form' );
-                $f->process_trigger( T( $login_button_title ), 'grad '. $class, 'id="aio_login_init"' );
+                $f->process_trigger( T( $login_button_title ), 'grad '. $class, 'id="aio_login_init"', '', '', '', 'button', '', $login_button_icon, 'mico abs r2' );
                 if( $show_reset == 1 ) {
                     div( 'more', T( $forgot_pass_title ), '', 'data-hide=".login_wrap" data-show=".forgot_wrap"' );
                 }
@@ -881,11 +902,16 @@ function access_html( string $login_title = 'Username or Email', string $pass_ti
             $f->post_process();
             if( $show_reset == 1 ) {
                 $reset_btn_title = !empty( $aos['ac_reset_btn_text'] ) ? $aos['ac_reset_btn_text'] : T('Reset Password');
+                $reset_btn_icon = !empty( $aos['ac_reset_btn_icon'] ) ? $aos['ac_reset_btn_icon'] : 'forward_to_inbox';
                 $f->pre_process('class="forgot_wrap"  style="display:none;"','forg','forgot_','',[],'','','',$redirect_to,'',1);
                 pre( '', 'inputs' );
-                    $f->text('username',$login_title,$login_title,'','onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"','<div class="forgot_user_wrap">','</div>');
+                    $reset_form = [
+                        [ 'i' => 'username', 'n' => ( $show_labels ? $user_title : '' ), 'p' => $user_title, 'd' => 'onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"', 'c' => '.col-12 rel reset_user_wrap', 'p_' => _el( 'div', $icon_class, $user_icon ) . _post() ],
+                    ];
+                    $f->form( $reset_form );
+                    //$f->text('username',($show_labels?$user_title:''),$user_title,'','onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"','.forgot_user_wrap', );
                 post();
-                $f->process_trigger( $reset_btn_title, 'grad '. $class, 'id="aio_forgot_init"', 'access_forgot_ajax' );
+                $f->process_trigger( $reset_btn_title, 'grad '. $class, 'id="aio_forgot_init"', 'access_forgot_ajax', '', '', 'button', '', $reset_btn_icon, 'mico abs r2' );
                 div( 'more', T( $return_text ), '', 'data-hide=".forgot_wrap" data-show=".login_wrap"' );
                 $f->post_process();
             }
