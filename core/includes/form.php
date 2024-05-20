@@ -1255,6 +1255,7 @@ class FORM {
                 $checked = $f['checked'] ?? ( $f['check'] ?? ( $f['selected'] ?? ( $f['s'] ?? ( $f['v'] ?? '' ) ) ) );
                 $label_first = $f['label_first'] ?? ( $f['lf'] ?? 0 );
                 $inputs_pre = $f['inputs_pre'] ?? ( $f['i_p'] ?? ( $f['_ip'] ?? ( $f['_i'] ?? '' ) ) );
+                $inputs_pre = is_numeric( $inputs_pre ) ? '.col-'.$inputs_pre : $inputs_pre;
                 $inputs_pre .= empty( $inputs_pre ) ? '.check_set' : ' check_set';
                 $inputs_post = $f['inputs_post'] ?? ( $f['ip_'] ?? ( $f['i_'] ?? '' ) );
                 $inputs_wrap = $f['inputs_wrap'] ?? ( $f['iw'] ?? ( is_numeric( $inputs_pre ) || is_float( $inputs_pre ) ? 'row' : '' ) );
