@@ -458,6 +458,7 @@ class ACCESS {
     public array $session_times = [ 1 => '1 Hour' , 8 => '8 Hours', 24 => '1 Day', 168 => '1 Week' ];
     private array $access_options = [
         [ 'i' => 'ac_style', 't' => 'radios', 'n' => 'Access Panel Style', 'c' => 12, 'o' => [ 'l f' => 'Left Full Panel', 'c f' => 'Center Full Panel', 'c b' => 'Center Boxed', 'r f' => 'Right Full Panel' ], 'v' => 'c b', '_i' => '.col-3', 'iw' => 'row' ],
+        [ 't' => 'break' ],
         [ 'i' => 'ac_logo_l', 't' => 'file', 'n' => 'Brand Logo - Light', 'p' => 'Upload', 'c' => 4, 'e' => 'svg,png,jpg,jpeg', 's' => .5 ],
         [ 'i' => 'ac_logo_d', 't' => 'upload', 'n' => 'Brand Logo - Dark', 'p' => 'Upload', 'c' => 4, 'e' => 'svg,png,jpg,jpeg', 's' => .5 ],
         [ 'i' => 'ac_show_logo', 't' => 'slide', 'n' => 'Show Logo ?', 'c' => 4, 'no' => 'Hide', 'yes' => 'Show', 'v' => 1 ],
@@ -494,9 +495,24 @@ class ACCESS {
     ];
     private array $register_options = [
         [ 'i' => 'ac_register', 't' => 'slide', 'n' => 'Allow Registration?', 'c' => 3, 'no' => 'No', 'yes' => 'Allow', 'v' => 1 ],
-        [ 'i' => 'ac_register_name', 't' => 'slide', 'n' => 'Ask Full Name?', 'c' => 3 ],
-        [ 'i' => 'ac_register_text', 'n' => 'Register Link Text', 'c' => 3, 'p' => 'Ex: Dont have an account?' ],
+        [ 'i' => 'ac_register_link_text', 'n' => 'Register Link Text', 'c' => 3, 'p' => 'Ex: Dont have an account?' ],
         [ 'i' => 'ac_register_btn_text', 'n' => 'Register Button Text', 'c' => 3, 'p' => 'Ex: Sign Up' ],
+        [ 'i' => 'ac_register_btn_icon', 'n' => 'Register Button Icon', 'c' => 3, 'cl' => 'mica', 'p' => 'Ex: how_to_reg', 'v' => 'how_to_reg', 'a' => 'data-icon' ],
+        [ 't' => 'break' ],
+        [ 'i' => 'ac_register_login', 't' => 'slide', 'n' => 'Ask User Login?', 'c' => 3, 'no' => 'Hide', 'yes' => 'Show', 'v' => 1 ],
+        [ 'i' => 'ac_register_login_must', 't' => 'slide', 'n' => 'Required', 'c' => 3, 'no' => 'Optional', 'yes' => 'Must' ],
+        [ 'i' => 'ac_register_login_text', 'n' => 'User Login Text', 'c' => 3, 'p' => 'Ex: User Login' ],
+        [ 'i' => 'ac_register_login_icon', 'n' => 'User Login Icon', 'c' => 3, 'p' => 'Ex: account_circle', 'v' => 'account_circle' ],
+        [ 'i' => 'ac_register_name', 't' => 'slide', 'n' => 'Ask Full Name?', 'c' => 3, 'no' => 'Hide', 'yes' => 'Show' ],
+        [ 'i' => 'ac_register_name_must', 't' => 'slide', 'n' => 'Required', 'c' => 3, 'no' => 'Optional', 'yes' => 'Must' ],
+        [ 'i' => 'ac_register_name_text', 'n' => 'Full Name Text', 'c' => 3, 'p' => 'Ex: Full Name' ],
+        [ 'i' => 'ac_register_name_icon', 'n' => 'User Name Icon', 'c' => 3, 'p' => 'Ex: record_voice_over', 'v' => 'record_voice_over' ],
+        [ 'i' => 'ac_register_pic', 't' => 'slide', 'n' => 'Ask User Picture?', 'c' => 3, 'no' => 'Hide', 'yes' => 'Show' ],
+        [ 'i' => 'ac_register_pic_must', 't' => 'slide', 'n' => 'Required', 'c' => 3, 'no' => 'Optional', 'yes' => 'Must' ],
+        [ 'i' => 'ac_register_pic_text', 'n' => 'User Picture Text', 'c' => 6, 'p' => 'Ex: Upload Picture' ],
+        [ 'i' => 'ac_register_dob', 't' => 'slide', 'n' => 'Ask Date of Birth?', 'c' => 3, 'no' => 'Hide', 'yes' => 'Show' ],
+        [ 'i' => 'ac_register_dob_must', 't' => 'slide', 'n' => 'Required', 'c' => 3, 'no' => 'Optional', 'yes' => 'Must' ],
+        [ 'i' => 'ac_register_dob_text', 'n' => 'User DOB Text', 'c' => 6, 'p' => 'Ex: Date of Birth' ],
     ];
 
     /**
@@ -602,12 +618,15 @@ class ACCESS {
     function get_options( bool $get_access = true, bool $get_login = true, bool $get_register = true ): array {
         $db = new DB();
         $fields = array_merge( ( $get_access ? $this->access_options : [] ), ( $get_login ? $this->login_options : [] ), ( $get_register ? $this->register_options : [] ) );
+        //skel( $fields );
         $param_array = [];
         foreach( $fields as $aok ) {
             if( isset( $aok['i'] ) ) {
                 $param_array[] = $aok['i'];
             }
         }
+        //skel( $param_array );
+        //skel( $db->get_options( $param_array ) );
         return $db->get_options( $param_array );
     }
 
@@ -860,7 +879,7 @@ function access_html( string $user_title = 'Username or Email', string $pass_tit
     $a = new ACCESS();
     global $options;
     //skel( $options );
-    $aos = $a->get_options(1,1);
+    $aos = $a->get_options(1,1,1);
     //skel( $aos );
     $user_title = !empty( $user_title ) ? $user_title : ( $aos['ac_username_text'] ?? '' );
     $icon_class = 'icon ' . ( $options['universal_icon_class'] ?? 'mico' );
@@ -873,6 +892,7 @@ function access_html( string $user_title = 'Username or Email', string $pass_tit
     $login_button_title = !empty( $login_button_title ) ? $login_button_title : ( $aos['ac_login_btn_text'] ?? '' );
     $login_button_icon = !empty( $login_button_icon ) ? $login_button_icon : ( $aos['ac_login_btn_icon'] ?? '' );
     $show_reset = $aos['ac_reset'] ?? 1;
+    $allow_register = $aos['ac_register'] ?? 0;
     $forgot_pass_title = !empty( $aos['ac_forgot_text'] ) ? $aos['ac_forgot_text'] : T('Forgot Password?');
     $register_title = !empty( $aos['register_text'] ) ? $aos['register_text'] : T('Register');
     $return_text = !empty( $aos['ac_return_text'] ) ? $aos['ac_return_text'] : T('Return to Login');
@@ -893,12 +913,12 @@ function access_html( string $user_title = 'Username or Email', string $pass_tit
                     $f->form( $login_form, 'row' );
                     div( 'dn', _div( 'password_visibility', _div( $icon_class . ' on', $pass_show_icon ) . _div( $icon_class . ' off', $pass_hide_icon ) ), '', 'data-password_toggle_template' );
                 post( 'form' );
-                $f->process_trigger( T( $login_button_title ), 'grad xxl'. $class, 'id="aio_login_init"', '', '', '', 'button', '', $login_button_icon, 'mico abs r2' );
+                $f->process_trigger( T( $login_button_title ), 'grad xxl'. $class, 'id="aio_login_init"', '', '', '', 'button', '', $login_button_icon, $icon_class . ' abs r2' );
                 if( $show_reset == 1 ) {
-                    div( 'more', T( $forgot_pass_title ), '', 'data-hide=".login_wrap" data-show=".forgot_wrap"' );
+                    div( 'more p5', T( $forgot_pass_title ), '', 'data-hide=".login_wrap" data-show=".forgot_wrap"' );
                 }
-                if( empty( $aos ) || ( isset( $aos['ac_register'] ) && $aos['ac_register'] == 1 ) ) {
-                    div( 'more', T( $register_title ), '', 'data-hide=".login_wrap" data-show=".register_outer_wrap"' );
+                if( $allow_register ) {
+                    div( 'more p5', T( $register_title ), '', 'data-hide=".login_wrap" data-show=".register_outer_wrap"' );
                 }
             $f->post_process();
             if( $show_reset == 1 ) {
@@ -921,7 +941,7 @@ function access_html( string $user_title = 'Username or Email', string $pass_tit
         if( empty( $aos ) || ( isset( $aos['ac_register'] ) && $aos['ac_register'] == 1 ) ) {
             pre( '', 'register_outer_wrap dn' );
                 register_html();
-                div( 'more', T( $return_text ), '', 'data-hide=".register_outer_wrap" data-show=".login_wrap"' );
+                div( 'more p5', T( $return_text ), '', 'data-hide=".register_outer_wrap" data-show=".login_wrap"' );
             post();
         }
         get_script('access');
@@ -932,7 +952,7 @@ function access_html( string $user_title = 'Username or Email', string $pass_tit
 /**
  * Renders frontend code for user registration
  * @param array $columns Additional user columns as assoc array
- * @param bool $columns_before Show columns before (true) or after (false) default fields, default true
+ * @param bool $prepend_columns Show columns before (true) or after (false) default fields, default true
  * @param array $data User data as json array
  * @param array $access User access permissions as json array
  * @param array $hide Fields to now render
@@ -942,63 +962,68 @@ function access_html( string $user_title = 'Username or Email', string $pass_tit
  * @param string $redirect_to Page to redirect to upon success
  * @param string $callback JS Callback
  */
-function register_html( array $columns = [], bool $columns_before = true, array $data = [], array $access = [], array $hide = [], array $compulsory = [], int|string $reload_in = 3, int|string $notify_for = 3, string $redirect_to = '', string $callback = '' ): void {
+function register_html( array $columns = [], bool $prepend_columns = true, array $data = [], array $access = [], array $hide = [], array $compulsory = [], int|string $reload_in = 3, int|string $notify_for = 3, string $redirect_to = '', string $callback = '' ): void {
     if( user_logged_in() ) {
         return;
     }
-    $rand = rand( 0, 9999 );
-    $cry = Encrypt::initiate();
+    global $options;
     $f = new FORM();
     $a = new ACCESS();
-    $aos = $a->get_options(2);
+    $aos = $a->get_options(0,0,1);
+    $icon_class = 'icon ' . ( $options['universal_icon_class'] ?? 'mico' );
     $login_title = $ops['username_text'] ?? 'User Login / Email';
     $pass_title = $ops['password_text'] ?? 'Password';
-    $register_button_title = $aos['register_button_text'] ?? 'Register';
+    $register_button_text = $aos['ac_register_btn_text'] ?? 'Register';
+    $register_button_icon = $aos['ac_register_btn_icon'] ?? 'how_to_reg';
+    $show_labels = !empty( $aos['ac_show_labels'] ) && $aos['ac_show_labels'] == 1 ? $aos['ac_show_labels'] : 0;
     $f->pre_process('class="register_wrap"','','reg','register_',[],'',$callback,'',$redirect_to,'',1);
-    pre( '', 'inputs' );
-        $columns_html = '';
-        foreach( $columns as $ck => $cv ) {
-            $empty_logic = in_array( $ck, $compulsory ) ? 'required="true"' : '';
-            $columns_html .= '<label for="'.$ck.'_'.$rand.'">'.T( $cv ).'</label>';
-            $columns_html .= '<input type="text" id="'.$ck.'_'.$rand.'" data-key="'.$ck.'" data-array="register_columns" placeholder="'.T( $cv ).'" data-reg '.$empty_logic.'>';
-        }
-        echo $columns_before ? $columns_html : '';
-        $min_string = T('Minimum Characters');
-        $reg_form = [
-            [ 'i' => 'username', 'n' => $login_title, 'p' => $login_title, 'a' => 'data-reg minlength="8" data-minlength="'.$min_string.'" data-help required', 'c' => '.reg_user_wrap col-12' ],
-            [ 'i' => 'password', 'n' => $pass_title, 'p' => $pass_title, 'a' => 'data-reg minlength="8" data-minlength="'.$min_string.'" data-help required', 'c' => '.reg_pass_wrap col-12', 't' => 'password' ],
-        ];
-        //$f->text('username',$login_title,$login_title,'','data-reg minlength="8" data-minlength="'.$min_string.'" data-help required','<div>','</div>');
-        //$f->input('password','password',$pass_title,'Password','','data-reg minlength="8" data-minlength="'.$min_string.'" data-help required','<div>','</div>');
-        $empty_logic = in_array( 'email', $compulsory ) ? 'required="true"' : '';
-        $reg_form[] = [ 'i' => 'email', 'n' => 'Email', 'p' => 'Ex: john_doe@email.com', 'a' => 'data-reg data-help required'.$empty_logic, 'c' => 12, 't' => 'email' ];
-        //$f->input('email','email','Email','Email','','data-reg data-help required'.$empty_logic,'<div>','</div>');
-        $defs = [ [ 'id' => 'name', 'n' => 'Full Name' ], [ 'id' => 'picture', 'n' => 'Picture', 'type' => 'upload' ], [ 'id' => 'dob', 'n' => 'Date of Birth', 'type' => 'date' ] ];
-        foreach( $defs as $df ) {
-            if( !in_array( $df['id'], $hide ) ) {
-                $req = in_array( $df['id'], $compulsory ) ? 'required' : '';
-                if( isset( $df['type'] ) && $df['type'] == 'upload' ) {
-                    //$f->upload( $df['id'], $df['n'], 'Upload Profile Picture', '', 0, 0, '', 'data-reg', 'jpg,jpeg,png', .2, 0, '', '<div>', '</div>' );
-                    $reg_form[] = [ 'i' => $df['id'], 'n' => $df['n'], 'p' => 'Upload', 't' => 'upload', 'e' => 'jpg,jpeg,png,svg', 'd' => 'reg', 'c' => 6 ];
-                } else if( isset( $df['type'] ) && $df['type'] == 'date' ) {
-                    $f->date( $df['id'], $df['n'], '', '', 'data-reg', 'top center', '<div>', 0, 0, '', '', '', '</div>' );
-                } else {
-                    $f->text( $df['id'], $df['n'], $df['placeholder'] ?? $df['n'], '', 'data-reg', '<div>', '</div>' );
-                }
-                //echo '<div><label for="register_'.$dk.'_'.$rand.'">'.T( $dv ).'</label>';
-                //echo '<input type="text" class="'.$dk.'" data-reg name="'.$dk.'" id="register_'.$dk.'_'.$rand.'" data-key="'.$dk.'" placeholder="'.$dv.'" '.$empty_logic.'></div>';
+        pre( '', 'inputs' );
+            $append_fields = [];
+            foreach( $columns as $ck => $cv ) {
+                $append_fields[] = [ 'i' => $ck, 'n' => ( $show_labels ? $cv : '' ), 'a' => 'data-reg data-array="register_columns"', 'r' => in_array( $ck, $compulsory ) ];
+                //$empty_logic = in_array( $ck, $compulsory ) ? 'required="true"' : '';
+                //$columns_html .= $show_labels ? '<label for="'.$ck.'_'.$rand.'">'.T( $cv ).'</label>' : '';
+                //$columns_html .= '<input type="text" id="'.$ck.'_'.$rand.'" data-key="'.$ck.'" data-array="register_columns" placeholder="'.T( $cv ).'" data-reg '.$empty_logic.'>';
             }
-        }
-        if( !empty( $data ) ) {
-            echo '<input type="text" id="register_data_'.$rand.'" data-key="data" value="'.$cry->encrypt( json_encode( $data ) ).'" data-register required="true">';
-        }
-        if( !empty( $permissions ) ) {
-            echo '<input type="text" id="register_access_'.$rand.'" data-key="access" value="'.$cry->encrypt( json_encode( $access ) ).'" data-register required="true">';
-        }
-        echo !$columns_before ? $columns_html : '';
-    post();
-    file_upload();
-    $f->process_trigger( $register_button_title, 'grad', 'id="aio_forgot_init"', 'access_register_ajax' );
+            //echo $columns_before ? $columns_html : '';
+            $min_string = T('Minimum Characters');
+            $reg_form = [
+                [ 'i' => 'username', 'n' => $login_title, 'p' => $login_title, 'a' => 'data-reg minlength="8" data-minlength="'.$min_string.'" data-help required', 'c' => '.reg_user_wrap col-12' ],
+                [ 'i' => 'password', 'n' => $pass_title, 'p' => $pass_title, 'a' => 'data-reg minlength="8" data-minlength="'.$min_string.'" data-help required', 'c' => '.reg_pass_wrap col-12', 't' => 'password' ],
+            ];
+            $reg_form = $prepend_columns ? array_merge( $append_fields, $reg_form ) : array_merge( $reg_form, $append_fields );
+            //$f->text('username',$login_title,$login_title,'','data-reg minlength="8" data-minlength="'.$min_string.'" data-help required','<div>','</div>');
+            //$f->input('password','password',$pass_title,'Password','','data-reg minlength="8" data-minlength="'.$min_string.'" data-help required','<div>','</div>');
+            //$empty_logic = in_array( 'email', $compulsory ) ? 'required="true"' : '';
+            $reg_form[] = [ 'i' => 'email', 'n' => 'Email', 'p' => 'Ex: john_doe@email.com', 'a' => 'data-reg data-help', 'r' => in_array( 'email', $compulsory ), 'c' => 12, 't' => 'email' ];
+            //$f->input('email','email','Email','Email','','data-reg data-help required'.$empty_logic,'<div>','</div>');
+            // $defs = [ [ 'id' => 'name', 'n' => 'Full Name' ], [ 'id' => 'picture', 'n' => 'Picture', 'type' => 'upload', 'c' => 6 ], [ 'id' => 'dob', 'n' => 'Date of Birth', 'type' => 'date', 'c' => 6 ] ];
+            /* foreach( $defs as $df ) {
+                if( !in_array( $df['id'], $hide ) ) {
+                    $req = in_array( $df['id'], $compulsory ) ? 'required' : '';
+                    if( isset( $df['type'] ) && $df['type'] == 'upload' ) {
+                        //$f->upload( $df['id'], $df['n'], 'Upload Profile Picture', '', 0, 0, '', 'data-reg', 'jpg,jpeg,png', .2, 0, '', '<div>', '</div>' );
+                        $reg_form[] = [ 'i' => $df['id'], 'n' => $df['n'], 'p' => 'Upload', 't' => 'upload', 'e' => 'jpg,jpeg,png,svg', 'd' => 'reg', 'c' => 6 ];
+                    } else if( isset( $df['type'] ) && $df['type'] == 'date' ) {
+                        $f->date( $df['id'], $df['n'], '', '', 'data-reg', 'top center', '<div>', 0, 0, '', '', '', '</div>' );
+                    } else {
+                        $f->text( $df['id'], $df['n'], $df['placeholder'] ?? $df['n'], '', 'data-reg', '<div>', '</div>' );
+                    }
+                    //echo '<div><label for="register_'.$dk.'_'.$rand.'">'.T( $dv ).'</label>';
+                    //echo '<input type="text" class="'.$dk.'" data-reg name="'.$dk.'" id="register_'.$dk.'_'.$rand.'" data-key="'.$dk.'" placeholder="'.$dv.'" '.$empty_logic.'></div>';
+                }
+            }
+            if( !empty( $data ) ) {
+                echo '<input type="text" id="register_data_'.$rand.'" data-key="data" value="'.$cry->encrypt( json_encode( $data ) ).'" data-register required="true">';
+            }
+            if( !empty( $permissions ) ) {
+                echo '<input type="text" id="register_access_'.$rand.'" data-key="access" value="'.$cry->encrypt( json_encode( $access ) ).'" data-register required="true">';
+            } */
+            $f->form( $reg_form );
+            //echo !$columns_before ? $columns_html : '';
+        post();
+        file_upload();
+        $f->process_trigger( $register_button_text, 'grad xxl', 'id="aio_forgot_init"', 'access_register_ajax', '', '', 'button', '', $register_button_icon, $icon_class . ' abs r2' );
     $f->post_process();
 }
 

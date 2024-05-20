@@ -1296,6 +1296,10 @@ class FORM {
                 $return .= $this->_map( $latitude_field, $longitude_field, $address_field, $area_field, $city_field, $country_field, $coordinates, $pre, $height, $latitude_value, $longitude_value, $show_search, $show_full, $zoom, $show_zoom, $type, $show_type, $post );
             } else if( $type == 'code' || $type == 'c' ) {
                 $return .= $this->_code( $id, $label, $val, $attrs, $pre, $post );
+            } else if( $type == 'break' || $type == 'br' ) {
+                $c = $f['class'] ?? ( $f['c'] ?? 12 );
+                $c = 'col-md-'.$c . ( str_contains( $c, 'col-' ) ? $c : ' col-12' );
+                $return .= _div( $c, _el( 'hr', 'break' ) );
             } else {
                 //skel( $pre );
                 //skel( !empty( $pre ) && empty( $f['post'] ) );

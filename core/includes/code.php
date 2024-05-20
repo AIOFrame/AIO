@@ -454,7 +454,7 @@ function post_tabs(): void {
 }
 
 function _el( string $element = 'div', string $class = '', string $content = '', string $id = '', string $attrs = '', bool $translate = false ): string {
-    if( $element == 'hr' || $element == 'br' ) {
+    if( $element == 'hr' ) {
         return _pre( $id, $class, $element, $attrs );
     } else {
         $content = $translate ? T( $content ) : $content;

@@ -155,41 +155,51 @@
 
 .ico.l {
   left: 0;
+  right: auto;
 }
 
 .ico.l5 {
+  right: auto;
   left: 5px;
 }
 
 .ico.l1, .ico.l10 {
+  right: auto;
   left: 10px;
 }
 
 .ico.l15 {
+  right: auto;
   left: 15px;
 }
 
 .ico.l2, .ico.l20 {
+  right: auto;
   left: 20px;
 }
 
 .ico.r {
   right: 0;
+  left: auto;
 }
 
 .ico.r5 {
+  left: auto;
   right: 5px;
 }
 
 .ico.r1, .ico.r10 {
+  left: auto;
   right: 10px;
 }
 
 .ico.r15 {
+  left: auto;
   right: 15px;
 }
 
 .ico.r2, .ico.r20 {
+  left: auto;
   right: 20px;
 }
 

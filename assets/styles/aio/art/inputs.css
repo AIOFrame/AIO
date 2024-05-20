@@ -295,6 +295,23 @@ input.load, input.loading {
   left: 43%;
 }
 
+hr.break {
+  margin: var(--input_margin_top) var(--input_margin_right) var(--input_margin_bottom) var(--input_margin_left);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+[data-icon] {
+  padding-right: 50px;
+}
+
+[data-icon]:after {
+  content: attr(data-icon);
+  position: absolute;
+  right: 5px;
+  display: block;
+  font-size: 2rem;
+}
+
 /* Textarea */
 textarea {
   resize: vertical;
