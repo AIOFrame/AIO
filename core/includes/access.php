@@ -509,7 +509,8 @@ class ACCESS {
         [ 'i' => 'ac_register_name_icon', 'n' => 'User Name Icon', 'c' => 3, 'p' => 'Ex: record_voice_over', 'v' => 'record_voice_over' ],
         [ 'i' => 'ac_register_pic', 't' => 'slide', 'n' => 'Ask User Picture?', 'c' => 3, 'no' => 'Hide', 'yes' => 'Show' ],
         [ 'i' => 'ac_register_pic_must', 't' => 'slide', 'n' => 'Required', 'c' => 3, 'no' => 'Optional', 'yes' => 'Must' ],
-        [ 'i' => 'ac_register_pic_text', 'n' => 'User Picture Text', 'c' => 6, 'p' => 'Ex: Upload Picture' ],
+        [ 'i' => 'ac_register_pic_text', 'n' => 'User Picture Text', 'c' => 3, 'p' => 'Ex: Upload Picture' ],
+        [ 'i' => 'ac_register_email_icon', 'n' => 'User Email Icon', 'c' => 3, 'p' => 'Ex: mail', 'v' => 'mail' ],
         [ 'i' => 'ac_register_dob', 't' => 'slide', 'n' => 'Ask Date of Birth?', 'c' => 3, 'no' => 'Hide', 'yes' => 'Show' ],
         [ 'i' => 'ac_register_dob_must', 't' => 'slide', 'n' => 'Required', 'c' => 3, 'no' => 'Optional', 'yes' => 'Must' ],
         [ 'i' => 'ac_register_dob_text', 'n' => 'User DOB Text', 'c' => 6, 'p' => 'Ex: Date of Birth' ],
@@ -894,7 +895,7 @@ function access_html( string $user_title = 'Username or Email', string $pass_tit
     $show_reset = $aos['ac_reset'] ?? 1;
     $allow_register = $aos['ac_register'] ?? 0;
     $forgot_pass_title = !empty( $aos['ac_forgot_text'] ) ? $aos['ac_forgot_text'] : T('Forgot Password?');
-    $register_title = !empty( $aos['register_text'] ) ? $aos['register_text'] : T('Register');
+    $register_title = !empty( $aos['ac_register_link_text'] ) ? $aos['ac_register_link_text'] : T('Create Account');
     $return_text = !empty( $aos['ac_return_text'] ) ? $aos['ac_return_text'] : T('Return to Login');
     $show_labels = !empty( $aos['ac_show_labels'] ) && $aos['ac_show_labels'] == 1 ? $aos['ac_show_labels'] : 0;
     $show_sessions = !empty( $aos['ac_remember'] ) && $aos['ac_remember'] == 1 ? 1 : 0;
@@ -969,13 +970,17 @@ function register_html( array $columns = [], bool $prepend_columns = true, array
     global $options;
     $f = new FORM();
     $a = new ACCESS();
-    $aos = $a->get_options(0,0,1);
+    $aos = $a->get_options(1,0,1);
     $icon_class = 'icon ' . ( $options['universal_icon_class'] ?? 'mico' );
     $login_title = $ops['username_text'] ?? 'User Login / Email';
     $pass_title = $ops['password_text'] ?? 'Password';
     $register_button_text = $aos['ac_register_btn_text'] ?? 'Register';
     $register_button_icon = $aos['ac_register_btn_icon'] ?? 'how_to_reg';
+    $user_icon = $aos['ac_username_icon'] ?? 'account_circle';
+    $email_icon = $aos['ac_register_email_icon'] ?? 'email';
+    $pass_icon = $aos['ac_password_icon'] ?? 'lock';
     $show_labels = !empty( $aos['ac_show_labels'] ) && $aos['ac_show_labels'] == 1 ? $aos['ac_show_labels'] : 0;
+    $show_login = !empty( $aos['ac_register_login'] ) && $aos['ac_register_login'] == 1 ? $aos['ac_register_login'] : 0;
     $f->pre_process('class="register_wrap"','','reg','register_',[],'',$callback,'',$redirect_to,'',1);
         pre( '', 'inputs' );
             $append_fields = [];
@@ -987,15 +992,14 @@ function register_html( array $columns = [], bool $prepend_columns = true, array
             }
             //echo $columns_before ? $columns_html : '';
             $min_string = T('Minimum Characters');
-            $reg_form = [
-                [ 'i' => 'username', 'n' => $login_title, 'p' => $login_title, 'a' => 'data-reg minlength="8" data-minlength="'.$min_string.'" data-help required', 'c' => '.reg_user_wrap col-12' ],
-                [ 'i' => 'password', 'n' => $pass_title, 'p' => $pass_title, 'a' => 'data-reg minlength="8" data-minlength="'.$min_string.'" data-help required', 'c' => '.reg_pass_wrap col-12', 't' => 'password' ],
-            ];
+            $reg_form[] = [ 'i' => 'email', 'n' => ( $show_labels ? 'Email' : '' ), 'p' => 'Ex: john_doe@email.com', 'a' => 'data-reg data-validate', 'r' => 1, 'c' => '.col-12 rel reg_email_wrap', 'p_' => _el( 'div', $icon_class, $email_icon ) . _post(), 't' => 'email' ];
+            $show_login ? $reg_form[] = [ 'i' => 'username', 'n' => ( $show_labels ? $login_title : '' ), 'p' => $login_title, 'a' => 'data-reg minlength="8" data-minlength="'.$min_string.'" data-help', 'r' => 1, 'c' => '.col-12 rel reg_user_wrap', 'p_' => _el( 'div', $icon_class, $user_icon ) . _post() ] : '';
+            $reg_form[] = [ 'i' => 'password', 'n' => ( $show_labels ? $pass_title : '' ), 'p' => $pass_title, 'a' => 'data-reg minlength="8" data-minlength="'.$min_string.'" data-help', 'r' => 1, 'c' => '.col-12 rel reg_pass_wrap', 't' => 'password', 'p_' => _el( 'div', $icon_class, $pass_icon ) . _post() ];
             $reg_form = $prepend_columns ? array_merge( $append_fields, $reg_form ) : array_merge( $reg_form, $append_fields );
             //$f->text('username',$login_title,$login_title,'','data-reg minlength="8" data-minlength="'.$min_string.'" data-help required','<div>','</div>');
             //$f->input('password','password',$pass_title,'Password','','data-reg minlength="8" data-minlength="'.$min_string.'" data-help required','<div>','</div>');
             //$empty_logic = in_array( 'email', $compulsory ) ? 'required="true"' : '';
-            $reg_form[] = [ 'i' => 'email', 'n' => 'Email', 'p' => 'Ex: john_doe@email.com', 'a' => 'data-reg data-help', 'r' => in_array( 'email', $compulsory ), 'c' => 12, 't' => 'email' ];
+            //$reg_form[] = [ 'i' => 'email', 'n' => 'Email', 'p' => 'Ex: john_doe@email.com', 'a' => 'data-reg data-help', 'r' => in_array( 'email', $compulsory ), 'c' => 12, 't' => 'email' ];
             //$f->input('email','email','Email','Email','','data-reg data-help required'.$empty_logic,'<div>','</div>');
             // $defs = [ [ 'id' => 'name', 'n' => 'Full Name' ], [ 'id' => 'picture', 'n' => 'Picture', 'type' => 'upload', 'c' => 6 ], [ 'id' => 'dob', 'n' => 'Date of Birth', 'type' => 'date', 'c' => 6 ] ];
             /* foreach( $defs as $df ) {

@@ -11,10 +11,13 @@ body {
 
 /* Inputs */
 
-[data-key=username], [data-key=password] {
-  font-size:1.2rem;
-  box-shadow:none;
+input {
   text-align: center;
+  //font-size:1.2rem;
+}
+[data-key=username], [data-key=password] {
+  box-shadow:none;
+  //text-align: center;
   transition:.6s;
   font-weight: normal;
   position: relative;

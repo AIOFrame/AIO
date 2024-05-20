@@ -194,12 +194,12 @@ $(document).ready(function(){
             e.preventDefault();
         }
     })
-    .on('focus','[data-help]',function(){
+    .on('focus','[data-help],[data-validate]',function(){
         if( $(this).parent().find('.aio_valid').length ) {
             $(this).parent().find('.aio_valid:not(.green)').addClass('on');
         }
     })
-    .on('focusout','[data-help]',function(){
+    .on('focusout','[data-help],[data-validate]',function(){
         if( $(this).parent().find('.aio_valid').length ) {
             $(this).parent().find('.aio_valid').removeClass('on');
         }
