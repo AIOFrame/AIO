@@ -38,7 +38,7 @@ class CODE {
         $bg = $light_mode == 'd' ? ( $aos['ac_bg_d'] ?? '' ) : ( $aos['ac_bg_l'] ?? '' );
         $bg_style = $aos['ac_bg_style'] ?? 'no-repeat center / cover';
         $attrs .= !empty( $bg ) ? ' style="background:url(\''.storage_url( $bg ).'\') '.$bg_style.'"' : '';
-        $style = $aos['ac_style'] ?? '';
+        $style = $aos['ac_style'] ?? 'c b';
 
         // Head
         $styles = is_array( $styles ) ? array_merge( $styles, [ 'air-datepicker' ] ) : $styles . ',air-datepicker';
