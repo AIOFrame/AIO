@@ -893,7 +893,7 @@ function access_html( string $user_title = 'Username or Email', string $pass_tit
                     $f->form( $login_form, 'row' );
                     div( 'dn', _div( 'password_visibility', _div( $icon_class . ' on', $pass_show_icon ) . _div( $icon_class . ' off', $pass_hide_icon ) ), '', 'data-password_toggle_template' );
                 post( 'form' );
-                $f->process_trigger( T( $login_button_title ), 'grad '. $class, 'id="aio_login_init"', '', '', '', 'button', '', $login_button_icon, 'mico abs r2' );
+                $f->process_trigger( T( $login_button_title ), 'grad xxl'. $class, 'id="aio_login_init"', '', '', '', 'button', '', $login_button_icon, 'mico abs r2' );
                 if( $show_reset == 1 ) {
                     div( 'more', T( $forgot_pass_title ), '', 'data-hide=".login_wrap" data-show=".forgot_wrap"' );
                 }

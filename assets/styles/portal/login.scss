@@ -134,11 +134,8 @@ input.empty {
   transition:.8s;
   text-transform: uppercase;
   border:0;
-  padding: 20px;
   cursor: pointer;
-  font-size: 1.4rem;
-  letter-spacing: 2px;
-  box-shadow: 0 5px 35px rgba(0,0,0,.2);
+  box-shadow: 0 10px 35px var(--primary_color);
 }
 #register {
   font-weight: lighter;
