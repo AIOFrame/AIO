@@ -48,7 +48,7 @@ class CODE {
         _article();
             pre( '', 'access_wrap ' . $style );
                 pre( '', 'access_panel' );
-                    $show_logo == 1 ? a( APPURL . $login_redirect_url, '', 'brand', APP_NAME, $logo.' title="'.APP_NAME.'"' ) : '';
+                    $show_logo == 1 ? a( APPURL . $login_redirect_url, '', 'brand', APPNAME, $logo.' title="'.APPNAME.'"' ) : '';
                     //!isset( $aos['ac_show_logo'] ) || $aos['ac_show_logo'] !== 1 ? a( APPURL . $login_redirect_url, '', 'brand' ) : '';
                     access_html( '', '', '', '', '', $login_redirect_url );
                 post();
