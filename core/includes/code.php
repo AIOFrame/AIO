@@ -448,6 +448,16 @@ function tab( string $title = '', bool $active = false, string $target = '', str
     div($class,$title,'','data-tab="'.$target.'"',1);
 }
 
+function vertical_sliding_tabs( array $tabs = [], string $class = '' ): void {
+    pre( '', 'vertical_tabs ' . $class );
+    $x = 1;
+    foreach( $tabs as $tk => $tv ) {
+        div( $x == 1 ? 'on' : '', $tv, '', 'data-e="#'.$tk.'"', 1 );
+        $x++;
+    }
+    post();
+}
+
 function post_tabs(): void {
     post();
     post();

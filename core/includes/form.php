@@ -670,7 +670,7 @@ class FORM {
     function _color( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', string $border = '', string|float|int $preview = '', string $post = '' ): string {
         $attrs .= ' data-color-picker';
         $attrs = !empty( $border ) ? $attrs . ' data-border="'.$border.'"' : $attrs;
-        $attrs = !empty( $preview ) ? $attrs . ' data-preview="'.$preview.'"' : $attrs;
+        $attrs .= !empty( $preview ) ? ' data-preview="'.$preview.'"' : ' data-self-preview';
         global $color_picker;
         global $options;
         if( $color_picker == 1 ) {
@@ -1247,7 +1247,7 @@ class FORM {
                 $return .= $type == 'slide' ? $this->_slide( $id, $label, $off_text, $on_text, $val, '', $attrs, $pre, $post ) : $this->_checkboxes( $id, $label, );
             } else if( $type == 'color' || $type == 'cl' ) {
                 $border = $f['border'] ?? ( $f['b'] ?? '' );
-                $preview = $f['preview'] ?? ( $f['view'] ?? '[data-key='.$id.']' );
+                $preview = $f['preview'] ?? ( $f['view'] ?? '' );
                 $return .= $this->_color( $id, $label, $place, $val, $attrs, $pre, $border, $preview, $post );
             } else if( in_array( $type, [ 'checkboxes', 'radios', 'checkbox', 'radio', 'cb', 'r' ] ) ) {
                 $values = $f['values'] ?? ( $f['options'] ?? ( $f['os'] ?? ( $f['o'] ?? ( $f['v'] ?? [] ) ) ) );

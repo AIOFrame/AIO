@@ -1275,3 +1275,23 @@ function no_access( string $message = "You are trying to reach restricted conten
         die();
     }
 }
+
+function tabbed_access_options(): void {
+    $o = new OPTIONS();
+    pre_tabs( 'material jcc mb20', 1 );
+        foreach( [ 'Access Page', 'Login Options', 'Register Options' ] as $x => $option ) {
+            tab( $option, $x == 0 );
+        }
+    post_tabs();
+    _d( 'access_options' );
+        _d( '', 'access_page_data' );
+            $o->access_options( 1, 0, 0 );
+        d_();
+        _d( 'dn', 'login_options_data' );
+            $o->access_options( 0, 1, 0 );
+        d_();
+        _d( 'dn', 'register_options_data' );
+            $o->access_options( 0, 0, 1 );
+        d_();
+    d_();
+}

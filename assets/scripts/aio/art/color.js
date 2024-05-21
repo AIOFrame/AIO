@@ -1,13 +1,18 @@
-let debug = !!$('body').hasClass('debug');
+let debug = $('body').hasClass('debug');
 
 $(document).ready(function(){
     let b = $('body');
 
     if( $('[data-color-picker]').length > 0 ) {
         $('[data-color-picker][data-preview]').each(function(a,b){
-           if( $(b).val() !== '' ) {
-               $( $(b).data('preview') ).css( 'background', 'var(--input_bg) url(\'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"><rect rx="12" ry="12" width="22" height="22" style="fill:%23'+$(b).val().substring(1)+'" /></svg>\') no-repeat calc(100% - 5px) center / 22px' );
-           }
+            if( $(b).val() !== '' ) {
+                $( $(b).data('preview') ).css( 'background', 'var(--input_bg) url(\'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"><rect rx="12" ry="12" width="22" height="22" style="fill:%23'+$(b).val().substring(1)+'" /></svg>\') no-repeat calc(100% - 5px) center / 22px' );
+            }
+        });
+        $('[data-color-picker][data-self-preview],[data-color-picker][data-preview-self]').each(function(a,b){
+            if( $(b).val() !== '' ) {
+                $(b).css( 'background', 'var(--input_bg) url(\'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"><rect rx="12" ry="12" width="22" height="22" style="fill:%23'+$(b).val().substring(1)+'" /></svg>\') no-repeat calc(100% - 5px) center / 22px' );
+            }
         });
         let html_code = $('[color-picker-html]').html();
         $('[color-picker-html]').remove();

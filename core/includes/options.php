@@ -152,17 +152,17 @@ class OPTIONS {
             //$f->select( 'input_theme', 'Input Style', 'Select Theme...', [], '', 'data-data class="select2"', 6, 1 );
             echo '<h3 class="col-12">'.T('Light Color Options').'</h3>';
             $f->upload($r.'logo_light','Logo','Upload',$light,0,0,'upload',$attr,$ext,.2,1,'',4);
-            $f->color($r.'primary_color','Primary','Ex: F1F1F1',$c1,$attr,2,'','[data-key=primary_color]');
-            $f->color($r.'secondary_color','Secondary','Ex: A2A2A2',$c2,$attr,2,'','[data-key=secondary_color]');
-            $f->color($r.'color_light','Text Color','Ex: A2A2A2',$c3,$attr,2,'','[data-key=color_light]');
-            $f->color($r.'filled_color_light','Text on Theme BG','Ex: A2A2A2',$c4,$attr,2,'','[data-key=filled_color_light]');
+            $f->color($r.'primary_color','Primary','Ex: F1F1F1',$c1,$attr,2);
+            $f->color($r.'secondary_color','Secondary','Ex: A2A2A2',$c2,$attr,2);
+            $f->color($r.'color_light','Text Color','Ex: A2A2A2',$c3,$attr,2);
+            $f->color($r.'filled_color_light','Text on Theme BG','Ex: A2A2A2',$c4,$attr,2);
             if( $dark_mode_options ) {
                 echo '<h3 class="col-12">'.T('Dark Color Options').'</h3>';
                 $f->upload($r.'logo_dark','Logo','Upload',$dark,0,0,'upload',$attr,$ext,.2,1,'',4);
-                $f->color($r.'primary_color_dark','Primary','Ex: F1F1F1',$dc1,$attr,2,'','[data-key=primary_color_dark]');
-                $f->color($r.'secondary_color_dark','Secondary','Ex: A2A2A2',$dc2,$attr,2,'','[data-key=secondary_color_dark]');
-                $f->color($r.'color_dark','Text Color','Ex: A2A2A2',$dc3,$attr,2,'','[data-key=color_dark]');
-                $f->color($r.'filled_color_dark','Text on Theme BG','Ex: A2A2A2',$dc4,$attr,2,'','[data-key=filled_color_dark]');
+                $f->color($r.'primary_color_dark','Primary','Ex: F1F1F1',$dc1,$attr,2);
+                $f->color($r.'secondary_color_dark','Secondary','Ex: A2A2A2',$dc2,$attr,2);
+                $f->color($r.'color_dark','Text Color','Ex: A2A2A2',$dc3,$attr,2);
+                $f->color($r.'filled_color_dark','Text on Theme BG','Ex: A2A2A2',$dc4,$attr,2);
             }
             $f->process_options($this->region_flag().'Save Brand Options','store grad','','.col-12 tac');
         $f->post_process();
@@ -184,7 +184,7 @@ class OPTIONS {
         $ops = $db->get_options( $colors );
         $f->option_params_wrap(  'colors', 'row', $colors );
         foreach( $colors as $c => $cv ) {
-            $f->color($c,ucwords(str_replace('_',' ',$c)),'Ex: F1F1F1',$ops[$c]??$cv,$attr,0,'','[data-key='.$c.']');
+            $f->color($c,ucwords(str_replace('_',' ',$c)),'Ex: F1F1F1',$ops[$c]??$cv,$attr,0);
         }
         $f->process_options('Save Color Options','store grad','','.col-12 tac');
         post();
@@ -214,7 +214,7 @@ class OPTIONS {
             //$form[] = [ 'i' => $idc, 'n' => ucwords( $o ). ' Ico Class', 'v' => $v, 'c' => 2 ];
         }
         $o = new OPTIONS();
-        $o->form( $form, 'row', 1, 'ico', 'Successfully saved icon settings!', 2, 2, $autoload );
+        $o->form( $form, 'row', 1, 'ico', 'Save Icon Options', '', 'Successfully saved icon settings!', $autoload );
     }
 
     /**
@@ -305,6 +305,7 @@ class OPTIONS {
                         //$d['v'] = $ops[ $ck ] ?? '';
                         $color_options[] = $d;
                     }
+                    skel( $color_options );
                     $f->option_params_wrap( 'input', 'row', $autoload );
                         $f->form( $color_options );
                         $f->process_options('Save Color Options','store grad','','.col-12 tac');
