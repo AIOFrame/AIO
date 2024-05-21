@@ -96,6 +96,9 @@ function onColorChange( color ) {
         if( target.data('preview') !== undefined && $( target.data('preview') ).length ) {
             generate_background( target.data('preview'), color.hexString );
         }
+        if( target.data('self-preview') !== undefined || target.data('preview-self') !== undefined ) {
+            generate_background( target, color.hexString );
+        }
     }
     $('.color_picker_wrap input').val( color.hexString );
     //$(cp).data('background') !== undefined ? $(cp).data('background').css({'background-color':color.hexString}) : '';

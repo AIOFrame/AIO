@@ -305,7 +305,7 @@ class OPTIONS {
                         //$d['v'] = $ops[ $ck ] ?? '';
                         $color_options[] = $d;
                     }
-                    skel( $color_options );
+                    //skel( $color_options );
                     $f->option_params_wrap( 'input', 'row', $autoload );
                         $f->form( $color_options );
                         $f->process_options('Save Color Options','store grad','','.col-12 tac');
