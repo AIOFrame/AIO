@@ -94,6 +94,9 @@ class OPTIONS {
         'file_limit' => 'content_copy',
         'modal_expand' => 'open_in_full',
         'modal_contract' => 'close_fullscreen',
+        'close' => 'close',
+        'previous' => 'arrow_back',
+        'forward' => 'arrow_forward',
     ];
     public array $option_elements = [
         'input' => 'Input Fields',

@@ -13,7 +13,6 @@ class PORTAL {
         'home' => 'home',
         'logout' => 'logout',
         'back' => 'keyboard_backspace',
-        'close' => 'close',
         'new' => 'add_circle',
         'save' => 'save',
         'edit' => 'border_color',

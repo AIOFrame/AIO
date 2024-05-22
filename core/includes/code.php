@@ -1087,8 +1087,12 @@ function steps( array $steps = [], string $style = '', bool $translate_titles = 
  * @param bool $translate_titles True, to translate titles (Default False)
  * @return string
  */
-function _steps( array $steps = [], string $style = '', bool $translate_titles = false ): string {
+function _steps( array $steps = [], string $style = '', bool $translate_titles = false, bool $show_controls = true, bool $show_arrows = true ): string {
     $r = rand( 0, 9999 );
+    global $options;
+    $icon_class = $options['universal_icon_class'] ?? 'mico';
+    $prev_ico = $options['ico_previous'] ?? 'arrow_back';
+    $next_ico = $options['ico_forward'] ?? 'arrow_forward';
     $data = _pre( '', 'steps '.$style );
         $data .= _pre( '', 'step_heads' );
             $x = 0;
@@ -1115,7 +1119,9 @@ function _steps( array $steps = [], string $style = '', bool $translate_titles =
                     $x++;
                 }
             $data .= _post();
-            $data .= _div( 'steps_controls', _div( 'mat-ico', 'chevron_left', '', 'data-prev' ) . _div( 'mat-ico', 'chevron_right', '', 'data-next' ) );
+            $prev = ( $show_arrows ? _div( $icon_class, $prev_ico ) : '' ) . _div( 'title', T('Previous') );
+            $next = _div( 'title', T('Next') ) . ( $show_arrows ? _div( $icon_class, $next_ico ) : '' );
+            $data .= $show_controls ? _div( 'steps_controls', _div( '', $prev, '', 'data-prev' ) . _div( '', $next, '', 'data-next' ) ) : '';
         $data .= _post();
     $data .= _post();
     return $data;

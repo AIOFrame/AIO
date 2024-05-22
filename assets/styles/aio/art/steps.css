@@ -36,6 +36,34 @@
   margin-right: 5px;
 }
 
+.steps.b .steps_pages {
+  margin: 0;
+}
+.steps.b .steps_controls {
+  position: relative;
+  display: flex;
+  gap: 10px;
+}
+.steps.b [data-prev], .steps.b [data-next] {
+  position: relative;
+  left: auto;
+  top: auto;
+  right: auto;
+  padding: 10px;
+}
+
+.steps.c .steps_controls {
+  justify-content: center;
+  align-items: center;
+}
+
+.steps.buttoned [data-prev], .steps.buttoned [data-next] {
+  display: flex;
+  width: auto;
+  align-items: center;
+  justify-content: center;
+}
+
 .step_head, .step_heads, .steps_head {
   display: -ms-flexbox;
   display: flex;
@@ -67,7 +95,7 @@
 .steps:not(.flat):not(.side) .step:not(:last-child):after {
   content: "";
   position: absolute;
-  left: calc( 100% + 10px);
+  left: calc(100% + 10px);
   width: 40px;
   border-bottom: 2px solid #ccc;
 }

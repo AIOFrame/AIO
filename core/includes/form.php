@@ -1160,7 +1160,7 @@ class FORM {
      * @param string $form_type Type of wrap around the form ( 'get' or 'post' or 'row' or 'settings' )
      * @param string $data_attr Common data attribute for all inputs
      */
-    function form( array $fields = [], string $form_type = 'row', string $data_attr = '' ): void {
+    function form( array $fields = [], string $form_type = '', string $data_attr = '' ): void {
         echo $this->_form( $fields, $form_type, $data_attr );
     }
 
@@ -1177,6 +1177,7 @@ class FORM {
             //div( 'step_heads', $this->_form(  ) )
         //}
         $steps = [];
+        $class = '';
         foreach( $fields as $f ) {
             $type = $f['type'] ?? ( $f['ty'] ?? ( $f['t'] ?? 'text' ) );
             //skel( $type );
@@ -1193,10 +1194,10 @@ class FORM {
             $pre = $form_type == 'settings' ? '<div class="setting_set">' : ( $f['pre'] ?? ($f['col'] ?? ( $f['c'] ?? ( $f['_p'] ?? ( $form_type == 'row' || $form_type == 'r' ? 12 : '<div>' ) ) )) );
             $post = $f['post'] ?? ( $f['p_'] ?? '' );
             $post = !empty( $pre ) && empty( $post ) ? _post() : $post;
+            $class = $f['class'] ?? ( $f['c'] ?? '' );
             if( in_array( $type, [ 'accordion', 'acc', 'a' ] ) ) {
                 $return .= _accordion( $label, $this->_form( $f['fields'] ?? $f['form'], $type, $data_attr ) );
             } else if( in_array( $type, [ 'column', 'col' ] ) ) {
-                $class = $f['class'] ?? ( $f['c'] ?? '' );
                 $class = is_numeric( $class ) ? $this->_col( $class ) : $class;
                 $sub_type = $f['sub_type'] ?? ( $f['type'] ?? 'row' );
                 $col_fields = $f['fields'] ?? ( $f['form'] ?? ( $f['f'] ?? [] ) );
@@ -1309,7 +1310,7 @@ class FORM {
         }
         //skel( $steps );
         if( count( $fields ) == count( $steps ) ) {
-            $return .= _steps( $steps, $form_type );
+            $return .= _steps( $steps, $form_type . ' ' . $class );
         }
         $return .= in_array( $form_type, [ 'get', 'post', 'form' ] ) ? '</form>' : '</div>';
         //skel( count( $fields ) );
