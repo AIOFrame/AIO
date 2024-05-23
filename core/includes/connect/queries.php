@@ -389,7 +389,7 @@ class DB {
      * @param string $sort Sort Order by Column Name
      * @return array
      */
-    function select( string|array $table, string|array $cols = '*', string $where = '', int $limit = 0, int $offset = 0 , string $group = '', bool $count = false, string $order_by = '', string $sort = '' ): array {
+    function select( string|array $table, string|array $cols = '*', string $where = '', int $limit = 0, int $offset = 0 , string $group = '', bool $count = false, string $order_by = '', string $sort = '', bool $order_numeric = false ): array {
         $db = $this->connect();
         if( $db ) {
             $cols = $cols == "" ? "*" : ( is_array( $cols ) ? implode( ',', $cols ) : $cols );
@@ -410,7 +410,7 @@ class DB {
             $query .= !empty($where) && $where !== '' ? ' WHERE ' . $where : '';
             $query .= !empty($group) ? "GROUP BY " . $group : "";
             //$o .= !empty($order_by) && $order_by !== '' ?  $order_by : '';
-            $query .= !empty( $sort ) && $sort !== '' && !empty( $order_by ) && $order_by !== '' ? ' ORDER BY ' . $sort . ' ' . $order_by : '';
+            $query .= !empty( $sort ) && $sort !== '' && !empty( $order_by ) && $order_by !== '' ? ' ORDER BY ' . $sort . ( $order_numeric ? '+ 0' : '' ) . ' ' . $order_by : '';
             $query .= $limit >= 1 ? ( DB_TYPE == 'mssql' ? '' : ' LIMIT ' . $limit ) : '';
             $query .= $offset > 1 ? ( DB_TYPE == 'mssql' ? ' OFFSET ' . $offset . ' ROWS' : ' OFFSET ' . $offset ) : '';
 
