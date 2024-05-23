@@ -921,6 +921,130 @@ aside::-webkit-scrollbar {
   display: none;
 }
 
+/* HEADER PANEL */
+
+.header_panel_wrap.corporate {
+  padding: 20px;
+  .header_panel {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    background: url('https://images.pexels.com/photos/417267/pexels-photo-417267.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2') no-repeat center / cover;
+    z-index: 1;
+  }
+  .contact_wrap, .stats_wrap {
+    height: 100px;
+    padding: 15px 0 0 430px;
+    z-index: 5;
+    position: relative;
+  }
+  .brand_wrap {
+    height: 50px;
+    background: #fff;
+    position: relative;
+    .image_wrap {
+      height: 120px;
+      width: 360px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      position: absolute;
+      left: 50px;
+      top: 25px;
+      transform: translateY(-50%);
+      .image {
+        height: 100%;
+        width: 100%;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+    }
+    h1 {
+      margin: 0 0 0 430px;
+      padding: 12px 0;
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+  }
+  .stats {
+    .stat {
+      border: 0;
+      margin: 0;
+      padding: 0;
+      flex-grow: 0;
+      border-radius: 0;
+      h5 {
+        opacity: .75;
+        text-transform: uppercase;
+      }
+    }
+    .stat:not(:last-child) {
+      border-right: 2px solid rgba(255,255,255,.3);
+    }
+  }
+  .contacts {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    padding: 0 10px;
+    .contact {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      background: rgba(255,255,255,.2);
+      border-radius: 50px;
+      height: 35px;
+      h3, h5 {
+        margin: 0;
+      }
+    }
+    .ico, .mico, .bi {
+      font-size: 1rem;
+      margin: 0 5px;
+    }
+  }
+  .back {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    z-index: 6;
+  }
+  .header_panel:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: rgba(0,0,0,.7);
+  }
+}
+.header_panel_wrap.w {
+  h2, h3, h5, .back {
+    color: #fff;
+  }
+  .tabs.material {
+    padding-bottom: 2px;
+    .tab_heads {
+      justify-content: center;
+    }
+    .tab {
+      color: #fff;
+    }
+    > div {
+      > .tab.on:after {
+        background: #fff;
+      }
+    }
+  }
+}
+
 /* FILTERS */
 
 .filters_wrap {

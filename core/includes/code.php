@@ -1060,7 +1060,7 @@ function _tab_heads( array $tab_titles = [], string $style = '', string $wrap_cl
         $data .= _pre( '', 'tab_heads fluid '.$wrap_class, 'div', 'data-store' );
             $x = 0;
             foreach( $tab_titles as $i => $title ) {
-                $id = str_replace(' ','_',strtolower( is_assoc( $tab_titles ) ? $i : $title ));
+                $id = '.' . str_replace(' ','_',strtolower( is_assoc( $tab_titles ) ? $i : $title )) . '_data';
                 $data .= _div( $x == 0 ? 'tab on' : 'tab', $title, '', 'data-tab="'.$id.'"', $translate_titles );
                 $x++;
             }

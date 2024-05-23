@@ -484,8 +484,56 @@ function title_bar( string $title = PAGENAME, string $back_url = '', string $lis
     post( 'header' );
 }
 
-function back_url( string $url = '' ): void {
+function _back_url( string $url = '' ): string {
     global $options;
-    a( APPURL.$url, 'arrow_back', ( $options['icon_class'] ?? 'mico' ) . ' back', T('Go Back') );
+    return __a( APPURL.$url, 'arrow_back', ( $options['icon_class'] ?? 'mico' ) . ' back', T('Go Back') );
     //echo '<a class="mat-ico back" href="'.APPURL . $url.'">arrow_back</a>';
+}
+
+function back_url( string $url = '' ): void {
+    echo _back_url( $url );
+}
+
+function header_panel( string $style = '', string $name = '', string $logo = '', bool $status = true, string $back_link = '', array $stats = [], array $contacts = [], array $tab_heads = [] ): void {
+
+    _d( 'header_panel_wrap ' . $style );
+        _d( 'header_panel ' . $style );
+            !empty( $back_link ) ? back_url( $back_link ) : '';
+            _d('contact_wrap');
+            if( !empty( $contacts ) ) {
+                _d('contacts');
+                    foreach( $contacts as $info => $title ) {
+                        _d('contact');
+                            h3( $info );
+                            h5( $title );
+                        d_();
+                    }
+                d_();
+            }
+            d_();
+            _d( 'brand_wrap' );
+                _d( 'image_wrap' );
+                    render_image( $logo, $name );
+                d_();
+                h1( $name, '', 'name' );
+                div( 'status ' . ( $status ? 'on' : '' ) );
+            d_();
+            _d('stats_wrap');
+                if( !empty( $stats ) ) {
+                    _d('stats');
+                        foreach( $stats as $title => $count ) {
+                            _d('stat');
+                                h3( $count );
+                                h5( $title );
+                            d_();
+                        }
+                    d_();
+                }
+            d_();
+            if( !empty( $tab_heads ) ) {
+                tab_heads( $tab_heads, 'material tac' );
+            }
+            div('dn toggle','','','data-toggle-on=".header_panel"');
+        d_();
+    d_();
 }

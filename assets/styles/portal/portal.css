@@ -879,6 +879,124 @@ aside::-webkit-scrollbar {
   display: none;
 }
 
+/* HEADER PANEL */
+.header_panel_wrap.corporate {
+  padding: 20px;
+}
+.header_panel_wrap.corporate .header_panel {
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  background: url("https://images.pexels.com/photos/417267/pexels-photo-417267.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2") no-repeat center/cover;
+  z-index: 1;
+}
+.header_panel_wrap.corporate .contact_wrap, .header_panel_wrap.corporate .stats_wrap {
+  height: 100px;
+  padding: 15px 0 0 430px;
+  z-index: 5;
+  position: relative;
+}
+.header_panel_wrap.corporate .brand_wrap {
+  height: 50px;
+  background: #fff;
+  position: relative;
+}
+.header_panel_wrap.corporate .brand_wrap .image_wrap {
+  height: 120px;
+  width: 360px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  position: absolute;
+  left: 50px;
+  top: 25px;
+  transform: translateY(-50%);
+}
+.header_panel_wrap.corporate .brand_wrap .image_wrap .image {
+  height: 100%;
+  width: 100%;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.header_panel_wrap.corporate .brand_wrap h1 {
+  margin: 0 0 0 430px;
+  padding: 12px 0;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+.header_panel_wrap.corporate .stats .stat {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  flex-grow: 0;
+  border-radius: 0;
+}
+.header_panel_wrap.corporate .stats .stat h5 {
+  opacity: 0.75;
+  text-transform: uppercase;
+}
+.header_panel_wrap.corporate .stats .stat:not(:last-child) {
+  border-right: 2px solid rgba(255, 255, 255, 0.3);
+}
+.header_panel_wrap.corporate .contacts {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+}
+.header_panel_wrap.corporate .contacts .contact {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50px;
+  height: 35px;
+}
+.header_panel_wrap.corporate .contacts .contact h3, .header_panel_wrap.corporate .contacts .contact h5 {
+  margin: 0;
+}
+.header_panel_wrap.corporate .contacts .ico, .header_panel_wrap.corporate .contacts .mico, .header_panel_wrap.corporate .contacts .bi {
+  font-size: 1rem;
+  margin: 0 5px;
+}
+.header_panel_wrap.corporate .back {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 6;
+}
+.header_panel_wrap.corporate .header_panel:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.header_panel_wrap.w h2, .header_panel_wrap.w h3, .header_panel_wrap.w h5, .header_panel_wrap.w .back {
+  color: #fff;
+}
+.header_panel_wrap.w .tabs.material {
+  padding-bottom: 2px;
+}
+.header_panel_wrap.w .tabs.material .tab_heads {
+  justify-content: center;
+}
+.header_panel_wrap.w .tabs.material .tab {
+  color: #fff;
+}
+.header_panel_wrap.w .tabs.material > div > .tab.on:after {
+  background: #fff;
+}
+
 /* FILTERS */
 .filters_wrap {
   padding: 20px 20px 0 20px;

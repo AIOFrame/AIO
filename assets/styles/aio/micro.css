@@ -913,6 +913,22 @@ select.tar {
   margin-top: -20px;
 }
 
+.mt-30 {
+  margin-top: -30px;
+}
+
+.mt-40 {
+  margin-top: -40px;
+}
+
+.mt-50 {
+  margin-top: -50px;
+}
+
+.mt-60 {
+  margin-top: -60px;
+}
+
 .ml-5 {
   margin-left: -5px;
 }
