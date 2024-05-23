@@ -1044,8 +1044,8 @@ function _tabs( array $tabs = [], string $style = '', bool $translate_titles = f
     return $data;
 }
 
-function tab_heads( array $tab_titles = [], string $style = '', string $wrap_class = '', bool $translate_titles = false ): void {
-    echo _tab_heads( $tab_titles, $style, $wrap_class, $translate_titles );
+function tab_heads( array $tab_titles = [], string $style = '', string $wrap_class = '', bool $translate_titles = false, string $type = 'tab' ): void {
+    echo _tab_heads( $tab_titles, $style, $wrap_class, $translate_titles, $type );
 }
 
 /**
@@ -1055,13 +1055,17 @@ function tab_heads( array $tab_titles = [], string $style = '', string $wrap_cla
  * @param bool $translate_titles
  * @return string
  */
-function _tab_heads( array $tab_titles = [], string $style = '', string $wrap_class = '', bool $translate_titles = false ): string {
+function _tab_heads( array $tab_titles = [], string $style = '', string $wrap_class = '', bool $translate_titles = false, string $type = 'tab' ): string {
     $data = _pre( '', 'tabs separate '.$style );
         $data .= _pre( '', 'tab_heads fluid '.$wrap_class, 'div', 'data-store' );
             $x = 0;
             foreach( $tab_titles as $i => $title ) {
-                $id = '.' . str_replace(' ','_',strtolower( is_assoc( $tab_titles ) ? $i : $title )) . '_data';
-                $data .= _div( $x == 0 ? 'tab on' : 'tab', $title, '', 'data-tab="'.$id.'"', $translate_titles );
+                $id = ( is_numeric( $i ) ? '.' : '' ) . str_replace(' ','_',strtolower( is_assoc( $tab_titles ) ? $i : $title )) . ( is_numeric( $i ) ? '_data' : '' );
+                if( $type == 'tab' ) {
+                    $data .= _div( $x == 0 ? 'tab on' : 'tab', $title, '', 'data-tab="'.$id.'"', $translate_titles );
+                } else if( $type == 'url' ) {
+                    $data .= __a( $id, ( $translate_titles ? T($title) : $title ), ( $x == 0 ? 'tab on' : 'tab' ) );
+                }
                 $x++;
             }
         $data .= _post();
