@@ -95,6 +95,7 @@ class OPTIONS {
         'modal_expand' => 'open_in_full',
         'modal_contract' => 'close_fullscreen',
         'close' => 'close',
+        'dropdown' => 'expand_more',
         'previous' => 'arrow_back',
         'forward' => 'arrow_forward',
     ];

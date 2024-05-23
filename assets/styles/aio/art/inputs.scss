@@ -326,10 +326,10 @@ hr.break {
   margin: var(--input_margin_top) var(--input_margin_right) var(--input_margin_bottom) var(--input_margin_left);
   border: 1px solid rgba(0,0,0,.2);
 }
-[data-icon] {
+[data-input-icon] {
   padding-right: 50px;
 }
-[data-icon]:after {
+[data-input-icon]:after {
   content: attr(data-icon);
   position: absolute;
   right: 5px;

@@ -65,7 +65,8 @@ class PORTAL {
      * @return void
      */
     function post_html( string|array $scripts = [], string $alert_position = 't r' ): void {
-        $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'iro', 'select2', 'air-datepicker', 'scrollto', 'data', 'portal/portal' ] ) : $scripts.',air-datepicker,iro,select2,data,portal/portal';
+        //skel( 'language' );
+        $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'iro', 'select2', 'air-datepicker', 'scrollto', 'language', 'data', 'portal/portal' ] ) : $scripts.',air-datepicker,iro,select2,language,data,portal/portal';
         //$c = new CODE();
         post_html( $scripts, $alert_position );
     }
@@ -193,6 +194,9 @@ class PORTAL {
         //skel( $light_mode );
         //$c = json_decode( CONFIG, 1 );
         $c = CONFIG;
+        $icon = $options['universal_icon_class'] ?? 'mico';
+        $ica = $options['icon_after_class'] ?? 'mica';
+        $down_ico = $options['ico_dropdown'] ?? 'expand_more';
         // TODO: Implement most params to be from user options
 
         $logo = $light_mode == 'l' ? ( $options['logo_light'] ?? '' ) : ( $options['logo_dark'] ?? '' );
@@ -206,13 +210,14 @@ class PORTAL {
         } else {
             $logo = isset( $options['logo_dark'] ) ? 'style="background:url(\''.storage_url( $options['logo_dark'] ).'\') no-repeat center / contain"' : '';
         } */
+        //skel( $options );
 
         pre( '', '', 'header' );
 
             // Brand Panel
             pre( 'brand_panel' );
-                $menu_icon = _div( ( $options['icon_class'] ?? 'mico' ) . ' menu ' . ( $options['ico_menu'] ?? 'menu' ), $options['ico_menu'] ?? 'menu' );
-                $close_icon = _div( ( $options['icon_class'] ?? 'mico' ) . ' close ' . ( $options['ico_menu_close'] ?? 'close' ), $options['ico_menu_close'] ?? 'close' );
+                $menu_icon = _div( $icon . ' menu ' . ( $options['ico_menu'] ?? 'menu' ), $options['ico_menu'] ?? 'menu' );
+                $close_icon = _div( $icon . ' close ' . ( $options['ico_menu_close'] ?? 'close' ), $options['ico_menu_close'] ?? 'close' );
                 $show_navigation ? div( 'nav_ico', $menu_icon . $close_icon, 'menu' ) : '';
                 a( APPURL . $logo_url, '', 'brand', '', $logo );
             post();
@@ -224,7 +229,7 @@ class PORTAL {
                 if( $show_alerts ) {
                     $alerts = $db->select( 'alerts', '', 'alert_user = "'.get_user_id().'" AND alert_seen = "0"' );
                     pre( 'alert', 'nav_ico', 'div', 'title="'.T('View Notifications').'"' );
-                        div( ( $options['icon_class'] ?? 'mico' ) . ' ' . ( $options['ico_alerts'] ?? '' ), $options['ico_alerts'] ?? 'notifications' );
+                        div( $icon . ' ' . ( $options['ico_alerts'] ?? '' ), $options['ico_alerts'] ?? 'notifications' );
                         el( 'span', '', !empty( $alerts ) ? count( $alerts ) : 0 );
                         if( !empty( $alerts )) {
                             pre( '', 'events drop' );
@@ -265,22 +270,19 @@ class PORTAL {
                 }
 
                 // Show Languages
-                if( $show_languages && in_array( 'languages', $c ) ) {
-                    // TODO: Get Languages
+                $languages = app_languages();
+                if( $show_languages && !empty( $languages ) ) {
                     pre( 'lang', 'nav_ico' );
-                        div( ( ( $options['icon_class'] ?? 'mico' ) . ' ' . ( $options['ico_languages'] ?? '' ) ), $options['ico_languages'] ?? 'translate' );
-                        //pre( '', 'drop' );
-                            //foreach( [] as $l => $n ){
-                                //$class = !empty( $_SESSION['lang'] ) ? $_SESSION['lang'] == $l ? ' on' : '' : '';
-                                //div( 'ln list '.$class, $n, '', 'data-lang="'.$l.'"' );
-                            //}
-                        //post();
+                        div( ( $icon . ' ' . ( $options['ico_languages'] ?? '' ) ), $options['ico_languages'] ?? 'translate' );
+                        pre( '', 'drop' );
+                            language_picker( 'languages', 'list lang' );
+                        post();
                     post();
                 }
 
                 // Link to Front-end
                 if( $link_to_front ) {
-                    div( '', __a( APPURL, _div( 'nav_ico', _div( ( ( $options['icon_class'] ?? 'mico' ) . ' ' . ( $options['ico_frontend'] ?? '' ) ), $options['ico_frontend'] ?? 'desktop_windows' ) ), '', T( 'Go to Frontend Website' ), 'target="_blank"' ), 'link_to_front' );
+                    div( '', __a( APPURL, _div( 'nav_ico', _div( ( $icon . ' ' . ( $options['ico_frontend'] ?? '' ) ), $options['ico_frontend'] ?? 'desktop_windows' ) ), '', T( 'Go to Frontend Website' ), 'target="_blank"' ), 'link_to_front' );
                 }
 
                 // Show User
@@ -303,7 +305,7 @@ class PORTAL {
                     pre( '', 'user_drop mr20' );
                         if( !is_mobile() && !is_tablet() ) {
                             div( 'user_pic', '', '', ( !empty( $user_pic ) ? 'style="background-image:url('. storage_url($user_pic) .')" class="bg"' : '' ) );
-                            div( 'user_name', $user_name );
+                            div( 'user_name ' . $ica, $user_name, '', 'data-icon="'.$down_ico.'"' );
                             pre( '', 'user_details' );
                                 div( 'pic', '', '', ( !empty( $user_pic ) ? 'style="background-image:url('. storage_url($user_pic) .')" class="bg"' : '' ) );
                                 if( isset( $_SESSION['user'] ) ) {
@@ -345,7 +347,7 @@ class PORTAL {
         //$menus = !empty( $menus ) ? array_group_by( $menus, 'group' ) : [];
         pre( '', 'menu '.$class, 'aside' );
             _r();
-                div( 'col-3', __a( APPURL . $root_url, _el( 'i', ( $options['icon_class'] ?? 'mico' ) .' ico m ' . ( $options['ico_home'] ?? 'home' ), $options['ico_home'] ?? 'home' ) ), '', 'data-intro' );
+                div( 'col-3', __a( APPURL . $root_url, _el( 'i', $icon .' ico m ' . ( $options['ico_home'] ?? 'home' ), $options['ico_home'] ?? 'home' ) ), '', 'data-intro' );
                 pre( '', 'col-9' );
                     echo '<input type="search" placeholder="'.T('Search in Menu...').'">';
                 post();
@@ -387,7 +389,7 @@ class PORTAL {
                                     $user_type = $menu['user_type'] ?? ( $menu['ut'] ?? ( $menu['for'] ?? ( $menu['f'] ?? '' ) ) );
                                     $url = $menu['url'] ?? ( $menu['u'] ?? '' );
                                     $icon = $menu['icon'] ?? ( $menu['i'] ?? '' );
-                                    $ico_class = ( $options['icon_class'] ?? 'mico' ) . ( $gradient_icons ? ' l grad-bg' : ' l' );
+                                    $ico_class = $icon . ( $gradient_icons ? ' l grad-bg' : ' l' );
                                     $title = $menu['title'] ?? ( $menu['name'] ?? ( $menu['t'] ?? ( $menu['n'] ?? '' ) ) );
                                     $restricted = [];
                                     $class = $url_prefix . $url == PAGEPATH ? 'on' : '';
@@ -486,7 +488,7 @@ function title_bar( string $title = PAGENAME, string $back_url = '', string $lis
 
 function _back_url( string $url = '' ): string {
     global $options;
-    return __a( APPURL.$url, 'arrow_back', ( $options['icon_class'] ?? 'mico' ) . ' back', T('Go Back') );
+    return __a( APPURL.$url, 'arrow_back', $icon . ' back', T('Go Back') );
     //echo '<a class="mat-ico back" href="'.APPURL . $url.'">arrow_back</a>';
 }
 

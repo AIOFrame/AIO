@@ -300,11 +300,11 @@ hr.break {
   border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-[data-icon] {
+[data-input-icon] {
   padding-right: 50px;
 }
 
-[data-icon]:after {
+[data-input-icon]:after {
   content: attr(data-icon);
   position: absolute;
   right: 5px;

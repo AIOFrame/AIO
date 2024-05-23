@@ -28,6 +28,10 @@
   font-feature-settings: "liga";
 }
 
+.mica:after {
+  content: attr(data-icon);
+}
+
 .social-ico, .soc-ico, .sico, .social-ico:before, .soc-ico:before, .sico:before {
   font-family: "SocialIcons", serif;
   -webkit-font-smoothing: antialiased;

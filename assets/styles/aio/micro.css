@@ -1349,5 +1349,59 @@ select.tar {
 [dir=rtl] select.tar {
   text-align-last: left;
 }
+[dir=rtl] .mr5 {
+  margin-left: 5px;
+}
+[dir=rtl] .mr10 {
+  margin-left: 10px;
+}
+[dir=rtl] .mr15 {
+  margin-left: 15px;
+}
+[dir=rtl] .mr20 {
+  margin-left: 20px;
+}
+[dir=rtl] .mr30 {
+  margin-left: 30px;
+}
+[dir=rtl] .ml-5 {
+  margin-right: -5px;
+}
+[dir=rtl] .ml-10 {
+  margin-right: -10px;
+}
+[dir=rtl] .ml-15 {
+  margin-right: -15px;
+}
+[dir=rtl] .ml-20 {
+  margin-right: -20px;
+}
+[dir=rtl] .ml5 {
+  margin-right: 5px;
+}
+[dir=rtl] .ml10 {
+  margin-right: 10px;
+}
+[dir=rtl] .ml15 {
+  margin-right: 15px;
+}
+[dir=rtl] .ml20 {
+  margin-right: 20px;
+}
+[dir=rtl] .ml30 {
+  margin-right: 30px;
+}
+[dir=rtl] .mr-5 {
+  margin-left: -5px;
+}
+[dir=rtl] .mr-10 {
+  margin-left: -10px;
+}
+[dir=rtl] .mr-15 {
+  margin-left: -15px;
+}
+[dir=rtl] .mr-20 {
+  margin-left: -20px;
+}
 
 /*# sourceMappingURL=micro.css.map */

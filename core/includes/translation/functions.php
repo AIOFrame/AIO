@@ -243,18 +243,21 @@ function app_languages() {
  */
 function language_picker( string $wrap_class = 'languages', string $class = '', bool $full_title = true ): void {
     $c = Encrypt::initiate();
+    $callback = defined( 'APPDEBUG' ) && APPDEBUG ? 'set_language_ajax' : $c->encrypt('set_language_ajax');
     $i18ns = app_languages();
-    echo '<div class="'.$wrap_class.'" data-language="'.$c->encrypt('set_language_ajax').'">';
+    _d( $wrap_class, '', 'data-language="'.$callback.'"' );
+    //echo '<div class="'.$wrap_class.'" data-language="'.$c->encrypt('set_language_ajax').'">';
     if( !empty( $i18ns ) ) {
         $i18ns = array_unique($i18ns);
         foreach ($i18ns as $v => $t) {
             $lang = $_SESSION['lang'] ?? 'en';
             $c = $lang == $v ? 'on cp' : 'cp';
             $t = $full_title ? $t : $v;
-            echo '<div class="'.$c.' '.$class.'" data-lang="' . $v . '">' . $t . '</div>';
+            div( $c.' '.$class, $t, '', 'data-lang="'.$v.'"' );
+            //echo '<div class="'.$c.' '.$class.'" data-lang="' . $v . '">' . $t . '</div>';
         }
     }
-    echo '</div>';
+    d_();
 }
 
 /**

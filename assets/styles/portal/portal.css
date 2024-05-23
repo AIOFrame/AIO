@@ -311,6 +311,7 @@ article.fade > div {
   vertical-align: top;
   cursor: pointer;
   position: relative;
+  line-height: normal;
 }
 .nav_ico > div, .nav_ico > span, .nav_ico > i, .nav_ico > a {
   width: 50px;
@@ -322,6 +323,7 @@ article.fade > div {
   position: absolute;
   top: calc(100% - 16px);
   right: 0;
+  height: auto;
   background: #fff;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
   display: none;
@@ -329,6 +331,7 @@ article.fade > div {
   border-radius: 20px 0 20px 20px;
   text-align: center;
   overflow: hidden;
+  width: auto;
 }
 .nav_ico .list {
   max-width: 350px;
@@ -337,6 +340,7 @@ article.fade > div {
   border-bottom: 1px solid #ddd;
   transition: 0.6s;
   white-space: nowrap;
+  line-height: normal;
 }
 .nav_ico .list:hover {
   background: rgba(0, 0, 0, 0.1);
@@ -499,16 +503,24 @@ a.brand {
   border: 1px solid rgba(0, 0, 0, 0.2);
   height: 40px;
   margin: 15px 0;
-  padding: 8px 35px 8px 45px;
+  padding: 8px 10px 8px 45px;
   font-weight: 200;
   font-size: 1.1rem;
   color: #000;
   box-sizing: border-box;
   border-radius: 20px;
   transition: 0.6s;
-  background: #fff url("../../icons/select.svg") no-repeat calc(100% - 12px)/18px;
+  display: flex;
   position: relative;
   white-space: nowrap;
+  align-items: center;
+}
+.user_drop .user_name:after {
+  display: block;
+  font-size: 1.4rem;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
 }
 .user_drop .user_details {
   width: 350px;
@@ -1343,6 +1355,27 @@ body.d .aio_upload:after {
 }
 body.d .modal .close, body.d .header .tabs a.on:after, body.d .header .tabs div.on:after {
   background: #fff;
+}
+
+[dir=rtl] aside {
+  left: auto;
+  right: -450px;
+}
+[dir=rtl] aside.on {
+  left: auto;
+  right: 0;
+}
+[dir=rtl] .user_drop .user_pic {
+  right: 5px;
+  left: auto;
+}
+[dir=rtl] .user_drop .user_name {
+  padding: 8px 45px 8px 10px;
+}
+[dir=rtl] .user_drop .user_details {
+  right: auto;
+  left: 0;
+  border-radius: 0 20px 20px 20px;
 }
 
 /*# sourceMappingURL=portal.css.map */

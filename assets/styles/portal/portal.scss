@@ -346,6 +346,7 @@ article.fade > div {
   vertical-align: top;
   cursor: pointer;
   position: relative;
+  line-height: normal;
   > div, > span, > i, > a {
     width: 50px;
     height: 100%;
@@ -356,6 +357,7 @@ article.fade > div {
     position: absolute;
     top: calc(100% - 16px);
     right: 0;
+    height: auto;
     background: #fff;
     box-shadow: 0 0 30px rgba(0,0,0,.2);
     display: none;
@@ -363,6 +365,7 @@ article.fade > div {
     border-radius: 20px 0 20px 20px;
     text-align: center;
     overflow:hidden;
+    width: auto;
   }
   .list {
     max-width: 350px;
@@ -371,6 +374,7 @@ article.fade > div {
     border-bottom:1px solid #ddd;
     transition:.6s;
     white-space: nowrap;
+    line-height: normal;
   }
   .list:hover {
     background:rgba(0,0,0,.1);
@@ -526,16 +530,25 @@ a.brand {
     border:1px solid rgba(0,0,0,.2);
     height: 40px;
     margin: 15px 0;
-    padding:8px 35px 8px 45px;
+    padding:8px 10px 8px 45px;
     font-weight: 200;
     font-size: 1.1rem;
     color:#000;
     box-sizing:border-box;
     border-radius:20px;
     transition:.6s;
-    background:#fff url('../../icons/select.svg') no-repeat calc(100% - 12px) / 18px;
+    display: flex;
+    //background:#fff url('../../icons/select.svg') no-repeat calc(100% - 12px) / 18px;
     position: relative;
     white-space: nowrap;
+    align-items: center;
+  }
+  .user_name:after {
+    display: block;
+    font-size: 1.4rem;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
   }
   .user_details {
     width:350px;
@@ -1436,4 +1449,29 @@ body.d {
     background: #fff;
   }
 
+}
+
+[dir=rtl] {
+  aside {
+    left: auto;
+    right: -450px;
+  }
+  aside.on {
+    left: auto;
+    right: 0;
+  }
+  .user_drop {
+    .user_pic {
+      right: 5px;
+      left: auto;
+    }
+    .user_name {
+      padding: 8px 45px 8px 10px;
+    }
+    .user_details {
+      right: auto;
+      left: 0;
+      border-radius: 0 20px 20px 20px;
+    }
+  }
 }
