@@ -194,7 +194,7 @@ class PORTAL {
         //skel( $light_mode );
         //$c = json_decode( CONFIG, 1 );
         $c = CONFIG;
-        $icon = $options['universal_icon_class'] ?? 'mico';
+        $icon = $options['icon_class'] ?? 'mico';
         $ica = $options['icon_after_class'] ?? 'mica';
         $down_ico = $options['ico_dropdown'] ?? 'expand_more';
         // TODO: Implement most params to be from user options
@@ -344,7 +344,7 @@ class PORTAL {
      */
     function render_menu( array $menus = [], string $root_url = 'portal', string $url_prefix = '', string $content = '', string $class = '', bool $gradient_icons = false ): void {
         global $options;
-        $icon = $options['universal_icon_class'] ?? 'mico';
+        $icon = $options['icon_class'] ?? 'mico';
         //$menus = !empty( $menus ) ? array_group_by( $menus, 'group' ) : [];
         pre( '', 'menu '.$class, 'aside' );
             _r();
@@ -489,7 +489,7 @@ function title_bar( string $title = PAGENAME, string $back_url = '', string $lis
 
 function _back_url( string $url = '' ): string {
     global $options;
-    return __a( APPURL.$url, 'arrow_back', $options['universal_icon_class'] . ' back', T('Go Back') );
+    return __a( APPURL.$url, 'arrow_back', $options['icon_class'] . ' back', T('Go Back') );
     //echo '<a class="mat-ico back" href="'.APPURL . $url.'">arrow_back</a>';
 }
 

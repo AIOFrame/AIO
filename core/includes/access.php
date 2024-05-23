@@ -883,7 +883,7 @@ function access_html( string $user_title = 'Username or Email', string $pass_tit
     $aos = $a->get_options(1,1,1);
     //skel( $aos );
     $user_title = !empty( $user_title ) ? $user_title : ( $aos['ac_username_text'] ?? 'User Login' );
-    $icon_class = 'icon ' . ( $options['universal_icon_class'] ?? 'mico' );
+    $icon_class = 'icon ' . ( $options['icon_class'] ?? 'mico' );
     $user_icon = $aos['ac_username_icon'] ?? 'account_circle';
     $pass_title = !empty( $pass_title ) ? $pass_title : ( $aos['ac_password_text'] ?? 'Password' );
     $session_title = !empty( $session_title ) ? $session_title : ( $aos['ac_remember_text'] ?? 'Remember Me?' );
@@ -971,7 +971,7 @@ function register_html( array $columns = [], bool $prepend_columns = true, array
     $f = new FORM();
     $a = new ACCESS();
     $aos = $a->get_options(1,0,1);
-    $icon_class = 'icon ' . ( $options['universal_icon_class'] ?? 'mico' );
+    $icon_class = 'icon ' . ( $options['icon_class'] ?? 'mico' );
     $login_title = $ops['username_text'] ?? 'User Login / Email';
     $pass_title = $ops['password_text'] ?? 'Password';
     $register_button_text = $aos['ac_register_btn_text'] ?? 'Register';

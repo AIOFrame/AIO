@@ -1094,7 +1094,7 @@ function steps( array $steps = [], string $style = '', bool $translate_titles = 
 function _steps( array $steps = [], string $style = '', bool $translate_titles = false, bool $show_controls = true, bool $show_arrows = true ): string {
     $r = rand( 0, 9999 );
     global $options;
-    $icon_class = $options['universal_icon_class'] ?? 'mico';
+    $icon_class = $options['icon_class'] ?? 'mico';
     $prev_ico = $options['ico_previous'] ?? 'arrow_back';
     $next_ico = $options['ico_forward'] ?? 'arrow_forward';
     $data = _pre( '', 'steps '.$style );
