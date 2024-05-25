@@ -23,22 +23,13 @@ input {
   position: relative;
   //margin:0 0 $margin-bottom;
 }
-.icon {
-  width: 25px;
-  min-height: 25px;
-  line-height: 25px;
-  position: absolute;
-  left: 15px;
-  top: 0;
-  text-align: center;
-  padding: var(--input_padding_top) 0 var(--input_padding_bottom) 0;
+.icon_preview {
+  right: auto;
+  left: 10px;
 }
-.password_visibility .icon {
+.password_visibility .icon_preview {
   left: auto;
   right: 15px;
-}
-label + input + .icon, label + input + .password_visibility .icon, label + input + .icon + .password_visibility .icon {
-  top: 30px;
 }
 /* .user_wrap:after, .pass_wrap:after {
   position: absolute;

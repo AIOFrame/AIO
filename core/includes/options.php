@@ -186,12 +186,15 @@ class OPTIONS {
         $attr = 'data-colors';
         $colors = $this->colors;
         $ops = $db->get_options( $colors );
-        $f->option_params_wrap(  'colors', 'row', $colors );
+        $form = [];
+        //$f->option_params_wrap(  'colors', 'row', $colors );
         foreach( $colors as $c => $cv ) {
-            $f->color($c,ucwords(str_replace('_',' ',$c)),'Ex: F1F1F1',$ops[$c]??$cv,$attr,0);
+            $form[] = [ 'i' => $c, 'n' => ucwords(str_replace('_',' ',$c)), 'p' => 'Ex: F1F1F1', 't' => 'color', 'v' => ( $ops[$c] ?? $cv ), 'c' => 4, 'a' => $attr ];
+            //$f->color($c,ucwords(str_replace('_',' ',$c)),'Ex: F1F1F1',$ops[$c]??$cv,$attr,0);
         }
-        $f->process_options('Save Color Options','store grad','','.col-12 tac');
-        post();
+        $this->form( $form, 'row', 0, '', 'Save Color Options', '', '', $colors );
+        //$f->process_options('Save Color Options','store grad','','.col-12 tac');
+        //post();
         get_scripts('iro,color');
     }
 
@@ -214,11 +217,15 @@ class OPTIONS {
             //$idc = 'port_ico_'.$o.'_class';
             $autoload[] = $ico;
             //$autoload[] = $idc;
-            $form[] = [ 'i' => $ico, 'n' => ucwords( str_replace( '_', ' ', $o ) ). ' Ico', 'v' => $options[$ico] ?? $v, 'c' => 2, 'a' => $a ];
+            $icon_preview = __div( ( $options['icon_class'] ?? 'mico' ) . ' icon_preview', ( $options[$ico] ?? $v ) );
+            $form[] = [ 'i' => $ico, 'n' => ucwords( str_replace( '_', ' ', $o ) ). ' Ico', 'v' => $options[$ico] ?? $v, 'c' => 2, 'a' => $a, 'p_' => $icon_preview . d__() ];
+            //$form[] = [ 't' => 'div', 'v' => $icon_preview, 'c' => 1 ];
             //$form[] = [ 'i' => $idc, 'n' => ucwords( $o ). ' Ico Class', 'v' => $v, 'c' => 2 ];
         }
         $o = new OPTIONS();
-        $o->form( $form, 'row', 1, 'ico', 'Save Icon Options', '', 'Successfully saved icon settings!', $autoload );
+        _d( 'icon_options' );
+            $o->form( $form, 'row', 1, 'ico', 'Save Icon Options', '', 'Successfully saved icon settings!', $autoload );
+        d_();
     }
 
     /**
@@ -288,15 +295,15 @@ class OPTIONS {
                                 $autoload[] = $dd['i'];
                                 //skel( $ob );
                             }
-                                $f->form( $type_options );
+                                $f->form( $type_options, 'row' );
                         c_();
                     }
                     r_();
-                    $f->option_params_wrap( 'input', 'row', $autoload );
+                    //$f->option_params_wrap( 'input', 'row', $autoload );
                         //skel( $autoload );
                         //$f->form( $type_options, 'row' );
-                        $f->process_options('Save ' . $x . ' Styling Options','store grad','','.col-12 tac');
-                    post();
+                        //$f->process_options('Save ' . $x . ' Styling Options','store grad','','.col-12 tac');
+                    //post();
                     h4( 'Color Options' );
                     $autoload = $color_options = [];
                     foreach( $colors_form as $cc ) {
@@ -310,10 +317,11 @@ class OPTIONS {
                         $color_options[] = $d;
                     }
                     //skel( $color_options );
-                    $f->option_params_wrap( 'input', 'row', $autoload );
+                    $this->form( $color_options, 'row', 1, '', 'Save Color Options', '', '', $autoload );
+                    /* $f->option_params_wrap( 'input', 'row', $autoload );
                         $f->form( $color_options );
                         $f->process_options('Save Color Options','store grad','','.col-12 tac');
-                    post();
+                    post(); */
                 d_();
             }
         d_();
@@ -400,7 +408,7 @@ class OPTIONS {
         $db = new DB();
         $zones = get_timezones();
         //skel( $zones );
-        $r = defined( 'REGION' ) && isset( REGION['cca2'] ) ? strtolower( REGION['cca2'] ).'_' : '';
+        $r = $this->current_region_prefix();
         $add_ops = ['address','add_name','city','state','post','country','date_format','time_format','zone'];
         $add_ops = defined( 'REGION' ) ? prepare_values( $add_ops, $r ) : $add_ops;
         $os = $db->get_options($add_ops);
@@ -430,7 +438,7 @@ class OPTIONS {
     function finance_options(): void {
         $f = new FORM();
         $db = new DB();
-        $r = defined( 'REGION' ) && isset( REGION['cca2'] ) ? strtolower( REGION['cca2'] ).'_' : '';
+        $r = $this->current_region_prefix();
         $fin_ops = $this->finance_options;
         $fin_ops = defined( 'REGION' ) ? prepare_keys( $fin_ops, $r ) : $fin_ops;
         $finance_keys = array_merge( $fin_ops, [ 'base_region' ] );
@@ -454,16 +462,13 @@ class OPTIONS {
     }
 
     function content_options(): void {
-        $f = new FORM();
         $db = new DB();
-        $os = $db->get_options(['no_access_image','no_content_image']);
-        $f->option_params_wrap('cn','row');
-        $no_access_image = $os['no_access_image'] ?? '';
-        $no_content_image = $os['no_content_image'] ?? '';
-        $f->upload('no_access_image','Image to show when user has no access!','Upload',$no_access_image,0,1,'','data-cn','jpg,png,svg',.1,0,'',6);
-        $f->upload('no_content_image','Image to show when there is no content!','Upload',$no_content_image,0,1,'','data-cn','jpg,png,svg',.1,0,'',6);
-        $f->process_options('Save Options','store grad','','.col-12 tac');
-        $f->post_process();
+        $os = $db->get_options('no_access_image,no_content_image');
+        $form = [
+            [ 'i' => 'no_access_image', 't' => 'upload', 'n' => 'Image to show when user has no access!', 'p' => 'Upload', 'v' => ( $os['no_access_image'] ?? '' ), 'e' => 'jpg,png,svg', 'a' => 'data-cn', 'c' => 6 ],
+            [ 'i' => 'no_content_image', 't' => 'upload', 'n' => 'Image to show upon empty content!', 'p' => 'Upload', 'v' => ( $os['no_content_image'] ?? '' ), 'e' => 'jpg,png,svg', 'a' => 'data-cn', 'c' => 6 ],
+        ];
+        $this->form( $form, 'row' );
     }
 
     /**
@@ -474,7 +479,7 @@ class OPTIONS {
         //skel( FEATURES );
         //$c = !empty( CONFIG ) ? json_decode( CONFIG ) : [];
         //if( in_array( 'regions', $c->features ) || in_array( 'region', $c->features ) ) {
-        if( in_array_any( [ 'region', 'regions' ], FEATURES ) ) {
+        if( in_array_any( [ 'region', 'regions', 'global' ], FEATURES ) ) {
             $r = new REGION();
             $r->region_options();
         }
@@ -482,18 +487,14 @@ class OPTIONS {
 
     function social_options(): void {
         $options = $this->social_options;
-        $f = new FORM();
         $db = new DB();
         $os = $db->get_options( $options );
-        $f->option_params_wrap('soc','settings');
         $social_form = [];
         foreach( $options as $ok => $ov ) {
             $val = $os[ $ok ] ?? '';
             $social_form[] = [ 'i' => $ok, 'n' => $ov, 'p' => 'Ex: '.$ov.' URL', 'v' => $val ];
         }
-        $f->form( $social_form, 'settings', 'soc' );
-        $f->process_options('Save Options','store grad','','.col-12 tac');
-        $f->post_process();
+        $this->form( $social_form, 'settings', 'soc' );
     }
 
     function all_options( string $table_class = '' ): void {
@@ -504,10 +505,10 @@ class OPTIONS {
         foreach( $options as $o ) {
             $table[] = [ 'body' => [
                 $o['option_id'],
-                $f->_text( 'option_name_'.$o['option_id'], '', '', $o['option_name'], 'data-ao' ),
-                $f->_text( 'option_value'.$o['option_id'], '', '', $o['option_value'], 'data-ao' ),
-                $f->_text( 'option_scope'.$o['option_id'], '', '', $o['option_scope'], 'data-ao' ),
-                $f->_slide( 'option_load'.$o['option_id'], '', '', '', $o['option_load'], 'data-ao' ),
+                $f->__text( 'option_name_'.$o['option_id'], '', '', $o['option_name'], 'data-ao' ),
+                $f->__text( 'option_value'.$o['option_id'], '', '', $o['option_value'], 'data-ao' ),
+                $f->__text( 'option_scope'.$o['option_id'], '', '', $o['option_scope'], 'data-ao' ),
+                $f->__slide( 'option_load'.$o['option_id'], '', '', '', $o['option_load'], 'data-ao' ),
             ] ];
         }
         table( $table, $table_class );
@@ -532,22 +533,33 @@ class OPTIONS {
         $s->options();
     }
 
+    function restrict_options(): void {
+        $r = $this->current_region_prefix();
+        $codes = get_calling_codes();
+        $form = [
+            [ 'i' => $r.'restrict_phone_codes', 'n' => 'Restrict by Phone Codes', 't' => '' ]
+        ];
+    }
+
+    function current_region_prefix(): string {
+        return defined( 'REGION' ) && isset( REGION['cca2'] ) ? strtolower( REGION['cca2'] ).'_' : '';
+    }
+
     function language_options(): void {
         // TODO: Move language options to languages php
-        $f = new FORM();
+        $r = $this->current_region_prefix();
         $db = new DB();
         $all_languages = get_languages();
         unset( $all_languages['en'] );
         $languages = $db->get_option('languages');
-        $f->option_params_wrap('al','settings','languages,languages_updated');
-        $f->select2('languages','Set Languages','Choose Languages...',$all_languages,$languages,'data-al multiple',12,1);
-        $f->text('languages_updated','','',1,'hidden data-al');
-        $f->process_options('Save Options','store grad','','.col-12 tac');
+        $form = [
+            [ 'i' => $r.'languages', 'n' => 'Set Languages', 'p' => 'Choose Languages...', 'o' => $all_languages, 'v' => $languages, 'a' => 'data-al multiple' ],
+        ];
+        $this->form( $form, 'row', 0, 'al', $this->region_flag().'Save Language Options', '', 'Successfully saved language options!', $r.'languages' );
         div( 'region_info', 'English is default, you can add additional languages.', '', 'style="text-align:center; font-size: .8rem"', 1 );
     }
 
     function export_import_options(): void {
-        $f = new FORM();
         $db = new DB();
         $e = Encrypt::initiate();
         $data = [];
@@ -557,15 +569,11 @@ class OPTIONS {
                 $data[ $o['option_name'] ] = $o['option_value'];
             }
         }
-        $f->option_params_wrap( 'ei', 'settings' );
-        //$f->process_params('','ei','',2,2,[],'Successfully imported options!','','','','','','row');
-        $f->textarea('export','Export Options','',$e->encrypt_array($data),'rows="5"',6);
-        $f->textarea('import','Import Options','','','data-ei rows="5"',6);
-        _c('6');
-        c_();
-        $f->process_trigger('Import Options','store grad','','import_options_ajax','.col-12 tac');
-        //$this->region_notice();
-        $f->post_process();
+        $form = [
+            [ 'i' => 'export', 'n' => 'Export Options', 'v' => $e->encrypt_array($data), 'a' => 'rows="5"', 'c' => 6 ],
+            [ 'i' => 'import', 'n' => 'Import Options', 'a' => 'rows="5"', 'c' => 6 ],
+        ];
+        $this->form( $form, 'row' );
     }
 
     /**
@@ -656,11 +664,7 @@ class OPTIONS {
             [ 'i' => 'save_class', 'p' => 'Ex: save_button', 'n' => 'Save button class', 'c' => 6 ],
             //[ 't' => 'hidden', 'i' => 'autoload', 'v' => 'notify_time,reload_time,success_message,failure_message' ],
         ];
-        $f = new FORM();
-        $f->option_params_wrap( '', '', 'notify_time,reload_time,success_message,failure_message,save_class' );
-            $f->form( $form, 'row' );
-            $f->process_trigger( 'Save Options', 'store grad', '', '', '.col-12 tac' );
-        post();
+        $this->form( $form );
     }
 
     /**
@@ -690,19 +694,13 @@ class OPTIONS {
     }
 
     function region_notice(): void {
-        $c = defined( 'CONFIG' ) ? CONFIG : [];
-        $r = defined( 'REGION' ) ? REGION : [];
-        if( !empty( $r ) ) {
-            $n = $r['name']['common'] ?? '';
-            $f = $r['flag'] ?? '';
-            div( 'region_info', T('Settings apply to region ') . $n . ' ' . $f, '', 'style="text-align:center; font-size: .8rem"' );
-        } else if( in_array( 'regions', $c['features'] ) ) {
-            div( 'region_info', T('Regions feature enabled! Please select a region in header and then save settings to apply to selected region!'), '', 'style="text-align:center; font-size: .8rem"' );
-        }
+        $r = new REGION();
+        $r->notice();
     }
 
     function region_flag(): string {
-        return defined( 'REGION' ) && isset( REGION['flag'] ) ? ' <i class="reg-flag">'.REGION['flag'].'</i> ' : '';
+        $r = new REGION();
+        return $r->flag();
     }
 
 }

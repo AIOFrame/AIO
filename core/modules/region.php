@@ -119,28 +119,61 @@ class REGION {
                 // Serving Countries
                 // Tax Options
                 // Payment Options
-        $f = new FORM();
+        $o = new OPTIONS();
         $db = new DB();
         $countries = get_countries('iso2');
-        $regions = $db->get_options(['base_region','regions']);
+        $r = defined( 'REGION' ) && isset( REGION['cca2'] ) ? strtolower( REGION['cca2'] ).'_' : '';
+        $regions = $db->get_options('base_region,regions,'.$r.'serving_regions');
 
         // Limit base region
-        $limit_regions = [];
+        $operating_regions = [];
         if( !empty( $regions['regions'] ) ) {
             $rs = array_map( 'trim', explode( ',', $regions['regions'] ) );
             if( !empty( $rs ) ) {
                 foreach( $rs as $sr ) {
-                    $limit_regions[ $sr ] = $countries[ $sr ];
+                    $operating_regions[ $sr ] = $countries[ $sr ];
                 }
             }
         }
-        $f->option_params_wrap('reg','row','base_region,regions');
-        $f->select2('regions','Set Operating Regions','Choose countries...',$countries,$regions['regions']??'','multiple data-reg',12,1);
-        if( !empty( $regions['regions'] ) )
-            $f->select2('base_region','Set Base Region','Choose country...',$limit_regions,$regions['base_region']??'','data-reg',12,1);
-        $f->process_options('Save Options','store grad','','.col-12 tac');
-        div( '', 'Please set and save operating regions, then set primary region.', '', 'style="text-align:center; font-size: .8rem"', 1 );
-        d_();
+        $regions_form = [
+            [ 'i' => 'regions', 't' => 'select2', 'n' => 'Choose countries of Management', 'p' => 'Choose country...', 'o' => $countries, 'v' => ( $regions['regions'] ?? '' ), 'k' => 1, 'a' => 'multiple data-region' ]
+        ];
+        !empty( $regions['regions'] ) ? $regions_form[] = [ 'i' => 'base_region', 't' => 'select2', 'n' => 'Set Primary Country', 'p' => 'Choose country...', 'o' => $operating_regions, 'k' => 1, 'v' => ( $regions['base_region'] ?? '' ), 'a' => 'data-region' ] : '';
+        $o->form( $regions_form, 'row', 0, 'region', 'Save Region Options', '', 'Regional settings saved successfully!', 'base_region,regions' );
+        //div( '', 'Please set and save operating regions, then set primary region.', '', 'style="text-align:center; font-size: .8rem"', 1 );
+        //$f->option_params_wrap('reg','row','base_region,regions');
+        //$f->select2('regions','Set Operating Regions','Choose countries...',$countries,$regions['regions']??'','multiple data-reg',12,1);
+        if( !empty( $regions['regions'] ) ) {
+            $region_options_form = [
+                [ 'i' => $r.'serving_regions', 't' => 'select2', 'n' => 'Serving countries', 'p' => 'Choose country...', 'o' => $countries, 'k' => 1, 'v' => ( $regions[ $r.'serving_regions' ] ?? '' ), 'a' => 'multiple data-region' ],
+            ];
+            $o->form( $region_options_form, 'row', 0, 'region', $this->flag() . ' Save Restrictions' );
+            //$f->select2('base_region','Set Base Region','Choose country...',$limit_regions,$regions['base_region']??'','data-reg',12,1);
+        }
+        //$f->process_options('Save Options','store grad','','.col-12 tac');
+        //d_();
+    }
+
+    function __notice(): string {
+        $c = defined( 'CONFIG' ) ? CONFIG : [];
+        $r = defined( 'REGION' ) ? REGION : [];
+        if( !empty( $r ) ) {
+            $n = $r['name']['common'] ?? '';
+            $f = $r['flag'] ?? '';
+            return __div( 'region_info', T('Settings apply to region ') . $n . ' ' . $f, '', 'style="text-align:center; font-size: .8rem"' );
+        } else if( in_array( 'regions', $c['features'] ) ) {
+            return __div( 'region_info', T('Regions feature enabled! Please select a region in header and then save settings to apply to selected region!'), '', 'style="text-align:center; font-size: .8rem"' );
+        } else {
+            return __div( 'region_info', T('') );
+        }
+    }
+
+    function notice(): void {
+        echo $this->__notice();
+    }
+
+    function flag(): string {
+        return defined( 'REGION' ) && isset( REGION['flag'] ) ? ' '.__i( 'reg-flag', REGION['flag'] ).' ' : '';
     }
 
     /**

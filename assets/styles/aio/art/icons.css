@@ -29,7 +29,40 @@
 }
 
 .mica:after {
-  content: attr(data-icon);
+  content: attr(data-icon-preview);
+}
+
+[data-icon-preview] {
+  padding-right: 50px;
+}
+
+[data-icon-preview]:after {
+  content: attr(data-icon-preview);
+  position: absolute;
+  right: 5px;
+  display: block;
+  font-size: 2rem;
+}
+
+.icon_preview {
+  width: 25px;
+  min-height: 25px;
+  line-height: 25px;
+  position: absolute;
+  right: 15px;
+  left: auto;
+  top: 0;
+  text-align: center;
+  padding: var(--input_padding_top) 0 var(--input_padding_bottom) 0;
+}
+
+.icon_preview.l {
+  left: 15px;
+  right: auto;
+}
+
+label + input + .icon_preview, label + input + .password_visibility .icon_preview, label + input + .icon_preview + .password_visibility .icon_preview {
+  top: 30px;
 }
 
 .social-ico, .soc-ico, .sico, .social-ico:before, .soc-ico:before, .sico:before {

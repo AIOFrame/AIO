@@ -1216,6 +1216,15 @@ aside::-webkit-scrollbar {
     }
   }
 }
+.icon_options {
+  [data-ico] {
+    padding-right: 40px;
+    padding-left: 10px;
+  }
+  [data-ico] + .icon_preview {
+    right: 20px;
+  }
+}
 fieldset {
   background: #eee;
   color: #000;

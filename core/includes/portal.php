@@ -245,12 +245,13 @@ class PORTAL {
                 }
 
                 // Show Regions
-                if( !empty( $options['regions'] ) && isset( $c['features'] ) && ( in_array_any( [ 'regions', 'global' ], $c['features'] ) ) ) {
+                //skel( $options['regions'] );
+                if( !empty( $options['regions'] ) && isset( $c['features'] ) && ( in_array_any( [ 'regions', 'region', 'global' ], $c['features'] ) ) ) {
                     $countries = get_countries('iso2','flag name');
                     //$regions = $db->get_options(['regions','primary_region']);
                     $set_countries = array_map( 'trim', explode( ',', $options['regions'] ) );
                     $my_region = $db->get_option('region',get_user_id());
-                    $cr = !empty( $my_region ) ? $my_region : ( !empty( $options['primary_region'] ) ? $options['primary_region'] : $set_countries[ 0 ] );
+                    $cr = !empty( $my_region ) ? $my_region : ( !empty( $options['base_region'] ) ? $options['base_region'] : $set_countries[ 0 ] );
                     $live = isset( $countries[$cr] ) ? explode( ' ', $countries[$cr] ) : [];
                     if( !empty( $set_countries ) ) {
                         _d( 'nav_ico', 'region', 'title='.T('Change Region') );
@@ -259,7 +260,7 @@ class PORTAL {
                             foreach( $set_countries as $r ){
                                 $t = $countries[$r] ?? '';
                                 if( !empty( $cr ) && $cr == $r  ) {
-                                    div( 'ln list on', $t );
+                                    div( 'ln list onn', $t );
                                 } else {
                                     div( 'ln list', $t, '', 'data-set-region="'.$r.'"' );
                                 }
