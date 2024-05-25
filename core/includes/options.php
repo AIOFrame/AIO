@@ -533,12 +533,20 @@ class OPTIONS {
         $s->options();
     }
 
-    function restrict_options(): void {
+    function world_options(): void {
+        $d = new DB();
         $r = $this->current_region_prefix();
+        $keys = prepare_values( ['serving_regions','default_region','serving_phone_codes','default_phone_code'], $r );
+        $ops = $d->get_options( $keys );
         $codes = get_calling_codes();
+        $countries = get_countries('iso2');
         $form = [
-            [ 'i' => $r.'restrict_phone_codes', 'n' => 'Restrict by Phone Codes', 't' => '' ]
+            [ 'i' => $r.'serving_phone_codes', 'n' => 'Restrict Phone Codes', 't' => 'select2', 'o' => $codes, 'a' => 'data-world multiple', 'c' => 8, 'v' => ( $ops[ $r.'serving_phone_codes' ] ?? '' ), 'k' => 1 ],
+            [ 'i' => $r.'default_phone_code', 'n' => 'Default Code', 't' => 'select2', 'o' => $codes, 'a' => 'data-world', 'v' => ( $ops[ $r.'default_phone_code' ] ?? '' ), 'c' => 4, 'k' => 1 ],
+            [ 'i' => $r.'serving_regions', 't' => 'select2', 'n' => 'Serving countries', 'p' => 'Choose countries...', 'o' => $countries, 'k' => 1, 'v' => ( $ops[ $r.'serving_regions' ] ?? '' ), 'a' => 'multiple data-world', 'c' => 8 ],
+            [ 'i' => $r.'default_region', 't' => 'select2', 'n' => 'Default country', 'p' => 'Choose country...', 'o' => $countries, 'k' => 1, 'v' => ( $ops[ $r.'default_region' ] ?? '' ), 'a' => 'data-world', 'c' => 4 ],
         ];
+        $this->form( $form, 'row', 0, 'world', 'Save World Data Options', '', 'Successfully stored world data options!', $keys );
     }
 
     function current_region_prefix(): string {

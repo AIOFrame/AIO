@@ -123,7 +123,7 @@ class REGION {
         $db = new DB();
         $countries = get_countries('iso2');
         $r = defined( 'REGION' ) && isset( REGION['cca2'] ) ? strtolower( REGION['cca2'] ).'_' : '';
-        $regions = $db->get_options('base_region,regions,'.$r.'serving_regions');
+        $regions = $db->get_options('base_region,regions,'.$r.'serving_regions,'.$r.'default_region');
 
         // Limit base region
         $operating_regions = [];
@@ -145,7 +145,8 @@ class REGION {
         //$f->select2('regions','Set Operating Regions','Choose countries...',$countries,$regions['regions']??'','multiple data-reg',12,1);
         if( !empty( $regions['regions'] ) ) {
             $region_options_form = [
-                [ 'i' => $r.'serving_regions', 't' => 'select2', 'n' => 'Serving countries', 'p' => 'Choose country...', 'o' => $countries, 'k' => 1, 'v' => ( $regions[ $r.'serving_regions' ] ?? '' ), 'a' => 'multiple data-region' ],
+                [ 'i' => $r.'serving_regions', 't' => 'select2', 'n' => 'Serving countries', 'p' => 'Choose countries...', 'o' => $countries, 'k' => 1, 'v' => ( $regions[ $r.'serving_regions' ] ?? '' ), 'a' => 'multiple data-region', 'c' => 8 ],
+                [ 'i' => $r.'default_region', 't' => 'select2', 'n' => 'Default country', 'p' => 'Choose country...', 'o' => $countries, 'k' => 1, 'v' => ( $regions[ $r.'default_region' ] ?? '' ), 'a' => 'data-region', 'c' => 4 ],
             ];
             $o->form( $region_options_form, 'row', 0, 'region', $this->flag() . ' Save Restrictions' );
             //$f->select2('base_region','Set Base Region','Choose country...',$limit_regions,$regions['base_region']??'','data-reg',12,1);
