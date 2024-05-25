@@ -84,7 +84,7 @@ body.modal_open {
   position: relative;
 }
 [data-prev]:not(.mat-ico):after, [data-next]:not(.mat-ico):after {
-  content:'';
+  //content:'';
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -1156,6 +1156,14 @@ aside::-webkit-scrollbar {
 
 .html_code {
   min-height: 300px;
+}
+.no_content, .no_access {
+  text-align: center;
+  .no_content_image, .no_access_image {
+    height: 300px;
+    display: block;
+    margin: 20px auto;
+  }
 }
 .group_details {
   background: #fff;

@@ -1310,7 +1310,7 @@ class FORM {
         }
         //skel( $steps );
         if( count( $fields ) == count( $steps ) ) {
-            $return .= _steps( $steps, $form_type . ' ' . $class );
+            $return .= __steps( $steps, $form_type . ' ' . $class );
         }
         $return .= in_array( $form_type, [ 'get', 'post', 'form' ] ) ? '</form>' : '</div>';
         //skel( count( $fields ) );

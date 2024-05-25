@@ -760,25 +760,33 @@ function card( string $class = '', string $title = '', string $link = '', string
     echo __card( $class, $title, $link, $desc, $image, $image_class, $status, $status_class, $data, $table_class, $actions, $actions_class, $edit_modal, $edit_data, $delete_table, $delete_logic );
 }
 
-function pre_modal( string $title = '', string $size = '', bool $editable = true ): void {
+function __pre_modal( string $title = '', string $size = '', bool $editable = true ): string {
     global $options;
     $s = strtolower( str_replace( ' ', '_', $title ) );
-    pre($s.'_modal','modal '.$size.' '.$s.'_modal');
-        pre('','modal_head');
+    $r = __pre($s.'_modal','modal '.$size.' '.$s.'_modal')
+        . __pre('','modal_head');
             if( $editable ) {
-                h2('New '.$title,1,'title','data-add');
-                h2('Update '.$title,1,'title','data-edit');
+                $r .= __h2('New '.$title,1,'title','data-add')
+                . __h2('Update '.$title,1,'title','data-edit');
             } else {
-                h2($title,1,'title');
+                $r .= __h2($title,1,'title');
             }
-        post();
-    el( 'div', ( $options['icon_class'] ?? 'mico' ) . ' ico close ' . ( $options['ico_close'] ?? '' ), ( $options['ico_close'] ?? 'close' ) );
-    pre('','modal_body');
+        $r .= __post()
+    . __el( 'div', ( $options['icon_class'] ?? 'mico' ) . ' ico close ' . ( $options['ico_close'] ?? '' ), ( $options['ico_close'] ?? 'close' ) )
+    . __pre('','modal_body');
+    return $r;
+}
+
+function pre_modal( string $title = '', string $size = '', bool $editable = true ): void {
+    echo __pre_modal( $title, $size, $editable );
 }
 
 function post_modal(): void {
-    post();
-    post();
+    echo __post_modal();
+}
+
+function __post_modal(): string {
+    return __post().__post();
 }
 
 function video( string $url, string $class = '', string $id = '', string $width = '640px', string $height = '480px', bool $show_controls = true, bool $autoplay = false, bool $muted = false ): void {
@@ -1088,7 +1096,7 @@ function _tab_heads( array $tab_titles = [], string $style = '', string $wrap_cl
  * @return void
  */
 function steps( array $steps = [], string $style = '', bool $translate_titles = false ): void {
-    echo _steps( $steps, $style, $translate_titles );
+    echo __steps( $steps, $style, $translate_titles );
 }
 
 /**
@@ -1100,7 +1108,7 @@ function steps( array $steps = [], string $style = '', bool $translate_titles = 
  * @param bool $show_arrows
  * @return string
  */
-function _steps( array $steps = [], string $style = '', bool $translate_titles = false, bool $show_controls = true, bool $show_arrows = true ): string {
+function __steps( array $steps = [], string $style = '', bool $translate_titles = false, bool $show_controls = true, bool $show_arrows = true ): string {
     $r = rand( 0, 9999 );
     global $options;
     $icon_class = $options['icon_class'] ?? 'mico';
@@ -1132,8 +1140,8 @@ function _steps( array $steps = [], string $style = '', bool $translate_titles =
                     $x++;
                 }
             $data .= __post();
-            $prev = ( $show_arrows ? __div( $icon_class, $prev_ico ) : '' ) . __div( 'title', T('Previous') );
-            $next = __div( 'title', T('Next') ) . ( $show_arrows ? __div( $icon_class, $next_ico ) : '' );
+            $prev = ( $show_arrows ? __div( $icon_class, $prev_ico ) : '' ) . __div( 'arrow_title', T('Previous') );
+            $next = __div( 'arrow_title', T('Next') ) . ( $show_arrows ? __div( $icon_class, $next_ico ) : '' );
             $data .= $show_controls ? __div( 'steps_controls', __div( '', $prev, '', 'data-prev' ) . __div( '', $next, '', 'data-next' ) ) : '';
         $data .= __post();
     $data .= __post();
@@ -1333,8 +1341,10 @@ function no_content( string $message = "You are trying to reach restricted conte
         h1( $message, $translate, 'tac' );
         h4( $suggestion, $translate, 'tac' );
         if( !empty( $image ) )
-            img( $image, '', 'no_content_image', $message, $message );
-        if( !empty( $link_text ) || $link_url )
-            a( $link_url, $translate ? T( $link_text ) : $link_text );
+            img( storage_url( $image ), '', 'no_content_image', $message, $message );
+        if( !empty( $link_text ) || $link_url ) {
+            $link_url = str_contains( $link_url, 'http' ) ? $link_url : APPURL . $link_url;
+            a( $link_url, $translate ? T( $link_text ) : $link_text, 'btn link' );
+        }
     d_();
 }

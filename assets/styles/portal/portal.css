@@ -50,7 +50,6 @@ body.modal_open article > div:not(.header), body.modal_open article > table, bod
 }
 
 [data-prev]:not(.mat-ico):after, [data-next]:not(.mat-ico):after {
-  content: "";
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -1099,6 +1098,15 @@ aside::-webkit-scrollbar {
 /* CONTENT */
 .html_code {
   min-height: 300px;
+}
+
+.no_content, .no_access {
+  text-align: center;
+}
+.no_content .no_content_image, .no_content .no_access_image, .no_access .no_content_image, .no_access .no_access_image {
+  height: 300px;
+  display: block;
+  margin: 20px auto;
 }
 
 .group_details {

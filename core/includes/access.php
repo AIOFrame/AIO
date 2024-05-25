@@ -1201,7 +1201,7 @@ function user_role_is( $role = '' ): bool {
     return user_logged_in() ? $_SESSION['user']['role'] == $role : 0;
 }
 
-function _user_registration_fields(  string $pre = 'user_', string $data = '', string $array = '', int $name = 2, int $last_name = 2, int $email = 4, int $pass = 4, int $gender = 0, int $dob = 0, int $phone = 0 ): array {
+function __user_registration_fields(  string $pre = 'user_', string $data = '', string $array = '', int $name = 2, int $last_name = 2, int $email = 4, int $pass = 4, int $gender = 0, int $dob = 0, int $phone = 0 ): array {
     global $genders;
     $genders = $genders ?? [ 'Male', 'Female', 'Others', 'No Specify' ];
     global $phone_code;
@@ -1267,6 +1267,7 @@ function no_access( string $message = "You are trying to reach restricted conten
     _d( 'no_access '.$class );
     h1( $message, 1, 'tac' );
     if( !empty( $image ) )
+        $image = str_contains( $image, 'http' ) ? $image : storage_url( $image );
         img( $image, '', 'no_access_image', $message, $message );
     if( $show_return )
         a( '', T('Return to Previous Page'), '', 'Return to Previous Page', 'onclick="history.back()"' );
