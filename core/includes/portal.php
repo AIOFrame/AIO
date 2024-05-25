@@ -19,6 +19,7 @@ class PORTAL {
         'view' => 'file_open',
         'delete' => 'delete',
         'download' => 'download_for_offline',
+        'empty_file' => 'insert_drive_file',
         'list_view' => 'view_stream',
         'grid_view' => 'grid_view',
     ];
@@ -216,8 +217,8 @@ class PORTAL {
 
             // Brand Panel
             pre( 'brand_panel' );
-                $menu_icon = _div( $icon . ' menu ' . ( $options['ico_menu'] ?? 'menu' ), $options['ico_menu'] ?? 'menu' );
-                $close_icon = _div( $icon . ' close ' . ( $options['ico_menu_close'] ?? 'close' ), $options['ico_menu_close'] ?? 'close' );
+                $menu_icon = __div( $icon . ' menu ' . ( $options['ico_menu'] ?? 'menu' ), $options['ico_menu'] ?? 'menu' );
+                $close_icon = __div( $icon . ' close ' . ( $options['ico_menu_close'] ?? 'close' ), $options['ico_menu_close'] ?? 'close' );
                 $show_navigation ? div( 'nav_ico', $menu_icon . $close_icon, 'menu' ) : '';
                 a( APPURL . $logo_url, '', 'brand', '', $logo );
             post();
@@ -282,7 +283,7 @@ class PORTAL {
 
                 // Link to Front-end
                 if( $link_to_front ) {
-                    div( '', __a( APPURL, _div( 'nav_ico', _div( ( $icon . ' ' . ( $options['ico_frontend'] ?? '' ) ), $options['ico_frontend'] ?? 'desktop_windows' ) ), '', T( 'Go to Frontend Website' ), 'target="_blank"' ), 'link_to_front' );
+                    div( '', _a( APPURL, '', T( 'Go to Frontend Website' ) ) . __div( 'nav_ico', __div( ( $icon . ' ' . ( $options['ico_frontend'] ?? '' ) ), $options['ico_frontend'] ?? 'desktop_windows' ) ) . a_(), 'link_to_front' );
                 }
 
                 // Show User
@@ -316,7 +317,7 @@ class PORTAL {
                                 //h4( $user_name, 0, 'tac' );
                                 //h5( $user_role, 0, 'tac' );
                                 _r();
-                                    div( 'col tal', __a( APPURL . $profile_url, T('My Profile'), 'r5 bsn s btn m0' ) );
+                                    div( 'col tal', _a( APPURL . $profile_url, 'r5 bsn s btn m0' ) . T('My Profile') . a_() );
                                     $logout_action = APPDEBUG ? 'logout_ajax' : $e->encrypt('logout_ajax');
                                     div( 'col tar', _b( 'red r5 bsn s m0', 'Logout', '', 'onclick="logout(\''.$logout_action.'\',\''.$logout_to.'\')"' ) );
                                 r_();
@@ -348,7 +349,8 @@ class PORTAL {
         //$menus = !empty( $menus ) ? array_group_by( $menus, 'group' ) : [];
         pre( '', 'menu '.$class, 'aside' );
             _r();
-                div( 'col-3', __a( APPURL . $root_url, _el( 'i', $icon .' ico m ' . ( $options['ico_home'] ?? 'home' ), $options['ico_home'] ?? 'home' ) ), '', 'data-intro' );
+                $home = __el( 'i', $icon .' ico m ' . ( $options['ico_home'] ?? 'home' ), ( $options['ico_home'] ?? 'home' ) );
+                div( 'col-3', _a( APPURL . $root_url, '', T('Go to ').$root_url, '', '', '' ) . $home . a_(), '', 'data-intro' );
                 pre( '', 'col-9' );
                     echo '<input type="search" placeholder="'.T('Search in Menu...').'">';
                 post();
@@ -410,7 +412,7 @@ class PORTAL {
                                     }
                                     if( empty( $restricted ) ) {
                                         _c( $col, $class );
-                                            div( $class, __a( APPURL . $url_prefix . $url, _el( 'i', $ico_class . ' ' . $icon, $ico ) . _div( 'title', T( $title ) ), $class ) );
+                                            div( $class, _a( APPURL . $url_prefix . $url, $class, T('Go to ').T($title), '', '', '' ) . __el( 'i', $ico_class . ' ' . $icon, $ico ) . __div( 'title', T( $title ) ) . a_() );
                                         c_();
                                     }
                                 }
@@ -458,7 +460,7 @@ function title_bar( string $title = PAGENAME, string $back_url = '', string $lis
     global $options;
     pre( '', 'header df aic jsb', 'header' );
         pre( '', 'left df aic' );
-            !empty( $back_url ) ? a( APPURL.$back_url, $options['ico_back'] ?? '', ( $options['icon_class'] ?? '' ) . ' back ' . ( $options['ico_back'] ?? '' ), T('Return') ) : '';
+            !empty( $back_url ) ? a( APPURL.$back_url, $options['ico_back'] ?? '', ( $options['icon_class'] ?? '' ) . ' back ' . ( $options['ico_back'] ?? '' ), T('Return'), '', ) : '';
             !empty( $title ) ? h1( $title, 1, 'title' ) : '';
         post();
 
@@ -487,14 +489,14 @@ function title_bar( string $title = PAGENAME, string $back_url = '', string $lis
     post( 'header' );
 }
 
-function _back_url( string $url = '' ): string {
+function __back_url( string $url = '' ): string {
     global $options;
-    return __a( APPURL.$url, 'arrow_back', $options['icon_class'] . ' back', T('Go Back') );
+    return _a( APPURL.$url, $options['icon_class'] . ' back', T('Go Back'), '', '', '' ) . 'arrow_back' . a_();
     //echo '<a class="mat-ico back" href="'.APPURL . $url.'">arrow_back</a>';
 }
 
 function back_url( string $url = '' ): void {
-    echo _back_url( $url );
+    echo __back_url( $url );
 }
 
 function header_panel( string $style = '', string $name = '', string $logo = '', bool $status = true, string $back_link = '', array $stats = [], array $contacts = [], array $tab_heads = [] ): void {
@@ -539,4 +541,34 @@ function header_panel( string $style = '', string $name = '', string $logo = '',
             div('dn toggle','','','data-toggle-on=".header_panel"');
         d_();
     d_();
+}
+
+function __file_card( string $name = '', string $file_url = '', bool $show_download = true, bool $show_meta = true, string $class = 'card br8 nf', string $button_class = 'r bsn grey' ): string {
+    global $options;
+    $icon_class = $options['icon_class'] ?? 'mico';
+    $down_icon = $options['ico_download'] ?? 'download_for_offline';
+    $file_icon = $options['ico_empty_file'] ?? 'insert_drive_file';
+    $data = $meta = [];
+    if( $show_meta ) {
+        //skel( str_replace( APPURL . 'apps/' . APPDIR, '', $file_url ) );
+        $meta = get_file_meta( str_replace( APPURL . 'apps/' . APPDIR, '', $file_url ) );
+        $data = [ 'Type' => ( $meta['file_type'] ?? '' ), 'Size' => ( $meta['file_size'] ?? '' ), 'Uploaded by' => ( $meta['user_name'] ?? '' ) ];
+    }
+    $r = _a( $file_url, $class . ' file_card' );
+        $r .= __pre( '', 'df g2' );
+            $r .= __pre( '', 'file_icon' );
+                $r .= __div( $icon_class . ' icon ' . ( $show_meta ? $file_icon : $down_icon ), ( $show_meta ? $file_icon : $down_icon ) );
+            $r .= __post();
+            $r .= __pre( '', 'file_details' );
+                $r .= __h3( !empty( $name ) ? $name : ( $meta['file_name'] ?? '' ) );
+                $r .= __render_details( '', $data );
+                $r .= $show_download ? __div( $button_class . ' s m0 btn download_link', T('Download') ) : '';
+            $r .= __post();
+        $r .= __post();
+    $r .= a_();
+    return $r;
+}
+
+function file_card( string $name = '', string $file_url = '', bool $show_download = true, bool $show_meta = true, string $class = 'card br8 nf', string $button_class = 'r bsn grey' ): void {
+    echo __file_card( $name, $file_url, $show_download, $show_meta, $class, $button_class );
 }

@@ -11,7 +11,7 @@
     favicon( APPURL.'assets/images/aio.png' );
     fonts([['Lato','300,500']]);
     get_styles( ['select2','bootstrap-grid'] );
-    art('inputs','00A99D','047267');
+    art('inputs');
     get_styles( ['aio','micro'] );
     get_script('jquery');
     $uri_parts = explode('?', $_SERVER['REQUEST_URI'], 2);

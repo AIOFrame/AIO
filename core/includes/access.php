@@ -905,14 +905,14 @@ function access_html( string $user_title = 'Username or Email', string $pass_tit
                 pre( '', 'inputs', 'form' );
                     $session_times = [ 1 => '1 Hour' , 8 => '8 Hours' , 24 => '1 Day', 168 => '1 Week' ];
                     $login_form = [
-                        [ 'i' => 'username', 'n' => ( $show_labels ? $user_title : '' ), 'p' => $user_title, 'c' => '.col-12 rel user_wrap', 'a' => 'data-log required autocomplete="username" data-click-on-enter="#aio_login_init"', 'p_' => _el( 'div', $icon_class, $user_icon ) . _post() ],
-                        [ 'i' => 'password', 'n' => ( $show_labels ? $pass_title : '' ), 'p' => $pass_title, 'c' => '.col-12 rel pass_wrap', 'a' => 'data-assist data-log required autocomplete="current-password" data-click-on-enter="#aio_login_init"', 't' => 'password', 'p_' => _el( 'div', $icon_class, $pass_icon ) . _post() ],
+                        [ 'i' => 'username', 'n' => ( $show_labels ? $user_title : '' ), 'p' => $user_title, 'c' => '.col-12 rel user_wrap', 'a' => 'data-log required autocomplete="username" data-click-on-enter="#aio_login_init"', 'p_' => __el( 'div', $icon_class, $user_icon ) . __post() ],
+                        [ 'i' => 'password', 'n' => ( $show_labels ? $pass_title : '' ), 'p' => $pass_title, 'c' => '.col-12 rel pass_wrap', 'a' => 'data-assist data-log required autocomplete="current-password" data-click-on-enter="#aio_login_init"', 't' => 'password', 'p_' => __el( 'div', $icon_class, $pass_icon ) . __post() ],
                     ];
                     if( $show_sessions ) {
                         $login_form[] = [ 'i' => 'remember', 'n' => ( $show_labels ? $session_title : '' ), 'o' => $session_times, 's' => 1, 'd' => 'log', 't' => 'radios', 'iw' => 'row df fg', '_ip' => '.col' ];
                     }
                     $f->form( $login_form, 'row' );
-                    div( 'dn', _div( 'password_visibility', _div( $icon_class . ' on', $pass_show_icon ) . _div( $icon_class . ' off', $pass_hide_icon ) ), '', 'data-password_toggle_template' );
+                    div( 'dn', __div( 'password_visibility', __div( $icon_class . ' on', $pass_show_icon ) . __div( $icon_class . ' off', $pass_hide_icon ) ), '', 'data-password_toggle_template' );
                 post( 'form' );
                 $f->process_trigger( T( $login_button_title ), 'grad xxl'. $class, 'id="aio_login_init"', '', '', '', 'button', '', $login_button_icon, $icon_class . ' abs r2' );
                 if( $show_reset == 1 ) {
@@ -928,7 +928,7 @@ function access_html( string $user_title = 'Username or Email', string $pass_tit
                 $f->pre_process('class="forgot_wrap"  style="display:none;"','forg','forgot_','',[],'','','',$redirect_to,'',1);
                 pre( '', 'inputs' );
                     $reset_form = [
-                        [ 'i' => 'username', 'n' => ( $show_labels ? $user_title : '' ), 'p' => $user_title, 'd' => 'onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"', 'c' => '.col-12 rel reset_user_wrap', 'p_' => _el( 'div', $icon_class, $user_icon ) . _post() ],
+                        [ 'i' => 'username', 'n' => ( $show_labels ? $user_title : '' ), 'p' => $user_title, 'd' => 'onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"', 'c' => '.col-12 rel reset_user_wrap', 'p_' => __el( 'div', $icon_class, $user_icon ) . __post() ],
                     ];
                     $f->form( $reset_form );
                     //$f->text('username',($show_labels?$user_title:''),$user_title,'','onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"','.forgot_user_wrap', );
@@ -992,9 +992,9 @@ function register_html( array $columns = [], bool $prepend_columns = true, array
             }
             //echo $columns_before ? $columns_html : '';
             $min_string = T('Minimum Characters');
-            $reg_form[] = [ 'i' => 'email', 'n' => ( $show_labels ? 'Email' : '' ), 'p' => 'Ex: john_doe@email.com', 'a' => 'data-reg data-validate', 'r' => 1, 'c' => '.col-12 rel reg_email_wrap', 'p_' => _el( 'div', $icon_class, $email_icon ) . _post(), 't' => 'email' ];
-            $show_login ? $reg_form[] = [ 'i' => 'username', 'n' => ( $show_labels ? $login_title : '' ), 'p' => $login_title, 'a' => 'data-reg minlength="8" data-minlength="'.$min_string.'" data-help', 'r' => 1, 'c' => '.col-12 rel reg_user_wrap', 'p_' => _el( 'div', $icon_class, $user_icon ) . _post() ] : '';
-            $reg_form[] = [ 'i' => 'password', 'n' => ( $show_labels ? $pass_title : '' ), 'p' => $pass_title, 'a' => 'data-reg minlength="8" data-minlength="'.$min_string.'" data-help', 'r' => 1, 'c' => '.col-12 rel reg_pass_wrap', 't' => 'password', 'p_' => _el( 'div', $icon_class, $pass_icon ) . _post() ];
+            $reg_form[] = [ 'i' => 'email', 'n' => ( $show_labels ? 'Email' : '' ), 'p' => 'Ex: john_doe@email.com', 'a' => 'data-reg data-validate', 'r' => 1, 'c' => '.col-12 rel reg_email_wrap', 'p_' => __el( 'div', $icon_class, $email_icon ) . __post(), 't' => 'email' ];
+            $show_login ? $reg_form[] = [ 'i' => 'username', 'n' => ( $show_labels ? $login_title : '' ), 'p' => $login_title, 'a' => 'data-reg minlength="8" data-minlength="'.$min_string.'" data-help', 'r' => 1, 'c' => '.col-12 rel reg_user_wrap', 'p_' => __el( 'div', $icon_class, $user_icon ) . __post() ] : '';
+            $reg_form[] = [ 'i' => 'password', 'n' => ( $show_labels ? $pass_title : '' ), 'p' => $pass_title, 'a' => 'data-reg minlength="8" data-minlength="'.$min_string.'" data-help', 'r' => 1, 'c' => '.col-12 rel reg_pass_wrap', 't' => 'password', 'p_' => __el( 'div', $icon_class, $pass_icon ) . __post() ];
             $reg_form = $prepend_columns ? array_merge( $append_fields, $reg_form ) : array_merge( $reg_form, $append_fields );
             //$f->text('username',$login_title,$login_title,'','data-reg minlength="8" data-minlength="'.$min_string.'" data-help required','<div>','</div>');
             //$f->input('password','password',$pass_title,'Password','','data-reg minlength="8" data-minlength="'.$min_string.'" data-help required','<div>','</div>');
@@ -1294,4 +1294,30 @@ function tabbed_access_options(): void {
             $o->access_options( 0, 0, 1 );
         d_();
     d_();
+}
+
+function _user_card( string $class = '', array $user = [], string $pic_class = 'pic', array $data = [], string $edit_modal = '#user_modal', string $table = '', string $trash_logic = '' ): string {
+    $f = new FORM();
+    $pic = $user['user_picture'] ?? '';
+    $pic = !empty( $pic ) ? storage_url( $pic ) : '';
+    $r = __pre( '', $class );
+    $r .= __div( 'status '.( $user['user_status'] == 1 ? 'g' : 'error' ) , ( $user['user_status'] == 1 ? T('Active') : T('Inactive') ) );
+    $r .= __image( $pic, '', $pic_class );
+    $r .= __div( 'tac', __div( 'id grad-bg', ( $user['user_name'] ?? '' ) ) . __div( 'type grad-bg', ( $user['user_email'] ?? '' ) ) );
+    if( !empty( $data ) ) {
+        $table_data = [];
+        foreach( $data as $k => $v ) {
+            $table_data['body'][] = [ $k, $v ];
+        }
+        $r .= __table( $table_data, 'xs plain' );
+    }
+    $r .= __pre( '', 'acts' );
+        $r .= $f->__edit_html( $edit_modal, $user );
+        $r .= $f->__trash_html( $table, $trash_logic );
+    $r .= __post() . __post();
+    return $r;
+}
+
+function user_card( string $class = '', array $user = [], string $pic_class = 'pic', array $data = [], string $edit_modal = '#user_modal', string $table = '', string $trash_logic = '' ): void {
+    echo _user_card( $class, $user, $pic_class, $data, $edit_modal, $table, $trash_logic );
 }

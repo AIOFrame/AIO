@@ -214,11 +214,11 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
 
     // Colors
     $disabled = $options['disabled_color'] ?? 'lightgrey';
-    $info = $options['info_color'] ?? '#d4f2ff';
-    $progress = $options['progress_color'] ?? '#00A99D';
+    $info = $options['info_color'] ?? 'cadetblue';
+    $progress = $options['progress_color'] ?? 'darkgoldenrod';
     $warning = $options['warning_color'] ?? 'orange';
     $error = $options['error_color'] ?? 'firebrick';
-    $success = $options['success_color'] ?? '00A99D';
+    $success = $options['success_color'] ?? 'forestgreen';
     //skel( $primary_color );
     if( $light_mode == 'd' ) {
         $color = !empty( $options['color_dark'] ) ? $options['color_dark'] : '#fff';
@@ -334,18 +334,18 @@ function post_html( string|array $scripts = [], string $alert_position = 'top ri
     get_scripts( $scripts );
     if( defined( 'PAGEPATH' ) )
         get_script( PAGEPATH );
-    $close_button = _div( ( $options['icon_class'] ?? '' ) .' close ' . ( $options['ico_close'] ?? '' ), $options['ico_close'] ?? 'close' );
-    $icon = _div( 'ico', _div( ( $options['icon_class'] ?? '' ) .' ico {{icon}} ' . ( $options['ico_alerts'] ?? '' ), $options['ico_alerts'] ?? '' ) );
+    $close_button = __div( ( $options['icon_class'] ?? '' ) .' close ' . ( $options['ico_close'] ?? '' ), $options['ico_close'] ?? 'close' );
+    $icon = __div( 'ico', __div( ( $options['icon_class'] ?? '' ) .' ico {{icon}} ' . ( $options['ico_alerts'] ?? '' ), $options['ico_alerts'] ?? '' ) );
     // '<div class="alert in '+type+' n_'+r+'"><div class="data"><div class="mat-ico bi bi-x-lg close">close</div>'+ico+'<div class="message">'+text+'</div></div><div class="time"></div></div>'
-    div( 'dn', _div( 'alert in {{type}} n_{{random}}', _div( 'data', $close_button . $icon . _div( 'message', '{{text}}' ) ) . _div( 'time' ) ), '', 'alert-html-template' );
+    div( 'dn', __div( 'alert in {{type}} n_{{random}}', __div( 'data', $close_button . $icon . __div( 'message', '{{text}}' ) ) . __div( 'time' ) ), '', 'alert-html-template' );
     echo '</body></html>';
 }
 
 function pre( string $id = '', string $class = '', string $element = 'div', string $attr = '' ): void {
-    echo _pre( $id, $class, $element, $attr );
+    echo __pre( $id, $class, $element, $attr );
 }
 
-function _pre( string $id = '', string $class = '', string $element = 'div', string $attr = '' ): string {
+function __pre( string $id = '', string $class = '', string $element = 'div', string $attr = '' ): string {
     $id = !empty( $id ) ? ' id="'.$id.'"' : '';
     $class = !empty( $class ) ? ' class="'.$class.'"' : '';
     $attr = !empty( $attr ) ? ' '.$attr : '';
@@ -353,10 +353,10 @@ function _pre( string $id = '', string $class = '', string $element = 'div', str
 }
 
 function post( string $element = 'div' ): void {
-    echo _post( $element );
+    echo __post( $element );
 }
 
-function _post( string $element = 'div' ): string {
+function __post( string $element = 'div' ): string {
     return '</'.$element.'>';
 }
 
@@ -364,52 +364,52 @@ function h1( string $title = '', bool $translate = true, string $class = '', str
     el( 'h1', $class, $title, '', $attrs, $translate );
 }
 
-function _h1( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): string {
-    return _el( 'h1', $class, $title, '', $attrs, $translate );
+function __h1( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): string {
+    return __el( 'h1', $class, $title, '', $attrs, $translate );
 }
 
 function h2( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): void {
     el( 'h2', $class, $title, '', $attrs, $translate );
 }
 
-function _h2( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): string {
-    return _el( 'h2', $class, $title, '', $attrs, $translate );
+function __h2( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): string {
+    return __el( 'h2', $class, $title, '', $attrs, $translate );
 }
 
 function h3( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): void {
     el( 'h3', $class, $title, '', $attrs, $translate );
 }
 
-function _h3( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): string {
-    return _el( 'h3', $class, $title, '', $attrs, $translate );
+function __h3( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): string {
+    return __el( 'h3', $class, $title, '', $attrs, $translate );
 }
 
 function h4( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): void {
     el( 'h4', $class, $title, '', $attrs, $translate );
 }
 
-function _h4( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): string {
-    return _el( 'h4', $class, $title, '', $attrs, $translate );
+function __h4( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): string {
+    return __el( 'h4', $class, $title, '', $attrs, $translate );
 }
 
 function h5( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): void {
     el( 'h5', $class, $title, '', $attrs, $translate );
 }
 
-function _h5( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): string {
-    return _el( 'h5', $class, $title, '', $attrs, $translate );
+function __h5( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): string {
+    return __el( 'h5', $class, $title, '', $attrs, $translate );
 }
 
 function h6( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): void {
     el( 'h6', $class, $title, '', $attrs, $translate );
 }
 
-function _h6( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): string {
-    return _el( 'h6', $class, $title, '', $attrs, $translate );
+function __h6( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): string {
+    return __el( 'h6', $class, $title, '', $attrs, $translate );
 }
 
 function el( string $element = 'div', string $class = '', string $content = '', string $id = '', string $attrs = '', bool $translate = false ): void {
-    echo _el( $element, $class, $content, $id, $attrs, $translate );
+    echo __el( $element, $class, $content, $id, $attrs, $translate );
 }
 
 function _article( string $class = '', string $attr = '', string $id = '' ): void {
@@ -417,7 +417,7 @@ function _article( string $class = '', string $attr = '', string $id = '' ): voi
 }
 
 function __article( string $class = '', string $attr = '', string $id = '' ): string {
-    return _pre( $id, $class, 'article', $attr );
+    return __pre( $id, $class, 'article', $attr );
 }
 
 function article_(): void {
@@ -425,7 +425,7 @@ function article_(): void {
 }
 
 function article__(): string {
-    return _post( 'article' );
+    return __post( 'article' );
 }
 
 /**
@@ -463,21 +463,21 @@ function post_tabs(): void {
     post();
 }
 
-function _el( string $element = 'div', string $class = '', string $content = '', string $id = '', string $attrs = '', bool $translate = false ): string {
+function __el( string $element = 'div', string $class = '', string $content = '', string $id = '', string $attrs = '', bool $translate = false ): string {
     if( $element == 'hr' ) {
-        return _pre( $id, $class, $element, $attrs );
+        return __pre( $id, $class, $element, $attrs );
     } else {
         $content = $translate ? T( $content ) : $content;
-        return _pre( $id, $class, $element, $attrs ) . $content . _post( $element );
+        return __pre( $id, $class, $element, $attrs ) . $content . __post( $element );
     }
 }
 
 function div( string $class = '', string $content = '', string $id = '', string $attrs = '', bool $translate = false ): void {
-    echo _div( $class, $content, $id, $attrs, $translate );
+    echo __div( $class, $content, $id, $attrs, $translate );
 }
 
 function __d( string $class = '', string $id = '', string $attrs = '' ): string {
-    return _pre( $id, $class, 'div', $attrs );
+    return __pre( $id, $class, 'div', $attrs );
 }
 
 function _d( string $class = '', string $id = '', string $attrs = '' ): void {
@@ -489,7 +489,7 @@ function d_(): void {
 }
 
 function d__(): string {
-    return _post();
+    return __post();
 }
 
 /**
@@ -542,31 +542,37 @@ function sec_(): void {
     post('section');
 }
 
-function _div( string $class = '', string $content = '', string $id = '', string $attrs = '', bool $translate = false ): string {
-    return _el( 'div', $class, $content, $id, $attrs, $translate );
+function __div( string $class = '', string $content = '', string $id = '', string $attrs = '', bool $translate = false ): string {
+    return __el( 'div', $class, $content, $id, $attrs, $translate );
 }
 
 function a( string $hyperlink = '#', string $content = '', string $class = '', string $hover_title = '', string $attr = '', string $id = '' ): void {
-    echo __a($hyperlink,$content,$class,$hover_title,$attr,$id);
+    echo _a($hyperlink,$class,$hover_title,$attr,$id) . $content . a_();
 }
 
-function _a( string $hyperlink = '#', string $class = '', string $hover_title = '', string $attr = '', string $id = '' ): void {
+function _a( string $hyperlink = '#', string $class = '', string $hover_title = '', string $attr = '', string $id = '', string $target = '' ): string {
     $id = !empty( $id ) ? ' id="'.$id.'"' : '';
     $class = !empty( $class ) ? ' class="'.$class.'"' : '';
     $alt = !empty( $hover_title ) ? ' title="'.$hover_title.'"' : '';
-    echo '<a href="'.$hyperlink.'" '.$id.$class.$alt.' '.$attr.'>';
+    $target = !empty( $target ) ? ' target="'.$target.'"' : '';
+    return '<a href="'.$hyperlink.'" '.$id.$class.$alt.$target.' '.$attr.'>';
 }
 
-function a_(): void {
-    post('a');
+function a_(): string {
+    return __post('a');
 }
 
-function __a( string $hyperlink = '#', string $content = '', string $class = '', string $hover_title = '', string $attr = '', string $id = '' ): string {
+function __i( string $class = '', string $content = '', string $attrs = '' ): string {
+    return __el( 'i', $class, $content, $attrs );
+}
+
+/* function __a( string $hyperlink = '#', string $content = '', string $class = '', string $hover_title = '', string $attr = '', string $id = '', string $target = '_blank' ): string {
     $id = !empty( $id ) ? ' id="'.$id.'"' : '';
     $class = !empty( $class ) ? ' class="'.$class.'"' : '';
     $alt = !empty( $hover_title ) ? ' title="'.$hover_title.'"' : '';
-    return '<a href="'.$hyperlink.'" '.$id.$class.$alt.' '.$attr.'>'.$content.'</a>';
-}
+    $target = !empty( $target ) ? ' target="'.$target.'"' : '';
+    return '<a href="'.$hyperlink.'" '.$id.$class.$alt.$target.' '.$attr.'>'.$content.'</a>';
+} */
 
 function _sc(): void {
     echo '<script>';
@@ -580,7 +586,7 @@ function _f( string $class = '', string $method = '', string $action = '', strin
     $a = in_array( $method, [ 'post', 'p' ] ) ? 'method="POST"' : ( in_array( $method, [ 'get', 'g' ] ) ? 'method="GET"' : '' );
     $a .= !empty( $action ) ? ' action="'.$action.'"' : '';
     $a .= !empty( $enctype ) ? ' enctype="'.$enctype.'"' : '';
-    echo _pre( $id, $class, 'form', $a );
+    echo __pre( $id, $class, 'form', $a );
 }
 
 function f_(): void {
@@ -588,17 +594,17 @@ function f_(): void {
 }
 
 function b( string $class = '', string $content = '', string $id = '', string $attr = '', bool $translate = false ): void {
-    echo _el( 'button', $class, $content, $id, $attr, $translate );
+    echo __el( 'button', $class, $content, $id, $attr, $translate );
 }
 
 function _b( string $class = '', string $content = '', string $id = '', string $attr = '', bool $translate = false ): string {
-    return _el( 'button', $class, $content, $id, $attr, $translate );
+    return __el( 'button', $class, $content, $id, $attr, $translate );
 }
 
 function img( string $image_url, string $id = '', string $class = '', string $alt = '', string $title = '', string $attr = '' ): void {
-    echo _img( $image_url, $id, $class, $alt, $title, $attr );
+    echo __img( $image_url, $id, $class, $alt, $title, $attr );
 }
-function _img( string $image_src, string $id = '', string $class = '', string $alt = '', string $title = '', string $attr = '' ): string {
+function __img( string $image_src, string $id = '', string $class = '', string $alt = '', string $title = '', string $attr = '' ): string {
     $id = !empty( $id ) ? ' id="'.$id.'"' : '';
     $class = !empty( $class ) ? ' class="'.$class.'"' : '';
     $alt = !empty( $alt ) ? ' alt="'.$alt.'"' : '';
@@ -607,10 +613,11 @@ function _img( string $image_src, string $id = '', string $class = '', string $a
 }
 
 function image( string $image_url, string $id = '', string $class = '', string $attr = '' ): void {
-    echo _image( $image_url, $id, $class, $attr );
+    echo __image( $image_url, $id, $class, $attr );
 }
-function _image( string $image_url, string $id = '', string $class = '', string $attr = '' ): string {
-    return "<div style=\"background-image:url('".$image_url."')\" class=\"".$class."\" $attr ></div>";
+function __image( string $image_url, string $id = '', string $class = '', string $attr = '' ): string {
+    $attr = $attr . ' style="background-image:url(\''.$image_url.'\')"';
+    return __div( $class, '', $id, $attr );
 }
 
 function grid_view( string $wrapper = '', array $cards = [], string $wrapper_class = '', string|int|float $col = '' ): void {
@@ -642,7 +649,7 @@ function table_view( string $wrapper = '', array $rows = [], string $table_class
  * @return void
  */
 function table( array $rows = [], string $class = '' ): void {
-    echo _table( $rows, $class );
+    echo __table( $rows, $class );
 }
 
 /**
@@ -651,9 +658,9 @@ function table( array $rows = [], string $class = '' ): void {
  * @param string $attr HTML Attributes for the table
  * @return string
  */
-function _table( array $rows = [], string $class = '', string $attr = '' ): string {
+function __table( array $rows = [], string $class = '', string $attr = '' ): string {
     // TODO: Support art designs like statuses
-    $return = _pre('',$class,'table',$attr);
+    $return = __pre('',$class,'table',$attr);
     foreach( $rows as $row ) {
         $type = array_key_first( $row );
         $return .= in_array( $type, [ 'thead', 'head', 'h' ] ) ? '<thead>' : ( in_array( $type, [ 'tfoot', 'foot', 'f' ] ) ? '<tfoot>' : '<tbody>' );
@@ -670,7 +677,7 @@ function _table( array $rows = [], string $class = '', string $attr = '' ): stri
         }
         $return .= in_array( $type, [ 'thead', 'head', 'h' ] ) ? '</thead>' : ( in_array( $type, [ 'tfoot', 'foot', 'f' ] ) ? '</tfoot>' : '</tbody>' );
     }
-    $return .= _post('table');
+    $return .= __post('table');
     return $return;
 }
 
@@ -696,34 +703,34 @@ function _table( array $rows = [], string $class = '', string $attr = '' ): stri
  * @param bool $show_delete Show delete action (default true)
  * @return string
  */
-function _card( string $class = '', string $title = '', string $link = '', string $desc = '', string|null $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], string $table_class = '', array $actions = [], string $actions_class = '', string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '', bool $show_edit = true, bool $show_delete = true ): string {
+function __card( string $class = '', string $title = '', string $link = '', string $desc = '', string|null $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], string $table_class = '', array $actions = [], string $actions_class = '', string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '', bool $show_edit = true, bool $show_delete = true ): string {
     $f = new FORM();
-    $return = !empty ( $link ) ? _pre('','card '.($class??''),'a','href="'.$link.'"') : _pre('','card '.($class ?? ''));
-    $return .= !is_null( $image ) ? ( str_contains( $image, '<' ) ? $image : _image( str_contains( $image, 'http' ) ? $image : storage_url( $image ), '', $image_class ) ) : '';
-    $return .= _pre('','head tac');
-    $return .= !empty( $title ) ? _el('h2','title grad',$title) : '';
-    $return .= !empty( $desc ) ? _el('h5','desc',$desc) : '';
-    $return .= _post();
-    $return .= !empty( $status ) ? _div('status '.$status_class,$status) : '';
+    $return = !empty ( $link ) ? __pre('','card '.($class??''),'a','href="'.$link.'"') : __pre('','card '.($class ?? ''));
+    $return .= !is_null( $image ) ? ( str_contains( $image, '<' ) ? $image : __image( str_contains( $image, 'http' ) ? $image : storage_url( $image ), '', $image_class ) ) : '';
+    $return .= __pre('','head tac');
+    $return .= !empty( $title ) ? __el('h2','title grad',$title) : '';
+    $return .= !empty( $desc ) ? __el('h5','desc',$desc) : '';
+    $return .= __post();
+    $return .= !empty( $status ) ? __div('status '.$status_class,$status) : '';
     if( !empty( $data ) ) {
-        $return .= _table( [ 'body' => $data ], 'plain mb10 ' . $table_class );
+        $return .= __table( [ 'body' => $data ], 'plain mb10 ' . $table_class );
     }
     if( !empty( $actions ) || ( !empty( $edit_data ) && !empty( $edit_modal ) ) || ( !empty( $delete_table ) && !empty( $delete_logic ) ) ) {
-        $return .= _pre( '', 'acts '. $actions_class );
+        $return .= __pre( '', 'acts '. $actions_class );
         if( !empty( $actions ) ) {
             foreach( $actions as $act ) {
-                $return .= $f->_view_html( $act['url'] ?? '', $act['html'] ?? 'div', $act['title'] ?? ( $act['text'] ?? '' ), $act['class'] ?? ( $act['c'] ?? 'grad' ), $act['attr'] ?? ( $act['a'] ?? '' ), $act['icon_class'] ?? ( $act['ico_class'] ?? ( $act['icon'] ?? ( $act['ico'] ?? ( $act['i'] ?? ( $act['ic'] ?? 'ico' ) ) ) ) ), $act['icon_text'] ?? ( $act['ico_text'] ?? ( $act['icon'] ?? ( $act['ico'] ?? ( $act['it'] ?? '' ) ) ) ) );
+                $return .= $f->__view_html( ( $act['url'] ?? '' ), $act['html'] ?? 'div', $act['title'] ?? ( $act['text'] ?? '' ), $act['class'] ?? ( $act['c'] ?? 'grad' ), $act['attr'] ?? ( $act['a'] ?? '' ), $act['icon_class'] ?? ( $act['ico_class'] ?? ( $act['icon'] ?? ( $act['ico'] ?? ( $act['i'] ?? ( $act['ic'] ?? 'ico' ) ) ) ) ), $act['icon_text'] ?? ( $act['ico_text'] ?? ( $act['icon'] ?? ( $act['ico'] ?? ( $act['it'] ?? '' ) ) ) ) );
             }
         }
         if( !empty( $edit_data ) && !empty( $edit_modal ) && $show_edit ) {
-            $return .= $f->_edit_html( $edit_modal, $edit_data, 'div', '', 'grad', '', 'mat-ico', 'edit' );
+            $return .= $f->__edit_html( $edit_modal, $edit_data, 'div', '', 'grad', '', 'mat-ico', 'edit' );
         }
         if( !empty( $delete_table ) && !empty( $delete_logic ) && $show_delete ) {
-            $return .= $f->_trash_html( $delete_table, $delete_logic, 'div', '', 'grad', '', 'mat-ico', 2, 2, 'Are you sure to delete?', 'delete' );
+            $return .= $f->__trash_html( $delete_table, $delete_logic, 'div', '', 'grad', '', 'mat-ico', 2, 2, 'Are you sure to delete?', 'delete' );
         }
-        $return .= _post();
+        $return .= __post();
     }
-    $return .= _post( !empty ( $link ) ? 'a' : 'div' );
+    $return .= __post( !empty ( $link ) ? 'a' : 'div' );
     return $return;
 }
 
@@ -750,7 +757,7 @@ function _card( string $class = '', string $title = '', string $link = '', strin
  * @return void
  */
 function card( string $class = '', string $title = '', string $link = '', string $desc = '', string|null $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], string $table_class = '', array $actions = [], string $actions_class = '', string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '', bool $show_edit = true, bool $show_delete = true ): void {
-    echo _card( $class, $title, $link, $desc, $image, $image_class, $status, $status_class, $data, $table_class, $actions, $actions_class, $edit_modal, $edit_data, $delete_table, $delete_logic );
+    echo __card( $class, $title, $link, $desc, $image, $image_class, $status, $status_class, $data, $table_class, $actions, $actions_class, $edit_modal, $edit_data, $delete_table, $delete_logic );
 }
 
 function pre_modal( string $title = '', string $size = '', bool $editable = true ): void {
@@ -775,18 +782,18 @@ function post_modal(): void {
 }
 
 function video( string $url, string $class = '', string $id = '', string $width = '640px', string $height = '480px', bool $show_controls = true, bool $autoplay = false, bool $muted = false ): void {
-    echo _video( $url, $class, $id, $width, $height, $show_controls, $autoplay, $muted );
+    echo __video( $url, $class, $id, $width, $height, $show_controls, $autoplay, $muted );
 }
 
-function _video( string $url, string $class = '', string $id = '', string $width = '640px', string $height = '480px', bool $show_controls = true, bool $autoplay = false, bool $muted = false ): string {
+function __video( string $url, string $class = '', string $id = '', string $width = '640px', string $height = '480px', bool $show_controls = true, bool $autoplay = false, bool $muted = false ): string {
     $attr = !empty( $width ) ? 'width="'.$width.'"' : '';
     $attr .= !empty( $height ) ? 'height="'.$height.'"' : '';
     $attr .= !empty( $autoplay ) ? ' autoplay ' : '';
     $attr .= !empty( $muted ) ? ' muted ' : '';
     $attr .= !empty( $show_controls ) ? ' controls ' : '';
-    $r = _pre( $id, $class, 'video', $attr );
+    $r = __pre( $id, $class, 'video', $attr );
         $r .= '<source src="'.$url.'">';
-    $r .= _post( 'video' );
+    $r .= __post( 'video' );
     return $r;
 }
 
@@ -813,7 +820,7 @@ function soon( string $date, string $text = 'Coming Soon...', string $bg = '', s
                 pre('','box');
                     div('text',$text);
                     div('date mb20',$date);
-                    div('credits',__a('https://github.com/AIOFrame/AIO','Powered by AIO'));
+                    div( 'credits', _a('https://github.com/AIOFrame/AIO').'Powered by AIO'.a_());
                 post();
             post();
         post();
@@ -875,7 +882,7 @@ function logout_html( string $tag = 'div', string $class = '', string $text = 'L
 
 function modal_trigger( string $modal_identifier = '', string $title = '' ): void {
     global $options;
-    $i = _el( 'span', ( $options['icon_class'] ?? 'mico' ) . ' ico ' . ( $options['ico_new'] ?? '' ), ( $options['ico_new'] ?? 'add_circle' ) );
+    $i = __el( 'span', ( $options['icon_class'] ?? 'mico' ) . ' ico ' . ( $options['ico_new'] ?? '' ), ( $options['ico_new'] ?? 'add_circle' ) );
     el('button','pop grad r',$i.$title,'','data-modal="'.$modal_identifier.'"',1);
 }
 
@@ -1023,24 +1030,24 @@ function tabs( array $tabs = [], string $style = '', bool $translate_titles = fa
  * @return string
  */
 function _tabs( array $tabs = [], string $style = '', bool $translate_titles = false ): string {
-    $data = _pre( '', 'tabs '.$style );
-        $data .= _pre( '', 'tab_heads', 'div', 'data-store' );
+    $data = __pre( '', 'tabs '.$style );
+        $data .= __pre( '', 'tab_heads', 'div', 'data-store' );
             $x = 0;
             foreach( $tabs as $i => $content ) {
                 $id = str_replace(' ','_',strtolower( $i ));
                 $data .= _div( $x == 0 ? 'tab on' : 'tab', $i, '', 'data-tab="'.$id.'"', $translate_titles );
                 $x++;
             }
-        $data .= _post();
-        $data .= _pre( '', 'tab_content' );
+        $data .= __post();
+        $data .= __pre( '', 'tab_content' );
             $x = 0;
             foreach( $tabs as $i => $content ) {
                 $id = str_replace(' ','_',strtolower( $i ));
                 $data .= _div( ( $x !== 0 ? 'dn' : '' ), $content, $id );
                 $x++;
             }
-        $data .= _post();
-    $data .= _post();
+        $data .= __post();
+    $data .= __post();
     return $data;
 }
 
@@ -1056,20 +1063,20 @@ function tab_heads( array $tab_titles = [], string $style = '', string $wrap_cla
  * @return string
  */
 function _tab_heads( array $tab_titles = [], string $style = '', string $wrap_class = '', bool $translate_titles = false, string $type = 'tab' ): string {
-    $data = _pre( '', 'tabs separate '.$style );
-        $data .= _pre( '', 'tab_heads fluid '.$wrap_class, 'div', 'data-store' );
+    $data = __pre( '', 'tabs separate '.$style );
+        $data .= __pre( '', 'tab_heads fluid '.$wrap_class, 'div', 'data-store' );
             $x = 0;
             foreach( $tab_titles as $i => $title ) {
                 $id = ( is_numeric( $i ) ? '.' : '' ) . str_replace(' ','_',strtolower( is_assoc( $tab_titles ) ? $i : $title )) . ( is_numeric( $i ) ? '_data' : '' );
                 if( $type == 'tab' ) {
-                    $data .= _div( $x == 0 ? 'tab on' : 'tab', $title, '', 'data-tab="'.$id.'"', $translate_titles );
+                    $data .= __div( $x == 0 ? 'tab on' : 'tab', $title, '', 'data-tab="'.$id.'"', $translate_titles );
                 } else if( $type == 'url' ) {
-                    $data .= __a( $id, ( $translate_titles ? T($title) : $title ), ( $x == 0 ? 'tab on' : 'tab' ) );
+                    $data .= _a( $id, ( $x == 0 ? 'tab on' : 'tab' ) ).( $translate_titles ? T($title) : $title ).a_();
                 }
                 $x++;
             }
-        $data .= _post();
-    $data .= _post();
+        $data .= __post();
+    $data .= __post();
     return $data;
 }
 
@@ -1097,37 +1104,37 @@ function _steps( array $steps = [], string $style = '', bool $translate_titles =
     $icon_class = $options['icon_class'] ?? 'mico';
     $prev_ico = $options['ico_previous'] ?? 'arrow_back';
     $next_ico = $options['ico_forward'] ?? 'arrow_forward';
-    $data = _pre( '', 'steps '.$style );
-        $data .= _pre( '', 'step_heads' );
+    $data = __pre( '', 'steps '.$style );
+        $data .= __pre( '', 'step_heads' );
             $x = 0;
             foreach( $steps as $s ) {
                 $title = $s['title'] ?? ( $s['name'] ?? ( $s['t'] ?? ( $s['n'] ?? '' ) ) );
                 $id = str_replace(' ','_',strtolower( $title )) . '_' . $r;
                 $icon = $s['icon'] ?? ( $s['ico'] ?? ( $s['i'] ?? '' ) );
                 $ic = $s['icon_class'] ?? ( $s['ic'] ?? 'mat-ico' );
-                $big_title = ( empty( $icon ) ? _div( 'step_no', $x + 1 ) : '' ) . ( !empty( $icon ) ? _div( $ic.' step_no ico', $icon ) : '' ) . _div( 'step_title', $title );
+                $big_title = ( empty( $icon ) ? __div( 'step_no', $x + 1 ) : '' ) . ( !empty( $icon ) ? __div( $ic.' step_no ico', $icon ) : '' ) . __div( 'step_title', $title );
                 $color = $s['color'] ?? ( $s['c'] ?? '' );
                 $color = !empty( $color ) ? 'style="background-color:'.$color.'"' : '';
-                $data .= _div( $x == 0 ? 'step on' : 'step', $big_title, '', 'data-step="#'.$id.'" '.$color, $translate_titles );
+                $data .= __div( $x == 0 ? 'step on' : 'step', $big_title, '', 'data-step="#'.$id.'" '.$color, $translate_titles );
                 $x++;
             }
-        $data .= _post();
-        $data .= _pre( '', 'steps_content' );
-            $data .= _pre( '', 'steps_pages' );
+        $data .= __post();
+        $data .= __pre( '', 'steps_content' );
+            $data .= __pre( '', 'steps_pages' );
                 $x = 0;
                 foreach( $steps as $s ) {
                     $title = $s['title'] ?? ( $s['name'] ?? ( $s['t'] ?? ( $s['n'] ?? '' ) ) );
                     $id = str_replace(' ','_',strtolower( $title )) . '_' . $r;
                     $content = $s['content'] ?? ( $s['con'] ?? '' );
-                    $data .= _div( ( $x !== 0 ? 'dn' : '' ), $content, $id );
+                    $data .= __div( ( $x !== 0 ? 'dn' : '' ), $content, $id );
                     $x++;
                 }
-            $data .= _post();
-            $prev = ( $show_arrows ? _div( $icon_class, $prev_ico ) : '' ) . _div( 'title', T('Previous') );
-            $next = _div( 'title', T('Next') ) . ( $show_arrows ? _div( $icon_class, $next_ico ) : '' );
-            $data .= $show_controls ? _div( 'steps_controls', _div( '', $prev, '', 'data-prev' ) . _div( '', $next, '', 'data-next' ) ) : '';
-        $data .= _post();
-    $data .= _post();
+            $data .= __post();
+            $prev = ( $show_arrows ? __div( $icon_class, $prev_ico ) : '' ) . __div( 'title', T('Previous') );
+            $next = __div( 'title', T('Next') ) . ( $show_arrows ? __div( $icon_class, $next_ico ) : '' );
+            $data .= $show_controls ? __div( 'steps_controls', __div( '', $prev, '', 'data-prev' ) . __div( '', $next, '', 'data-next' ) ) : '';
+        $data .= __post();
+    $data .= __post();
     return $data;
 }
 
@@ -1139,26 +1146,26 @@ function _steps( array $steps = [], string $style = '', bool $translate_titles =
  * @return void
  */
 function step_heads( array $steps = [], string $style = '', bool $translate_titles = false ): void {
-    echo _step_heads( $steps, $style, $translate_titles );
+    echo __step_heads( $steps, $style, $translate_titles );
 }
 
-function _step_heads( array $steps = [], string $style = '', bool $translate_titles = false ): string {
-    $data = _pre( '', 'steps separate '.$style );
-        $data .= _pre( '', 'step_heads fluid' );
+function __step_heads( array $steps = [], string $style = '', bool $translate_titles = false ): string {
+    $data = __pre( '', 'steps separate '.$style );
+        $data .= __pre( '', 'step_heads fluid' );
             $x = 0;
             foreach( $steps as $s ) {
                 $title = is_assoc( $steps ) ? $s['title'] ?? ( $s['name'] ?? ( $s['t'] ?? ( $s['n'] ?? '' ) ) ) : $s;
                 $id = str_replace(' ','_',strtolower( $title ));
                 $icon = $s['icon'] ?? ( $s['ico'] ?? ( $s['i'] ?? '' ) );
                 $ic = $s['icon_class'] ?? ( $s['ic'] ?? 'mat-ico' );
-                $big_title = ( empty( $icon ) ? _div( 'step_no', $x + 1 ) : '' ) . ( !empty( $icon ) ? _div( $ic.' step_no ico', $icon ) : '' ) . _div( 'step_title', $title );
+                $big_title = ( empty( $icon ) ? __div( 'step_no', $x + 1 ) : '' ) . ( !empty( $icon ) ? __div( $ic.' step_no ico', $icon ) : '' ) . __div( 'step_title', $title );
                 $color = $s['color'] ?? ( $s['c'] ?? '' );
                 $color = !empty( $color ) ? 'style="background-color:'.$color.'"' : '';
-                $data .= _div( $x == 0 ? 'step on' : 'step', $big_title, '', 'data-step="#'.$id.'" '.$color, $translate_titles );
+                $data .= __div( $x == 0 ? 'step on' : 'step', $big_title, '', 'data-step="#'.$id.'" '.$color, $translate_titles );
                 $x++;
             }
-        $data .= _post();
-    $data .= _post();
+        $data .= __post();
+    $data .= __post();
     return $data;
 }
 
@@ -1174,11 +1181,19 @@ function r_experimental(): void {
 }
 
 function _r( string $class = '', string $attr = '' ): void {
-    pre( '', ( !empty( $class ) ? 'row '.$class : 'row' ), 'div', $attr );
+    echo __r( $class, $attr );
+}
+
+function __r( string $class = '', string $attr = '' ): string {
+    return __pre( '', ( !empty( $class ) ? 'row '.$class : 'row' ), 'div', $attr );
 }
 
 function r_(): void {
-    post();
+    echo r__();
+}
+
+function r__(): string {
+    return __post();
 }
 
 /**
@@ -1232,31 +1247,31 @@ function mini_browser_tab( int $width = 600, int $height = 300 ): string {
 }
 
 function _fb( string $page_link = '', string $page_title = '', string $content = '', string $class = '' ): string {
-    return __a( 'https://www.facebook.com/sharer/sharer.php?u='.$page_link.'&amp;t='.$page_title, $content, $class, T('Share on Facebook'), mini_browser_tab() );
+    return _a( 'https://www.facebook.com/sharer/sharer.php?u='.$page_link.'&amp;t='.$page_title, $class, T('Share on Facebook'), mini_browser_tab() ).$content.a_();
 }
 
 function _tw( string $page_link = '', string $page_title = '', string $content = '', string $class = '' ): string {
-    return __a( 'https://www.twitter.com/share?url='.$page_link.'&amp;text='.$page_title, $content, $class, T('Share on Twitter'), mini_browser_tab() );
+    return _a( 'https://www.twitter.com/share?url='.$page_link.'&amp;text='.$page_title, $class, T('Share on Twitter'), mini_browser_tab() ).$content.a_();
 }
 
 function _ln( string $page_link = '', string $content = '', string $class = '' ): string {
-    return __a( 'https://www.linkedin.com/sharing/share-offsite/?url='.$page_link, $content, $class, T('Share on LinkedIn'), mini_browser_tab() );
+    return _a( 'https://www.linkedin.com/sharing/share-offsite/?url='.$page_link, $class, T('Share on LinkedIn'), mini_browser_tab() ).$content.a_();
 }
 
 function _pn( string $page_link = '', string $page_title = '', string $content = '', string $class = '' ): string {
-    return __a( 'https://pinterest.com/pin/create/button/?url='.$page_link.'&amp;description='.$page_title, $content, $class, T('Share on Pinterest'), mini_browser_tab() );
+    return _a( 'https://pinterest.com/pin/create/button/?url='.$page_link.'&amp;description='.$page_title, $class, T('Share on Pinterest'), mini_browser_tab() ).$content.a_();
 }
 
 function _wa( string $page_link = '', string $content = '', string $class = '' ): string {
-    return __a( 'https://api.whatsapp.com/send?text='.$page_link, $content, $class, T('Share on Whatsapp'), mini_browser_tab() );
+    return _a( 'https://api.whatsapp.com/send?text='.$page_link, $class, T('Share on Whatsapp'), mini_browser_tab() ).a_();
 }
 
 function _tg( string $page_link = '', string $page_title = '', string $content = '', string $class = '' ): string {
-    return __a( 'https://telegram.me/share/url?url='.$page_link.'&amp;text='.$page_title, $content, $class, T('Share on Telegram'), mini_browser_tab() );
+    return _a( 'https://telegram.me/share/url?url='.$page_link.'&amp;text='.$page_title, $class, T('Share on Telegram'), mini_browser_tab() ).$content.a_();
 }
 
 function _em( string $page_link = '', string $page_title = '', string $content = '', string $class = '' ): string {
-    return __a( 'mailto:?subject'.$page_title.'&body='.$page_link, $content, $class, T('Share thru email'), mini_browser_tab() );
+    return _a( 'mailto:?subject'.$page_title.'&body='.$page_link, $class, T('Share thru email'), mini_browser_tab() ).$content.a_();
 }
 
 function notice( string $content = '', string $type = 'info', string $class = '', string $icon_text = 'info', string $icon_class = '' ): void {

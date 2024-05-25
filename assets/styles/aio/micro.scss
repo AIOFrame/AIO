@@ -43,6 +43,8 @@
 .di { display: inline }
 .dii { display: inline !important }
 .df { display: flex }
+.df.g1 { gap: 10px }
+.df.g2 { gap: 20px }
 .fg { flex-grow: 1 }
 .row.fww, .df.wr { flex-wrap:wrap }
 .row.fwn { flex-wrap:nowrap }

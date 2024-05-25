@@ -139,7 +139,7 @@ function art( array|string $arts = '', string $color1 = '222', string $color2 = 
 }
 
 function get_style( string $f, array $params = [], string $page_of = '' ): void {
-    echo _get_style( $f, $params, $page_of );
+    echo __get_style( $f, $params, $page_of );
 }
 
 /**
@@ -150,7 +150,7 @@ function get_style( string $f, array $params = [], string $page_of = '' ): void 
  * @param string $page_of loads the stylesheet only if you are on this page
  * @author Shaikh <hey@shaikh.dev>
  */
-function _get_style( string $f, array $params = [], string $page_of = '' ): string {
+function __get_style( string $f, array $params = [], string $page_of = '' ): string {
     $r = '';
     // Gets cache config
     $cache = get_config( 'cache' );
@@ -192,7 +192,7 @@ function _get_style( string $f, array $params = [], string $page_of = '' ): stri
 }
 
 function get_styles( $styles = '', string $page_of = '' ): void {
-    echo _get_styles( $styles, $page_of );
+    echo __get_styles( $styles, $page_of );
 }
 
 /**
@@ -201,15 +201,15 @@ function get_styles( $styles = '', string $page_of = '' ): void {
  * @param string $page_of Load only if current page is of
  * @author Shaikh <hey@shaikh.dev>
  */
-function _get_styles( string|array $styles = '', string $page_of = '' ): string|null {
+function __get_styles( string|array $styles = '', string $page_of = '' ): string|null {
     $r = '';
     if( !empty( $styles ) ){
         $styles = is_array( $styles ) ? $styles : explode( ',', str_replace( ' ', '', $styles ) );
         foreach( $styles as $f ){
             if( $page_of !== '' ){
-                $r .= page_of( $page_of ) ? _get_style( $f ) : '';
+                $r .= page_of( $page_of ) ? __get_style( $f ) : '';
             } else {
-                $r .= _get_style( $f );
+                $r .= __get_style( $f );
             }
         }
     }
@@ -217,7 +217,7 @@ function _get_styles( string|array $styles = '', string $page_of = '' ): string|
 }
 
 function get_script( string $f, array $params = [], string $page_of = '', string $load_mode = 'defer' ): void {
-    echo _get_script( $f, $params, $page_of, $load_mode );
+    echo __get_script( $f, $params, $page_of, $load_mode );
 }
 
 
@@ -230,7 +230,7 @@ function get_script( string $f, array $params = [], string $page_of = '', string
  * @param string $load_mode 'async' or 'defer' tag to load the script
  * @author Shaikh <hey@shaikh.dev>
  */
-function _get_script( string $f, array $params = [], string $page_of = '', string $load_mode = 'defer', int|float|string|bool $cache = '' ): string {
+function __get_script( string $f, array $params = [], string $page_of = '', string $load_mode = 'defer', int|float|string|bool $cache = '' ): string {
     $r = '';
     // Gets cache config
     if( is_numeric( $cache ) || is_float( $cache ) ) {
@@ -295,7 +295,7 @@ function _get_script( string $f, array $params = [], string $page_of = '', strin
 }
 
 function get_scripts( string|array $ar = '', string|array $page_of = '', string $load_mode = 'defer' ): void {
-    echo _get_scripts( $ar, $page_of, $load_mode );
+    echo __get_scripts( $ar, $page_of, $load_mode );
 }
 
 /**
@@ -305,15 +305,15 @@ function get_scripts( string|array $ar = '', string|array $page_of = '', string 
  * @param string $load_mode 'async' or 'defer' tag to load the script
  * @author Shaikh <hey@shaikh.dev>
  */
-function _get_scripts( string|array $ar = '', string|array $page_of = '', string $load_mode = 'defer' ): string {
+function __get_scripts( string|array $ar = '', string|array $page_of = '', string $load_mode = 'defer' ): string {
     $r = '';
     if( !empty( $ar ) ){
         $ar = is_array( $ar ) ? $ar : explode( ',', str_replace( ' ', '', $ar ) );
         foreach( $ar as $f ){
             if( $page_of !== '' ){
-                $r .= page_of( $page_of ) ? _get_script( $f, [], '', $load_mode ) : '';
+                $r .= page_of( $page_of ) ? __get_script( $f, [], '', $load_mode ) : '';
             } else {
-                $r .= _get_script( $f, [], '', $load_mode );
+                $r .= __get_script( $f, [], '', $load_mode );
             }
         }
     }
@@ -643,7 +643,7 @@ function render_menu( array $array, string $url_prefix = '', string $wrap_class 
             $title = $data['title'] ?? ( $data['t'] ?? ( $data['name'] ?? ( $data['n'] ?? '' ) ) );
             $ico = $data['icon'] ?? ( $data['ico'] ?? ( $data['i'] ?? '' ) );
             $ico = !empty( $ico ) ? _div( $options['icon_class'] ?? '', $ico ) : '';
-            el( 'li', '', __a( APPURL . $url_prefix . $url, $ico . $title ) );
+            el( 'li', '', _a( APPURL . $url_prefix . $url ) . $ico . $title . a_() );
         }
     } else {
         foreach( $array as $first_row ){
@@ -706,24 +706,24 @@ function dashboard_menu() {
  * @param string $wrap_class Wrapper class
  * @return string
  */
-function _render_details( string $title = '', array $data = [], int|string $col = 4, string $wrap_class = '' ): string {
-    $return = _pre( '', 'group_details '.$wrap_class ) . _h2( T( $title ) ) . _pre( '', 'row' );
+function __render_details( string $title = '', array $data = [], int|string $col = 4, string $wrap_class = '' ): string {
+    $return = __pre( '', 'group_details '.$wrap_class ) . ( !empty( $title ) ? __h2( T( $title ) ) : '' ) . __pre( '', 'row' );
     if( !empty( $data ) ) {
         if( is_assoc( $data ) ) {
             foreach( $data as $dk => $d ) {
-                $return .= _div( 'col-12 col-md-' . $col, _div( 'set', _div( 'key', $dk ) . _div( 'tags', $d ) ) );
+                $return .= __div( 'col-12 col-md-' . $col, __div( 'set', __div( 'key', $dk ) . __div( 'tags', __div( 'tag', $d ) ) ) );
             }
         } else {
             foreach( $data as $d ) {
                 $k = $d['key'] ?? ( $d['k'] ?? '' );
                 $v = $d['v'] && isset( $d['s'] ) ? implode( '</div><div class="tag">', explode( $d['s'], $d['v'] ) ) : $d['v'];
-                $v = !empty( $v ) ? '<div class="tag">'.$v.'</div>' : '';
+                $v = !empty( $v ) ? __div( 'tag', $v ) : '';
                 $c = $d['col'] ?? ( $d['c'] ?? $col );
-                $return .= _div( 'col-12 col-md-' . $c, _div( 'set', _div( 'key', $k ) . _div( 'tags', $v ) ) );
+                $return .= __div( 'col-12 col-md-' . $c, __div( 'set', __div( 'key', $k ) . __div( 'tags', $v ) ) );
             }
         }
     }
-    $return .= _post() . _post();
+    $return .= __post() . __post();
     return $return;
 }
 
@@ -736,7 +736,7 @@ function _render_details( string $title = '', array $data = [], int|string $col 
  * @return void
  */
 function render_details( string $title = '', array $data = [], int|string $col = 4, string $wrap_class = '' ): void {
-    echo _render_details( $title, $data, $col, $wrap_class );
+    echo __render_details( $title, $data, $col, $wrap_class );
 }
 
 
@@ -748,34 +748,34 @@ function render_details( string $title = '', array $data = [], int|string $col =
  * @param string $wrap_class = '' Class for page links wrapper element
  * @param string $class Class for page links
  */
-function _pagination( int $page, int $records, int $limit = 24, string $wrap_class = '', string $class = 'page_link' ): string {
+function __pagination( int $page, int $records, int $limit = 24, string $wrap_class = '', string $class = 'page_link' ): string {
     $url = APPURL . PAGEPATH;
     $r = '';
     if( $limit > 0 ) {
         $wrap_class = !empty( $wrap_class ) ? $wrap_class . ' pagination' : 'pagination';
-        $r .= _pre( '', $wrap_class );
+        $r .= __pre( '', $wrap_class );
             $total_pages = !empty( $records ) ? ceil( $records / $limit ) : 0;
             //skel( $total_pages );
             if( $total_pages > 3 ) {
-                $r .= $page > 3 ? __a( $url.'/1', 1, $class.' first', 'Goto first page' ) : '';
-                $r .= $page > 4 ? __a( '', '...', 'blank' ) : '';
+                $r .= $page > 3 ? _a( $url.'/1', $class.' first', 'Goto first page' ) . 1 . a_() : '';
+                $r .= $page > 4 ? _a( '', 'blank' ).'...'.a_() : '';
                 for ($x = ($page - 2); $x < $page; $x++) {
-                    $r .=$x > 0 ? __a( $url.'/'.$x, $x, $class.' pre', 'Goto page '.$x ) : '';
+                    $r .=$x > 0 ? _a( $url.'/'.$x, $class.' pre', 'Goto page '.$x ) . $x . a_() : '';
                 }
-                $r .= __a( $url.'/'.$page, $page, $class.' on', T('Reload current page') );
+                $r .= _a( $url.'/'.$page, $class.' on', T('Reload current page') ) . $page . a_();
                 for ($y = ($page + 1); $y <= ($page + 2); $y++) {
-                    $r .= $y <= $total_pages ? __a( $url.'/'.$y, $y, $class.' post', 'Goto page '.$y ) : '';
+                    $r .= $y <= $total_pages ? _a( $url.'/'.$y, $class.' post', 'Goto page '.$y ) . $y . a_() : '';
                 }
-                $r .= $page < ($total_pages - 3) ? __a( '', '...', 'blank' ) : '';
-                $r .= $page < ($total_pages - 2) ? __a( $url.'/'.$total_pages, $total_pages, $class.' last', 'Goto last page' ) : '';
+                $r .= $page < ($total_pages - 3) ? _a( '', 'blank' ) . '...' . a_() : '';
+                $r .= $page < ($total_pages - 2) ? _a( $url.'/'.$total_pages, $class.' last', 'Goto last page' ) . $total_pages . a_() : '';
             } else if( $total_pages > 1 ) {
                 for($x = 1; $x <= $total_pages; $x++) {
                     $on = $x == $page ? ' on' : '';
-                    $r .= __a( $url.'/'.$x, $x, $class.$on, 'Goto page '.$x );
+                    $r .= _a( $url.'/'.$x, $class.$on, 'Goto page '.$x ) . $x . a_();
                 }
             }
             // echo '<a href="'.$url.'/'.$total_pages.'" class="last '.$class.'"></a>';
-        $r .= _post();
+        $r .= __post();
     }
     return $r;
 }
@@ -789,7 +789,7 @@ function _pagination( int $page, int $records, int $limit = 24, string $wrap_cla
  * @param string $class Class for page links
  */
 function pagination( int $page, int $records, int $limit = 24, string $wrap_class = '', string $class = 'page_link' ): void {
-    echo _pagination( $page, $records, $limit, $wrap_class, $class );
+    echo __pagination( $page, $records, $limit, $wrap_class, $class );
 }
 
 /**

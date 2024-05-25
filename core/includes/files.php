@@ -132,12 +132,19 @@ function asset_id_to_url( $fid ): array {
     } */
 }
 
+function get_file_meta( string|int $id_url ): array {
+    $d = new DB();
+    $query = is_numeric( $id_url ) ? 'file_id="' . $id_url . '"' : 'file_url LIKE "' . $id_url . '"';
+    //return [ $query ];
+    return $d->select( [ 'storage', [ 'users', 'user_id', 'file_scope' ] ], 'file_size,file_type,file_name,user_name', $query, 1 );
+}
+
 /**
  * Renders visual download
  * @param string $urls URLs to render download
  * @param string $pre Class to wrap around each download
  */
-function render_downloads( string $urls = '', string $pre = '' ) {
+function render_downloads( string $urls = '', string $pre = '' ): void {
     if( !empty( $urls ) ) {
         $files = explode( '|', $urls );
         $pre = is_numeric( $pre ) ? 'col-12 col-lg-'.$pre : $pre;

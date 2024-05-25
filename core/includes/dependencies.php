@@ -107,6 +107,10 @@ function storage_url( $url = '' ): string {
     }
 }
 
+function get_file_info( $url ): array {
+    return [];
+}
+
 function asset_url( $url = '' ): string {
     return $url !== '' ? APPURL . 'apps/' . APPDIR . '/assets/' . $url : '';
 }

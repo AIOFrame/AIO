@@ -299,12 +299,32 @@
 .plate .body {
   padding: 15px;
 } */
-.card:not(.no-float, .nf):hover {
+.card:hover {
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.05);
   transform: translateY(-2px);
 }
-.card:not(.no-float, .nf):hover .actions {
+.card:hover .actions {
   opacity: 1;
+}
+
+.card:not(.no-float, .nf):hover {
+  transform: translateY(-2px);
+}
+
+.file_card .icon {
+  width: 70px;
+  height: 70px;
+  line-height: 70px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 25px;
+  text-align: center;
+  font-size: 3rem;
+}
+.file_card .file_details {
+  flex-grow: 1;
+}
+.file_card .group_details .set {
+  margin-bottom: 0;
 }
 
 /* RTL */

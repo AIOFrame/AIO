@@ -12,9 +12,9 @@ class FUP {
             pre( '', 'files_head' );
                 h3( 'File Uploader' );
                 pre( '', 'info' );
-                    div( 'sizes', _div( ( $options['icon_class'] ?? 'mico' ) . ' ico ' . ( $options['ico_file_size'] ?? '' ), ( $options['ico_file_size'] ??  'sd_card' ) ) . _div( 'title', _div( '', T('Max File Size') ) . _div( '', _el( 'span', 'size' ) . _el( 'span', 'measure', 'Mb' ) ) ) );
-                    div( 'types', _div( ( $options['icon_class'] ?? 'mico' ) . ' ico ' . ( $options['ico_file_type'] ?? '' ), ( $options['ico_file_type'] ?? 'description' ) ) . _div( 'title', T('File Types') . _div( 'types' ) ) );
-                    div( 'max', _div( ( $options['icon_class'] ?? 'mico' ) . ' ico ' . ( $options['ico_file_limit'] ?? '' ), $options['ico_file_limit'] ?? 'file_copy' ) . _div( 'title', T('Files Limit') . _div( 'qty', 2 ) ) );
+                    div( 'sizes', __div( ( $options['icon_class'] ?? 'mico' ) . ' ico ' . ( $options['ico_file_size'] ?? '' ), ( $options['ico_file_size'] ??  'sd_card' ) ) . __div( 'title', __div( '', T('Max File Size') ) . __div( '', __el( 'span', 'size' ) . __el( 'span', 'measure', 'Mb' ) ) ) );
+                    div( 'types', __div( ( $options['icon_class'] ?? 'mico' ) . ' ico ' . ( $options['ico_file_type'] ?? '' ), ( $options['ico_file_type'] ?? 'description' ) ) . __div( 'title', T('File Types') . __div( 'types' ) ) );
+                    div( 'max', __div( ( $options['icon_class'] ?? 'mico' ) . ' ico ' . ( $options['ico_file_limit'] ?? '' ), $options['ico_file_limit'] ?? 'file_copy' ) . __div( 'title', T('Files Limit') . __div( 'qty', 2 ) ) );
                 post();
                 pre( '', 'acts' );
                     div( ( $options['icon_class'] ?? 'mico' ) . ' expand ' . ( $options['ico_file_expand'] ?? '' ), $options['ico_file_expand'] ?? 'open_in_full' );
@@ -39,20 +39,20 @@ class FUP {
                         $size = $f['file_size'] > 1024 ? number_format((float)($f['file_size'] / 1024), 2, '.', '') . ' MB' : $f['file_size'].' KB';
                         echo '<div '.$bg.' class="f '.$f['file_type'].'" data-id="'.$cry->encrypt($f['file_id']).'" data-url="'.$f['file_url'].'" data-delete="'.$f['file_delete'].'"><div class="name">'.$f['file_name'].'</div><div class="size">'.$size.'</div></div>';
                     } } else {
-                        div( 'no_uploaded_files', _el( 'span', '', T('NO FILES FOUND!') ) );
+                        div( 'no_uploaded_files', __el( 'span', '', T('NO FILES FOUND!') ) );
                     }
                 post();
                 div( 'camera_view' );
-                div( 'drop_files', _el( 'span', '', T('Drop files to Upload!') ) );
+                div( 'drop_files', __el( 'span', '', T('Drop files to Upload!') ) );
             post();
-            div( 'files_actions', _el( 'label', 'fi i select', T('Choose') ) . _el( 'label', 'fb i browse', 'Browse', '', 'for="file_input"', 1 ) . _el( 'label', 'disabled fd i trash', T('Delete') ) );
+            div( 'files_actions', __el( 'label', 'fi i select', T('Choose') ) . __el( 'label', 'fb i browse', 'Browse', '', 'for="file_input"', 1 ) . __el( 'label', 'disabled fd i trash', T('Delete') ) );
             div( 'translations',
-                _div( 'extension_limit', T('The file should be one of the extensions') ) .
-                _div( 'size_limit', T('Selected file size exceeds file size limit of ') ) .
-                _div( 'file_select', T('File Selected Successfully!') ) .
-                _div( 'no_file_select', T('NO FILE SELECTED! File Uploader Closed!!') ) .
-                _div( 'remove_confirm', T('Are you sure to remove attached file ?') ) .
-                _div( 'upload_success', T('File Uploaded Successfully!') )
+                __div( 'extension_limit', T('The file should be one of the extensions') ) .
+                __div( 'size_limit', T('Selected file size exceeds file size limit of ') ) .
+                __div( 'file_select', T('File Selected Successfully!') ) .
+                __div( 'no_file_select', T('NO FILE SELECTED! File Uploader Closed!!') ) .
+                __div( 'remove_confirm', T('Are you sure to remove attached file ?') ) .
+                __div( 'upload_success', T('File Uploaded Successfully!') )
             );
         post();
         div( 'file_notify' );
