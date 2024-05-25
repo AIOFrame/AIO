@@ -68,37 +68,6 @@ function file_upload(): void {
     }
 }
 
-/**
- * Renders Logo or Picture, if empty shows name first character
- * @param string|null $image
- * @param string $name
- * @param string $class
- * @param string $element Render div or image element
- * @return void
- */
-function _render_image( string|null $image = '', string $name = '', string $class = '', string $element = 'div' ): string {
-    if( !empty( $image ) ) {
-        //skel( !file_exists( APPPATH . $logo ) );
-        $n = ''; //!file_exists( APPPATH . $image ) && !empty( $name ) ? '<span>'.$name[0].'</span>' : '';
-        $image = $element == 'div' ? ' style="background-image:url(\''.storage_url( $image ).'\')"' : storage_url( $image );
-        return $element == 'div' ? '<div class="image '.$class.'"'.$image.'>'.$n.'</div>' : '<img class="'.$class.'" src="'.$image.'" alt="'.$name.'">';
-    } else {
-        return '';
-    }
-}
-
-/**
- * Renders Logo or Picture, if empty shows name first character
- * @param string|null $image
- * @param string $name
- * @param string $class
- * @param string $element Render div or image element
- * @return void
- */
-function render_image( string|null $image = '', string $name = '', string $class = '', string $element = 'div' ): void {
-    echo _render_image( $image, $name, $class, $element );
-}
-
 function storage_url( $url = '' ): string {
     if( !empty( $url ) ) {
         return mb_substr( $url, 1, 7) == 'storage' || mb_substr( $url, 1, 6) == 'assets' ? APPURL . 'apps/' . APPDIR . $url : $url;

@@ -9,17 +9,17 @@ if( $file = fopen( $url, 'r' ) ) {
         div( 'logo' );
         div( 'title', T( 'LOG' ) );
         _d( 'options' );
-            div( 'ico', _div( 'mat-ico', 'arrow_back' ) . _el( 'i', 'tip', T('Return to Previous Page') ), 'back', 'onclick="window.history.back()"' );
-            div( 'ico', _div( 'mat-ico', 'refresh' ) . _el( 'i', 'tip', T('Reload') ), '', 'onclick="location.reload()"' );
-            $f->process_trigger( _div( 'mat-ico', 'delete_sweep' ) . _el( 'i', 'tip', T('Clear Log') ), 'ico clear', '', 'clear_log_ajax', '', '', 'div', '', 2, 2 );
-            div( 'ico dark', _div( 'mat-ico', 'dark_mode' ) . _el( 'i', 'tip', T('Toggle Dark Mode') ), '', 'data-dark' );
+            div( 'ico', __div( 'mat-ico', 'arrow_back' ) . __el( 'i', 'tip', T('Return to Previous Page') ), 'back', 'onclick="window.history.back()"' );
+            div( 'ico', __div( 'mat-ico', 'refresh' ) . __el( 'i', 'tip', T('Reload') ), '', 'onclick="location.reload()"' );
+            $f->process_trigger( __div( 'mat-ico', 'delete_sweep' ) . __el( 'i', 'tip', T('Clear Log') ), 'ico clear', '', 'clear_log_ajax', '', '', 'div', '', 2, 2 );
+            div( 'ico dark', __div( 'mat-ico', 'dark_mode' ) . __el( 'i', 'tip', T('Toggle Dark Mode') ), '', 'data-dark' );
         d_();
     post( 'header' );
     _article( '', '', 'aio_log' );
         _d( 'df controls' );
             _d( 'filters' );
                 _d( 'df' );
-                    div( 'on', _div( 'mat-ico', 'format_align_justify' ) . ' ' . T('All'), '', 'data-type="a"' );
+                    div( 'on', __div( 'mat-ico', 'format_align_justify' ) . ' ' . T('All'), '', 'data-type="a"' );
                     $types = [
                         [ 'l', 'Log', 'view_list' ],
                         [ 'e', 'Error', 'warning' ],
@@ -29,7 +29,7 @@ if( $file = fopen( $url, 'r' ) ) {
                         [ 'd', 'Delete', 'remove_circle' ]
                     ];
                     foreach( $types as $t ) {
-                        div( '', _div( 'mat-ico', $t[2] ) . ' ' . T( $t[1] ), '', 'data-type="'.$t[0].'"' );
+                        div( '', __div( 'mat-ico', $t[2] ) . ' ' . T( $t[1] ), '', 'data-type="'.$t[0].'"' );
                     }
                 d_();
             d_();
@@ -107,7 +107,7 @@ if( $file = fopen( $url, 'r' ) ) {
                                     div( 'go', '', '', 'title="'.T('Google this error!').'"' );
                                     div( 'so', '', '', 'title="'.T('Search on Stackoverflow').'"' );
                                 d_();
-                                div( 'l', _el( 'pre', '', is_array( $log ) || is_object( $log ) ? print_r( $log ) : $log ), 'l'.$x );
+                                div( 'l', __el( 'pre', '', is_array( $log ) || is_object( $log ) ? print_r( $log ) : $log ), 'l'.$x );
                                 _d( 'ft' );
                                     div( 'l', !empty($line) ? 'Line - ' . $line : '' );
                                     div( 'f', $doc ?? '' );
@@ -120,7 +120,7 @@ if( $file = fopen( $url, 'r' ) ) {
                 }
             } else {
                 unlink( APPPATH . 'events.log' );
-                div( 'b a', _div( 'a' ) );
+                div( 'b a', __div( 'a' ) );
             }
         d_();
     article_();

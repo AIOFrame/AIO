@@ -995,12 +995,12 @@ function accordion( string $title = '', string $content = '', string $class = ''
 
 function __accordion( string $title = '', string $content = '', string $class = '', string $attr = '' ): string {
     //echo "<div class='accordion {$class}' ".$attr."><div class='accordion_head'>{$title}<div class='act'><div class='mat-ico' data-close>expand_less</div><div class='mat-ico' data-open>expand_more</div></div></div><div class='accordion_body'>{$content}</div></div>";
-    $acts = _div( 'act', _div( 'mat-ico', 'expand_less', '', 'data-close' ) . _div( 'mat-ico', 'expand_more', '', 'data-open' ) );
-    return _div( 'accordion '.$class, _div( 'accordion_head', $title . $acts ) . _div( 'accordion_body', $content ) );
+    $acts = __div( 'act', __div( 'mat-ico', 'expand_less', '', 'data-close' ) . __div( 'mat-ico', 'expand_more', '', 'data-open' ) );
+    return __div( 'accordion '.$class, __div( 'accordion_head', $title . $acts ) . __div( 'accordion_body', $content ) );
 }
 
 function _accordion( string $title = '', string $class = '' ): void {
-    $acts = _div( 'act', _div( 'mat-ico', 'expand_less', '', 'data-close' ) . _div( 'mat-ico', 'expand_more', '', 'data-open' ) );
+    $acts = __div( 'act', __div( 'mat-ico', 'expand_less', '', 'data-close' ) . __div( 'mat-ico', 'expand_more', '', 'data-open' ) );
     pre( '', 'accordion '.$class );
         div( 'accordion_head', $title . $acts );
             pre( '', 'accordion_body' );
@@ -1035,7 +1035,7 @@ function _tabs( array $tabs = [], string $style = '', bool $translate_titles = f
             $x = 0;
             foreach( $tabs as $i => $content ) {
                 $id = str_replace(' ','_',strtolower( $i ));
-                $data .= _div( $x == 0 ? 'tab on' : 'tab', $i, '', 'data-tab="'.$id.'"', $translate_titles );
+                $data .= __div( $x == 0 ? 'tab on' : 'tab', $i, '', 'data-tab="'.$id.'"', $translate_titles );
                 $x++;
             }
         $data .= __post();
@@ -1043,7 +1043,7 @@ function _tabs( array $tabs = [], string $style = '', bool $translate_titles = f
             $x = 0;
             foreach( $tabs as $i => $content ) {
                 $id = str_replace(' ','_',strtolower( $i ));
-                $data .= _div( ( $x !== 0 ? 'dn' : '' ), $content, $id );
+                $data .= __div( ( $x !== 0 ? 'dn' : '' ), $content, $id );
                 $x++;
             }
         $data .= __post();
@@ -1096,6 +1096,8 @@ function steps( array $steps = [], string $style = '', bool $translate_titles = 
  * @param array $steps [ [ 'title' => 'User', 'icon' => '', 'icon_class' => '', 'color' => '', 'content' => 'User Content' ], ... ]
  * @param string $style CSS Style
  * @param bool $translate_titles True, to translate titles (Default False)
+ * @param bool $show_controls
+ * @param bool $show_arrows
  * @return string
  */
 function _steps( array $steps = [], string $style = '', bool $translate_titles = false, bool $show_controls = true, bool $show_arrows = true ): string {
@@ -1178,6 +1180,37 @@ function r_experimental(): void {
         pre( '', 'row' );
         $code['row'] = true;
     }
+}
+
+/**
+ * Renders Logo or Picture, if empty shows name first character
+ * @param string|null $image
+ * @param string $name
+ * @param string $class
+ * @param string $element Render div or image element
+ * @return string
+ */
+function __render_image( string|null $image = '', string $name = '', string $class = '', string $element = 'div' ): string {
+    if( !empty( $image ) ) {
+        //skel( !file_exists( APPPATH . $logo ) );
+        $n = ''; //!file_exists( APPPATH . $image ) && !empty( $name ) ? '<span>'.$name[0].'</span>' : '';
+        $image = $element == 'div' ? ' style="background-image:url(\''.storage_url( $image ).'\')"' : storage_url( $image );
+        return $element == 'div' ? __div( 'image '.$class, $n, '', $image ) : '<img class="'.$class.'" src="'.$image.'" alt="'.$name.'">';
+    } else {
+        return '';
+    }
+}
+
+/**
+ * Renders Logo or Picture, if empty shows name first character
+ * @param string|null $image
+ * @param string $name
+ * @param string $class
+ * @param string $element Render div or image element
+ * @return void
+ */
+function render_image( string|null $image = '', string $name = '', string $class = '', string $element = 'div' ): void {
+    echo __render_image( $image, $name, $class, $element );
 }
 
 function _r( string $class = '', string $attr = '' ): void {

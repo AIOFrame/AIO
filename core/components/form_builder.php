@@ -31,7 +31,7 @@ pre( '', 'aio_form_builder' );
     $f->input('search','','','Search...','','data-fields-search');
         pre( '', 'aio_form_fields_wrap' );
         foreach( $field_types as $type => $icon ) {
-            div( 'form-btn', _el( 'i', 'mat-ico', $icon ) . _el( 'span', '', $type), '', 'data-type="'.$type.'" data-field-btn' );
+            div( 'form-btn', __el( 'i', 'mat-ico', $icon ) . __el( 'span', '', $type), '', 'data-type="'.$type.'" data-field-btn' );
         }
         post();
     post();
@@ -100,7 +100,7 @@ pre( '', 'aio_form_builder' );
 
         //h4( 'Logics', 1 );
         //$logics = [ '=' => '= to', '!=' => '!= to', '<' => '< than', '<=' => '<= to', '>' => '> than', '>=' => '>= to', 'has' => 'contains' ];
-        el( 'button', 'trash m0 red bxn', _el( 'i', 'mat-ico', 'remove_circle' ), '', 'data-trash' );
+        el( 'button', 'trash m0 red bxn', __el( 'i', 'mat-ico', 'remove_circle' ), '', 'data-trash' );
     post();
 post();
 get_style('form_builder');

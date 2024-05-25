@@ -223,12 +223,12 @@ class CMS {
             foreach( $pages as $p ) {
                 $table[]['body'] = [
                     $p['content_id'],
-                    $p['content_title']. _div('', _el('small','',$p['content_url']) ),
-                    easy_date($p['content_date'])._div('', _el('small','',T('Updated').': '.easy_date($p['content_update'])) ),
-                    ( !empty($p['content_birth']) ? _div('', _el('small','',T('Visible from').': '.easy_date($p['content_birth'])) ) : '' ) . ( !empty($p['content_expiry']) ? _div('', _el('small','',T('Visible till').': '.easy_date($p['content_expiry'])) ) : '' ),
+                    $p['content_title']. __div('', __el('small','',$p['content_url']) ),
+                    easy_date($p['content_date']).__div('', __el('small','',T('Updated').': '.easy_date($p['content_update'])) ),
+                    ( !empty($p['content_birth']) ? __div('', __el('small','',T('Visible from').': '.easy_date($p['content_birth'])) ) : '' ) . ( !empty($p['content_expiry']) ? __div('', __el('small','',T('Visible till').': '.easy_date($p['content_expiry'])) ) : '' ),
                     $status[ $p['content_status'] ] ?? '',
                     $show_user ? $p['user_name'] : '',
-                    _pre('','acts').$f->_edit_html( '#'.$page_type.'_modal', $p, 'div', '', '', '', ( $options['icon_class'] ?? 'mico' ), ( $options['ico_edit'] ?? 'edit' ) )._post()
+                    __pre('','acts').$f->__edit_html( '#'.$page_type.'_modal', $p, 'div', '', '', '', ( $options['icon_class'] ?? 'mico' ), ( $options['ico_edit'] ?? 'edit' ) )._post()
                 ];
             }
             table_view( $page_type, $table, $wrapper_class );
@@ -477,8 +477,8 @@ class CMS {
             $cards = [];
             foreach( $widgets as $p ) {
                 $image = !empty( $p['widget_image'] ) ? storage_url( $p['widget_image'] ) : '';
-                //$icon = defined( 'ICONS' ) && !empty( $p['widget_icon'] ) ? ( str_contains( ICONS, 'Material' ) ? _div('mat-ico xxl',$p['widget_icon']) : ( str_contains( ICONS, 'bootstrap' ) ? _el('i','b bi-'.$p['widget_icon']) : $p['widget_icon'] ) ) : '-';
-                $cards[] = _card( 'br15', $p['widget_name'], '', $p['widget_desc'], _div('tac',_img($image,'','widget_image',$p['widget_name'],$p['widget_name'],'style="height: 100px"')), '', $p['widget_status'] == 1 ? 'Active' : 'Inactive', $p['widget_status'] == 1 ? 'green' : 'grey', [], [], $modal_identity, $p, 'widgets', "widget_id = {$p['widget_id']}" );
+                //$icon = defined( 'ICONS' ) && !empty( $p['widget_icon'] ) ? ( str_contains( ICONS, 'Material' ) ? __div('mat-ico xxl',$p['widget_icon']) : ( str_contains( ICONS, 'bootstrap' ) ? __el('i','b bi-'.$p['widget_icon']) : $p['widget_icon'] ) ) : '-';
+                $cards[] = _card( 'br15', $p['widget_name'], '', $p['widget_desc'], __div('tac',_img($image,'','widget_image',$p['widget_name'],$p['widget_name'],'style="height: 100px"')), '', $p['widget_status'] == 1 ? 'Active' : 'Inactive', $p['widget_status'] == 1 ? 'green' : 'grey', [], [], $modal_identity, $p, 'widgets', "widget_id = {$p['widget_id']}" );
             }
             grid_view( 'widget_cards', $cards, $wrapper_class, $cols );
         }

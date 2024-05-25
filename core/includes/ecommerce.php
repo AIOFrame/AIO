@@ -234,7 +234,7 @@ class ECOMMERCE {
                     el( 'fieldset', '', T( 'Variation Attributes' ) );
                     $f->form( $props_form, 'row', $va );
                     // Variation Actions
-                    div( 'actions tac', $f->_process_trigger( _el( 'i', 'mat-ico', 'save' ), 'blue s mx10 mb0 save_var' ) . $f->_process_trigger( _el( 'i', 'mat-ico', 'remove_circle' ), 'red s mx10 mb0 trash_var', '', 'remove_product_ajax' ) );
+                    div( 'actions tac', $f->_process_trigger( __el( 'i', 'mat-ico', 'save' ), 'blue s mx10 mb0 save_var' ) . $f->_process_trigger( __el( 'i', 'mat-ico', 'remove_circle' ), 'red s mx10 mb0 trash_var', '', 'remove_product_ajax' ) );
                 $f->post_process();
             post();
         post();
@@ -319,13 +319,13 @@ class ECOMMERCE {
                     $price = $this->_price( $reg, $sale, 1 ); //'<s>' . ( $rate * $reg ) . '</s> ' . ( $rate * $sale ) . ' ' . $curr;
                 } */
                 $table[]['body'] = [
-                    _div( 'tac', $p['id'] ),
-                    $p['title']. _div( '', _el( 'small', '', $p['url'] ) ),
-                    easy_date($p['date'])._div( '', _el( 'small', '', T('Updated').': '.easy_date($p['update']) ) ).(!empty($p['birth'])?_div('',_el('small','',T('Visible from').': '.easy_date($p['birth']))):'').(!empty($p['expiry'])?_div('',_el('small','',T('Visible till').': '.easy_date($p['expiry']))):''),
-                    _div( 'tar', $price ),
+                    __div( 'tac', $p['id'] ),
+                    $p['title']. __div( '', __el( 'small', '', $p['url'] ) ),
+                    easy_date($p['date']).__div( '', __el( 'small', '', T('Updated').': '.easy_date($p['update']) ) ).(!empty($p['birth'])?__div('',__el('small','',T('Visible from').': '.easy_date($p['birth']))):'').(!empty($p['expiry'])?__div('',__el('small','',T('Visible till').': '.easy_date($p['expiry']))):''),
+                    __div( 'tar', $price ),
                     _div( 'tar', 0 ),
-                    _div( 'tac', $status[ $p['status'] ] ?? '' ),
-                    _pre('','acts').$edit.$delete._post()
+                    __div( 'tac', $status[ $p['status'] ] ?? '' ),
+                    __pre('','acts').$edit.$delete.__post()
                 ];
             }
             table_view( 'products_list', $table, $wrapper_class );
@@ -631,9 +631,9 @@ class ECOMMERCE {
             return '';
         }
         if( $sale < $regular ) {
-            $price = $only_float ? $rate * $sale : _div( $class.' price', _el( 's', 'regular', $rate * $regular ) . ' ' . _el( 'span', 'sale', $rate * $sale ) . ' '.$curr );
+            $price = $only_float ? $rate * $sale : _div( $class.' price', __el( 's', 'regular', $rate * $regular ) . ' ' . __el( 'span', 'sale', $rate * $sale ) . ' '.$curr );
         } else {
-            $price = $only_float ? $rate * $regular : _div( $class.' price', _el( 'span', 'regular', $rate * $regular ) . ' '.$curr );
+            $price = $only_float ? $rate * $regular : _div( $class.' price', __el( 'span', 'regular', $rate * $regular ) . ' '.$curr );
         }
         return $price;
     }
@@ -643,7 +643,7 @@ class ECOMMERCE {
         $curr = defined('REGION') && isset( REGION['symbol'] ) ? REGION['symbol'] : '';
         $rate = $convert_rate ? $rate : 1;
         //skel( $rate );
-        return $only_float ? ( ( $rate * $min ) . '-' . ( $rate * $max ) ) : _div( $price_class, _el( 'span', 'currency_symbol', $curr ) . ' ' . _el( 'span', 'price_range', ( $rate * $min ) . ' - ' . ( $rate * $max ) ) );
+        return $only_float ? ( ( $rate * $min ) . '-' . ( $rate * $max ) ) : _div( $price_class, __el( 'span', 'currency_symbol', $curr ) . ' ' . __el( 'span', 'price_range', ( $rate * $min ) . ' - ' . ( $rate * $max ) ) );
     }
 
     /**
@@ -872,8 +872,8 @@ class ECOMMERCE {
             foreach( $props as $p ) {
                 $p = replace_in_keys( $p, 'prod_pt_' );
                 //skel( $p );
-                $name = $p['name'] . ( !empty( $p['desc'] ) ? _el( 'small', 'db', $p['desc'] ) : '' );
-                $icon = !empty( $p['icon'] ) ? ( _el( 'i', $p['class'] ?? '' , $p['icon'] ) ) : '';
+                $name = $p['name'] . ( !empty( $p['desc'] ) ? __el( 'small', 'db', $p['desc'] ) : '' );
+                $icon = !empty( $p['icon'] ) ? ( __el( 'i', $p['class'] ?? '' , $p['icon'] ) ) : '';
                 $status = $f->_slide( 'status', '', '', '', ( $p['status'] == 1 ? 1 : 0 ), 'm', 'disabled' );
                 $type = $pts[ $p['type'] ] ?? '-';
                 $filter = $f->_slide( 'filter', '', '', '', ( $p['filter'] == 1 ? 1 : 0 ), 'm', 'disabled' );
@@ -921,15 +921,15 @@ class ECOMMERCE {
             $table[] = [ 'head' => [ 'Name', 'Icon', 'Image', 'Color', 'Status', 'Actions' ] ];
             foreach( $props as $p ) {
                 $p = replace_in_keys( $p, 'prod_pm_' );
-                $icon = !empty( $p['icon'] ) ? ( _el( 'i', $p['class'] ?? '' , $p['icon'] ) ) : '';
+                $icon = !empty( $p['icon'] ) ? ( __el( 'i', $p['class'] ?? '' , $p['icon'] ) ) : '';
                 $img = !empty( $p['image'] ) ? _img( storage_url( $p['image'] ), '', $p['class'], '', '', 'style="height:50px"' ) : '';
                 $status = $p['status'] == 1 ? $f->_slide( 'status', '', '', '', 1, 'm', 'disabled' ) : $f->_slide( 'status', '', '', '', 0, 'm', 'disabled' );
-                $col = !empty( $p['color'] ) ? _div( 'color', $p['color'], '', 'style="color:'.$p['color'].'"' ) : '';
-                $actions = _pre('','acts');
+                $col = !empty( $p['color'] ) ? __div( 'color', $p['color'], '', 'style="color:'.$p['color'].'"' ) : '';
+                $actions = __pre('','acts');
                 //$actions .= $f->_view_html(APPURL.'admin/products/prop/'.$p['prod_prop_id'],'div','','','','mat-ico','open_in_new');
                 $actions .= $f->_edit_html( $target_form, $p, 'div','','','','mat-ico','edit');
-                $actions .= $f->_trash_html('product_prop_meta','prod_pm_id = '.$p['id'],'div','','','','mat-ico',1,1,'Are you sure to remove property meta? This will affect filters and products!','delete_forever');
-                $actions .= _post();
+                $actions .= $f->__trash_html('product_prop_meta','prod_pm_id = '.$p['id'],'div','','','','mat-ico',1,1,'Are you sure to remove property meta? This will affect filters and products!','delete_forever');
+                $actions .= __post();
                 $table[] = [ 'body' => [ $p['name'], $icon, $img, $col, $status, $actions ] ];
             }
             table( $table, 'tac' );
@@ -1028,7 +1028,7 @@ class ECOMMERCE {
         pre( $wrapper_id, $wrapper_class, 'div', 'data-cart="'.(APPDEBUG?'load_cart_ajax':$e->encrypt('load_cart_ajax')).'"' );
             div( 'aio_mini_cart_items', '', 'aio_mini_cart_items', 'data-mini-cart-items' );
             div( 'aio_mini_cart_empty', $empty_cart_content, 'aio_mini_cart_empty', 'data-empty-cart' );
-            div( 'aio_mini_cart_total dn df fg aic', _div( 'title', $sub_total_title ) . _div( 'subtotal tar', _el( 'span', 'amount', 0, '', 'data-cart-total' ) . ' ' . _el( 'span', 'currency', $symbol, '', 'data-currency-symbol' ) ), 'aio_mini_cart_total' );
+            div( 'aio_mini_cart_total dn df fg aic', _div( 'title', $sub_total_title ) . _div( 'subtotal tar', __el( 'span', 'amount', 0, '', 'data-cart-total' ) . ' ' . __el( 'span', 'currency', $symbol, '', 'data-currency-symbol' ) ), 'aio_mini_cart_total' );
             pre( 'aio_mini_cart_item_template', 'aio_mini_cart_item_template dn', 'div', 'data-mini-cart-item-template' );
                 pre( '', 'cart_item '.$cart_item_class );
                     pre( '', 'cart_item df', 'a', 'href="{{url}}"' );
@@ -1131,7 +1131,7 @@ class ECOMMERCE {
                 $addresses = [];
                 foreach( $ads as $ua ) {
                     $country = !empty( $ua['ua_country'] ) && isset( $cs[ $ua['ua_country'] ] ) ? $cs[ $ua['ua_country'] ] : $ua['ua_country'];
-                    $addresses[ $ua['ua_id'] ] = _el( 'h3', '', $ua['ua_a_name'] . ' - ' . $ua['ua_name'] ) . ' ' . _el( 'div', 'address_sub', _el( 'div', 'address', $ua['ua_address'] ) . _el( 'div', 'street', $ua['ua_street'] ) . _el( 'div', 'city', $ua['ua_city'] ) . _el( 'div', 'state', $ua['ua_state'] ) . _el( 'div', 'postal_code', $ua['ua_po'] ) . _el( 'div', 'country', $country ) . _el( 'div', 'email', $ua['ua_email'] ) . _el( 'div', 'phone', $ua['ua_code'].$ua['ua_phone'] ) );
+                    $addresses[ $ua['ua_id'] ] = __el( 'h3', '', $ua['ua_a_name'] . ' - ' . $ua['ua_name'] ) . ' ' . __el( 'div', 'address_sub', __el( 'div', 'address', $ua['ua_address'] ) . __el( 'div', 'street', $ua['ua_street'] ) . __el( 'div', 'city', $ua['ua_city'] ) . __el( 'div', 'state', $ua['ua_state'] ) . __el( 'div', 'postal_code', $ua['ua_po'] ) . __el( 'div', 'country', $country ) . __el( 'div', 'email', $ua['ua_email'] ) . __el( 'div', 'phone', $ua['ua_code'].$ua['ua_phone'] ) );
                 }
                 $f = new FORM();
                 $f->radios('delivery',$delivery_address_text,$addresses,'','data-'.$data_attr,0,'.address_list','','.row',12);
@@ -1169,7 +1169,7 @@ class ECOMMERCE {
                     _a( 'mailto:'.$p['ua_email'] ) . $p['ua_email'] . a_(),
                     _a( 'tel:'.$p['ua_code'].$p['ua_phone'] ) . $p['ua_code'].$p['ua_phone'] . a_(),
                     $status,
-                    _pre('','acts').$f->_edit_html( $edit_form, $p, 'div', '', '', '', 'mat-ico', 'edit' )._post()
+                    __pre('','acts').$f->__edit_html( $edit_form, $p, 'div', '', '', '', 'mat-ico', 'edit' ).__post()
                 ];
             }
             //skel( $table );

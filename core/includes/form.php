@@ -1035,7 +1035,7 @@ class FORM {
         $random = $this->_random();
         $r = $this->__pre( $pre );
         $r .= $this->_textarea( $id, $label, $placeholder, $value, $attrs.' data-aio-content-builder="#aio_content_builder_wrap_'.$random.'" style="display: none"' );
-        $r .= _div( 'aio_content_builder_wrap_'.$random, 'aio_content_builder_wrap', _div( 'content_area_'.$random, 'content_area' ) . _div( 'content_widgets_'.$random, 'content_widgets' ) );
+        $r .= __div( 'aio_content_builder_wrap_'.$random, 'aio_content_builder_wrap', __div( 'content_area_'.$random, 'content_area' ) . __div( 'content_widgets_'.$random, 'content_widgets' ) );
         $r .= $this->_post( $pre, $post );
         return $r;
     } */
