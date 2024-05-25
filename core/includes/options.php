@@ -538,8 +538,8 @@ class OPTIONS {
         $r = $this->current_region_prefix();
         $keys = prepare_values( ['serving_regions','default_region','serving_phone_codes','default_phone_code'], $r );
         $ops = $d->get_options( $keys );
-        $codes = get_calling_codes();
-        $countries = get_countries('iso2');
+        $codes = get_all_calling_codes();
+        $countries = get_all_countries('iso2');
         $form = [
             [ 'i' => $r.'serving_phone_codes', 'n' => 'Restrict Phone Codes', 't' => 'select2', 'o' => $codes, 'a' => 'data-world multiple', 'c' => 8, 'v' => ( $ops[ $r.'serving_phone_codes' ] ?? '' ), 'k' => 1 ],
             [ 'i' => $r.'default_phone_code', 'n' => 'Default Code', 't' => 'select2', 'o' => $codes, 'a' => 'data-world', 'v' => ( $ops[ $r.'default_phone_code' ] ?? '' ), 'c' => 4, 'k' => 1 ],

@@ -247,7 +247,8 @@ class PORTAL {
                 // Show Regions
                 //skel( $options['regions'] );
                 if( !empty( $options['regions'] ) && isset( $c['features'] ) && ( in_array_any( [ 'regions', 'region', 'global' ], $c['features'] ) ) ) {
-                    $countries = get_countries('iso2','flag name');
+                    $countries = get_all_countries('iso2','flag name');
+                    //skel( $countries );
                     //$regions = $db->get_options(['regions','primary_region']);
                     $set_countries = array_map( 'trim', explode( ',', $options['regions'] ) );
                     $my_region = $db->get_option('region',get_user_id());

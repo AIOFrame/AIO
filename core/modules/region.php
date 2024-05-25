@@ -121,7 +121,7 @@ class REGION {
                 // Payment Options
         $o = new OPTIONS();
         $db = new DB();
-        $countries = get_countries('iso2');
+        $countries = get_all_countries('iso2');
         $r = defined( 'REGION' ) && isset( REGION['cca2'] ) ? strtolower( REGION['cca2'] ).'_' : '';
         $regions = $db->get_options('base_region,regions,'.$r.'serving_regions,'.$r.'default_region');
 

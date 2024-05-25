@@ -628,13 +628,18 @@ class FORM {
      */
     function __phone( string $code_id, string $phone_id, string $code_label = 'Code', string $phone_label = 'Phone', string $code_placeholder = '', string $phone_placeholder = '', string $code_default = '', string $phone_default = '', string $attr = '', string|float|int $pre = '', string $post = '' ): string {
         $codes = get_calling_codes();
-        $return = $this->__pre( $pre );
-        $return .= __r();
-        $return .= $this->__select2( $code_id, $code_label, $code_placeholder, $codes, $code_default, $attr, 5, 1, $post );
-        $return .= $this->__input( 'number', $phone_id, $phone_label, $phone_placeholder, $phone_default, $attr, 7, $post );
-        $return .= r__();
-        $return .= $this->__post( $pre, $post );
-        return $return;
+        if( empty( $code_default ) ) {
+            $o = new OPTIONS();
+            global $options;
+            $r = $o->current_region_prefix();
+            $code_default = ( $options[ $r . 'default_phone_code' ] ?? '' );
+        }
+        return $this->__pre( $pre )
+        . __r()
+        . $this->__select2( $code_id, $code_label, $code_placeholder, $codes, $code_default, $attr, 5, 1, $post )
+        . $this->__input( 'number', $phone_id, $phone_label, $phone_placeholder, $phone_default, $attr, 7, $post )
+        . r__()
+        . $this->__post( $pre, $post );
     }
 
     /**
