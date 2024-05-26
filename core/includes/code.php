@@ -330,12 +330,13 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
 
 function post_html( string|array $scripts = [], string $alert_position = 'top right' ): void {
     global $options;
+    $icon_class = ( $options['icon_class'] ?? 'mico' );
     div($alert_position,'','','data-alerts');
     get_scripts( $scripts );
     if( defined( 'PAGEPATH' ) )
         get_script( PAGEPATH );
-    $close_button = __div( ( $options['icon_class'] ?? '' ) .' close ' . ( $options['ico_close'] ?? '' ), $options['ico_close'] ?? 'close' );
-    $icon = __div( 'ico', __div( ( $options['icon_class'] ?? '' ) .' ico {{icon}} ' . ( $options['ico_alerts'] ?? '' ), $options['ico_alerts'] ?? '' ) );
+    $close_button = __div( $icon_class .' close ' . ( $options['ico_close'] ?? '' ), $options['ico_close'] ?? 'close' );
+    $icon = __div( 'ico', __div( $icon_class .' ico {{icon}} ' . ( $options['ico_alerts'] ?? '' ), $options['ico_alerts'] ?? 'notifications' ) );
     // '<div class="alert in '+type+' n_'+r+'"><div class="data"><div class="mat-ico bi bi-x-lg close">close</div>'+ico+'<div class="message">'+text+'</div></div><div class="time"></div></div>'
     div( 'dn', __div( 'alert in {{type}} n_{{random}}', __div( 'data', $close_button . $icon . __div( 'message', '{{text}}' ) ) . __div( 'time' ) ), '', 'alert-html-template' );
     echo '</body></html>';
