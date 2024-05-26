@@ -493,7 +493,7 @@ function title_bar( string $title = PAGENAME, string $back_url = '', string $lis
 
 function __back_url( string $url = '' ): string {
     global $options;
-    return _a( APPURL.$url, $options['icon_class'] . ' back', T('Go Back'), '', '', '' ) . 'arrow_back' . a_();
+    return _a( APPURL.$url, ( $options['icon_class'] ?? 'mico' ) . ' back', T('Go Back'), '', '', '' ) . 'arrow_back' . a_();
     //echo '<a class="mat-ico back" href="'.APPURL . $url.'">arrow_back</a>';
 }
 
@@ -554,7 +554,7 @@ function __file_card( string $name = '', string $file_url = '', bool $show_downl
     if( $show_meta ) {
         //skel( str_replace( APPURL . 'apps/' . APPDIR, '', $file_url ) );
         $meta = get_file_meta( str_replace( APPURL . 'apps/' . APPDIR, '', $file_url ) );
-        $data = [ 'Type' => ( $meta['file_type'] ?? '' ), 'Size' => ( $meta['file_size'] ?? '' ), 'Uploaded by' => ( $meta['user_name'] ?? '' ) ];
+        $data = [ 'Type' => ( $meta['file_type'] ?? '' ), 'Size' => ( $meta['file_size'] ?? '' ).'kb', 'Uploaded by' => ( $meta['user_name'] ?? '' ) ];
     }
     $r = _a( $file_url, $class . ' file_card' );
         $r .= __pre( '', 'df g2' );

@@ -1414,14 +1414,14 @@ class FORM {
         //$action = empty( $action ) ? 'process_data_ajax' : $action;
         $a = $attr;
         $a .= !empty( $action ) ? ' data-action="'. ( APPDEBUG ? $action : $c->encrypt($action) ) .'"' : '';
-        $a .= $confirm !== '' ? ' onclick="if(confirm(\''.T($confirm).'\')){process_data(this)}else{event.stopPropagation();event.preventDefault();}"' : ' onclick="process_data(this)"';
+        $a .= $confirm !== '' ? ' onclick="if(confirm(\''.T($confirm).'\')){process_data(this);}else{event.stopPropagation();event.preventDefault();}"' : ' onclick="process_data(this)"';
         //$a .= $reload > 0 ? ' data-reload="'.$reload.'"' : '';
         //$a .= $notify > 0 ? ' data-notify="'.$notify.'"' : '';
         $text .= __el( 'span', 'loader' );
         if( !empty( $icon ) ) {
             $text .= __el( 'span', ( $icon_class ?? 'mico' ) . ' ico ' . $icon, $icon );
         } else {
-            $text .= !empty( $options['ico_save'] ) ? ( __el( 'span', ( $options['icon_class'] ?? 'mico' ) . ' ico ' . ( $options['ico_save'] ?? '' ), ( $options['ico_save'] ?? 'save' ) ) ) : '';
+            $text .= !empty( $options['ico_save'] ) ? ( __el( 'span', ( $options['icon_class'] ?? 'mico' ) . ' ico ' . $options['ico_save'], ( $options['ico_save'] ?? 'save' ) ) ) : '';
         }
         return $_p . __el( $element, $class . ' save', $text, '', $a ) . $p_;
         //return $_p.'<'.$element.$a.' class="'.$class.'" '.$attr.'><span class="loader"></span>'.T( $text ).'</'.$element.'>'.$p_;
@@ -1520,7 +1520,7 @@ class FORM {
     function __edit_html( string $element = '.modal', array $array = [], string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): string {
         //$c = Encrypt::initiate();
         global $options;
-        $icon_class = $options['icon_class'] ?? '';
+        $icon_class = $options['icon_class'] ?? 'mico';
         $i_class = !empty( $i_class ) ? $i_class : $icon_class;
         $edit_icon = $options['ico_edit'] ?? 'border_color';
         $i_text = !empty( $i_text ) ? $i_text : $edit_icon;
@@ -1567,7 +1567,7 @@ class FORM {
      */
     function __trash_html( string $table, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', string $confirmation = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): string {
         global $options;
-        $icon_class = $options['icon_class'] ?? '';
+        $icon_class = $options['icon_class'] ?? 'mico';
         $i_class = !empty( $i_class ) ? $i_class : $icon_class;
         //skel( $options );
         $trash_icon = $options['ico_delete'] ?? 'delete';
@@ -1580,6 +1580,8 @@ class FORM {
         $action = str_contains( $target, '_ajax' ) ? $target : 'trash_data_ajax';
         $action = APPDEBUG ? $action : $c->encrypt( $action );
         $logic = APPDEBUG ? $logic : $c->encrypt( $logic );
+        //$logic = str_replace( '\'', '\"', $logic );
+        //skel( $logic );
         $table = str_contains( $target, '_ajax' ) ? '' : ( APPDEBUG ? $table : $c->encrypt($table) );
         $i = !empty( $i_class ) ? __i( $i_class, $i_text ) : '';
         $attr .= !empty( $confirmation ) ? ' data-confirm="'.T($confirmation).'"' : '';

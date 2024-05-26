@@ -1037,6 +1037,18 @@ aside::-webkit-scrollbar {
     display: block;
     background: rgba(0,0,0,.7);
   }
+  .status {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background: #ccc;
+    left: 390px;
+    top: -25px;
+  }
+  .status.on {
+    background: var(--success_color);
+  }
 }
 .header_panel_wrap.w {
   h2, h3, h5, .back {

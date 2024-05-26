@@ -162,8 +162,8 @@ body.modal_open article > div:not(.header), body.modal_open article > table, bod
 }
 .banner_wrap .banner_bg:after {
   content: "";
-  background: rgb(0, 0, 0);
-  background: linear-gradient(0deg, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%);
+  background: black;
+  background: linear-gradient(0deg, black 0%, rgba(0, 0, 0, 0) 100%);
 }
 .banner_wrap .banner_image.l {
   background-position: left center;
@@ -219,7 +219,7 @@ button.store, .btn.store {
 body {
   background: #f3f3f3;
   margin: 120px 0 90px;
-  min-height: calc(100vh - 210px);
+  min-height: calc( 100vh - 210px);
 }
 
 .invoice_view {
@@ -990,6 +990,18 @@ aside::-webkit-scrollbar {
   height: 100%;
   display: block;
   background: rgba(0, 0, 0, 0.7);
+}
+.header_panel_wrap.corporate .status {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background: #ccc;
+  left: 390px;
+  top: -25px;
+}
+.header_panel_wrap.corporate .status.on {
+  background: var(--success_color);
 }
 
 .header_panel_wrap.w h2, .header_panel_wrap.w h3, .header_panel_wrap.w h5, .header_panel_wrap.w .back {
