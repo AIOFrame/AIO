@@ -1542,15 +1542,13 @@ class FORM {
      * @param string $class Class
      * @param string $attr Additional attributes
      * @param string $i_class Class for i element positioned before text
-     * @param int $notify_time Time to notify
-     * @param int $reload_time Time to Reload
      * @param string $confirmation Text for confirmation
      * @param string $i_text Text for i element
      * @param string|int $pre Pre Wrap HTML or Bootstrap Column
      * @param string|int $post Post Wrap HTML
      */
-    function trash_html( string $table, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', int $notify_time = 2, int $reload_time = 2, string $confirmation = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): void {
-        echo $this->__trash_html( $table, $logic, $html, $text, $class, $attr, $i_class, $notify_time, $reload_time, $confirmation, $i_text, $pre, $post );
+    function trash_html( string $table, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', string $confirmation = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): void {
+        echo $this->__trash_html( $table, $logic, $html, $text, $class, $attr, $i_class, $confirmation, $i_text, $pre, $post );
     }
 
     /**

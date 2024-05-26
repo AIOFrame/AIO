@@ -705,13 +705,16 @@ function __table( array $rows = [], string $class = '', string $attr = '' ): str
  */
 function __card( string $class = '', string $title = '', string $link = '', string $desc = '', string|null $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], string $table_class = '', array $actions = [], string $actions_class = '', string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '', bool $show_edit = true, bool $show_delete = true ): string {
     $f = new FORM();
-    $return = !empty ( $link ) ? __pre('','card '.($class??''),'a','href="'.$link.'"') : __pre('','card '.($class ?? ''));
-    $return .= !is_null( $image ) ? ( str_contains( $image, '<' ) ? $image : __image( str_contains( $image, 'http' ) ? $image : storage_url( $image ), '', $image_class ) ) : '';
-    $return .= __pre('','head tac');
-    $return .= !empty( $title ) ? __el('h2','title grad',$title) : '';
-    $return .= !empty( $desc ) ? __el('h5','desc',$desc) : '';
-    $return .= __post();
-    $return .= !empty( $status ) ? __div('status '.$status_class,$status) : '';
+    global $options;
+    //skel( $options );
+    $icon_class = $options['icon_class'] ?? 'mico';
+    $return = ( !empty ( $link ) ? __pre('','card '.($class??''),'a','href="'.$link.'"') : __pre('','card '.($class ?? '')) )
+    . ( !is_null( $image ) ? ( str_contains( $image, '<' ) ? $image : __image( str_contains( $image, 'http' ) ? $image : storage_url( $image ), '', $image_class ) ) : '' )
+    . __pre('','head tac')
+    . ( !empty( $title ) ? __el('h2','title grad',$title) : '' )
+    . ( !empty( $desc ) ? __el('h5','desc',$desc) : '' )
+    . __post()
+    . ( !empty( $status ) ? __div('status '.$status_class,$status) : '' );
     if( !empty( $data ) ) {
         $return .= __table( [ 'body' => $data ], 'plain mb10 ' . $table_class );
     }
@@ -719,14 +722,14 @@ function __card( string $class = '', string $title = '', string $link = '', stri
         $return .= __pre( '', 'acts '. $actions_class );
         if( !empty( $actions ) ) {
             foreach( $actions as $act ) {
-                $return .= $f->__view_html( ( $act['url'] ?? '' ), $act['html'] ?? 'div', $act['title'] ?? ( $act['text'] ?? '' ), $act['class'] ?? ( $act['c'] ?? 'grad' ), $act['attr'] ?? ( $act['a'] ?? '' ), $act['icon_class'] ?? ( $act['ico_class'] ?? ( $act['icon'] ?? ( $act['ico'] ?? ( $act['i'] ?? ( $act['ic'] ?? 'ico' ) ) ) ) ), $act['icon_text'] ?? ( $act['ico_text'] ?? ( $act['icon'] ?? ( $act['ico'] ?? ( $act['it'] ?? '' ) ) ) ) );
+                $return .= $f->__view_html( ( $act['url'] ?? ( $act['href'] ?? ( $act['h'] ) ) ), $act['html'] ?? 'div', $act['title'] ?? ( $act['text'] ?? '' ), $act['class'] ?? ( $act['c'] ?? 'grad' ), $act['attr'] ?? ( $act['a'] ?? '' ), $act['icon_class'] ?? ( $act['ico_class'] ?? ( $act['icon'] ?? ( $act['ico'] ?? ( $act['i'] ?? ( $act['ic'] ?? 'ico' ) ) ) ) ), $act['icon_text'] ?? ( $act['ico_text'] ?? ( $act['icon'] ?? ( $act['ico'] ?? ( $act['it'] ?? '' ) ) ) ) );
             }
         }
         if( !empty( $edit_data ) && !empty( $edit_modal ) && $show_edit ) {
-            $return .= $f->__edit_html( $edit_modal, $edit_data, 'div', '', 'grad', '', 'mat-ico', 'edit' );
+            $return .= $f->__edit_html( $edit_modal, $edit_data, 'div', '', 'grad', '', $icon_class, ( $options['ico_edit'] ?? '' ) );
         }
         if( !empty( $delete_table ) && !empty( $delete_logic ) && $show_delete ) {
-            $return .= $f->__trash_html( $delete_table, $delete_logic, 'div', '', 'grad', '', 'mat-ico', 2, 2, 'Are you sure to delete?', 'delete' );
+            $return .= $f->__trash_html( $delete_table, $delete_logic, 'div', '', 'grad', '', $icon_class, 'Are you sure to delete?', ( $options['ico_delete'] ?? '' ) );
         }
         $return .= __post();
     }
