@@ -1461,7 +1461,7 @@ class FORM {
      * @param string|int $pre Pre Wrap HTML or Bootstrap Column
      * @param string|int $post Post Wrap HTML
      */
-    function view_html( string $url = '', string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): void {
+    function view_html( string $url = '', string $html = 'div', string $text = '', string $class = 'grad', string $attr = '', string $i_class = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): void {
         echo $this->__view_html( $url, $html, $text, $class, $attr, $i_class, $i_text, $pre, $post );
     }
 
@@ -1477,9 +1477,14 @@ class FORM {
      * @param string|int $pre Pre Wrap HTML or Bootstrap Column
      * @param string|int $post Post Wrap HTML
      */
-    function __view_html( string $url = '', string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): string {
+    function __view_html( string $url = '', string $html = 'div', string $text = '', string $class = 'grad', string $attr = '', string $i_class = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): string {
         $_p = $this->__pre( $pre );
         $p_ = $this->__post( $pre, $post );
+        global $options;
+        $icon_class = $options['icon_class'] ?? 'mico';
+        $i_class = !empty( $i_class ) ? $i_class : $icon_class;
+        $edit_icon = $options['ico_view'] ?? 'file_open';
+        $i_text = !empty( $i_text ) ? $i_text : $edit_icon;
         $i = !empty( $i_class ) ? __el( 'i', $i_class, $i_text ) : '';
         $title = str_contains( $attr, 'title' ) ? '' : 'title="'.T('View').'"';
         //skel( $html );
