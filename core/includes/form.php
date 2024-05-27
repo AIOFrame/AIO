@@ -1389,7 +1389,7 @@ class FORM {
      * @param string $icon Icon text to display
      * @param string $icon_class Icon class to display
      */
-    function process_trigger( string $text = '', string $class = '', string $attr = '', string $action = '', string|int $pre = '', int|string $post = '', string $element = 'button', string $confirm = '', string $icon = 'save', string $icon_class = 'mico' ): void {
+    function process_trigger( string $text = '', string $class = '', string $attr = '', string $action = '', string|int $pre = '', int|string $post = '', string $element = 'button', string $confirm = '', string $icon = 'save', string $icon_class = '' ): void {
         echo $this->__process_trigger( $text, $class, $attr, $action, $pre, $post, $element, $confirm, $icon, $icon_class );
     }
 
@@ -1406,11 +1406,12 @@ class FORM {
      * @param string $icon Icon text to display
      * @param string $icon_class Icon class to display
      */
-    function __process_trigger( string $text = 'Save', string $class = '', string $attr = '', string $action = '', string|int $pre = '', int|string $post = '', string $element = 'button', string $confirm = '', string $icon = 'save', string $icon_class = 'mico' ): string {
+    function __process_trigger( string $text = 'Save', string $class = '', string $attr = '', string $action = '', string|int $pre = '', int|string $post = '', string $element = 'button', string $confirm = '', string $icon = 'save', string $icon_class = '' ): string {
         $_p = $this->__pre( $pre );
         $p_ = $this->__post( $pre, $post );
         $c = Encrypt::initiate();
         global $options;
+        $icon_class = $options['icon_class'] ?? 'mico';
         //$action = empty( $action ) ? 'process_data_ajax' : $action;
         $a = $attr;
         $a .= !empty( $action ) ? ' data-action="'. ( APPDEBUG ? $action : $c->encrypt($action) ) .'"' : '';
@@ -1482,7 +1483,7 @@ class FORM {
         $p_ = $this->__post( $pre, $post );
         global $options;
         $icon_class = $options['icon_class'] ?? 'mico';
-        $i_class = !empty( $i_class ) ? $i_class : $icon_class;
+        $i_class = ( !empty( $i_class ) ? $i_class : $icon_class ) . ' ico';
         $edit_icon = $options['ico_view'] ?? 'file_open';
         $i_text = !empty( $i_text ) ? $i_text : $edit_icon;
         $i = !empty( $i_class ) ? __el( 'i', $i_class, $i_text ) : '';
@@ -1526,7 +1527,7 @@ class FORM {
         //$c = Encrypt::initiate();
         global $options;
         $icon_class = $options['icon_class'] ?? 'mico';
-        $i_class = !empty( $i_class ) ? $i_class : $icon_class;
+        $i_class = ( !empty( $i_class ) ? $i_class : $icon_class ) . ' ico';
         $edit_icon = $options['ico_edit'] ?? 'border_color';
         $i_text = !empty( $i_text ) ? $i_text : $edit_icon;
         $_p = $this->__pre( $pre );
@@ -1553,7 +1554,7 @@ class FORM {
      * @param string|int $post Post Wrap HTML
      */
     function trash_html( string $table, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $confirmation = 'Are you sure to Delete ?', string $i_class = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): void {
-        echo $this->__trash_html( $table, $logic, $html, $text, $class, $attr, $i_class, $i_text, $confirmation, $pre, $post );
+        echo $this->__trash_html( $table, $logic, $html, $text, $class, $attr, $confirmation, $i_class, $i_text, $pre, $post );
     }
 
     /**
@@ -1573,7 +1574,8 @@ class FORM {
     function __trash_html( string $table, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $confirmation = 'Are you sure to Delete ?', string $i_class = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): string {
         global $options;
         $icon_class = $options['icon_class'] ?? 'mico';
-        $i_class = !empty( $i_class ) ? $i_class : $icon_class;
+        $i_class = ( !empty( $i_class ) ? $i_class : $icon_class ) . ' ico';
+        skel( $i_text );
         //skel( $options );
         $trash_icon = $options['ico_delete'] ?? 'delete';
         $i_text = !empty( $i_text ) ? $i_text : $trash_icon;
