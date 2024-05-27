@@ -128,6 +128,10 @@ $error: var(--error_color);
     height:auto;
     color:#000;
     position: relative;
+    border-bottom: 2px solid transparent;
+  }
+  .tab.on {
+    border-bottom: 2px solid #000;
   }
   > div > .tab.on:after {
     content:'';

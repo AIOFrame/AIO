@@ -123,6 +123,10 @@
   height: auto;
   color: #000;
   position: relative;
+  border-bottom: 2px solid transparent;
+}
+.tabs.material .tab.on {
+  border-bottom: 2px solid #000;
 }
 .tabs.material > div > .tab.on:after {
   content: "";

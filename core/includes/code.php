@@ -727,10 +727,10 @@ function __card( string $class = '', string $title = '', string $link = '', stri
             }
         }
         if( !empty( $edit_data ) && !empty( $edit_modal ) && $show_edit ) {
-            $return .= $f->__edit_html( $edit_modal, $edit_data, 'div', '', 'grad', '', $icon_class, ( $options['ico_edit'] ?? '' ) );
+            $return .= $f->__edit_html( $edit_modal, $edit_data, 'div', '', 'grad' );
         }
         if( !empty( $delete_table ) && !empty( $delete_logic ) && $show_delete ) {
-            $return .= $f->__trash_html( $delete_table, $delete_logic, 'div', '', 'grad', '', $icon_class, 'Are you sure to delete?', ( $options['ico_delete'] ?? '' ) );
+            $return .= $f->__trash_html( $delete_table, $delete_logic, 'div', '', 'grad' );
         }
         $return .= __post();
     }

@@ -366,7 +366,7 @@ button.bsn, .btn.bsn, button.bsn:hover, .btn.bsn:hover, button.ns, .btn.ns, .btn
   border-bottom-right-radius: 5px;
 }
 
-button.store, button.save, button.grad {
+button.store, button.save, button.grad, .btn.grad {
   display: inline-flex;
   gap: 6px;
   justify-content: center;
@@ -382,14 +382,14 @@ button.store, button.save, button.grad {
     left: 8px;
   } */
 }
-button.store .ico.mico, button.save .ico.mico, button.grad .ico.mico {
+button.store .ico.mico, button.save .ico.mico, button.grad .ico.mico, .btn.grad .ico.mico {
   font-size: 1.4rem;
 }
-button.store .ico.bi:before, button.save .ico.bi:before, button.grad .ico.bi:before {
+button.store .ico.bi:before, button.save .ico.bi:before, button.grad .ico.bi:before, .btn.grad .ico.bi:before {
   font-size: 1rem;
   line-height: 20px;
 }
-button.store .loader, button.save .loader, button.grad .loader {
+button.store .loader, button.save .loader, button.grad .loader, .btn.grad .loader {
   display: none;
 }
 

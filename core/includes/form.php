@@ -1552,8 +1552,8 @@ class FORM {
      * @param string|int $pre Pre Wrap HTML or Bootstrap Column
      * @param string|int $post Post Wrap HTML
      */
-    function trash_html( string $table, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', string $confirmation = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): void {
-        echo $this->__trash_html( $table, $logic, $html, $text, $class, $attr, $i_class, $confirmation, $i_text, $pre, $post );
+    function trash_html( string $table, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $confirmation = 'Are you sure to Delete ?', string $i_class = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): void {
+        echo $this->__trash_html( $table, $logic, $html, $text, $class, $attr, $i_class, $i_text, $confirmation, $pre, $post );
     }
 
     /**
@@ -1570,7 +1570,7 @@ class FORM {
      * @param string|int $pre Pre Wrap HTML or Bootstrap Column
      * @param string|int $post Post Wrap HTML
      */
-    function __trash_html( string $table, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', string $confirmation = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): string {
+    function __trash_html( string $table, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $confirmation = 'Are you sure to Delete ?', string $i_class = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): string {
         global $options;
         $icon_class = $options['icon_class'] ?? 'mico';
         $i_class = !empty( $i_class ) ? $i_class : $icon_class;

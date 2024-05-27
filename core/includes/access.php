@@ -1297,28 +1297,48 @@ function tabbed_access_options(): void {
     d_();
 }
 
-function _user_card( string $class = '', array $user = [], string $pic_class = 'pic', array $data = [], string $edit_modal = '#user_modal', string $table = '', string $trash_logic = '' ): string {
+function __user_card( string $class = '', array|int $user = [], string $type = '', string $pic_class = 'pic', string|array $data = 'email', string $edit_modal = '#user_modal', string $table = '', string $trash_logic = '' ): string {
     $f = new FORM();
+    if( is_numeric( $user ) ) {
+        $d = new DB();
+        $user = $d->select( 'users', '', 'user_id = '.$user, 1 );
+    }
     $pic = $user['user_picture'] ?? '';
     $pic = !empty( $pic ) ? storage_url( $pic ) : '';
-    $r = __pre( '', $class );
-    $r .= __div( 'status '.( $user['user_status'] == 1 ? 'g' : 'error' ) , ( $user['user_status'] == 1 ? T('Active') : T('Inactive') ) );
-    $r .= __image( $pic, '', $pic_class );
-    $r .= __div( 'tac', __div( 'id grad-bg', ( $user['user_name'] ?? '' ) ) . __div( 'type grad-bg', ( $user['user_email'] ?? '' ) ) );
+    $r = __pre( '', $class )
+    . __div( 'status '.( $user['user_status'] == 1 ? 'g' : 'error' ) , ( $user['user_status'] == 1 ? T('Active') : T('Inactive') ) )
+    . __image( $pic, '', $pic_class )
+    . __div( 'tac', __div( 'id grad-bg', ( $user['user_name'] ?? '' ) ) . __div( 'type grad-bg', $type ) );
     if( !empty( $data ) ) {
+        $data = is_array( $data ) ? $data : explode( ',', $data );
         $table_data = [];
-        foreach( $data as $k => $v ) {
-            $table_data['body'][] = [ $k, $v ];
+        foreach( $data as $k ) {
+            //skel( 'user_'.$k );
+            if( isset( $user['user_'.$k] ) ) {
+                $v = $k == 'phone' ? ( $user['user_phone_code'] . $user['user_phone'] ) : $user['user_'.$k];
+                $table_data['body'][] = [ ucwords( str_replace( '_', '', $k ) ), $v ];
+            }
         }
         $r .= __table( $table_data, 'xs plain' );
     }
-    $r .= __pre( '', 'acts' );
-        $r .= $f->__edit_html( $edit_modal, $user );
-        $r .= $f->__trash_html( $table, $trash_logic );
-    $r .= __post() . __post();
+    $r .= __pre( '', 'acts' )
+        . $f->__edit_html( $edit_modal, $user )
+        . $f->__trash_html( $table, $trash_logic )
+    . __post() . __post();
     return $r;
 }
 
-function user_card( string $class = '', array $user = [], string $pic_class = 'pic', array $data = [], string $edit_modal = '#user_modal', string $table = '', string $trash_logic = '' ): void {
-    echo _user_card( $class, $user, $pic_class, $data, $edit_modal, $table, $trash_logic );
+/**
+ * @param string $class
+ * @param array|int $user
+ * @param string $type
+ * @param string $pic_class
+ * @param string|array $data
+ * @param string $edit_modal
+ * @param string $table
+ * @param string $trash_logic
+ * @return void
+ */
+function user_card( string $class = '', array|int $user = [], string $type = '', string $pic_class = 'pic', string|array $data = 'email', string $edit_modal = '#user_modal', string $table = '', string $trash_logic = '' ): void {
+    echo __user_card( $class, $user, $type, $pic_class, $data, $edit_modal, $table, $trash_logic );
 }
