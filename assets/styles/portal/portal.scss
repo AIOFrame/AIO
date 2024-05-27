@@ -31,10 +31,10 @@ $color-dark: var(--input_color_dark);
 $color-active-dark: var(--input_color_active_dark);
 
 body.modal_open {
-  article > div:not(.header), article > table, .actions.float {
-    filter: blur(8px);
-    -webkit-filter: blur(8px);
-    opacity: .3;
+  article > div:not(.header,.actions), article > table {
+    //filter: blur(8px);
+    //-webkit-filter: blur(8px);
+    opacity: .05;
     pointer-events: none;
   }
 }

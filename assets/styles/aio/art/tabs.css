@@ -124,7 +124,7 @@
   color: #000;
   position: relative;
 }
-.tabs.material > div > .tab.on:after {
+.tabs.material > div > .tab.on:after, .tabs.material > div > div > .tab.on:after {
   content: "";
   position: absolute;
   width: calc(100% - 40px);

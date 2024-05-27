@@ -133,7 +133,7 @@ $error: var(--error_color);
   .tab.on {
     //border-bottom: 2px solid #000;
   }
-  > div > .tab.on:after {
+  > div > .tab.on:after, > div > div > .tab.on:after {
     content:'';
     position: absolute;
     width: calc(100% - 40px);
