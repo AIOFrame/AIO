@@ -1575,8 +1575,6 @@ class FORM {
         global $options;
         $icon_class = $options['icon_class'] ?? 'mico';
         $i_class = ( !empty( $i_class ) ? $i_class : $icon_class ) . ' ico';
-        skel( $i_text );
-        //skel( $options );
         $trash_icon = $options['ico_delete'] ?? 'delete';
         $i_text = !empty( $i_text ) ? $i_text : $trash_icon;
         $_p = $this->__pre( $pre );
