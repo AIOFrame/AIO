@@ -545,32 +545,33 @@ function header_panel( string $style = '', string $name = '', string $logo = '',
     d_();
 }
 
-function __file_card( string $name = '', string $file_url = '', bool $show_download = true, bool $show_meta = true, string $class = 'card br8 nf', string $button_class = 'r bsn grey' ): string {
+function __file_card( string $name = '', string $file_url = '', string $button_class = 'r bsn grey', bool $show_meta = true, string $class = 'card br8 nf' ): string {
     global $options;
     $icon_class = $options['icon_class'] ?? 'mico';
     $down_icon = $options['ico_download'] ?? 'download_for_offline';
     $file_icon = $options['ico_empty_file'] ?? 'insert_drive_file';
     $data = $meta = [];
+    $file_url = str_contains( 'http', $file_url ) ? $file_url : storage_url( $file_url );
     if( $show_meta ) {
         //skel( str_replace( APPURL . 'apps/' . APPDIR, '', $file_url ) );
         $meta = get_file_meta( str_replace( APPURL . 'apps/' . APPDIR, '', $file_url ) );
         $data = [ 'Type' => ( $meta['file_type'] ?? '' ), 'Size' => ( $meta['file_size'] ?? '' ).'kb', 'Uploaded by' => ( $meta['user_name'] ?? '' ) ];
     }
-    $r = _a( $file_url, $class . ' file_card' );
+    $r = _a( $file_url, $class . ' file_card', 'View '.$name, '', '', '_blank' );
         $r .= __pre( '', 'df g2' );
             $r .= __pre( '', 'file_icon' );
                 $r .= __div( $icon_class . ' icon ' . ( $show_meta ? $file_icon : $down_icon ), ( $show_meta ? $file_icon : $down_icon ) );
             $r .= __post();
             $r .= __pre( '', 'file_details' );
                 $r .= __h3( !empty( $name ) ? $name : ( $meta['file_name'] ?? '' ) );
-                $r .= __render_details( '', $data );
-                $r .= $show_download ? __div( $button_class . ' s m0 btn download_link', T('Download') ) : '';
+                $r .= __render_details( '', $data, 4, 'ml-20' );
+                $r .= __div( $button_class . ' m0 btn download_link', T('Download') );
             $r .= __post();
         $r .= __post();
     $r .= a_();
     return $r;
 }
 
-function file_card( string $name = '', string $file_url = '', bool $show_download = true, bool $show_meta = true, string $class = 'card br8 nf', string $button_class = 'r bsn grey' ): void {
-    echo __file_card( $name, $file_url, $show_download, $show_meta, $class, $button_class );
+function file_card( string $name = '', string $file_url = '', string $button_class = 'r bsn grey', bool $show_meta = true, string $class = 'card br8 nf' ): void {
+    echo __file_card( $name, $file_url, $button_class, $show_meta, $class );
 }
