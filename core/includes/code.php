@@ -1168,10 +1168,10 @@ function __step_heads( array $steps = [], string $style = '', bool $translate_ti
         $data .= __pre( '', 'step_heads fluid' );
             $x = 0;
             foreach( $steps as $s ) {
-                $title = is_assoc( $steps ) ? $s['title'] ?? ( $s['name'] ?? ( $s['t'] ?? ( $s['n'] ?? '' ) ) ) : $s;
+                $title = is_assoc( $steps ) || is_array( $s ) ? $s['title'] ?? ( $s['name'] ?? ( $s['t'] ?? ( $s['n'] ?? '' ) ) ) : $s;
                 $id = str_replace(' ','_',strtolower( $title ));
                 $icon = $s['icon'] ?? ( $s['ico'] ?? ( $s['i'] ?? '' ) );
-                $ic = $s['icon_class'] ?? ( $s['ic'] ?? 'mat-ico' );
+                $ic = $s['icon_class'] ?? ( $s['ic'] ?? 'mico ico' );
                 $big_title = ( empty( $icon ) ? __div( 'step_no', $x + 1 ) : '' ) . ( !empty( $icon ) ? __div( $ic.' step_no ico', $icon ) : '' ) . __div( 'step_title', $title );
                 $color = $s['color'] ?? ( $s['c'] ?? '' );
                 $color = !empty( $color ) ? 'style="background-color:'.$color.'"' : '';
