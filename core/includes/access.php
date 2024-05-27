@@ -1297,7 +1297,7 @@ function tabbed_access_options(): void {
     d_();
 }
 
-function __user_card( string $class = '', array|int $user = [], string $type = '', string $pic_class = 'pic', string|array $data = 'email', string $edit_modal = '#user_modal', string $table = '', string $trash_logic = '' ): string {
+function __user_card( string $class = '', array|int $user = [], string $type = '', string $pic_class = 'pic', string|array $data = 'email', string $edit_modal = '#user_modal', string $trash_table = '', string $trash_logic = '' ): string {
     $f = new FORM();
     if( is_numeric( $user ) ) {
         $d = new DB();
@@ -1322,8 +1322,8 @@ function __user_card( string $class = '', array|int $user = [], string $type = '
         $r .= __table( $table_data, 'xs plain' );
     }
     $r .= __pre( '', 'acts' )
-        . $f->__edit_html( $edit_modal, $user )
-        . $f->__trash_html( $table, $trash_logic )
+        . ( !empty( $edit_modal ) ? $f->__edit_html( $edit_modal, $user ) : '' )
+        . ( !empty( $trash_table ) ? $f->__trash_html( $trash_table, $trash_logic ) : '' )
     . __post() . __post();
     return $r;
 }

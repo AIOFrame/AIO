@@ -639,15 +639,13 @@ a.brand {
   justify-content: center;
 }
 .header .tabs > a, .header .tabs > div, .header .views > a, .header .views > div {
-  padding: 0;
   display: block;
   position: relative;
   opacity: 0.3;
   cursor: pointer;
   box-shadow: none;
-  width: 50px;
-  height: 50px;
   text-align: center;
+  padding: 10px;
 }
 .header .tabs > a > div, .header .tabs > a > i, .header .tabs > div > div, .header .tabs > div > i, .header .views > a > div, .header .views > a > i, .header .views > div > div, .header .views > div > i {
   line-height: 50px;
@@ -671,6 +669,11 @@ a.brand {
   background: var(--primary_color);
   position: absolute;
   width: calc(100% - 20px);
+}
+.header .views a {
+  width: 50px;
+  padding: 0;
+  height: 50px;
 }
 .header .status, .header .high {
   position: absolute;

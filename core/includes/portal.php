@@ -458,11 +458,12 @@ class PORTAL {
  * @param string|array $comp_or_actions String of comp path or array of actions
  * @return void
  */
-function title_bar( string $title = PAGENAME, string $back_url = '', string $list_view = '', string $grid_view = '', string $active_view = '', bool $show_search = false, string|array $comp_or_actions = [] ): void {
+function title_bar( string $title = PAGENAME, string $back_url = '', string $list_view = '', string $grid_view = '', string $active_view = '', bool $show_search = false, string|array $comp_or_actions = [], string|array $center_tabs = [] ): void {
     global $options;
+    $icon_class = ( $options['icon_class'] ?? 'mico' ) . ' ico';
     pre( '', 'header df aic jsb', 'header' );
         pre( '', 'left df aic' );
-            !empty( $back_url ) ? a( APPURL.$back_url, $options['ico_back'] ?? '', ( $options['icon_class'] ?? '' ) . ' back ' . ( $options['ico_back'] ?? '' ), T('Return'), '', ) : '';
+            !empty( $back_url ) ? a( APPURL.$back_url, $options['ico_back'] ?? '', $icon_class . ' back ' . ( $options['ico_back'] ?? '' ), T('Return') ) : '';
             !empty( $title ) ? h1( $title, 1, 'title' ) : '';
         post();
 
@@ -472,16 +473,18 @@ function title_bar( string $title = PAGENAME, string $back_url = '', string $lis
                 pre( '', 'views df' );
                     if( !empty( $list_view ) ){
                         pre( '', 'list_toggle'.($active_view == $list_view ? ' on' : ''), 'div', 'data-show="'.$list_view.'" data-off=".grid_toggle" data-on=".list_toggle" '.(!empty( $grid_view ) ? 'data-hide="'.$grid_view.'"' : '') );
-                            div( ( $options['icon_class'] ?? '' ) . ' ' . ( $options['ico_list_view'] ?? '' ), $options['ico_list_view'] ?? '' );
+                            div( $icon_class . ' ' . ( $options['ico_list_view'] ?? '' ), $options['ico_list_view'] ?? 'view_stream' );
                         post();
                     }
                     if( !empty( $grid_view ) ){
                         pre( '', 'grid_toggle'.($active_view == $grid_view ? ' on' : ''), 'div', 'data-show="'.$grid_view.'" data-on=".grid_toggle" data-off=".list_toggle" '.(!empty( $list_view ) ? 'data-hide="'.$list_view.'"' : '') );
-                            div( ( $options['icon_class'] ?? '' ) . ' ' . ( $options['ico_grid_view'] ?? '' ), $options['ico_grid_view'] ?? '' );
+                            div( $icon_class . ' ' . ( $options['ico_grid_view'] ?? '' ), $options['ico_grid_view'] ?? 'grid_view' );
                         post();
                     }
                 post();
             }
+            if( !empty( $actions ) || !empty( $center_tabs ) )
+                is_array( $center_tabs ) ? div( 'actions' ) : get_comp( $center_tabs );
         post();
 
         pre( '', 'right df aic' );
