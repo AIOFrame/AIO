@@ -8,7 +8,7 @@ global $options;
 if( isset( $options['regions'] ) || isset( $options['region'] ) || isset( $options['base_region'] ) ) {
     require_once( ROOTPATH . 'core/modules/world.php' );
     $w = new WORLD();
-    $set_regions = array_map( 'trim', explode( ',', $options['regions'] ) );
+    $set_regions = array_map( 'trim', explode( ',', $options['regions'] ?? '' ) );
     $now_region = $options['region'] ?? ( !empty( $options['base_region'] ) ? $options['base_region'] : $set_regions[0] );
     if( !empty( $options['regions'] ) && !defined( 'REGIONS' ) ) {
         $regions = [];
@@ -45,7 +45,7 @@ if( isset( $options['regions'] ) || isset( $options['region'] ) || isset( $optio
         define( 'REGIONS', $regions );
         //!defined( 'REGIONS' ) ? define( 'REGIONS', $options['regions'] ) : '';
     }
-    if( !defined( 'REGION' ) ) {
+    if( !defined( 'REGION' ) && defined( 'REGIONS' ) ) {
         $region = REGIONS['now'] ?? get_region( $now_region );
         define( 'REGION', $region );
     }

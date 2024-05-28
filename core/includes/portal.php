@@ -192,7 +192,10 @@ class PORTAL {
         $e = Encrypt::initiate();
         global $light_mode;
         global $options;
-        //skel( $light_mode );
+        $region = $options['region'] ?? '';
+        $region = !empty( $region ) ? strtolower( $region ) . '_' : '';
+        //skel( $options );
+        //skel( $region.'logo_light' );
         //$c = json_decode( CONFIG, 1 );
         $c = CONFIG;
         $icon = $options['icon_class'] ?? 'mico';
@@ -200,7 +203,8 @@ class PORTAL {
         $down_ico = $options['ico_dropdown'] ?? 'expand_more';
         // TODO: Implement most params to be from user options
 
-        $logo = $light_mode == 'l' ? ( $options['logo_light'] ?? '' ) : ( $options['logo_dark'] ?? '' );
+        $logo = $light_mode == 'l' ? ( $options[$region.'logo_light'] ?? '' ) : ( $options[$region.'logo_dark'] ?? '' );
+        $logo = empty( $logo ) ? ( $light_mode == 'l' ? ( $options['logo_light'] ?? '' ) : ( $options['logo_dark'] ?? '' ) ) : $logo;
         $logo = !empty( $logo ) ? 'style="background:url(\''.storage_url( $logo ).'\') no-repeat center / contain"' : '';
         //skel( $logo );
         //skel( $options['logo_light'] );
@@ -456,6 +460,7 @@ class PORTAL {
  * @param string $active_view Active view either list or grid
  * @param bool $show_search To show a search input
  * @param string|array $comp_or_actions String of comp path or array of actions
+ * @param string|array $center_tabs
  * @return void
  */
 function title_bar( string $title = PAGENAME, string $back_url = '', string $list_view = '', string $grid_view = '', string $active_view = '', bool $show_search = false, string|array $comp_or_actions = [], string|array $center_tabs = [] ): void {

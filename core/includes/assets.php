@@ -543,19 +543,23 @@ function body_class( string $class = '' ): void {
  * @param bool $join_app_name
  */
 function get_title( string $title = '', bool $join_app_name = true ): void {
-    $app_name = defined( 'APP_NAME' ) ? APP_NAME : ( defined( 'APPNAME' ) ? APPNAME : '' );
+    global $options;
+    $region = $options['region'] ?? '';
+    $region = !empty( $region ) ? strtolower( $region ) . '_' : '';
+    //$app_name = defined( 'APP_NAME' ) ? APP_NAME : ( defined( 'APPNAME' ) ? APPNAME : '' );
+    $app_name = $options[ $region . 'app_name' ] ?? ( $options['app_name'] ?? ( defined( 'APP_NAME' ) ? APP_NAME : ( defined( 'APPNAME' ) ? APPNAME : 'AIO Application' ) ) );
     $add = $join_app_name ? ' - '.T( $app_name ) : '';
     if( !empty( $title ) ) {
-        echo '<title>'.$title.$add.'</title>';
+        el( 'title', '', $title.$add );
         return;
     }
     if( defined( 'PAGE' ) && !empty( PAGE ) ) {
         $p = PAGE == 'index' ? 'Welcome' : PAGE;
         $pp = explode('/',PAGEPATH);
         $p = is_numeric( $p ) ? $pp[count($pp)-1] : $p;
-        echo '<title>'.T( ucwords( str_replace('-',' ', str_replace('_',' ', $p )) ) ) .$add.'</title>';
+        el( 'title', '', T( ucwords( str_replace('-',' ', str_replace('_',' ', $p )) ) ) .$add );
     } else {
-        echo '<title>'.T( $app_name ).'</title>';
+        el( 'title', '', T( $app_name ) );
     }
 }
 
@@ -581,7 +585,8 @@ function APPURL( string $link ): void {
  * @param string $title
  */
 function back_link( string $url = './', string $title = '' ): void {
-    echo '<a id="back" class="nico" href="'.$url.'">'.$title.'</a>';
+    $url = APPURL . $url;
+    a( APPURL . $url, $title, 'nico', T('Go Back'), 'id="back"' );
 }
 
 /**
@@ -589,7 +594,7 @@ function back_link( string $url = './', string $title = '' ): void {
  * @param string $class Additional Class
  */
 function call_link( string $number = '', string $class = '' ): void {
-    echo '<a href="tel:'.$number.'" class="call_link '.$class.'">'.$number.'</a>';
+    a( 'tel:' . $number, $number, 'call_link '.$class, $number );
 }
 
 /**
@@ -597,7 +602,7 @@ function call_link( string $number = '', string $class = '' ): void {
  * @param string $class Additional Class
  */
 function mail_link( string $email = '', string $class = '' ): void {
-    echo '<a href="mailto:'.$email.'" class="mail_link '.$class.'">'.$email.'</a>';
+    a( 'mailto:' . $email, $email, 'mail_link '.$class, $email );
 }
 
 /**

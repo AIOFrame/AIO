@@ -234,12 +234,12 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
     }
     $color1 = strlen( $color1 ) == 6 ? '#' . $color1 : $color1;
     $color2 = strlen( $color2 ) == 6 ? '#' . $color2 : $color2;
-    $light_logo = !empty( $options['logo_light'] ) ? storage_url( $options['logo_light'] ) : APPURL . 'assets/images/aio.svg';
-    $dark_logo = !empty( $options['logo_dark'] ) ? storage_url( $options['logo_dark'] ) : APPURL . 'assets/images/aio.svg';
-    $logo = $light_mode == 'l' ? $light_logo : $dark_logo;
+    //$light_logo = !empty( $options['logo_light'] ) ? storage_url( $options['logo_light'] ) : APPURL . 'assets/images/aio.svg';
+    //$dark_logo = !empty( $options['logo_dark'] ) ? storage_url( $options['logo_dark'] ) : APPURL . 'assets/images/aio.svg';
+    //$logo = $light_mode == 'l' ? $light_logo : $dark_logo;
     echo '<style>:root {';
     echo '--dark_mode:'.$light_mode.';';
-    echo "--logo:url($logo);--light_logo:url($light_logo);--dark_logo:url($dark_logo);";
+    //echo "--logo:url($logo);--light_logo:url($light_logo);--dark_logo:url($dark_logo);";
     echo '--primary_color:'.$color1.';--secondary_color:'.$color2.';--color:'.$color.';--filled_color:'.$filled_color.';--disabled_color:'.$disabled.';--info_color:'.$info.';--progress_color:'.$progress.';--warning_color:'.$warning.';--error_color:'.$error.';--success_color:'.$success;
     echo '}.c1{color:'.$color1.'}.c2{color:'.$color2.'}.bg1{background:'.$color1.'}.bg2{background:'.$color2.'}.bs{border:1px solid '.$color1.'}.bf:focus{border:1px solid var(--primary_color)}.grad{color:var(--filled_color);background-color:var(--primary_color);background:-moz-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background:-webkit-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background-image:linear-gradient(45deg,var(--primary_color) 0%,var(--secondary_color) 100%);}.grad-text{background: -webkit-linear-gradient(var(--primary_color), var(--secondary_color));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}</style>';
 

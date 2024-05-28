@@ -1200,9 +1200,11 @@ fieldset {
 /* Tabs */
 .vertical_tabs {
   padding: 20px 0;
+  max-height: calc(100vh - 150px);
+  overflow-y: auto;
 }
 .vertical_tabs div {
-  padding: 15px 0;
+  padding: 10px 0;
   text-align: center;
   cursor: pointer;
   border-top: 1px solid transparent;
