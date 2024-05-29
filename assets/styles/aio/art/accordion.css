@@ -77,4 +77,9 @@
   border-bottom: 1px solid var(--primary_color);
 }
 
+[dir=rtl] .accordion .accordion_head .act, [dir=rtl] .accordion .accordion_head .actions {
+  right: auto;
+  left: 5px;
+}
+
 /*# sourceMappingURL=accordion.css.map */

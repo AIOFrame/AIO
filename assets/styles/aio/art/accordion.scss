@@ -80,3 +80,13 @@
     border-bottom: 1px solid var(--primary_color);
   }
 }
+[dir=rtl] {
+  .accordion {
+    .accordion_head {
+      .act, .actions {
+        right: auto;
+        left: 5px;
+      }
+    }
+  }
+}

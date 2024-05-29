@@ -284,6 +284,10 @@ function set_language( string $language = '' ): void {
     }
 }
 
+function current_language(): string {
+    return isset( $_SESSION['lang'] ) ? $_SESSION['lang'] : 'en';
+}
+
 /**
  * Set PHP Session of their preferred language choice by AJAX
  * @return void

@@ -413,6 +413,38 @@ function el( string $element = 'div', string $class = '', string $content = '', 
     echo __el( $element, $class, $content, $id, $attrs, $translate );
 }
 
+function __p( string $content = '', bool $translate = true, string $class = '', string $attrs = '' ): string {
+    return __el( 'p', $class, $content, '', $attrs, $translate );
+}
+
+function p( string $content = '', bool $translate = true, string $class = '', string $attrs = '' ): void {
+    echo __p( $content, $translate, $class, $attrs );
+}
+
+function __ol( array $list = [], bool $translate = true, string $class = '', string $attrs = '' ): string {
+    $ls = '';
+    foreach( $list as $l ) {
+        $ls .= __el( 'li', '', $translate ? T( $l ) : $l );
+    }
+    return __el( 'ol', $class, $ls, '', $attrs, 0 );
+}
+
+function ol( array $list = [], bool $translate = true, string $class = '', string $attrs = '' ): void {
+    echo __ol( $list, $translate, $class, $attrs );
+}
+
+function __ul( array $list = [], bool $translate = true, string $class = '', string $attrs = '' ): string {
+    $ls = '';
+    foreach( $list as $l ) {
+        $ls .= __el( 'li', '', $translate ? T( $l ) : $l );
+    }
+    return __el( 'ul', $class, $ls, '', $attrs, 0 );
+}
+
+function ul( array $list = [], bool $translate = true, string $class = '', string $attrs = '' ): void {
+    echo __ul( $list, $translate, $class, $attrs );
+}
+
 function _article( string $class = '', string $attr = '', string $id = '' ): void {
     echo __article( $class, $attr, $id );
 }
