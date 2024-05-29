@@ -561,7 +561,7 @@ class OPTIONS {
         unset( $all_languages['en'] );
         $languages = $db->get_option('languages');
         $form = [
-            [ 'i' => $r.'languages', 'n' => 'Set Languages', 'p' => 'Choose Languages...', 'o' => $all_languages, 'v' => $languages, 'a' => 'data-al multiple' ],
+            [ 'i' => $r.'languages', 'n' => 'Set Languages', 'p' => 'Choose Languages...', 'o' => $all_languages, 'v' => $languages, 'a' => 'data-al multiple', 'k' => 1, 't' => 'select2' ],
         ];
         $this->form( $form, 'row', 0, 'al', $this->region_flag().'Save Language Options', '', 'Successfully saved language options!', $r.'languages' );
         div( 'region_info', 'English is default, you can add additional languages.', '', 'style="text-align:center; font-size: .8rem"', 1 );

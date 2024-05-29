@@ -1,12 +1,15 @@
 $(document).ready( function() {
 
-    // CHANGE LANGUAGE
+    // Change language on button click
     $('body').on('click','[data-lang]',function(){
-        post( $(this).parents('data-language'), { 'lang' : $(this).data('lang') }, '', 1 );
+        //console.log( $(this).parents('data-language') );
+        //console.log( $(this).data('lang') );
+        post( $(this).parents('data-language'), { 'lang' : $(this).data('lang') } );
     })
 
+    // Change language on select change
     .on('change','[data-languages]',function(){
-        post( $(this).data('language'), { 'lang' : $(this).val() }, '', 1 );
+        post( $(this).data('language'), { 'lang' : $(this).val() } );
     });
 
 });

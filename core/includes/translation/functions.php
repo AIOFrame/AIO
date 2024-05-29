@@ -211,14 +211,16 @@ function app_languages() {
         }
     }
     return $final_languages; */
-    $db = new DB();
     global $options;
+    //skel( $options );
     $languages = $options['languages'] ?? '';
 
     if( !empty( $languages ) ) {
         $n = explode( ',', str_replace( ' ', '', $languages ) );
         if( is_array( $n ) ) {
+            //skel( $n );
             $all_languages = get_languages();
+            //skel( $all_languages );
             if( !empty( $all_languages ) ) {
                 $data['en'] = 'English';
                 foreach ($n as $ln) {

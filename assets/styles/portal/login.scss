@@ -148,6 +148,33 @@ input.empty {
   width:100%;
   text-align: center;
 }
+.access_addons_wrap {
+  > div:first-child {
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+    margin-top: 20px;
+  }
+}
+.access_lang_wrap {
+  text-align: center;
+}
+.languages {
+  display: inline-flex;
+  background: rgba(0, 0, 0, 0.1);
+  padding: 5px;
+  border-radius: 20px;
+  align-items: center;
+  justify-content: center;
+  > div {
+    display: block;
+    padding: 5px 10px;
+    text-transform: uppercase;
+  }
+  > div.on {
+    background: #fff;
+    border-radius: 25px;
+  }
+}
 
 @media (min-width: 320px) and (max-width: 1024px) {
   .access_wrap {

@@ -468,6 +468,8 @@ class ACCESS {
         //[ 'i' => 'ac_show_a11y', 't' => 'slide', 'n' => 'Show Accessibility', 'c' => 4, 'no' => 'Hide', 'yes' => 'Show', 'v' => 1 ],
         //[ 'i' => 'ac_show_dark', 't' => 'slide', 'n' => 'Show Dark Mode Toggle', 'c' => 4, 'no' => 'Hide', 'yes' => 'Show', 'v' => 1 ],
         [ 'i' => 'ac_show_labels', 't' => 'slide', 'n' => 'Show Input Labels?', 'c' => 4, 'no' => 'Hide', 'yes' => 'Show', 'v' => 1 ],
+        [ 'i' => 'ac_show_region', 't' => 'slide', 'n' => 'Show Region Picker?', 'c' => 4, 'no' => 'Hide', 'yes' => 'Show', 'v' => 1 ],
+        [ 'i' => 'ac_show_lang', 't' => 'slide', 'n' => 'Let change Language?', 'c' => 4, 'no' => 'No', 'yes' => 'Show', 'v' => 1 ],
         //[ 'i' => 'ac_labels_align', 't' => 'radio', 'n' => 'Labels Text Alignment', 'p' => 'Select...', 'o' => [ 'tal' => 'Left' , 'tac' => 'Center', 'tar' => 'Right' ], 'c' => 4, '_ip' => '.col-4', 'iw' => 'row', 'v' => 'tal' ],
         //[ 'i' => 'ac_inputs_align', 't' => 'radio', 'n' => 'Inputs Text Alignment', 'p' => 'Select...', 'o' => [ 'tal' => 'Left' , 'tac' => 'Center', 'tar' => 'Right' ], 'c' => 4, '_ip' => '.col-4', 'iw' => 'row', 'v' => 'tal' ],
         //[ 'i' => 'ac_buttons_align', 't' => 'radio', 'n' => 'Buttons Text Alignment', 'p' => 'Select...', 'o' => [ 'tal' => 'Left' , 'tac' => 'Center', 'tar' => 'Right' ], 'c' => 4, '_ip' => '.col-4', 'iw' => 'row', 'v' => 'tal' ],
@@ -899,8 +901,8 @@ function access_html( string $user_title = 'Username or Email', string $pass_tit
     $return_text = !empty( $aos['ac_return_text'] ) ? $aos['ac_return_text'] : T('Return to Login');
     $show_labels = !empty( $aos['ac_show_labels'] ) && $aos['ac_show_labels'] == 1 ? $aos['ac_show_labels'] : 0;
     $show_sessions = !empty( $aos['ac_remember'] ) && $aos['ac_remember'] == 1 ? 1 : 0;
-    pre( '', 'access_inner_wrap' );
-        pre( '', 'login_outer_wrap' );
+    _d( 'access_inner_wrap' );
+        _d( 'login_outer_wrap' );
             $f->pre_process('class="login_wrap"','access_login_ajax','log','login_',[],'','','',$redirect_to,'',1);
                 pre( '', 'inputs', 'form' );
                     $session_times = [ 1 => '1 Hour' , 8 => '8 Hours' , 24 => '1 Day', 168 => '1 Week' ];
@@ -937,7 +939,7 @@ function access_html( string $user_title = 'Username or Email', string $pass_tit
                 div( 'more', T( $return_text ), '', 'data-hide=".forgot_wrap" data-show=".login_wrap"' );
                 $f->post_process();
             }
-        post();
+        d_();
         //skel( $aos );
         if( empty( $aos ) || ( isset( $aos['ac_register'] ) && $aos['ac_register'] == 1 ) ) {
             pre( '', 'register_outer_wrap dn' );
@@ -946,7 +948,25 @@ function access_html( string $user_title = 'Username or Email', string $pass_tit
             post();
         }
         get_script('access');
-    post();
+    d_();
+
+    // Addons
+    _d( 'access_addons_wrap' );
+        // Language Picker
+        if( isset( $aos['ac_show_lang'] ) && $aos['ac_show_lang'] == 1 ) {
+            _d('access_lang_wrap');
+                language_picker( 'languages', 'lang', 0 );
+                get_script( 'language' );
+            d_();
+        }
+        // Region Picker
+        if( isset( $aos['ac_show_region'] ) && $aos['ac_show_region'] == 1 ) {
+            _d('access_region_wrap');
+                //skel($aos);
+            d_();
+        }
+    d_();
+
     $a->config_users();
 }
 
