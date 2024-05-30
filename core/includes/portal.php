@@ -289,7 +289,7 @@ class PORTAL {
 
                 // Link to Front-end
                 if( $link_to_front ) {
-                    div( '', _a( APPURL, '', T( 'Go to Frontend Website' ) ) . __div( 'nav_ico', __div( ( $icon . ' ' . ( $options['ico_frontend'] ?? '' ) ), $options['ico_frontend'] ?? 'desktop_windows' ) ) . a_(), 'link_to_front' );
+                    div( '', _a( APPURL, '', T( 'Go to Frontend Website' ) ) . __div( 'nav_ico', __div( ( $icon . ' ' . ( $options['ico_frontend'] ?? '' ) ), $options['ico_frontend'] ?? 'desktop_windows' ), '', 'target="_blank"' ) . a_(), 'link_to_front' );
                 }
 
                 // Show User
