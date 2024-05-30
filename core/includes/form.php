@@ -1239,7 +1239,7 @@ class FORM {
                 $min = $f['min'] ?? '';
                 $max = $f['max'] ?? '';
                 $multiple = $f['multiple'] ?? ( $f['m'] ?? 0 );
-                $pos = $f['dp'] ?? ( $f['pos'] ?? ( $f['d_p'] ?? 'top center' ) );
+                $pos = $f['position'] ?? ( $f['dp'] ?? ( $f['pos'] ?? ( $f['d_p'] ?? 'top center' ) ) );
                 $return .= $this->__date( $id, $label, $place, $val, $attrs, $pos, $pre, $range, $multiple, '', $min, $max, $post );
             } else if( in_array( $type, [ 'range', 'r', 'slider' ] ) ) {
                 $min = $f['min'] ?? '';
@@ -1701,16 +1701,19 @@ class FORM {
      */
     function filters_to_query( array $filter_params = [], string $query = '', string $method = 'GET' ): string {
         foreach( $filter_params as $qa ) {
-            if( is_array( $qa ) && isset( $qa['id'] ) && isset( $qa['logic'] ) ) {
+            $id = $qa['id'] ?? ( $qa['i'] ?? '' );
+            $logic = $qa['logic'] ?? ( $qa['l'] ?? '' );
+            if( is_array( $qa ) && isset( $id ) && isset( $logic ) ) {
                 $value = '';
                 if( $method == 'GET' ) {
-                    $value = $_GET[ $qa['id'] ] ?? '';
+                    $value = $_GET[ $id ] ?? '';
                 } else {
-                    $value = $_POST[ $qa['id'] ] ?? '';
+                    $value = $_POST[ $id ] ?? '';
                 }
                 if( !empty( $value ) ) {
-                    $where = $qa['logic'];
-                    $q = str_contains( $where, 'LIKE' ) ? $where.' \'%'.$value.'%\'' : $where.' \''.$value.'\'';
+                    //$where = $logic;
+                    //$q = str_contains( $where, 'LIKE' ) ? $where.' \'%'.$value.'%\'' : $where.' \''.$value.'\'';
+                    $q = str_replace( '*', $value, $logic );
                     $query = !empty( $query ) ? $query.' AND '.$q : $q;
                 }
             }
