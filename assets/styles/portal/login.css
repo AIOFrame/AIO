@@ -5,7 +5,12 @@ body {
 }
 
 .brand {
-  background: var(--logo) no-repeat center/contain;
+  background: url("../../images/aio.svg") no-repeat center/contain;
+  display: block;
+  height: 60px;
+  width: 100%;
+  margin: 0 auto 30px;
+  background-position: center !important;
 }
 
 /* Inputs */
@@ -49,14 +54,6 @@ input {
   content: '\e897'
 } */
 /* Login */
-.brand {
-  display: block;
-  height: 60px;
-  width: 100%;
-  margin: 0 auto 30px;
-  background-position: center !important;
-}
-
 .access_wrap {
   width: 40vw;
   max-width: 600px;
@@ -137,6 +134,11 @@ input.empty {
   cursor: pointer;
   box-shadow: 0 10px 35px var(--primary_color);
 }
+#aio_login_init .ico, #aio_forgot_init .ico {
+  position: absolute;
+  right: 20px;
+  top: calc( 50% - 11px );
+}
 
 #register {
   font-weight: lighter;
@@ -189,18 +191,22 @@ input.empty {
   .access_wrap {
     width: calc(100vw - 40px);
   }
+
   .access_panel {
     width: 100%;
     max-width: none;
     padding: 20px;
   }
+
   #logo {
     height: 50px;
   }
+
   input, button, select, textarea {
     padding: 10px;
     margin-bottom: 8px;
   }
+
   .access #set_access {
     padding: 10px 0;
   }

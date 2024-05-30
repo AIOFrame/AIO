@@ -38,6 +38,7 @@ class OPTIONS {
         'pin' => 'Pinterest',
         'sk' => 'Skype',
         'ln' => 'LinkedIn',
+        'tt' => 'Tiktok',
         'ps' => 'Play Store',
         'as' => 'App Store',
         //'mob' => 'Mobile Number',
@@ -492,9 +493,9 @@ class OPTIONS {
         $social_form = [];
         foreach( $options as $ok => $ov ) {
             $val = $os[ $ok ] ?? '';
-            $social_form[] = [ 'i' => $ok, 'n' => $ov, 'p' => 'Ex: '.$ov.' URL', 'v' => $val ];
+            $social_form[] = [ 'i' => $ok, 'n' => $ov, 'p' => 'Ex: '.$ov.' URL', 'v' => $val, 'a' => 'data-soc' ];
         }
-        $this->form( $social_form, 'settings', 'soc' );
+        $this->form( $social_form, 'settings', 1, 'soc' );
     }
 
     function all_options( string $table_class = '' ): void {
