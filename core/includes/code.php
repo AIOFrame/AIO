@@ -579,9 +579,13 @@ function __div( string $class = '', string $content = '', string $id = '', strin
     return __el( 'div', $class, $content, $id, $attrs, $translate );
 }
 
-function a( string $hyperlink = '#', string $content = '', string $class = '', string $hover_title = '', string $attr = '', string $id = '' ): void {
-    echo _a($hyperlink,$class,$hover_title,$attr,$id) . $content . a_();
+function __a( string $hyperlink = '#', string $content = '', string $class = '', string $hover_title = '', string $attr = '', string $id = '' ): string {
+    return _a($hyperlink,$class,$hover_title,$attr,$id) . $content . a_();
 }
+function a( string $hyperlink = '#', string $content = '', string $class = '', string $hover_title = '', string $attr = '', string $id = '' ): void {
+    echo __a( $hyperlink, $content, $class, $hover_title, $attr, $id );
+}
+
 
 function _a( string $hyperlink = '#', string $class = '', string $hover_title = '', string $attr = '', string $id = '', string $target = '' ): string {
     $id = !empty( $id ) ? ' id="'.$id.'"' : '';
