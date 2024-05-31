@@ -330,7 +330,7 @@ button.store, button.save, button.grad, .btn.grad {
     left: 8px;
   } */
   .loader {
-    display: none;
+    //display: none;
   }
 }
 button.load, .btn.load {
@@ -339,7 +339,7 @@ button.load, .btn.load {
   cursor: not-allowed;
   pointer-events: none;
 }
-button.load span.loader {
+button .loader, .btn .loader {
   position: absolute;
   z-index: 2;
   display: block;
@@ -353,7 +353,7 @@ button.load span.loader {
   border-radius: 5px;
   transform: translate(-50%,-50%);
 }
-button.load span.loader:before, .btn.load span.loader:before {
+button.load .loader:before, .btn.load .loader:before {
   content: '';
   height: 100%;
   width: 100%;

@@ -30,8 +30,12 @@ class CODE {
 
         // Defines
         global $light_mode;
+        global $options;
+        $region = $options['region'] ?? '';
+        $region = !empty( $region ) ? strtolower( $region ) . '_' : '';
         $a = new ACCESS();
         $aos = $a->get_options();
+        //skel( $aos );
         $show_logo = $aos['ac_show_logo'] ?? 1;
         $logo = $light_mode == 'd' ? ( $aos['ac_logo_d'] ?? ( $options['logo_dark'] ?? '' ) ) : ( $aos['ac_logo_l'] ?? ( $options['logo_light'] ?? '' ) );
         $logo = !empty( $logo ) ? 'style="background:url(\''.storage_url( $logo ).'\') no-repeat center / contain"' : '';
