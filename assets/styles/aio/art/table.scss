@@ -24,6 +24,9 @@ table {
       padding:12px 8px;
       font-weight: normal;
     }
+    [type=radio], [type=radio]:checked, [type=checkbox], [type=checkbox]:checked {
+      border: 2px solid #fff;
+    }
   }
   thead.w {
     color:white;

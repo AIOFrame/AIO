@@ -17,6 +17,9 @@ table thead th {
   padding: 12px 8px;
   font-weight: normal;
 }
+table thead [type=radio], table thead [type=radio]:checked, table thead [type=checkbox], table thead [type=checkbox]:checked {
+  border: 2px solid #fff;
+}
 table thead.w {
   color: white;
 }
