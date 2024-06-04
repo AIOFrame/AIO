@@ -244,13 +244,16 @@ function is_empty( e, d ) {
 This function runs a valid_field function on single input or a inputs inside an element wrap
  */
 function validator( e, d ) {
-    d = d === undefined || d === '' ? '' : '['+d+']';
+    console.log( e );
+    console.log( d );
+    d = d === undefined || d === '' ? '' : '[data-'+d+']';
     let invalid = [];
     // If Validating a group of inputs
     if( $(e)[0] && ( $(e)[0].localName === 'div' || $(e)[0].localName === 'tr' || $(e)[0].localName === 'form' ) ){
         invalid = [];
         $.each($(e).find('input'+d+',select'+d+',textarea'+d),function(a,b){
             let validation = valid_field( b );
+            console.log( b );
             if( validation.length > 0 ) {
                 invalid.push( [ $(b).attr('title'), validation ] );
                 $(b).addClass('invalid');
@@ -273,7 +276,7 @@ function validator( e, d ) {
 }
 
 function valid_field( field ) {
-    //console.log( $(field) );
+    console.log( $(field) );
     let invalid_reasons = [];
     // Minimum Number / Amount Validation
     let min = $(field).attr('min');
@@ -305,6 +308,8 @@ function valid_field( field ) {
     }
     //console.log(invalid);
     // TODO: Validate Password
+    console.log( field );
+    console.log( $(field).attr('type') );
     if( $(field).attr('type') === 'email' ) {
         // Validate Email
         if( _email_valid( field ) ) {
@@ -453,7 +458,7 @@ function process_data( e, ne ){
         notify( invalid_note, 99, 'error', 'warning' );
         breaker.push(1);
     }
-
+    //return;
     if( breaker.length > 0 ) {
         //notify( 'test' );
         return;
