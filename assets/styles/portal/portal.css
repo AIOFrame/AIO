@@ -1081,20 +1081,6 @@ aside::-webkit-scrollbar {
 .reports_wrap .auto_filters .select2-selection__placeholder, .reports_wrap .auto_filters .select2-selection__rendered {
   font-size: 1.2rem;
 }
-.reports_wrap .auto_filters .inputs {
-  flex: 0 0 100%;
-}
-.reports_wrap .auto_filters > .row {
-  justify-content: center;
-}
-.reports_wrap .auto_filters .actions {
-  text-align: center;
-  width: auto;
-  flex: 0 0 33.3333%;
-}
-.reports_wrap .auto_filters .actions .row {
-  justify-content: center;
-}
 .reports_wrap .auto_filters .filter, .reports_wrap .auto_filters .clear {
   font-size: 1.2rem;
   padding: 20px;

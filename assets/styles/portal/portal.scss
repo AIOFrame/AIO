@@ -1137,23 +1137,6 @@ aside::-webkit-scrollbar {
     .select2-selection__placeholder, .select2-selection__rendered {
       font-size: 1.2rem;
     }
-    .inputs {
-      flex:0 0 100%;
-    }
-    > .row {
-      justify-content: center;
-    }
-    .actions {
-      text-align: center;
-      width: auto;
-      flex:0 0 33.3333%;
-      .row {
-        justify-content: center;
-        .col {
-          //flex: 0 0 200px;
-        }
-      }
-    }
     .filter, .clear {
       font-size: 1.2rem;
       padding: 20px;

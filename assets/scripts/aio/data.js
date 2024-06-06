@@ -581,21 +581,21 @@ function edit_data( e, modal ) {
             } else {
                 //console.log('here');
                 let tar = '#'+i;
-                //console.log(tar);
+                //console.log( text_to_html( d ) );
                 if( $(tar).length ) {
                     //$(tar).remove();
-                    $(tar).val(d).trigger('change');
+                    $(tar).val( text_to_html( d ) ).trigger('change');
                 } else {
                     //let element = $('[data-key="'+i+'"]');
                     if( el.data('hidden-date') !== undefined ) {
                         //elog( element );
-                        elog( el );
+                        //elog( el );
                         let date = new Date( d );
-                        elog( date );
-                        elog( '#'+el.attr('id')+'_alt' );
+                        //elog( date );
+                        //elog( '#'+el.attr('id')+'_alt' );
                         $( '#'+el.attr('id')+'_alt' ).val( [('0'+date.getDate()).slice(-2), ('0'+date.getMonth()).slice(-2), date.getFullYear()].join('-') ).trigger('change');
                     }
-                    el.val(d).trigger('change');
+                    el.val( text_to_html( d ) ).trigger('change');
                 }
             }
             //elog('#'+i);
@@ -724,7 +724,7 @@ function text_to_html(text) {
         '&quot;': '"',
         '&#039;': "'"
     };
-    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    return text.replace(/&amp;|&lt;|&gt;|&quot;|&#039;/g, function(m) {return map[m];});
 }
 
 function redirect( r ) {

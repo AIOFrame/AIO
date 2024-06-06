@@ -643,7 +643,7 @@ function b( string $class = '', string $content = '', string $id = '', string $a
     echo __el( 'button', $class, $content, $id, $attr, $translate );
 }
 
-function _b( string $class = '', string $content = '', string $id = '', string $attr = '', bool $translate = false ): string {
+function __b( string $class = '', string $content = '', string $id = '', string $attr = '', bool $translate = false ): string {
     return __el( 'button', $class, $content, $id, $attr, $translate );
 }
 

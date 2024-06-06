@@ -325,7 +325,7 @@ class PORTAL {
                                 _r();
                                     div( 'col tal', _a( APPURL . $profile_url, 'r5 bsn s btn m0' ) . T('My Profile') . a_() );
                                     $logout_action = APPDEBUG ? 'logout_ajax' : $e->encrypt('logout_ajax');
-                                    div( 'col tar', _b( 'red r5 bsn s m0', 'Logout', '', 'onclick="logout(\''.$logout_action.'\',\''.$logout_to.'\')"' ) );
+                                    div( 'col tar', __b( 'red r5 bsn s m0', 'Logout', '', 'onclick="logout(\''.$logout_action.'\',\''.$logout_to.'\')"' ) );
                                 r_();
                             post();
                         } else {
