@@ -1317,15 +1317,6 @@ p.break {
 }
 
 /* Fixes */
-body .trumbowyg-box, body .trumbowyg-editor {
-  margin: 0 0 20px;
-  min-height: 160px;
-}
-
-.trumbowyg-textarea {
-  margin: 0;
-}
-
 /* RESPONSIVE */
 @media (min-width: 320px) and (max-width: 1024px) {
   .user_drop .user_pic {
