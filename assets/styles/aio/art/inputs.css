@@ -1,12 +1,7 @@
 /* Inputs */
 label {
   font-size: 0.9rem;
-  background: -webkit-linear-gradient(45deg, var(--primary_color), var(--secondary_color));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   text-transform: uppercase;
-  font-weight: bold;
-  margin: 0 0 10px;
 }
 label i {
   color: var(--error_color);
@@ -16,6 +11,12 @@ label i {
 }
 label span {
   margin: auto 5px;
+}
+
+label.grad {
+  background: -webkit-linear-gradient(45deg, var(--primary_color), var(--secondary_color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* [type=radio]+label, [type=checkbox]+label {
