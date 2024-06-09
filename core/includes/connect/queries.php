@@ -211,9 +211,12 @@ class DB {
                     foreach( $struct as $name => $structure ) {
                         $table_structure = [];
                         if( is_array( $structure ) && !empty( $structure ) ) {
-                            $table_structure[] = str_replace( ' ', '', $name );
-                            foreach( $structure as $row ) {
+                            $table_structure[] = $structure['name'] ?? str_replace( ' ', '', $name );
+                            foreach( $structure as $key => $row ) {
                                 //skel( $data )
+                                if( in_array( $key, [ 'name', 'pre' ] ) ) {
+                                    continue;
+                                }
                                 $id = $row['identity'] ?? ( $row['id'] ?? ( $row['i'] ?? '' ) );
                                 $type = $row['type'] ?? ( $row['t'] ?? 'text' );
                                 $length = $row['max'] ?? ( $row['m'] ?? 64 );
@@ -242,7 +245,7 @@ class DB {
                                 }
                                 $table_structure[1][] = [ $id, $type, $length, $required ];
                             }
-                            $table_structure[] = str_replace( ' ', '', $name );
+                            $table_structure[] =  $structure['pre'] ?? str_replace( ' ', '', $name );
                             $table_structure[] = 1;
                             $tables[] = $table_structure;
                         }
