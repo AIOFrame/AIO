@@ -1014,11 +1014,11 @@ class FORM {
     function __richtext( string|array $id, string $label = '', string|null $value = '', string $attrs = '', string|float|int $pre = '', string $post = '' ): string {
         $_p = $this->__pre( $pre );
         $p_ = $this->__post( $pre, $post );
+        $r = rand( 0, 999999 );
         $return = $_p;
-        $return .= $this->__textarea( $id, $label, '', $value, $attrs );
+        $return .= $this->__textarea( ( is_array( $id ) ? $id : [ $id . '_' . $r, $id ] ), $label, '', $value, $attrs . ' data-rich-text' );
         $return .= __get_style('https://cdn.jsdelivr.net/npm/trumbowyg/dist/ui/trumbowyg.min.css');
         $return .= __get_script('https://cdn.jsdelivr.net/npm/trumbowyg/dist/trumbowyg.min.js');
-        $return .= "<script>document.addEventListener('DOMContentLoaded',function(){ $('[data-key=". $id ."]').trumbowyg({ autogrow: true }).on('tbwchange tbwfocus', function(e){ $('[data-key=". $id ."]').val( $( e.currentTarget ).val() ); }); }); </script>";
         $return .= $p_;
         return $return;
     }
@@ -1066,7 +1066,7 @@ class FORM {
     function __editable_data( array $data = [], string $remove = '' ): string {
         $final = [];
         $remove = explode( ',', $remove );
-        //skel( $data );
+        //skel( htmlspecialchars_decode( $data['_content'] ) );
         foreach( $data as $k => $v ){
             if( is_numeric( $k ) )
                 continue;
@@ -1075,11 +1075,11 @@ class FORM {
                 $cry = Encrypt::initiate();
                 $final[ $k ] = APPDEBUG ? $v : $cry->encrypt( $v );
             } else if( !in_array( $k, $remove ) ){
-                $final[ $k ] = $v;
+                $final[ $k ] = !empty( $v ) && ( $v != strip_tags( htmlspecialchars_decode( $v ) ) ) ? htmlentities( $v ) : $v;
             }
         }
         //skel( $final );
-        return json_encode( $final );
+        return 'data-data=\'' . json_encode( $final ) . '\'';
     }
 
     /**
@@ -1535,7 +1535,7 @@ class FORM {
         //$post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
         $i = !empty( $i_class ) || !empty( $i_text ) ? __i( $i_class, $i_text ) : '';
         $title = str_contains( $attr, 'title=' ) ? '' : 'title="'.T('Edit').'"';
-        $data = $title . ' data-edit-action class="'.$class.' edit" onclick="edit_data(this,\''.$element.'\')" data-data=\''.$this->__editable_data($array).'\'' . $attr;
+        $data = $title . ' data-edit-action class="'.$class.' edit" onclick="edit_data(this,\''.$element.'\')" ' . $this->__editable_data($array) . $attr;
         return $_p . __el( $html, '', $i.T( $text ), '', $data ) . $p_;
     }
 
@@ -1665,16 +1665,16 @@ class FORM {
      * @param string $filter_text
      * @param string $class
      */
-    function filters( array $filter_params = [], string $clear_url = '', string $method = 'GET', string $filter_text = 'Filter', string $class = '' ): void {
+    function filters( array $filter_params = [], string $clear_url = '', string $method = 'GET', string $filter_text = 'Filter', string $class = '', string|int $inputs_class_col = 10, string|int $actions_class_col = 2 ): void {
         $clear_url = !empty( $clear_url ) ? APPURL . $clear_url : APPURL . PAGEPATH;
         //echo '<div class="row"><div class="col-12 col-md-10 inputs">';
         pre( '', 'filters_wrap '.$class );
             pre( '', 'auto_filters', 'form', 'method="'.$method.'"' );
-                _r();
-                    _c( 10, 'inputs' );
+                _r( 'jcc' );
+                    _c( $inputs_class_col, 'inputs' );
                         $this->form( $filter_params, 'row' );
                     c_();
-                    _c( 2, 'filter_actions' );
+                    _c( $actions_class_col, 'filter_actions' );
                         _r();
                             _c( 6 );
                                 b( 'filter mat-ico-after', $filter_text );
@@ -1702,7 +1702,7 @@ class FORM {
     function filters_to_query( array $filter_params = [], string $query = '', string $method = 'GET' ): string {
         foreach( $filter_params as $qa ) {
             $id = $qa['id'] ?? ( $qa['i'] ?? '' );
-            $logic = $qa['logic'] ?? ( $qa['l'] ?? '' );
+            $logic = $qa['logic'] ?? ( $qa['query'] ?? ( $qa['q'] ?? '' ) );
             if( is_array( $qa ) && isset( $id ) && isset( $logic ) ) {
                 $value = '';
                 if( $method == 'GET' ) {

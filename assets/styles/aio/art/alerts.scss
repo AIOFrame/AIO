@@ -39,22 +39,28 @@ $error: var(--error_color);
       min-width: 320px;
       .fields {
         display: flex;
-        margin: 10px -5px -5px;
-        justify-content: center;
+        margin: 5px -5px 0;
+        justify-content: flex-start;
         flex-wrap: wrap;
         .field {
-          margin:0 5px 5px;
-          padding: 6px 12px;
-          font-size: .9rem;
-          color: #fff;
-          background: $error;
-          border-radius: 6px;
+          margin:0 8px 5px;
+          padding: 6px 0;
+          font-size: 1rem;
+          color: $error;
+          font-weight: bold;
         }
       }
       .invalid_fields {
         display: block;
         .invalid {
           display: flex;
+          gap: 10px;
+          align-items: center;
+          padding: 0 5px;
+          .field {
+            margin: 0;
+            padding: 0;
+          }
         }
       }
       > .ico {

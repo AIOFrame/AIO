@@ -993,6 +993,10 @@ function process_data_ajax(): void {
             unset( $a['post'] );
         }
 
+        foreach( $a as $ak => $av ){
+            $a[ $ak ] = ( $av != strip_tags( $av ) ) ? htmlspecialchars( $av ) : $av;
+        }
+
         $keys = prepare_keys( $a, '', 0 );
         $values = prepare_values( $a, '', 0 );
 

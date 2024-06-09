@@ -42,12 +42,8 @@ $color-active-dark: var(--input_color_active_dark);
 
 label {
   font-size: .9rem;
-  background: -webkit-linear-gradient( 45deg, $primary, $secondary );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   text-transform: uppercase;
-  font-weight: bold;
-  margin: 0 0 10px;
+  //font-weight: bold;
   i {
     color: $error;
     font-weight: bold;
@@ -58,6 +54,11 @@ label {
     margin: auto 5px;
   }
   //display: block;
+}
+label.grad {
+  background: -webkit-linear-gradient( 45deg, $primary, $secondary );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 /* [type=radio]+label, [type=checkbox]+label {
   font-size: 1rem;
@@ -482,6 +483,52 @@ select.mb0 + .select2-container {
 .select2-hidden-accessible {
   font-size: 0;
   display: none;
+}
+
+/* Trumbowyg Fixes */
+
+body {
+  .trumbowyg-box {
+    min-height: auto;
+    border-top: var(--input_border_top) solid var(--input_border_color);
+    border-right: var(--input_border_right) solid var(--input_border_color);
+    border-bottom: var(--input_border_bottom) solid var(--input_border_color);
+    border-left: var(--input_border_left) solid var(--input_border_color);
+    border-radius: var(--input_radius);
+    margin: var(--input_margin_top) var(--input_margin_right) var(--input_margin_bottom) var(--input_margin_left);
+    //overflow: hidden;
+    .trumbowyg-editor {
+      min-height: 160px;
+      color: var(--input_color);
+      background-color: var(--input_bg);
+      padding: var(--input_padding_top) var(--input_padding_right) var(--input_padding_bottom) var(--input_padding_left);
+      border-bottom-left-radius: var(--input_radius);
+      border-bottom-right-radius: var(--input_radius);
+    }
+    .trumbowyg-button-pane {
+      border-top-left-radius: var(--input_radius);
+      border-top-right-radius: var(--input_radius);
+      background-color: var(--primary_color);
+      background: -moz-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);
+      background: -webkit-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);
+      background-image: linear-gradient(45deg,var(--primary_color) 0%,var(--secondary_color) 100%);
+      border: 0;
+      .trumbowyg-button-group button, .trumbowyg-button-group button svg {
+        color: var(--filled_color);
+        fill: var(--filled_color);
+      }
+    }
+  }
+  .trumbowyg-button-pane .trumbowyg-button-group::after {
+    background: rgba(255, 255, 255, .2);
+    margin: 0;
+  }
+  .trumbowyg-button-pane button.trumbowyg-active, .trumbowyg-button-pane button:not(.trumbowyg-disable):focus, .trumbowyg-button-pane button:not(.trumbowyg-disable):hover {
+    background: rgba(255,255,255,.1);
+  }
+}
+.trumbowyg-textarea {
+  margin: 0;
 }
 
 /* CODE EDITOR */

@@ -49,23 +49,29 @@
 }
 [data-alerts] .alert .data .fields {
   display: flex;
-  margin: 10px -5px -5px;
-  justify-content: center;
+  margin: 5px -5px 0;
+  justify-content: flex-start;
   flex-wrap: wrap;
 }
 [data-alerts] .alert .data .fields .field {
-  margin: 0 5px 5px;
-  padding: 6px 12px;
-  font-size: 0.9rem;
-  color: #fff;
-  background: var(--error_color);
-  border-radius: 6px;
+  margin: 0 8px 5px;
+  padding: 6px 0;
+  font-size: 1rem;
+  color: var(--error_color);
+  font-weight: bold;
 }
 [data-alerts] .alert .data .invalid_fields {
   display: block;
 }
 [data-alerts] .alert .data .invalid_fields .invalid {
   display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 0 5px;
+}
+[data-alerts] .alert .data .invalid_fields .invalid .field {
+  margin: 0;
+  padding: 0;
 }
 [data-alerts] .alert .data > .ico {
   height: 50px;

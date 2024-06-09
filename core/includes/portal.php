@@ -289,7 +289,7 @@ class PORTAL {
 
                 // Link to Front-end
                 if( $link_to_front ) {
-                    div( '', _a( APPURL, '', T( 'Go to Frontend Website' ) ) . __div( 'nav_ico', __div( ( $icon . ' ' . ( $options['ico_frontend'] ?? '' ) ), $options['ico_frontend'] ?? 'desktop_windows' ), '', 'target="_blank"' ) . a_(), 'link_to_front' );
+                    div( '', _a( APPURL, '', T( 'Go to Frontend Website' ), '', '', '_blank' ) . __div( 'nav_ico', __div( ( $icon . ' ' . ( $options['ico_frontend'] ?? '' ) ), $options['ico_frontend'] ?? 'desktop_windows' ) ) . a_(), 'link_to_front' );
                 }
 
                 // Show User
@@ -325,7 +325,7 @@ class PORTAL {
                                 _r();
                                     div( 'col tal', _a( APPURL . $profile_url, 'r5 bsn s btn m0' ) . T('My Profile') . a_() );
                                     $logout_action = APPDEBUG ? 'logout_ajax' : $e->encrypt('logout_ajax');
-                                    div( 'col tar', _b( 'red r5 bsn s m0', 'Logout', '', 'onclick="logout(\''.$logout_action.'\',\''.$logout_to.'\')"' ) );
+                                    div( 'col tar', __b( 'red r5 bsn s m0', 'Logout', '', 'onclick="logout(\''.$logout_action.'\',\''.$logout_to.'\')"' ) );
                                 r_();
                             post();
                         } else {

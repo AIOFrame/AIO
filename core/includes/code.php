@@ -210,30 +210,35 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
     echo '><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0"><meta http-equiv="X-UA-Compatible" content="ie=edge">';
 
     // SEO
-    /* $c = get_config();
+    $c = get_config();
     if( defined( 'PAGEPATH' ) ) {
-        $seo = !empty( $c['seo'] ) && !empty( $c['seo'][PAGEPATH] ) ?? ( $options['seo'][PAGEPATH] ?? '' );
-        echo !empty( $seo ) ? '<meta name="description" content="'.T( $seo ).'">' : '';
-    } */
+        // Get from options
+        $seo_desc = $options['seo']['description'] ?? ( $c['seo'][PAGEPATH]['description'] ?? '' );
+        $seo_keys = $options['seo']['keywords'] ?? ( $c['seo'][PAGEPATH]['keywords'] ?? '' );
+
+        // Get from config
+        echo !empty( $seo_desc ) ? '<meta name="description" content="'.T( $seo_desc ).'">' : '';
+        echo !empty( $seo_keys ) ? '<meta name="keywords" content="'.$seo_keys.'">' : '';
+    }
 
     // Colors
-    $disabled = $options['disabled_color'] ?? 'lightgrey';
-    $info = $options['info_color'] ?? 'cadetblue';
-    $progress = $options['progress_color'] ?? 'darkgoldenrod';
-    $warning = $options['warning_color'] ?? 'orange';
-    $error = $options['error_color'] ?? 'firebrick';
-    $success = $options['success_color'] ?? 'forestgreen';
+    $disabled = $options['disabled_color'] ?? ( $c['colors']['disabled_color'] ?? 'lightgrey' );
+    $info = $options['info_color'] ?? ( $c['colors']['info_color'] ?? 'cadetblue' );
+    $progress = $options['progress_color'] ?? ( $c['colors']['progress_color'] ?? 'darkgoldenrod' );
+    $warning = $options['warning_color'] ?? ( $c['colors']['warning_color'] ?? 'orange' );
+    $error = $options['error_color'] ?? ( $c['colors']['error_color'] ?? 'firebrick' );
+    $success = $options['success_color'] ?? ( $c['colors']['success_color'] ?? 'forestgreen' );
     //skel( $primary_color );
     if( $light_mode == 'd' ) {
-        $color = !empty( $options['color_dark'] ) ? $options['color_dark'] : '#fff';
-        $filled_color = !empty( $options['filled_color_dark'] ) ? $options['filled_color_dark'] : '#fff';
-        $color1 = !empty( $primary_color ) ? $primary_color : ( !empty( $options['primary_color_dark'] ) ? $options['primary_color_dark'] : '00A99D' );
-        $color2 = !empty( $secondary_color ) ? $secondary_color : ( !empty( $options['secondary_color_dark'] ) ? $options['secondary_color_dark'] : '00A99D' );
+        $color = !empty( $options['color_dark'] ) ? $options['color_dark'] : ( $c['colors']['color_dark'] ?? '#fff' );
+        $filled_color = !empty( $options['filled_color_dark'] ) ? $options['filled_color_dark'] : ( $c['colors']['filled_color_dark'] ?? '#fff' );
+        $color1 = !empty( $primary_color ) ? $primary_color : ( !empty( $options['primary_color_dark'] ) ? $options['primary_color_dark'] : ( $c['colors']['primary_color_dark'] ?? '00A99D' ) );
+        $color2 = !empty( $secondary_color ) ? $secondary_color : ( !empty( $options['secondary_color_dark'] ) ? $options['secondary_color_dark'] : ( $c['colors']['secondary_color_dark'] ?? '00A99D' ) );
     } else {
-        $color = !empty( $options['color_light'] ) ? $options['color_light'] : '#000';
-        $filled_color = !empty( $options['filled_color_light'] ) ? $options['filled_color_light'] : '#fff';
-        $color1 = !empty( $primary_color ) ? $primary_color : ( !empty( $options['primary_color'] ) ? $options['primary_color'] : '#00A99D' );
-        $color2 = !empty( $secondary_color ) ? $secondary_color : ( !empty( $options['secondary_color'] ) ? $options['secondary_color'] : '#00A99D' );
+        $color = !empty( $options['color_light'] ) ? $options['color_light'] : ( $c['colors']['color_light'] ?? '#000' );
+        $filled_color = !empty( $options['filled_color_light'] ) ? $options['filled_color_light'] : ( $c['colors']['filled_color_light'] ?? '#fff' );
+        $color1 = !empty( $primary_color ) ? $primary_color : ( !empty( $options['primary_color'] ) ? $options['primary_color'] : ( $c['colors']['primary_color'] ?? '#00A99D' ) );
+        $color2 = !empty( $secondary_color ) ? $secondary_color : ( !empty( $options['secondary_color'] ) ? $options['secondary_color'] : ( $c['colors']['secondary_color'] ?? '#00A99D' ) );
         //skel( $options['primary_color'] );
     }
     $color1 = strlen( $color1 ) == 6 ? '#' . $color1 : $color1;
@@ -638,7 +643,7 @@ function b( string $class = '', string $content = '', string $id = '', string $a
     echo __el( 'button', $class, $content, $id, $attr, $translate );
 }
 
-function _b( string $class = '', string $content = '', string $id = '', string $attr = '', bool $translate = false ): string {
+function __b( string $class = '', string $content = '', string $id = '', string $attr = '', bool $translate = false ): string {
     return __el( 'button', $class, $content, $id, $attr, $translate );
 }
 

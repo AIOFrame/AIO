@@ -30,22 +30,34 @@ window.addEventListener('DOMContentLoaded',function () {
         }
     })
 
+    // Rich Text Editor
+    //document.addEventListener('DOMContentLoaded',function(){  });
+    .on('change','[data-rich-text]',function(e){
+        //alert('changed!');
+        //console.log('test');
+        //console.log(e);
+        $( e.currentTarget ).trumbowyg('destroy');
+        $( e.currentTarget ).trumbowyg({ autogrow: true });
+    });
+    //$('[id=". $id . '_' . $r ."]').trumbowyg({ autogrow: true }).on('tbwchange tbwfocus', function(e){ $('[data-key=". $id ."]').val( $( e.currentTarget ).val() ); });
+
     /* .on('change','[data-visible-date]',function(){
         elog( $(this) );
         let date = new Date( $(this).val() );
     }) */
+    if( typeof $.fn.trumbowyg === 'function' ){
+        $('[data-rich-text]').trumbowyg({ autogrow: true });
+    }
 
     // Initiate Clipboard JS
     if( typeof ClipboardJS === 'function' ){
-        var clipboard = new ClipboardJS('[data-clipboard-target],[data-clipboard-text]');
-
+        let clipboard = new ClipboardJS('[data-clipboard-target],[data-clipboard-text]');
         clipboard.on('success', function(e) {
             notify('Copied!',1);
         });
-
         clipboard.on('error', function(e) {
-            //console.log('Action:', e.action);
-            //console.log('Trigger:', e.trigger);
+            console.log('Action:', e.action);
+            console.log('Trigger:', e.trigger);
         });
     }
 
