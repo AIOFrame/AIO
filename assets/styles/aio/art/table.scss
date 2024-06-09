@@ -34,6 +34,11 @@ table {
   tbody {
     background:#fff;
   }
+  tfoot {
+    td {
+      padding: 12px 8px;
+    }
+  }
   tr {
     //margin-top: -1px;
     border-top:1px solid #eee;

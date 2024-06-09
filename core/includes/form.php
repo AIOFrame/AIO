@@ -1411,7 +1411,7 @@ class FORM {
         $p_ = $this->__post( $pre, $post );
         $c = Encrypt::initiate();
         global $options;
-        $icon_class = $options['icon_class'] ?? 'mico';
+        $icon_class = $icon_class . ' ' . ( $options['icon_class'] ?? 'mico' );
         //$action = empty( $action ) ? 'process_data_ajax' : $action;
         $a = $attr;
         $a .= !empty( $action ) ? ' data-action="'. ( APPDEBUG ? $action : $c->encrypt($action) ) .'"' : '';
@@ -1420,7 +1420,7 @@ class FORM {
         //$a .= $notify > 0 ? ' data-notify="'.$notify.'"' : '';
         $text .= __el( 'span', 'loader' );
         if( !empty( $icon ) ) {
-            $text .= __el( 'span', ( $icon_class ?? 'mico' ) . ' ico ' . $icon, $icon );
+            $text .= __el( 'span', $icon_class . ' ico ' . $icon, $icon );
         } else {
             $text .= !empty( $options['ico_save'] ) ? ( __el( 'span', ( $options['icon_class'] ?? 'mico' ) . ' ico ' . $options['ico_save'], ( $options['ico_save'] ?? 'save' ) ) ) : '';
         }

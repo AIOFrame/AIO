@@ -26,6 +26,9 @@ table thead.w {
 table tbody {
   background: #fff;
 }
+table tfoot td {
+  padding: 12px 8px;
+}
 table tr {
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
