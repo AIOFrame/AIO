@@ -371,6 +371,7 @@ class PORTAL {
                     $data = $menu_set['data'] ?? str_replace( ' ', '_', strtolower( $group_title ) );
                     $menu_list = $menu_set['menu'] ?? [];
                     $group_restricted = [];
+                    $sub_url_prefix = $menu_set['url_prefix'] ?? ( $menu_set['url_pre'] ?? ( $menu_set['pre_url'] ?? '' ) );
                     if( !empty( $menu_set['user_can'] ) ) {
                         $user_can_in_group = explode( ',', $menu_set['user_can'] );
                         foreach( $user_can_in_group as $ucg ) {
@@ -418,7 +419,7 @@ class PORTAL {
                                     }
                                     if( empty( $restricted ) ) {
                                         _c( $col, $class );
-                                            div( $class, _a( APPURL . $url_prefix . $url, $class, T('Go to ').T($title), '', '', '' ) . __el( 'i', $ico_class . ' ' . $icon, $ico ) . __div( 'title', T( $title ) ) . a_() );
+                                            div( $class, _a( APPURL . $url_prefix . $sub_url_prefix . $url, $class, T('Go to ').T($title), '', '', '' ) . __el( 'i', $ico_class . ' ' . $icon, $ico ) . __div( 'title', T( $title ) ) . a_() );
                                         c_();
                                     }
                                 }
