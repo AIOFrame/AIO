@@ -90,18 +90,11 @@ function file_url( $url ): string {
 
 // Emailer by Modules
 
-function email( $to, $subject, $content, $from, $cc = '' ){
+function email( $to, $subject, $content, $from, $cc = '' ) {
     include_once( ROOTPATH . 'core/modules/email.php' );
     $mail = new MAIL();
     return $mail->send( $to, $subject, $content, $from, $cc );
 }
 
 // Language Editor
-
-function language_editor(){
-    language_editor();
-}
-function manage_translations() {
-    include_once( ROOTPATH . 'core/modules/translations.php' );
-}
 

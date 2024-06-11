@@ -38,7 +38,6 @@
     text-align: right;
   }
   .close {
-    background:url('../../icons/close.svg') no-repeat center / 70%;
     position: absolute;
     right:10px;
     top:5px;
@@ -113,7 +112,7 @@
   max-width:300px;
 }
 .ico.trash {
-  background:url('../../../core/components/icons/trash.svg') no-repeat center / 24px;
+  //background:url('../../../core/components/icons/trash.svg') no-repeat center / 24px;
 }
 
 // Select2

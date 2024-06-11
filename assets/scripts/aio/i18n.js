@@ -50,8 +50,8 @@ $(document).ready(function(){
         let tr = $(this).parent('div');
         tr.addClass('on');
         $('#aio_lang_editor').addClass('on').data('row',tr.index());
-        $('#aio_lang_editor #string').val(tr.find('div:nth-child(1)').html());
-        $('#aio_lang_editor #translation').val(tr.find('div:nth-child(2)').html()).focus();
+        $('#aio_lang_editor [data-key=string]').val(tr.find('div:nth-child(1)').html());
+        $('#aio_lang_editor [data-key=translation]').val(tr.find('div:nth-child(2)').html()).focus();
     })
 
     // Close Editor
@@ -76,7 +76,7 @@ $(document).ready(function(){
 });
 
 function get_translations() {
-    var d = {'action':'get_translations','lang':'en','method':'json'};
+    let d = {'action':'get_translations','lang':'en','method':'json'};
     $.post(location.origin,d,function(r){
         elog(r);
         if( r = JSON.parse(r) ){
@@ -91,7 +91,7 @@ function get_translations() {
 }
 
 function get_untranslations() {
-    var d = {'action':'get_untranslated'};
+    let d = {'action':'get_untranslated'};
     $.post(location.origin,d,function(r){
         console.log(r);
         if( r = JSON.parse(r) ){
@@ -116,13 +116,13 @@ function update_translation() {
     // Update the Table
     let r = $('#aio_translations div.on');
     if( r.length > 0 ){
-        $(r).data('edited',true).find('div:first-child').html($('#string').val());
-        $(r).find('div:nth-child(2)').html($('#translation').val());
+        $(r).data('edited',true).find('div:first-child').html($('[data-key=string]').val());
+        $(r).find('div:nth-child(2)').html($('[data-key=translation]').val());
     }
 
     // Update Translations
     let ln = $('[name=lang_select]').val();
-    let d = { 'action': $('#aio_translations').data('update'), 'language': ln, 'string': $('#string').val(), 'translation': $('#translation').val() };
+    let d = { 'action': $('#aio_translations').data('update'), 'language': ln, 'string': $('[data-key=string]').val(), 'translation': $('[data-key=translation]').val() };
     elog(d);
 
     if( ln !== null ) {

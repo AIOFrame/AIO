@@ -40,7 +40,6 @@
   text-align: right;
 }
 #aio_lang_editor .close {
-  background: url("../../icons/close.svg") no-repeat center/70%;
   position: absolute;
   right: 10px;
   top: 5px;
@@ -122,10 +121,6 @@
   max-width: 300px;
 }
 
-.ico.trash {
-  background: url("../../../core/components/icons/trash.svg") no-repeat center/24px;
-}
-
 #lang_select + .select2-container, #lang_page + .select2-container {
   display: block;
   width: 100%;
@@ -148,22 +143,18 @@
   #aio_lang_editor {
     padding: 20px;
   }
-
   #aio_lang_editor.on {
     top: auto;
     bottom: 0;
   }
-
   #aio_lang_editor .row {
     flex-wrap: wrap;
   }
-
   #aio_lang_editor .col, #aio_lang_editor .col:nth-child(3) {
     flex: 0 0 100%;
     margin: 0;
     max-width: none;
   }
-
   #save {
     margin: 15px 0 0;
     padding: 10px 15px;
@@ -171,15 +162,12 @@
     border-radius: 5px;
     text-transform: uppercase;
   }
-
   #aio_lang_editor textarea {
     border-radius: 5px;
   }
-
   #aio_lang_editor .close {
     top: 10px;
   }
-
   #aio_translations > div {
     padding: 15px;
   }
@@ -197,11 +185,9 @@
     border-radius: 5px;
     font-weight: lighter;
   }
-
   .search input {
     width: 100%;
   }
-
   #notification {
     min-width: auto;
     max-width: none;
