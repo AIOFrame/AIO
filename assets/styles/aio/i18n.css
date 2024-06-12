@@ -17,6 +17,9 @@
 #aio_translations > div i {
   width: 42px;
   height: 42px;
+  line-height: 42px;
+  color: var(--error_color);
+  cursor: pointer;
 }
 
 #aio_lang_editor {

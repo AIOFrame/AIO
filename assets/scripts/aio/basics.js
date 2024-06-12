@@ -48,9 +48,10 @@ $(document).ready(function(){
     })
 
     // CHANGE LANGUAGE
-    .on('click','[data-lang]',function(){
+    /*.on('click','[data-lang]',function(){
         //var cl = $('[data-lang].on').data('lang');
         let nl = $(this).data('lang');
+        console.log( nl );
         post( $(this).parent().data('language'),{'lang':nl},'',1);
     })
     .on('change','[data-languages]',function(){
@@ -59,7 +60,7 @@ $(document).ready(function(){
             notify('Language Changed!');
             reload(3);
         });
-    })
+    }) */
 
     // Set Regions
     .on('click','[data-set-region]',function () {

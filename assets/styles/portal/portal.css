@@ -500,7 +500,7 @@ a.brand {
   border: 1px solid rgba(0, 0, 0, 0.2);
   height: 40px;
   margin: 15px 0;
-  padding: 8px 10px 8px 45px;
+  padding: 8px 45px;
   font-weight: 200;
   font-size: 1.1rem;
   color: #000;
@@ -1373,12 +1373,19 @@ body.d .modal .close, body.d .header .tabs a.on:after, body.d .header .tabs div.
   left: auto;
   right: 0;
 }
+[dir=rtl] .header .title {
+  padding-left: 0;
+  padding-right: 50px;
+  letter-spacing: 0;
+}
+[dir=rtl] .header .back {
+  left: auto;
+  right: 0;
+  transform: rotate(180deg);
+}
 [dir=rtl] .user_drop .user_pic {
   right: 5px;
   left: auto;
-}
-[dir=rtl] .user_drop .user_name {
-  padding: 8px 45px 8px 10px;
 }
 [dir=rtl] .user_drop .user_details {
   right: auto;

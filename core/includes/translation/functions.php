@@ -143,10 +143,11 @@ function update_translation_ajax(): void {
  */
 function remove_translation_ajax(): void {
     $id = $_POST['id'] ?? '';
+    $appdebug = defined( 'APPDEBUG' ) && APPDEBUG;
     if( $id !== '' ){
         $cry = Encrypt::initiate();
         $db = new DB();
-        $trans = $db->delete( 'translations', 't_id = "'.$cry->decrypt( $id ).'"' );
+        $trans = $db->delete( 'translations', 't_id = "'.( $appdebug ? $id : $cry->decrypt( $id ) ).'"' );
         $trans ? ES('Translation Deleted') : EF('Could not delete Translation');
     }
 }

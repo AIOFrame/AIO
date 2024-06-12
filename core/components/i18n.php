@@ -5,6 +5,7 @@ $f = new FORM();
 global $options;
 $languages = $options['languages'] ?? '';
 $languages = explode( ',', str_replace( ' ', '', $languages ) );
+$app_debug = defined( 'APPDEBUG' ) && APPDEBUG;
 
 // Select Languages to Translate
 if( ( isset( $_POST['lang_select'] ) && $_POST['lang_select'] == 'add' ) || empty( $languages ) ) {
@@ -34,7 +35,7 @@ if( ( isset( $_POST['lang_select'] ) && $_POST['lang_select'] == 'add' ) || empt
     get_styles( ['bootstrap/css/bootstrap-grid','tagcomplete','i18n','micro'] );
     pre( '', 'row', 'form', 'method="post"' );
         $f->select( 'lang_select', 'Select Language', 'Select Language', array_merge( [ 'add'=>'Add Language' ], $app_languages ), $lang, 'onchange="this.form.submit()" class="select2"', 4, 1 );
-        $f->text( 'lang_search', 'Search Strings...', 'Search...', '', '', 4 );
+        $f->input( 'search', 'lang_search', 'Search Strings...', 'Search...', '', '', 4 );
         $f->select( 'lang_page', 'Select Page...', 'Select Page...', array_merge( ['All'] , $pages ), $page, 'onchange="this.form.submit()" class="select2"', 4 );
     post( 'form' );
     _d( '', 'i18n_wrap', 'data-save-scroll' );
@@ -49,7 +50,7 @@ if( ( isset( $_POST['lang_select'] ) && $_POST['lang_select'] == 'add' ) || empt
         if( !empty( $strings ) && is_array( $strings ) && !empty( $lang ) && $lang !== 'add' ) {
 
             $cry = Encrypt::initiate();
-            _d( 'translations', 'aio_translations', 'data-update="'.( APPDEBUG ? 'update_translation_ajax' : $cry->encrypt('update_translation_ajax') ).'" data-remove="'.( APPDEBUG ? 'remove_translation_ajax' : $cry->encrypt('remove_translation_ajax') ).'"' );
+            _d( 'translations', 'aio_translations', 'data-update="'.( $app_debug ? 'update_translation_ajax' : $cry->encrypt('update_translation_ajax') ).'" data-remove="'.( APPDEBUG ? 'remove_translation_ajax' : $cry->encrypt('remove_translation_ajax') ).'"' );
 
             foreach( $strings as $ts ){
 
@@ -59,7 +60,7 @@ if( ( isset( $_POST['lang_select'] ) && $_POST['lang_select'] == 'add' ) || empt
                     div( '', $ts['t_base'] ?? '' );
                     div( '', $ts['t_'.$lang] ?? '' );
                     div( '', APPURL . ( $ts['t_page'] ?? '' ) );
-                    el( 'i', $icon_class . ' red', $delete_ico, '', 'data-id="'.( APPDEBUG ? $ts['t_id'] : $cry->encrypt($ts['t_id']) ).'"' );
+                    el( 'i', $icon_class . ' red', $delete_ico, '', 'data-trash-id="'.( $app_debug ? $ts['t_id'] : $cry->encrypt($ts['t_id']) ).'"' );
                 d_();
 
             }

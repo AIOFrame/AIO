@@ -312,7 +312,7 @@ class PORTAL {
                     pre( '', 'user_drop mr20' );
                         if( !is_mobile() && !is_tablet() ) {
                             div( 'user_pic', '', '', ( !empty( $user_pic ) ? 'style="background-image:url('. storage_url($user_pic) .')" class="bg"' : '' ) );
-                            div( 'user_name ' . $ica, $user_name, '', 'data-icon="'.$down_ico.'"' );
+                            div( 'user_name ' . $ica, $user_name, '', 'data-icon-preview="'.$down_ico.'"' );
                             pre( '', 'user_details' );
                                 div( 'pic', '', '', ( !empty( $user_pic ) ? 'style="background-image:url('. storage_url($user_pic) .')" class="bg"' : '' ) );
                                 if( isset( $_SESSION['user'] ) ) {
@@ -323,7 +323,8 @@ class PORTAL {
                                 //h4( $user_name, 0, 'tac' );
                                 //h5( $user_role, 0, 'tac' );
                                 _r();
-                                    div( 'col tal', _a( APPURL . $profile_url, 'r5 bsn s btn m0' ) . T('My Profile') . a_() );
+                                    $user_ico = $options['ico_user'] ?? 'account_circle';
+                                    div( 'col tal', _a( APPURL . $profile_url, 'r5 bsn s btn m0' ) . ( el( 'i', $icon . ' ' . $user_ico, $user_ico ) . T('My Profile') ) . a_() );
                                     $logout_action = APPDEBUG ? 'logout_ajax' : $e->encrypt('logout_ajax');
                                     div( 'col tar', __b( 'red r5 bsn s m0', 'Logout', '', 'onclick="logout(\''.$logout_action.'\',\''.$logout_to.'\')"' ) );
                                 r_();

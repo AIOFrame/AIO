@@ -30,6 +30,7 @@
 
 .mica:after {
   content: attr(data-icon-preview);
+  font-size: 0.8rem;
 }
 
 [data-icon-preview] {
@@ -54,6 +55,7 @@
   top: 0;
   text-align: center;
   padding: var(--input_padding_top) 0 var(--input_padding_bottom) 0;
+  font-size: 1.4rem;
 }
 
 .icon_preview.l {
@@ -240,6 +242,10 @@ label + input + .icon_preview, label + input + .password_visibility .icon_previe
   right: 20px;
 }
 
+[dir=rtl] [data-icon-preview]:after {
+  right: auto;
+  left: 5px;
+}
 [dir=rtl] .ico.l {
   left: auto;
   right: 0;

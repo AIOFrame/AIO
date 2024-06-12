@@ -20,10 +20,10 @@ $(document).ready(function(){
     });*/
 
     // Type in Search
-    $('body').on('keyup','[name=lang_search]',function(e){
-        var sv = $(this).val();
+    $('body').on('keyup search','[name=lang_search]',function(e){
+        let sv = $(this).val();
         //elog(sv);
-        $.each($('#translations > div'),function(a,b){
+        $.each($('#aio_translations > div'),function(a,b){
             if( $(b).find('div:nth-child(1)').html().indexOf(sv) >= 0 ) {
                 $(b).show();
             } else {
@@ -34,7 +34,7 @@ $(document).ready(function(){
 
     // Filter Languages
     .on('keyup search','.filter_lang',function(){
-        var fl = $('.filter_lang');
+        let fl = $('.filter_lang');
         if( fl.val().length > 2 ){
             $('[data-lang]').each(function(a,b){
                 ~$(b).text().toLowerCase().indexOf( $('.filter_lang').val().toLowerCase() ) ? $(b).show() : $(b).hide();
@@ -67,14 +67,16 @@ $(document).ready(function(){
     // });
 
     // Delete Sentence
-    .on('click','.trash',function(){
+    .on('click','[data-trash-id]',function(){
         if( confirm( 'This string will not be available to translate anymore in all languages ?' ) ){
-            let id = $(this).data('id');
-            post( $('#aio_translations').data('remove'), { 'id': id }, 3, 3 );
+            post( $('#aio_translations').data('remove'), { 'id': $(this).data('trash-id') }, 3, 3 );
         }
     })
 });
 
+function get_translated() {
+
+}
 function get_translations() {
     let d = {'action':'get_translations','lang':'en','method':'json'};
     $.post(location.origin,d,function(r){
@@ -90,6 +92,9 @@ function get_translations() {
     });
 }
 
+function get_untranslated() {
+
+}
 function get_untranslations() {
     let d = {'action':'get_untranslated'};
     $.post(location.origin,d,function(r){

@@ -29,15 +29,15 @@ function T( string $string ): string {
 
         $translated = array_merge( $aio_trans, $translated );
 
-        if( !array_key_exists( $string, $translated ) && !array_key_exists( $string, $untranslated ) ) {
+        if( !array_key_exists( $string, $translated ) && !array_key_exists( $string, $untranslated ) && defined( 'PAGEPATH') ) {
 
-            $df = debug_backtrace();
-            $file = in_array(count($df), [3, 5, 7, 9, 11, 13]) ? $df[1]['file'] : $df[2]['file'];
+            //$df = debug_backtrace();
+            //$file = in_array(count($df), [3, 5, 7, 9, 11, 13]) ? $df[1]['file'] : $df[2]['file'];
+            //skel( PAGEPATH );
 
-            $file = !empty($file) && strpos( $file, 'pages/' ) > 0 ? str_replace(ROOTPATH, '', str_replace('apps/' . APPDIR . '/pages/', '', str_replace('.php', '', str_replace('/index', '', $file)))) : '';
-
-            $untranslated[ $string ] = [ $file ]; // Add string and page to untranslated
-
+            //$file = !empty($file) && strpos( $file, 'pages/' ) > 0 ? str_replace(ROOTPATH, '', str_replace('apps/' . APPDIR . '/pages/', '', str_replace('.php', '', str_replace('/index', '', $file)))) : '';
+            //$untranslated[ $string ] = [ $file ]; // Add string and page to untranslated
+            $untranslated[ $string ] = PAGEPATH;
         }
 
         return isset( $translated[$string] ) && $translated[$string] !== '' ? $translated[$string] : $string;
