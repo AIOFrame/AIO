@@ -12,26 +12,19 @@ if( defined( 'CONFIG' ) && !empty( CONFIG ) ) {
     $type = $d['type'] ?? $type;
 
     // Assign Database Host
-    $host = $d['server'] ?? $host;
-    $host = $d['host'] ?? $host;
-    $host = $d['url'] ?? $host;
+    $host = $d['server'] ?? ( $d['host'] ?? ( $d['url'] ?? $host ) );
 
     // Assign Database Name
-    $base = $d['database'] ?? $base;
-    $base = $d['name'] ?? $base;
-    $base = $d['base'] ?? $base;
-    $base = $d['db'] ?? $base;
-    $base = $d['d'] ?? $base;
+    $base = $d['database'] ?? ( $d['name'] ?? ( $d['base'] ?? ( $d['db'] ?? ( $d['d'] ?? $base ) ) ) );
 
     // Assign Database Username
-    $user = $d['username'] ?? $user;
-    $user = $d['user'] ?? $user;
-    $user = $d['u'] ?? $user;
+    $user = $d['username'] ?? ( $d['user'] ?? ( $d['u'] ?? $user ) );
 
     // Assign Database Password
-    $pass = $d['password'] ?? $pass;
-    $pass = $d['pass'] ?? $pass;
-    $pass = $d['p'] ?? $pass;
+    $pass = $d['password'] ?? ( $d['pass'] ?? ( $d['p'] ?? $pass ) );
+
+    // Assign Port
+    $port = $d['port'] ?? 3306;
 
     // Connect to Database
     if( !empty( $type ) && !empty( $host ) && !empty( $base ) ) {
@@ -42,6 +35,7 @@ if( defined( 'CONFIG' ) && !empty( CONFIG ) ) {
         !defined( 'DB_BASE' ) ? define( 'DB_BASE', $base ) : '';
         !defined( 'DB_USER' ) ? define( 'DB_USER', $user ) : '';
         !defined( 'DB_PASS' ) ? define( 'DB_PASS', $pass ) : '';
+        !defined( 'DB_PORT' ) ? define( 'DB_PORT', $port ) : '';
 
         global $db;
 
@@ -49,7 +43,7 @@ if( defined( 'CONFIG' ) && !empty( CONFIG ) ) {
         $connection_string = '';
         switch( $type ) {
             case 'mysql':
-                $connection_string = "mysql:host=$host;dbname=$base;charset=utf8mb4";
+                $connection_string = "mysql:host=$host;port=$port;dbname=$base;charset=utf8mb4";
                 break;
             case 'mssql':
                 //$connection_string = "sqlsrv:Server=($host);Database=$base";

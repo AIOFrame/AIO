@@ -27,7 +27,8 @@ class DB {
         $connection_string = '';
         switch( DB_TYPE ) {
             case 'mysql':
-                $connection_string = "mysql:host=".DB_HOST.";dbname=".DB_BASE.";charset=utf8mb4";
+                $connection_string = "mysql:host=".DB_HOST.";port=".DB_PORT.";dbname=".DB_BASE.";charset=utf8mb4";
+                //elog( $connection_string );
                 break;
             case 'mssql':
                 $connection_string = "sqlsrv:Server=".DB_HOST.";Database=".DB_BASE;
