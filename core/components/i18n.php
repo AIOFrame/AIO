@@ -30,7 +30,7 @@ if( ( isset( $_POST['editor_language'] ) && $_POST['editor_language'] == 'add' )
     $translate_url = $_POST['translation_url'] ?? '';
 
 
-    $query = !empty( $translate_url ) && $translate_url !== 'all' ? 't_page = "'.$translate_url.'"' : '';
+    $query = !empty( $translate_url ) && $translate_url !== 'All' ? 't_page = "'.$translate_url.'"' : '';
     $strings = !empty( $_POST['editor_language'] ) ? $db->select( 'translations', 't_id,t_base,t_page,t_'.$_POST['editor_language'], $query ) : [];
     //skel( $strings );
     $urls = $db->select( 'translations', 't_page' );
