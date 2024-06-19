@@ -555,17 +555,7 @@ class OPTIONS {
     }
 
     function language_options(): void {
-        // TODO: Move language options to languages php
-        $r = $this->current_region_prefix();
-        $db = new DB();
-        $all_languages = get_languages();
-        unset( $all_languages['en'] );
-        $languages = $db->get_option('languages');
-        $form = [
-            [ 'i' => $r.'languages', 'n' => 'Set Languages', 'p' => 'Choose Languages...', 'o' => $all_languages, 'v' => $languages, 'a' => 'data-al multiple', 'k' => 1, 't' => 'select2' ],
-        ];
-        $this->form( $form, 'row', 0, 'al', $this->region_flag().'Save Language Options', '', 'Successfully saved language options!', $r.'languages' );
-        div( 'region_info', 'English is default, you can add additional languages.', '', 'style="text-align:center; font-size: .8rem"', 1 );
+        language_options();
     }
 
     function export_import_options(): void {

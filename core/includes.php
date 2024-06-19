@@ -15,7 +15,7 @@ $base_load = [
     'code',                             // Provides easy to use html snippets
     'dependencies',                     // Improves or Includes most of the third-party dependencies
     'curl',                             // CURL Functions
-    'translation/strings',              // Translation functions
+    'translate',                        // Translation functions
 ];
 
 foreach( $base_load as $bl ) {
@@ -104,8 +104,8 @@ if( defined( 'CONFIG' ) ) {
 
         // Translation functions
         //if( in_array( 'translations', $features ) || in_array( 'languages', $features ) || in_array( 'lang', $features ) ) {
-        if( in_array_any( [ 'translations', 'languages', 'lang' ], $features ) ) {
-            include_once( $path . 'translation/functions.php' );
+        if( in_array_any( [ 'translations', 'translation', 'translate', 'languages', 'language', 'lang', 'i18n' ], $features ) ) {
+            include_once( $path . 'i18n.php' );
         }
 
         // Portal functions

@@ -265,7 +265,7 @@ class PORTAL {
                             foreach( $set_countries as $r ){
                                 $t = $countries[$r] ?? '';
                                 if( !empty( $cr ) && $cr == $r  ) {
-                                    div( 'ln list onn', $t );
+                                    div( 'ln list on', $t );
                                 } else {
                                     div( 'ln list', $t, '', 'data-set-region="'.$r.'"' );
                                 }
@@ -324,9 +324,9 @@ class PORTAL {
                                 //h5( $user_role, 0, 'tac' );
                                 _r();
                                     $user_ico = $options['ico_user'] ?? 'account_circle';
-                                    div( 'col tal', _a( APPURL . $profile_url, 'r5 bsn s btn m0' ) . ( el( 'i', $icon . ' ' . $user_ico, $user_ico ) . T('My Profile') ) . a_() );
+                                    div( 'col tal', _a( APPURL . $profile_url, 'r5 bsn s btn m0' ) . ( __el( 'i', $icon . ' ' . $user_ico, $user_ico ) . T('My Profile') ) . a_() );
                                     $logout_action = APPDEBUG ? 'logout_ajax' : $e->encrypt('logout_ajax');
-                                    div( 'col tar', __b( 'red r5 bsn s m0', 'Logout', '', 'onclick="logout(\''.$logout_action.'\',\''.$logout_to.'\')"' ) );
+                                    div( 'col tar', __b( 'red r5 bsn s m0', T( 'Logout' ) . __el( 'i', $icon . ' ' . $user_ico, $user_ico ), '', 'onclick="logout(\''.$logout_action.'\',\''.$logout_to.'\')"' ) );
                                 r_();
                             post();
                         } else {

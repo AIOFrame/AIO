@@ -359,3 +359,18 @@ function select_languages() : void {
         }
     }
 }
+
+function language_options(): void {
+    $o = new OPTIONS();
+    $db = new DB();
+    $r = defined( 'REGION' ) && isset( REGION['cca2'] ) ? strtolower( REGION['cca2'] ).'_' : '';;
+    //skel( $r );
+    $all_languages = get_languages();
+    unset( $all_languages['en'] );
+    $languages = $db->get_option('languages');
+    $form = [
+        [ 'i' => $r.'languages', 'n' => 'Set Languages', 'p' => 'Choose Languages...', 'o' => $all_languages, 'v' => $languages, 'a' => 'data-al multiple', 'k' => 1, 't' => 'select2' ],
+    ];
+    $o->form( $form, 'row', 1, 'al', $o->region_flag().'Save Language Options', '', 'Successfully saved language options!', $r.'languages' );
+    div( 'region_info', 'English is default, you can add additional languages.', '', 'style="text-align:center; font-size: .8rem"', 1 );
+}
