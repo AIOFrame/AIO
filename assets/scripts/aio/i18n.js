@@ -126,7 +126,7 @@ function update_translation() {
     }
 
     // Update Translations
-    let ln = $('[name=lang_select]').val();
+    let ln = $('[data-key=editor_language]').val();
     let d = { 'action': $('#aio_translations').data('update'), 'language': ln, 'string': $('[data-key=string]').val(), 'translation': $('[data-key=translation]').val() };
     elog(d);
 
