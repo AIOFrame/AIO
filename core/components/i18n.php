@@ -29,7 +29,8 @@ if( ( isset( $_POST['editor_language'] ) && $_POST['editor_language'] == 'add' )
     $editor_language = $_POST['editor_language'] ?? '';
     $translate_url = $_POST['translation_url'] ?? '';
 
-    $query = !empty( $_POST['translation_url'] ) ? 't_page = "'.$_POST['translation_url'].'"' : '';
+
+    $query = !empty( $translate_url ) && $translate_url !== 'all' ? 't_page = "'.$translate_url.'"' : '';
     $strings = !empty( $_POST['editor_language'] ) ? $db->select( 'translations', 't_id,t_base,t_page,t_'.$_POST['editor_language'], $query ) : [];
     //skel( $strings );
     $urls = $db->select( 'translations', 't_page' );
@@ -69,7 +70,7 @@ if( ( isset( $_POST['editor_language'] ) && $_POST['editor_language'] == 'add' )
                 foreach( $strings as $ts ){
 
                     _d();
-                        if( !empty( $page ) && !in_array( $page, ['All','Global'] ) && $ts['t_page'] !== $page ) { continue; }
+                        //if( !empty( $page ) && !in_array( $page, ['All','Global'] ) && $ts['t_page'] !== $page ) { continue; }
                         //$p = isset( $ts['t_page'] ) && !empty( $ts['t_page'] ) ?  '<span>'.$ts['t_page'].'</span>' : '';
                         div( '', $ts['t_base'] ?? '' );
                         div( '', $ts['t_'.$editor_language] ?? '' );
