@@ -161,6 +161,10 @@
   display: flex;
 }
 
+.dif {
+  display: inline-flex;
+}
+
 .df.g1 {
   gap: 10px;
 }
@@ -833,6 +837,81 @@ select.tar {
   margin-left: 30px;
 }
 
+.ml40 {
+  margin-left: 40px;
+}
+
+.ml50 {
+  margin-left: 50px;
+}
+
+.ml60 {
+  margin-left: 60px;
+}
+
+.ml80 {
+  margin-left: 80px;
+}
+
+.ml100 {
+  margin-left: 100px;
+}
+
+.mxi0 {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.mx5 {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.mx10 {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.mx15 {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.mx20 {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.mx30 {
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.mx40 {
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+.mx50 {
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+.mx60 {
+  margin-left: 60px;
+  margin-right: 60px;
+}
+
+.mx80 {
+  margin-left: 80px;
+  margin-right: 80px;
+}
+
+.mx100 {
+  margin-left: 100px;
+  margin-right: 100px;
+}
+
 .mta {
   margin-top: auto;
 }
@@ -914,6 +993,61 @@ select.tar {
 }
 
 .mb100 {
+  margin-bottom: 100px;
+}
+
+.myi0 {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.my5 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.my10 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.my15 {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.my20 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.my30 {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.my40 {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.my50 {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.my60 {
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+.my80 {
+  margin-top: 80px;
+  margin-bottom: 80px;
+}
+
+.my100 {
+  margin-top: 100px;
   margin-bottom: 100px;
 }
 
