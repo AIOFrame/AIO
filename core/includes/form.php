@@ -1071,15 +1071,16 @@ class FORM {
             if( is_numeric( $k ) )
                 continue;
             $k = strpos( $k, '_') !== false ? ltrim( strstr($k,'_'), '_' ) : $k;
-            if( $k == 'id' ) {
+            if( $k == 'id' && defined( 'APPDEBUG' ) && APPDEBUG ) {
                 $cry = Encrypt::initiate();
-                $final[ $k ] = APPDEBUG ? $v : $cry->encrypt( $v );
+                $final[ $k ] = $cry->encrypt( $v );
             } else if( !in_array( $k, $remove ) ){
-                $final[ $k ] = !empty( $v ) && ( $v != strip_tags( htmlspecialchars_decode( $v ) ) ) ? htmlentities( $v ) : $v;
+                $final[ $k ] = !empty( $v ) ? ( $v != strip_tags( htmlspecialchars_decode( $v ) ) ? 'test' : $v ) : ''; //!empty( $v ) && ( $v != strip_tags( htmlspecialchars_decode( $v ) ) ) ? htmlentities( $v ) : $v;
             }
         }
+        $final = json_encode( $final );
         //skel( $final );
-        return 'data-data=\'' . json_encode( $final ) . '\'';
+        return "data-data='{$final}'";
     }
 
     /**

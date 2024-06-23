@@ -78,9 +78,8 @@ function get_values( parent, attribute, prepend ) {
             } else if ( keyed_arr !== undefined ) {
                 // If data[pre_key] is undefined define it as array
                 pre_key = key;
-                console.log( "Moin" );
-                console.log( pre_key );
-                console.log( v );
+                //console.log( pre_key );
+                //console.log( v );
                 if( data[ pre + keyed_arr.replaceAll('[]','') ] === undefined ) { // || !$.isObject( data[ pre + keyed_arr.replaceAll('[]','') ] )
                     console.log( keyed_arr.replaceAll('[]','') );
                     data[ pre + keyed_arr.replaceAll('[]','') ] = {};
@@ -532,76 +531,78 @@ function edit_data( e, modal ) {
     $(modal).hasClass('modal') ? $('body').addClass('modal_open') : '';
     $(modal).find('[data-add]').hide();
     $(modal).find('[data-update],[data-edit]').show();
-    //elog(data);
-    $.each( data, function(i,d){
-        //elog(i);
-        if( d === null ) {
-            return;
-        }
-        if( i === 'id' ){
-            t.data('id',d).find('[data-t]').data('id',d);
-            $(t).hasClass('modal') ? t.addClass('on') : '';
-        } else {
-            let el = $(t).find('[data-key='+i+']');
-            //console.log( el.attr('type') );
-            if( el.attr('type') === 'checkbox' ){
-                if( el.data('key') !== undefined ) {
-                    //elog(el);
-                    d = !$.isArray(d) ? JSON.parse(d) : [d];
-                    //elog(d);
-                    if( $.isArray(d) ) {
-                        $(d).each(function(a,b){
-                            let s = $('[data-key='+i+'][value='+b+']');
-                            d === 1 || d === '1' || d === true || d.length > 0 ? s.prop('checked',true) : s.prop('checked',false);
-                        })
-                    } else {
-                        d === 1 || d === '1' || d === true || d.length > 0 ? el.prop('checked',true) : el.prop('checked',false);
-                    }
-                } else {
-                    let s = $('[data-key='+i+'][value='+d+']');
-                    d === 1 || d === '1' || d === true || d.length > 0 ? s.prop('checked',true) : s.prop('checked',false);
-                }
-            } else if( el.attr('type') === 'radio' ) {
-                let s = $('[data-key='+i+'][value='+d+']');
-                d === '1' || d === true || d.length > 0 ? s.prop('checked',true) : s.prop('checked',false);
-            } else if( el.prop('type') === 'select-multiple' ) {
-                $(el).val(d.split(', ')).trigger('change'); //.find('option[value="' + v + '"]').prop('selected', true);
-                /* $.each(d.split(', '), function(ix,v){
-                    elog($(el).find('option[value="' + v + '"]'));
-                }); */
-                /* $.map(d.split(','), function(value){
-                    return parseInt(value);
-                });*/
-                /* let tar = '#'+i;
-                if( $(tar).length ) {
-                    $(tar).val(d).change();
-                } else {
-                    $('[data-key="'+i+'"]').val(d).change();
-                }*/
-            } else {
-                //console.log('here');
-                let tar = '#'+i;
-                //console.log( text_to_html( d ) );
-                if( $(tar).length ) {
-                    //$(tar).remove();
-                    $(tar).val( text_to_html( d ) ).trigger('change');
-                } else {
-                    //let element = $('[data-key="'+i+'"]');
-                    if( el.data('hidden-date') !== undefined ) {
-                        //elog( element );
-                        //elog( el );
-                        let date = new Date( d );
-                        //elog( date );
-                        //elog( '#'+el.attr('id')+'_alt' );
-                        $( '#'+el.attr('id')+'_alt' ).val( [('0'+date.getDate()).slice(-2), ('0'+date.getMonth()).slice(-2), date.getFullYear()].join('-') ).trigger('change');
-                    }
-                    el.val( text_to_html( d ) ).trigger('change');
-                }
+    elog(data);
+    if( typeof data === 'object' && !Array.isArray(data) && data !== null ) {
+        $.each( data, function(i,d){
+            //elog(i);
+            if( d === null ) {
+                return;
             }
-            //elog('#'+i);
-            //elog(d);
-        }
-    });
+            if( i === 'id' ){
+                t.data('id',d).find('[data-t]').data('id',d);
+                $(t).hasClass('modal') ? t.addClass('on') : '';
+            } else {
+                let el = $(t).find('[data-key='+i+']');
+                //console.log( el.attr('type') );
+                if( el.attr('type') === 'checkbox' ){
+                    if( el.data('key') !== undefined ) {
+                        //elog(el);
+                        d = !$.isArray(d) ? JSON.parse(d) : [d];
+                        //elog(d);
+                        if( $.isArray(d) ) {
+                            $(d).each(function(a,b){
+                                let s = $('[data-key='+i+'][value='+b+']');
+                                d === 1 || d === '1' || d === true || d.length > 0 ? s.prop('checked',true) : s.prop('checked',false);
+                            })
+                        } else {
+                            d === 1 || d === '1' || d === true || d.length > 0 ? el.prop('checked',true) : el.prop('checked',false);
+                        }
+                    } else {
+                        let s = $('[data-key='+i+'][value='+d+']');
+                        d === 1 || d === '1' || d === true || d.length > 0 ? s.prop('checked',true) : s.prop('checked',false);
+                    }
+                } else if( el.attr('type') === 'radio' ) {
+                    let s = $('[data-key='+i+'][value='+d+']');
+                    d === '1' || d === true || d.length > 0 ? s.prop('checked',true) : s.prop('checked',false);
+                } else if( el.prop('type') === 'select-multiple' ) {
+                    $(el).val(d.split(', ')).trigger('change'); //.find('option[value="' + v + '"]').prop('selected', true);
+                    /* $.each(d.split(', '), function(ix,v){
+                        elog($(el).find('option[value="' + v + '"]'));
+                    }); */
+                    /* $.map(d.split(','), function(value){
+                        return parseInt(value);
+                    });*/
+                    /* let tar = '#'+i;
+                    if( $(tar).length ) {
+                        $(tar).val(d).change();
+                    } else {
+                        $('[data-key="'+i+'"]').val(d).change();
+                    }*/
+                } else {
+                    //console.log('here');
+                    let tar = '#'+i;
+                    //console.log( text_to_html( d ) );
+                    if( $(tar).length ) {
+                        //$(tar).remove();
+                        $(tar).val( text_to_html( d ) ).trigger('change');
+                    } else {
+                        //let element = $('[data-key="'+i+'"]');
+                        if( el.data('hidden-date') !== undefined ) {
+                            //elog( element );
+                            //elog( el );
+                            let date = new Date( d );
+                            //elog( date );
+                            //elog( '#'+el.attr('id')+'_alt' );
+                            $( '#'+el.attr('id')+'_alt' ).val( [('0'+date.getDate()).slice(-2), ('0'+date.getMonth()).slice(-2), date.getFullYear()].join('-') ).trigger('change');
+                        }
+                        el.val( text_to_html( d ) ).trigger('change');
+                    }
+                }
+                //elog('#'+i);
+                //elog(d);
+            }
+        });
+    }
 
     typeof files_ui === 'function' ? files_ui() : '';
     typeof file_ui === 'function' ? file_ui() : '';
