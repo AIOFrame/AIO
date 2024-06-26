@@ -45,7 +45,7 @@ $(document).ready(function(){
     })
 
     // Edit Sentence
-    .on('click','#aio_translations > div > div',function(e){
+    .on('click','#aio_translations > div:not(.new_string) > div',function(e){
         $('#aio_translations > div').removeClass('on');
         let tr = $(this).parent('div');
         tr.addClass('on');

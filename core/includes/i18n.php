@@ -127,7 +127,7 @@ function update_translation_ajax(): void {
 
         } else {
 
-            $trans = $db->insert( 'translations', ['t_base','t_'.$language,'trans_page'],[$string,$translation,$page]);
+            $trans = $db->insert( 'translations', ['t_base','t_'.$language,'t_page'],[$string,$translation,$page]);
 
         }
 
@@ -202,35 +202,22 @@ function get_translations() {
 
 // Returns list of language files present in App
 
-function app_languages() {
-    /* $final_languages = [];
-    if( file_exists( APPPATH . 'languages' ) ){
-        $languages = get_languages();
-        foreach( glob( APPPATH . 'languages/*.php' ) as $file ){
-            $lang = str_replace( APPPATH . 'languages/', '', str_replace( '.php', '', $file ));
-            isset( $languages[$lang] ) ? $final_languages[$lang] = $languages[$lang] : '';
-        }
-    }
-    return $final_languages; */
+function app_languages(): array {
+    $region = defined( 'REGION' ) && isset( REGION['cca2'] ) ? strtolower( REGION['cca2'] ).'_' : '';
     global $options;
-    //skel( $options );
-    $languages = $options['languages'] ?? '';
+    $languages = $options[ $region . 'languages' ] ?? '';
+    $languages = explode( ',', str_replace( ' ', '', $languages ) );
 
-    if( !empty( $languages ) ) {
-        $n = explode( ',', str_replace( ' ', '', $languages ) );
-        if( is_array( $n ) ) {
-            //skel( $n );
-            $all_languages = get_languages();
-            //skel( $all_languages );
-            if( !empty( $all_languages ) ) {
-                $data['en'] = 'English';
-                foreach ($n as $ln) {
-                    $data[$ln] = $all_languages[$ln];
-                }
-                return array_unique( $data );
-            } else {
-                return [];
+    if( !empty( $languages ) && is_array( $languages ) ) {
+        $all_languages = get_languages();
+        if( !empty( $all_languages ) ) {
+            $data['en'] = 'English';
+            foreach( $languages as $ln ) {
+                $data[$ln] = $all_languages[$ln];
             }
+            return array_unique( $data );
+        } else {
+            return [];
         }
     } else {
         return [];
@@ -370,7 +357,8 @@ function language_options(): void {
     $languages = $db->get_option('languages');
     $form = [
         [ 'i' => $r.'languages', 'n' => 'Set Languages', 'p' => 'Choose Languages...', 'o' => $all_languages, 'v' => $languages, 'a' => 'data-al multiple', 'k' => 1, 't' => 'select2' ],
+        [ 'i' => 'languages_updated', 'a' => 'data-al value="1"', 'c' => '.dn' ]
     ];
-    $o->form( $form, 'row', 1, 'al', $o->region_flag().'Save Language Options', '', 'Successfully saved language options!', $r.'languages' );
+    $o->form( $form, 'row', 1, 'al', $o->region_flag().'Save Language Options', '', 'Successfully saved language options!', $r.'languages,languages_updated' );
     div( 'region_info', 'English is default, you can add additional languages.', '', 'style="text-align:center; font-size: .8rem"', 1 );
 }

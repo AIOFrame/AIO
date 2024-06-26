@@ -1,3 +1,31 @@
+.set_editor_language {
+  .lang_grid {
+    display: flex;
+    margin: 0 -10px 30px;
+  }
+  [type=checkbox] {
+    display: none;
+  }
+  [type=checkbox] + label {
+    padding: 12px 20px;
+    background: #fff; // rgba(0,0,0,.2);
+    box-shadow: 0 3px 5px rgba(0,0,0,.15);
+    border-radius: 25px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 10px;
+    .ico {
+      margin: 0;
+      color: #000;
+      transform: translateX(6px);
+      //line-height: 20px;
+    }
+  }
+}
+[data-key=lang_search] {
+  border-radius: 30px;
+}
 #aio_translations > div {
   display: flex;
   flex-wrap:wrap;
@@ -13,12 +41,20 @@
   > div:nth-child(3) {
     flex:0 0 calc(33.3333% - 50px);
   }
+  > div:nth-child(4) {
+    flex:0 0 50px;
+  }
   i {
     width: 42px;
     height: 42px;
     line-height: 42px;
-    color: var(--error_color);
     cursor: pointer;
+  }
+  i.red {
+    color: var(--error_color);
+  }
+  i.green {
+    color: var(--success_color);
   }
 }
 #aio_lang_editor {

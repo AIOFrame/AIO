@@ -13,19 +13,16 @@ $feats = get_config( 'features' );
 if( is_array( $feats ) ) {
 
     // Create User tables if featured
-    //if( in_array( 'users', $feats ) || in_array( 'auth', $feats ) || in_array( 'authentication', $feats ) ) {
     if( in_array_any( [ 'users', 'auth', 'authentication' ], $feats ) ) {
         include_once( $path . 'users.php' );
     }
 
     // Create Translation tables if featured
-    //if( in_array( 'translations', $feats ) || in_array( 'languages', $feats ) ) {
     if( in_array_any( [ 'translations', 'languages', 'lang' ], $feats ) ) {
         include_once( $path . 'i18n.php' );
     }
 
     // Create File uploader tables if featured
-    //if( in_array( 'storage', $feats ) || in_array( 'uploads', $feats ) ) {
     if( in_array_any( [ 'storage', 'uploads', 'upload' ], $feats ) ) {
         include_once( $path . 'storage.php' );
     }

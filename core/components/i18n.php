@@ -3,6 +3,9 @@
 $db = new DB();
 $f = new FORM();
 global $options;
+$icon_class = $options['icon_class'] ?? 'mico';
+$go_icon = $options['ico_forward'] ?? 'arrow_forward';
+$lang_icon = $options['ico_languages'] ?? 'language';
 //skel( $options );
 $region = defined( 'REGION' ) && isset( REGION['cca2'] ) ? strtolower( REGION['cca2'] ).'_' : '';
 $languages = $options[ $region . 'languages' ] ?? '';
@@ -41,14 +44,24 @@ if( ( isset( $_POST['editor_language'] ) && $_POST['editor_language'] == 'add' )
     $translation_urls = array_unique( $translation_urls );
     get_styles( ['bootstrap/css/bootstrap-grid','tagcomplete','i18n','micro'] );
     if( empty( $_POST['editor_language'] ) ) {
-        pre( '', 'row', 'form', 'method="post"' );
-            $f->select2( 'editor_language', 'Choose Language to start translating', 'Choose...', array_merge( [ 'add' => 'Add Language' ], $app_languages ), $editor_language, 'onchange="this.form.submit()"', 12, 1 );
+        pre( '', 'set_editor_language', 'form', 'method="post"' );
+            h4( 'Choose Language to Edit' );
+            _d( 'lang_grid' );
+                foreach( $app_languages as $lk => $lv ) {
+                    $f->checkboxes( 'editor_language', '', [ $lk => $lv . __i( $icon_class . ' ico s ' . $go_icon, $go_icon ) ], '', 'onchange="this.form.submit()"' );
+                }
+            d_();
+            h4( 'Add / Edit App Languages' );
+            _d( 'lang_grid' );
+                $f->checkboxes( 'editor_language', '', [ 'add' => T('Language Settings')  . __i( $icon_class . ' ico s ' . $lang_icon, $lang_icon ) ], '', 'onchange="this.form.submit()"' );
+            d_();
+            //$f->select2( 'editor_language', 'Choose Language to start translating', 'Choose...', array_merge( [ 'add' => 'Add Language' ], $app_languages ), $editor_language, 'onchange="this.form.submit()"', 12, 1 );
         post( 'form' );
     } else {
         pre( '', 'row', 'form', 'method="post"' );
             $f->text( 'editor_language', '', '', $editor_language, 'style="display:none"' );
-            $f->input( 'search', 'lang_search', 'Search Strings...', 'Search...', '', '', 8 );
-            $f->select2( 'translation_url', 'Select Page...', 'Select Page...', array_merge( ['All'] , $translation_urls ), $translate_url, 'onchange="this.form.submit()"', 4 );
+            $f->input( 'search', 'lang_search', '', 'Search Strings...', '', '', 8 );
+            $f->select2( 'translation_url', '', 'Select Page...', array_merge( [ 'Select Page...' ] , $translation_urls ), $translate_url, 'onchange="this.form.submit()"', 4 );
         post( 'form' );
         h2( 'Translations for ' . $app_languages[ $_POST['editor_language'] ] );
         _d( '', 'i18n_wrap', 'data-save-scroll' );
@@ -56,6 +69,7 @@ if( ( isset( $_POST['editor_language'] ) && $_POST['editor_language'] == 'add' )
             $icon_class = $options['icon_class'] ?? 'mico';
             $close_ico = $options['ico_close'] ?? 'close';
             $delete_ico = $options['ico_delete'] ?? 'delete';
+            $save_ico = $options['ico_save'] ?? 'save';
             //skel( $options );
             //global $ui_params;
             //$path = !empty( $ui_params ) && isset( $ui_params['location'] ) ? $ui_params['location'] : APPPATH . 'storage/backups/*';
@@ -79,6 +93,15 @@ if( ( isset( $_POST['editor_language'] ) && $_POST['editor_language'] == 'add' )
                     d_();
 
                 }
+
+                // Add String Form
+                $f->pre_process( 'class="new_string"', 'update_translation_ajax', 'lang', '', [ 'language' => $editor_language ] );
+                    div( '', $f->__textarea( 'string', 'English String', 'Write your english string...', '', 'data-lang' ) );
+                    div( '', $f->__textarea( 'translation', 'Translation', 'Write your translation...', '', 'data-lang' ) );
+                    div( '', $f->__text( 'page', 'Page', 'Write page path excl. domain...', '', 'data-lang' ) );
+                    $f->process_trigger( '', 'px-2', '', '', '', '', 'div' );
+                    //el( 'i', $icon_class . ' green', $save_ico );
+                d_();
 
                 d_();
 

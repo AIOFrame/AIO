@@ -1,3 +1,30 @@
+.set_editor_language .lang_grid {
+  display: flex;
+  margin: 0 -10px 30px;
+}
+.set_editor_language [type=checkbox] {
+  display: none;
+}
+.set_editor_language [type=checkbox] + label {
+  padding: 12px 20px;
+  background: #fff;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
+  border-radius: 25px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 10px;
+}
+.set_editor_language [type=checkbox] + label .ico {
+  margin: 0;
+  color: #000;
+  transform: translateX(6px);
+}
+
+[data-key=lang_search] {
+  border-radius: 30px;
+}
+
 #aio_translations > div {
   display: flex;
   flex-wrap: wrap;
@@ -14,12 +41,20 @@
 #aio_translations > div > div:nth-child(3) {
   flex: 0 0 calc(33.3333% - 50px);
 }
+#aio_translations > div > div:nth-child(4) {
+  flex: 0 0 50px;
+}
 #aio_translations > div i {
   width: 42px;
   height: 42px;
   line-height: 42px;
-  color: var(--error_color);
   cursor: pointer;
+}
+#aio_translations > div i.red {
+  color: var(--error_color);
+}
+#aio_translations > div i.green {
+  color: var(--success_color);
 }
 
 #aio_lang_editor {
