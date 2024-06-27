@@ -3,6 +3,7 @@
 $db = new DB();
 $f = new FORM();
 global $options;
+global $translated;
 $icon_class = $options['icon_class'] ?? 'mico';
 $go_icon = $options['ico_forward'] ?? 'arrow_forward';
 $lang_icon = $options['ico_languages'] ?? 'language';
@@ -58,12 +59,13 @@ if( ( isset( $_POST['editor_language'] ) && $_POST['editor_language'] == 'add' )
             //$f->select2( 'editor_language', 'Choose Language to start translating', 'Choose...', array_merge( [ 'add' => 'Add Language' ], $app_languages ), $editor_language, 'onchange="this.form.submit()"', 12, 1 );
         post( 'form' );
     } else {
+        //skel( $translated );
         pre( '', 'row', 'form', 'method="post"' );
             $f->text( 'editor_language', '', '', $editor_language, 'style="display:none"' );
-            $f->input( 'search', 'lang_search', '', 'Search Strings...', '', '', 8 );
-            $f->select2( 'translation_url', '', 'Select Page...', array_merge( [ 'Select Page...' ] , $translation_urls ), $translate_url, 'onchange="this.form.submit()"', 4 );
+            $f->input( 'search', 'lang_search', '', T('Search Strings...'), '', '', 8 );
+            $f->select2( 'translation_url', '', T('Select Page...'), array_merge( [ T('Select Page...') ] , $translation_urls ), $translate_url, 'onchange="this.form.submit()"', 4 );
         post( 'form' );
-        h2( 'Translations for ' . $app_languages[ $_POST['editor_language'] ] );
+        h2( T('Translations') . ' - ' . $app_languages[ $_POST['editor_language'] ] );
         _d( '', 'i18n_wrap', 'data-save-scroll' );
 
             $icon_class = $options['icon_class'] ?? 'mico';
@@ -96,9 +98,9 @@ if( ( isset( $_POST['editor_language'] ) && $_POST['editor_language'] == 'add' )
 
                 // Add String Form
                 $f->pre_process( 'class="new_string"', 'update_translation_ajax', 'lang', '', [ 'language' => $editor_language ] );
-                    div( '', $f->__textarea( 'string', 'English String', 'Write your english string...', '', 'data-lang' ) );
-                    div( '', $f->__textarea( 'translation', 'Translation', 'Write your translation...', '', 'data-lang' ) );
-                    div( '', $f->__text( 'page', 'Page', 'Write page path excl. domain...', '', 'data-lang' ) );
+                    div( '', $f->__textarea( 'string', T('English String'), T('Write your english string...'), '', 'data-lang' ) );
+                    div( '', $f->__textarea( 'translation', T('Translation'), T('Write your translation...'), '', 'data-lang' ) );
+                    div( '', $f->__text( 'page', 'Page', T('Write page path excluding domain...'), '', 'data-lang' ) );
                     $f->process_trigger( '', 'px-2', '', '', '', '', 'div' );
                     //el( 'i', $icon_class . ' green', $save_ico );
                 d_();
@@ -113,14 +115,17 @@ if( ( isset( $_POST['editor_language'] ) && $_POST['editor_language'] == 'add' )
                 div( $icon_class . ' ' . $close_ico, $close_ico, '', 'data-on="#editor"' );
                 _r();
                     _c( 5 );
-                        //el( 'label', '', T('Sentence'), '', 'for="string"' );
+                        el( 'label', '', T('English String'), '', 'for="string"' );
                         b( 'small mx-2', 'COPY', '', 'data-clipboard-target="[data-key=string]"' );
-                        $f->textarea( 'string', 'Sentence', '', '', 'rows="2" tabindex="1"' );
                     c_();
                     _c( 6 );
+                        el( 'label', '', ( !empty( $lang ) && isset( $all_languages[$lang] ) ? $all_languages[$lang].' ' : '' ). T('Translation'), '', 'for="string"' );
                         b( 'small mx-2', 'COPY', '', 'data-clipboard-target="[data-key=translation]"' );
-                        $f->textarea( 'translation', ( !empty( $lang ) && isset( $all_languages[$lang] ) ? $all_languages[$lang].' ' : '' ). T('Translation'), '', '', 'rows="2" tabindex="2"' );
                     c_();
+                r_();
+                _r();
+                    $f->textarea( 'string', '', '', '', 'rows="2" tabindex="1"', 5 );
+                    $f->textarea( 'translation', '', '', '', 'rows="2" tabindex="2"', 6 );
                     _c( 1 );
                         b( '', 'Save', 'save', 'onclick="update_translation()"', 1 );
                     c_();

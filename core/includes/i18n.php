@@ -1,13 +1,12 @@
 <?php
 
 $db = new DB();
-$lang = get_config('lang');
-$lang = empty( $lang ) ? 'en' : $lang;
-!defined( 'BASELANG' ) ? define( 'BASELANG', $lang ) : '';
+!defined( 'BASELANG' ) ? define( 'BASELANG', 'en' ) : '';
 
 if( !empty( $_SESSION['lang'] ) && defined( 'BASELANG' ) && $_SESSION['lang'] !== BASELANG ) {
 
     $l = $_SESSION['lang'];
+    //skel( $l );
     global $translated; // Already translated
     global $untranslated;
 
@@ -17,15 +16,14 @@ if( !empty( $_SESSION['lang'] ) && defined( 'BASELANG' ) && $_SESSION['lang'] !=
 
     // Add translations to global variable $translated
     if(!empty( $db_trans )){
-
-        $new_data = [];
+        //$new_data = [];
         foreach( $db_trans as $t) {
-
-            $new_data[ $t['t_base'] ] = $t['t_'.$l];
-
+            if( isset( $translated[ $t['t_base'] ] ) && $translated[ $t['t_base'] ] !== '' && !empty( $t[ 't_' . $l ] ) ) {
+                $translated[ $t['t_base'] ] = $t[ 't_' . $l ];
+            }
+            //$new_data[ $t['t_base'] ] = $t['t_'.$l];
         }
-        $translated = $new_data;
-
+        //$translated = $new_data;
     }
     //skel( $translated );
     //echo count( $translated );
@@ -356,9 +354,9 @@ function language_options(): void {
     unset( $all_languages['en'] );
     $languages = $db->get_option('languages');
     $form = [
-        [ 'i' => $r.'languages', 'n' => 'Set Languages', 'p' => 'Choose Languages...', 'o' => $all_languages, 'v' => $languages, 'a' => 'data-al multiple', 'k' => 1, 't' => 'select2' ],
+        [ 'i' => $r.'languages', 'n' => T('Set Languages'), 'p' => T('Choose Languages...'), 'o' => $all_languages, 'v' => $languages, 'a' => 'data-al multiple', 'k' => 1, 't' => 'select2' ],
         [ 'i' => 'languages_updated', 'a' => 'data-al value="1"', 'c' => '.dn' ]
     ];
-    $o->form( $form, 'row', 1, 'al', $o->region_flag().'Save Language Options', '', 'Successfully saved language options!', $r.'languages,languages_updated' );
+    $o->form( $form, 'row', 1, 'al', $o->region_flag().T('Save Language Options'), '', 'Successfully saved language options!', $r.'languages,languages_updated' );
     div( 'region_info', 'English is default, you can add additional languages.', '', 'style="text-align:center; font-size: .8rem"', 1 );
 }
