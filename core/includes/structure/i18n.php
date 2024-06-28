@@ -7,11 +7,11 @@ $tables[] = [ 'translations', [
 ], 't', 1 ];
 
 global $options;
-//skel( $options );
+skel( $options );
 $regions = $options['regions'] ?? '';
 $regions = explode( ', ', $regions);
 $i18ns = '';
-if( !empty( $regions ) ) {
+if( !empty( $regions ) && count( $regions ) > 1 ) {
     foreach ($regions as $region) {
         $i18ns .= $options[ strtolower($region) . '_languages' ] . ', ';
         //$i18ns[] =
