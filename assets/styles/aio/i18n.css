@@ -23,6 +23,14 @@
 
 [data-key=lang_search] {
   border-radius: 30px;
+  padding-left: 40px;
+}
+
+[data-key=lang_search] + .ico.search {
+  position: absolute;
+  top: 6px;
+  left: 15px;
+  font-size: 1.5rem;
 }
 
 #aio_translations > div {
@@ -237,6 +245,17 @@
     left: 15px;
     transform: none;
   }
+}
+[dir=rtl] .set_editor_language [type=checkbox] + label .ico {
+  transform: translateX(-6px) rotateZ(180deg);
+}
+[dir=rtl] [data-key=lang_search] {
+  padding-right: 50px;
+  padding-left: var(--input_padding_left);
+}
+[dir=rtl] [data-key=lang_search] + .ico.search {
+  left: auto;
+  right: 15px;
 }
 [dir=rtl] #aio_lang_editor .close {
   right: auto;

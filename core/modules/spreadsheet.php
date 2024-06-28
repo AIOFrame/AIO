@@ -46,13 +46,14 @@ class SPREADSHEET {
         // ADDING BODY
         if (!empty($body)) {
             $alphas = range('A', 'Z');
-            $r = !empty($headers) ? 2 : 0;
-            foreach ($body as $bds) {
-                if (is_array($bds)) {
+            $r = !empty($headers) ? 2 : 1;
+            foreach ($body as $row) {
+                //skel( $row );
+                if (is_array($row)) {
                     $x = 0;
-                    foreach ($bds as $b) {
+                    foreach ($row as $b) {
                         $f = $alphas[$x] . $r;
-                        $b = str_replace(',', '', $b);
+                        $b = $b !== null ? str_replace(',', '', $b) : $b;
                         /*if( is_float( $b ) ){
                             $sheet->setCellValueExplicit( $f, $b, $format::FORMAT_NUMBER );
                         } else if( is_numeric( $b ) ) {
@@ -66,14 +67,19 @@ class SPREADSHEET {
                 $r++;
             }
         }
+        $file_name =  $title . '-' . date('d-m-y') . '.xlsx';
 
+        ob_start();
         header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment; filename="' . $title . '-' . date('d-m-y') . '.xlsx"');
+        header('Content-Disposition: attachment; filename="' . $file_name);
         header('Cache-Control: max-age=0');
         ob_end_clean();
         $writer = new PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
         if ($save_file) {
-            $writer->save(APPPATH . '/storage/xlsx/');
+            if (!file_exists(APPPATH . '/storage/xlsx/')) {
+                mkdir(APPPATH . '/storage/xlsx/', 0777, true);
+            }
+            $writer->save( APPPATH . '/storage/xlsx/' . $file_name );
         } else {
             $writer->save('php://output');
         }
