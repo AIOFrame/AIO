@@ -7,7 +7,7 @@ $tables[] = [ 'translations', [
 ], 't', 1 ];
 
 global $options;
-skel( $options );
+//skel( $options );
 $regions = $options['regions'] ?? '';
 $regions = explode( ', ', $regions);
 $i18ns = '';
