@@ -15,7 +15,7 @@ if( !empty( $_SESSION['lang'] ) && defined( 'BASELANG' ) && $_SESSION['lang'] !=
     $db_trans = !empty( $db_trans ) ? $db_trans : [];
 
     // Add translations to global variable $translated
-    if(!empty( $db_trans )){
+    if( !empty( $db_trans ) && $l !== 'en' ){
         //$new_data = [];
         foreach( $db_trans as $t) {
             if( isset( $translated[ $t['t_base'] ] ) && $translated[ $t['t_base'] ] !== '' && !empty( $t[ 't_' . $l ] ) ) {
