@@ -246,6 +246,14 @@ label + input + .icon_preview, label + input + .password_visibility .icon_previe
   right: auto;
   left: 5px;
 }
+[dir=rtl] .icon_preview {
+  right: auto;
+  left: 15px;
+}
+[dir=rtl] .icon_preview.l {
+  left: auto;
+  right: 15px;
+}
 [dir=rtl] .ico.l {
   left: auto;
   right: 0;

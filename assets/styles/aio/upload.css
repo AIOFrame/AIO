@@ -594,7 +594,7 @@ td .aio_fsp {
   width: 100%;
   min-height: 46px;
 }
-.aio_fp .aio_upload {
+.aio_fp button.aio_upload {
   margin: 0;
   border-top: var(--input_border_top) solid var(--input_border_color);
   border-right: var(--input_border_right) solid var(--input_border_color);
@@ -604,8 +604,10 @@ td .aio_fsp {
   position: relative;
   text-transform: none;
   background: rgba(0, 0, 0, 0.05);
+  color: #000;
+  box-shadow: none;
 }
-.aio_fp .aio_upload .ico {
+.aio_fp button.aio_upload .ico {
   position: absolute;
   right: 5px;
   top: 50%;
@@ -615,7 +617,7 @@ td .aio_fsp {
   display: block;
   color: var(--primary_color);
 }
-.aio_fp .aio_upload .ico.bi:before {
+.aio_fp button.aio_upload .ico.bi:before {
   font-size: 1.2rem;
   line-height: 35px;
 }

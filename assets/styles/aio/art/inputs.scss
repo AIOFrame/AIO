@@ -253,11 +253,7 @@ input.load, input.loading {
   background:url('../../../assets/icons/tadpole.svg') no-repeat center / 50%;
 }
 [type=text].dater {
-  background-image: url('../../assets/icons/calendar.svg');
-  background-repeat: no-repeat;
-  background-position: calc(100% - 10px) center;
-  background-size: 20px;
-  padding-right: 36px;
+  padding-left: 30px;
 }
 
 /* Input Checkbox Slider */
@@ -623,7 +619,7 @@ body {
   -webkit-text-fill-color: transparent;
 }
 .air-datepicker-cell.-selected-, .air-datepicker-cell.-selected-.-focus- {
-  color: $color;
+  color: var(--filled_color);
   background: $primary;
   background: -webkit-linear-gradient( 45deg, $primary, $secondary );
 }
@@ -833,6 +829,10 @@ body {
     cursor: pointer;
     position: relative;
   }
+  .icon_preview {
+    top: 5px;
+    font-size: 1.2rem;
+  }
   .filter {
     padding-left:30px;
   }
@@ -894,6 +894,17 @@ body {
   label.slide_label.on {
     padding-left: 0;
     padding-right: 10px;
+  }
+  .air-datepicker-nav--action {
+    transform: rotateZ(180deg);
+  }
+  [type=text].dater {
+    padding-left: 0;
+    padding-right: 30px;
+  }
+  .icon_preview {
+    top: 5px;
+    font-size: 1.2rem;
   }
 }
 

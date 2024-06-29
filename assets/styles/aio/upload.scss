@@ -579,7 +579,7 @@ td .aio_fsp {
     width:100%;
     min-height: 46px;
   }
-  .aio_upload {
+  button.aio_upload {
     margin: 0;
     border-top: $border-top solid $border-color;
     border-right: $border-right solid $border-color;
@@ -589,6 +589,8 @@ td .aio_fsp {
     position: relative;
     text-transform: none;
     background: rgba(0,0,0,.05);
+    color: #000;
+    box-shadow: none;
     .ico {
       position: absolute;
       right: 5px;

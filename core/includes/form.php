@@ -529,6 +529,9 @@ class FORM {
      */
     function __date( string|array $id, string $label = '', string $placeholder = '', string|null $value = '', string $attrs = '', string $position = '', string|float|int $pre = '', bool $range = false, bool $multiple = false, string $view_attr = '', string $min = '', string $max = '', string $post = '' ): string {
         $rand = rand(0,99999);
+        global $options;
+        $cal_ico = $options['ico_calendar'] ?? 'calendar_month';
+        $icon_preview = __div( ( $options['icon_class'] ?? 'mico' ) . ' l ' . $cal_ico . ' icon_preview', $cal_ico );
         $id = !empty( $id ) ? ( is_array( $id ) ? [ $id[0] ] : $id ) : $rand;
         $alt_id = is_array( $id ) ? [ $id[0].'_alt', $id[1].'_alt' ] : $id.'_alt';
         $range_attr = $range ? ' range' : '';
@@ -536,6 +539,8 @@ class FORM {
         $view_attr = $view_attr ? ' view="'.$view_attr.'"' : '';
         $position = !empty( $position ) ? $position : 'bottom center';
         $attrs .= is_array( $alt_id ) ? ' data-alt="[data-key='.$alt_id[0].']"' : ' data-alt="[data-key='.$alt_id.']"';
+        $post = $icon_preview . $post;
+        //$post = !empty( $pre ) && !empty( $post ) ? $post : ( $icon_preview );
 
         $visible_attr = is_array( $id ) ? 'class="dater" alt="#'.$id[0].'_'.$rand.'" position="'.$position.'"' : 'class="dater" alt="#'.$id.'_'.$rand.'" position="'.$position.'"';
         $visible_attr .= !empty( $min ) ? ' min="'.$min.'"' : '';
@@ -544,10 +549,10 @@ class FORM {
 
         // Hidden Input - Renders date format as per backend
         $value_ymd = !empty( $value ) ? ( $value !== 'fake_date' ? easy_date( $value, 'Y-m-d' ) : $value ) : '';
-        $return = '';
-        $return .= $this->__text( [ $id.'_'.$rand, $id ], '', '', $value_ymd, $attrs.' hidden data-hidden-date' );
+        $return = $this->__text([$id . '_' . $rand, $id], '', '', $value_ymd, $attrs . ' hidden data-hidden-date');
         // Visible Input - Render date for easier user grasp
         $value_dmy = !empty( $value ) ? ( $value !== 'fake_date' ? easy_date( $value, 'd-m-Y' ) : $value ) : '';
+        //skel( $icon_preview );
         $return .= $this->__text( $alt_id, $label, $placeholder, $value_dmy, $visible_attr.$range_attr.$multiple_attr.$view_attr.' data-visible-date no_post', $pre, $post );
         return $return;
     }

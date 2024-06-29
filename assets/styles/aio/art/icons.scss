@@ -212,6 +212,14 @@ label + input + .icon_preview, label + input + .password_visibility .icon_previe
     right: auto;
     left: 5px;
   }
+  .icon_preview {
+    right: auto;
+    left: 15px;
+  }
+  .icon_preview.l {
+    left: auto;
+    right: 15px;
+  }
   .ico.l {
     left: auto;
     right:0;

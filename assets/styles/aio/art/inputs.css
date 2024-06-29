@@ -219,11 +219,7 @@ input.load, input.loading {
 }
 
 [type=text].dater {
-  background-image: url("../../assets/icons/calendar.svg");
-  background-repeat: no-repeat;
-  background-position: calc(100% - 10px) center;
-  background-size: 20px;
-  padding-right: 36px;
+  padding-left: 30px;
 }
 
 /* Input Checkbox Slider */
@@ -579,7 +575,7 @@ body .trumbowyg-button-pane button.trumbowyg-active, body .trumbowyg-button-pane
 }
 
 .air-datepicker-cell.-selected-, .air-datepicker-cell.-selected-.-focus- {
-  color: var(--input_color);
+  color: var(--filled_color);
   background: var(--primary_color);
   background: -webkit-linear-gradient(45deg, var(--primary_color), var(--secondary_color));
 }
@@ -777,6 +773,10 @@ body .trumbowyg-button-pane button.trumbowyg-active, body .trumbowyg-button-pane
   cursor: pointer;
   position: relative;
 }
+.auto_filters .icon_preview {
+  top: 5px;
+  font-size: 1.2rem;
+}
 .auto_filters .filter {
   padding-left: 30px;
 }
@@ -826,6 +826,17 @@ body .trumbowyg-button-pane button.trumbowyg-active, body .trumbowyg-button-pane
 [dir=rtl] label.slide_label.on {
   padding-left: 0;
   padding-right: 10px;
+}
+[dir=rtl] .air-datepicker-nav--action {
+  transform: rotateZ(180deg);
+}
+[dir=rtl] [type=text].dater {
+  padding-left: 0;
+  padding-right: 30px;
+}
+[dir=rtl] .icon_preview {
+  top: 5px;
+  font-size: 1.2rem;
 }
 
 /* DARK MODE */
