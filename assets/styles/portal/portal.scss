@@ -600,6 +600,11 @@ a.brand {
     z-index: initial;
     box-shadow:0 0 30px rgba(0,0,0,.1) inset;
   }
+  .actions {
+    button, .btn {
+      margin: 0;
+    }
+  }
 }
 .user_drop:hover {
   .user_name {
@@ -610,6 +615,16 @@ a.brand {
   }
   .user_details {
     display: block;
+  }
+}
+.user_data {
+  box-shadow: none;
+  tbody {
+    tr {
+      td {
+        padding: 6px 0;
+      }
+    }
   }
 }
 
@@ -1495,6 +1510,11 @@ body.d {
       right: auto;
       left: 0;
       border-radius: 0 20px 20px 20px;
+    }
+  }
+  .user_data {
+    text-align: right;
+    td {
     }
   }
 }

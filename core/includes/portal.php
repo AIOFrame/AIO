@@ -316,13 +316,13 @@ class PORTAL {
                             pre( '', 'user_details' );
                                 div( 'pic', '', '', ( !empty( $user_pic ) ? 'style="background-image:url('. storage_url($user_pic) .')" class="bg"' : '' ) );
                                 if( isset( $_SESSION['user'] ) ) {
-                                    table($user_data,'user_data plain s mb10');
+                                    table($user_data,'user_data s mb10');
                                 } else {
                                     notice( 'Using developer mode, actual user access is not authenticated!', 'warning', '', 'error' );
                                 }
                                 //h4( $user_name, 0, 'tac' );
                                 //h5( $user_role, 0, 'tac' );
-                                _r();
+                                _r('actions');
                                     $user_ico = $options['ico_user'] ?? 'account_circle';
                                     $logout_ico = $options['ico_logout'] ?? 'logout';
                                     div( 'col tal', _a( APPURL . $profile_url, 'r5 bsn s btn m0 dif aic' ) . ( __el( 'i', $icon . ' mx5 xs ' . $user_ico, $user_ico ) . T('My Profile') ) . a_() );

@@ -569,6 +569,9 @@ a.brand {
   z-index: initial;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.1) inset;
 }
+.user_drop .actions button, .user_drop .actions .btn {
+  margin: 0;
+}
 
 .user_drop:hover .user_name {
   border: 1px solid #fff;
@@ -578,6 +581,13 @@ a.brand {
 }
 .user_drop:hover .user_details {
   display: block;
+}
+
+.user_data {
+  box-shadow: none;
+}
+.user_data tbody tr td {
+  padding: 6px 0;
 }
 
 /* SUB HEADER */
@@ -1391,6 +1401,9 @@ body.d .modal .close, body.d .header .tabs a.on:after, body.d .header .tabs div.
   right: auto;
   left: 0;
   border-radius: 0 20px 20px 20px;
+}
+[dir=rtl] .user_data {
+  text-align: right;
 }
 
 /*# sourceMappingURL=portal.css.map */
