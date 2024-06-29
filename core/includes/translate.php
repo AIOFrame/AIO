@@ -5,7 +5,7 @@ global $untranslated;
 $translated = empty( $translated ) ? [] : $translated;
 $untranslated = empty( $untranslated ) ? [] : $untranslated;
 session_start();
-if( !empty( $_SESSION['lang'] ) && $_SESSION['lang'] !== 'en' ) {
+if( !empty( $_SESSION['lang'] ) ) {
     $aio_translations_file = ROOTPATH . 'core/i18n/' . $_SESSION['lang'] . '.php';
     $aio_trans = file_exists( $aio_translations_file ) ? include $aio_translations_file : [];
     //skel( $aio_trans );
@@ -30,8 +30,10 @@ function E( string $string ): void {
 function T( string $string ): string {
     global $translated;
     global $untranslated;
-    if( !array_key_exists( $string, $translated ) && !array_key_exists( $string, $untranslated ) && defined( 'PAGEPATH') ) {
-        $untranslated[ $string ] = PAGEPATH;
+    $lang = $_SESSION['lang'] ?? 'en';
+    //skel( $lang );
+    if( !array_key_exists( $string, $translated ) && !array_key_exists( $string, $untranslated ) && $lang !== 'en' ) {
+        $untranslated[ $string ] = defined( 'PAGEPATH' ) ? PAGEPATH : '';
     }
     return isset( $translated[$string] ) && $translated[$string] !== '' ? $translated[$string] : $string;
 }

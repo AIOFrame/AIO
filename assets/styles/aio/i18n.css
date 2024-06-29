@@ -33,36 +33,66 @@
   font-size: 1.5rem;
 }
 
-#aio_translations > div {
-  display: flex;
-  flex-wrap: wrap;
+#aio_translations .page_set > div {
   background: #fff;
   border-bottom: 2px solid #f3f3f3;
   border-radius: 10px;
+  display: flex;
+  flex-wrap: wrap;
   cursor: pointer;
 }
-#aio_translations > div > div {
+#aio_translations .page_set > div > div {
   padding: 12px;
-  flex: 0 0 33.3333%;
+  flex: 0 0 50%;
   font-size: 15px;
 }
-#aio_translations > div > div:nth-child(3) {
-  flex: 0 0 calc(33.3333% - 50px);
+#aio_translations .page_set > div > div:nth-child(2) {
+  flex: 0 0 calc(50% - 50px);
 }
-#aio_translations > div > div:nth-child(4) {
+#aio_translations .page_set > div > i:nth-child(3) {
   flex: 0 0 50px;
 }
-#aio_translations > div i {
+#aio_translations .page_set .b {
+  direction: ltr;
+  unicode-bidi: embed;
+}
+#aio_translations .new_string {
+  display: flex;
+  flex-wrap: wrap;
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px 20px 0;
+  gap: 15px;
+}
+#aio_translations .new_string > div {
+  flex: calc(33.3333% - 15px);
+}
+#aio_translations .new_string > div:nth-child(3) {
+  max-width: calc(33.3333% - 65px);
+}
+#aio_translations .new_string .save {
+  flex: 50px;
+}
+#aio_translations .p {
+  padding: 0 10px 10px;
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+#aio_translations i {
   width: 42px;
   height: 42px;
   line-height: 42px;
   cursor: pointer;
 }
-#aio_translations > div i.red {
+#aio_translations i.red {
   color: var(--error_color);
 }
-#aio_translations > div i.green {
+#aio_translations i.green {
   color: var(--success_color);
+}
+
+#aio_translations .new_string {
+  margin-top: 20px;
 }
 
 #aio_lang_editor {

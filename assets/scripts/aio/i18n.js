@@ -45,13 +45,13 @@ $(document).ready(function(){
     })
 
     // Edit Sentence
-    .on('click','#aio_translations > div:not(.new_string) > div',function(e){
+    .on('click','#aio_translations .r',function(e){
         $('#aio_translations > div').removeClass('on');
-        let tr = $(this).parent('div');
+        let tr = $(this);
         tr.addClass('on');
         $('#aio_lang_editor').addClass('on').data('row',tr.index());
-        $('#aio_lang_editor [data-key=string]').val(tr.find('div:nth-child(1)').html());
-        $('#aio_lang_editor [data-key=translation]').val(tr.find('div:nth-child(2)').html()).focus();
+        $('#aio_lang_editor [data-key=edit_string]').val( tr.find('.b').html() );
+        $('#aio_lang_editor [data-key=edit_translation]').val( tr.find('.t').html() ).focus();
     })
 
     // Close Editor
@@ -119,15 +119,15 @@ function update_translation() {
     //if( $('#save').data('row') !== undefined && $('#save').data('row') !== '' ){
 
     // Update the Table
-    let r = $('#aio_translations div.on');
+    let r = $('#aio_translations .r.on');
     if( r.length > 0 ){
-        $(r).data('edited',true).find('div:first-child').html($('[data-key=string]').val());
-        $(r).find('div:nth-child(2)').html($('[data-key=translation]').val());
+        $(r).data('edited',true).find('.b').html($('[data-key=edit_string]').val());
+        $(r).find('.t').html($('[data-key=edit_translation]').val());
     }
 
     // Update Translations
     let ln = $('[data-key=editor_language]').val();
-    let d = { 'action': $('#aio_translations').data('update'), 'language': ln, 'string': $('[data-key=string]').val(), 'translation': $('[data-key=translation]').val() };
+    let d = { 'action': $('#aio_translations').data('update'), 'language': ln, 'string': $('[data-key=edit_string]').val(), 'translation': $('[data-key=edit_translation]').val() };
     elog(d);
 
     if( ln !== null ) {

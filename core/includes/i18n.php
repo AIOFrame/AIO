@@ -354,7 +354,7 @@ function language_options(): void {
     unset( $all_languages['en'] );
     $languages = $db->get_option('languages');
     $form = [
-        [ 'i' => $r.'languages', 'n' => T('Set Languages'), 'p' => T('Choose Languages...'), 'o' => $all_languages, 'v' => $languages, 'a' => 'data-al multiple', 'k' => 1, 't' => 'select2' ],
+        [ 'i' => $r.'languages', 'n' => 'Set Languages', 'p' => 'Choose Languages...', 'o' => $all_languages, 'v' => $languages, 'a' => 'data-al multiple', 'k' => 1, 't' => 'select2' ],
         [ 'i' => 'languages_updated', 'a' => 'data-al value="1"', 'c' => '.dn' ]
     ];
     $o->form( $form, 'row', 1, 'al', $o->region_flag().T('Save Language Options'), '', 'Successfully saved language options!', $r.'languages,languages_updated' );

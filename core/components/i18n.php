@@ -116,7 +116,7 @@ if( ( isset( $_POST['editor_language'] ) && $_POST['editor_language'] == 'add' )
                 b( 'plain w py10 tac', __i( $icon_class . ' ico l ' . $im_icon, $im_icon ), '', 'value="import" type="submit" '.$auto_post );
             c_();
         post( 'form' );
-        h2( T('Translations') . ' - ' . $app_languages[ $_POST['editor_language'] ] );
+        h2( T('Translations') . ' - ' . $app_languages[ $_POST['editor_language'] ], 0 );
         _d( '', 'i18n_wrap', 'data-save-scroll' );
 
             //skel( $options );
@@ -130,24 +130,32 @@ if( ( isset( $_POST['editor_language'] ) && $_POST['editor_language'] == 'add' )
 
                 //skel( $strings );
                 //$loop = array_slice( $strings, ( ( $p + 1 ) * $limit ), $limit );
-                foreach( $strings as $ts ){
+                $page_group = array_group_by( $strings, 't_page' );
+                //skel( $strings );
+                foreach( $page_group as $page_url => $page_strings ){
+                    _d( 'page_set mb20' );
+                        h4( $page_url, 0, 'page_url' );
+                        if( !empty( $page_strings ) ) {
+                            foreach( $page_strings as $ps ) {
+                                _d('r');
+                                    //if( !empty( $page ) && !in_array( $page, ['All','Global'] ) && $ts['t_page'] !== $page ) { continue; }
+                                    //$p = isset( $ts['t_page'] ) && !empty( $ts['t_page'] ) ?  '<span>'.$ts['t_page'].'</span>' : '';
+                                    div( 'b', $ps['t_base'] ?? '' );
+                                    div( 't', $ps['t_'.$editor_language] ?? '' );
+                                    el( 'i', $icon_class . ' red', $delete_ico, '', 'data-trash-id="'.( $app_debug ? $ps['t_id'] : $cry->encrypt($ps['t_id']) ).'"' );
+                                    //div( 'p', APPURL . ( $ps['t_page'] ?? '' ) );
+                                d_();
 
-                    _d();
-                        //if( !empty( $page ) && !in_array( $page, ['All','Global'] ) && $ts['t_page'] !== $page ) { continue; }
-                        //$p = isset( $ts['t_page'] ) && !empty( $ts['t_page'] ) ?  '<span>'.$ts['t_page'].'</span>' : '';
-                        div( '', $ts['t_base'] ?? '' );
-                        div( '', $ts['t_'.$editor_language] ?? '' );
-                        div( '', APPURL . ( $ts['t_page'] ?? '' ) );
-                        el( 'i', $icon_class . ' red', $delete_ico, '', 'data-trash-id="'.( $app_debug ? $ts['t_id'] : $cry->encrypt($ts['t_id']) ).'"' );
+                            }
+                        }
                     d_();
-
                 }
 
                 // Add String Form
                 $f->pre_process( 'class="new_string"', 'update_translation_ajax', 'lang', '', [ 'language' => $editor_language ] );
                     div( '', $f->__textarea( 'string', T('English String'), T('Write your english string...'), '', 'data-lang' ) );
                     div( '', $f->__textarea( 'translation', T('Translation'), T('Write your translation...'), '', 'data-lang' ) );
-                    div( '', $f->__text( 'page', 'Page', T('Write page path excluding domain...'), '', 'data-lang' ) );
+                    div( '', $f->__text( 'page', T('Page'), T('Write page path excluding domain...'), '', 'data-lang' ) );
                     $f->process_trigger( '', 'px-2', '', '', '', '', 'div' );
                     //el( 'i', $icon_class . ' green', $save_ico );
                 d_();
@@ -171,8 +179,8 @@ if( ( isset( $_POST['editor_language'] ) && $_POST['editor_language'] == 'add' )
                     c_();
                 r_();
                 _r();
-                    $f->textarea( 'string', '', '', '', 'rows="2" tabindex="1"', 5 );
-                    $f->textarea( 'translation', '', '', '', 'rows="2" tabindex="2"', 6 );
+                    $f->textarea( 'edit_string', '', '', '', 'rows="2" tabindex="1"', 5 );
+                    $f->textarea( 'edit_translation', '', '', '', 'rows="2" tabindex="2"', 6 );
                     _c( 1 );
                         b( '', 'Save', 'save', 'onclick="update_translation()"', 1 );
                     c_();

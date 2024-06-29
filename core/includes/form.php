@@ -174,7 +174,6 @@ class FORM {
         $id = !empty( $identity ) ? ( is_array($identity) ? $identity[0] : $identity.'_'.$rand ) : '';
         $name = is_array( $identity ) ? $identity[1] : $identity;
         $return = $_p;
-        $label = !empty( $label ) ? T( $label ) : '';
         $req = str_contains( $attr, 'required' ) ? '<i>*</i>' : '';
         $return .= !empty( $label ) ? '<label for="'.$id.'">'. $label .$req.'</label>' : '';
         $ph = !empty( $placeholder ) ? ' placeholder="'.$placeholder.'" data-placeholder="'.$placeholder.'"' : '';
@@ -234,7 +233,7 @@ class FORM {
         $type = $type == '' ? 'text' : $type;
         $_p = $this->__pre( $pre );
         $p_ = $this->__post( $pre, $post );
-        $ph = $placeholder !== '' ? ' placeholder="'.$placeholder.'"' : '';
+        $ph = $placeholder !== '' ? ' placeholder="'. $placeholder .'"' : '';
         $name = is_array( $identity ) ? $identity[1] : $identity;
         $id = !empty( $identity ) ? ( is_array($identity) ? $identity[0] : $identity.'_'.$rand ) : '';
         $n = $name !== '' ? $name : $id;
@@ -266,7 +265,7 @@ class FORM {
                 break;
         }
         $req = str_contains( $attrs, 'required' ) ? '<i>*</i>' : '';
-        $title = !empty( $label ) ? '<label for="'.$id.'">' . T( $label ) . $req . ( $type == 'range' ? '<span>'.$value.'</span>' : '' ) . '</label>' : '';
+        $title = !empty( $label ) ? '<label for="'.$id.'">' . $label . $req . ( $type == 'range' ? '<span>'.$value.'</span>' : '' ) . '</label>' : '';
         return $_p . $title . $input . $p_;
     }
 
@@ -468,7 +467,7 @@ class FORM {
         $key = 'data-key="'.$name.'"';
         $tip = $label !== '' ? 'title="'.$label.'"' : '';
         $return = $_p;
-        $return .= !empty($label) ? '<label class="db">'.T( $label ).'</label>' : '';
+        $return .= !empty($label) ? '<label class="db">'. $label .'</label>' : '';
         $return .= __d( 'slide_set' );
         $return .= !empty( $off_text ) ? '<label for="' . $id . '" '.$tip.' class="slide_label off">' . $off_text . '</label>' : '';
         $return .= '<input ' . $attr . ' class="slide ' . $size . '" type="checkbox" name="' . $name . '" '.$key.' id="' . $id . '" '. $checked .' >';
@@ -842,7 +841,6 @@ class FORM {
             }
             $uq = rand(1,999);
             $return .= $_p;
-            $label = !empty( $label ) ? T( $label ) : '';
             $req = str_contains( $attr, 'required' ) ? '<i>*</i>' : '';
             $return .= !empty($label) ? '<label class="db">'. $label .$req.'</label>' : '';
             $return .= $wrap_inputs_pre;
@@ -948,10 +946,10 @@ class FORM {
         $type = $multiple > 0 ? 'files' : 'file';
         $mul = $multiple > 0 ? ' data-files="'.$multiple.'" ' : ' data-file ';
         $req = str_contains( $attrs, 'required' ) ? '<i>*</i>' : '';
-        $label = !empty( $label ) ? '<label for="'.$id.'">'.T($label).$req.'</label>' : '';
+        $label = !empty( $label ) ? '<label for="'.$id.'">'.$label.$req.'</label>' : '';
         $value = APPDEBUG && str_contains( $value, 'fake_' ) ? $this->fake( $value ) : ( str_contains( $value, 'fake_' ) ? '' : $value );
         $ico = __div( ( $options['icon_class'] ?? 'mico' ) . ' ico ' . ( $options['ico_file_upload'] ?? '' ), $options['ico_file_upload'] ?? '' );
-        return $_p.$label.'<button type="button" class="aio_upload '.$button_class.'" data-url="#'.$id.'" onclick="file_upload(this)" '.$sh.$ext.$sz.$mul.$del.$pat.'>'.T($button_label).$ico.'</button><input id="'.$id.'" name="'.$name.'" data-key="'.$name.'" type="text" data-'.$type.' value="'.$value.'" '.$attrs.'>'.$p_;
+        return $_p.$label.'<button type="button" class="aio_upload '.$button_class.'" data-url="#'.$id.'" onclick="file_upload(this)" '.$sh.$ext.$sz.$mul.$del.$pat.'>'.$button_label.$ico.'</button><input id="'.$id.'" name="'.$name.'" data-key="'.$name.'" type="text" data-'.$type.' value="'.$value.'" '.$attrs.'>'.$p_;
     }
 
     /**
@@ -1149,12 +1147,12 @@ class FORM {
         $d = !empty( $data ) ? ' data-data="'.$data.'"' : '';
         $p = !empty( $pre ) ? ' data-pre="'.$pre.'"' : '';
         $h = !empty( $hidden ) ? ' data-h=\''.$hidden.'\'' : '';
-        $st = !empty( $success_alert ) ? ' data-success="'.T($success_alert).'"' : '';
+        $st = !empty( $success_alert ) ? ' data-success="'.$success_alert.'"' : '';
         $cb = !empty( $callback ) ? ( str_contains( $callback, '_ajax' ) ? ' data-callback="'.$c->encrypt($callback).'"' : ' data-callback="'.$callback.'"') : '';
         $v = !empty( $validator ) ? ' data-validation="'.$validator.'"' : '';
         $rd = !empty( $redirect ) ? ' data-redirect="'.$redirect.'"' : '';
         $rf = !empty( $reset_fields ) ? ( $reset_fields == 1 ? ' data-reset="'.$data.'"' : ' data-reset="'.$reset_fields.'"' ) : '';
-        $cn = !empty( $confirm ) ? ' data-confirm="'.T($confirm).'"' : '';
+        $cn = !empty( $confirm ) ? ' data-confirm="'.$confirm.'"' : '';
         $r .= $t.$nt.$rl.$d.$p.$h.$st.$cb.$v.$rd.$cn.$rf;
         $r .= $attr == '_' ? '' : '>';
         return $r;
@@ -1416,7 +1414,7 @@ class FORM {
         //$action = empty( $action ) ? 'process_data_ajax' : $action;
         $a = $attr;
         $a .= !empty( $action ) ? ' data-action="'. ( APPDEBUG ? $action : $c->encrypt($action) ) .'"' : '';
-        $a .= $confirm !== '' ? ' onclick="if(confirm(\''.T($confirm).'\')){process_data(this);}else{event.stopPropagation();event.preventDefault();}"' : ' onclick="process_data(this)"';
+        $a .= $confirm !== '' ? ' onclick="if(confirm(\''.$confirm.'\')){process_data(this);}else{event.stopPropagation();event.preventDefault();}"' : ' onclick="process_data(this)"';
         //$a .= $reload > 0 ? ' data-reload="'.$reload.'"' : '';
         //$a .= $notify > 0 ? ' data-notify="'.$notify.'"' : '';
         $text .= __el( 'span', 'loader' );
@@ -1491,7 +1489,7 @@ class FORM {
         $title = str_contains( $attr, 'title' ) ? '' : 'title="'.T('View').'"';
         //skel( $html );
         //skel( $p_ );
-        return $_p.'<'.$html.' data-href="'.$url.'" '.$title.' class="'.$class.'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$p_;
+        return $_p.'<'.$html.' data-href="'.$url.'" '.$title.' class="'.$class.'" '.$attr.'>'.$i. $text .'</'.$html.'>'.$p_;
     }
 
     /**
@@ -1537,7 +1535,7 @@ class FORM {
         $i = !empty( $i_class ) || !empty( $i_text ) ? __i( $i_class, $i_text ) : '';
         $title = str_contains( $attr, 'title=' ) ? '' : 'title="'.T('Edit').'"';
         $data = $title . ' data-edit-action class="'.$class.' edit" onclick="edit_data(this,\''.$element.'\')" ' . $this->__editable_data($array) . $attr;
-        return $_p . __el( $html, '', $i.T( $text ), '', $data ) . $p_;
+        return $_p . __el( $html, '', $i. $text , '', $data ) . $p_;
     }
 
     /**
@@ -1590,11 +1588,11 @@ class FORM {
         //skel( $logic );
         $table = str_contains( $target, '_ajax' ) ? '' : ( APPDEBUG ? $table : $c->encrypt($table) );
         $i = !empty( $i_class ) ? __i( $i_class, $i_text ) : '';
-        $attr .= !empty( $confirmation ) ? ' data-confirm="'.T($confirmation).'"' : '';
+        $attr .= !empty( $confirmation ) ? ' data-confirm="'.$confirmation.'"' : '';
         $title = str_contains( $attr, 'title' ) ? '' : 'title="'.T('Delete').'"';
         $notify_time = 2;
         $reload_time = 2;
-        return $_p . __el( $html, $class.' delete', $i . T( $text ), '', $title.' '.$attr.' data-delete-action onclick="trash_data(this,\''.$action.'\',\''.$table.'\',\''.$logic.'\','.$notify_time.','.$reload_time.')"' ) . $p_;
+        return $_p . __el( $html, $class.' delete', $i . $text , '', $title.' '.$attr.' data-delete-action onclick="trash_data(this,\''.$action.'\',\''.$table.'\',\''.$logic.'\','.$notify_time.','.$reload_time.')"' ) . $p_;
         //return $_p.'<'.$html.'  class="'.$class.'" '.$title.' '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$p_;
     }
 
@@ -1623,8 +1621,8 @@ class FORM {
         //$post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
         $c = Encrypt::initiate();
         $i = !empty( $i_class ) ? __el( 'i', $i_class ) : '';
-        $attr .= !empty( $confirmation ) ? ' data-confirm="'.T($confirmation).'"' : '';
-        echo $_p.'<'.$html.' onclick="update_data(this,\''.$c->encrypt('update_data_ajax').'\',\''.$c->encrypt($table).'\',\''.$c->encrypt_array($keys).'\',\''.$c->encrypt_array($values).'\',\''.$c->encrypt($logic).'\','.$notify_time.','.$reload_time.')" class="'.$class.'" title="'.T('Update').'" '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$p_;
+        $attr .= !empty( $confirmation ) ? ' data-confirm="'.$confirmation.'"' : '';
+        echo $_p.'<'.$html.' onclick="update_data(this,\''.$c->encrypt('update_data_ajax').'\',\''.$c->encrypt($table).'\',\''.$c->encrypt_array($keys).'\',\''.$c->encrypt_array($values).'\',\''.$c->encrypt($logic).'\','.$notify_time.','.$reload_time.')" class="'.$class.'" title="'.T('Update').'" '.$attr.'>'.$i. $text .'</'.$html.'>'.$p_;
     }
 
     function steps( array $steps = [], string $active = '', bool $translate = true ): void {
