@@ -35,7 +35,7 @@
 }
 #aio_translations {
   .page_set {
-    > div {
+    .r {
       background:#fff;
       border-bottom: 2px solid #f3f3f3;
       border-radius: 10px;
@@ -58,6 +58,9 @@
       direction: ltr;
       unicode-bidi: embed;
     }
+  }
+  .page_url {
+    margin-bottom: 20px;
   }
   .new_string {
     display: flex;
@@ -99,6 +102,15 @@
     margin-top: 20px;
   }
 }
+/* .aio_fp .aio_upload.upload_btn {
+  background: none;
+  border: 0;
+  color: #000;
+  padding: 5px 10px;
+  .ico.file_upload {
+    right: calc(50% - 17.5px);
+  }
+} */
 #aio_lang_editor {
   position: fixed;
   bottom: -60px;

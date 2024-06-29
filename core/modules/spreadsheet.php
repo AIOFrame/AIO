@@ -88,17 +88,16 @@ class SPREADSHEET {
 
     /**
      * Import spreadsheet file as data array
-     * @param array $file Spreadsheet file
+     * @param string $file_path
+     * @param string $type
      * @return array
      */
-    public function import( array $file ): array {
+    public function import( string $file_path, string $type = 'xlsx' ): array {
         $data = [];
-        if( file_exists( $file['tmp_name'] ) ){
-            $e = explode(".", $file['name']);
-            $type = is_array($e) ? ucfirst( $e[count($e)-1] ) : 'xlsx';
+        if( file_exists( $file_path ) ){
             try {
                 $reader = PhpOffice\PhpSpreadsheet\IOFactory::createReader($type);
-                $spreadsheet = $reader->load( $file['tmp_name'] );
+                $spreadsheet = $reader->load( $file_path );
                 $sheet_names = $spreadsheet->getSheetNames();
                 if( is_array( $sheet_names ) ){
                     foreach( $sheet_names as $sn ) {
@@ -108,6 +107,8 @@ class SPREADSHEET {
             } catch( Exception $e ) {
                 elog( $e, 'error', 103, ROOTPATH . 'core/modules/spreadsheet.php' );
             }
+        } else {
+            skel( 'File doesnt exist!' );
         }
         return $data;
     }

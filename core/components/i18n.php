@@ -49,9 +49,10 @@ if( ( isset( $_POST['editor_language'] ) && $_POST['editor_language'] == 'add' )
 
     $table_keys = isset( $_POST['export'] ) ? '' : 't_id,t_base,t_page,t_'.$editor_language;
     $query = !empty( $translate_url ) && $translate_url !== 'All' ? 't_page = "'.$translate_url.'"' : '';
-    $query = isset( $_POST['export'] ) ? '' : $query;
+    //$query = isset( $_POST['export'] ) ? '' : $query;
     $strings = !empty( $_POST['editor_language'] ) ? $db->select( 'translations', $table_keys, $query ) : [];
 
+    // Export Translations
     if( isset( $_POST['export'] ) ) {
         _d( 'tac' );
             h4( 'Your translation export spreadsheet file is ready to be downloaded!' );
@@ -76,6 +77,29 @@ if( ( isset( $_POST['editor_language'] ) && $_POST['editor_language'] == 'add' )
         }
         //skel( $xls );
     }
+
+    // Import Translations
+    //skel( $_POST );
+    if( isset( $_POST['import'] ) ) {
+        if( empty( $_POST['import'] ) ) {
+            _f( 'tac', 'post', '', '', 'multipart/form-data' );
+                h4( 'Import the same translation file downloaded and updated with related translations! Make sure no new columns are added!!' );
+                _r();
+                    $f->upload( 'import', '', 'Browse Translated XLSX / CSV', '', 0, 0, 'upload_btn plain', '', 'xls,.xlsx,.csv', 5, 1, '', 8 );
+                    //$f->input( 'file', 'import', 'Browse Translated XLSX / CSV', '', '', 'xls,.xlsx,.csv', 8 );
+                    _c(4);
+                        b( 'w', 'Process Import', '', 'type="submit"' );
+                    c_();
+                r_();
+            f_();
+        } else {
+            $xls = SPREADSHEET::initiate();
+            //skel( storage_path( $_POST['import'] ) );
+            $imported = $xls->import( storage_path( $_POST['import'] ) );
+            skel( $imported );
+        }
+    }
+
     //skel( $query );
     $urls = $db->select( 'translations', 't_page' );
     $translation_urls = [];
@@ -83,39 +107,38 @@ if( ( isset( $_POST['editor_language'] ) && $_POST['editor_language'] == 'add' )
         !empty( $url['t_page'] ) ? $translation_urls[ $url['t_page'] ] = $url['t_page'] : '';
     }
     $translation_urls = array_unique( $translation_urls );
-    $auto_post = 'onchange="this.form.submit()"';
+    $form_submit = 'onchange="this.form.submit()"';
     get_styles( ['bootstrap/css/bootstrap-grid','tagcomplete','i18n','micro'] );
-    if( empty( $_POST['editor_language'] ) ) {
-        pre( '', 'set_editor_language', 'form', 'method="post"' );
+    if( empty( $_POST['editor_language'] ) && !isset( $_POST['import'] ) ) {
+        _f( 'set_editor_language', 'post' );
             h4( 'Choose Language to Edit' );
             _d( 'lang_grid' );
                 foreach( $app_languages as $lk => $lv ) {
-                    $f->checkboxes( 'editor_language', '', [ $lk => $lv . __i( $icon_class . ' ico s ' . $go_icon, $go_icon ) ], '', $auto_post );
+                    $f->checkboxes( 'editor_language', '', [ $lk => $lv . __i( $icon_class . ' ico s ' . $go_icon, $go_icon ) ], '', $form_submit );
                 }
             d_();
             h4( 'Add / Edit App Languages' );
             _d( 'lang_grid' );
-                $f->checkboxes( 'editor_language', '', [ 'add' => T('Language Settings')  . __i( $icon_class . ' ico s ' . $lang_icon, $lang_icon ) ], '', $auto_post );
+                $f->checkboxes( 'editor_language', '', [ 'add' => T('Language Settings')  . __i( $icon_class . ' ico s ' . $lang_icon, $lang_icon ) ], '', $form_submit );
             d_();
             //$f->select2( 'editor_language', 'Choose Language to start translating', 'Choose...', array_merge( [ 'add' => 'Add Language' ], $app_languages ), $editor_language, $auto_post, 12, 1 );
-        post( 'form' );
-    } else {
+        f_();
+    } else if( !isset( $_POST['import'] ) ) {
         $auto_post = 'onclick="document.forms[\'lang_form\'].submit();"';
-        //skel( $_POST );
-        pre( '', 'row', 'form', 'method="post" name="lang_form"' );
+        _f( 'row', 'post', '', 'name="lang_form"' );
             $f->text( 'editor_language', '', '', $editor_language, '', '.dn' );
             _c(7,'rel');
                 $f->input( 'search', 'lang_search', '', T('Search Strings...') );
                 el( 'i', $icon_class . ' ico l ' . $search_ico, $search_ico );
             c_();
-            $f->select2( 'translation_url', '', T('Select Page...'), array_merge( [ 'All' => T('Select Page...') ] , $translation_urls ), $translate_url, $auto_post, 3, 1 );
+            $f->select2( 'translation_url', '', T('Select Page...'), array_merge( [ 'All' => T('Select Page...') ] , $translation_urls ), $translate_url, $form_submit, 3, 1 );
             _c(1);
-                b( 'plain w py10 tac', __i( $icon_class . ' ico l ' . $ex_icon, $ex_icon ), '', 'name="export" type="submit" '.$auto_post );
+                b( 'plain w py5 tac', __i( $icon_class . ' ico l ' . $ex_icon, $ex_icon ), '', 'name="export" type="submit" '.$auto_post );
             c_();
             _c(1);
-                b( 'plain w py10 tac', __i( $icon_class . ' ico l ' . $im_icon, $im_icon ), '', 'value="import" type="submit" '.$auto_post );
+                b( 'plain w py5 tac', __i( $icon_class . ' ico l ' . $im_icon, $im_icon ), '', 'name="import" type="submit" '.$auto_post );
             c_();
-        post( 'form' );
+        f_();
         h2( T('Translations') . ' - ' . $app_languages[ $_POST['editor_language'] ], 0 );
         _d( '', 'i18n_wrap', 'data-save-scroll' );
 
@@ -134,7 +157,7 @@ if( ( isset( $_POST['editor_language'] ) && $_POST['editor_language'] == 'add' )
                 //skel( $strings );
                 foreach( $page_group as $page_url => $page_strings ){
                     _d( 'page_set mb20' );
-                        h4( $page_url, 0, 'page_url' );
+                        h4( 'URL - ' . APPURL . ( $page_url == 'index' ? '' : $page_url ), 0, 'page_url' );
                         if( !empty( $page_strings ) ) {
                             foreach( $page_strings as $ps ) {
                                 _d('r');
@@ -189,4 +212,5 @@ if( ( isset( $_POST['editor_language'] ) && $_POST['editor_language'] == 'add' )
         d_();
     }
     get_scripts(['jquery','clipboard','tagcomplete','aio','i18n']);
+    file_upload();
 }

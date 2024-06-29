@@ -1282,6 +1282,11 @@ select.tar {
   padding-right: 0;
 }
 
+.px5, .ph5 {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
 .px10, .ph10 {
   padding-left: 10px;
   padding-right: 10px;
@@ -1345,6 +1350,11 @@ select.tar {
 .py0, .pv0 {
   padding-top: 0;
   padding-bottom: 0;
+}
+
+.py5, .pv5 {
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .py10, .pv10 {

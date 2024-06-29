@@ -76,6 +76,14 @@ function storage_url( $url = '' ): string {
     }
 }
 
+function storage_path( $url = '' ): string {
+    if( !empty( $url ) ) {
+        return mb_substr( $url, 1, 7) == 'storage' || mb_substr( $url, 1, 6) == 'assets' ? APPPATH . $url : $url;
+    } else {
+        return '';
+    }
+}
+
 function get_file_info( $url ): array {
     return [];
 }

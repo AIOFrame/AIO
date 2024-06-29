@@ -938,7 +938,7 @@ class FORM {
         $_p = $this->__pre( $pre );
         $p_ = $this->__post( $pre, $post );
         $sh = $show_history ? ' data-history' : '';
-        $ext = $extensions !== '' ? ' data-exts="'.$extensions.'"' : '';
+        $ext = $extensions !== '' ? ' data-exts="'.str_replace('.','',$extensions).'"' : '';
         $sz = $size !== '' ? ' data-size="'.$size.'"' : '';
         $del = $deletable ? ' data-delete' : '';
         $cry = Encrypt::initiate();

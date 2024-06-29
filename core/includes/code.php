@@ -628,11 +628,11 @@ function sc_(): void {
     echo '</script>';
 }
 
-function _f( string $class = '', string $method = '', string $action = '', string $id = '', string $enctype = '' ): void {
+function _f( string $class = '', string $method = '', string $action = '', string $attr = '', string $enctype = '' ): void {
     $a = in_array( $method, [ 'post', 'p' ] ) ? 'method="POST"' : ( in_array( $method, [ 'get', 'g' ] ) ? 'method="GET"' : '' );
     $a .= !empty( $action ) ? ' action="'.$action.'"' : '';
     $a .= !empty( $enctype ) ? ' enctype="'.$enctype.'"' : '';
-    echo __pre( $id, $class, 'form', $a );
+    echo __pre( '', $class, 'form', $a . ' ' . $attr );
 }
 
 function f_(): void {
