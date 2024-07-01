@@ -10,9 +10,12 @@ window.addEventListener('DOMContentLoaded',function () {
     })
 
     .on('change','[data-hidden-date]',function(){
-        //elog( $(this) );
         let date = new Date( $(this).val() );
         $( $(this).data('alt') ).val( [('0'+date.getDate()).slice(-2), ('0'+date.getMonth()).slice(-2), date.getFullYear()].join('-') ).trigger('change');
+    }).on('keyup','[data-visible-date]',function(){
+        let v = $(this).val();
+        let date = new Date( v.slice(6,10) + '-' + v.slice(3,5) + '-' + v.slice(0,2) );
+        $( $(this).attr('alt') ).val( [ date.getFullYear(), ('0'+(date.getMonth()+1)).slice(-2), ('0'+date.getDate()).slice(-2) ].join('-') );
     })
 
     .on('change','[type=number][data-step]',function (e) {

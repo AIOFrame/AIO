@@ -495,7 +495,7 @@ function title_bar( string $title = PAGENAME, string $back_url = '', string $lis
                 is_array( $center_tabs ) ? div( 'actions' ) : get_comp( $center_tabs );
         post();
 
-        pre( '', 'right df aic' );
+        pre( '', 'right df aic jce' );
             if( !empty( $actions ) || !empty( $comp_or_actions ) )
                 is_array( $comp_or_actions ) ? div( 'actions' ) : get_comp( $comp_or_actions );
         post();

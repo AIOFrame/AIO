@@ -1075,18 +1075,29 @@ aside::-webkit-scrollbar {
   margin-bottom: 10px;
 }
 .reports_wrap .auto_filters input, .reports_wrap .auto_filters textarea, .reports_wrap .auto_filters select {
-  padding: 12px;
+  padding: 15px 25px;
   font-size: 1.2rem;
-  border-radius: 8px;
+  border-radius: 30px;
   margin-bottom: 20px;
-  border: 2px solid #eee;
+  border: 0;
+  background: rgba(0, 0, 0, 0.06);
+}
+.reports_wrap .auto_filters .dater {
+  padding-left: 50px;
+}
+.reports_wrap .auto_filters .icon_preview {
+  top: 24px;
+  font-size: 1.4rem;
+  left: 26px;
 }
 .reports_wrap .auto_filters .select2.select2-container.select2-container--default {
   margin-bottom: 20px;
 }
 .reports_wrap .auto_filters .select2.select2-container.select2-container--default .select2-selection {
-  border: 2px solid #eee;
-  padding: 12px;
+  border: 0;
+  background: rgba(0, 0, 0, 0.06);
+  padding: 15px 25px;
+  border-radius: 30px;
 }
 .reports_wrap .auto_filters .select2-selection__placeholder, .reports_wrap .auto_filters .select2-selection__rendered {
   font-size: 1.2rem;

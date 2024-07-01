@@ -99,6 +99,7 @@ class OPTIONS {
         'dropdown' => 'expand_more',
         'previous' => 'arrow_back',
         'forward' => 'arrow_forward',
+        'print' => 'print',
     ];
     public array $option_elements = [
         'input' => 'Input Fields',

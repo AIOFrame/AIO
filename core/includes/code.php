@@ -749,13 +749,14 @@ function __table( array $rows = [], string $class = '', string $attr = '' ): str
  * @param bool $show_delete Show delete action (default true)
  * @return string
  */
-function __card( string $class = '', string $title = '', string $link = '', string $desc = '', string|null $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], string $table_class = '', array $actions = [], string $actions_class = '', string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '', bool $show_edit = true, bool $show_delete = true ): string {
+function __card( string $class = '', string $title = '', string $link = '', string $desc = '', string|null $image = '', string $image_class = '', string $icon = '', string $status = '', string $status_class = '', array $data = [], string $table_class = '', array $actions = [], string $actions_class = '', string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '', bool $show_edit = true, bool $show_delete = true ): string {
     $f = new FORM();
     global $options;
     //skel( $options );
     $icon_class = $options['icon_class'] ?? 'mico';
     $return = ( !empty ( $link ) ? __pre('','card '.($class??''),'a','href="'.$link.'"') : __pre('','card '.($class ?? '')) )
-    . ( !is_null( $image ) ? ( str_contains( $image, '<' ) ? $image : __image( str_contains( $image, 'http' ) ? $image : storage_url( $image ), '', $image_class ) ) : '' )
+    . ( !empty( $image ) ? ( str_contains( $image, '<' ) ? $image : __image( str_contains( $image, 'http' ) ? $image : storage_url( $image ), '', $image_class ) ) : '' )
+    . $icon
     . __pre('','head tac')
     . ( !empty( $title ) ? __el('h2','title grad',$title) : '' )
     . ( !empty( $desc ) ? __el('h5','desc',$desc) : '' )
@@ -791,6 +792,7 @@ function __card( string $class = '', string $title = '', string $link = '', stri
  * @param string $desc Description
  * @param string|null $image Image or Logo URL
  * @param string $image_class Image or Logo class [ 'logo', 'image', 'logo xl', 'image f' ]
+ * @param string $icon Icon html
  * @param string $status Status text for the card
  * @param string $status_class Status class [ 'orange', 'blue', 'green', 'red', 'l', 'r' ]
  * @param array $data Information to be displayed as table list [ [ 'Age', '25 Years' ], [ 'Gender', 'Male' ] ]
@@ -805,8 +807,8 @@ function __card( string $class = '', string $title = '', string $link = '', stri
  * @param bool $show_delete Show delete action (default true)
  * @return void
  */
-function card( string $class = '', string $title = '', string $link = '', string $desc = '', string|null $image = '', string $image_class = '', string $status = '', string $status_class = '', array $data = [], string $table_class = '', array $actions = [], string $actions_class = '', string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '', bool $show_edit = true, bool $show_delete = true ): void {
-    echo __card( $class, $title, $link, $desc, $image, $image_class, $status, $status_class, $data, $table_class, $actions, $actions_class, $edit_modal, $edit_data, $delete_table, $delete_logic );
+function card( string $class = '', string $title = '', string $link = '', string $desc = '', string|null $image = '', string $image_class = '', string $icon = '', string $status = '', string $status_class = '', array $data = [], string $table_class = '', array $actions = [], string $actions_class = '', string $edit_modal = '', array $edit_data = [], string $delete_table = '', string $delete_logic = '', bool $show_edit = true, bool $show_delete = true ): void {
+    echo __card( $class, $title, $link, $desc, $image, $image_class, $icon, $status, $status_class, $data, $table_class, $actions, $actions_class, $edit_modal, $edit_data, $delete_table, $delete_logic );
 }
 
 function __pre_modal( string $title = '', string $size = '', bool $editable = true ): string {

@@ -15,7 +15,7 @@ $radius: var(--input_radius);
 
 /* Buttons */
 
-button:not(.plain), .btn:not(.plain) {
+button, .btn {
   background:$primary;
   background: linear-gradient(160deg, $primary 0%, $secondary 100%);
   color: $filled_color;
@@ -32,6 +32,10 @@ button:not(.plain), .btn:not(.plain) {
   cursor: pointer;
   line-height: normal;
   position: relative;
+}
+button.plain, .btn.plain {
+  background: none;
+  color: var(--text_color);
 }
 button:not(.nf,.plain):hover, .btn:not(.nf,.plain):hover {
   transform:translateY(-2px);
