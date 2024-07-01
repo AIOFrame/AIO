@@ -71,17 +71,17 @@ table .acts i {
   transition: 0.6s;
 }
 
-table.xs td {
+table.xs th, table.xs td {
   padding: 6px;
   font-size: 10px;
 }
 
-table.s td {
+table.s th, table.s td {
   padding: 8px;
   font-size: 13px;
 }
 
-table.m td {
+table.m th, table.m td {
   padding: 10px;
   font-size: 15px;
 }
@@ -99,7 +99,7 @@ table.l tr:after {
   display: block;
   position: absolute;
 }
-table.l td {
+table.l th, table.l td {
   padding: 15px;
   font-size: 16px;
 }
@@ -117,7 +117,7 @@ table.xl tr:after {
   display: block;
   position: absolute;
 }
-table.xl td {
+table.xl th, table.xl td {
   padding: 20px;
   font-size: 16px;
 }
@@ -125,7 +125,7 @@ table.xl td {
 table.xls thead tr {
   box-shadow: none;
 }
-table.xls td {
+table.xls th, table.xls td {
   padding: 8px 10px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   min-height: 40px;
@@ -134,7 +134,7 @@ table.xls td {
 table.xls tbody td, table.xls tfoot td {
   padding: 0;
 }
-table.xls td input {
+table.xls th input, table.xls td input {
   margin: 0;
   border-radius: 0;
   box-shadow: none;
@@ -146,11 +146,17 @@ table.plain {
   border-collapse: collapse;
   border-radius: 0;
   box-shadow: none;
+  outline: 0;
 }
 table.plain thead, table.plain tbody, table.plain tfoot, table.plain tr, table.plain td, table.plain th {
   box-shadow: none;
   background: #fff;
   color: #000;
+  border: 0;
+  outline: 0;
+}
+table.plain th {
+  font-weight: bold;
 }
 table.plain tr:after {
   display: none;
@@ -178,7 +184,7 @@ table.r tr:last-child td:last-child, table.r tr:last-child th:last-child {
   border-bottom-right-radius: 5px;
 }
 
-table.px0 td {
+table.px0 th, table.px0 td {
   padding-left: 0;
   padding-right: 0;
 }

@@ -1384,7 +1384,7 @@ function notice( string $content = '', string $type = 'info', string $class = ''
  * @param bool $translate
  * @return void
  */
-function no_content( string $message = "You are trying to reach restricted content!", string $suggestion = '', string $link_text = '', string $link_url = '', string $class = '', bool $translate = false ): void {
+function no_content( string $message = "No data available!", string $suggestion = '', string $link_text = '', string $link_url = '', string $class = '', bool $translate = false ): void {
     $db = new DB();
     $image = $db->get_option('no_content_image') ?? '';
     $message = T( $message );

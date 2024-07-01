@@ -84,14 +84,14 @@ table {
 }
 
 table.xs {
-  td {
+  th, td {
     padding: 6px;
     font-size: 10px;
   }
 }
 
 table.s {
-  td {
+  th, td {
     padding: 8px;
     font-size: 13px;
   }
@@ -99,7 +99,7 @@ table.s {
 
 // Medium table
 table.m {
-  td {
+  th, td {
     padding:10px;
     font-size: 15px;
   }
@@ -120,7 +120,7 @@ table.l {
     display: block;
     position: absolute;
   }
-  td {
+  th, td {
     padding:15px;
     font-size: 16px;
   }
@@ -141,7 +141,7 @@ table.xl {
     display: block;
     position: absolute;
   }
-  td {
+  th, td {
     padding:20px;
     font-size: 16px;
   }
@@ -152,7 +152,7 @@ table.xls {
   thead tr {
     box-shadow:none;
   }
-  td {
+  th, td {
     padding:8px 10px;
     border:1px solid rgba(0,0,0,.1);
     min-height:40px;
@@ -161,7 +161,7 @@ table.xls {
   tbody td, tfoot td {
     padding: 0;
   }
-  td input {
+  th input, td input {
     margin:0;
     border-radius:0;
     box-shadow:none;
@@ -175,10 +175,16 @@ table.plain {
   border-collapse:collapse;
   border-radius:0;
   box-shadow:none;
+  outline: 0;
   thead, tbody, tfoot, tr, td, th {
     box-shadow:none;
     background:#fff;
     color:#000;
+    border: 0;
+    outline: 0;
+  }
+  th {
+    font-weight: bold;
   }
   tr:after {
     display: none;
@@ -212,7 +218,7 @@ table.r {
 
 // Table without horizontal padding
 table.px0 {
-  td {
+  th, td {
     padding-left: 0;
     padding-right: 0;
   }
