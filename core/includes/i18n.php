@@ -13,12 +13,15 @@ if( !empty( $_SESSION['lang'] ) && defined( 'BASELANG' ) && $_SESSION['lang'] !=
     // Load translations from database
     $db_trans = !is_array( $l ) ? $db->select( 'translations', 't_base, t_'.$l ) : [];
     $db_trans = !empty( $db_trans ) ? $db_trans : [];
+    //skel( $db_trans );
 
     // Add translations to global variable $translated
     if( !empty( $db_trans ) && $l !== 'en' ){
         //$new_data = [];
         foreach( $db_trans as $t) {
-            if( isset( $translated[ $t['t_base'] ] ) && $translated[ $t['t_base'] ] !== '' && !empty( $t[ 't_' . $l ] ) ) {
+            //skel( $t )
+            // isset( $translated[ $t['t_base'] ] ) && $translated[ $t['t_base'] ] !== ''
+            if( !empty( $t[ 't_' . $l ] ) ) {
                 $translated[ $t['t_base'] ] = $t[ 't_' . $l ];
             }
             //$new_data[ $t['t_base'] ] = $t['t_'.$l];
