@@ -640,9 +640,28 @@ class FORM {
         }
         return $this->__pre( $pre )
         . __r()
-        . $this->__select2( $code_id, $code_label, $code_placeholder, $codes, $code_default, $attr, 5, 1, $post )
-        . $this->__input( 'number', $phone_id, $phone_label, $phone_placeholder, $phone_default, $attr, 7, $post )
+        . $this->__select2( $code_id, $code_label, $code_placeholder, $codes, $code_default, $attr, 5, 1 )
+        . $this->__input( 'number', $phone_id, $phone_label, $phone_placeholder, $phone_default, $attr, 7 )
         . r__()
+        . $this->__post( $pre, $post );
+    }
+
+    function captcha( string $id, string $label = 'Type the Captcha', string $placeholder = '', string $attr = '', string|float|int $pre = '', string $post = '', int $captcha_font_size = 20, int $captcha_length = 5, array $text_color_rgb = [], array $bg_rgb = [] ): void {
+        echo $this->__captcha( $id, $label, $placeholder, $attr, $pre, $post, $captcha_font_size, $captcha_length, $bg_rgb, $text_color_rgb );
+    }
+
+    function __captcha( string $id, string $label = 'Type the Captcha', string $placeholder = '', string $attr = '', string|float|int $pre = '', string $post = '', int $captcha_font_size = 20, int $captcha_length = 5, array $text_color_rgb = [], array $bg_rgb = [] ): string {
+        $captcha = substr( str_shuffle( '!@#$%^&*()_+{}[]ABCDEFGHJKMNOPQRSTUVWXYZ!@#$%^&*()_+{}[]abcdefghjkmnopqrstuvwxyz023456789!@#$%^&*()_+{}[]' ), 0, $captcha_length );
+        $c = Encrypt::initiate();
+        $enc_captcha = $c->encrypt( $captcha );
+        return $this->__pre( $pre )
+            . __r()
+                . __c( 6, 'captcha_wrap' )
+                    . __text_to_image( implode('    ',str_split( $captcha )), 'img', 40, $captcha_font_size, rand( -20, 20 ), 10, 0, 1, ( $text_color_rgb ?? [ 'r' => 220, 'g' => 220, 'b' => 220 ] ), ( $bg_rgb ?? [ 'r' => 195, 'g' => 255, 'b' => 243 ] ) )
+                . c__()
+            . $this->__input( 'text', 'verify_captcha', $label, $placeholder, ( defined('APPDEBUG') && APPDEBUG  ? $captcha : '' ), $attr, 6 )
+            . $this->__input( 'hidden', 'enc_captcha', '', '', $enc_captcha, $attr )
+            . r__()
         . $this->__post( $pre, $post );
     }
 
@@ -1276,6 +1295,12 @@ class FORM {
                 $place_2 = $f['place2'] ?? ($f['placeholder2'] ?? ( $f['p2'] ??= ''));
                 $val_2 = $f['value2'] ?? ( $f['va2'] ?? ( $f['v2'] ?? ( $_POST[$id_2] ?? ( $_GET[$id_2] ?? '' ) ) ) );
                 $return .= $this->__phone( $id, $id_2, $label, $label_2, $place, $place_2, $val, $val_2, $attrs, $pre, $post );
+            } else if( $type == 'captcha' || $type == 'cap' ) {
+                $text_size = $f['text_size'] ?? ( $f['size'] ?? 26 );
+                $bg_rgb = $f['bg_color'] ?? ( $f['bg_rgb'] ?? ( $f['bg'] ?? [] ) );
+                $text_color = $f['text_color'] ?? ( $f['text_color_rgb'] ?? ( $f['text_rgb'] ?? ( $f['tc'] ?? [] ) ) );
+                $length = $f['max_length'] ?? ( $f['length'] ?? ( $f['l'] ?? 5 ) );
+                $return .= $this->__captcha( $id, $label, $place, $attrs, $pre, $post, $text_size, $length, $text_color, $bg_rgb );
             } else if( in_array( $type, [ 'uploads', 'upload', 'files', 'file', 'u', 'f' ] ) ) {
                 $btn_label = $f['btn_label'] ?? ( $f['button'] ?? ( $f['b'] ?? ( $f['placeholder'] ?? ( $f['place'] ?? ( $f['p'] ?? ( $label ?? 'Upload' ) ) ) ) ) );
                 $multiple = $f['multiple'] ?? ( $f['m'] ?? ( $type == 'uploads' ? 1 : ( $type == 'files' ? 1 : 0 ) ) );

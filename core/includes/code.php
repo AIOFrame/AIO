@@ -1017,7 +1017,7 @@ function easy_dt( $datetime = '', $format = 'd M, Y H:i a' ): string {
  * @return void
  */
 function text_to_image( string $text, int $size = 32, string $type = 'img', int $break = 40, int $rotate = 0, int $padding = 2, bool $transparent = false, array $color = ['r'=>255,'g'=>255,'b'=>255], array $bg_color = ['r'=>0,'g'=>0,'b'=>0] ): void {
-    echo _text_to_image( $text, $type, $break, $size, $rotate, $padding, $transparent, $color, $bg_color );
+    echo __text_to_image( $text, $type, $break, $size, $rotate, $padding, $transparent, $color, $bg_color );
 }
 
 
@@ -1030,14 +1030,25 @@ function text_to_image( string $text, int $size = 32, string $type = 'img', int 
  * @param int $rotate
  * @param int $padding
  * @param bool $transparent
+ * @param bool $captcha
  * @param array $color
  * @param array $bg_color
  * @return string
  */
-function _text_to_image( string $text, string $type = 'img', int $break = 40, int $size = 24, int $rotate = 0, int $padding = 2, bool $transparent = false, array $color = ['r'=>255,'g'=>255,'b'=>255], array $bg_color = ['r'=>0,'g'=>0,'b'=>0] ): string {
+function __text_to_image( string $text, string $type = 'img', int $break = 40, int $size = 24, int $rotate = 0, int $padding = 2, bool $transparent = false, bool $captcha = false, array $color = ['r'=>255,'g'=>255,'b'=>255], array $bg_color = ['r'=>0,'g'=>0,'b'=>0] ): string {
     $e = Encrypt::initiate();
-    $text = $e->encrypt( $text );
-    $url = APPURL . 'core/modules/tti.php?t='.$text.'&b='.$break.'&s='.$size.'&r='.$rotate.'&p='.$padding.'&tr='.$transparent.'&c='.json_encode($color).'&bg='.json_encode($bg_color);
+    $params = $e->encrypt_array([
+        't' => $text,
+        'b' => $break,
+        's' => $size,
+        'r' => $rotate,
+        'p' => $padding,
+        'tr' => $transparent,
+        'ca' => $captcha,
+        'c' => json_encode($color),
+        'bg' => json_encode($bg_color)
+    ]);
+    $url = APPURL . 'core/modules/tti.php?r='.$params;
     if( $type == 'img' ) {
         return '<img class=\'text_to_image\' src=\''.$url.'\' title=\'Encrypted Text\' />';
     } else {
@@ -1316,12 +1327,16 @@ function c_experimental( string|int $col_md = 12, string $class = '', string $id
  * @return void
  */
 function _c( string|int $col_md = 12, string $class = '', string $id = '', string $attr = '' ): void {
+    echo __c( $col_md, $class, $id, $attr );
+}
+
+function __c( string|int $col_md = 12, string $class = '', string $id = '', string $attr = '' ): string {
     if( $col_md == 'col' ) {
         $class = 'col';
     } else {
         $class = 'col-md-'.$col_md . ( str_contains( $class, 'col-' ) ? $class : ' col-12 '. $class );
     }
-    pre( $id, $class, 'div', $attr );
+    return __pre( $id, $class, 'div', $attr );
 }
 
 /**
@@ -1330,6 +1345,10 @@ function _c( string|int $col_md = 12, string $class = '', string $id = '', strin
  */
 function c_(): void {
     post();
+}
+
+function c__(): string {
+    return __post();
 }
 
 // Social Share

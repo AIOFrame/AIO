@@ -120,7 +120,7 @@ class DB {
 
             // Create Columns
             foreach( $columns as $col ) {
-                if ( is_array( $col ) && count( $col ) > 2 ) {
+                if ( is_array( $col ) && count( $col ) > 2 && !empty( $col[0] ) ) {
                     $col[2] = !empty( $col[2] ) ? $col[2] : '';
                     $col[4] = isset( $col[4] ) && !empty( $col[4] ) ? ' DEFAULT \'' . $col[4] . '\'' : '';
                     // Changes for MS SQL
@@ -146,7 +146,7 @@ class DB {
     function create_tables( $tables ): array {
         $tables_created = [];
         if( is_array( $tables ) ){
-            $query = '';
+            //$query = '';
             foreach( $tables as $table ){
                 $tables_created[] = $this->create_table( $table[0], $table[1], $table[2], $table[3] );
             }
@@ -219,6 +219,9 @@ class DB {
                                     continue;
                                 }
                                 $id = $row['identity'] ?? ( $row['id'] ?? ( $row['i'] ?? '' ) );
+                                if( empty( $id ) ) {
+                                    continue;
+                                }
                                 $type = $row['type'] ?? ( $row['t'] ?? 'text' );
                                 $length = $row['maxlength'] ?? ( $row['length'] ?? ( $row['max'] ?? ( $row['m'] ?? 64 ) ) );
                                 $required = $row['required'] ?? ( $row['req'] ?? ( $row['r'] ?? 0 ) );
