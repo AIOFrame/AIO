@@ -951,6 +951,20 @@ function process_data_ajax(): void {
             $pre = '';
         }
 
+        // Captcha Verification
+        if( isset( $a[ $pre . 'enc_captcha'] ) ) {
+            $captcha = $cry->decrypt( $a[ $pre . 'enc_captcha' ] );
+            $verify = $a[ $pre . 'verify_captcha' ];
+            unset( $a[ $pre . 'enc_captcha'] );
+            unset( $a[ $pre . 'verify_captcha'] );
+            if( $verify !== $captcha ) {
+                ef('Failed to verify Captcha! Please refresh and try again!!');
+                die();
+            }
+        } else {
+            es('Jabba');
+        }
+
         if( !empty( $a['d'] ) ){
             $a[$pre.$a['d']] = date('Y-m-d');
             unset( $a['d'] );
