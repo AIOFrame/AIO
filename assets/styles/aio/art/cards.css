@@ -8,7 +8,8 @@
   display: block;
   margin-bottom: 20px;
 }
-.card .image, .card .pic {
+.card .image, .card .pic, .card > .ico {
+  display: block;
   width: 80px;
   height: 80px;
   margin: 10px auto;

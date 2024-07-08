@@ -18,7 +18,8 @@ $success: var(--success_color);
   transition:.6s;
   display: block;
   margin-bottom: 20px;
-  .image, .pic {
+  .image, .pic, > .ico {
+    display: block;
     width: 80px;
     height: 80px;
     margin: 10px auto;
