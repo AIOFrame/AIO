@@ -239,7 +239,7 @@ class FORM {
         $n = $name !== '' ? $name : $id;
         $hidden_label = empty( $label ) ? $n : $label;
         $at = $attrs !== '' ? ' title="'.$hidden_label.'" '.$attrs : ' title="'.$hidden_label.'"';
-        $value = APPDEBUG && str_contains( $value, 'fake_' ) ? $this->fake( $value ) : ( str_contains( $value, 'fake_' ) ? '' : $value );
+        $value = str_contains( $value, 'fake_' ) ? $this->fake( $value ) : ( str_contains( $value, 'fake_' ) ? '' : $value );
         if( $type == 'textarea' ) {
             $va = $value !== '' ? $value : '';
         } else {
@@ -817,8 +817,8 @@ class FORM {
             $type = !empty( $type ) ? $type : ( $ops[$r.'default_map_type'] ?? '' );
             $style = $ops[$r.'map_style'] ?? '';
         }
-        $def_lat = !empty( $latitude_value ) ? ( APPDEBUG && str_contains( $latitude_value, 'fake_' ) ? ' lat="'.$this->fake( $latitude_value ).'"' : ' lat="'.$latitude_value.'"' ) : '';
-        $def_long = !empty( $longitude_value ) ? ( APPDEBUG && str_contains( $longitude_value, 'fake_' ) ? ' long="'.$this->fake( $longitude_value ).'"' : ' long="'.$longitude_value.'"' ) : '';
+        $def_lat = !empty( $latitude_value ) ? ( str_contains( $latitude_value, 'fake_' ) ? ' lat="'.$this->fake( $latitude_value ).'"' : ' lat="'.$latitude_value.'"' ) : '';
+        $def_long = !empty( $longitude_value ) ? ( str_contains( $longitude_value, 'fake_' ) ? ' long="'.$this->fake( $longitude_value ).'"' : ' long="'.$longitude_value.'"' ) : '';
         //$def_long = !empty( $longitude_value ) ? ' long="'.$longitude_value.'"' : '';
         $def_zoom = !empty( $zoom ) ? ' level="'.$zoom.'"' : '';
         $zoom_control = $show_zoom == 1 ? ' zoom_controls="1"' : '';
@@ -1001,7 +1001,7 @@ class FORM {
         $mul = $multiple > 0 ? ' data-files="'.$multiple.'" ' : ' data-file ';
         $req = str_contains( $attrs, 'required' ) ? '<i>*</i>' : '';
         $label = !empty( $label ) ? '<label for="'.$id.'">'.$label.$req.'</label>' : '';
-        $value = APPDEBUG && str_contains( $value, 'fake_' ) ? $this->fake( $value ) : ( str_contains( $value, 'fake_' ) ? '' : $value );
+        $value = str_contains( $value, 'fake_' ) ? $this->fake( $value ) : ( str_contains( $value, 'fake_' ) ? '' : $value );
         $ico = __div( ( $options['icon_class'] ?? 'mico' ) . ' ico ' . ( $options['ico_file_upload'] ?? '' ), $options['ico_file_upload'] ?? '' );
         return $_p.$label.'<button type="button" class="aio_upload '.$button_class.'" data-url="#'.$id.'" onclick="file_upload(this)" '.$sh.$ext.$sz.$mul.$del.$pat.'>'.$button_label.$ico.'</button><input id="'.$id.'" name="'.$name.'" data-key="'.$name.'" type="text" data-'.$type.' value="'.$value.'" '.$attrs.'>'.$p_;
     }
@@ -1784,100 +1784,104 @@ class FORM {
      * @param string $key Key of fake data needed
      */
     function fake( string $key = '' ) {
-        $key = str_replace( 'fake_', '', $key );
+        if( defined( 'CONFIG' ) && isset( CONFIG['autofill'] ) && CONFIG['autofill'] ) {
+            $key = str_replace( 'fake_', '', $key );
 
-        // PLACEHOLDER IMAGES
-        $images = [
-            'image' => 'https://picsum.photos/300',
-            'image_1' => 'https://picsum.photos/100',
-            'image_2' => 'https://picsum.photos/200',
-            'image_5' => 'https://picsum.photos/500',
-            'image_l' => 'https://picsum.photos/1000',
-            'image_xl' => 'https://picsum.photos/2000',
-            'pic' => 'https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5',
-            'picture' => 'https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5',
-            'images' => 'https://picsum.photos/300,https://picsum.photos/300,https://picsum.photos/300',
-        ];
-        if( ( str_contains( $key, 'image' ) || str_contains( $key, 'pic' ) ) && isset( $images[ $key ] ) ) {
-            return $images[ $key ];
-        }
-
-        // FAKER CONTENT
-        $locale = defined('FAKER') ? FAKER : 'en_US';
-        require_once VENDORLOAD;
-        $fk = Faker\Factory::create( $locale );
-        $replacements = [
-            'email' => 'freeEmail',
-            'mail' => 'freeEmail',
-            'site' => 'domainName',
-            'website' => 'domainName',
-            'url' => 'domainName',
-            'phone' => 'e164PhoneNumber',
-            'mobile' => 'e164PhoneNumber',
-            'contact' => 'e164PhoneNumber',
-            'slogan' => 'catchPhrase',
-            'design' => 'jobTitle',
-            'title' => 'jobTitle',
-            'job_title' => 'jobTitle',
-            'designation' => 'jobTitle',
-            'username' => 'userName',
-            'login' => 'userName',
-            'mac' => 'macAddress',
-            'card_type' => 'creditCardType',
-            'card_no' => 'creditCardNumber',
-            'card' => 'creditCardNumber',
-            'card_number' => 'creditCardNumber',
-            'swift' => 'swiftBicNumber',
-            'swift_no' => 'swiftBicNumber',
-            'swift_code' => 'swiftBicNumber',
-            'hex' => 'hexcolor',
-            'color' => 'hexcolor',
-            'rgb' => 'rgbCssColor',
-            'color_name' => 'colorName',
-            'address' => 'streetAddress',
-            'postal' => 'postcode',
-            'po_box' => 'postcode',
-            'po' => 'postcode',
-            'post' => 'postcode',
-            'street' => 'streetName',
-            'street_name' => 'streetName',
-            'country_code' => 'countryCode',
-            'country_iso2' => 'countryCode',
-            'country_iso3' => 'countryISOAlpha3',
-            'currency' => 'currencyCode',
-            'lat' => 'latitude',
-            'long' => 'longitude',
-            'ip' => 'ip4',
-        ];
-        $key = $replacements[ $key ] ?? $key;
-        /*foreach( $replacements as $r => $keys ) {
-            if( in_array( $key, $keys ) ) {
-                $key = $r;
+            // PLACEHOLDER IMAGES
+            $images = [
+                'image' => 'https://picsum.photos/300',
+                'image_1' => 'https://picsum.photos/100',
+                'image_2' => 'https://picsum.photos/200',
+                'image_5' => 'https://picsum.photos/500',
+                'image_l' => 'https://picsum.photos/1000',
+                'image_xl' => 'https://picsum.photos/2000',
+                'pic' => 'https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5',
+                'picture' => 'https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5',
+                'images' => 'https://picsum.photos/300,https://picsum.photos/300,https://picsum.photos/300',
+            ];
+            if( ( str_contains( $key, 'image' ) || str_contains( $key, 'pic' ) ) && isset( $images[ $key ] ) ) {
+                return $images[ $key ];
             }
-        }*/
-        $ka = explode( '_', $key );
-        $x = !empty( $ka ) && count( $ka ) > 1 ? end( $ka ) : 2;
-        if( $key == 'e164PhoneNumber' ) {
-            return str_replace( '+1', '', $fk->{ $key } );
-        } else if( str_contains( $key, 'words' ) ) {
-            return $fk->words( $x );
-        } else if( str_contains( $key, 'actions' ) ) {
-            return str_replace( ' ', ',', $fk->words( $x ) );
-        } else if( str_contains( $key, 'content' ) ) {
-            return $fk->sentence( $x );
-        } else if( str_contains( $key, 'para' ) ) {
-            return $fk->paragraphs( $x );
-        } else if( str_contains( $key, 'email' ) ) {
-            return $fk->safeEmail();
-        } else if( str_contains( $key, 'slug' ) ) {
-            return $fk->slug();
-        } else if( str_contains( $key, 'company_name' ) || str_contains( $key, 'company' ) ) {
-            $ends = [ 'LTD.', 'LLC.', 'Inc.', 'Co.', 'Corp.', 'PBC.', 'LLP.' ];
-            return ucwords( $fk->bs() . ' ' . $ends[array_rand( $ends )] );
-        } else if( str_contains( $key, 'company_email' ) || str_contains( $key, 'org_email' ) ) {
-            return $fk->companyEmail();
+
+            // FAKER CONTENT
+            $locale = defined('FAKER') ? FAKER : 'en_US';
+            require_once VENDORLOAD;
+            $fk = Faker\Factory::create( $locale );
+            $replacements = [
+                'email' => 'freeEmail',
+                'mail' => 'freeEmail',
+                'site' => 'domainName',
+                'website' => 'domainName',
+                'url' => 'domainName',
+                'phone' => 'e164PhoneNumber',
+                'mobile' => 'e164PhoneNumber',
+                'contact' => 'e164PhoneNumber',
+                'slogan' => 'catchPhrase',
+                'design' => 'jobTitle',
+                'title' => 'jobTitle',
+                'job_title' => 'jobTitle',
+                'designation' => 'jobTitle',
+                'username' => 'userName',
+                'login' => 'userName',
+                'mac' => 'macAddress',
+                'card_type' => 'creditCardType',
+                'card_no' => 'creditCardNumber',
+                'card' => 'creditCardNumber',
+                'card_number' => 'creditCardNumber',
+                'swift' => 'swiftBicNumber',
+                'swift_no' => 'swiftBicNumber',
+                'swift_code' => 'swiftBicNumber',
+                'hex' => 'hexcolor',
+                'color' => 'hexcolor',
+                'rgb' => 'rgbCssColor',
+                'color_name' => 'colorName',
+                'address' => 'streetAddress',
+                'postal' => 'postcode',
+                'po_box' => 'postcode',
+                'po' => 'postcode',
+                'post' => 'postcode',
+                'street' => 'streetName',
+                'street_name' => 'streetName',
+                'country_code' => 'countryCode',
+                'country_iso2' => 'countryCode',
+                'country_iso3' => 'countryISOAlpha3',
+                'currency' => 'currencyCode',
+                'lat' => 'latitude',
+                'long' => 'longitude',
+                'ip' => 'ip4',
+            ];
+            $key = $replacements[ $key ] ?? $key;
+            /*foreach( $replacements as $r => $keys ) {
+                if( in_array( $key, $keys ) ) {
+                    $key = $r;
+                }
+            }*/
+            $ka = explode( '_', $key );
+            $x = !empty( $ka ) && count( $ka ) > 1 ? end( $ka ) : 2;
+            if( $key == 'e164PhoneNumber' ) {
+                return str_replace( '+1', '', $fk->{ $key } );
+            } else if( str_contains( $key, 'words' ) ) {
+                return $fk->words( $x );
+            } else if( str_contains( $key, 'actions' ) ) {
+                return str_replace( ' ', ',', $fk->words( $x ) );
+            } else if( str_contains( $key, 'content' ) ) {
+                return $fk->sentence( $x );
+            } else if( str_contains( $key, 'para' ) ) {
+                return $fk->paragraphs( $x );
+            } else if( str_contains( $key, 'email' ) ) {
+                return $fk->safeEmail();
+            } else if( str_contains( $key, 'slug' ) ) {
+                return $fk->slug();
+            } else if( str_contains( $key, 'company_name' ) || str_contains( $key, 'company' ) ) {
+                $ends = [ 'LTD.', 'LLC.', 'Inc.', 'Co.', 'Corp.', 'PBC.', 'LLP.' ];
+                return ucwords( $fk->bs() . ' ' . $ends[array_rand( $ends )] );
+            } else if( str_contains( $key, 'company_email' ) || str_contains( $key, 'org_email' ) ) {
+                return $fk->companyEmail();
+            } else {
+                return $fk->{ $key };
+            }
         } else {
-            return $fk->{ $key };
+            return '';
         }
     }
 
