@@ -214,7 +214,9 @@ function app_languages(): array {
         if( !empty( $all_languages ) ) {
             $data['en'] = 'English';
             foreach( $languages as $ln ) {
-                $data[$ln] = $all_languages[$ln];
+                if( isset( $all_languages[$ln] ) ) {
+                    $data[$ln] = $all_languages[$ln];
+                }
             }
             return array_unique( $data );
         } else {

@@ -278,7 +278,7 @@ class PORTAL {
 
                 // Show Languages
                 $languages = app_languages();
-                if( 1 && !empty( $languages ) ) {
+                if( $show_languages && !empty( $languages ) && count( $languages ) > 1 ) {
                     pre( 'lang', 'nav_ico' );
                         div( ( $icon . ' ' . ( $options['ico_languages'] ?? '' ) ), $options['ico_languages'] ?? 'translate' );
                         pre( '', 'drop' );
