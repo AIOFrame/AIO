@@ -67,8 +67,10 @@ $image = imagecreate($width+($padding*2)+1,$height+($padding*2)+1);
 $background = ImageColorAllocate($image, $bg_color['r'], $bg_color['g'], $bg_color['b']);
 $foreground = ImageColorAllocate($image, $color['r'], $color['g'], $color['b']);
 
-if ( $transparent ) ImageColorTransparent($image, $background);
-if( $captcha ) {
+if ( $transparent ) {
+    ImageColorTransparent($image, $background);
+}
+/* if( $captcha ) {
     $art_size = 40;
     $baseR = random_rgb( $bg_color['r'] );
     $baseG = random_rgb( $bg_color['g'] );
@@ -84,7 +86,7 @@ if( $captcha ) {
             $pattern = ImageFilledRectangle( $image, ( $x * $art_size ) + $art_size, ( $y * $art_size ) + $art_size, ( $x * $art_size ) + $x, ( $y * $art_size ) + $y, $pattern_bg );
         }
     }
-}
+} */
 ImageInterlace($image, true);
 ImageTTFText($image, $size, $rotate, $offset_x+$padding, $offset_y+$padding, $foreground, $font, $text);
 imagealphablending($image, true);

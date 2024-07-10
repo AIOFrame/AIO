@@ -646,23 +646,53 @@ class FORM {
         . $this->__post( $pre, $post );
     }
 
-    function captcha( string $id, string $label = 'Type the Captcha', string $placeholder = '', string $attr = '', string|float|int $pre = '', string $post = '', int $captcha_font_size = 20, int $captcha_length = 5, array $text_color_rgb = [], array $bg_rgb = [] ): void {
-        echo $this->__captcha( $id, $label, $placeholder, $attr, $pre, $post, $captcha_font_size, $captcha_length, $bg_rgb, $text_color_rgb );
+    function captcha( string $id, string $label = 'Type the Captcha', string $placeholder = '', string $attr = '', string|float|int $pre = '', string $post = '', int $captcha_length = 5, array $text_color_rgb = [], array $bg_rgb = [] ): void {
+        echo $this->__captcha( $id, $label, $placeholder, $attr, $pre, $post, $captcha_length, $text_color_rgb, $bg_rgb );
     }
 
-    function __captcha( string $id, string $label = 'Type the Captcha', string $placeholder = '', string $attr = '', string|float|int $pre = '', string $post = '', int $captcha_font_size = 20, int $captcha_length = 5, array $text_color_rgb = [], array $bg_rgb = [] ): string {
-        $captcha = substr( str_shuffle( '!@#$%^&*()_+{}[]ABCDEFGHJKMNOPQRSTUVWXYZ!@#$%^&*()_+{}[]abcdefghjkmnopqrstuvwxyz023456789!@#$%^&*()_+{}[]' ), 0, $captcha_length );
+    function __captcha( string $id, string $label = 'Type the Captcha', string $placeholder = '', string $attr = '', string|float|int $pre = '', string $post = '', int $captcha_length = 5, array $text_color_rgb = [], array $bg_rgb = [] ): string {
+        //$captcha = substr( str_shuffle( '!@#$%^&*()_+{}[]ABCDEFGHJKMNOPQRSTUVWXYZ!@#$%^&*()_+{}[]abcdefghjkmnopqrstuvwxyz023456789!@#$%^&*()_+{}[]' ), 0, $captcha_length );
         $c = Encrypt::initiate();
+        global $options;
+        //$ico = $options['icon_class'] ?? 'mico';
+        //$reload = $options['ico_reload'] ?? 'replay';
+        $icon_texts = [ 'heart', 'house', 'star', 'car', 'plane', 'boat', 'prize', 'moon' ];
+        $icons = [
+            'heart' => 'favorite',
+            'house' => 'home',
+            'star' => 'grade',
+            'car' => 'directions_car',
+            'plane' => 'flight',
+            'boat' => 'sailing',
+            'prize' => 'emoji_events',
+            'moon' => 'nightlight'
+        ];
+        $r = rand( 0, count( $icon_texts ) - 1 );
+        $captcha = $icon_texts[ $r ];
         $enc_captcha = $c->encrypt( $captcha );
-        return $this->__pre( $pre )
+        $return = $this->__pre( $pre )
             . __r()
-                . __c( 6, 'captcha_wrap' )
-                    . __text_to_image( implode('    ',str_split( $captcha )), 'img', 40, $captcha_font_size, rand( -20, 20 ), 10, 0, 1, ( $text_color_rgb ?? [ 'r' => 220, 'g' => 220, 'b' => 220 ] ), ( $bg_rgb ?? [ 'r' => 195, 'g' => 255, 'b' => 243 ] ) )
+                . __c( 4, 'captcha_wrap' )
+                    . __text_to_image( T('Choose') . ' ' . $captcha, 'img', 40, rand(10, 35), 0, 10, 0, 1, ( $text_color_rgb ?? [ 'r' => 220, 'g' => 220, 'b' => 220 ] ), ( $bg_rgb ?? [ 'r' => 195, 'g' => 255, 'b' => 243 ] ) )
                 . c__()
-            . $this->__input( 'text', 'verify_captcha', $label, $placeholder, ( defined('APPDEBUG') && APPDEBUG  ? $captcha : '' ), $attr, 6 )
-            . $this->__input( 'hidden', 'enc_captcha', '', '', $enc_captcha, $attr )
+                . __c( 8, 'captcha_choices' )
+                    . __r( 'gx-0' );
+                        /* foreach( $icons as $in => $iv ) {
+                            $return .= $this->__radios( 'verify_captcha', '', [ $iv ], '', '', 0, '.col ' );
+                        } */
+                        shuffle( $icons );
+                        $return .= $this->__radios( 'verify_captcha', '', $icons, 'heart', str_replace( 'required', '', $attr), '', '', '', '', '.col' )
+                    . r__()
+                . c__();
+                /* . __c( 1 )
+                    . __div( $ico . ' ico mt30 cp ' . $reload, $reload, '', 'onclick="reload_captcha()" data-captcha="'. ( defined('APPDEBUG') && APPDEBUG ? $c->encrypt('reload_captcha_ajax') : 'reload_captcha_ajax' ) .'"' )
+                . c__() */
+                //$this->__input( 'text', 'verify_captcha', $label, $placeholder, ( defined('APPDEBUG') && APPDEBUG  ? $captcha : '' ), $attr, 6 )
+                //$return .= $this->__checkboxes( 'verify_captcha', 'Choose the icon', $icons, '', '', '', '', '', '.row', '.col' )
+            $return .= $this->__input( 'hidden', 'enc_captcha', '', '', $enc_captcha, $attr )
             . r__()
         . $this->__post( $pre, $post );
+            return $return;
     }
 
     /**
@@ -1296,11 +1326,10 @@ class FORM {
                 $val_2 = $f['value2'] ?? ( $f['va2'] ?? ( $f['v2'] ?? ( $_POST[$id_2] ?? ( $_GET[$id_2] ?? '' ) ) ) );
                 $return .= $this->__phone( $id, $id_2, $label, $label_2, $place, $place_2, $val, $val_2, $attrs, $pre, $post );
             } else if( $type == 'captcha' || $type == 'cap' ) {
-                $text_size = $f['text_size'] ?? ( $f['size'] ?? 26 );
                 $bg_rgb = $f['bg_color'] ?? ( $f['bg_rgb'] ?? ( $f['bg'] ?? [] ) );
                 $text_color = $f['text_color'] ?? ( $f['text_color_rgb'] ?? ( $f['text_rgb'] ?? ( $f['tc'] ?? [] ) ) );
                 $length = $f['max_length'] ?? ( $f['length'] ?? ( $f['l'] ?? 5 ) );
-                $return .= $this->__captcha( $id, $label, $place, $attrs, $pre, $post, $text_size, $length, $text_color, $bg_rgb );
+                $return .= $this->__captcha( $id, $label, $place, $attrs, $pre, $post, $length, $text_color, $bg_rgb );
             } else if( in_array( $type, [ 'uploads', 'upload', 'files', 'file', 'u', 'f' ] ) ) {
                 $btn_label = $f['btn_label'] ?? ( $f['button'] ?? ( $f['b'] ?? ( $f['placeholder'] ?? ( $f['place'] ?? ( $f['p'] ?? ( $label ?? 'Upload' ) ) ) ) ) );
                 $multiple = $f['multiple'] ?? ( $f['m'] ?? ( $type == 'uploads' ? 1 : ( $type == 'files' ? 1 : 0 ) ) );

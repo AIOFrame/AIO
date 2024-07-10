@@ -482,6 +482,28 @@ body .trumbowyg-button-pane button.trumbowyg-active, body .trumbowyg-button-pane
   margin: 0;
 }
 
+/* CAPTCHA */
+.captcha_choices .row {
+  flex-wrap: nowrap;
+}
+.captcha_choices [type=radio] {
+  display: none;
+}
+.captcha_choices label {
+  font-family: "MaterialIcons";
+  font-size: 1.6rem;
+}
+.captcha_choices [type=radio] + label {
+  padding: 5px !important;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  margin-bottom: var(--input_margin_bottom);
+  opacity: 0.35;
+}
+.captcha_choices [type=radio]:checked + label {
+  border: 2px solid #000;
+}
+
 /* CODE EDITOR */
 .ace_editor {
   margin: var(--input_margin_top) var(--input_margin_right) var(--input_margin_bottom) var(--input_margin_left);

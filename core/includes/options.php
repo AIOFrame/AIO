@@ -100,6 +100,7 @@ class OPTIONS {
         'previous' => 'arrow_back',
         'forward' => 'arrow_forward',
         'print' => 'print',
+        'reload' => 'replay',
     ];
     public array $option_elements = [
         'input' => 'Input Fields',
