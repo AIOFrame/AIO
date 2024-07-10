@@ -199,6 +199,8 @@ $(document).ready(function(){
 
 function file_ui() {
 
+    let delete_html = $('[data-file_delete_template]').html();
+
     $('input[data-file]').each(function(i,f){
 
         $(f).hide();
@@ -206,8 +208,10 @@ function file_ui() {
         let readonly = $(f).attr('readonly') !== undefined;
         let file = d.split('/')[ d.split('/').length - 1 ];
         let ext = file.split('.')[ file.split('.').length - 1 ];
-        let trash = !readonly ? '<i class="mat-ico trash">remove_circle</i>' : '';
-        let file_ui = file !== '' ? '<div class="f"><i class="mat-ico file '+ext+'"></i>'+trash+'<div class="f">'+file+'</div></div>' : $(f).prev('button').show().clone();
+        let trash = !readonly ? delete_html : '';
+        let template = $('[data-file_ui_template]').html();
+        //let file_ui = file !== '' ? '<div class="f"><i class="mat-ico file '+ext+'"></i>'+trash+'<div class="f">'+file+'</div></div>' : $(f).prev('button').show().clone();
+        let file_ui = file !== '' ? template.replaceAll('{{trash}}',trash).replaceAll('{{ext}}',ext).replaceAll('{{file}}',file) : $(f).prev('button').show().clone();
         if( !$(f).next().hasClass('aio_fp') ){
             let id = $(f).prev('button').data('url');
             $(f).after('<div class="aio_fp aio_files" data-url="'+ id +'"></div>');
@@ -221,19 +225,23 @@ function file_ui() {
 
 function files_ui() {
 
+    let delete_html = $('[data-file_delete_template]').html();
+
     $('input[data-files]').each(function(a,b){
         $(b).hide();
         let files = $(b).val() !== '' ? $(b).val().split('|') : '';
         let files_ui = '';
         let readonly = $(b).attr('readonly') !== undefined;
-        let trash = !readonly ? '<i class="mat-ico trash">remove_circle</i>' : '';
+        let trash = !readonly ? delete_html : '';
         $(files).each(function(c,d){
             let file = d.split('/')[ d.split('/').length - 1 ];
             let ext = file.split('.')[ file.split('.').length - 1 ];
             if( readonly ) {
                 files_ui += file !== '' ? '<a href="'+location.origin+'/apps/'+location.host.split('.')[0]+d+'" class="f"><i class="i file '+ext+'"></i>'+trash+'<div class="f">'+file+'</div></a>' : '';
             } else {
-                files_ui += file !== '' ? '<div class="f"><i class="i file '+ext+'"></i>'+trash+'<div class="f">'+file+'</div></div>' : '';
+                let template = $('[data-file_ui_template]').html();
+                //files_ui += file !== '' ? '<div class="f"><i class="i file '+ext+'"></i>'+trash+'<div class="f">'+file+'</div></div>' : '';
+                files_ui += file !== '' ? template.replaceAll('{{trash}}',trash).replaceAll('{{ext}}',ext).replaceAll('{{file}}',file) : '';
             }
         });
         //files_ui = files_ui === '' ? $(b).prev('button').show().clone() : files_ui;

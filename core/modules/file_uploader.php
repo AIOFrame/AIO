@@ -4,6 +4,7 @@ class FUP {
 
     function file_uploader(): void {
         global $options;
+        $ico_class = $options['icon_class'] ?? 'mico';
         $cry = Encrypt::initiate();
         get_style('upload');
         get_scripts(['jquery','upload']);
@@ -12,14 +13,14 @@ class FUP {
             pre( '', 'files_head' );
                 h3( 'File Uploader' );
                 pre( '', 'info' );
-                    div( 'sizes', __div( ( $options['icon_class'] ?? 'mico' ) . ' ico ' . ( $options['ico_file_size'] ?? '' ), ( $options['ico_file_size'] ??  'sd_card' ) ) . __div( 'title', __div( '', T('Max File Size') ) . __div( '', __el( 'span', 'size' ) . __el( 'span', 'measure', 'Mb' ) ) ) );
-                    div( 'types', __div( ( $options['icon_class'] ?? 'mico' ) . ' ico ' . ( $options['ico_file_type'] ?? '' ), ( $options['ico_file_type'] ?? 'description' ) ) . __div( 'title', T('File Types') . __div( 'types' ) ) );
-                    div( 'max', __div( ( $options['icon_class'] ?? 'mico' ) . ' ico ' . ( $options['ico_file_limit'] ?? '' ), $options['ico_file_limit'] ?? 'file_copy' ) . __div( 'title', T('Files Limit') . __div( 'qty', 2 ) ) );
+                    div( 'sizes', __div( $ico_class . ' ico ' . ( $options['ico_file_size'] ?? '' ), ( $options['ico_file_size'] ??  'sd_card' ) ) . __div( 'title', __div( '', T('Max File Size') ) . __div( '', __el( 'span', 'size' ) . __el( 'span', 'measure', 'Mb' ) ) ) );
+                    div( 'types', __div( $ico_class . ' ico ' . ( $options['ico_file_type'] ?? '' ), ( $options['ico_file_type'] ?? 'description' ) ) . __div( 'title', T('File Types') . __div( 'types' ) ) );
+                    div( 'max', __div( $ico_class . ' ico ' . ( $options['ico_file_limit'] ?? '' ), $options['ico_file_limit'] ?? 'file_copy' ) . __div( 'title', T('Files Limit') . __div( 'qty', 2 ) ) );
                 post();
                 pre( '', 'acts' );
-                    div( ( $options['icon_class'] ?? 'mico' ) . ' expand ' . ( $options['ico_file_expand'] ?? '' ), $options['ico_file_expand'] ?? 'open_in_full' );
-                    div( ( $options['icon_class'] ?? 'mico' ) . ' contract ' . ( $options['ico_file_contract'] ?? '' ), $options['ico_file_contract'] ?? 'close_fullscreen' );
-                    div( ( $options['icon_class'] ?? 'mico' ) . ' close ' . ( $options['ico_close'] ?? '' ), $options['ico_close'] ?? 'close' );
+                    div( $ico_class . ' expand ' . ( $options['ico_file_expand'] ?? '' ), $options['ico_file_expand'] ?? 'open_in_full' );
+                    div( $ico_class . ' contract ' . ( $options['ico_file_contract'] ?? '' ), $options['ico_file_contract'] ?? 'close_fullscreen' );
+                    div( $ico_class . ' close ' . ( $options['ico_close'] ?? '' ), $options['ico_close'] ?? 'close' );
                     /* if( is_array( ICONS ) )
                         in_array( 'Bootstrap', ICONS ) ? el( 'i', 'bi bi-arrows-angle-expand expand' ) . el( 'i', 'bi bi-x-lg close' ) : div( 'mat-ico expand' ) . div( 'mat-ico close', 'close' );
                     else
@@ -56,6 +57,13 @@ class FUP {
             );
         post();
         div( 'file_notify' );
+        $delete_ico = $options['ico_delete'] ?? 'remove_circle';
+        $file_ico = $options['ico_empty_file'] ?? 'insert_drive_file';
+        _d( 'dn' );
+            div( '', __div( $ico_class . ' ico trash ' . $delete_ico, $delete_ico ), '', 'data-file_delete_template' );
+            div( '', __div( 'f', __i( $ico_class.' file ico {{ext}} '.$file_ico, $file_ico ) . '{{trash}}' . __div( 'f', '{{file}}' ) ), '', 'data-file_ui_template' );
+        d_();
+        // '<div class="f"><i class="i file '+ext+'"></i>'+trash+'<div class="f">'+file+'</div></div>'
     }
 }
 

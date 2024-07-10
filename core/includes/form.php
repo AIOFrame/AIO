@@ -1255,6 +1255,9 @@ class FORM {
             $class = $f['class'] ?? ( $f['c'] ?? '' );
             if( in_array( $type, [ 'accordion', 'acc', 'a' ] ) ) {
                 $return .= __accordion( $label, $this->__form( $f['fields'] ?? $f['form'], $type, $data_attr ) );
+            } else if( in_array( $type, [ 'el', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div', 'span', 'i' ] ) ) {
+                $content = $f['content'] ?? ( $f['value'] ?? ( $f['v'] ?? '' ) );
+                $return .= __el( $type, $class, $content );
             } else if( in_array( $type, [ 'column', 'col' ] ) ) {
                 $class = is_numeric( $class ) ? $this->__col( $class ) : $class;
                 $sub_type = $f['sub_type'] ?? ( $f['type'] ?? 'row' );
