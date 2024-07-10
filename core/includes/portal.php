@@ -22,6 +22,8 @@ class PORTAL {
         'empty_file' => 'insert_drive_file',
         'list_view' => 'view_stream',
         'grid_view' => 'grid_view',
+        'light_mode' => 'brightness_5',
+        'dark_mode' => 'nightlight',
     ];
 
     /**
@@ -291,6 +293,14 @@ class PORTAL {
                 if( $link_to_front ) {
                     div( '', _a( APPURL, '', T( 'Go to Frontend Website' ), '', '', '_blank' ) . __div( 'nav_ico', __div( ( $icon . ' ' . ( $options['ico_frontend'] ?? '' ) ), $options['ico_frontend'] ?? 'desktop_windows' ) ) . a_(), 'link_to_front' );
                 }
+
+                // Dark Mode
+                //skel( $options );
+                /* if( isset( $options['enable_dark_mode'] ) && $options['enable_dark_mode'] == 1 ) {
+                    $light_ico = $options['light_mode'] ?? 'brightness_5';
+                    $dark_ico = $options['dark_mode'] ?? 'nightlight';
+                    div( 'nav_ico', __div( $icon . ' ico light_mode ' . $dark_ico, $dark_ico ) . __div( $icon . ' ico dark_mode ' . $light_ico, $light_ico ), '', 'data-toggle-light' );
+                } */
 
                 // Show User
                 if( $show_user ) {

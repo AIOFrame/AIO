@@ -18,6 +18,11 @@ $(document).ready(function() {
         })
     })
 
+    .on('click','[data-toggle-light]',function () {
+        $('body').toggleClass('d');
+        localStorage.setItem('dark_mode',$(b).hasClass('d'));
+    })
+
     /* .on('click','#expand',function(){
         $('#user_panel').toggleClass('on');
         $(this).toggleClass('on');

@@ -8,18 +8,24 @@ class OPTIONS {
     public array $brand_options = [
         'app_name',
         'app_desc',
+        'app_keys',
+        'fav',
+        'enable_dark_mode',
         'default_theme',
-        'primary_color',
-        'secondary_color',
-        'color_light',
-        'filled_color_light',
-        'logo_light',
-        'logo_dark',
-        'primary_color_dark',
-        'secondary_color_dark',
-        'color_dark',
-        'filled_color_dark',
-        'fav'
+        'logo_l',
+        'color_l',
+        'color_l',
+        'primary_color_l',
+        'secondary_color_l',
+        'filled_color_l',
+        'grad_angle_l',
+        'logo_d',
+        'color_d',
+        'color_d',
+        'primary_color_d',
+        'secondary_color_d',
+        'filled_color_d',
+        'grad_angle_d',
     ];
     public array $colors = [
         'disabled_color' => '#e6e6e6',
@@ -117,10 +123,9 @@ class OPTIONS {
 
     /**
      * Renders app branding options
-     * @param bool $dark_mode_options Show Dark Mode Options
      * @return void
      */
-    function brand_options( bool $dark_mode_options = true ): void {
+    function brand_options(): void {
         $f = new FORM();
         $db = new DB();
         $r = defined( 'REGION' ) && isset( REGION['cca2'] ) ? strtolower( REGION['cca2'] ).'_' : '';
@@ -128,22 +133,7 @@ class OPTIONS {
         $ops = $db->get_options( $brands );
         //skel( prepare_values( $this->brand_options, $r ) );
         $f->option_params_wrap( 'brand', 'row', $brands );
-            $attr = 'data-brand';
             $ext = 'jpg,svg,png,gif';
-            $name = !empty( $ops[$r.'app_name'] ) ? $ops[$r.'app_name'] : 'fake_name';
-            $desc = !empty( $ops[$r.'app_desc'] ) ? $ops[$r.'app_desc'] : 'fake_text';
-            $theme = !empty( $ops[$r.'default_theme'] ) ? $ops[$r.'default_theme'] : '';
-            $c1 = !empty( $ops[$r.'primary_color'] ) ? $ops[$r.'primary_color'] : 'fake_hex';
-            $c2 = !empty( $ops[$r.'secondary_color'] ) ? $ops[$r.'secondary_color'] : 'fake_hex';
-            $c3 = !empty( $ops[$r.'color_light'] ) ? $ops[$r.'color_light'] : 'fake_hex';
-            $c4 = !empty( $ops[$r.'filled_color_light'] ) ? $ops[$r.'filled_color_light'] : 'fake_hex';
-            $dc1 = !empty( $ops[$r.'primary_color_dark'] ) ? $ops[$r.'primary_color_dark'] : 'fake_hex';
-            $dc2 = !empty( $ops[$r.'secondary_color_dark'] ) ? $ops[$r.'secondary_color_dark'] : 'fake_hex';
-            $dc3 = !empty( $ops[$r.'color_dark'] ) ? $ops[$r.'color_dark'] : 'fake_hex';
-            $dc4 = !empty( $ops[$r.'filled_color_dark'] ) ? $ops[$r.'filled_color_dark'] : 'fake_hex';
-            $light = !empty( $ops[$r.'logo_light'] ) ? $ops[$r.'logo_light'] : '';
-            $dark = !empty( $ops[$r.'logo_dark'] ) ? $ops[$r.'logo_dark'] : '';
-            $fav = !empty( $ops[$r.'fav'] ) ? $ops[$r.'fav'] : '';
             $uis = [ 'default' => 'Default - Light' ];
             $ui_list = scandir( ROOTPATH . 'assets/styles/portal/ui' );
             foreach( $ui_list as $ui ) {
@@ -152,25 +142,45 @@ class OPTIONS {
                     $uis[ $s ] = ucwords( str_replace( '-', ' ', $s ) );
                 }
             }
-            $f->text($r.'app_name','Web App / Site Name','Ex: AIO University...',$name,$attr,8);
-            $f->upload($r.'fav','Fav Icon','Upload',$fav,0,0,'upload',$attr,'png',.1,1,'',4);
-            $f->textarea($r.'app_desc','Web App / Site Description','Ex: We provide...',$desc,$attr,12);
-            $f->select2( $r.'default_theme', 'Default Admin Theme', 'Select Theme...', $uis, $theme, $attr, 12, 1 );
+            global $light_mode;
+            $mode = $light_mode ? '_l' : '_d';
+            $mode_name = $light_mode ? ' Light' : ' Dark';
+            //skel( $ops );
+            $brand_form = [
+                [ 'i' => $r.'app_name', 'l' => 'Web App / Site Name', 'p' => 'Ex: AIO University...', 'v' => ( $ops[$r.'app_name'] ?? 'fake_name' ), 'c' => 6 ],
+                [ 'i' => $r.'fav', 'l' => 'Fav Icon', 'p' => 'Upload', 'v' => ( $ops[$r.'fav'] ?? '' ), 'c' => 3, 't' => 'upload', 'x' => 'png' ],
+                [ 'i' => $r.'enable_dark_mode', 'l' => 'Has Dark Mode', 'off' => T('No'), 'on' => T('Yes'), 'v' => ( $ops[$r.'enable_dark_mode'] ?? 2 ), 'c' => 3, 't' => 'slide' ],
+                [ 'i' => $r.'app_desc', 'l' => 'Web App / Site Description', 'p' => 'Ex: We provide...', 'v' => ( $ops[$r.'app_desc'] ?? 'fake_text' ), 'c' => 12, 't' => 'textarea' ],
+                [ 'i' => $r.'app_keys', 'l' => 'SEO Keywords', 'p' => 'Ex: manufacturing, electrical...', 'v' => ( $ops[$r.'app_keys'] ?? 'fake_text' ), 'c' => 12 ],
+                [ 't' => 'h3', 'v' => $mode_name . ' Mode Options' ],
+                [ 'i' => $r.'logo'.$mode, 'l' => 'Logo', 'p' => 'Upload', 'v' => ( $ops[$r.'logo'.$mode] ?? '' ), 'c' => 2, 't' => 'upload', 'x' => $ext, 's' => .1 ],
+                [ 'i' => $r.'color'.$mode, 'l' => 'Text Color', 'p' => 'Ex: 000000', 'v' => ( $ops[$r.'color'.$mode] ?? 'fake_hex' ), 'c' => 2, 't' => 'color' ],
+                [ 'i' => $r.'primary_color'.$mode, 'l' => 'Gradient Start', 'p' => 'Ex: F1F1F1', 'v' => ( $ops[$r.'primary_color'.$mode] ?? 'fake_hex' ), 'c' => 2, 't' => 'color' ],
+                [ 'i' => $r.'secondary_color'.$mode, 'l' => 'Gradient End', 'p' => 'Ex: A2A2A2', 'v' => ( $ops[$r.'secondary_color'.$mode] ?? 'fake_hex' ), 'c' => 2, 't' => 'color' ],
+                [ 'i' => $r.'filled_color'.$mode, 'l' => 'Text on Gradient', 'p' => 'Ex: A2A2A2', 'v' => ( $ops[$r.'filled_color'.$mode] ?? 'fake_hex' ), 'c' => 2, 't' => 'color' ],
+                [ 'i' => $r.'grad_angle'.$mode, 'l' => 'Gradient Angle', 'p' => 'Ex: 45', 'v' => ( $ops[$r.'grad_angle'.$mode] ?? '45' ), 'c' => 2, 't' => 'slider', 'min' => 1, 'max' => 270 ],
+            ];
+            $brand_form[] = [ 'i' => $r.'default_theme', 'l' => 'Default Admin Theme', 'p' => 'Select Theme...', 'o' => $uis, 'v' => ( $ops[$r.'default_theme'] ?? 'default' ), 'c' => 12, 't' => 'select2', 'k' => 1 ];
+            $f->form( $brand_form, 'row', 'brand' );
+            //$f->text($r.'app_name','Web App / Site Name','Ex: AIO University...',$name,$attr,8);
+            //$f->upload($r.'fav','Fav Icon','Upload',$fav,0,0,'upload',$attr,'png',.1,1,'',4);
+            //$f->textarea($r.'app_desc','Web App / Site Description','Ex: We provide...',$desc,$attr,12);
+            //$f->select2( $r.'default_theme', 'Default Admin Theme', 'Select Theme...', $uis, $theme, $attr, 12, 1 );
             //$f->select( 'input_theme', 'Input Style', 'Select Theme...', [], '', 'data-data class="select2"', 6, 1 );
-            echo '<h3 class="col-12">'.T('Light Color Options').'</h3>';
-            $f->upload($r.'logo_light','Logo','Upload',$light,0,0,'upload',$attr,$ext,.2,1,'',4);
-            $f->color($r.'primary_color','Primary','Ex: F1F1F1',$c1,$attr,2);
-            $f->color($r.'secondary_color','Secondary','Ex: A2A2A2',$c2,$attr,2);
-            $f->color($r.'color_light','Text Color','Ex: A2A2A2',$c3,$attr,2);
-            $f->color($r.'filled_color_light','Text on Theme BG','Ex: A2A2A2',$c4,$attr,2);
-            if( $dark_mode_options ) {
+            //echo '<h3 class="col-12">'.T('Light Color Options').'</h3>';
+            //$f->upload($r.'logo_light','Logo','Upload',$light,0,0,'upload',$attr,$ext,.2,1,'',4);
+            //$f->color($r.'primary_color','Primary','Ex: F1F1F1',$c1,$attr,2);
+            //$f->color($r.'secondary_color','Secondary','Ex: A2A2A2',$c2,$attr,2);
+            //$f->color($r.'color_light','Text Color','Ex: A2A2A2',$c3,$attr,2);
+            //$f->color($r.'filled_color_light','Text on Theme BG','Ex: A2A2A2',$c4,$attr,2);
+            /* if( $dark_mode_options ) {
                 echo '<h3 class="col-12">'.T('Dark Color Options').'</h3>';
                 $f->upload($r.'logo_dark','Logo','Upload',$dark,0,0,'upload',$attr,$ext,.2,1,'',4);
                 $f->color($r.'primary_color_dark','Primary','Ex: F1F1F1',$dc1,$attr,2);
                 $f->color($r.'secondary_color_dark','Secondary','Ex: A2A2A2',$dc2,$attr,2);
                 $f->color($r.'color_dark','Text Color','Ex: A2A2A2',$dc3,$attr,2);
                 $f->color($r.'filled_color_dark','Text on Theme BG','Ex: A2A2A2',$dc4,$attr,2);
-            }
+            } */
             $f->process_options($this->region_flag().'Save Brand Options','store grad','','.col-12 tac');
         $f->post_process();
             $this->region_notice();

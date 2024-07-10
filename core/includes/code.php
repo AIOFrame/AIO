@@ -229,18 +229,11 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
     $error = $options['error_color'] ?? ( $c['colors']['error_color'] ?? 'firebrick' );
     $success = $options['success_color'] ?? ( $c['colors']['success_color'] ?? 'forestgreen' );
     //skel( $primary_color );
-    if( $light_mode == 'd' ) {
-        $color = !empty( $options['color_dark'] ) ? $options['color_dark'] : ( $c['colors']['color_dark'] ?? '#fff' );
-        $filled_color = !empty( $options['filled_color_dark'] ) ? $options['filled_color_dark'] : ( $c['colors']['filled_color_dark'] ?? '#fff' );
-        $color1 = !empty( $primary_color ) ? $primary_color : ( !empty( $options['primary_color_dark'] ) ? $options['primary_color_dark'] : ( $c['colors']['primary_color_dark'] ?? '00A99D' ) );
-        $color2 = !empty( $secondary_color ) ? $secondary_color : ( !empty( $options['secondary_color_dark'] ) ? $options['secondary_color_dark'] : ( $c['colors']['secondary_color_dark'] ?? '00A99D' ) );
-    } else {
-        $color = !empty( $options['color_light'] ) ? $options['color_light'] : ( $c['colors']['color_light'] ?? '#000' );
-        $filled_color = !empty( $options['filled_color_light'] ) ? $options['filled_color_light'] : ( $c['colors']['filled_color_light'] ?? '#fff' );
-        $color1 = !empty( $primary_color ) ? $primary_color : ( !empty( $options['primary_color'] ) ? $options['primary_color'] : ( $c['colors']['primary_color'] ?? '#00A99D' ) );
-        $color2 = !empty( $secondary_color ) ? $secondary_color : ( !empty( $options['secondary_color'] ) ? $options['secondary_color'] : ( $c['colors']['secondary_color'] ?? '#00A99D' ) );
-        //skel( $options['primary_color'] );
-    }
+    $color = !empty( $options['color_'.$light_mode] ) ? $options['color_'.$light_mode] : ( $c['colors']['color_'.$light_mode] ?? '#fff' );
+    $filled_color = !empty( $options['filled_color_'.$light_mode] ) ? $options['filled_color_'.$light_mode] : ( $c['colors']['filled_color_'.$light_mode] ?? '#fff' );
+    $color1 = !empty( $primary_color ) ? $primary_color : ( !empty( $options['primary_color_'.$light_mode] ) ? $options['primary_color_'.$light_mode] : ( $c['colors']['primary_color_'.$light_mode] ?? '00A99D' ) );
+    $color2 = !empty( $secondary_color ) ? $secondary_color : ( !empty( $options['secondary_color_'.$light_mode] ) ? $options['secondary_color_'.$light_mode] : ( $c['colors']['secondary_color_'.$light_mode] ?? '00A99D' ) );
+    $angle = !empty( $options['angle_'.$light_mode] ) ? $options['angle_'.$light_mode] : 45;
     $color1 = strlen( $color1 ) == 6 ? '#' . $color1 : $color1;
     $color2 = strlen( $color2 ) == 6 ? '#' . $color2 : $color2;
     //$light_logo = !empty( $options['logo_light'] ) ? storage_url( $options['logo_light'] ) : APPURL . 'assets/images/aio.svg';
@@ -249,7 +242,7 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
     echo '<style>:root {';
     echo '--dark_mode:'.$light_mode.';';
     //echo "--logo:url($logo);--light_logo:url($light_logo);--dark_logo:url($dark_logo);";
-    echo '--primary_color:'.$color1.';--secondary_color:'.$color2.';--color:'.$color.';--filled_color:'.$filled_color.';--disabled_color:'.$disabled.';--info_color:'.$info.';--progress_color:'.$progress.';--warning_color:'.$warning.';--error_color:'.$error.';--success_color:'.$success;
+    echo '--primary_color:'.$color1.';--secondary_color:'.$color2.';--color:'.$color.';--filled_color:'.$filled_color.';--gradient-angle:'.$angle.';--disabled_color:'.$disabled.';--info_color:'.$info.';--progress_color:'.$progress.';--warning_color:'.$warning.';--error_color:'.$error.';--success_color:'.$success;
     echo '}.c1{color:'.$color1.'}.c2{color:'.$color2.'}.bg1{background:'.$color1.'}.bg2{background:'.$color2.'}.bs{border:1px solid '.$color1.'}.bf:focus{border:1px solid var(--primary_color)}.grad{color:var(--filled_color);background-color:var(--primary_color);background:-moz-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background:-webkit-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background-image:linear-gradient(45deg,var(--primary_color) 0%,var(--secondary_color) 100%);}.grad-text{background: -webkit-linear-gradient(var(--primary_color), var(--secondary_color));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}</style>';
 
     // Fav Icon
