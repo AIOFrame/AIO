@@ -81,15 +81,15 @@ function get_values( parent, attribute, prepend ) {
                 //console.log( pre_key );
                 //console.log( v );
                 if( data[ pre + keyed_arr.replaceAll('[]','') ] === undefined ) { // || !$.isObject( data[ pre + keyed_arr.replaceAll('[]','') ] )
-                    console.log( keyed_arr.replaceAll('[]','') );
+                    //console.log( keyed_arr.replaceAll('[]','') );
                     data[ pre + keyed_arr.replaceAll('[]','') ] = {};
                     data[ pre + keyed_arr.replaceAll('[]','') ][ pre_key ] = [];
-                    console.log('Setting only once!');
+                    //console.log('Setting only once!');
                 }
                 if( data[ pre + keyed_arr.replaceAll('[]','') ][ pre_key ] === undefined ) {
                     data[ pre + keyed_arr.replaceAll('[]','') ][ pre_key ] = [];
                 }
-                console.log( data );
+                //console.log( data );
                 if( t ) {
                     data[ pre + keyed_arr.replaceAll('[]','') ][ pre_key ].push( v );
                 }
@@ -243,8 +243,8 @@ function is_empty( e, d ) {
 This function runs a valid_field function on single input or a inputs inside an element wrap
  */
 function validator( e, d ) {
-    console.log( e );
-    console.log( d );
+    //console.log( e );
+    //console.log( d );
     d = d === undefined || d === '' ? '' : '[data-'+d+']';
     let invalid = [];
     // If Validating a group of inputs
@@ -252,7 +252,7 @@ function validator( e, d ) {
         invalid = [];
         $.each($(e).find('input'+d+',select'+d+',textarea'+d),function(a,b){
             let validation = valid_field( b );
-            console.log( b );
+            //console.log( b );
             if( validation.length > 0 ) {
                 invalid.push( [ $(b).attr('title'), validation ] );
                 $(b).addClass('invalid');
@@ -275,7 +275,7 @@ function validator( e, d ) {
 }
 
 function valid_field( field ) {
-    console.log( $(field) );
+    //console.log( $(field) );
     let invalid_reasons = [];
     // Minimum Number / Amount Validation
     let min = $(field).attr('min');
@@ -307,8 +307,8 @@ function valid_field( field ) {
     }
     //console.log(invalid);
     // TODO: Validate Password
-    console.log( field );
-    console.log( $(field).attr('type') );
+    //console.log( field );
+    //console.log( $(field).attr('type') );
     if( $(field).attr('type') === 'email' ) {
         // Validate Email
         if( _email_valid( field ) ) {
@@ -477,7 +477,7 @@ function process_data( e, ne ){
     if( $(p).data('pre') !== '' && $(p).data('pre') !== undefined ) {
         d.pre = pre;
     }
-    elog(d);
+    console.log(d);
     /* let a = $(p).data('a');
     if( a !== undefined && a !== null ) {
         d.a = a;

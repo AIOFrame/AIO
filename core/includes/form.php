@@ -653,7 +653,7 @@ class FORM {
     function __captcha( string $id, string $label = 'Type the Captcha', string $placeholder = '', string $attr = '', string|float|int $pre = '', string $post = '', int $captcha_length = 5, array $text_color_rgb = [], array $bg_rgb = [] ): string {
         //$captcha = substr( str_shuffle( '!@#$%^&*()_+{}[]ABCDEFGHJKMNOPQRSTUVWXYZ!@#$%^&*()_+{}[]abcdefghjkmnopqrstuvwxyz023456789!@#$%^&*()_+{}[]' ), 0, $captcha_length );
         $c = Encrypt::initiate();
-        global $options;
+        //global $options;
         //$ico = $options['icon_class'] ?? 'mico';
         //$reload = $options['ico_reload'] ?? 'replay';
         $icon_texts = [ 'heart', 'house', 'star', 'car', 'plane', 'boat', 'prize', 'moon' ];
@@ -680,7 +680,8 @@ class FORM {
                         /* foreach( $icons as $in => $iv ) {
                             $return .= $this->__radios( 'verify_captcha', '', [ $iv ], '', '', 0, '.col ' );
                         } */
-                        shuffle( $icons );
+                        $icons = shuffle_assoc( $icons );
+                        //shuffle( $icons );
                         $return .= $this->__radios( 'verify_captcha', '', $icons, 'heart', str_replace( 'required', '', $attr), '', '', '', '', '.col' )
                     . r__()
                 . c__();

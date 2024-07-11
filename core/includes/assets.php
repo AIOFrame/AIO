@@ -744,6 +744,14 @@ function render_details( string $title = '', array $data = [], int|string $col =
     echo __render_details( $title, $data, $col, $wrap_class );
 }
 
+function shuffle_assoc($array): array {
+    $keys = array_keys($array);
+    shuffle($keys);
+    foreach($keys as $key) {
+        $new[$key] = $array[$key];
+    }
+    return $new;
+}
 
 /**
  * Returns pagination
