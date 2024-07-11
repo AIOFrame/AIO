@@ -35,7 +35,7 @@ aside {
   }
 }
 #menu {
-  background: $wf;
+  //background: $wf;
 }
 .card {
   background: #4f5266;
@@ -71,6 +71,18 @@ aside {
 .auto_filters {
   background: #4f5266;
   backdrop-filter: none;
+}
+body.d {
+  .step {
+    background: #272d4d;
+    background: linear-gradient(145deg, #272d4d 0%, #1c2038 100%);
+  }
+  .step:after {
+    border-left: 10px solid #1c2038;
+  }
+  .tab_data_box {
+    background: #535569;
+  }
 }
 .modal {
   background: #4f5266;

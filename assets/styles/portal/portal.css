@@ -1383,7 +1383,7 @@ body.d .aio_upload:after {
   color: #fff;
 }
 body.d .modal .close, body.d .header .tabs a.on:after, body.d .header .tabs div.on:after {
-  background: #fff;
+  color: #fff;
 }
 
 [dir=rtl] aside {

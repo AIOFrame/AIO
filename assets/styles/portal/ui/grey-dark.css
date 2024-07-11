@@ -27,11 +27,7 @@ aside .set {
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 aside .set > .title {
-  color: white;
-}
-
-#menu {
-  background: white;
+  color: rgb(255, 255, 255);
 }
 
 .card {
@@ -64,6 +60,17 @@ aside .set > .title {
 .auto_filters {
   background: #4f5266;
   backdrop-filter: none;
+}
+
+body.d .step {
+  background: #272d4d;
+  background: linear-gradient(145deg, #272d4d 0%, #1c2038 100%);
+}
+body.d .step:after {
+  border-left: 10px solid #1c2038;
+}
+body.d .tab_data_box {
+  background: #535569;
 }
 
 .modal {

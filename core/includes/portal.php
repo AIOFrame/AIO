@@ -112,6 +112,7 @@ class PORTAL {
         $a = new ACCESS();
         $c = Encrypt::initiate();
         $db = new DB();
+        $o = new OPTIONS();
         $ss = $db->select( 'sessions', '', 'session_uid = \''.get_user_id().'\'' );
         _r();
             !is_mobile() ? div('col-2') : '';
@@ -126,21 +127,26 @@ class PORTAL {
                         post_tabs();
                         pre('','tab_data tab_data_box '.(is_mobile() ? 'p20' : 'p40'));
                             // UI / Appearance Tab Content
-                            $f->option_params('id="looks"','data',2,2,'','theme,input_theme');
-                            _r();
-                                $uis = [ 'default' => 'Default - Light' ];
-                                $ui_list = scandir( ROOTPATH . 'assets/styles/portal/ui' );
-                                foreach( $ui_list as $ui ) {
-                                    if( str_contains( $ui, '.scss' ) ) {
-                                        $s = str_replace( '.scss', '', $ui );
-                                        $uis[ $s ] = ucwords( str_replace( '-', ' ', $s ) );
-                                    }
+                            $uis = [ 'default' => 'Default' ];
+                            $ui_list = scandir( ROOTPATH . 'assets/styles/portal/ui' );
+                            foreach( $ui_list as $ui ) {
+                                if( str_contains( $ui, '.scss' ) ) {
+                                    $s = str_replace( '.scss', '', $ui );
+                                    $uis[ $s ] = ucwords( str_replace( '-', ' ', $s ) );
                                 }
-                                $f->select( 'theme', 'Dashboard Style', 'Select Theme...', $uis, '', 'data-data class="select2"', 6, 1 );
-                                $f->select( 'input_theme', 'Input Style', 'Select Theme...', [], '', 'data-data class="select2"', 6, 1 );
+                            }
+                            /* $f->option_params('id="looks"','data',2,2,'','theme,input_theme');
+                            _r();
+                                $f->radios( 'theme', 'Dashboard Style', $uis, 'default', 'data-data', 0, 12, '', 'row mb20', 3 );
+                                //$f->select( 'input_theme', 'Input Style', 'Select Theme...', [], '', 'data-data class="select2"', 6, 1 );
                             r_();
                             $f->process_options('Update Preferences','r5 xl mb0');
-                            $f->post_process();
+                            $f->post_process(); */
+                            _d( '', 'looks' );
+                                $o->form([
+                                    [ 't' => 'radios', 'i' => 'theme', 'o' => $uis, 'v' => 'default', 'iw' => 'row', '_ip' => 3, 'a' => 'data-theme' ]
+                                ], '', 1, 'theme', 'Update Preferences', 'r5 xl mb0', '', 'theme' );
+                            d_();
 
                             // User Details Tab Content
                             pre( 'basic', 'dn' );
