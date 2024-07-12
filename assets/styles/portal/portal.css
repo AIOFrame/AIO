@@ -33,7 +33,6 @@ body.modal_open article > div:not(.header, .actions), body.modal_open article > 
   padding: 12px;
   font-size: 1rem;
   line-height: 1.4rem;
-  font-weight: bold;
   position: relative;
 }
 

@@ -267,6 +267,8 @@
   cursor: pointer;
   font-size: 0.6rem;
   text-align: center;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+  transition: 0.6s;
 }
 .acts .view, .acts .go {
   background: var(--success_color);
@@ -274,8 +276,31 @@
 .acts .edit {
   background: var(--progress_color);
 }
+.acts .edit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 45px var(--progress_color);
+}
 .acts .delete, .acts .trash {
   background: var(--error_color);
+}
+.acts .delete:hover, .acts .trash:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 45px var(--error_color);
+}
+.acts > div:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  display: block;
+  border-radius: inherit;
+  background: rgb(0, 0, 0);
+  background: -moz-linear-gradient(148deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3800113796) 100%);
+  background: -webkit-linear-gradient(148deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3800113796) 100%);
+  background: linear-gradient(148deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3800113796) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000",endColorstr="#000000",GradientType=1);
 }
 .acts i {
   width: 45px;
@@ -283,6 +308,8 @@
   line-height: 45px;
   display: block;
   transition: 0.6s;
+  z-index: 2;
+  position: relative;
 }
 
 .card.off, .card.disabled, .plate.off, .plate.disabled {

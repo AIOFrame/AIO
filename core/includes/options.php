@@ -194,20 +194,16 @@ class OPTIONS {
      * @return void
      */
     function color_options(): void {
-        $f = new FORM();
         $db = new DB();
         $attr = 'data-colors';
         $colors = $this->colors;
         $ops = $db->get_options( $colors );
         $form = [];
-        //$f->option_params_wrap(  'colors', 'row', $colors );
         foreach( $colors as $c => $cv ) {
             $form[] = [ 'i' => $c, 'n' => ucwords(str_replace('_',' ',$c)), 'p' => 'Ex: F1F1F1', 't' => 'color', 'v' => ( $ops[$c] ?? $cv ), 'c' => 4, 'a' => $attr ];
             //$f->color($c,ucwords(str_replace('_',' ',$c)),'Ex: F1F1F1',$ops[$c]??$cv,$attr,0);
         }
-        $this->form( $form, 'row', 0, '', 'Save Color Options', '', '', $colors );
-        //$f->process_options('Save Color Options','store grad','','.col-12 tac');
-        //post();
+        $this->form( $form, 'row', 0, '', 'Save Color Options', '', '', prepare_keys( $colors ) );
         get_scripts('iro,color');
     }
 
