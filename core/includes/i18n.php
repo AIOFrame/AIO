@@ -238,19 +238,18 @@ function language_picker( string $wrap_class = 'languages', string $class = '', 
     $c = Encrypt::initiate();
     $callback = defined( 'APPDEBUG' ) && APPDEBUG ? 'set_language_ajax' : $c->encrypt('set_language_ajax');
     $i18ns = app_languages();
-    _d( $wrap_class, '', 'data-language="'.$callback.'"' );
-    //echo '<div class="'.$wrap_class.'" data-language="'.$c->encrypt('set_language_ajax').'">';
-    if( !empty( $i18ns ) ) {
-        $i18ns = array_unique($i18ns);
-        foreach ($i18ns as $v => $t) {
-            $lang = $_SESSION['lang'] ?? 'en';
-            $c = $lang == $v ? 'on cp' : 'cp';
-            $t = $full_title ? $t : $v;
-            div( $c.' '.$class, $t, '', 'data-lang="'.$v.'"' );
-            //echo '<div class="'.$c.' '.$class.'" data-lang="' . $v . '">' . $t . '</div>';
-        }
+    if( !empty( $i18ns ) && count( $i18ns ) > 1 ) {
+        _d( $wrap_class, '', 'data-language="'.$callback.'"' );
+            $i18ns = array_unique($i18ns);
+            foreach ($i18ns as $v => $t) {
+                $lang = $_SESSION['lang'] ?? 'en';
+                $c = $lang == $v ? 'on cp' : 'cp';
+                $t = $full_title ? $t : $v;
+                div( $c.' '.$class, $t, '', 'data-lang="'.$v.'"' );
+                //echo '<div class="'.$c.' '.$class.'" data-lang="' . $v . '">' . $t . '</div>';
+            }
+        d_();
     }
-    d_();
 }
 
 /**

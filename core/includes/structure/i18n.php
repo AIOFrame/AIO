@@ -12,9 +12,12 @@ $regions = $options['regions'] ?? '';
 $regions = explode( ', ', $regions);
 $i18ns = '';
 if( !empty( $regions ) && count( $regions ) > 1 ) {
+    //skel( $regions );
+    //skel( $options );
     foreach ($regions as $region) {
-        $i18ns .= $options[ strtolower($region) . '_languages' ] . ', ';
-        //$i18ns[] =
+        if( isset( $options[ strtolower($region) . '_languages' ] ) ) {
+            $i18ns .= $options[ strtolower($region) . '_languages' ] . ', ';
+        }
     }
 } else {
     $i18ns = $options['languages'] ?? [];
