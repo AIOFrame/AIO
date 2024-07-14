@@ -961,8 +961,6 @@ function process_data_ajax(): void {
                 ef('Failed to verify Captcha! Please refresh and try again!!');
                 die();
             }
-        } else {
-            es('Jabba');
         }
 
         if( !empty( $a['d'] ) ){
@@ -1015,7 +1013,7 @@ function process_data_ajax(): void {
         }
 
         foreach( $a as $ak => $av ){
-            $a[ $ak ] = ( $av != strip_tags( $av ) ) ? htmlspecialchars( $av ) : $av;
+            $a[ $ak ] = ( $av != strip_tags( htmlspecialchars( $av ) ) ) ? strip_tags( htmlspecialchars( $av ) ) : $av;
         }
 
         $keys = prepare_keys( $a, '', 0 );
