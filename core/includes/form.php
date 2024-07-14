@@ -1128,7 +1128,7 @@ class FORM {
                 $cry = Encrypt::initiate();
                 $final[ $k ] = $cry->encrypt( $v );
             } else if( !in_array( $k, $remove ) ){
-                $final[ $k ] = !empty( $v ) ? ( $v != strip_tags( htmlspecialchars_decode( $v ) ) ? 'test' : $v ) : ''; //!empty( $v ) && ( $v != strip_tags( htmlspecialchars_decode( $v ) ) ) ? htmlentities( $v ) : $v;
+                $final[ $k ] = !empty( $v ) ? ( $v != strip_tags( htmlspecialchars_decode( $v ) ) ? htmlspecialchars( $v ) : $v ) : ''; //!empty( $v ) && ( $v != strip_tags( htmlspecialchars_decode( $v ) ) ) ? htmlentities( $v ) : $v;
             }
         }
         $final = json_encode( $final );
