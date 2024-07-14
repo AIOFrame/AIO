@@ -269,6 +269,7 @@
   text-align: center;
   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
   transition: 0.6s;
+  position: relative;
 }
 .acts .view, .acts .go {
   background: var(--success_color);
@@ -296,7 +297,7 @@
   width: 100%;
   display: block;
   border-radius: inherit;
-  background: rgb(0, 0, 0);
+  background: black;
   background: -moz-linear-gradient(148deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3800113796) 100%);
   background: -webkit-linear-gradient(148deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3800113796) 100%);
   background: linear-gradient(148deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3800113796) 100%);

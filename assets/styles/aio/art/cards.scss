@@ -275,6 +275,7 @@ $success: var(--success_color);
     text-align: center;
     box-shadow: 0 5px 25px rgba(0,0,0,.1);
     transition: .6s;
+    position: relative;
   }
   .view, .go {
     background: $success
