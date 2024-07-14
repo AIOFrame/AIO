@@ -487,7 +487,8 @@ function title_bar( string $title = PAGENAME, string $back_url = '', string $lis
     $icon_class = ( $options['icon_class'] ?? 'mico' ) . ' ico';
     pre( '', 'header df aic jsb', 'header' );
         pre( '', 'left df aic' );
-            !empty( $back_url ) ? a( APPURL.$back_url, $options['ico_back'] ?? '', $icon_class . ' back ' . ( $options['ico_back'] ?? '' ), T('Return') ) : '';
+            !empty( $back_url ) ? back_url( $back_url ) : '';
+            //!empty( $back_url ) ? a( APPURL.$back_url, $options['ico_back'] ?? '', $icon_class . ' back ' . ( $options['ico_back'] ?? '' ), T('Return') ) : '';
             !empty( $title ) ? h1( $title, 1, 'title' ) : '';
         post();
 
@@ -520,7 +521,10 @@ function title_bar( string $title = PAGENAME, string $back_url = '', string $lis
 
 function __back_url( string $url = '' ): string {
     global $options;
-    return _a( APPURL.$url, ( $options['icon_class'] ?? 'mico' ) . ' back', T('Go Back'), '', '', '' ) . 'arrow_back' . a_();
+    $icon = $options['icon_class'] ?? 'mico';
+    $back = $options['ico_back'] ?? 'keyboard_backspace';
+    return __a( APPURL.$url, $back, $icon . ' back ' . $icon, T('Go Back') );
+    //return _a( APPURL.$url, $icon . ' back ' . $back, T('Go Back') ) . 'Havva' . $back . a_();
     //echo '<a class="mat-ico back" href="'.APPURL . $url.'">arrow_back</a>';
 }
 
