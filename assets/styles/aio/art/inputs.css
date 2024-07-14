@@ -777,6 +777,10 @@ body .trumbowyg-button-pane button.trumbowyg-active, body .trumbowyg-button-pane
   font-size: 1rem;
 }
 
+.row .icon_preview {
+  bottom: var(--input_margin_bottom);
+}
+
 /* Auto Filters */
 .auto_filters label {
   margin-bottom: 8px;

@@ -1124,9 +1124,9 @@ class FORM {
             if( is_numeric( $k ) )
                 continue;
             $k = strpos( $k, '_') !== false ? ltrim( strstr($k,'_'), '_' ) : $k;
-            if( $k == 'id' && defined( 'APPDEBUG' ) && APPDEBUG ) {
+            if( $k == 'id' ) {
                 $cry = Encrypt::initiate();
-                $final[ $k ] = $cry->encrypt( $v );
+                $final[ $k ] = defined( 'APPDEBUG' ) && APPDEBUG ? $v : $cry->encrypt( $v );
             } else if( !in_array( $k, $remove ) ){
                 $final[ $k ] = !empty( $v ) ? ( $v != strip_tags( htmlspecialchars_decode( $v ) ) ? htmlspecialchars( $v ) : $v ) : ''; //!empty( $v ) && ( $v != strip_tags( htmlspecialchars_decode( $v ) ) ) ? htmlentities( $v ) : $v;
             }

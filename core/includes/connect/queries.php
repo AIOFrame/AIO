@@ -394,6 +394,7 @@ class DB {
      * @param bool $count Only get count of data rows
      * @param string $order_by Order data by ASC or DESC
      * @param string $sort Sort Order by Column Name
+     * @param bool $order_numeric
      * @return array
      */
     function select( string|array $table, string|array $cols = '*', string $where = '', int $limit = 0, int $offset = 0 , string $group = '', bool $count = false, string $order_by = '', string $sort = '', bool $order_numeric = false ): array {

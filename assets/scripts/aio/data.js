@@ -725,7 +725,9 @@ function text_to_html(text) {
         '&quot;': '"',
         '&#039;': "'"
     };
-    return text.replace(/&amp;|&lt;|&gt;|&quot;|&#039;/g, function(m) {return map[m];});
+    console.log( text );
+
+    return typeof text == 'string' ? text.replaceAll(/&amp;|&lt;|&gt;|&quot;|&#039;/g, function(m) {return map[m];}) : text;
 }
 
 function redirect( r ) {

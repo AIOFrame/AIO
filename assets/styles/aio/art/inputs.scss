@@ -832,6 +832,11 @@ body {
   padding: 10px;
   font-size: 1rem;
 }
+.row {
+  .icon_preview {
+    bottom: var(--input_margin_bottom);
+  }
+}
 
 /* Auto Filters */
 
@@ -858,7 +863,7 @@ body {
     //top: 5px;
     padding: 0;
     font-size: 1.2rem;
-    left: 10px
+    left: 10px;
   }
   .filter {
     padding-left:30px;
