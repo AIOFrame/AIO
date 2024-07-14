@@ -211,8 +211,8 @@ class PORTAL {
         $down_ico = $options['ico_dropdown'] ?? 'expand_more';
         // TODO: Implement most params to be from user options
 
-        $logo = $light_mode == 'l' ? ( $options[$region.'logo_light'] ?? '' ) : ( $options[$region.'logo_dark'] ?? '' );
-        $logo = empty( $logo ) ? ( $light_mode == 'l' ? ( $options['logo_light'] ?? '' ) : ( $options['logo_dark'] ?? '' ) ) : $logo;
+        $logo = $light_mode == 'l' ? ( $options[$region.'logo_l'] ?? '' ) : ( $options[$region.'logo_d'] ?? '' );
+        $logo = empty( $logo ) ? ( $light_mode == 'l' ? ( $options['logo_l'] ?? '' ) : ( $options['logo_d'] ?? '' ) ) : $logo;
         $logo = !empty( $logo ) ? 'style="background:url(\''.storage_url( $logo ).'\') no-repeat center / contain"' : '';
         //skel( $logo );
         //skel( $options['logo_light'] );
