@@ -855,8 +855,10 @@ body {
     position: relative;
   }
   .icon_preview {
-    top: 5px;
+    //top: 5px;
+    padding: 0;
     font-size: 1.2rem;
+    left: 10px
   }
   .filter {
     padding-left:30px;
@@ -928,7 +930,7 @@ body {
     padding-right: 30px;
   }
   .icon_preview {
-    top: 5px;
+    //top: 5px;
     font-size: 1.2rem;
   }
 }
