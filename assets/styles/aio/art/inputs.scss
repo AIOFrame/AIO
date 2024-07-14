@@ -859,11 +859,12 @@ body {
     cursor: pointer;
     position: relative;
   }
-  .icon_preview {
+  .row .icon_preview {
     //top: 5px;
     padding: 0;
     font-size: 1.2rem;
     left: 10px;
+    bottom: 0;
   }
   .filter {
     padding-left:30px;

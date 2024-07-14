@@ -800,10 +800,11 @@ body .trumbowyg-button-pane button.trumbowyg-active, body .trumbowyg-button-pane
   cursor: pointer;
   position: relative;
 }
-.auto_filters .icon_preview {
+.auto_filters .row .icon_preview {
   padding: 0;
   font-size: 1.2rem;
   left: 10px;
+  bottom: 0;
 }
 .auto_filters .filter {
   padding-left: 30px;
