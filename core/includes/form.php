@@ -539,7 +539,7 @@ class FORM {
         $view_attr = $view_attr ? ' view="'.$view_attr.'"' : '';
         $position = !empty( $position ) ? $position : 'bottom center';
         $attrs .= is_array( $alt_id ) ? ' data-alt="[data-key='.$alt_id[0].']"' : ' data-alt="[data-key='.$alt_id.']"';
-        $post = $icon_preview . $post;
+        $post = $icon_preview . $this->__post( $pre, $post );
         //$post = !empty( $pre ) && !empty( $post ) ? $post : ( $icon_preview );
 
         $visible_attr = is_array( $id ) ? 'class="dater" alt="#'.$id[0].'_'.$rand.'" position="'.$position.'"' : 'class="dater" alt="#'.$id.'_'.$rand.'" position="'.$position.'"';
