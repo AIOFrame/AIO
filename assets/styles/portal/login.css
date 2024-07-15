@@ -137,7 +137,8 @@ input.empty {
 #aio_login_init .ico, #aio_forgot_init .ico {
   position: absolute;
   right: 20px;
-  top: calc( 50% - 11px );
+  bottom: calc(var(--input_margin_bottom) + 10px);
+  padding: 0;
 }
 
 #register {
@@ -191,22 +192,18 @@ input.empty {
   .access_wrap {
     width: calc(100vw - 40px);
   }
-
   .access_panel {
     width: 100%;
     max-width: none;
     padding: 20px;
   }
-
   #logo {
     height: 50px;
   }
-
   input, button, select, textarea {
     padding: 10px;
     margin-bottom: 8px;
   }
-
   .access #set_access {
     padding: 10px 0;
   }
