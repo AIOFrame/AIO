@@ -783,6 +783,8 @@ a.brand {
     height: 50px;
     //transform:translateX(50%);
     //padding:12px;
+    right:0;
+    transform:none;
     a {
       margin:0 15px;
       font-size: 1rem;
@@ -790,15 +792,15 @@ a.brand {
       font-weight: lighter;
     }
   }
-  .actions {
-    right:0;
-    transform:none;
-  }
   input[type=text], select {
     border: 0;
     border-radius: 0;
     margin: -10px 10px;
-    padding: 6px 12px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+  .row .icon_preview {
+    bottom: 0;
   }
   input[type=text]:focus, select:focus {
     border: 0;

@@ -727,6 +727,8 @@ a.brand {
 .header .actions {
   display: flex;
   height: 50px;
+  right: 0;
+  transform: none;
 }
 .header .actions a {
   margin: 0 15px;
@@ -734,15 +736,15 @@ a.brand {
   line-height: 1.6rem;
   font-weight: lighter;
 }
-.header .actions {
-  right: 0;
-  transform: none;
-}
 .header input[type=text], .header select {
   border: 0;
   border-radius: 0;
   margin: -10px 10px;
-  padding: 6px 12px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.header .row .icon_preview {
+  bottom: 0;
 }
 .header input[type=text]:focus, .header select:focus {
   border: 0;
