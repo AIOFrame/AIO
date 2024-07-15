@@ -582,7 +582,7 @@ function __div( string $class = '', string $content = '', string $id = '', strin
 }
 
 function __a( string $hyperlink = '#', string $content = '', string $class = '', string $hover_title = '', string $attr = '', string $id = '' ): string {
-    return __anchor($hyperlink,$class,$hover_title,$attr,$id) . $content . anchor__();
+    return __anchor( $hyperlink, $class, $hover_title, $attr, $id ) . $content . anchor__();
 }
 function a( string $hyperlink = '#', string $content = '', string $class = '', string $hover_title = '', string $attr = '', string $id = '' ): void {
     echo __a( $hyperlink, $content, $class, $hover_title, $attr, $id );
@@ -593,7 +593,7 @@ function __anchor( string $hyperlink = '#', string $class = '', string $hover_ti
     //$class = !empty( $class ) ? ' class="'.$class.'"' : '';
     $alt = !empty( $hover_title ) ? ' title="'.$hover_title.'"' : '';
     $target = !empty( $target ) ? ' target="'.$target.'"' : '';
-    return __pre( $id, $class, 'a', 'href="'.$hyperlink.'" '.$alt.$target );
+    return __pre( $id, $class, 'a', 'href="'.$hyperlink.'" '.$alt.$attr.$target );
     //'<a  '.$id.$class.$alt.$target.' '.$attr.'>';
 }
 

@@ -1259,7 +1259,7 @@ class FORM {
             } else if( in_array( $type, [ 'el', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div', 'span', 'i', 'button' ] ) ) {
                 $content = $f['content'] ?? ( $f['value'] ?? ( $f['v'] ?? '' ) );
                 $wrap = $f['wrap'] ?? ( $f['wc'] ?? '' );
-                $return .= $this->__pre( $wrap ) . __el( $type, $class, $content ) . $post;
+                $return .= __el( $type, $class, $content );
             } else if( in_array( $type, [ 'column', 'col' ] ) ) {
                 $class = is_numeric( $class ) ? $this->__col( $class ) : $class;
                 $sub_type = $f['sub_type'] ?? ( $f['type'] ?? 'row' );

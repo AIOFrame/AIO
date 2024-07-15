@@ -132,7 +132,7 @@ class OPTIONS {
         $brands = defined( 'REGION' ) ? prepare_values( $this->brand_options, $r ) : $this->brand_options;
         $ops = $db->get_options( $brands );
         //skel( prepare_values( $this->brand_options, $r ) );
-        $f->option_params_wrap( 'brand', 'row', $brands );
+        $f->option_params_wrap( 'brand', '', $brands );
             $ext = 'jpg,svg,png,gif';
             $uis = [ 'default' => 'Default - Light' ];
             $ui_list = scandir( ROOTPATH . 'assets/styles/portal/ui' );
@@ -152,7 +152,7 @@ class OPTIONS {
                 [ 'i' => $r.'enable_dark_mode', 'l' => 'Has Dark Mode', 'off' => T('No'), 'on' => T('Yes'), 'v' => ( $ops[$r.'enable_dark_mode'] ?? 2 ), 'c' => 3, 't' => 'slide' ],
                 [ 'i' => $r.'app_desc', 'l' => 'Web App / Site Description', 'p' => 'Ex: We provide...', 'v' => ( $ops[$r.'app_desc'] ?? 'fake_text' ), 'c' => 12, 't' => 'textarea' ],
                 [ 'i' => $r.'app_keys', 'l' => 'SEO Keywords', 'p' => 'Ex: manufacturing, electrical...', 'v' => ( $ops[$r.'app_keys'] ?? 'fake_text' ), 'c' => 12 ],
-                [ 't' => 'h3', 'v' => $mode_name . ' Mode Options' ],
+                [ 't' => 'h3', 'v' => $mode_name . ' Mode Options', 'c' => 'col-12' ],
                 [ 'i' => $r.'logo'.$mode, 'l' => 'Logo', 'p' => 'Upload', 'v' => ( $ops[$r.'logo'.$mode] ?? '' ), 'c' => 2, 't' => 'upload', 'x' => $ext, 's' => .1 ],
                 [ 'i' => $r.'color'.$mode, 'l' => 'Text Color', 'p' => 'Ex: 000000', 'v' => ( $ops[$r.'color'.$mode] ?? 'fake_hex' ), 'c' => 2, 't' => 'color' ],
                 [ 'i' => $r.'primary_color'.$mode, 'l' => 'Gradient Start', 'p' => 'Ex: F1F1F1', 'v' => ( $ops[$r.'primary_color'.$mode] ?? 'fake_hex' ), 'c' => 2, 't' => 'color' ],

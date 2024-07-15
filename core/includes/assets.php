@@ -770,21 +770,21 @@ function __pagination( int $page, int $records, int $limit = 24, string $wrap_cl
             $total_pages = !empty( $records ) ? ceil( $records / $limit ) : 0;
             //skel( $total_pages );
             if( $total_pages > 3 ) {
-                $r .= $page > 3 ? _a( $url.$page_link.'1', $class.' first', 'Goto first page' ) . 1 . a_() : '';
-                $r .= $page > 4 ? _a( '', 'blank' ).'...'.a_() : '';
+                $r .= $page > 3 ? __anchor( $url.$page_link.'1', $class.' first', 'Goto first page' ) . 1 . anchor__() : '';
+                $r .= $page > 4 ? __anchor( '', 'blank' ).'...'.anchor__() : '';
                 for ($x = ($page - 2); $x < $page; $x++) {
-                    $r .=$x > 0 ? _a( $url.$page_link.$x, $class.' pre', 'Goto page '.$x ) . $x . a_() : '';
+                    $r .=$x > 0 ? __anchor( $url.$page_link.$x, $class.' pre', 'Goto page '.$x ) . $x . anchor__() : '';
                 }
-                $r .= _a( $url.$page_link.$page, $class.' on', T('Reload current page') ) . $page . a_();
+                $r .= __anchor( $url.$page_link.$page, $class.' on', T('Reload current page') ) . $page . anchor__();
                 for ($y = ($page + 1); $y <= ($page + 2); $y++) {
-                    $r .= $y <= $total_pages ? _a( $url.$page_link.$y, $class.' post', 'Goto page '.$y ) . $y . a_() : '';
+                    $r .= $y <= $total_pages ? __anchor( $url.$page_link.$y, $class.' post', 'Goto page '.$y ) . $y . anchor__() : '';
                 }
-                $r .= $page < ($total_pages - 3) ? _a( '', 'blank' ) . '...' . a_() : '';
-                $r .= $page < ($total_pages - 2) ? _a( $url.$page_link.$total_pages, $class.' last', 'Goto last page' ) . $total_pages . a_() : '';
+                $r .= $page < ($total_pages - 3) ? __anchor( '', 'blank' ) . '...' . anchor__() : '';
+                $r .= $page < ($total_pages - 2) ? __anchor( $url.$page_link.$total_pages, $class.' last', 'Goto last page' ) . $total_pages . anchor__() : '';
             } else if( $total_pages > 1 ) {
                 for($x = 1; $x <= $total_pages; $x++) {
                     $on = $x == $page ? ' on' : '';
-                    $r .= _a( $url.$page_link.$x, $class.$on, 'Goto page '.$x ) . $x . a_();
+                    $r .= __anchor( $url.$page_link.$x, $class.$on, 'Goto page '.$x ) . $x . anchor__();
                 }
             }
             // echo '<a href="'.$url.'/'.$total_pages.'" class="last '.$class.'"></a>';
