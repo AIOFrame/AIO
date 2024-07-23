@@ -1219,8 +1219,8 @@ class FORM {
      * @param string $form_type Type of wrap around the form ( 'get' or 'post' or 'row' or 'settings' )
      * @param string $data_attr Common data attribute for all inputs
      */
-    function form( array $fields = [], string $form_type = '', string $data_attr = '' ): void {
-        echo $this->__form( $fields, $form_type, $data_attr );
+    function form( array $fields = [], string $form_type = '', string $data_attr = '', string $group_by = '', string $wrap_class = '' ): void {
+        echo $this->__form( $fields, $form_type, $data_attr, $group_by, $wrap_class );
     }
 
     /**
@@ -1229,8 +1229,8 @@ class FORM {
      * @param string $form_type Type of wrap around the form ( 'get' or 'post' or 'row' )
      * @param string $data_attr Common data attribute for all inputs
      */
-    function __form( array $fields = [], string $form_type = '', string $data_attr = '', string $group_by = '' ): string {
-        $return = in_array( $form_type, [ 'get', '$_GET' ] ) ? '<form method="get">' : ( in_array( $form_type, [ 'post', '$_POST' ] ) ? '<form method="post">' : ( in_array( $form_type, [ 'row', 'r' ] ) ? __d( 'form row' ) : ( $form_type == 'settings' ? __d( 'settings form' ) : ( in_array( $form_type, [ 'steps', 's' ] ) ? __d( 'steps form' ) : __d( 'form' ) ) ) ) );
+    function __form( array $fields = [], string $form_type = '', string $data_attr = '', string $group_by = '', string $wrap_class = '' ): string {
+        $return = in_array( $form_type, [ 'get', '$_GET' ] ) ? '<form method="get" class="'.$wrap_class.'">' : ( in_array( $form_type, [ 'post', '$_POST' ] ) ? '<form method="post" class="'.$wrap_class.'">' : ( in_array( $form_type, [ 'row', 'r' ] ) ? __d( 'form row ' . $wrap_class ) : ( $form_type == 'settings' ? __d( 'settings form ' . $wrap_class ) : ( in_array( $form_type, [ 'steps', 's' ] ) ? __d( 'steps form ' . $wrap_class ) : __d( 'form ' . $wrap_class ) ) ) ) );
         // x = count( fields ) && $col == 12 ?
         //if( $form_type == 'steps' || $form_type == 's' ) {
             //div( 'step_heads', $this->_form(  ) )
@@ -1251,13 +1251,14 @@ class FORM {
             $required = $f['required'] ?? ( $f['r'] ?? '' );
             $required ? ( $attrs .= ' required' ) : '';
             $pre = $form_type == 'settings' ? '<div class="setting_set">' : ( $f['pre'] ?? ($f['col'] ?? ( $f['c'] ?? ( $f['_p'] ?? ( $form_type == 'row' || $form_type == 'r' ? 12 : '<div>' ) ) )) );
-            $post = $f['post'] ?? ( $f['p_'] ?? '' );
-            $post = !empty( $pre ) && empty( $post ) ? __post() : $post;
             $class = $f['class'] ?? ( $f['c'] ?? '' );
+            $post = $f['post'] ?? ( $f['p_'] ?? $this->__post( $class ) );
+            $post = !empty( $pre ) && empty( $post ) ? __post() : $post;
             if( in_array( $type, [ 'accordion', 'acc', 'a' ] ) ) {
                 $return .= __accordion( $label, $this->__form( $f['fields'] ?? $f['form'], $type, $data_attr ) );
-            } else if( in_array( $type, [ 'el', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div', 'span', 'i' ] ) ) {
+            } else if( in_array( $type, [ 'el', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div', 'span', 'i', 'button' ] ) ) {
                 $content = $f['content'] ?? ( $f['value'] ?? ( $f['v'] ?? '' ) );
+                $wrap = $f['wrap'] ?? ( $f['wc'] ?? '' );
                 $return .= __el( $type, $class, $content );
             } else if( in_array( $type, [ 'column', 'col' ] ) ) {
                 $class = is_numeric( $class ) ? $this->__col( $class ) : $class;

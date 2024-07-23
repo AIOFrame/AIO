@@ -297,7 +297,7 @@ class PORTAL {
 
                 // Link to Front-end
                 if( $link_to_front ) {
-                    div( '', _a( APPURL, '', T( 'Go to Frontend Website' ), '', '', '_blank' ) . __div( 'nav_ico', __div( ( $icon . ' ' . ( $options['ico_frontend'] ?? '' ) ), $options['ico_frontend'] ?? 'desktop_windows' ) ) . a_(), 'link_to_front' );
+                    div( '', __anchor( APPURL, '', T( 'Go to Frontend Website' ), '', '', '_blank' ) . __div( 'nav_ico', __div( ( $icon . ' ' . ( $options['ico_frontend'] ?? '' ) ), $options['ico_frontend'] ?? 'desktop_windows' ) ) . anchor__(), 'link_to_front' );
                 }
 
                 // Dark Mode
@@ -341,7 +341,7 @@ class PORTAL {
                                 _r('actions');
                                     $user_ico = $options['ico_user'] ?? 'account_circle';
                                     $logout_ico = $options['ico_logout'] ?? 'logout';
-                                    div( 'col tal', _a( APPURL . $profile_url, 'r5 bsn s btn m0 dif aic' ) . ( __el( 'i', $icon . ' mx5 xs ' . $user_ico, $user_ico ) . T('My Profile') ) . a_() );
+                                    div( 'col tal', __anchor( APPURL . $profile_url, 'r5 bsn s btn m0 dif aic' ) . ( __el( 'i', $icon . ' mx5 xs ' . $user_ico, $user_ico ) . T('My Profile') ) . anchor__() );
                                     $logout_action = APPDEBUG ? 'logout_ajax' : $e->encrypt('logout_ajax');
                                     div( 'col tar', __b( 'red r5 bsn s m0 dif aic', T( 'Logout' ) . __el( 'i', $icon . ' xs mx5 ' . $logout_ico, $logout_ico ), '', 'onclick="logout(\''.$logout_action.'\',\''.$logout_to.'\')"' ) );
                                 r_();
@@ -374,7 +374,7 @@ class PORTAL {
         pre( '', 'menu '.$class, 'aside' );
             _r();
                 $home = __el( 'i', $icon .' ico m ' . ( $options['ico_home'] ?? 'home' ), ( $options['ico_home'] ?? 'home' ) );
-                div( 'col-3', _a( APPURL . $root_url, '', T('Go to ').$root_url, '', '', '' ) . $home . a_(), '', 'data-intro' );
+                div( 'col-3', __anchor( APPURL . $root_url, '', T('Go to ').$root_url, '', '', '' ) . $home . anchor__(), '', 'data-intro' );
                 pre( '', 'col-9' );
                     echo '<input type="search" placeholder="'.T('Search in Menu...').'">';
                 post();
@@ -437,7 +437,7 @@ class PORTAL {
                                     }
                                     if( empty( $restricted ) ) {
                                         _c( $col, $class );
-                                            div( $class, _a( APPURL . $url_prefix . $sub_url_prefix . $url, $class, T('Go to ').T($title), '', '', '' ) . __el( 'i', $ico_class . ' ' . $icon, $ico ) . __div( 'title', T( $title ) ) . a_() );
+                                            div( $class, __anchor( APPURL . $url_prefix . $sub_url_prefix . $url, $class, T('Go to ').T($title), '', '', '' ) . __el( 'i', $ico_class . ' ' . $icon, $ico ) . __div( 'title', T( $title ) ) . anchor__() );
                                         c_();
                                     }
                                 }

@@ -885,7 +885,7 @@ function access_html( string $user_title = 'Username or Email', string $pass_tit
     $aos = $a->get_options(1,1,1);
     //skel( $aos );
     $user_title = !empty( $user_title ) ? $user_title : ( $aos['ac_username_text'] ?? 'User Login' );
-    $icon_class = 'icon_preview ' . ( $options['icon_class'] ?? 'mico' );
+    $icon_class = 'icon_preview l ' . ( $options['icon_class'] ?? 'mico' );
     $user_icon = $aos['ac_username_icon'] ?? 'account_circle';
     $pass_title = !empty( $pass_title ) ? $pass_title : ( $aos['ac_password_text'] ?? 'Password' );
     $session_title = !empty( $session_title ) ? $session_title : ( $aos['ac_remember_text'] ?? 'Remember Me?' );
@@ -916,7 +916,7 @@ function access_html( string $user_title = 'Username or Email', string $pass_tit
                     $f->form( $login_form, 'row' );
                     div( 'dn', __div( 'password_visibility', __div( $icon_class . ' on', $pass_show_icon ) . __div( $icon_class . ' off', $pass_hide_icon ) ), '', 'data-password_toggle_template' );
                 post( 'form' );
-                $f->process_trigger( T( $login_button_title ), 'grad xxl'. $class, 'id="aio_login_init"', '', '', '', 'button', '', $login_button_icon, $icon_class . ' abs r2' );
+                $f->process_trigger( T( $login_button_title ), 'grad xxl'. $class, 'id="aio_login_init"', '', '', '', 'button', '', $login_button_icon, str_replace( ' l ', ' ', $icon_class ) . ' abs r2' );
                 if( $show_reset == 1 ) {
                     div( 'more p5', T( $forgot_pass_title ), '', 'data-hide=".login_wrap" data-show=".forgot_wrap"' );
                 }
@@ -928,7 +928,7 @@ function access_html( string $user_title = 'Username or Email', string $pass_tit
                 $reset_btn_title = !empty( $aos['ac_reset_btn_text'] ) ? $aos['ac_reset_btn_text'] : T('Reset Password');
                 $reset_btn_icon = !empty( $aos['ac_reset_btn_icon'] ) ? $aos['ac_reset_btn_icon'] : 'forward_to_inbox';
                 $f->pre_process('class="forgot_wrap"  style="display:none;"','forg','forgot_','',[],'','','',$redirect_to,'',1);
-                pre( '', 'inputs' );
+                pre( '', 'inputs row' );
                     $reset_form = [
                         [ 'i' => 'username', 'n' => ( $show_labels ? $user_title : '' ), 'p' => $user_title, 'd' => 'onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"', 'c' => '.col-12 rel reset_user_wrap', 'p_' => __el( 'div', $icon_class, $user_icon ) . __post() ],
                     ];
