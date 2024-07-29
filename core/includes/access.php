@@ -932,10 +932,10 @@ function access_html( string $user_title = 'Username or Email', string $pass_tit
                     $reset_form = [
                         [ 'i' => 'username', 'n' => ( $show_labels ? $user_title : '' ), 'p' => $user_title, 'd' => 'onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"', 'c' => '.col-12 rel reset_user_wrap', 'p_' => __el( 'div', $icon_class, $user_icon ) . __post() ],
                     ];
-                    $f->form( $reset_form );
+                    $f->form( $reset_form, 'row' );
                     //$f->text('username',($show_labels?$user_title:''),$user_title,'','onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"','.forgot_user_wrap', );
                 post();
-                $f->process_trigger( $reset_btn_title, 'grad '. $class, 'id="aio_forgot_init"', 'access_forgot_ajax', '', '', 'button', '', $reset_btn_icon, 'mico abs r2' );
+                $f->process_trigger( $reset_btn_title, 'grad xxl'. $class, 'id="aio_forgot_init"', 'access_forgot_ajax', '', '', 'button', '', $reset_btn_icon, 'mico abs r2' );
                 div( 'more', T( $return_text ), '', 'data-hide=".forgot_wrap" data-show=".login_wrap"' );
                 $f->post_process();
             }
