@@ -141,6 +141,11 @@ if( defined( 'CONFIG' ) ) {
             include_once( $path . 'accounts.php' );
         }
 
+        // Project Management System
+        if( in_array_any( [ 'pms', 'pm', 'projects', 'project' ], $features ) ) {
+            include_once( $path . 'projects.php' );
+        }
+
         // E-Commerce System
         //if( in_array( 'ecom', $features ) || in_array( 'commerce', $features ) || in_array( 'ecommerce', $features ) || in_array( 'store', $features ) ) {
         if( in_array_any( [ 'ecom', 'commerce', 'ecommerce', 'store' ], $features ) ) {

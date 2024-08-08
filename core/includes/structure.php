@@ -48,6 +48,11 @@ if( is_array( $feats ) ) {
         include_once( $path . 'accounts.php' );
     }
 
+    // Project Management System
+    if( in_array_any( [ 'pms', 'pm', 'projects', 'project' ], $feats ) ) {
+        include_once( $path . 'projects.php' );
+    }
+
     // E-Commerce System
     //if( in_array( 'ecom', $feats ) || in_array( 'ecommerce', $feats ) || in_array( 'store', $feats ) ) {
     if( in_array_any( [ 'ecom', 'commerce', 'ecommerce', 'store' ], $feats ) ) {

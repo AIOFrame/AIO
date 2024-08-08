@@ -1,6 +1,6 @@
 <?php
 
-class PMS {
+class PROJECTS {
 
     function __construct() {
 
@@ -127,6 +127,11 @@ class PMS {
 
     function update_task(): array {
         return [];
+    }
+
+    function options(): void {
+        $o = new options();
+
     }
 
 }
