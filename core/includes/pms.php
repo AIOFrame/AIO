@@ -27,8 +27,16 @@ class PMS {
 
     }
 
-    function project_scope(): void {
+    function __scope(): array {
+        return [];
+    }
 
+    function scope(): void {
+
+    }
+
+    function __scope_form( string $class = '' ): array {
+        return [];
     }
 
     function project_board(): void {

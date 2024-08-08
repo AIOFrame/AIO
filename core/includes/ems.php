@@ -26,11 +26,11 @@ class EMS {
         // TODO: Employee Modal
     }
 
-    function get_employees(): array {
+    function __employees(): array {
         return [];
     }
 
-    function get_employee(): array {
+    function __employee(): array {
         return [];
     }
 

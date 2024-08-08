@@ -468,6 +468,10 @@ class PORTAL {
         //$f->text($r.'app_name','Web App / Site Name','Ex: AIO University...',$name,$attr,8);
         post();
     }
+
+    function dashboard(): void {
+
+    }
 }
 
 /**

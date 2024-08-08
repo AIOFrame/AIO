@@ -7,6 +7,7 @@
   background-position:center !important;
   background-size:contain !important;
   cursor: pointer;
+  text-decoration: none;
 }
 .mat-ico, .mico, .mat-ico-after:after, .mica:after {
   font-family: 'MaterialIcons',sans-serif;
@@ -25,6 +26,7 @@
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
   font-feature-settings: 'liga';
+  text-decoration: none;
 }
 .mica:after {
   content: attr(data-icon-preview);
