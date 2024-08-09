@@ -36,14 +36,12 @@ $struct = [
         [ 'website', 'VARCHAR', 64, 0 ],
     ], 'client', 1 ],
     [ 'features', [
-        [
             $name,
             $icon,
             $status,
             $desc,
             $color,
-            $cat
-        ]
+            [ 'type', 'VARCHAR', 128, 0 ]
     ], 'feat', 1 ],
 
     [ 'projects', [
@@ -126,4 +124,4 @@ $struct = [
 // TODO: project_test_cases
 
 //skel( $struct );
-$db->automate_tables( $struct );
+//$db->automate_tables( $struct );

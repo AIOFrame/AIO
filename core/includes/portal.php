@@ -610,3 +610,37 @@ function __file_card( string $name = '', string $file_url = '', string $button_c
 function file_card( string $name = '', string $file_url = '', string $button_class = 'r bsn grey', bool $show_meta = true, string $class = 'card br8 nf' ): void {
     echo __file_card( $name, $file_url, $button_class, $show_meta, $class );
 }
+
+function data_table( string $table = '', array $form = [], string $query = '', array $table_titles = [], array $data_keys = [], array $replace_data_values = [], string $table_class = '', string $form_class = '', bool $show_edit = false, bool $show_delete = false ): void {
+    $d = new DB();
+    $f = new FORM();
+    $button_class = 'col mico m0 cp';
+    $r = rand( 9, 999 );
+    // Database table to store our data
+    $data = $d->select( $table, '', $query );
+    $table_titles[] = 'Actions';
+    $data_table[] = [ 'head' => $table_titles ];
+    foreach( $data as $da ) {
+        $columns = [];
+        foreach( $data_keys as $tv ) {
+            $val = $da[ $table . '_'. $tv ];
+            $val = $replace_data_values[ $val ] ?? $val;
+            $columns[] = $val;
+        }
+        $edit = $show_edit ? $f->__edit_html( '.'.$table.'_form_'.$r, replace_in_keys( $da, $table ), 'div', '', $button_class ) : '';
+        $delete = $show_delete ? $f->__trash_html( $table, $table.'_id = '.$da[ $table . '_id' ], 'div', '', $button_class, '', 'Are you sure to delete '.$table.'?' ) : '';
+        $columns[] = __pre( '', 'acts' ) . $edit . $delete . __post();
+        $data_table[] = [ 'body' => $columns ];
+    }
+    //skel( $data );
+    // Show list of updated data as html table from database table
+    $table_class !== '0' && $table_class !== 'dn' ? table( $data_table, $table_class . ' tac mb20' ) : '';
+    // Logic to submit form to store to database table
+    if( $form_class !== '0' && $form_class !== 'dn' ) {
+        $f->pre_process( 'class="'.$table.'_form_'.$r.'"', $table, $table, $table.'_' );
+        // Form that is similar to database table field structure
+        $f->form( $form, 'row', $table );
+        $f->process_trigger( 'Save '.str_replace('_',' ',$table), 'grad', '', '', '.tac' );
+        $f->post_process();
+    }
+}

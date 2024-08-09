@@ -39,6 +39,13 @@ class PROJECTS {
         return [];
     }
 
+    function __project_form( string $class = '' ): array {
+        $form = [
+
+        ];
+        return [];
+    }
+
     function project_board(): void {
 
     }
@@ -103,10 +110,6 @@ class PROJECTS {
         return [];
     }
 
-    function get_project_communication(): array {
-        return [];
-    }
-
     function update_project(): array {
         return [];
     }
@@ -131,7 +134,15 @@ class PROJECTS {
 
     function options(): void {
         $o = new options();
+        $form = [
+            [ 'i' => 'aio_project_types', 'n' => 'Project Feature Types (,)', 'p' => 'Ex: User Types, 3rd Party Modules...', 't' => 'textarea', 'max' => 1024, 'c' => 12, 'r' => 1 ],
+            [ 'i' => 'aio_project_categories', 'n' => 'Project Categories (,)', 'p' => 'Ex: Information Technology, Construction...', 't' => 'textarea', 'max' => 1024, 'c' => 12, 'r' => 1 ],
+        ];
+        $o->form( $form, 'row', 1 );
+        $struct = [
 
+        ]
+        data_as_table( 'project_feats',  );
     }
 
 }
