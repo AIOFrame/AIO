@@ -285,14 +285,16 @@ class PORTAL {
                 }
 
                 // Show Languages
-                $languages = app_languages();
-                if( $show_languages && !empty( $languages ) && count( $languages ) > 1 ) {
-                    pre( 'lang', 'nav_ico' );
+                if( defined( 'FEATURES' ) && in_array_any( [ 'translations', 'translation', 'translate', 'languages', 'language', 'lang', 'i18n' ], FEATURES ) ) {
+                    $languages = app_languages();
+                    if( $show_languages && !empty( $languages ) && count( $languages ) > 1 ) {
+                        pre( 'lang', 'nav_ico' );
                         div( ( $icon . ' ' . ( $options['ico_languages'] ?? '' ) ), $options['ico_languages'] ?? 'translate' );
                         pre( '', 'drop' );
-                            language_picker( 'languages', 'list lang' );
+                        language_picker( 'languages', 'list lang' );
                         post();
-                    post();
+                        post();
+                    }
                 }
 
                 // Link to Front-end
