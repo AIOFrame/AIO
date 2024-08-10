@@ -308,7 +308,7 @@ class OPTIONS {
                         c_();
                     }
                     r_();
-                    //$f->option_params_wrap( 'input', 'row', $autoload );
+                    //$f->option_params_wrap( 'input', 'class="row"', $autoload );
                         //skel( $autoload );
                         //$f->form( $type_options, 'row' );
                         //$f->process_options('Save ' . $x . ' Styling Options','store grad','','.col-12 tac');
@@ -327,7 +327,7 @@ class OPTIONS {
                     }
                     //skel( $color_options );
                     $this->form( $color_options, 'row', 1, '', 'Save Color Options', '', '', $autoload );
-                    /* $f->option_params_wrap( 'input', 'row', $autoload );
+                    /* $f->option_params_wrap( 'input', 'class="row"', $autoload );
                         $f->form( $color_options );
                         $f->process_options('Save Color Options','store grad','','.col-12 tac');
                     post(); */
@@ -348,7 +348,7 @@ class OPTIONS {
         $options_array = [ 'font_1', 'font_1_weights', 'font_weight', 'font_2', 'font_2_weights' ];
         $options_array = defined( 'REGION' ) ? prepare_values( $options_array, $r ) : $options_array;
         $ops = $db->get_options( $options_array );
-        $f->option_params_wrap( 'fonts', 'row', $options_array );
+        $f->option_params_wrap( 'fonts', 'class="row"', $options_array );
         $font_1 = $ops['font_1'] ?? 'Lato';
         $font_1_weights = $ops['font_1_weights'] ?? '400';
         $font_weight = $ops['font_weight'] ?? '400';
@@ -398,7 +398,7 @@ class OPTIONS {
         $os = $db->get_options( $comm_options );
         //skel( $r );
         //skel( $os );
-        $f->option_params_wrap('com','row');
+        $f->option_params_wrap('com','class="row"');
             $phone = !empty( $os[$r.'phone'] ) ? $os[$r.'phone'] : 'fake_phone';
             $mobile = !empty( $os[$r.'mobile'] ) ? $os[$r.'mobile'] : 'fake_phone';
             $email = !empty( $os[$r.'email'] ) ? $os[$r.'email'] : 'fake_email';
@@ -421,7 +421,7 @@ class OPTIONS {
         $add_ops = ['address','add_name','city','state','post','country','date_format','time_format','zone'];
         $add_ops = defined( 'REGION' ) ? prepare_values( $add_ops, $r ) : $add_ops;
         $os = $db->get_options($add_ops);
-        $f->option_params_wrap('add','row');
+        $f->option_params_wrap('add','class="row"');
         $address = !empty( $os[$r.'address'] ) ? $os[$r.'address'] : 'fake_address';
         $city = !empty( $os[$r.'city'] ) ? $os[$r.'city'] : 'fake_city';
         $state = !empty( $os[$r.'state'] ) ? $os[$r.'state'] : 'fake_state';
@@ -452,7 +452,7 @@ class OPTIONS {
         $fin_ops = defined( 'REGION' ) ? prepare_keys( $fin_ops, $r ) : $fin_ops;
         $finance_keys = array_merge( $fin_ops, [ 'base_region' ] );
         $os = $db->get_options( $finance_keys );
-        $f->option_params_wrap('cd','row');
+        $f->option_params_wrap('cd','class="row"');
         //skel( REGIONS );
         $base = defined('REGIONS') && isset( REGIONS['base'] ) ? REGIONS['base']['cca2'] . ' - ' .REGIONS['base']['symbol'] : 'US';
         $now = defined('REGIONS') && isset( REGIONS['now'] ) ? REGIONS['now']['cca2'] . ' - ' .REGIONS['now']['symbol'] : 'US';
@@ -655,9 +655,20 @@ class OPTIONS {
         }
         //skel( $form );
         $f = new FORM();
-        $f->option_params_wrap( $data, '', $auto_load, $unique, $encrypt, $success, $callback, $confirm );
-            $f->form( $form, $type );
+        if( in_array( $type, [ 'dynamic', 'dyn' ] ) ) {
+            $d = new DB();
+            $dyn_data = $d->get_option( $data );
+            // Loop n times
+            $f->option_params_wrap( $data, 'data-dynamic="'.$data.'"', [], [], [], $success, $callback, $confirm );
+            for( $i = 0; $i < 2; $i++ ) { // Replace 2 with count( $dyn_data )
+                $f->form( $form, 'row', $data, '', 'dynamic_'.$i );
+            }
             $f->process_trigger( $button_text, $button_class, '', '', '.col-12 tac' );
+        } else {
+            $f->option_params_wrap( $data, '', $auto_load, $unique, $encrypt, $success, $callback, $confirm );
+                $f->form( $form, $type );
+            $f->process_trigger( $button_text, $button_class, '', '', '.col-12 tac' );
+        }
         post();
     }
 

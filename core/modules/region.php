@@ -141,7 +141,7 @@ class REGION {
         !empty( $regions['regions'] ) ? $regions_form[] = [ 'i' => 'base_region', 't' => 'select2', 'n' => 'Set Primary Country', 'p' => 'Choose country...', 'o' => $operating_regions, 'k' => 1, 'v' => ( $regions['base_region'] ?? '' ), 'a' => 'data-region' ] : '';
         $o->form( $regions_form, 'row', 0, 'region', 'Save Region Options', '', 'Regional settings saved successfully!', 'base_region,regions' );
         //div( '', 'Please set and save operating regions, then set primary region.', '', 'style="text-align:center; font-size: .8rem"', 1 );
-        //$f->option_params_wrap('reg','row','base_region,regions');
+        //$f->option_params_wrap('reg','class="row"','base_region,regions');
         //$f->select2('regions','Set Operating Regions','Choose countries...',$countries,$regions['regions']??'','multiple data-reg',12,1);
         if( !empty( $regions['regions'] ) ) {
             $region_options_form = [

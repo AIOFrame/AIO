@@ -37,124 +37,139 @@ function get_values( parent, attribute, prepend ) {
     let pre = prepend;
     pre = pre !== undefined && pre !== '' ? pre : '';
 
-    let data = {};
 
-    // Loop through the input elements
-    $(parent).find(":input"+a+":not(:button)","select"+a,"textarea"+a).each(function () {
+    // If Dynamic Loop
+    if( $(parent).data('dynamic') !== undefined ) {
+        let data = [];
+        $.each( $(parent).children('.form'), function (i, item) {
+            console.log( i );
+            console.log( item );
+            console.log( $(item).attr('class').replaceAll('form row ','.') );
+            let new_data = get_values( $(item).attr('class').replaceAll('form row ','.'), attribute, prepend );
+            console.log( new_data );
+            data.push( new_data );
+        });
+        console.log( data );
+    } else {
+        let data = {};
+        // Loop through the input elements
+        $(parent).find(":input"+a+":not(:button)","select"+a,"textarea"+a).each(function () {
 
-        // Define Pre and Key
-        let pre_key;
-        let name = $(this).attr('name');
-        name = name !== undefined ? name.replace('[]',''): undefined;
-        let key = $(this).data('key');
-        let id = $(this).attr('id');
-        if( $(this).data('array') !== undefined )
-            pre_key = pre + $(this).data('array');
-        else if( key !== undefined )
-            pre_key = pre + key;
-        else if ( id !== undefined )
-            pre_key = pre + id;
-        else if( name !== undefined )
-            pre_key = pre + name;
-        else
-            pre_key = pre + $(this).attr('class');
-        //console.log("pre Key");
-        //console.log(pre_key);
+            // Define Pre and Key
+            let pre_key;
+            let name = $(this).attr('name');
+            name = name !== undefined ? name.replace('[]',''): undefined;
+            let key = $(this).data('key');
+            let id = $(this).attr('id');
+            if( $(this).data('array') !== undefined )
+                pre_key = pre + $(this).data('array');
+            else if( key !== undefined )
+                pre_key = pre + key;
+            else if ( id !== undefined )
+                pre_key = pre + id;
+            else if( name !== undefined )
+                pre_key = pre + name;
+            else
+                pre_key = pre + $(this).attr('class');
+            //console.log("pre Key");
+            //console.log(pre_key);
 
-        let m = $(parent).find( '[name=' + name + ']' );
+            let m = $(parent).find( '[name=' + name + ']' );
 
-        // Set default value for text, number, email, textarea, select
-        let value;
-        value = $(this).hasClass('fn') ? ufn( $(this).val() ) : $(this).val(); // Un Format Number
+            // Set default value for text, number, email, textarea, select
+            let value;
+            value = $(this).hasClass('fn') ? ufn( $(this).val() ) : $(this).val(); // Un Format Number
 
-        if( $(this).attr('type') === 'checkbox' ){
-            let t = $(this).is(':checked');
-            let arr = $(this).data('array');
-            let keyed_arr = $(this).data('keyed-array');
-            let v =  $(this).val();
-            if ( $(this).hasClass('slide') ) {
-                //elog(0);
-                value = $(this).is(':checked') ? 1 : 2;
-            } else if ( keyed_arr !== undefined ) {
-                // If data[pre_key] is undefined define it as array
-                pre_key = key;
-                //console.log( pre_key );
-                //console.log( v );
-                if( data[ pre + keyed_arr.replaceAll('[]','') ] === undefined ) { // || !$.isObject( data[ pre + keyed_arr.replaceAll('[]','') ] )
-                    //console.log( keyed_arr.replaceAll('[]','') );
-                    data[ pre + keyed_arr.replaceAll('[]','') ] = {};
-                    data[ pre + keyed_arr.replaceAll('[]','') ][ pre_key ] = [];
-                    //console.log('Setting only once!');
-                }
-                if( data[ pre + keyed_arr.replaceAll('[]','') ][ pre_key ] === undefined ) {
-                    data[ pre + keyed_arr.replaceAll('[]','') ][ pre_key ] = [];
-                }
-                //console.log( data );
-                if( t ) {
-                    data[ pre + keyed_arr.replaceAll('[]','') ][ pre_key ].push( v );
-                }
-            } else if ( arr !== undefined ) {
-                // If data[pre_key] is undefined define it as array
-                if( data[pre_key] === undefined || !$.isArray( data[pre_key] ) ) {
-                    data[pre_key] = [];
-                }
-                if( t ) {
-                    data[pre_key].push( v );
-                }
-
-            } else if (m.length > 1) {
-                //elog(2);
-                value = $( '[name=' + $(this).attr('name') + ']' ).map(function () {
-                    if( t ) {
-                        return $(this).val();
+            if( $(this).attr('type') === 'checkbox' ){
+                let t = $(this).is(':checked');
+                let arr = $(this).data('array');
+                let keyed_arr = $(this).data('keyed-array');
+                let v =  $(this).val();
+                if ( $(this).hasClass('slide') ) {
+                    //elog(0);
+                    value = $(this).is(':checked') ? 1 : 2;
+                } else if ( keyed_arr !== undefined ) {
+                    // If data[pre_key] is undefined define it as array
+                    pre_key = key;
+                    //console.log( pre_key );
+                    //console.log( v );
+                    if( data[ pre + keyed_arr.replaceAll('[]','') ] === undefined ) { // || !$.isObject( data[ pre + keyed_arr.replaceAll('[]','') ] )
+                        //console.log( keyed_arr.replaceAll('[]','') );
+                        data[ pre + keyed_arr.replaceAll('[]','') ] = {};
+                        data[ pre + keyed_arr.replaceAll('[]','') ][ pre_key ] = [];
+                        //console.log('Setting only once!');
                     }
-                }).toArray();
-            } else {
-                //elog(3);
-                value = t === true ? 1 : 2;
+                    if( data[ pre + keyed_arr.replaceAll('[]','') ][ pre_key ] === undefined ) {
+                        data[ pre + keyed_arr.replaceAll('[]','') ][ pre_key ] = [];
+                    }
+                    //console.log( data );
+                    if( t ) {
+                        data[ pre + keyed_arr.replaceAll('[]','') ][ pre_key ].push( v );
+                    }
+                } else if ( arr !== undefined ) {
+                    // If data[pre_key] is undefined define it as array
+                    if( data[pre_key] === undefined || !$.isArray( data[pre_key] ) ) {
+                        data[pre_key] = [];
+                    }
+                    if( t ) {
+                        data[pre_key].push( v );
+                    }
+
+                } else if (m.length > 1) {
+                    //elog(2);
+                    value = $( '[name=' + $(this).attr('name') + ']' ).map(function () {
+                        if( t ) {
+                            return $(this).val();
+                        }
+                    }).toArray();
+                } else {
+                    //elog(3);
+                    value = t === true ? 1 : 2;
+                }
             }
-        }
-        else if( $(this).attr('type') === 'radio' && $('input[name=' + $(this).attr('name') + ']:checked') ) {
-            // key = $(this).is(':checked') ? $(this).attr('name') : '';
-            // key = $(this).data('key') !== undefined ? $(this).data('key') : $(this).attr('name');
-            //v = $(this).is(':checked') ? $(this).val() : '';
-            data[ pre_key ] = $('input[name=' + $(this).attr('name') + ']:checked').val();
-            return true;
-        }
-        else if( $(this).is( "select" ) && $(this).attr('multiple') !== undefined ) {
-            value = $(this).val().join(", ");
-        }
-        if( $(this).data('array') !== undefined ) {
+            else if( $(this).attr('type') === 'radio' && $('input[name=' + $(this).attr('name') + ']:checked') ) {
+                // key = $(this).is(':checked') ? $(this).attr('name') : '';
+                // key = $(this).data('key') !== undefined ? $(this).data('key') : $(this).attr('name');
+                //v = $(this).is(':checked') ? $(this).val() : '';
+                data[ pre_key ] = $('input[name=' + $(this).attr('name') + ']:checked').val();
+                return true;
+            }
+            else if( $(this).is( "select" ) && $(this).attr('multiple') !== undefined ) {
+                value = $(this).val().join(", ");
+            }
+            if( $(this).data('array') !== undefined ) {
+                //elog(key);
+                //elog(pre_key);
+                let arr = $(this).data('array');
+                key = $(this).val() !== '' ? $(this).attr('name') : '';
+                key = key === '' ? $(this).attr('id') : key;
+                let key2 = $(this).data('key') !== undefined ? $(this).data('key') : key;
+                data[pre_key] = data[pre_key] === undefined ? {} : data[pre_key];
+                $(this).val() !== '' ? data[ pre_key ][ key2 ] = value : '';
+                //return true;
+            } else if( $(this).data('html-characters') !== undefined ) {
+                data[ pre_key ] = html_to_text( value );
+            } else {
+                // Finally push the value
+                data[ pre_key ] = value;
+            }
+
             //elog(key);
-            //elog(pre_key);
-            let arr = $(this).data('array');
-            key = $(this).val() !== '' ? $(this).attr('name') : '';
-            key = key === '' ? $(this).attr('id') : key;
-            let key2 = $(this).data('key') !== undefined ? $(this).data('key') : key;
-            data[pre_key] = data[pre_key] === undefined ? {} : data[pre_key];
-            $(this).val() !== '' ? data[ pre_key ][ key2 ] = value : '';
-            //return true;
-        } else if( $(this).data('html-characters') !== undefined ) {
-            data[ pre_key ] = html_to_text( value );
-        } else {
-            // Finally push the value
-            data[ pre_key ] = value;
-        }
+            //elog( 'Updated:' );
+            //elog( data );
 
-        //elog(key);
-        //elog( 'Updated:' );
-        //elog( data );
+        });
+        $.each(data,function(a,b){
+            if( typeof b === 'object' && b !== null ) {
+                /* elog( b );
+                elog( JSON.stringify(b) ); */
+                data[a] = JSON.stringify(b);
+            }
+        });
+    }
 
-    });
-    $.each(data,function(a,b){
-        if( typeof b === 'object' && b !== null ) {
-            /* elog( b );
-            elog( JSON.stringify(b) ); */
-            data[a] = JSON.stringify(b);
-        }
-    });
     //elog(data);
-    return data;
+    //return data;
 }
 
 /**

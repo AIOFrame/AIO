@@ -1429,13 +1429,13 @@ class FORM {
         //skel( $h );
     }
 
-    function option_params_wrap( string $data = '', string $class = '', array|string $autoload = [], array|string $unique = [], array|string $encrypt = [], string $success_text = 'Successfully Updated Preferences!', string $callback = '', string $confirm = '' ): void {
+    function option_params_wrap( string $data = '', string $attr = '', array|string $autoload = [], array|string $unique = [], array|string $encrypt = [], string $success_text = 'Successfully Updated Preferences!', string $callback = '', string $confirm = '' ): void {
         $h = [];
         !empty( $autoload ) ? $h['autoload'] = $autoload : '';
         !empty( $unique ) ? $h['unique'] = $unique : '';
         !empty( $encrypt ) ? $h['encrypt'] = $encrypt : '';
         //echo '<div class="row"';
-        $this->pre_process( 'class="'.$class.'"', 'process_options_ajax', $data, '', $h, $success_text, $callback, $confirm );
+        $this->pre_process( $attr, 'process_options_ajax', $data, '', $h, $success_text, $callback, $confirm );
         //echo '>';
     }
 
