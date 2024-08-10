@@ -188,13 +188,11 @@ class RANGE {
  * @param string $art Art Components to be added
  * @param string|array $styles Styles to be linked
  * @param string|array $scripts Scripts to be added
- * @param string|array $primary_font Array of primary font and weights Ex: [ 'Lato', '300, 400' ]
- * @param string|array $secondary_font Array of secondary font and weights Ex: [ 'Cairo', '300, 400' ]
- * @param string|array $icon_fonts Icon Fonts Ex: [ 'MaterialIcons', 'BootstrapIcons' ]
+ * @param array $fonts Array of font and weights Ex: [ 'Lato' => '300,400', 'MaterialIcons' ]
  * @param string $page_title
  * @return void
  */
-function pre_html( string $class = '', string $attrs = '', string|array $pre_styles = [], string $primary_color = '', string $secondary_color = '', string $art = '', string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [], string|array $icon_fonts = [], string $page_title = '' ): void {
+function pre_html( string $class = '', string $attrs = '', string|array $pre_styles = [], string $primary_color = '', string $secondary_color = '', string $art = '', string|array $styles = [], string|array $scripts = [], array $fonts = [], string $page_title = '' ): void {
 
     // Defines
     global $light_mode;
@@ -250,53 +248,23 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
     favicon( $favicon );
 
     // Fonts
-    $fonts = [];
-    // Primary Font
-    if( !empty( $primary_font ) ) {
-        $font1 = is_array( $primary_font ) ? $primary_font[0] : $primary_font;
-        $weights1 = $primary_font[1] ?? '400';
-        $weight = $primary_font[2] ?? '400';
-    } else {
-        $font1 = $options['font_1'] ?? 'Lato';
-        $weights1 = $options['font_1_weights'] ?? '400';
-        $weight = $options['font_weight'] ?? '400';
-    }
-    $fonts[ $font1 ] = $weights1;
-    // Secondary Font
-    if( !empty( $secondary_font ) ) {
-        $font2 = is_array( $secondary_font ) && isset( $secondary_font[0] ) ? $secondary_font[0] : $secondary_font;
-        $weights2 = is_array( $secondary_font ) && isset( $secondary_font[1] ) ? $secondary_font[1] : 400;
-        //$weight2 = is_array( $secondary_font ) ? $secondary_font[2] : '400';
-    } else {
-        $font2 = $options['font_2'] ?? '';
-        $weights2 = $options['font_2_weights'] ?? '';
-        //$weight2 = $options['font_2_weight'] ?? '';
-    }
-    if( !empty( $font2 ) ) {
-        $fonts[ $font2 ] = $weights2;
-        reset_styles( $font1.','.$font2, $weight );
-    } else {
-        reset_styles( $font1, $weight );
-    }
-    // Icon Fonts
-    //skel( $icon_fonts );
-    $icon_fonts = !empty( $icon_fonts ) ? $icon_fonts : ( $options['icon_font'] ?? '' );
-    $icon_fonts = is_string( $icon_fonts ) && str_contains( $icon_fonts, ',' ) ? explode( ',', $icon_fonts ) : $icon_fonts;
-    if( !empty( $icon_fonts ) && is_array( $icon_fonts ) ) {
-        foreach( $icon_fonts as $if ) {
-            $fonts[ $if ] = '';
+    if( !empty( $fonts ) ) {
+        $font_names = [];
+        foreach( $fonts as $name => $weight ) {
+            $font_names[] = $name;
+            if( is_numeric( $name ) ) {
+                unset( $fonts[ $name ] );
+                $fonts[ $weight ] = '';
+                $name = $weight;
+            }
+            //$icons = defined( 'ICONS' ) ? ( is_array( ICONS ) ? implode( ',', ICONS ) : ICONS ) : '';
+            if( str_contains( strtolower( $name ), 'bootstrap' ) ) {
+                !empty( $pre_styles ) ? ( is_array( $pre_styles ) ? ( $pre_styles[] = 'bootstrap-icons' ) : ( $pre_styles .= $pre_styles.',bootstrap-icons' ) ) : ( $pre_styles = 'bootstrap-icons' );
+            }
         }
-        !defined( 'ICONS' ) ? define( 'ICONS', $icon_fonts ) : '';
-    } else if( !empty( $icon_fonts ) ) {
-        !defined( 'ICONS' ) ? define( 'ICONS', $icon_fonts ) : '';
-        $fonts[ $icon_fonts ] = '';
-    } else {
-        !defined( 'ICONS' ) ? define( 'ICONS', '' ) : '';
+        reset_styles( implode( ',', $font_names ) );
     }
-    $icons = defined( 'ICONS' ) ? ( is_array( ICONS ) ? implode( ',', ICONS ) : ICONS ) : '';
-    if( str_contains( strtolower( $icons ), 'bootstrap' ) ) {
-        !empty( $pre_styles ) ? ( is_array( $pre_styles ) ? ( $pre_styles[] = 'bootstrap-icons' ) : ( $pre_styles .= $pre_styles.',bootstrap-icons' ) ) : ( $pre_styles = 'bootstrap-icons' );
-    }
+    skel( $pre_styles );
     fonts( $fonts );
 
     // Appearance
