@@ -1485,7 +1485,8 @@ class FORM {
         if( !empty( $icon ) ) {
             $text .= __el( 'span', $icon_class . ' ico ' . $icon, $icon );
         } else {
-            $text .= !empty( $options['ico_save'] ) ? ( __el( 'span', ( $options['icon_class'] ?? 'mico' ) . ' ico ' . $options['ico_save'], ( $options['ico_save'] ?? 'save' ) ) ) : '';
+            $save_ico = $options['ico_save'] ?? 'save';
+            $text .= __el( 'span', $icon_class . ' ico ' . $save_ico, $save_ico );
         }
         return $_p . __el( $element, $class . ' save', $text, '', $a ) . $p_;
         //return $_p.'<'.$element.$a.' class="'.$class.'" '.$attr.'><span class="loader"></span>'.T( $text ).'</'.$element.'>'.$p_;

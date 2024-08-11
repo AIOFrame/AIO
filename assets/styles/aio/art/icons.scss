@@ -44,13 +44,25 @@
   //margin-right: 0.3em;
   //font-size: 130%;
 }
-.bi {
+.bi, .bi.icon_preview {
   overflow: hidden;
   font-size: 0;
+  font-family: 'BootstrapIcons' !important;
 }
-.bi::before, [class^=bi-]::before, [class*=" bi-"]::before {
-  font-family: "bootstrapicons" !important;
+.bi::before,
+[class^="bi-"]::before,
+[class*=" bi-"]::before {
   font-size: 1.2rem;
+  display: inline-block;
+  font-family: 'BootstrapIcons' !important;
+  font-style: normal;
+  font-weight: normal !important;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: -.125em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 .mat-ico.bg, .mico.bg {
   color: #fff;
@@ -198,6 +210,12 @@
   text-align: center;
   padding: var(--input_padding_top) 0 var(--input_padding_bottom) 0;
   font-size: 1.4rem;
+}
+.bi.icon_preview {
+  line-height: 0
+}
+.bi.icon_preview:before {
+  font-size: 1.2rem;
 }
 .icon_preview.l {
   left: 15px;

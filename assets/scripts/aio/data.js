@@ -166,6 +166,7 @@ function get_values( parent, attribute, prepend ) {
                 data[a] = JSON.stringify(b);
             }
         });
+        return data;
     }
 
     //elog(data);

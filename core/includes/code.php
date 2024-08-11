@@ -15,12 +15,10 @@ class CODE {
      * @param string $secondary_color Secondary color for theme (without #)
      * @param string|array $styles Internal styles to add
      * @param string|array $scripts Scripts to add
-     * @param array $primary_font Array of primary font and weights Ex: [ 'Lato', '300, 400' ]
-     * @param array $secondary_font Array of secondary font and weights Ex: [ 'Cairo', '300, 400' ]
-     * @param string|array $icon_fonts Icon Fonts Ex: 'MaterialIcons' or [ 'MaterialIcons', 'BootstrapIcons' ]
+     * @param array $fonts Array of fonts and weights Ex: [ 'Lato' => '300, 400', 'MaterialIcons ]
      * @return void
      */
-    function auth_page( string $login_redirect_url = '', string $attrs = '', string|array $pre_styles = [], string $primary_color = '00A99D', string $secondary_color = '', string|array $styles = [], string|array $scripts = [], array $primary_font = [], array $secondary_font = [], string|array $icon_fonts = '' ): void {
+    function auth_page( string $login_redirect_url = '', string $attrs = '', string|array $pre_styles = [], string $primary_color = '00A99D', string $secondary_color = '', string|array $styles = [], string|array $scripts = [], array $fonts = [] ): void {
 
         if( user_logged_in() ) {
             $redirect = 'Location:'.APPURL.$login_redirect_url;
@@ -46,7 +44,7 @@ class CODE {
 
         // Head
         $styles = is_array( $styles ) ? array_merge( $styles, [ 'air-datepicker' ] ) : $styles . ',air-datepicker';
-        pre_html( '', $attrs, $pre_styles, '', '', 'icons,inputs,buttons,alerts', $styles, $scripts, $primary_font, $secondary_font, $icon_fonts );
+        pre_html( '', $attrs, $pre_styles, '', '', 'icons,inputs,buttons,alerts', $styles, $scripts, $fonts );
 
         // Content
         _article();
@@ -192,7 +190,7 @@ class RANGE {
  * @param string $page_title
  * @return void
  */
-function pre_html( string $class = '', string $attrs = '', string|array $pre_styles = [], string $primary_color = '', string $secondary_color = '', string $art = '', string|array $styles = [], string|array $scripts = [], array $fonts = [], string $page_title = '' ): void {
+function pre_html( string $class = '', string $attrs = '', string|array $pre_styles = [], string $primary_color = '', string $secondary_color = '', string $art = '', string|array $styles = [], string|array $scripts = [], array $fonts = [ 'Lato', '400,600' ], string $page_title = '' ): void {
 
     // Defines
     global $light_mode;
@@ -251,20 +249,28 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
     if( !empty( $fonts ) ) {
         $font_names = [];
         foreach( $fonts as $name => $weight ) {
-            $font_names[] = $name;
             if( is_numeric( $name ) ) {
                 unset( $fonts[ $name ] );
                 $fonts[ $weight ] = '';
                 $name = $weight;
             }
             //$icons = defined( 'ICONS' ) ? ( is_array( ICONS ) ? implode( ',', ICONS ) : ICONS ) : '';
-            if( str_contains( strtolower( $name ), 'bootstrap' ) ) {
+            $icon_fonts = [];
+            if( str_contains( strtolower( $name ), 'material' ) ) {
+                $icon_fonts[] = 'MaterialIcons';
+            } else if( str_contains( strtolower( $name ), 'social' ) ) {
+                $icon_fonts[] = 'SocialIcons';
+            } else if( str_contains( strtolower( $name ), 'bootstrap' ) ) {
+                //unset( $fonts[ $name ] );
                 !empty( $pre_styles ) ? ( is_array( $pre_styles ) ? ( $pre_styles[] = 'bootstrap-icons' ) : ( $pre_styles .= $pre_styles.',bootstrap-icons' ) ) : ( $pre_styles = 'bootstrap-icons' );
+            } else {
+                $font_names[] = $name;
             }
+            !defined( 'ICONS' ) ? define( 'ICONS', $icon_fonts ) : '';
         }
         reset_styles( implode( ',', $font_names ) );
     }
-    skel( $pre_styles );
+    //skel( $fonts );
     fonts( $fonts );
 
     // Appearance

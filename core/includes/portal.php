@@ -81,16 +81,14 @@ class PORTAL {
      * @param string|array $pre_styles Pre styles to add
      * @param string|array $styles Internal styles to add
      * @param string|array $scripts Scripts to add
-     * @param string|array $primary_font Array of primary font and weights Ex: [ 'Lato', '300, 400' ]
-     * @param string|array $secondary_font Array of secondary font and weights Ex: [ 'Cairo', '300, 400' ]
-     * @param string|array $icon_fonts Icon Fonts Ex: 'MaterialIcons' or [ 'MaterialIcons', 'BootstrapIcons' ]
+     * @param array $fonts Array of fonts and weights Ex: [ 'Lato' => '300, 400', 'MaterialIcons' ]
      * @return void
      */
-    function auth_page( string $login_redirect_url = '', string $attrs = '', string $primary_color = '', string $secondary_color = '', string|array $pre_styles = [], string|array $styles = [], string|array $scripts = [], string|array $primary_font = [], string|array $secondary_font = [], string|array $icon_fonts = 'MaterialIcons' ): void {
+    function auth_page( string $login_redirect_url = '', string $attrs = '', string $primary_color = '', string $secondary_color = '', string|array $pre_styles = [], string|array $styles = [], string|array $scripts = [], array $fonts = [ 'Lato' => '400,600', 'MaterialIcons' ] ): void {
         $styles = is_array( $styles ) ? array_merge( $styles, [ 'portal/login', 'login' ] ) : $styles . ',portal/login,login';
         $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'aio', 'portal/login', 'login' ] ) : $scripts . ',aio,portal/login,login';
         $c = new CODE();
-        $c->auth_page( $login_redirect_url, $attrs, $pre_styles, $primary_color, $secondary_color, $styles, $scripts, $primary_font, $secondary_font, $icon_fonts );
+        $c->auth_page( $login_redirect_url, $attrs, $pre_styles, $primary_color, $secondary_color, $styles, $scripts, $fonts );
     }
 
     /**

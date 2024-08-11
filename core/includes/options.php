@@ -223,17 +223,18 @@ class OPTIONS {
         $autoload = [ 'icon_font', 'icon_class', 'icon_after_class' ];
         foreach( $icons as $o => $v ) {
             $ico = 'ico_'.$o;
+            $v = $options[ $ico ] ?? $v;
             //$idc = 'port_ico_'.$o.'_class';
             $autoload[] = $ico;
             //$autoload[] = $idc;
-            $icon_preview = __div( ( $options['icon_class'] ?? 'mico' ) . ' icon_preview', ( $options[$ico] ?? $v ) );
-            $form[] = [ 'i' => $ico, 'n' => ucwords( str_replace( '_', ' ', $o ) ). ' Ico', 'v' => $options[$ico] ?? $v, 'c' => 2, 'a' => $a, 'p_' => $icon_preview . d__() ];
+            $icon_preview = __div( ( $options['icon_class'] ?? 'mico' ) . ' icon_preview ' . $v, $v );
+            $form[] = [ 'i' => $ico, 'n' => ucwords( str_replace( '_', ' ', $o ) ). ' Ico', 'v' => $v, 'c' => 2, 'a' => $a, 'p_' => $icon_preview . d__() ];
             //$form[] = [ 't' => 'div', 'v' => $icon_preview, 'c' => 1 ];
             //$form[] = [ 'i' => $idc, 'n' => ucwords( $o ). ' Ico Class', 'v' => $v, 'c' => 2 ];
         }
-        $o = new OPTIONS();
+        //$o = new OPTIONS();
         _d( 'icon_options' );
-            $o->form( $form, 'row', 1, 'ico', 'Save Icon Options', '', 'Successfully saved icon settings!', $autoload );
+            $this->form( $form, 'row', 1, 'ico', 'Save Icon Options', '', 'Successfully saved icon settings!', $autoload );
         d_();
     }
 
