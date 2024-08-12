@@ -88,7 +88,11 @@ function get_file_info( $url ): array {
     return [];
 }
 
-function asset_url( $url = '' ): string {
+function asset_url( string $url = '' ): void {
+    echo __asset_url( $url );
+}
+
+function __asset_url( string $url = '' ): string {
     return $url !== '' ? APPURL . 'apps/' . APPDIR . '/assets/' . $url : '';
 }
 
