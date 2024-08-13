@@ -660,7 +660,7 @@ class OPTIONS {
             $d = new DB();
             $dyn_data = $d->get_option( $data );
             // Loop n times
-            $f->option_params_wrap( $data, 'data-dynamic="'.$data.'"', [], [], [], $success, $callback, $confirm );
+            $f->option_params_wrap( $data, 'data-dynamic="'.$data.'"', $auto_load, $unique, $encrypt, $success, $callback, $confirm );
             for( $i = 0; $i < 2; $i++ ) { // Replace 2 with count( $dyn_data )
                 $f->form( $form, 'row', $data, '', 'dynamic_'.$i );
             }

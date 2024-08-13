@@ -39,19 +39,14 @@ function get_values( parent, attribute, prepend ) {
 
 
     // If Dynamic Loop
+    let data = {};
     if( $(parent).data('dynamic') !== undefined ) {
-        let data = [];
+        data[$(parent).data('dynamic')] = {};
         $.each( $(parent).children('.form'), function (i, item) {
-            console.log( i );
-            console.log( item );
-            console.log( $(item).attr('class').replaceAll('form row ','.') );
-            let new_data = get_values( $(item).attr('class').replaceAll('form row ','.'), attribute, prepend );
-            console.log( new_data );
-            data.push( new_data );
+            data[$(parent).data('dynamic')][i] = get_values($(item).attr('class').replaceAll('form row ', '.'), attribute, prepend);
         });
-        console.log( data );
+        return data;
     } else {
-        let data = {};
         // Loop through the input elements
         $(parent).find(":input"+a+":not(:button)","select"+a,"textarea"+a).each(function () {
 
@@ -161,16 +156,11 @@ function get_values( parent, attribute, prepend ) {
         });
         $.each(data,function(a,b){
             if( typeof b === 'object' && b !== null ) {
-                /* elog( b );
-                elog( JSON.stringify(b) ); */
                 data[a] = JSON.stringify(b);
             }
         });
-        return data;
     }
-
-    //elog(data);
-    //return data;
+    return data;
 }
 
 /**
@@ -387,8 +377,8 @@ function clear( e, d ){
 // AJAX Data
 
 function process_data( e, ne ){
-    //console.log(e);
-    //console.log(ne);
+    console.log(e);
+    console.log(ne);
     //$(e).attr('disabled',true);
     let p = $(e).closest('[data-t]') !== undefined && $(e).closest('[data-t]') !== null && $(e).closest('[data-t]').length > 0 ? $(e).closest('[data-t]') : $(e);
     // Avoid load
@@ -485,15 +475,15 @@ function process_data( e, ne ){
     //}
 
     let d = get_values( p, data, pre );
-    elog(d);
-    d.action = $(e).data('action') !== undefined ? $(e).data('action') : $(p).data('t');
+    //console.log(d);
+    d.action = $(e).data('action') !== undefined ? $(e).data('action') : ( $(p).data('t') !== undefined ? $(p).data('t') : '' );
     if( $(p).data('t') !== '' && $(p).data('t') !== undefined ) {
         d.t = $(p).data('t');
     }
     if( $(p).data('pre') !== '' && $(p).data('pre') !== undefined ) {
         d.pre = pre;
     }
-    console.log(d);
+    //console.log(d);
     /* let a = $(p).data('a');
     if( a !== undefined && a !== null ) {
         d.a = a;
@@ -513,7 +503,7 @@ function process_data( e, ne ){
             d[a] = $(p).data(a);
         }
     });
-    elog(d);
+    console.log(d);
 
     // Validation Function, Note: Validation here means no validation in post function
     let validation = p.data('validation') !== '' && p.data('validation') !== undefined ? p.data('validation') : '';
