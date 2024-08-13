@@ -659,10 +659,22 @@ class OPTIONS {
         if( in_array( $type, [ 'dynamic', 'dyn' ] ) ) {
             $d = new DB();
             $dyn_data = $d->get_option( $data );
+            $dyn_data = !empty( $dyn_data ) ? unserialize( $dyn_data ) : [];
+            $count = count( $dyn_data ) + 1;
             // Loop n times
             $f->option_params_wrap( $data, 'data-dynamic="'.$data.'"', $auto_load, $unique, $encrypt, $success, $callback, $confirm );
-            for( $i = 0; $i < 2; $i++ ) { // Replace 2 with count( $dyn_data )
-                $f->form( $form, 'row', $data, '', 'dynamic_'.$i );
+            for( $i = 0; $i < $count; $i++ ) {
+                if( $i < ( $count - 1 ) ) {
+                    $values = $dyn_data[ $i ];
+                    $new_form = array_by_key( $form, 'i' );
+                    foreach( $values as $vk => $vv ) {
+                        $new_form[ $vk ]['v'] = $vv;
+                    }
+                    $f->form( $new_form, 'row', $data, '', 'dynamic_'.$i );
+                } else {
+                    $f->form( $form, 'row', $data, '', 'dynamic_'.$i );
+                }
+                $i < ( $count - 1 ) ? el( 'hr', 'dynamic_form_break break' ) : '';
             }
             $f->process_trigger( $button_text, $button_class, '', '', '.col-12 tac' );
         } else {
