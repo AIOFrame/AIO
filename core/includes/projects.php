@@ -38,14 +38,14 @@ class PROJECTS {
     function client_form( string $class = '', string $data_attr = '', string $wrap_class = '', string $callback = '', string $redirect_url = '' ): void {
         $f = new FORM();
         $form = $this->__client_form_fields();
-        $f->pre_process( '', 'process_project_ajax', $data_attr, '', [], 'Successfully saved project!', '', $callback, $redirect_url );
+        $f->pre_process( '', 'clients', $data_attr, 'client_', [], 'Successfully saved client!', '', $callback, $redirect_url );
             $f->form( $form, $class, $data_attr, '', $wrap_class );
             $f->process_trigger( 'Save Project', '', '', '', '.tac' );
         $f->post_process();
     }
 
     function __client_form_fields(): array {
-        $cs = get_countries();
+        $cs = get_countries('iso2');
         return [
             [ 't' => 'step', 'n' => 'Details', 'fields' => [
                 [ 'i' => 'name', 'n' => 'Name', 'p' => 'Ex: Mercedes, Government of Dubai etc.', 'c' => 8 ],
@@ -56,9 +56,9 @@ class PROJECTS {
             ] ],
             [ 't' => 'step', 'n' => 'Address', 'fields' => [
                 [ 'i' => 'address', 'n' => 'Address', 'p' => 'Ex: #1501, Rolls Royce Tower', 'c' => 8 ],
-                [ 'i' => 'city', 'n' => 'City', 'p' => 'Ex: ', 'c' => 4 ],
-                [ 'i' => 'state', 'n' => 'State', 'p' => 'Ex: Washington', 'c' => 4 ],
-                [ 'i' => 'country', 'n' => 'Country', 'p' => 'Choose...', 't' => 'select2', 'o' => $cs, 'c' => 4 ],
+                [ 'i' => 'city', 'n' => 'City / Region', 'p' => 'Ex: Downtown', 'c' => 4 ],
+                [ 'i' => 'state', 'n' => 'State', 'p' => 'Ex: Dubai', 'c' => 4 ],
+                [ 'i' => 'country', 'n' => 'Country', 'p' => 'Choose...', 't' => 'select2', 'o' => $cs, 'k' => 1, 'c' => 4 ],
                 [ 'i' => 'zip', 'n' => 'Zip Code', 'p' => 'Ex: 12021', 'c' => 4 ],
                 //[ 'i' => 'zone', 'n' => '', 'p' => '', 'c' => 1 ],
             ] ],
@@ -71,30 +71,42 @@ class PROJECTS {
         ];
     }
 
-    function project_form( string $class = '', string $data_attr = '', string $wrap_class = '', string $callback = '', string $redirect_url = '' ): void {
+    function project_form( string $class = '', string $data_attr = '', string $lead_user_type = '', string $sponsor_user_type = '', string $wrap_class = '', string $callback = '', string $redirect_url = '' ): void {
         $f = new FORM();
-        $form = $this->__project_form_fields();
+        $form = $this->__project_form_fields( $lead_user_type, $sponsor_user_type );
         $f->pre_process( '', 'process_project_ajax', $data_attr, '', [], 'Successfully saved project!', '', $callback, $redirect_url );
             $f->form( $form, $class, $data_attr, '', $wrap_class );
             $f->process_trigger( 'Save Project', '', '', '', '.tac' );
         $f->post_process();
     }
 
-    function __project_form_fields(): array {
+    function __project_form_fields( string $lead_user_type = '', string $sponsor_user_type = '' ): array {
         $d = new DB();
-        $clients = $d->select( 'clients', 'client_id,client_name', 'client_status = "\'1\'"' );
+        // Prepare Clients
+        $clients = $d->select( 'clients', 'client_id,client_name', 'client_status = \'1\'' );
         $clients = array_to_assoc( $clients, 'client_id', 'client_name' );
+        // Prepare Users
+        $users = $d->select( 'user', 'user_id,user_name', 'user_status = \'1\' && ( user_type = \''.$lead_user_type.'\' || user_type = \''.$sponsor_user_type.'\' )' );
+        $users = array_group_by( $users, 'user_type' );
+        $leads = !empty( $users ) ? array_to_assoc( $users[ $lead_user_type ], 'user_id', 'user_name' ) : [];
+        $sponsors = !empty( $users ) ? array_to_assoc( $users[ $sponsor_user_type ], 'user_id', 'user_name' ) : [];
+        //$ = array_to_assoc( $clients, 'client_id', 'client_name' );
         $cats = $d->get_option( 'aio_project_categories' );
         $cats = explode( ',', $cats );
-        $details = [
+        $intro = [
             [ 'i' => 'name', 'n' => 'Project Title', 'p' => 'Ex: ABC Mobile App', 'c' => 9 ],
-            [ 'i' => 'version', 'n' => 'Scope Version', 'p' => 'Ex: 1.2', 'v' => 1, 'c' => 3 ],
-            [ 'i' => 'client', 'n' => 'Choose Client', 'p' => 'Choose...', 't' => 'select2', 'o' => $clients, 'c' => 9 ],
-            [ 'i' => 'category', 'n' => 'Choose Category', 'p' => 'Choose...', 't' => 'select2', 'o' => $cats, 'c' => 3 ],
+            [ 'i' => 'category', 'n' => 'Choose Category', 'p' => 'Choose...', 't' => 'select2', 'o' => $cats, 'c' => 3, 'k' => 1 ],
+            [ 'i' => 'intro', 'n' => 'Introduction', 'p' => 'Ex: Mobile App for so and so...', 't' => 'textarea', 'c' => 12 ],
+            [ 'i' => 'objectives', 'n' => 'Objectives', 'p' => 'Ex: To let users navigate...', 't' => 'textarea', 'c' => 12 ],
+        ];
+        $specifics = [
+            [ 'i' => 'client', 'n' => 'Choose Client', 'p' => 'Choose...', 't' => 'select2', 'o' => $clients, 'c' => 6, 'k' => 1 ],
+            [ 'i' => 'access', 'n' => 'Password', 'p' => 'Ex: ********', 't' => 'password', 'c' => 6 ],
+            //[ 'i' => 'version', 'n' => 'Scope Version', 'p' => 'Ex: 1.2', 'v' => 1, 'c' => 6 ],
             [ 'i' => 'start', 'n' => 'Start Date', 't' => 'date', 'c' => 6 ],
             [ 'i' => 'expiry', 'n' => 'End Date', 't' => 'date', 'c' => 6 ],
-            [ 'i' => 'lead', 'n' => 'Project Lead', 't' => 'select2', 'p' => 'Choose User...', 'o' => [], 'c' => 6 ],
-            [ 'i' => 'sponsor', 'n' => 'Sponsor', 't' => 'select2', 'p' => 'Choose User...', 'o' => [], 'c' => 6 ],
+            [ 'i' => 'lead', 'n' => 'Project Lead', 't' => 'select2', 'p' => 'Choose User...', 'o' => $leads, 'c' => 6, 'k' => 1 ],
+            [ 'i' => 'sponsor', 'n' => 'Sponsor', 't' => 'select2', 'p' => 'Choose User...', 'o' => $sponsors, 'c' => 6, 'k' => 1 ],
         ];
         $feats = $d->get_option('aio_project_features');
         $feats = !empty( $feats ) ? unserialize( $feats ) : [];
@@ -102,15 +114,24 @@ class PROJECTS {
         $features = [];
         foreach( $feat_groups as $k => $v ) {
             $os = array_to_assoc( $v, 'n', 'n' );
-            //skel( $os );
             $features[] = [ 'i' => 'features', 'n' => $k, 'p' => 'Choose...', 'o' => $os, 't' => 'select2', 'm' => 1, 'a' => 'data-array="features"', 'c' => 12 ];
         }
-        //skel( $feat_groups );
+        $scope = [
+            [ 'i' => 'name', 'n' => 'Title', 'p' => 'Ex: Feature One', 'c' => 8 ],
+            [ 'i' => 'order', 'n' => 'Order', 'v' => 1, 'c' => 2 ],
+            [ 'i' => 'status', 'n' => 'Status', 'off' => '', 'on' => '', 't' => 'slide', 'v' => 1, 'c' => 2 ],
+            [ 'i' => 'desc', 'n' => 'Description', 'p' => 'Ex: This feature enables...', 't' => 'textarea', 'c' => 12 ],
+        ];
+        $finances = [
+            [ 'i' => 'name', 'n' => 'Stage Name', 'p' => 'Ex: Project Code Handover...', 'c' => 6 ],
+            [ 'i' => 'amount', 'n' => 'Amount', 'p' => 'Ex: 21000...', 'c' => 6 ],
+        ];
         return [
-            [ 't' => 'step', 'n' => 'Details', 'fields' => $details ],
+            [ 't' => 'step', 'n' => 'Intro', 'fields' => $intro ],
+            [ 't' => 'step', 'n' => 'Specifics', 'fields' => $specifics ],
             [ 't' => 'step', 'n' => 'Features', 'fields' => $features ],
-            //[ 't' => 'step', 'n' => 'Scope', 'fields' => [] ],
-            //[ 't' => 'step', 'n' => 'Financial', 'fields' => [] ],
+            [ 't' => 'step', 'n' => 'Scope', 'fields' => $scope, 'style' => 'row' ],
+            [ 't' => 'step', 'n' => 'Financial', 'fields' => $finances, 'style' => 'row' ],
         ];
     }
 

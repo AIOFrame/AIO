@@ -99,7 +99,6 @@ body.d .file_modal, body.d .file_notify {
   padding: 0 5px;
 }
 .file_modal .search_wrap:after {
-  font-family: "MaterialIcons", sans-serif;
   content: "search";
   position: absolute;
   left: 15px;
@@ -257,6 +256,7 @@ body.d .file_modal, body.d .file_notify {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  white-space: nowrap;
 }
 .file_modal .files_body.hover .drop_files {
   opacity: 1;

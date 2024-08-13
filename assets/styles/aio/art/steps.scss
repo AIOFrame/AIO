@@ -37,6 +37,10 @@ $secondary: var(--secondary_color);
     [data-prev].mat-ico, [data-next].mat-ico {
       font-size: 2rem;
     }
+    .arrow_title {
+      font-size: 0;
+      //font-weight: bold;
+    }
   }
   .sno {
     margin-left: 5px;

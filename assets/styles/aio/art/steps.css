@@ -31,6 +31,9 @@
 .steps .steps_controls [data-prev].mat-ico, .steps .steps_controls [data-next].mat-ico {
   font-size: 2rem;
 }
+.steps .steps_controls .arrow_title {
+  font-size: 0;
+}
 .steps .sno {
   margin-left: 5px;
   margin-right: 5px;

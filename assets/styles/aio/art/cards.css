@@ -311,6 +311,10 @@
   z-index: 2;
   position: relative;
 }
+.acts i.bi:before {
+  font-size: 1.4rem;
+  line-height: 2.8rem;
+}
 
 .card.off, .card.disabled, .plate.off, .plate.disabled {
   opacity: 0.5;

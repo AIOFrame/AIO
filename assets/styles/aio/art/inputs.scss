@@ -368,7 +368,6 @@ textarea {
     .select2-results__option:before {
       content: '';
       display: block;
-      font-family: 'MaterialIcons',sans-serif;
     }
     .select2-results__options {
       overflow-x:hidden;
@@ -413,7 +412,6 @@ select.mb0 + .select2-container {
       }
     }
     .select2-selection__arrow:after {
-      font-family: 'MaterialIcons', sans-serif;
       content: '\e5cf';
       font-size: 1.6rem;
       line-height: 26px;
@@ -459,7 +457,6 @@ select.mb0 + .select2-container {
     content: '\e8b6';
     box-shadow:none;
     font-size: 1.2rem;
-    font-family: 'MaterialIcons',sans-serif;
     text-align: center;
     line-height: 24px;
     //background: url('../../assets/icons/search.svg') no-repeat 0 center / 22px;
@@ -613,8 +610,6 @@ body {
     text-align: center;
   }
   .close {
-    font-family: 'MaterialIcons',sans-serif;
-    content:'close';
     position: absolute;
     right:9px;
     top:5px;

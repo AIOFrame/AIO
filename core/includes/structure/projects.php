@@ -3,6 +3,7 @@ $db = new DB();
 $client = [ 'client', 'INT', 13, 1 ];
 $name = [ 'name', 'VARCHAR', 256, 1 ];
 $desc = [ 'desc', 'VARCHAR', 512, 0 ];
+$mega_desc = [ 'desc', 'TEXT', '', 0 ];
 $icon = [ 'icon', 'VARCHAR', 128, 0 ];
 $color = [ 'color', 'VARCHAR', 7, 0 ];
 $status = [ 'status', 'TINYINT', 1, 1 ];
@@ -57,6 +58,7 @@ $struct = [
         [ 'structure', 'TEXT', '', 0 ],
         [ 'features', 'TEXT', '', 0 ],
         [ 'scope_version', 'VARCHAR', 8, 0 ],
+        [ 'access', 'VARCHAR', 512, 0 ],
         $dt,
         [ 'updated', 'DATETIME', '', 0 ],
     ], 'pro', 1 ],
@@ -68,7 +70,7 @@ $struct = [
         $status,
         $by
     ], 'pro_meta', 1 ],
-    [ 'project_users', [
+    /* [ 'project_users', [
         $pro,
         $user,
         [ 'role', 'INT', 13, 1 ],
@@ -76,25 +78,26 @@ $struct = [
         $by,
         $dt
     ], 'pro_user', 1 ],
-    [ 'project_scope', [
-        $client,
+    [ 'project_scope_sections', [
+        $pro,
         $name,
         $status,
         [ 'in', 'TINYINT', 1, 1 ],
         $by,
         $dt,
-    ], 'pro_scope', 1 ],
-    [ 'project_scope_meta', [
+    ], 'pro_ss', 1 ], */
+    [ 'project_scope', [
         $pro,
-        [ 'scope', 'INT', 13, 1 ],
-        [ 'name', 'VARCHAR', 256, 1 ],
-        [ 'value', 'TEXT', '', 0 ],
+        $name,
+        $mega_desc,
+        //[ 'scope', 'INT', 13, 1 ],
         [ 'duration', 'FLOAT', '', 0 ],
         [ 'duration_unit', 'VARCHAR', 8, 0 ],
         [ 'type', 'VARCHAR', 128, 0 ],
+        [ 'order', 'FLOAT', '', 0 ],
         $status,
         $by
-    ], 'pro_sm', 1 ],
+    ], 'pro_sc', 1 ],
     [ 'project_scope_users', [
         $pro,
         [ 'scope', 'INT', 13, 1 ],
@@ -109,17 +112,17 @@ $struct = [
         $status,
         $dt,
         $by,
-    ] ],
+    ], 'pro_in', 1 ],
     [ 'project_expenses', [
         $pro,
         $name,
         $desc,
         $amount,
         $status
-    ] ],
+    ], 'pro_out', 1 ],
 ];
 // TODO: project_issues
 // TODO: project_test_cases
 
 //skel( $struct );
-//$db->automate_tables( $struct );
+$db->automate_tables( $struct );

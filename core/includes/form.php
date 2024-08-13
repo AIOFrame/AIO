@@ -1597,7 +1597,7 @@ class FORM {
         $_p = $this->__pre( $pre );
         $p_ = $this->__post( $pre, $post );
         //$post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
-        $i = !empty( $i_class ) || !empty( $i_text ) ? __i( $i_class, $i_text ) : '';
+        $i = !empty( $i_class ) || !empty( $i_text ) ? __i( $i_class . ' ' . $i_text, $i_text ) : '';
         $title = str_contains( $attr, 'title=' ) ? '' : 'title="'.T('Edit').'"';
         $data = $title . ' data-edit-action class="'.$class.' edit" onclick="edit_data(this,\''.$element.'\')" ' . $this->__editable_data($array) . $attr;
         return $_p . __el( $html, '', $i. $text , '', $data ) . $p_;
@@ -1652,7 +1652,7 @@ class FORM {
         //$logic = str_replace( '\'', '\"', $logic );
         //skel( $logic );
         $table = str_contains( $target, '_ajax' ) ? '' : ( APPDEBUG ? $table : $c->encrypt($table) );
-        $i = !empty( $i_class ) ? __i( $i_class, $i_text ) : '';
+        $i = !empty( $i_class ) ? __i( $i_class . ' ' . $i_text, $i_text ) : '';
         $attr .= !empty( $confirmation ) ? ' data-confirm="'.$confirmation.'"' : '';
         $title = str_contains( $attr, 'title' ) ? '' : 'title="'.T('Delete').'"';
         $notify_time = 2;

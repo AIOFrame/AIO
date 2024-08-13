@@ -140,7 +140,7 @@ class DB {
 
     /**
      * Create Tables
-     * @param $tables [ [ string 'table_name', string 'pre', [ [ string 'col_name', string 'type', int 'length', bool 'not null', string 'default' ] ] ] ]
+     * @param $tables [ [ string 'table_name', [ [ string 'col_name', string 'type', int 'length', bool 'not null', string 'default' ] ], string 'pre', bool auto_id_key ] ]
      * @return array
      */
     function create_tables( $tables ): array {
@@ -148,6 +148,7 @@ class DB {
         if( is_array( $tables ) ){
             //$query = '';
             foreach( $tables as $table ){
+                elog( $table );
                 $tables_created[] = $this->create_table( $table[0], $table[1], $table[2], $table[3] );
             }
         } else {

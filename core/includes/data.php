@@ -34,19 +34,17 @@ function get_countries( string $key = 'id', string $value = 'name flag' ): array
     $r = $o->current_region_prefix();
     global $options;
     $serving_regions = $options[ $r . 'serving_regions' ] ?? '';
-    $countries = $w->countries( 'iso2', $key );
-    $countries_two = $w->countries( $key, $value );
-    //skel( $countries );
     if( !empty( $serving_regions ) ) {
+        $countries = $w->countries( $key, 'iso2' );
+        $countries_two = $w->countries( $key, $value );
         $serving_regions = explode( ',', str_replace( ' ', '', $serving_regions ) );
         $final_countries = [];
         foreach( $countries as $k => $v ) {
             in_array( $k, $serving_regions ) ? $final_countries[ $k ] = ( $countries_two[ $v ] ?? '' ) : '';
         }
-        //skel( $final_countries );
         return $final_countries;
     } else {
-        return $countries;
+        return $w->countries( $key, $value );
     }
 }
 
