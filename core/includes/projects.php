@@ -10,10 +10,6 @@ class PROJECTS {
 
     }
 
-    function project_modal(): void {
-        // TODO: Render Project Modal
-    }
-
     function projects(): void {
         // TODO Render Projects Table
         // TODO Render Project Cards
@@ -37,6 +33,10 @@ class PROJECTS {
 
     function __scope_form( string $class = '' ): array {
         return [];
+    }
+
+    function project_form(): void {
+        // TODO: Render Project Modal
     }
 
     function __project_form( string $class = '' ): array {
@@ -114,6 +114,8 @@ class PROJECTS {
         return [];
     }
 
+    // Managing Tasks
+
     function tasks(): void {
         // TODO: Tasks Table
         // TODO: Task Cards
@@ -137,7 +139,7 @@ class PROJECTS {
         $db = new DB();
         $os = $db->get_options('aio_project_feature_types,aio_project_categories');
         $form = [
-            [ 'i' => 'aio_project_feature_types', 'n' => 'Project Feature Types (,)', 'p' => 'Ex: User Types, 3rd Party Modules...', 't' => 'textarea', 'max' => 1024, 'c' => 12, 'r' => 1, 'v' => $os['aio_project_feature_types'] ?? '' ],
+            //[ 'i' => 'aio_project_feature_types', 'n' => 'Project Feature Types (,)', 'p' => 'Ex: User Types, 3rd Party Modules...', 't' => 'textarea', 'max' => 1024, 'c' => 12, 'r' => 1, 'v' => $os['aio_project_feature_types'] ?? '' ],
             [ 'i' => 'aio_project_categories', 'n' => 'Project Categories (,)', 'p' => 'Ex: Information Technology, Construction...', 't' => 'textarea', 'max' => 1024, 'c' => 12, 'r' => 1, 'v' => $os['aio_project_categories'] ?? '' ],
         ];
         $o->form( $form, 'row' );
@@ -150,8 +152,6 @@ class PROJECTS {
             [ 'i' => 's', 'n' => 'Status', 'off' => 'Inactive', 'on' => 'Active', 't' => 'slide', 'c' => 3 ],
         ];
         $o->form( $struct, 'dynamic', 0, 'aio_project_features' );
-        // TODO: Options dynamic table
-        //data_table( 'project_feats', $struct, '', [ '' ] );
     }
 
 }

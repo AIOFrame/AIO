@@ -1452,7 +1452,7 @@ class FORM {
      * @param string $icon Icon text to display
      * @param string $icon_class Icon class to display
      */
-    function process_trigger( string $text = '', string $class = '', string $attr = '', string $action = '', string|int $pre = '', int|string $post = '', string $element = 'button', string $confirm = '', string $icon = 'save', string $icon_class = '' ): void {
+    function process_trigger( string $text = '', string $class = '', string $attr = '', string $action = '', string|int $pre = '', int|string $post = '', string $element = 'button', string $confirm = '', string $icon = '', string $icon_class = '' ): void {
         echo $this->__process_trigger( $text, $class, $attr, $action, $pre, $post, $element, $confirm, $icon, $icon_class );
     }
 
@@ -1469,7 +1469,7 @@ class FORM {
      * @param string $icon Icon text to display
      * @param string $icon_class Icon class to display
      */
-    function __process_trigger( string $text = 'Save', string $class = '', string $attr = '', string $action = '', string|int $pre = '', int|string $post = '', string $element = 'button', string $confirm = '', string $icon = 'save', string $icon_class = '' ): string {
+    function __process_trigger( string $text = 'Save', string $class = '', string $attr = '', string $action = '', string|int $pre = '', int|string $post = '', string $element = 'button', string $confirm = '', string $icon = '', string $icon_class = '' ): string {
         $_p = $this->__pre( $pre );
         $p_ = $this->__post( $pre, $post );
         $c = Encrypt::initiate();
