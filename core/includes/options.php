@@ -662,8 +662,9 @@ class OPTIONS {
             $dyn_data = !empty( $dyn_data ) ? unserialize( $dyn_data ) : [];
             $count = count( $dyn_data ) + 1;
             // Loop n times
-            $f->option_params_wrap( $data, 'data-dynamic="'.$data.'"', $auto_load, $unique, $encrypt, $success, $callback, $confirm );
+            $f->option_params_wrap( $data, 'data-dynamic="'.$data.'" data-delete-confirm="'.T('Are you sure to delete the options row?').'"', $auto_load, $unique, $encrypt, $success, $callback, $confirm );
             for( $i = 0; $i < $count; $i++ ) {
+                div( 'row aic mb10', __c( 6 ) . 'Row ' . ( $i + 1 ) . c__() . __c( 6, 'tar' ) . __b( 'red s m0 r nf', 'Remove', '', 'onclick="delete_dynamic_row(this)"' ) . c__() );
                 if( $i < ( $count - 1 ) ) {
                     $values = $dyn_data[ $i ];
                     $new_form = array_by_key( $form, 'i' );

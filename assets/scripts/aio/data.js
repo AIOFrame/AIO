@@ -163,6 +163,16 @@ function get_values( parent, attribute, prepend ) {
     return data;
 }
 
+function delete_dynamic_row(e) {
+    let confirm_message = $(e).parents('[data-delete-confirm]').data('delete-confirm');
+    if( confirm( confirm_message ) ) {
+        let parent = $(e).parent().parent('.row');
+        $(parent).next('.form').remove();
+        $(parent).next('.break').remove();
+        $(parent).remove();
+    }
+}
+
 /**
  * Gets checkbox values
  * @param e Parent element
