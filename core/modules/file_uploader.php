@@ -5,6 +5,12 @@ class FUP {
     function file_uploader(): void {
         global $options;
         $ico_class = $options['icon_class'] ?? 'mico';
+        $select_ico = $options['ico_success'] ?? 'check_circle';
+        $browse_ico = $options['ico_file_upload'] ?? 'file_upload';
+        $delete_ico = $options['delete_ico'] ?? 'delete';
+        $size_ico = $options['ico_file_size'] ??  'sd_card';
+        $type_ico = $options['ico_file_type'] ?? 'description';
+        $count_ico = $options['ico_file_limit'] ?? 'file_copy';
         $cry = Encrypt::initiate();
         get_style('upload');
         get_scripts(['jquery','upload']);
@@ -13,13 +19,13 @@ class FUP {
             pre( '', 'files_head' );
                 h3( 'File Uploader' );
                 pre( '', 'info' );
-                    div( 'sizes', __div( $ico_class . ' ico ' . ( $options['ico_file_size'] ?? '' ), ( $options['ico_file_size'] ??  'sd_card' ) ) . __div( 'title', __div( '', T('Max File Size') ) . __div( '', __el( 'span', 'size' ) . __el( 'span', 'measure', 'Mb' ) ) ) );
-                    div( 'types', __div( $ico_class . ' ico ' . ( $options['ico_file_type'] ?? '' ), ( $options['ico_file_type'] ?? 'description' ) ) . __div( 'title', T('File Types') . __div( 'types' ) ) );
-                    div( 'max', __div( $ico_class . ' ico ' . ( $options['ico_file_limit'] ?? '' ), $options['ico_file_limit'] ?? 'file_copy' ) . __div( 'title', T('Files Limit') . __div( 'qty', 2 ) ) );
+                    div( 'sizes', __div( $ico_class . ' ico ' . $size_ico, $size_ico ) . __div( 'title', __div( '', T('Max File Size') ) . __div( '', __el( 'span', 'size' ) . __el( 'span', 'measure', 'Mb' ) ) ) );
+                    div( 'types', __div( $ico_class . ' ico ' . $type_ico, $type_ico ) . __div( 'title', T('File Types') . __div( 'types' ) ) );
+                    div( 'max', __div( $ico_class . ' ico ' . $count_ico, $count_ico ) . __div( 'title', T('Files Limit') . __div( 'qty', 2 ) ) );
                 post();
                 pre( '', 'acts' );
-                    div( $ico_class . ' expand ' . ( $options['ico_file_expand'] ?? '' ), $options['ico_file_expand'] ?? 'open_in_full' );
-                    div( $ico_class . ' contract ' . ( $options['ico_file_contract'] ?? '' ), $options['ico_file_contract'] ?? 'close_fullscreen' );
+                    div( $ico_class . ' expand ' . ( $options['ico_modal_expand'] ?? '' ), $options['ico_modal_expand'] ?? 'open_in_full' );
+                    div( $ico_class . ' contract ' . ( $options['ico_modal_contract'] ?? '' ), $options['ico_modal_contract'] ?? 'close_fullscreen' );
                     div( $ico_class . ' close ' . ( $options['ico_close'] ?? '' ), $options['ico_close'] ?? 'close' );
                     /* if( is_array( ICONS ) )
                         in_array( 'Bootstrap', ICONS ) ? el( 'i', 'bi bi-arrows-angle-expand expand' ) . el( 'i', 'bi bi-x-lg close' ) : div( 'mat-ico expand' ) . div( 'mat-ico close', 'close' );
@@ -46,7 +52,7 @@ class FUP {
                 div( 'camera_view' );
                 div( 'drop_files', __el( 'span', '', T('Drop files to Upload!') ) );
             post();
-            div( 'files_actions', __el( 'label', 'fi i select', T('Choose') ) . __el( 'label', 'fb i browse', 'Browse', '', 'for="file_input"', 1 ) . __el( 'label', 'disabled fd i trash', T('Delete') ) );
+            div( 'files_actions', __el( 'label', 'fi i select', __el( 'i', $ico_class . ' ' . $select_ico, $select_ico ) . T('Choose') ) . __el( 'label', 'fb i browse', __el( 'i', $ico_class . ' ' . $browse_ico, $browse_ico ) . T('Browse'), '', 'for="file_input"', 1 ) . __el( 'label', 'disabled fd i trash', __el( 'i', $ico_class . ' ' . $delete_ico, $delete_ico ) . T('Delete') ) );
             div( 'translations',
                 __div( 'extension_limit', T('The file should be one of the extensions') ) .
                 __div( 'size_limit', T('Selected file size exceeds file size limit of ') ) .

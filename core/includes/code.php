@@ -1175,8 +1175,8 @@ function __steps( array $steps = [], string $style = '', bool $translate_titles 
                     $x++;
                 }
             $data .= __post();
-            $prev = ( $show_arrows ? __div( $icon_class, $prev_ico ) : '' ) . __div( 'arrow_title', T('Previous') );
-            $next = __div( 'arrow_title', T('Next') ) . ( $show_arrows ? __div( $icon_class, $next_ico ) : '' );
+            $prev = ( $show_arrows ? __div( $icon_class . ' ' . $prev_ico, $prev_ico ) : '' ) . __div( 'arrow_title', T('Previous') );
+            $next = ( $show_arrows ? __div( $icon_class . ' ' . $next_ico, $next_ico ) : '' ) . __div( 'arrow_title', T('Next') );
             $data .= $show_controls ? __div( 'steps_controls', __div( '', $prev, '', 'data-prev' ) . __div( '', $next, '', 'data-next' ) ) : '';
         $data .= __post();
     $data .= __post();

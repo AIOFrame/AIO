@@ -150,6 +150,7 @@ function array_by_key( array $array = [], string $key = '' ): array {
  * @param array $array Data Array from database
  * @param string $key Key Ex: user_id
  * @param string|array $values Value Ex: user_name
+ * @param string $separator
  * @return array
  */
 function array_to_assoc( array $array = [], string $key = '', string|array $values = '', string $separator = ' - ' ): array {

@@ -1377,7 +1377,7 @@ class FORM {
             }
         }
         //skel( $steps );
-        if( count( $fields ) == count( $steps ) ) {
+        if( !empty( $steps ) ) {
             $return .= __steps( $steps, $form_type . ' ' . $class );
         }
         $return .= in_array( $form_type, [ 'get', 'post', 'form' ] ) ? '</form>' : '</div>';

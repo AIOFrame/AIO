@@ -295,7 +295,6 @@ $success: var(--success_color);
     box-shadow: 0 10px 45px $error;
   }
   > div:before {
-    content: '';
     position: absolute;
     left: 0;
     top: 0;

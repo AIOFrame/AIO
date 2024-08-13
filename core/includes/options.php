@@ -107,6 +107,8 @@ class OPTIONS {
         'forward' => 'arrow_forward',
         'print' => 'print',
         'reload' => 'replay',
+        'success' => 'check_circle',
+        'fail' => 'warning'
     ];
     public array $option_elements = [
         'input' => 'Input Fields',

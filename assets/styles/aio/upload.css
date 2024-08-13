@@ -152,7 +152,11 @@ body.d .file_modal, body.d .file_notify {
   line-height: 40px;
 }
 .file_modal .files_head .acts > div.bi {
-  font-size: 1.5rem;
+  font-size: 0;
+}
+.file_modal .files_head .acts > div.bi:before {
+  font-size: 1.4rem;
+  line-height: 2.3rem;
 }
 .file_modal .files_head .acts .expand {
   display: block;
@@ -470,8 +474,7 @@ body.d .file_modal .files_head {
   color: #878787;
   position: relative;
 }
-.files_actions .i:after {
-  font-family: "MaterialIcons", sans-serif;
+.files_actions i:not(.bi), .files_actions i.bi:before {
   line-height: 50px;
   font-size: 2rem;
   position: absolute;
@@ -480,15 +483,6 @@ body.d .file_modal .files_head {
   width: 50px;
   height: 50px;
   transform: translateY(-50%);
-}
-.files_actions .i.select:after {
-  content: "\e86c";
-}
-.files_actions .i.browse:after {
-  content: "\e9fc";
-}
-.files_actions .i.trash:after {
-  content: "\e872";
 }
 .files_actions .i.disabled {
   background: none;

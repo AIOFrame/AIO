@@ -45,6 +45,7 @@ $struct = [
     ], 'feat', 1 ],
 
     [ 'projects', [
+        $name,
         $client,
         $status,
         $cat,
@@ -54,8 +55,10 @@ $struct = [
         [ 'lead', 'INT', 13, 0 ],
         [ 'sponsor', 'INT', 13, 0 ],
         [ 'structure', 'TEXT', '', 0 ],
+        [ 'features', 'TEXT', '', 0 ],
         [ 'scope_version', 'VARCHAR', 8, 0 ],
         $dt,
+        [ 'updated', 'DATETIME', '', 0 ],
     ], 'pro', 1 ],
     [ 'project_meta', [
         $pro,
@@ -65,11 +68,6 @@ $struct = [
         $status,
         $by
     ], 'pro_meta', 1 ],
-    [ 'project_feats', [
-        $pro,
-        [ 'feature', 'INT', 13, 1 ],
-        $status
-    ], 'pro_feat', 1 ],
     [ 'project_users', [
         $pro,
         $user,

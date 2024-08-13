@@ -164,7 +164,12 @@ body.d .file_modal, body.d .file_notify {
         line-height: 40px;
       }
       > div.bi {
-        font-size: 1.5rem;
+        font-size: 0;
+      }
+      > div.bi:before {
+        font-size: 1.4rem;
+        line-height: 2.3rem;
+        //content: inherit;
       }
       .expand {
         display: block;
@@ -453,8 +458,7 @@ body.d #aio_up .f.on {
     color: #878787;
     position: relative;
   }
-  .i:after {
-    font-family: 'MaterialIcons', sans-serif;
+  i:not(.bi), i.bi:before {
     line-height: 50px;
     font-size: 2rem;
     position: absolute;
@@ -467,15 +471,6 @@ body.d #aio_up .f.on {
   }
   .i.select {
     //z-index: 3;
-  }
-  .i.select:after {
-    content: '\e86c'
-  }
-  .i.browse:after {
-    content: '\e9fc'
-  }
-  .i.trash:after {
-    content: '\e872'
   }
   .i.disabled {
     background:none;
