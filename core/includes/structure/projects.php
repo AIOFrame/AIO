@@ -98,16 +98,21 @@ $struct = [
         [ 'duration_unit', 'VARCHAR', 8, 0 ],
         [ 'type', 'VARCHAR', 128, 0 ],
         [ 'order', 'FLOAT', '', 0 ],
+        [ 'users', 'VARCHAR', 128, 0 ],
+        [ 'start', 'DATE', '', 0 ],
+        [ 'end', 'DATE', '', 0 ],
+        [ 'priority', 'INT', '', 0 ],
+        [ 'stage', 'VARCHAR', '', 0 ],
         $status,
         $by
     ], 'pro_sc', 1 ],
-    [ 'project_scope_users', [
+    /* [ 'project_scope_users', [
         $pro,
         [ 'scope', 'INT', 13, 1 ],
         $user,
         $by,
         $dt
-    ], 'pro_su', 1 ],
+    ], 'pro_su', 1 ], */
     [ 'project_finance', [
         $pro,
         $name,

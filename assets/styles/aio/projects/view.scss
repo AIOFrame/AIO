@@ -99,3 +99,71 @@
     }
   }
 }
+
+// Project Scope
+.project_scope {
+  .scope_set {
+    margin-bottom: 20px;
+    h2 {
+      font-size: 1.2rem;
+      margin: 0 0 15px;
+      text-transform: uppercase;
+      font-weight: 500;
+      letter-spacing: 0;
+    }
+    table {
+      width: 100%;
+      box-shadow: 0 5px 15px rgba(0,0,0,.1);
+      border: 0;
+      border-collapse: collapse;
+      thead {
+        th, td {
+          padding: 15px 5px;
+          font-weight: 500;
+          font-size: .9rem;
+          text-transform: uppercase;
+          border: 0;
+        }
+      }
+      tbody {
+        td {
+          border: 0;
+          padding: 10px 5px;
+          font-size: .8rem;
+          text-align: center;
+        }
+        .name {
+          font-size: 1rem;
+          margin-bottom: 5px;
+        }
+        .desc {
+          opacity: .8;
+        }
+        td:nth-child(3) {
+          text-align: left;
+        }
+      }
+      tbody:nth-child(even) {
+        background: rgba(0,0,0,.02);
+      }
+      tbody:nth-child(odd) {
+        background: rgba(0,0,0,.06);
+      }
+      tfoot {
+        td {
+          padding: 10px 5px;
+          font-size: .8rem;
+          opacity: .3;
+          text-align: center;
+          font-weight: 500;
+        }
+      }
+      .view {
+
+      }
+      .edit {
+        display: none;
+      }
+    }
+  }
+}

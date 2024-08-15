@@ -219,7 +219,66 @@ class PROJECTS {
     }
 
     function __project_scope( int $id ): string {
-        return '';
+        $f = new FORM();
+        $statuses = [ 1 => 'Complete', 2 => 'Progress', 3 => 'Pending' ];
+        $priorities = [ 1 => 'Urgent', 2 => 'High', 3 => 'Medium', 4 => 'Low' ];
+        $users = [ 1 => 'Shaikh', 2 => 'Afnan' ];
+        $editable = 1 > 2;
+        $r = __d( 'project_scope' );
+            // Loop Scope Stage
+            $r .= __d( 'scope_set' );
+                $r .= __h2( 'Stage 1 - Mockups' );
+                $scope_set[] = [ 'thead' => [ '', T('Order'), T('Description'), T('Time'), T('Start'), T('End'), T('Priority'), T('Users'), T('Status') ] ];
+                // Loop Scope Data
+                    $a = 'disabled';
+                    $scope_set[] = [ 'tbody' => [
+                        __div( 'view', __div( 'mico s status', 'check_circle' ) ) . ( $editable ? __div( 'edit', $f->__checkboxes( 'check', '', [ 'done' => '' ], 0, $a ) ) : '' ),
+                        __div( 'view', __div( '', '1.1' ) ) . ( $editable ? __div( 'edit', $f->__text( 'order', '', 'Ex: 1.2', '1.1', $a ) ) : '' ),
+                        __div( 'view', __div( 'name', 'Landing Page Mockup' ) . __div( 'desc', 'A page to welcome the user on initial visit' ) ) . ( $editable ? __div( 'edit', $f->__text( 'name', '', 'Ex: Landing Page Mockup...', 'Landing Page Mockup', $a ) . $f->__text( 'desc', '', 'Ex: A page to welcome the user on initial visit...', 'A page to welcome the user on initial visit', $a ) ) : '' ),
+                        __div( 'view', __div( '', '4 Days' ) ) . ( $editable ? __div( 'edit', $f->__text( 'duration', '', 'Ex: 4', '4', $a ) . $f->__text( 'duration_unit', '', 'Ex: Hours', 'Days', $a ) ) : '' ),
+                        __div( 'view', __div( 's', '15 Aug, 2024' ) ) . ( $editable ? __div( 'edit', $f->__date( 'start', '', '', '2024-08-15', $a, 'bottom center' ) ) : '' ),
+                        __div( 'view', __div( 'e', '20 Sep, 2024' ) ) . ( $editable ? __div( 'edit', $f->__date( 'end', '', '', '2024-09-20', $a, 'bottom center' ) ) : '' ),
+                        __div( 'view', __div( 'p h', 'High' ) ) . ( $editable ? __div( 'edit', $f->__select( 'priority', '', '', $priorities, 2, $a, '', 1 ) ) : '' ),
+                        __div( 'view', __div( 'us', 'Shaikh' ) ) . ( $editable ? __div( 'edit', $f->__select( 'users', '', '', $users, 2, $a, '', 1 ) ) : '' ),
+                        __div( 'view', __div( 'st progress', 'Progress' ) ) . ( $editable ? __div( 'edit', $f->__select( 'status', '', '', $statuses, 2, $a, '', 1 ) ) : '' ),
+                    ] ];
+                    $scope_set[] = [ 'tbody' => [
+                        __div( 'view', __div( 'mico s status', 'check_circle' ) ) . ( $editable ? __div( 'edit', $f->__checkboxes( 'check', '', [ 'done' => '' ], 0, $a ) ) : '' ),
+                        __div( 'view', __div( '', '1.2' ) ) . ( $editable ? __div( 'edit', $f->__text( 'order', '', 'Ex: 1.2', '1.1', $a ) ) : '' ),
+                        __div( 'view', __div( 'name', 'About Page Mockup' ) . __div( 'desc', 'A page to welcome the user on initial visit' ) ) . ( $editable ? __div( 'edit', $f->__text( 'name', '', 'Ex: Landing Page Mockup...', 'Landing Page Mockup', $a ) . $f->__text( 'desc', '', 'Ex: A page to welcome the user on initial visit...', 'A page to welcome the user on initial visit', $a ) ) : '' ),
+                        __div( 'view', __div( '', '1 Days' ) ) . ( $editable ? __div( 'edit', $f->__text( 'duration', '', 'Ex: 4', '4', $a ) . $f->__text( 'duration_unit', '', 'Ex: Hours', 'Days', $a ) ) : '' ),
+                        __div( 'view', __div( 's', '15 Aug, 2024' ) ) . ( $editable ? __div( 'edit', $f->__date( 'start', '', '', '2024-08-15', $a, 'bottom center' ) ) : '' ),
+                        __div( 'view', __div( 'e', '20 Sep, 2024' ) ) . ( $editable ? __div( 'edit', $f->__date( 'end', '', '', '2024-09-20', $a, 'bottom center' ) ) : '' ),
+                        __div( 'view', __div( 'p h', 'High' ) ) . ( $editable ? __div( 'edit', $f->__select( 'priority', '', '', $priorities, 2, $a, '', 1 ) ) : '' ),
+                        __div( 'view', __div( 'us', 'Shaikh' ) ) . ( $editable ? __div( 'edit', $f->__select( 'users', '', '', $users, 2, $a, '', 1 ) ) : '' ),
+                        __div( 'view', __div( 'st progress', 'Progress' ) ) . ( $editable ? __div( 'edit', $f->__select( 'status', '', '', $statuses, 2, $a, '', 1 ) ) : '' ),
+                    ] ];
+                    $scope_set[] = [ 'tbody' => [
+                        __div( 'view', __div( 'mico s status', 'check_circle' ) ) . ( $editable ? __div( 'edit', $f->__checkboxes( 'check', '', [ 'done' => '' ], 0, $a ) ) : '' ),
+                        __div( 'view', __div( '', '1.3' ) ) . ( $editable ? __div( 'edit', $f->__text( 'order', '', 'Ex: 1.2', '1.1', $a ) ) : '' ),
+                        __div( 'view', __div( 'name', 'Contact Page Mockup' ) . __div( 'desc', '' ) ) . ( $editable ? __div( 'edit', $f->__text( 'name', '', 'Ex: Landing Page Mockup...', 'Landing Page Mockup', $a ) . $f->__text( 'desc', '', 'Ex: A page to welcome the user on initial visit...', 'A page to welcome the user on initial visit', $a ) ) : '' ),
+                        __div( 'view', __div( '', '2 Days' ) ) . ( $editable ? __div( 'edit', $f->__text( 'duration', '', 'Ex: 4', '4', $a ) . $f->__text( 'duration_unit', '', 'Ex: Hours', 'Days', $a ) ) : '' ),
+                        __div( 'view', __div( 's', '15 Aug, 2024' ) ) . ( $editable ? __div( 'edit', $f->__date( 'start', '', '', '2024-08-15', $a, 'bottom center' ) ) : '' ),
+                        __div( 'view', __div( 'e', '20 Sep, 2024' ) ) . ( $editable ? __div( 'edit', $f->__date( 'end', '', '', '2024-09-20', $a, 'bottom center' ) ) : '' ),
+                        __div( 'view', __div( 'p h', 'High' ) ) . ( $editable ? __div( 'edit', $f->__select( 'priority', '', '', $priorities, 2, $a, '', 1 ) ) : '' ),
+                        __div( 'view', __div( 'us', 'Shaikh' ) ) . ( $editable ? __div( 'edit', $f->__select( 'users', '', '', $users, 2, $a, '', 1 ) ) : '' ),
+                        __div( 'view', __div( 'st progress', 'Progress' ) ) . ( $editable ? __div( 'edit', $f->__select( 'status', '', '', $statuses, 2, $a, '', 1 ) ) : '' ),
+                    ] ];
+                    $scope_set[] = [ 'tfoot' => [
+                        '',
+                        '',
+                        '1 of 2 Done',
+                        '6 Days',
+                        '01 Aug, 2024',
+                        '20 Sep, 2024',
+                        '',
+                        '',
+                        '',
+                    ] ];
+                $r .= __table( $scope_set, 'project_scope_data' );
+            $r .= d__();
+        $r .= d__();
+        return $r;
     }
 
     function project_finances( int $id ): void {

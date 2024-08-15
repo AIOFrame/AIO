@@ -1070,12 +1070,15 @@ function tabs( array $tabs = [], string $style = '', bool $translate_titles = fa
  * @param array $tabs [ 'User' => 'User Content', 'Account Details' => 'Acc Details Content' ]
  * @param string $style CSS Style
  * @param bool $translate_titles True, to translate titles (Default False)
+ * @param bool $remember_tab Remembers active tab on reload and sets to active
  * @return string
  */
-function __tabs( array $tabs = [], string $style = '', bool $translate_titles = false ): string {
-    $r = rand( 1, 9999 );
+function __tabs( array $tabs = [], string $style = '', bool $translate_titles = false, bool $remember_tab = true ): string {
+    global $tab_storage;
+    $tab_storage[] = $tabs;
+    $r = count( $tab_storage ) + 1;
     $data = __pre( '', 'tabs '.$style );
-        $data .= __pre( '', 'tab_heads', 'div', 'data-store' );
+        $data .= __pre( '', 'tab_heads', 'div', ( $remember_tab ? 'data-store' : '' ) );
             $x = 0;
             foreach( $tabs as $i => $content ) {
                 $id = '#tab_'.$r.'_'.$x; //str_replace(' ','_',strtolower( $i ));
