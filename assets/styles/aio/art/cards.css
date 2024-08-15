@@ -28,6 +28,12 @@
   background-repeat: no-repeat;
   background-size: contain;
 }
+.card .logo.l {
+  background-position: left center;
+}
+.card .logo.r {
+  background-position: right center;
+}
 .card .image.b, .card .pic.b {
   border: 1px solid lightgrey;
 }
@@ -177,7 +183,7 @@
   letter-spacing: 1px;
   color: grey;
 }
-.card .status.r {
+.card .status.r, .card .status.right {
   left: auto;
   right: 10px;
 }

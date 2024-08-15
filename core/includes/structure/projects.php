@@ -48,6 +48,7 @@ $struct = [
     [ 'projects', [
         $name,
         $client,
+        [ 'banner', 'VARCHAR', 512, 0 ],
         $status,
         $cat,
         $by,
@@ -67,6 +68,8 @@ $struct = [
         $name,
         [ 'value', 'TEXT', '', 0 ],
         [ 'type', 'VARCHAR', 128, 0 ],
+        [ 'client_name', 'VARCHAR', 256, 0 ],
+        [ 'client_logo', 'VARCHAR', 512, 0 ],
         $status,
         $by
     ], 'pro_meta', 1 ],

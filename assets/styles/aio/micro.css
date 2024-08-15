@@ -551,6 +551,10 @@ select.tar {
   box-shadow: none;
 }
 
+.bsn:hover {
+  box-shadow: none;
+}
+
 .ttu, .uc {
   text-transform: uppercase;
 }

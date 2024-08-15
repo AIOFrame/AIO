@@ -15,14 +15,6 @@ class PROJECTS {
         // TODO Render Project Cards
     }
 
-    function project(): void {
-
-    }
-
-    function project_overview(): void {
-
-    }
-
     function __scope(): array {
         return [];
     }
@@ -75,7 +67,7 @@ class PROJECTS {
         $f = new FORM();
         $form = $this->__project_form_fields( $lead_user_type, $sponsor_user_type );
         $f->pre_process( '', 'process_project_ajax', $data_attr, '', [], 'Successfully saved project!', '', $callback, $redirect_url );
-            $f->form( $form, $class, $data_attr, '', $wrap_class );
+            $f->form( $form, 'row', $data_attr, '', $wrap_class );
             $f->process_trigger( 'Save Project', '', '', '', '.tac' );
         $f->post_process();
     }
@@ -94,17 +86,20 @@ class PROJECTS {
         $cats = $d->get_option( 'aio_project_categories' );
         $cats = explode( ',', $cats );
         $intro = [
-            [ 'i' => 'name', 'n' => 'Project Title', 'p' => 'Ex: ABC Mobile App', 'c' => 9 ],
+            [ 'i' => 'name', 'n' => 'Project Title', 'p' => 'Ex: ABC Mobile App', 'c' => 6 ],
+            [ 'i' => 'banner', 'n' => 'Banner', 'p' => 'Upload', 't' => 'file', 's' => .2, 'e' => 'svg,png,jpg,jpeg,gif', 'c' => 3 ],
             [ 'i' => 'category', 'n' => 'Choose Category', 'p' => 'Choose...', 't' => 'select2', 'o' => $cats, 'c' => 3, 'k' => 1 ],
             [ 'i' => 'intro', 'n' => 'Introduction', 'p' => 'Ex: Mobile App for so and so...', 't' => 'textarea', 'c' => 12 ],
             [ 'i' => 'objectives', 'n' => 'Objectives', 'p' => 'Ex: To let users navigate...', 't' => 'textarea', 'c' => 12 ],
         ];
         $specifics = [
-            [ 'i' => 'client', 'n' => 'Choose Client', 'p' => 'Choose...', 't' => 'select2', 'o' => $clients, 'c' => 6, 'k' => 1 ],
+            [ 'i' => 'client', 'n' => 'Choose existing Client', 'p' => 'Choose...', 't' => 'select2', 'o' => $clients, 'c' => 6, 'k' => 1 ],
+            [ 'i' => 'client_name', 'n' => 'or Client Name', 'p' => 'Ex: Monarch Exports LLC', 'c' => 3 ],
+            [ 'i' => 'client_logo', 'n' => 'Client Logo', 'p' => 'Upload', 't' => 'file', 's' => .2, 'e' => 'svg,png,jpg,jpeg,gif', 'c' => 3 ],
             [ 'i' => 'access', 'n' => 'Password', 'p' => 'Ex: ********', 't' => 'password', 'c' => 6 ],
             //[ 'i' => 'version', 'n' => 'Scope Version', 'p' => 'Ex: 1.2', 'v' => 1, 'c' => 6 ],
-            [ 'i' => 'start', 'n' => 'Start Date', 't' => 'date', 'c' => 6 ],
-            [ 'i' => 'expiry', 'n' => 'End Date', 't' => 'date', 'c' => 6 ],
+            [ 'i' => 'start', 'n' => 'Start Date', 't' => 'date', 'c' => 3 ],
+            [ 'i' => 'expiry', 'n' => 'End Date', 't' => 'date', 'c' => 3 ],
             [ 'i' => 'lead', 'n' => 'Project Lead', 't' => 'select2', 'p' => 'Choose User...', 'o' => $leads, 'c' => 6, 'k' => 1 ],
             [ 'i' => 'sponsor', 'n' => 'Sponsor', 't' => 'select2', 'p' => 'Choose User...', 'o' => $sponsors, 'c' => 6, 'k' => 1 ],
         ];
@@ -130,74 +125,177 @@ class PROJECTS {
             [ 't' => 'step', 'n' => 'Intro', 'fields' => $intro ],
             [ 't' => 'step', 'n' => 'Specifics', 'fields' => $specifics ],
             [ 't' => 'step', 'n' => 'Features', 'fields' => $features ],
-            [ 't' => 'step', 'n' => 'Scope', 'fields' => $scope, 'style' => 'row' ],
-            [ 't' => 'step', 'n' => 'Financial', 'fields' => $finances, 'style' => 'row' ],
+            [ 't' => 'step', 'n' => 'Scope', 'fields' => $scope, 'style' => 'dynamic', 'group' => 'scope' ],
+            [ 't' => 'step', 'n' => 'Financial', 'fields' => $finances, 'style' => 'dynamic', 'group' => 'financial'  ],
         ];
     }
 
-    function project_board(): void {
-
-    }
-
-    function project_timeline(): void {
-
-    }
-
-    function project_structure(): void {
-
-    }
-
-    function project_issues(): void {
-
-    }
-
-    function project_finances(): void {
-
-    }
-
-    function project_communication(): void {
-
-    }
-
-    function get_projects(): array {
+    function __projects(): array {
         return [];
     }
 
-    function get_project(): array {
+    // Project HTML
+
+    function project( int $id ): void {
+        echo $this->__project( $id );
+    }
+
+    function __project(): string {
 
         // Project
         //  Stages
         //      Tasks
+        return '';
+    }
+
+    function project_overview( int $id ): void {
+        echo $this->__project_overview( $id );
+    }
+
+    function __project_overview( int $id, string $card_class = 'card br15 p20' ): string {
+        global $options;
+        $ico_class = $options['ico_class'] ?? '';
+        $r = __r();
+            $r .= __c(8);
+                $r .= __d( 'card p0 bsn nf', 'project_overview' );
+                    $r .= __div( 'status right green bg', 'Active' );
+                    $r .= __image( 'https://placehold.it/50', '', 'logo l' );
+                    $r .= __h1( 'Adidas Website Design' );
+                    // Progress Overview
+                    $r .= __d( 'project_info_set' );
+                        $r .= __div( 'top df aic jsb', __div( 'l', 'Progress' ) . __div( 'r', '75%' ) );
+                        $r .= __div( 'progress', __div( 'blue', '', '', 'style="width: 75%"' ) );
+                        //$r .= __div( 'base', __div( 'l', 'Progress' ) . __div( 'r', '75%' ) );
+                    $r .= d__();
+                    // Timeline Overview
+                    $r .= __d( 'project_info_set' );
+                        $r .= __div( 'top df aic jsb', __div( 'l', 'Delivery' ) . __div( 'r', '15 of 25 days' ) );
+                        $r .= __div( 'progress', __div( 'green', '', '', 'style="width: 75%"' ) );
+                        $r .= __div( 'base df aic jsb', __div( 'l', '25th Oct, 2024' ) . __div( 'r', '20th Nov, 2024' ) );
+                    $r .= d__();
+                    // Financial Overview
+                    $r .= __d( 'project_info_set' );
+                        $r .= __div( 'top df aic jsb', __div( 'l', 'Financial' ) . __div( 'r', '2 of 4 cheques' ) );
+                        $r .= __div( 'progress', __div( 'red', '', '', 'style="width: 50%"' ) );
+                        $r .= __div( 'base df aic jsb', __div( 'l', '12,000 AED' ) . __div( 'r', '27,500 AED' ) );
+                    $r .= d__();
+                    $r .= __r();
+                        $r .= __c( 6 );
+                            // Project Lead
+                            $r .= __d( 'project_user_set df aic' );
+                                $r .= __div( 'pic', '', '', 'style="background: url(\'https://placehold.it/50\')"' );
+                                $r .= __div( 'details', __div( 'name', 'Mohammed Ahmed' ) . __div( 'title', 'Project Lead' ) );
+                            $r .= d__();
+                        $r .= c__();
+                        $r .= __c( 6 );
+                            // Project Sponsor
+                            $r .= __d( 'project_user_set df aic' );
+                                $r .= __div( 'pic', '', '', 'style="background: url(\'https://placehold.it/50\')"' );
+                                $r .= __div( 'details', __div( 'name', 'John Doe' ) . __div( 'title', 'Project Sponsor' ) );
+                            $r .= d__();
+                        $r .= c__();
+                    $r .= r__();
+                $r .= d__();
+            $r .= c__();
+            $r .= __c(4);
+                // Loop Features
+                $r .= __d( $card_class . ' project_features' );
+                    $r .= __h3( 'Third Party Modules' );
+                    $r .= __d( 'features' );
+                        // Loop Feature Sets
+                        $r .= __d( 'feature_set df aic' );
+                            $r .= __div( 'icon', __i( $ico_class . ' mico ico', 'home' ), '', 'style="background:forestgreen"' );
+                            $r .= __div( 'details', __h4( 'Maps' ) . __h5( 'Integrate Google Maps' ) );
+                        $r .= d__();
+                    $r .= d__();
+                $r .= d__();
+            $r .= c__();
+        $r .= r__();
+        return $r;
+    }
+
+    function project_scope( int $id ): void {
+        echo $this->__project_scope( $id );
+    }
+
+    function __project_scope( int $id ): string {
+        return '';
+    }
+
+    function project_finances( int $id ): void {
+        echo $this->__project_finances( $id );
+    }
+
+    function __project_finances( int $id ): string {
+        return '';
+    }
+
+    function project_structure( int $id ): void {
+        echo $this->__project_structure( $id );
+    }
+
+    function __project_structure( int $id ): string {
+        return '';
+    }
+
+    function project_issues( int $id ): void {
+        echo $this->__project_issues( $id );
+    }
+
+    function __project_issues( int $id ): string {
+        return '';
+    }
+
+    function project_board( int $id ): void {
+        echo $this->__project_board( $id );
+    }
+
+    function __project_board( int $id ): string {
+        return '';
+    }
+
+    function project_timeline( int $id ): void {
+        echo $this->__project_timeline( $id );
+    }
+
+    function __project_timeline( int $id ): string {
+        return '';
+    }
+
+    // Project JSON
+
+    function _project_overview( int $id ): array {
         return [];
     }
 
-    function get_project_overview(): array {
+    function _project_scope( int $id ): array {
         return [];
     }
 
-    function get_project_scope(): array {
+    function _project_finances( int $id ): array {
         return [];
     }
 
-    function get_project_board(): array {
+    function _project_structure( int $id ): array {
         return [];
     }
 
-    function get_project_timeline(): array {
+    function _project_issues( int $id ): array {
         return [];
     }
 
-    function get_project_structure(): array {
+    function _project_board( int $id ): array {
         return [];
     }
 
-    function get_project_issues(): array {
+    function _project_timeline( int $id ): array {
         return [];
     }
 
-    function get_project_finances(): array {
-        return [];
-    }
+
+
+
+
 
     function update_project(): array {
         return [];
@@ -211,11 +309,11 @@ class PROJECTS {
         // TODO: Task Kanban
     }
 
-    function get_tasks(): array {
+    function __tasks(): array {
         return [];
     }
 
-    function get_task(): array {
+    function __task(): array {
         return [];
     }
 

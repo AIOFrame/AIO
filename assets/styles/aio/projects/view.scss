@@ -1,0 +1,101 @@
+// Project Overview
+#project_overview {
+  h1 {
+    text-transform: uppercase;
+    font-weight: 500;
+    margin: 20px 0 40px;
+  }
+  .project_info_set {
+    padding: 15px;
+    border-radius: 10px;
+    background: rgba(0,0,0,.05);
+    margin-bottom: 20px;
+  }
+  .top .l {
+    text-transform: uppercase;
+  }
+  .progress {
+    border-radius: 4px;
+    width: 100%;
+    background: #ccc;
+    margin: 10px 0 0;
+    overflow: hidden;
+    > div {
+      height: 10px;
+    }
+    .g, .green {
+      background: forestgreen;
+    }
+    .r, .red {
+      background: firebrick;
+    }
+    .o, .orange {
+      background: darkorange;
+    }
+    .bu, .blue {
+      background: cornflowerblue;
+    }
+  }
+  .base {
+    margin-top: 10px;
+    font-size: .8rem;
+  }
+}
+// Project Features
+.project_features {
+  h3 {
+    text-transform: uppercase;
+    margin: 0 0 20px;
+    font-size: 1rem;
+  }
+  .feature_set {
+    gap: 10px;
+    .icon {
+      flex: 0 0 40px;
+      height: 40px;
+      border-radius: 25px;
+      text-align: center;
+      box-shadow: 0 0 5px rgba(0,0,0,.1);
+      color: #fff;
+      i {
+        line-height: 40px;
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .details {
+      flex-grow: 1;
+      h4 {
+        margin: 0 0 4px;
+        text-transform: uppercase;
+      }
+      h5 {
+        margin: 0;
+        opacity: .6;
+        font-size: .8rem;
+      }
+    }
+  }
+}
+.project_user_set {
+  gap: 10px;
+  .pic {
+    width: 50px;
+    height: 50px;
+  }
+  .details {
+    flex-grow: 1;
+    > div {
+      text-align: left;
+    }
+    .name {
+      font-weight: 500;
+      margin: 0 0 6px;
+    }
+    .title {
+      font-size: .8rem;
+      opacity: .6;
+      margin: 0;
+    }
+  }
+}

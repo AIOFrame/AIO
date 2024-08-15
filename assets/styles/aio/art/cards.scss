@@ -39,6 +39,12 @@ $success: var(--success_color);
     background-repeat: no-repeat;
     background-size: contain;
   }
+  .logo.l {
+    background-position: left center;
+  }
+  .logo.r {
+    background-position: right center;
+  }
   .image.b, .pic.b {
     border: 1px solid lightgrey;
   }
@@ -188,7 +194,7 @@ $success: var(--success_color);
     letter-spacing: 1px;
     color: grey;
   }
-  .status.r {
+  .status.r, .status.right {
     left:auto;
     right:10px;
   }

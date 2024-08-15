@@ -1062,7 +1062,7 @@ function accordion_(): void {
  * @return void
  */
 function tabs( array $tabs = [], string $style = '', bool $translate_titles = false ): void {
-    echo _tabs( $tabs, $style, $translate_titles );
+    echo __tabs( $tabs, $style, $translate_titles );
 }
 
 /**
@@ -1072,12 +1072,13 @@ function tabs( array $tabs = [], string $style = '', bool $translate_titles = fa
  * @param bool $translate_titles True, to translate titles (Default False)
  * @return string
  */
-function _tabs( array $tabs = [], string $style = '', bool $translate_titles = false ): string {
+function __tabs( array $tabs = [], string $style = '', bool $translate_titles = false ): string {
+    $r = rand( 1, 9999 );
     $data = __pre( '', 'tabs '.$style );
         $data .= __pre( '', 'tab_heads', 'div', 'data-store' );
             $x = 0;
             foreach( $tabs as $i => $content ) {
-                $id = str_replace(' ','_',strtolower( $i ));
+                $id = '#tab_'.$r.'_'.$x; //str_replace(' ','_',strtolower( $i ));
                 $data .= __div( $x == 0 ? 'tab on' : 'tab', $i, '', 'data-tab="'.$id.'"', $translate_titles );
                 $x++;
             }
@@ -1085,7 +1086,7 @@ function _tabs( array $tabs = [], string $style = '', bool $translate_titles = f
         $data .= __pre( '', 'tab_content' );
             $x = 0;
             foreach( $tabs as $i => $content ) {
-                $id = str_replace(' ','_',strtolower( $i ));
+                $id = 'tab_'.$r.'_'.$x; //str_replace(' ','_',strtolower( $i ));
                 $data .= __div( ( $x !== 0 ? 'dn' : '' ), $content, $id );
                 $x++;
             }

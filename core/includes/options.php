@@ -658,7 +658,7 @@ class OPTIONS {
         }
         //skel( $form );
         $f = new FORM();
-        if( in_array( $type, [ 'dynamic', 'dyn' ] ) ) {
+        if( in_array( $type, [ 'dynamic', 'dyn', 'd' ] ) ) {
             $d = new DB();
             $dyn_data = $d->get_option( $data );
             $dyn_data = !empty( $dyn_data ) ? unserialize( $dyn_data ) : [];
@@ -679,12 +679,11 @@ class OPTIONS {
                 }
                 $i < ( $count - 1 ) ? el( 'hr', 'dynamic_form_break break' ) : '';
             }
-            $f->process_trigger( $button_text, $button_class, '', '', '.col-12 tac' );
         } else {
             $f->option_params_wrap( $data, '', $auto_load, $unique, $encrypt, $success, $callback, $confirm );
                 $f->form( $form, $type );
-            $f->process_trigger( $button_text, $button_class, '', '', '.col-12 tac' );
         }
+        $f->process_trigger( $button_text, $button_class, '', '', '.col-12 tac' );
         post();
     }
 

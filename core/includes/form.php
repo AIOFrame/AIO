@@ -1230,16 +1230,37 @@ class FORM {
      * @param string $data_attr Common data attribute for all inputs
      */
     function __form( array $fields = [], string $form_type = '', string $data_attr = '', string $group_by = '', string $wrap_class = '' ): string {
-        $return = in_array( $form_type, [ 'get', '$_GET' ] ) ? '<form method="get" class="'.$wrap_class.'">' : ( in_array( $form_type, [ 'post', '$_POST' ] ) ? '<form method="post" class="'.$wrap_class.'">' : ( in_array( $form_type, [ 'row', 'r' ] ) ? __d( 'form row ' . $wrap_class ) : ( $form_type == 'settings' ? __d( 'settings form ' . $wrap_class ) : ( in_array( $form_type, [ 'steps', 's' ] ) ? __d( 'steps form ' . $wrap_class ) : __d( 'form ' . $wrap_class ) ) ) ) );
         // x = count( fields ) && $col == 12 ?
         //if( $form_type == 'steps' || $form_type == 's' ) {
             //div( 'step_heads', $this->_form(  ) )
         //}
+        if( in_array( $form_type, [ 'dynamic', 'dyn', 'd' ] ) ) {
+            $return = __d( 'dynamic_form_wrap' );
+                $return .= __d( 'dynamic_head_template dn', '', 'data-dynamic-head-template' );
+                    $return .= __div( 'row aic mb10', __c( 6 ) . 'Row {{x}}' . c__() . __c( 6, 'tar' ) . __b( 'red s m0 r nf', 'Remove', '', 'onclick="delete_dynamic_row(this)"' ) . c__() );
+                $return .= d__();
+                $return .= __d( 'dynamic_form_template dn', '', 'data-ignore-fields' );
+                    $return .= $this->__form( $fields, 'row', $data_attr . ' data-dynamic' );
+                $return .= d__();
+                $return .= __d( 'dynamic_break_template dn', '', 'data-dynamic-br-template' );
+                    $return .= __el( 'hr', 'dynamic_form_break break' );
+                $return .= d__();
+                $return .= __d( 'dynamic_form', '', 'data-dynamic-id="'.$group_by.'"' );
+                    $return .= __div( 'row aic mb10', __c( 6 ) . 'Row 1' . c__() . __c( 6, 'tar' ) . __b( 'red s m0 r nf', 'Remove', '', 'onclick="delete_dynamic_row(this)"' ) . c__() );
+                    $return .= $this->__form( $fields, 'row', $data_attr . ' data-dynamic' );
+                $return .= d__();
+                $return .= __div( 'tac mb10', __b( 'blue s m0 r nf', 'Add Row', '', 'onclick="add_dynamic_row(this)"' ) );
+            $return .= d__();
+            return $return;
+        }
+        $return = in_array( $form_type, [ 'get', '$_GET' ] ) ? '<form method="get" class="'.$wrap_class.'">' : ( in_array( $form_type, [ 'post', '$_POST' ] ) ? '<form method="post" class="'.$wrap_class.'">' : ( in_array( $form_type, [ 'row', 'r' ] ) ? __d( 'form row ' . $wrap_class ) : ( $form_type == 'settings' ? __d( 'settings form ' . $wrap_class ) : ( in_array( $form_type, [ 'steps', 's' ] ) ? __d( 'steps form ' . $wrap_class ) : __d( 'form ' . $wrap_class ) ) ) ) );
         $steps = [];
         $class = '';
         foreach( $fields as $f ) {
             $type = $f['type'] ?? ( $f['ty'] ?? ( $f['t'] ?? 'text' ) );
+            $sub_type  = $f['form_type'] ?? ( $f['fields_style'] ?? ( $f['type'] ?? ( $f['style'] ?? ( $f['ft'] ?? ( $f['fs'] ?? 'row' ) ) ) ) );
             //skel( $type );
+            //skel( $sub_type );
             $label = $f['label'] ?? ( $f['l'] ?? ( $f['title'] ?? ( $f['name'] ?? ( $f['n'] ?? '' ) ) ) );
             //$return = '';
             $id = $f['id'] ?? ( $f['i'] ?? '' );
@@ -1262,7 +1283,7 @@ class FORM {
                 $return .= __el( $type, $class, $content );
             } else if( in_array( $type, [ 'column', 'col' ] ) ) {
                 $class = is_numeric( $class ) ? $this->__col( $class ) : $class;
-                $sub_type = $f['sub_type'] ?? ( $f['type'] ?? 'row' );
+                //$sub_type = $f['sub_type'] ?? ( $f['type'] ?? 'row' );
                 $col_fields = $f['fields'] ?? ( $f['form'] ?? ( $f['f'] ?? [] ) );
                 $return .= !empty( $col_fields ) ?  __div( 'col '. $class, $this->__form( $col_fields, $sub_type, $data_attr ) ) : __div( $class );
             } else if( in_array( $type, [ 'row', 'r' ] ) ) {
@@ -1277,9 +1298,9 @@ class FORM {
                 $ic = $f['icon_class'] ?? ( $f['ic'] ?? 'mat-ico' );
                 $color = $s['color'] ?? ( $s['c'] ?? '' );
                 $step_fields = $f['fields'] ?? ( $f['form'] ?? ( $f['f'] ?? [] ) );
-                $style = $f['form_type'] ?? ( $f['fields_style'] ?? ( $f['type'] ?? ( $f['style'] ?? ( $f['ft'] ?? ( $f['fs'] ?? 'row' ) ) ) ) );
+                $group_by = $f['group_by'] ?? ( $f['group'] ?? ( $f['g'] ?? '' ) );
                 if( is_array( $step_fields ) && !empty( $step_fields ) ) {
-                    $steps[] = [ 'title' => $label, 'icon' => $ico, 'icon_class' => $ic, 'color' => $color, 'content' => $this->__form( $step_fields, $style, $data_attr ) ]; //$this->_form( $step_fields )
+                    $steps[] = [ 'title' => $label, 'icon' => $ico, 'icon_class' => $ic, 'color' => $color, 'content' => $this->__form( $step_fields, $sub_type, $data_attr, $group_by ) ]; //$this->_form( $step_fields )
                 }
             } else if( in_array( $type, [ 'select', 'select2', 'dropdown', 's', 's2', 'd' ] ) ) {
                 $options = $f['options'] ?? ( $f['os'] ?? ( $f['o'] ?? [] ) );
@@ -1376,7 +1397,6 @@ class FORM {
                 $return .= $this->__input( $type, $id, $label, $place, $val, $attrs, $pre, $post );
             }
         }
-        //skel( $steps );
         if( !empty( $steps ) ) {
             $return .= __steps( $steps, $form_type . ' ' . $class );
         }
