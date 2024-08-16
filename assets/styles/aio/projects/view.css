@@ -106,49 +106,70 @@
   font-weight: 500;
   letter-spacing: 0;
 }
-.project_scope .scope_set table {
+.project_scope td:nth-child(3) {
+  text-align: left;
+}
+
+table {
   width: 100%;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   border: 0;
   border-collapse: collapse;
 }
-.project_scope .scope_set table thead th, .project_scope .scope_set table thead td {
+table thead th, table thead td {
   padding: 15px 5px;
   font-weight: 500;
   font-size: 0.9rem;
   text-transform: uppercase;
   border: 0;
 }
-.project_scope .scope_set table tbody td {
+table tbody td {
   border: 0;
   padding: 10px 5px;
   font-size: 0.8rem;
   text-align: center;
 }
-.project_scope .scope_set table tbody .name {
+table tbody .name {
   font-size: 1rem;
   margin-bottom: 5px;
 }
-.project_scope .scope_set table tbody .desc {
+table tbody .desc {
   opacity: 0.8;
 }
-.project_scope .scope_set table tbody td:nth-child(3) {
-  text-align: left;
-}
-.project_scope .scope_set table tbody:nth-child(even) {
+table tbody:nth-child(even) {
   background: rgba(0, 0, 0, 0.02);
 }
-.project_scope .scope_set table tbody:nth-child(odd) {
+table tbody:nth-child(odd) {
   background: rgba(0, 0, 0, 0.06);
 }
-.project_scope .scope_set table tfoot td {
+table tfoot td {
   padding: 10px 5px;
   font-size: 0.8rem;
   opacity: 0.3;
   text-align: center;
   font-weight: 500;
 }
-.project_scope .scope_set table .edit {
+table .status {
+  font-size: 0.7rem;
+  line-height: 0.7rem;
+  padding: 4px 15px;
+  border-radius: 15px;
+  background: #ddd;
+  display: inline-block;
+}
+table .status.g, table .status.green, table .status.done {
+  background: forestgreen;
+  color: #fff;
+}
+table .status.o, table .status.orange, table .status.pending {
+  background: darkorange;
+  color: #fff;
+}
+table .status.r, table .status.red {
+  background: firebrick;
+  color: #fff;
+}
+table .edit {
   display: none;
 }
 
