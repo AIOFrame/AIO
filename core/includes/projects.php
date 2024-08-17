@@ -154,7 +154,7 @@ class PROJECTS {
 
     function __project_overview( int $id, string $card_class = 'card br15 p20' ): string {
         global $options;
-        $ico_class = $options['ico_class'] ?? '';
+        $ico_class = $options['icon_class'] ?? '';
         $r = __r();
             $r .= __c(8);
                 $r .= __d( 'card p0 bsn nf', 'project_overview' );
@@ -227,7 +227,7 @@ class PROJECTS {
         $r = __d( 'project_scope' );
             // Loop Scope Stage
             $r .= __d( 'scope_set' );
-                $r .= __h2( 'Stage 1 - Mockups' );
+                $r .= __h2( 'Stage 1 - Mockups', 0, 'subtle' );
                 $scope_set[] = [ 'thead' => [ '', T('Order'), T('Description'), T('Time'), T('Start'), T('End'), T('Priority'), T('Users'), T('Status') ] ];
                 // Loop Scope Data
                     $a = 'disabled';
@@ -327,8 +327,25 @@ class PROJECTS {
         echo $this->__project_structure( $id );
     }
 
-    function __project_structure( int $id ): string {
-        return '';
+    function __project_structure( int $id, string $card_class = 'card br15 p20' ): string {
+        global $options;
+        $down = __ico( ( $options['ico_dropdown'] ?? 'expand_more' ), 'sl' );
+        $remove = __ico( ( $options['ico_remove'] ?? 'remove_circle_outline' ), 'm' );
+        $trash = __ico( ( $options['ico_delete'] ?? 'delete' ), 'sl' );
+        $check = __ico( ( $options['ico_check'] ?? 'check_circle' ), 'xs' );
+        $uncheck = __ico( ( $options['ico_uncheck'] ?? 'radio_button_unchecked' ), 'xs' ); // __div( $ico . ' ico xs ' . $uncheck, $uncheck );
+        $r = __d( 'project_structure' );
+            // Loop Structure
+            $common_attr = 'data-cont';
+            $encoding = 'utf8_unicode_ci';
+            $r .= __div( 'df aic jsb', __div( '', __h2( 'Contacts', 0, 'subtle' ) ) . __div( 'df aic g2', __div ( '', 'cont_' ) . $down ) );
+            $table[] = [ 'thead' => [ 'ID', 'Name', 'Type', 'Attr', 'Required', 'Max', 'Null', 'Col', 'Actions' ] ];
+                // Loop Structure Fields
+                $table[] = [ 'tbody' => [ 'name', 'Contact Name', 'Text', '', $check, 256, $uncheck, 6, $remove ] ];
+            $r .= __table( $table, 'project_structure' );
+            $r .= __div( 'df aic jsb', __div( 'left df g2', __div( 'attr', $common_attr ) . __div( 'encoding', $encoding ) ) . $trash );
+        $r .= d__();
+        return $r;
     }
 
     function project_issues( int $id ): void {
@@ -336,6 +353,7 @@ class PROJECTS {
     }
 
     function __project_issues( int $id ): string {
+
         return '';
     }
 

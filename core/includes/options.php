@@ -209,7 +209,11 @@ class OPTIONS {
         get_scripts('iro,color');
     }
 
-    function icon_options(): void {
+    /**
+     * @param array $more_options Add your icon options Ex: [ 'ico_portfolio' => 'web' ]
+     * @return void
+     */
+    function icon_options( array $more_options = [] ): void {
         global $options;
         $icons = $this->icon_options;
         $a = 'data-ico';
@@ -223,16 +227,13 @@ class OPTIONS {
             [ 'i' => 'icon_after_class', 'n' => 'Icon After Class', 'v' => $options['icon_after_class'] ?? 'mica', 'c' => 6, 'a' => $a ],
         ];
         $autoload = [ 'icon_font', 'icon_class', 'icon_after_class' ];
+        $icons = array_merge( $icons, $more_options );
         foreach( $icons as $o => $v ) {
-            $ico = 'ico_'.$o;
+            $ico = str_contains( $o, 'ico_' ) ? $o : 'ico_'.$o;
             $v = $options[ $ico ] ?? $v;
-            //$idc = 'port_ico_'.$o.'_class';
             $autoload[] = $ico;
-            //$autoload[] = $idc;
             $icon_preview = __div( ( $options['icon_class'] ?? 'mico' ) . ' icon_preview ' . $v, $v );
-            $form[] = [ 'i' => $ico, 'n' => ucwords( str_replace( '_', ' ', $o ) ). ' Ico', 'v' => $v, 'c' => 2, 'a' => $a, 'p_' => $icon_preview . d__() ];
-            //$form[] = [ 't' => 'div', 'v' => $icon_preview, 'c' => 1 ];
-            //$form[] = [ 'i' => $idc, 'n' => ucwords( $o ). ' Ico Class', 'v' => $v, 'c' => 2 ];
+            $form[] = [ 'i' => $ico, 'n' => ucwords( str_replace( '_', ' ', str_replace( 'ico', '', $o ) ) ), 'v' => $v, 'c' => 2, 'a' => $a, 'p_' => $icon_preview . d__() ];
         }
         //$o = new OPTIONS();
         _d( 'icon_options' );

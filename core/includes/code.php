@@ -551,6 +551,16 @@ function sec_(): void {
     post('section');
 }
 
+function ico( string $icon = '', string $class = '', string $element = '' ): void {
+    echo __ico( $icon, $class, $element );
+}
+
+function __ico( string $icon = '', string $class = '', string $element = 'i' ): string {
+    global $options;
+    $ico = $options['icon_class'] ?? 'mico';
+    return __el( $element, $class . ' ico ' . $ico . ' ' . $icon, $icon );
+}
+
 function __div( string $class = '', string $content = '', string $id = '', string $attrs = '', bool $translate = false ): string {
     return __el( 'div', $class, $content, $id, $attrs, $translate );
 }

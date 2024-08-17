@@ -104,13 +104,6 @@
 .project_scope {
   .scope_set {
     margin-bottom: 20px;
-    h2 {
-      font-size: 1.2rem;
-      margin: 0 0 15px;
-      text-transform: uppercase;
-      font-weight: 500;
-      letter-spacing: 0;
-    }
   }
   td:nth-child(3) {
     text-align: left;
@@ -119,6 +112,13 @@
 
 // Generic
 
+h2.subtle, h3.subtle {
+  font-size: 1.2rem;
+  margin: 0 0 15px;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0;
+}
 table {
   width: 100%;
   box-shadow: 0 5px 15px rgba(0,0,0,.1);

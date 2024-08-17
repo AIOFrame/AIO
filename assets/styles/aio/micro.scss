@@ -44,8 +44,14 @@
 .dii { display: inline !important }
 .df { display: flex }
 .dif { display: inline-flex }
-.df.g1 { gap: 10px }
-.df.g2 { gap: 20px }
+.df.g1, .df.g10 { gap: 10px }
+.df.g15 { gap: 15px }
+.df.g2, .df.g20 { gap: 20px }
+.df.g25 { gap: 25px }
+.df.g3, .df.g30 { gap: 30px }
+.df.g4, .df.g40 { gap: 40px }
+.df.g5, .df.g50 { gap: 50px }
+.df.g100 { gap: 100px }
 .fg { flex-grow: 1 }
 .row.fww, .df.wr { flex-wrap:wrap }
 .row.fwn { flex-wrap:nowrap }
