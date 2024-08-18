@@ -352,9 +352,32 @@ class PROJECTS {
         echo $this->__project_issues( $id );
     }
 
-    function __project_issues( int $id ): string {
-
-        return '';
+    function __project_issues( int $id, string $card_class = 'card br15' ): string {
+        global $options;
+        $down = __ico( $options['ico_download'] ?? 'download_for_offline' );
+        $image = __ico( $options['ico_image'] ?? 'image' );
+        $attach = __ico( $options['ico_attachment'] ?? 'attachment' );
+        $url = __ico( $options['ico_url'] ?? 'link' );
+        $dropdown = __ico( $options['ico_dropdown'] ?? 'expand_more', 'sm' );
+        $edit = __ico( $options['ico_edit'] ?? 'edit' );
+        $trash = __ico( $options['ico_delete'] ?? 'delete' );
+        $issue_statuses = [ 'pending' => 'Pending', 'progress' => 'In Progress', 'verify' => 'To Verify', 'done' => 'Completed' ];
+        $issue_head = __div( 'df aic', __h4( 'Frontend', 0, 'title' ) . __div( 'status red r', 'Pending' ) );
+        $issue_body = __div( 'df aic jsb', __div( 'issue', 'Unable to view user profile in the interface designated for profile area' ) . $dropdown );
+        $issue_foot = __div( 'df aic jsb', __div( 'acts', $down . $image . $attach . $url ) . __div( 'acts', $edit . $trash ) );
+        $issue = __div( $card_class . ' issue_card p0', __div( $card_class . ' upper nf p0', __div( 'top', $issue_head ) . __div( 'body', $issue_body ) ) . __div( 'foot', $issue_foot ) );
+        $r = __d( 'project_issues' );
+            // Loop Statuses
+            foreach ( $issue_statuses as $status => $status_label ) {
+                $r .= __d( $status ) . __h2( $status_label, 1, 'status_title' );
+                    $r .= __d( 'issues_list' );
+                        // Loop Issues
+                        $r .= $issue;
+                    $r .= d__();
+                $r .= d__();
+            }
+        $r .= d__();
+        return $r;
     }
 
     function project_board( int $id ): void {

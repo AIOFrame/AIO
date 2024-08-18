@@ -110,6 +110,78 @@
   }
 }
 
+// Project Issues
+
+.project_issues {
+  display: flex;
+  .issue_card {
+    overflow: hidden;
+  }
+  .status_title {
+    display: block;
+    text-align: center;
+    padding: 10px 0;
+    margin: 0;
+    font-size: .8rem;
+    background: #000;
+    color: #fff;
+    letter-spacing: 0;
+  }
+  .title {
+    font-size: .8rem;
+    font-weight: 500;
+    padding: 4px 15px;
+  }
+  .upper {
+    margin: 0;
+    box-shadow: 0 5px 25px rgba(0,0,0,.1);
+  }
+  .body {
+    padding: 0 15px 10px;
+    .issue {
+      font-size: .8rem;
+      opacity: .6;
+    }
+  }
+  .issues_list {
+    padding:10px 10px 0;
+  }
+  .top {
+    cursor: move;
+  }
+  .foot {
+    .acts {
+      > div, > a, > i {
+        width: 40px;
+        height: 40px;
+        margin: 0;
+        padding: 0;
+        font-size: 1.2rem;
+        background: none;
+      }
+      > div:hover, > a:hover, > i:hover {
+        box-shadow: none;
+      }
+      .edit {
+        color: var(--progress_color);
+      }
+      .trash, .delete {
+        color: var(--error_color);
+      }
+    }
+  }
+  > div {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+  > div:nth-child(odd) {
+    background: rgba(0,0,0,.05);
+  }
+  > div:nth-child(even) {
+    background: rgba(0,0,0,.08);
+  }
+}
+
 // Generic
 
 h2.subtle, h3.subtle {

@@ -103,6 +103,72 @@
   text-align: left;
 }
 
+.project_issues {
+  display: flex;
+}
+.project_issues .issue_card {
+  overflow: hidden;
+}
+.project_issues .status_title {
+  display: block;
+  text-align: center;
+  padding: 10px 0;
+  margin: 0;
+  font-size: 0.8rem;
+  background: #000;
+  color: #fff;
+  letter-spacing: 0;
+}
+.project_issues .title {
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 4px 15px;
+}
+.project_issues .upper {
+  margin: 0;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+}
+.project_issues .body {
+  padding: 0 15px 10px;
+}
+.project_issues .body .issue {
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+.project_issues .issues_list {
+  padding: 10px 10px 0;
+}
+.project_issues .top {
+  cursor: move;
+}
+.project_issues .foot .acts > div, .project_issues .foot .acts > a, .project_issues .foot .acts > i {
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  font-size: 1.2rem;
+  background: none;
+}
+.project_issues .foot .acts > div:hover, .project_issues .foot .acts > a:hover, .project_issues .foot .acts > i:hover {
+  box-shadow: none;
+}
+.project_issues .foot .acts .edit {
+  color: var(--progress_color);
+}
+.project_issues .foot .acts .trash, .project_issues .foot .acts .delete {
+  color: var(--error_color);
+}
+.project_issues > div {
+  flex: 0 0 25%;
+  max-width: 25%;
+}
+.project_issues > div:nth-child(odd) {
+  background: rgba(0, 0, 0, 0.05);
+}
+.project_issues > div:nth-child(even) {
+  background: rgba(0, 0, 0, 0.08);
+}
+
 h2.subtle, h3.subtle {
   font-size: 1.2rem;
   margin: 0 0 15px;

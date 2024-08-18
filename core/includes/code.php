@@ -555,10 +555,10 @@ function ico( string $icon = '', string $class = '', string $element = '' ): voi
     echo __ico( $icon, $class, $element );
 }
 
-function __ico( string $icon = '', string $class = '', string $element = 'i' ): string {
+function __ico( string $icon = '', string $class = '', string $element = 'i', string $id = '', string $attr = '' ): string {
     global $options;
     $ico = $options['icon_class'] ?? 'mico';
-    return __el( $element, $class . ' ico ' . $ico . ' ' . $icon, $icon );
+    return __el( $element, $class . ' ico ' . $ico . ' ' . $icon, $icon, $id, $attr );
 }
 
 function __div( string $class = '', string $content = '', string $id = '', string $attrs = '', bool $translate = false ): string {
