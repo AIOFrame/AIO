@@ -158,9 +158,43 @@ class PROJECTS {
         $r = __r();
             $r .= __c(8);
                 $r .= __d( 'card p0 bsn nf', 'project_overview' );
-                    $r .= __div( 'status right green bg', 'Active' );
-                    $r .= __image( 'https://placehold.it/50', '', 'logo l' );
-                    $r .= __h1( 'Adidas Website Design' );
+                    // Progress Header
+                    $r .= __d( 'overview_head', '', 'style="background:url(\'https://placehold.it/1000\')"' );
+                        $r .= __div( 'status right green bg', 'Active' );
+                        $r .= __image( 'https://placehold.it/50', '', 'logo l' );
+                        $r .= __h1( 'Adidas', 0 );
+                    $r .= d__();
+                    // Progress Intro
+                    $r .= __d( 'project_intro' );
+                        $r .= __h2( 'Website and Mobile App Design', 0, 'subtle' );
+                        $r .= __div( 'desc', 'Nulla faucibus malesuada. In placerat feugiat eros ac tempor. Integer euismod massa sapien, et consequat enim laoreet et. Nulla sit amet nisi dapibus, gravida turpis sit amet, accumsan nisl. Fusce vel semper risus. Morbi congue eros sagittis, sodales turpis venenatis, iaculis dui. Proin ac purus sed nibh dapibus neque. scelerisque sed quis ante. Suspendisse potenti.' );
+                    $r .= d__();
+                    // Progress Stats
+                    $r .= __d( 'project_stats' );
+                        $r .= __div( 'start', __div( 'k', T('Commence Date') ) . __div( 'v', '15 Aug, 2024' ) );
+                        $r .= __div( 'cat', __div( 'k', T('Category') ) . __div( 'v', 'Software' ) );
+                        $r .= __div( 'cat', __div( 'k', T('Location') ) . __div( 'v', 'United Arab Emirates' ) );
+                        $r .= __div( 'cat', __div( 'k', T('Completion ETA') ) . __div( 'v', '25 Sep, 2024' ) );
+                    $r .= d__();
+                    // Progress Objectives
+
+                    // Project Stakeholders
+                    $r .= __r( 'project_stakes mb20' );
+                        $r .= __c( 6 );
+                            // Project Lead
+                            $r .= __d( 'project_user_set df aic' );
+                                $r .= __div( 'pic', '', '', 'style="background: url(\'https://placehold.it/50\')"' );
+                                $r .= __div( 'details', __div( 'name', 'Mohammed Ahmed' ) . __div( 'title', 'Project Lead' ) );
+                            $r .= d__();
+                        $r .= c__();
+                        $r .= __c( 6 );
+                            // Project Sponsor
+                            $r .= __d( 'project_user_set df aic' );
+                                $r .= __div( 'pic', '', '', 'style="background: url(\'https://placehold.it/50\')"' );
+                                $r .= __div( 'details', __div( 'name', 'John Doe' ) . __div( 'title', 'Project Sponsor' ) );
+                            $r .= d__();
+                        $r .= c__();
+                    $r .= r__();
                     // Progress Overview
                     $r .= __d( 'project_info_set' );
                         $r .= __div( 'top df aic jsb', __div( 'l', 'Progress' ) . __div( 'r', '75%' ) );
@@ -179,22 +213,6 @@ class PROJECTS {
                         $r .= __div( 'progress', __div( 'red', '', '', 'style="width: 50%"' ) );
                         $r .= __div( 'base df aic jsb', __div( 'l', '12,000 AED' ) . __div( 'r', '27,500 AED' ) );
                     $r .= d__();
-                    $r .= __r();
-                        $r .= __c( 6 );
-                            // Project Lead
-                            $r .= __d( 'project_user_set df aic' );
-                                $r .= __div( 'pic', '', '', 'style="background: url(\'https://placehold.it/50\')"' );
-                                $r .= __div( 'details', __div( 'name', 'Mohammed Ahmed' ) . __div( 'title', 'Project Lead' ) );
-                            $r .= d__();
-                        $r .= c__();
-                        $r .= __c( 6 );
-                            // Project Sponsor
-                            $r .= __d( 'project_user_set df aic' );
-                                $r .= __div( 'pic', '', '', 'style="background: url(\'https://placehold.it/50\')"' );
-                                $r .= __div( 'details', __div( 'name', 'John Doe' ) . __div( 'title', 'Project Sponsor' ) );
-                            $r .= d__();
-                        $r .= c__();
-                    $r .= r__();
                 $r .= d__();
             $r .= c__();
             $r .= __c(4);

@@ -1,9 +1,65 @@
 // Project Overview
 #project_overview {
-  h1 {
-    text-transform: uppercase;
-    font-weight: 500;
-    margin: 20px 0 40px;
+  .overview_head {
+    height: 220px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+    h1 {
+      text-transform: uppercase;
+      font-weight: 500;
+      margin: 20px 0;
+      position: absolute;
+      bottom: 0;
+      left: 20px;
+      z-index: 2;
+      color: #fff;
+    }
+    .logo {
+      height: 80px;
+      width: 200px;
+      position: absolute;
+      bottom: 70px;
+      z-index: 2;
+      left: 20px;
+    }
+  }
+  .overview_head:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: rgb(0,0,0);
+    background: -moz-linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+    background: -webkit-linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000",endColorstr="#000000",GradientType=1);
+  }
+  .project_intro {
+    .desc {
+      font-size: .9rem;
+      line-height: 1.4rem;
+    }
+  }
+  .project_stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+    border-top: 2px solid #ddd;
+    border-bottom: 2px solid #ddd;
+    padding: 10px;
+    .k {
+      font-size: .7em;
+      font-weight: 500;
+      opacity: .5;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
   }
   .project_info_set {
     padding: 15px;
