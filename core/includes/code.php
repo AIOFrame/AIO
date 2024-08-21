@@ -208,6 +208,8 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
     // SEO
     $c = get_config();
     if( defined( 'PAGEPATH' ) ) {
+        $track = $options['seo']['track'] ?? ( $c['seo']['track'] ?? '' );
+
         // Get from options
         $seo_desc = $options['seo']['description'] ?? ( $c['seo'][PAGEPATH]['description'] ?? '' );
         $seo_keys = $options['seo']['keywords'] ?? ( $c['seo'][PAGEPATH]['keywords'] ?? '' );
@@ -215,6 +217,7 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
         // Get from config
         echo !empty( $seo_desc ) ? '<meta name="description" content="'.T( $seo_desc ).'">' : '';
         echo !empty( $seo_keys ) ? '<meta name="keywords" content="'.$seo_keys.'">' : '';
+        echo $track;
     }
 
     // Colors

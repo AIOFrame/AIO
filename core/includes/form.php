@@ -1035,7 +1035,7 @@ class FORM {
         $_p = $this->__pre( $pre );
         $p_ = $this->__post( $pre, $post );
         $return .= $_p;
-        $return .= $this->__input( 'textarea', $id, $label, $value, '', $attrs . ' data-html-characters style="display:none !important"' );
+        $return .= $this->__input( 'textarea', $id, $label, '', $value, $attrs . ' data-html-characters style="display:none !important"' );
         $return .= '<div id="'.$id.'_code" style="min-height: 200px"></div>';
         $return .= "<script>document.addEventListener('DOMContentLoaded', function () { let dk = $('[data-key={$id}]'); let {$id}_code = ace.edit('{$id}_code');{$id}_code.session.setMode('ace/mode/html');{$id}_code.session.setValue($('[data-key=\"{$id}\"]').val(),-1);{$id}_code.session.on('change', function(d) {dk.val({$id}_code.getValue())});});</script>"; // $('[data-key=\"{$id}]\"').val();
         $return .= $p_;

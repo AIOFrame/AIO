@@ -153,7 +153,6 @@ class OPTIONS {
                 [ 'i' => $r.'fav', 'l' => 'Fav Icon', 'p' => 'Upload', 'v' => ( $ops[$r.'fav'] ?? '' ), 'c' => 3, 't' => 'upload', 'x' => 'png' ],
                 [ 'i' => $r.'enable_dark_mode', 'l' => 'Has Dark Mode', 'off' => T('No'), 'on' => T('Yes'), 'v' => ( $ops[$r.'enable_dark_mode'] ?? 2 ), 'c' => 3, 't' => 'slide' ],
                 [ 'i' => $r.'app_desc', 'l' => 'Web App / Site Description', 'p' => 'Ex: We provide...', 'v' => ( $ops[$r.'app_desc'] ?? 'fake_text' ), 'c' => 12, 't' => 'textarea' ],
-                [ 'i' => $r.'app_keys', 'l' => 'SEO Keywords', 'p' => 'Ex: manufacturing, electrical...', 'v' => ( $ops[$r.'app_keys'] ?? 'fake_text' ), 'c' => 12 ],
                 [ 't' => 'h3', 'v' => $mode_name . ' Mode Options', 'c' => 'col-12' ],
                 [ 'i' => $r.'logo'.$mode, 'l' => 'Logo', 'p' => 'Upload', 'v' => ( $ops[$r.'logo'.$mode] ?? '' ), 'c' => 2, 't' => 'upload', 'x' => $ext, 's' => .1 ],
                 [ 'i' => $r.'color'.$mode, 'l' => 'Text Color', 'p' => 'Ex: 000000', 'v' => ( $ops[$r.'color'.$mode] ?? 'fake_hex' ), 'c' => 2, 't' => 'color' ],
@@ -559,7 +558,8 @@ class OPTIONS {
             [ 'i' => $r.'serving_regions', 't' => 'select2', 'n' => 'Serving countries', 'p' => 'Choose countries...', 'o' => $countries, 'k' => 1, 'v' => ( $ops[ $r.'serving_regions' ] ?? '' ), 'a' => 'multiple data-world', 'c' => 8 ],
             [ 'i' => $r.'default_region', 't' => 'select2', 'n' => 'Default country', 'p' => 'Choose country...', 'o' => $countries, 'k' => 1, 'v' => ( $ops[ $r.'default_region' ] ?? '' ), 'a' => 'data-world', 'c' => 4 ],
         ];
-        $this->form( $form, 'row', 0, 'world', 'Save World Data Options', '', 'Successfully stored world data options!', $keys );
+        $this->form( $form, 'row', 0, 'world', $this->region_flag() . ' Save World Data Options', '', 'Successfully stored world data options!', $keys );
+        $this->region_notice();
     }
 
     function current_region_prefix(): string {
@@ -699,6 +699,17 @@ class OPTIONS {
             //[ 't' => 'hidden', 'i' => 'autoload', 'v' => 'notify_time,reload_time,success_message,failure_message' ],
         ];
         $this->form( $form );
+    }
+
+    function search_engine_options(): void {
+        $r = $this->current_region_prefix();
+        $form = [
+            [ 'i' => $r.'app_desc', 'l' => 'SEO General Description', 'p' => 'Ex: Manufacturer or largest...', 'c' => 12 ],
+            [ 'i' => $r.'app_keys', 'l' => 'SEO Keywords', 'p' => 'Ex: electrical, automotive...', 'c' => 12 ],
+            [ 'i' => $r.'app_track', 'l' => 'Tracking Code', 'p' => 'Ex: <script>https://...', 'c' => 12, 't' => 'code' ],
+        ];
+        $this->form( $form, 'row', 1, '', $this->region_flag() . ' Save SEO Options', '', 'Successfully stored SEO options!', [ $r.'app_desc', $r.'app_keys', $r.'app_track' ] );
+        $this->region_notice();
     }
 
     /**
