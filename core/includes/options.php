@@ -704,11 +704,12 @@ class OPTIONS {
     function search_engine_options(): void {
         $r = $this->current_region_prefix();
         $form = [
-            [ 'i' => $r.'app_desc', 'l' => 'SEO General Description', 'p' => 'Ex: Manufacturer or largest...', 'c' => 12 ],
-            [ 'i' => $r.'app_keys', 'l' => 'SEO Keywords', 'p' => 'Ex: electrical, automotive...', 'c' => 12 ],
-            [ 'i' => $r.'app_track', 'l' => 'Tracking Code', 'p' => 'Ex: <script>https://...', 'c' => 12, 't' => 'code' ],
+            [ 'i' => $r.'app_desc', 'l' => 'SEO General Description', 'p' => 'Ex: Manufacturer or largest...', 'c' => 12, 'a' => 'data-seo' ],
+            [ 'i' => $r.'app_keys', 'l' => 'SEO Keywords', 'p' => 'Ex: electrical, automotive...', 'c' => 12, 'a' => 'data-seo' ],
+            [ 'i' => $r.'app_track_head', 'l' => 'Tracking Code for head', 'p' => 'Ex: <script>https://...', 'c' => 12, 't' => 'code', 'a' => 'data-seo' ],
+            [ 'i' => $r.'app_track_body', 'l' => 'Tracking Code for body', 'p' => 'Ex: <script>https://...', 'c' => 12, 't' => 'code', 'a' => 'data-seo' ],
         ];
-        $this->form( $form, 'row', 1, '', $this->region_flag() . ' Save SEO Options', '', 'Successfully stored SEO options!', [ $r.'app_desc', $r.'app_keys', $r.'app_track' ] );
+        $this->form( $form, 'row', 1, 'seo', $this->region_flag() . ' Save SEO Options', '', 'Successfully stored SEO options!', [ $r.'app_desc', $r.'app_keys', $r.'app_track_head', $r.'app_track_body' ] );
         $this->region_notice();
     }
 

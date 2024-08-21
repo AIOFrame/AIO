@@ -207,8 +207,10 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
 
     // SEO
     $c = get_config();
+    $track_body = '';
     if( defined( 'PAGEPATH' ) ) {
-        $track = $options['seo']['track'] ?? ( $c['seo']['track'] ?? '' );
+        $track_head = $options['app_track_head'] ?? ( $c['seo']['track_head'] ?? '' );
+        $track_body = $options['app_track_body'] ?? ( $c['seo']['track_body'] ?? '' );
 
         // Get from options
         $seo_desc = $options['seo']['description'] ?? ( $c['seo'][PAGEPATH]['description'] ?? '' );
@@ -217,7 +219,7 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
         // Get from config
         echo !empty( $seo_desc ) ? '<meta name="description" content="'.T( $seo_desc ).'">' : '';
         echo !empty( $seo_keys ) ? '<meta name="keywords" content="'.$seo_keys.'">' : '';
-        echo $track;
+        echo html_entity_decode( $track_head );
     }
 
     // Colors
@@ -295,15 +297,8 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
     // Attributes
     //$attrs = $attrs.' data-out="'. $c->encrypt('logout_ajax').'"';
 
-    // Google Analytics
-    if( defined( 'CONFIG' ) && isset( CONFIG['api']['google_analytics'] ) ) {
-        echo '<script async src="https://www.googletagmanager.com/gtag/js?id=UA-'.str_replace('UA-','',CONFIG['api']['google_analytics'])."></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-".str_replace('UA-','',CONFIG['api']['google_analytics'])."');</script>";
-    }
-
     // </head>
-    echo '</head><body ';
-    body_class( $class );
-    echo $attrs . '>';
+    echo '</head><body '.__body_class( $class ).$attrs . '>' . html_entity_decode( $track_body );
 
 }
 

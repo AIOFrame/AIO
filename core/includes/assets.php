@@ -498,8 +498,9 @@ function html_class( string $class = '' ): void {
 /**
  * Renders attributes and class for <body> start tag
  * @param string $class
+ * @return string
  */
-function body_class( string $class = '' ): void {
+function __body_class( string $class = '' ): string {
 
     // Is Debug
     $dc = defined('APPDEBUG') && APPDEBUG ? 'debug ' : '';
@@ -534,7 +535,7 @@ function body_class( string $class = '' ): void {
     $em = '';
 
     // Final output
-    echo 'class="'.$dc.$pc.$ec.$dm.'" '.$dd.$rm;
+    return 'class="'.$dc.$pc.$ec.$dm.'" '.$dd.$rm;
 }
 
 /**
