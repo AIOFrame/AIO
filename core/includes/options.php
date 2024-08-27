@@ -646,6 +646,8 @@ class OPTIONS {
             // Add values to fields
             if( !empty( $form ) && !empty( $os ) ) {
                 foreach( $form as $fk => $f ) {
+                    skel( $fk );
+                    //skel( $f );
                     $id = $f['identity'] ?? ( $f['id'] ?? ( $f['i'] ?? '' ) );
                     $value = $os[ $id ] ?? ( $f['value'] ?? ( $f['val'] ?? ( $f['v'] ?? '' ) ) );
                     unset( $f['value'] );
@@ -660,25 +662,27 @@ class OPTIONS {
         //skel( $form );
         $f = new FORM();
         if( in_array( $type, [ 'dynamic', 'dyn', 'd' ] ) ) {
+            //skel( $form );
             $d = new DB();
             $dyn_data = $d->get_option( $data );
             $dyn_data = !empty( $dyn_data ) ? unserialize( $dyn_data ) : [];
             $count = count( $dyn_data ) + 1;
             // Loop n times
-            $f->option_params_wrap( $data, 'data-dynamic="'.$data.'" data-delete-confirm="'.T('Are you sure to delete the options row?').'"', $auto_load, $unique, $encrypt, $success, $callback, $confirm );
+            $f->option_params_wrap( $data, 'data-dynamic="'.$data.'" data-delete-confirm="'.T('Are you sure to remove this options row?').'"', $auto_load, $unique, $encrypt, $success, $callback, $confirm );
             for( $i = 0; $i < $count; $i++ ) {
-                div( 'row aic mb10', __c( 6 ) . 'Row ' . ( $i + 1 ) . c__() . __c( 6, 'tar' ) . __b( 'red s m0 r nf', 'Remove', '', 'onclick="delete_dynamic_row(this)"' ) . c__() );
-                if( $i < ( $count - 1 ) ) {
-                    $values = $dyn_data[ $i ];
-                    $new_form = array_by_key( $form, 'i' );
-                    foreach( $values as $vk => $vv ) {
-                        $new_form[ $vk ]['v'] = $vv;
+                _d( 'card no-float' );
+                    div( 'row aic mb10', __c( 6 ) . ' ' . ( $i + 1 ) . c__() . __c( 6, 'tar' ) . __b( 'red s m0 r nf', 'Remove', '', 'onclick="delete_dynamic_row(this)"' ) . c__() );
+                    if( $i < ( $count - 1 ) ) {
+                        $values = $dyn_data[ $i ];
+                        $new_form = array_by_key( $form, 'i' );
+                        foreach( $values as $vk => $vv ) {
+                            $new_form[ $vk ]['v'] = $vv;
+                        }
+                        $f->form( $new_form, 'row', $data, '', 'dynamic_'.$i );
+                    } else {
+                        $f->form( $form, 'row', $data, '', 'dynamic_'.$i );
                     }
-                    $f->form( $new_form, 'row', $data, '', 'dynamic_'.$i );
-                } else {
-                    $f->form( $form, 'row', $data, '', 'dynamic_'.$i );
-                }
-                $i < ( $count - 1 ) ? el( 'hr', 'dynamic_form_break break' ) : '';
+                d_();
             }
         } else {
             $f->option_params_wrap( $data, '', $auto_load, $unique, $encrypt, $success, $callback, $confirm );

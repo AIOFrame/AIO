@@ -470,6 +470,24 @@ class PORTAL {
     function dashboard(): void {
 
     }
+
+    function menu_builder( array $permissions = [], array $user_types = [], array $user_roles = [] ): void {
+        $o = new OPTIONS();
+        $fields = [
+            [ 'i' => 'n', 'n' => 'Name', 'p' => 'Ex: Clients', 'c' => 6 ],
+            [ 'i' => 'u', 'n' => 'URL', 'p' => 'Ex: admin/clients', 'c' => 6 ],
+            //[ 'i' => 'n', 'n' => 'User Type', 't' => 'select2', 'o' => $user_types, 'c' => 2 ],
+            //[ 'i' => 'n', 'n' => 'User Role', 't' => 'select2', 'o' => $user_roles, 'c' => 2 ],
+            [ 'i' => 'g', 'n' => 'Group', 'p' => 'Ex: Settings', 'c' => 3 ],
+            [ 'i' => 'c', 'n' => 'Column', 'p' => 'Ex: 12', 'v' => 6, 'c' => 3 ],
+            [ 'i' => 'i', 'n' => 'Icon', 'p' => 'Ex: people', 'c' => 3 ],
+            [ 'i' => 's', 'n' => 'Status', 't' => 'slide', 'v' => 1, 'c' => 3 ],
+        ];
+        if( !empty( $permissions ) ) {
+            $fields[] = [ 'i' => 'n', 'n' => 'Permissions', 'p' => 'Choose...', 't' => 'select2', 'o' => $permissions, 'm' => 1, 'c' => 12 ];
+        }
+        $o->form( $fields, 'dynamic', 0, 'menu', 'Build Menu' );
+    }
 }
 
 /**

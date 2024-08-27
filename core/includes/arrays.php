@@ -138,8 +138,8 @@ function is_json( $string ): bool {
 function array_by_key( array $array = [], string $key = '' ): array {
     $new_array = [];
     if( is_array( $array ) && !empty( $array ) ){
-        foreach( $array as $a ){
-            $new_array[ $a[ $key ] ] = $a;
+        foreach( $array as $a => $data ){
+            $new_array[ $data[ $key ] ] = $data;
         }
     }
     return $new_array;

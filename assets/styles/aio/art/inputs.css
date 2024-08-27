@@ -577,6 +577,14 @@ body .trumbowyg-button-pane button.trumbowyg-active, body .trumbowyg-button-pane
   pointer-events: all;
 }
 
+/* DYNAMIC */
+.dynamic_row_each {
+  margin-bottom: 20px;
+  border-radius: var(--input_radius);
+  background: rgba(255, 255, 255, 0.85);
+  padding: 20px;
+}
+
 /* AIR DATEPICKER */
 .air-datepicker {
   z-index: 250;

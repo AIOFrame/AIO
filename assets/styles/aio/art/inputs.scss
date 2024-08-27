@@ -625,6 +625,15 @@ body {
   pointer-events:all
 }
 
+/* DYNAMIC */
+
+.dynamic_row_each {
+  margin-bottom: 20px;
+  border-radius: $radius;
+  background: rgba(255,255,255,.85);
+  padding: 20px;
+}
+
 /* AIR DATEPICKER */
 
 .air-datepicker {
