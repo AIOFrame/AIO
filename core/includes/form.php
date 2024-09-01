@@ -1235,29 +1235,15 @@ class FORM {
             //div( 'step_heads', $this->_form(  ) )
         //}
         if( in_array( $form_type, [ 'dynamic', 'dyn', 'd' ] ) ) {
-            $return = __d( 'dynamic_form_wrap' );
-                $return .= __d( 'dynamic_head_template dn', '', 'data-dynamic-head-template' );
-                    $return .= __div( 'row aic mb10', __c( 6 ) . 'Row {{x}}' . c__() . __c( 6, 'tar' ) . __b( 'red s m0 r nf', 'Remove', '', 'onclick="delete_dynamic_row(this)"' ) . c__() );
-                $return .= d__();
-                $return .= __d( 'dynamic_form_template dn', '', 'data-ignore-fields' );
-                    $return .= $this->__form( $fields, 'row', $data_attr . ' data-dynamic' );
-                $return .= d__();
-                $return .= __d( 'dynamic_break_template dn', '', 'data-dynamic-br-template' );
-                    $return .= __el( 'hr', 'dynamic_form_break break' );
-                $return .= d__();
-                $return .= __d( 'dynamic_form', '', 'data-dynamic-id="'.$group_by.'"' );
-                    $return .= __div( 'row aic mb10', __c( 6 ) . 'Row 1' . c__() . __c( 6, 'tar' ) . __b( 'red s m0 r nf', 'Remove', '', 'onclick="delete_dynamic_row(this)"' ) . c__() );
-                    $return .= $this->__form( $fields, 'row', $data_attr . ' data-dynamic' );
-                $return .= d__();
-                $return .= __div( 'tac mb10', __b( 'blue s m0 r nf', 'Add Row', '', 'onclick="add_dynamic_row(this)"' ) );
-            $return .= d__();
-            return $return;
+            //skel( $fields );
+
         }
         $return = in_array( $form_type, [ 'get', '$_GET' ] ) ? '<form method="get" class="'.$wrap_class.'">' : ( in_array( $form_type, [ 'post', '$_POST' ] ) ? '<form method="post" class="'.$wrap_class.'">' : ( in_array( $form_type, [ 'row', 'r' ] ) ? __d( 'form row ' . $wrap_class ) : ( $form_type == 'settings' ? __d( 'settings form ' . $wrap_class ) : ( in_array( $form_type, [ 'steps', 's' ] ) ? __d( 'steps form ' . $wrap_class ) : __d( 'form ' . $wrap_class ) ) ) ) );
         $steps = [];
         $class = '';
         foreach( $fields as $f ) {
             $type = $f['type'] ?? ( $f['ty'] ?? ( $f['t'] ?? 'text' ) );
+            //skel( $f );
             $sub_type  = $f['form_type'] ?? ( $f['fields_style'] ?? ( $f['type'] ?? ( $f['style'] ?? ( $f['ft'] ?? ( $f['fs'] ?? 'row' ) ) ) ) );
             //skel( $type );
             //skel( $sub_type );
@@ -1275,11 +1261,44 @@ class FORM {
             $class = $f['class'] ?? ( $f['c'] ?? '' );
             $post = $f['post'] ?? ( $f['p_'] ?? $this->__post( $class ) );
             $post = !empty( $pre ) && empty( $post ) ? __post() : $post;
-            if( in_array( $type, [ 'accordion', 'acc', 'a' ] ) ) {
-                $return .= __accordion( $label, $this->__form( $f['fields'] ?? $f['form'], $type, $data_attr ) );
+            $form = $f['fields'] ?? ( $f['form'] ?? ( $f['f'] ?? [] ) );
+            if( in_array( $type, [ 'dynamic', 'dyn', 'd' ] ) ) {
+                //skel( $val );
+                //skel( $sub_type );
+                $add = __ico( 'add_row', 'm' );
+                $remove = __ico( 'remove_row', 'm' );
+                $drag = __ico( 'drag_row', 'm cm' );
+                $empty_form = $this->__form( $form, $sub_type, $data_attr . ' data-dynamic', '', 'dynamic_id_{{x}}' );
+                $template = __d( 'each_row' ) . __div( 'row aic mb10', __c( 6, 'df aic' ) . $drag . '{{x}}' . c__() . __c( 6, 'tar' ) . __div( 'icon', $remove, '', 'onclick="remove_dynamic_row(this)"' ) . c__() );
+                $template .= '{{form}}' . d__();
+                $return = __d( 'dynamic_form_wrap' );
+                    $return .= __d( 'dynamic_form_template dn', '', 'data-ignore-fields' );
+                        $return .= str_replace( '{{form}}', $empty_form, $template );
+                    $return .= d__();
+                    $return .= __d( 'dynamic_form', '', 'data-dynamic-id="'.$group_by.'"' );
+                        $count = count( $val );
+                        if( $count > 0 ) {
+                            for( $i = 0; $i < $count; $i++ ) {
+                                //if( $i < ( $count - 1 ) ) {
+                                    $values = $val[ $i ];
+                                    $new_form = array_by_key( $form, 'i' );
+                                    foreach( $values as $vk => $vv ) {
+                                        $new_form[ $vk ]['v'] = $vv;
+                                    }
+                                    $return .= str_replace( '{{form}}', $this->__form( $new_form, $sub_type, $data_attr . ' data-dynamic', '', 'dynamic_id_'.$i ), str_replace( '{{x}}', ($i + 1), $template ) );
+                                //}
+                            }
+                        }
+                    $return .= d__();
+                    $return .= __div( 'dynamic_form_footer df jcc', __b( 'plain m0', $add . T('Add Row'), '', 'onclick="add_dynamic_row(this)"' ) );
+                $return .= d__();
+                return $return;
+                //$return .= $this->__form( $f['fields'] ?? $f['form'], $type, $data_attr );
+            } if( in_array( $type, [ 'accordion', 'acc', 'a' ] ) ) {
+                $return .= __accordion( $label, $this->__form( $form, $type, $data_attr ) );
             } else if( in_array( $type, [ 'el', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div', 'span', 'i', 'button' ] ) ) {
                 $content = $f['content'] ?? ( $f['value'] ?? ( $f['v'] ?? '' ) );
-                $wrap = $f['wrap'] ?? ( $f['wc'] ?? '' );
+                //$wrap = $f['wrap'] ?? ( $f['wc'] ?? '' );
                 $return .= __el( $type, $class, $content );
             } else if( in_array( $type, [ 'column', 'col' ] ) ) {
                 $class = is_numeric( $class ) ? $this->__col( $class ) : $class;
@@ -1450,13 +1469,15 @@ class FORM {
     }
 
     function option_params_wrap( string $data = '', string $attr = '', array|string $autoload = [], array|string $unique = [], array|string $encrypt = [], string $success_text = 'Successfully Updated Preferences!', string $callback = '', string $confirm = '' ): void {
+        echo $this->__option_params_wrap( $data, $attr, $autoload, $unique, $encrypt, $success_text, $callback, $confirm );
+    }
+
+    function __option_params_wrap( string $data = '', string $attr = '', array|string $autoload = [], array|string $unique = [], array|string $encrypt = [], string $success_text = 'Successfully Updated Preferences!', string $callback = '', string $confirm = '' ): string {
         $h = [];
         !empty( $autoload ) ? $h['autoload'] = $autoload : '';
         !empty( $unique ) ? $h['unique'] = $unique : '';
         !empty( $encrypt ) ? $h['encrypt'] = $encrypt : '';
-        //echo '<div class="row"';
-        $this->pre_process( $attr, 'process_options_ajax', $data, '', $h, $success_text, $callback, $confirm );
-        //echo '>';
+        return $this->__pre_process( $attr, 'process_options_ajax', $data, '', $h, $success_text, $callback, $confirm );
     }
 
     /**

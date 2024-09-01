@@ -554,8 +554,11 @@ function ico( string $icon = '', string $class = '', string $element = '' ): voi
 }
 
 function __ico( string $icon = '', string $class = '', string $element = 'i', string $id = '', string $attr = '' ): string {
+    $o = new OPTIONS();
+    $is = $o->icon_options;
     global $options;
     $ico = $options['icon_class'] ?? 'mico';
+    $icon = $options[ $icon ] ?? ( $is[ $icon ] ?? $icon );
     return __el( $element, $class . ' ico ' . $ico . ' ' . $icon, $icon, $id, $attr );
 }
 

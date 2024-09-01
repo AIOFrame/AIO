@@ -15,11 +15,14 @@ button, .btn {
   cursor: pointer;
   line-height: normal;
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 button.plain, .btn.plain {
   background: none;
   color: var(--text_color);
+  box-shadow: none;
 }
 
 button:not(.nf, .plain):hover, .btn:not(.nf, .plain):hover {

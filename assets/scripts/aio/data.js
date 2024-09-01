@@ -40,10 +40,11 @@ function get_values( parent, attribute, prepend ) {
 
     // If Dynamic Loop
     let data = {};
+    //console.log( parent );
     if( $(parent).data('dynamic') !== undefined ) {
         data[$(parent).data('dynamic')] = {};
-        $.each( $(parent).children('.form'), function (i, item) {
-            data[$(parent).data('dynamic')][i] = get_values($(item).attr('class').replaceAll('form row ', '.'), attribute, prepend);
+        $.each( $(parent).find('.dynamic_form .each_row'), function (i, item) {
+            data[$(parent).data('dynamic')][i] = get_values( $(item).find('.form').attr('class').replaceAll('form row ', '.'), attribute, prepend);
         });
         return data;
     } else {
@@ -163,13 +164,10 @@ function get_values( parent, attribute, prepend ) {
     return data;
 }
 
-function delete_dynamic_row(e) {
+function remove_dynamic_row(e) {
     let confirm_message = $(e).parents('[data-delete-confirm]').data('delete-confirm');
     if( confirm( confirm_message ) ) {
-        let parent = $(e).parent().parent('.row');
-        $(parent).next('.form').remove();
-        $(parent).next('.break').remove();
-        $(parent).remove();
+        $(e).parents('.each_row').remove();
     }
 }
 
@@ -753,4 +751,10 @@ function redirect( r ) {
 function reload( time_seconds ){
     let t = time_seconds !== undefined && time_seconds !== '' ? time_seconds * 1000 : 5000;
     setTimeout(function(){ location.reload() },t);
+}
+
+function add_dynamic_row(e) {
+    let parent = $(e).parents('.dynamic_form_wrap');
+    let template = $(parent).children('.dynamic_form_template').html();
+    $(parent).children('.dynamic_form').append( template.replaceAll( '{{x}}', $(parent).find('.dynamic_form .each_row').length + 1 ) );
 }

@@ -108,7 +108,10 @@ class OPTIONS {
         'print' => 'print',
         'reload' => 'replay',
         'success' => 'check_circle',
-        'fail' => 'warning'
+        'fail' => 'warning',
+        'add_row' => 'playlist_add',
+        'remove_row' => 'remove_circle',
+        'drag_row' => 'drag_handle',
     ];
     public array $option_elements = [
         'input' => 'Input Fields',
@@ -629,6 +632,11 @@ class OPTIONS {
     }
 
     function form( array $form = [], string $type = '', bool $get_options = false, string $data = '', string $button_text = 'Save Options', string $button_class = 'store grad', string $success = '', array|string $auto_load = [], array|string $unique = [], array|string $encrypt = '', string $confirm = '', string $callback = '' ): void {
+        echo $this->__form( $form, $type, $get_options, $data, $button_text, $button_class, $success, $auto_load, $unique, $encrypt, $confirm, $callback );
+    }
+
+    function __form( array $form = [], string $type = '', bool $get_options = false, string $data = '', string $button_text = 'Save Options', string $button_class = 'store grad', string $success = '', array|string $auto_load = [], array|string $unique = [], array|string $encrypt = '', string $confirm = '', string $callback = '' ): string {
+        $r = '';
         if( $get_options ) {
             $db = new DB();
             // Fetch Options
@@ -646,7 +654,7 @@ class OPTIONS {
             // Add values to fields
             if( !empty( $form ) && !empty( $os ) ) {
                 foreach( $form as $fk => $f ) {
-                    skel( $fk );
+                    //skel( $fk );
                     //skel( $f );
                     $id = $f['identity'] ?? ( $f['id'] ?? ( $f['i'] ?? '' ) );
                     $value = $os[ $id ] ?? ( $f['value'] ?? ( $f['val'] ?? ( $f['v'] ?? '' ) ) );
@@ -666,30 +674,47 @@ class OPTIONS {
             $d = new DB();
             $dyn_data = $d->get_option( $data );
             $dyn_data = !empty( $dyn_data ) ? unserialize( $dyn_data ) : [];
-            $count = count( $dyn_data ) + 1;
+            //$count = count( $dyn_data ) + 1;
             // Loop n times
-            $f->option_params_wrap( $data, 'data-dynamic="'.$data.'" data-delete-confirm="'.T('Are you sure to remove this options row?').'"', $auto_load, $unique, $encrypt, $success, $callback, $confirm );
-            for( $i = 0; $i < $count; $i++ ) {
-                _d( 'card no-float' );
-                    div( 'row aic mb10', __c( 6 ) . ' ' . ( $i + 1 ) . c__() . __c( 6, 'tar' ) . __b( 'red s m0 r nf', 'Remove', '', 'onclick="delete_dynamic_row(this)"' ) . c__() );
-                    if( $i < ( $count - 1 ) ) {
-                        $values = $dyn_data[ $i ];
-                        $new_form = array_by_key( $form, 'i' );
-                        foreach( $values as $vk => $vv ) {
-                            $new_form[ $vk ]['v'] = $vv;
+            /* $add = __ico( 'add_row', 'm' );
+            $remove = __ico( 'remove_row', 'm' );
+            $template = __d( 'each_row' ) . __div( 'row aic mb10', __c( 6 ) . '{{x}}' . c__() . __c( 6, 'tar' ) . __div( 'icon', $remove, '', 'onclick="remove_dynamic_row(this)"' ) . c__() );
+            $template .= $f->__form( $form, 'row', $data ) . d__();
+            $r .= $f->__option_params_wrap( $data, 'data-dynamic="'.$data.'" data-delete-confirm="'.T('Are you sure to remove this options row?').'"', $auto_load, $unique, $encrypt, $success, $callback, $confirm );
+                $r .= __d( 'dynamic_form_wrap' );
+                    $r .= __d( 'dynamic_form_template dn', '', 'data-ignore-fields' );
+                        $r .= $template;
+                    $r .= d__();
+                    $r .= __d( 'dynamic_form', '', 'data-dynamic-id="'.$data.'"' );
+                        for( $i = 0; $i < $count; $i++ ) {
+                            $r .= str_replace( '{{x}}', ($i + 1), $template );
+                            if( $i < ( $count - 1 ) ) {
+                                $values = $dyn_data[ $i ];
+                                $new_form = array_by_key( $form, 'i' );
+                                foreach( $values as $vk => $vv ) {
+                                    $new_form[ $vk ]['v'] = $vv;
+                                }
+                                $r .= $f->__form( $new_form, 'row', $data, '', 'data-dynamic_'.$i );
+                            } else {
+                                $r .= $f->__form( $form, 'row', $data, '', 'data-dynamic_'.$i );
+                            }
                         }
-                        $f->form( $new_form, 'row', $data, '', 'dynamic_'.$i );
-                    } else {
-                        $f->form( $form, 'row', $data, '', 'dynamic_'.$i );
-                    }
-                d_();
-            }
+                    $r .= d__();
+                    $r .= __div( 'dynamic_form_footer tac mb10', __div( '', $add, '', 'onclick="add_dynamic_row(this)"' ) );
+                $r .= d__();
+            $r .= d__(); */
+            //skel( $dyn_data );
+            //skel( $form );
+            //skel( $new_form );
+            $r .= $f->__option_params_wrap( $data, 'data-dynamic="'.$data.'" data-delete-confirm="'.T('Are you sure to remove this options row?').'"', $auto_load, $unique, $encrypt, $success, $callback, $confirm );
+                $r .= $f->__form( [ [ 'fields' => $form, 't' => 'dynamic', 'v' => $dyn_data ] ], '', $data );
         } else {
-            $f->option_params_wrap( $data, '', $auto_load, $unique, $encrypt, $success, $callback, $confirm );
-                $f->form( $form, $type );
+            $r .= $f->__option_params_wrap( $data, '', $auto_load, $unique, $encrypt, $success, $callback, $confirm );
+                $r .= $f->__form( $form, $type );
         }
-        $f->process_trigger( $button_text, $button_class, '', '', '.col-12 tac' );
-        post();
+        $r .= $f->__process_trigger( $button_text, $button_class, '', '', '.col-12 tac footer' );
+        $r .= __post();
+        return $r;
     }
 
     function data_options(): void {

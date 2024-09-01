@@ -123,6 +123,9 @@
   height: auto;
   color: #000;
   position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 .tabs.material > div > .tab.on:after, .tabs.material > div > div > .tab.on:after {
   content: "";
