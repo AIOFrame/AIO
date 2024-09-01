@@ -1244,7 +1244,7 @@ class FORM {
         foreach( $fields as $f ) {
             $type = $f['type'] ?? ( $f['ty'] ?? ( $f['t'] ?? 'text' ) );
             //skel( $f );
-            $sub_type  = $f['form_type'] ?? ( $f['fields_style'] ?? ( $f['type'] ?? ( $f['style'] ?? ( $f['ft'] ?? ( $f['fs'] ?? 'row' ) ) ) ) );
+            $sub_type  = $f['sub_type'] ?? ( $f['form_type'] ?? ( $f['fields_style'] ?? ( $f['type'] ?? ( $f['style'] ?? ( $f['ft'] ?? ( $f['fs'] ?? 'row' ) ) ) ) ) );
             //skel( $type );
             //skel( $sub_type );
             $label = $f['label'] ?? ( $f['l'] ?? ( $f['title'] ?? ( $f['name'] ?? ( $f['n'] ?? '' ) ) ) );
@@ -1268,6 +1268,8 @@ class FORM {
                 $add = __ico( 'add_row', 'm' );
                 $remove = __ico( 'remove_row', 'm' );
                 $drag = __ico( 'drag_row', 'm cm' );
+                $data_attr = $f['data'] ?? ( $f['d'] ?? $data_attr );
+                $group_by = $f['group_by'] ?? ( $f['g'] ?? $group_by );
                 $empty_form = $this->__form( $form, $sub_type, $data_attr . ' data-dynamic', '', 'dynamic_id_{{x}}' );
                 $template = __d( 'each_row' ) . __div( 'row aic mb10', __c( 6, 'df aic' ) . $drag . '{{x}}' . c__() . __c( 6, 'tar' ) . __div( 'icon', $remove, '', 'onclick="remove_dynamic_row(this)"' ) . c__() );
                 $template .= '{{form}}' . d__();
@@ -1276,7 +1278,7 @@ class FORM {
                         $return .= str_replace( '{{form}}', $empty_form, $template );
                     $return .= d__();
                     $return .= __d( 'dynamic_form', '', 'data-dynamic-id="'.$group_by.'"' );
-                        $count = count( $val );
+                        $count = is_array( $val ) ? count( $val ) : 0;
                         if( $count > 0 ) {
                             for( $i = 0; $i < $count; $i++ ) {
                                 //if( $i < ( $count - 1 ) ) {

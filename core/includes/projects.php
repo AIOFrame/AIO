@@ -125,7 +125,7 @@ class PROJECTS {
             [ 't' => 'step', 'n' => 'Intro', 'fields' => $intro ],
             [ 't' => 'step', 'n' => 'Specifics', 'fields' => $specifics ],
             [ 't' => 'step', 'n' => 'Features', 'fields' => $features ],
-            [ 't' => 'step', 'n' => 'Scope', 'fields' => $scope, 'style' => 'dynamic', 'group' => 'scope' ],
+            [ 't' => 'step', 'n' => 'Scope', 'fields' => [ [ 'f' => $scope, 't' => 'dynamic', 'data' => 'scope' ] ], 'group' => 'scope' ],
             [ 't' => 'step', 'n' => 'Financial', 'fields' => $finances, 'style' => 'dynamic', 'group' => 'financial'  ],
         ];
     }

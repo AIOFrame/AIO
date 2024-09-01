@@ -76,7 +76,26 @@ function get_values( parent, attribute, prepend ) {
             let value;
             value = $(this).hasClass('fn') ? ufn( $(this).val() ) : $(this).val(); // Un Format Number
 
-            if( $(this).attr('type') === 'checkbox' ){
+            if( $(this).parents('[data-dynamic-id]').length > 0 ) {
+                //console.log( $(this).parents('[data-ignore-fields]') );
+                if( $(this).parents('[data-ignore-fields]').length === 0 && $(this).parents('[data-recorded]').length === 0 ) {
+                    $(this).parent().parent('.form').attr('data-recorded',true).data('recorded',true);
+                    let dynamic_key = $(this).parents('[data-dynamic-id]').data('dynamic-id');
+                    //console.log( $(this).parents('.form').attr('class').replaceAll('form row ','.') );
+                    let dynamic_values = get_values( $(this).parents('.form').attr('class').replaceAll('form row ','.'), dynamic_key, '' );
+                    //console.log( dynamic_values );
+                    //console.log( dynamic_key );
+                    //console.log( data[ dynamic_key ] );
+                    if( data[ dynamic_key ] === undefined ) {
+                        data[ dynamic_key ] = [];
+                        data[ dynamic_key ].push( dynamic_values );
+                    } else {
+                        let new_data = data[ dynamic_key ].concat( dynamic_values );
+                        //console.log( new_data );
+                        data[ dynamic_key ] = ( new_data );
+                    }
+                }
+            } else if( $(this).attr('type') === 'checkbox' ){
                 let t = $(this).is(':checked');
                 let arr = $(this).data('array');
                 let keyed_arr = $(this).data('keyed-array');
