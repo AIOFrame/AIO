@@ -773,7 +773,10 @@ function reload( time_seconds ){
 }
 
 function add_dynamic_row(e) {
+    let rand = Math.round( Math.random(0,99999)*100000 );
     let parent = $(e).parents('.dynamic_form_wrap');
     let template = $(parent).children('.dynamic_form_template').html();
-    $(parent).children('.dynamic_form').append( template.replaceAll( '{{x}}', $(parent).find('.dynamic_form .each_row').length + 1 ) );
+    $(parent).children('.dynamic_form').append( template.replaceAll( '{{x}}', $(parent).find('.dynamic_form .each_row').length + 1 ).replaceAll( '{{rand}}', rand ).replaceAll('data-ignore','') );
+    date_picker();
+    //console.log( $(parent).find('.dater') );
 }

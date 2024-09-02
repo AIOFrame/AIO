@@ -95,7 +95,7 @@ $struct = [
         $mega_desc,
         //[ 'scope', 'INT', 13, 1 ],
         [ 'duration', 'FLOAT', '', 0 ],
-        [ 'duration_unit', 'VARCHAR', 8, 0 ],
+        //[ 'duration_unit', 'VARCHAR', 8, 0 ],
         [ 'type', 'VARCHAR', 128, 0 ],
         [ 'order', 'FLOAT', '', 0 ],
         [ 'users', 'VARCHAR', 128, 0 ],

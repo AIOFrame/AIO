@@ -195,7 +195,7 @@ class FORM {
         $this->select( $id, $label, $placeholder, $options, $selected, $attr.' class="select2"', $pre, $keyed, $translate, $post );
     }
 
-    function __select2( string $id = '', string $label = '', string $placeholder = '', string|array $options = [], string|null $selected = '', string $attr = '', string|float|int $pre = '', bool $keyed = false, bool $translate = false, string $post = '' ): string {
+    function __select2( string|array $id = '', string $label = '', string $placeholder = '', string|array $options = [], string|null $selected = '', string $attr = '', string|float|int $pre = '', bool $keyed = false, bool $translate = false, string $post = '' ): string {
         return $this->__select( $id, $label, $placeholder, $options, $selected, $attr.' class="select2"', $pre, $keyed, $translate, $post );
     }
 
@@ -532,8 +532,9 @@ class FORM {
         global $options;
         $cal_ico = $options['ico_calendar'] ?? 'calendar_month';
         $icon_preview = __div( ( $options['icon_class'] ?? 'mico' ) . ' l ' . $cal_ico . ' icon_preview', $cal_ico );
+        $oid = $id;
         $id = !empty( $id ) ? ( is_array( $id ) ? [ $id[0] ] : $id ) : $rand;
-        $alt_id = is_array( $id ) ? [ $id[0].'_alt', $id[1].'_alt' ] : $id.'_alt';
+        $alt_id = is_array( $oid ) ? [ $oid[0].'_alt', $oid[1].'_alt' ] : $id.'_alt';
         $range_attr = $range ? ' range' : '';
         $multiple_attr = $multiple ? ' multiple' : '';
         $view_attr = $view_attr ? ' view="'.$view_attr.'"' : '';
@@ -549,7 +550,7 @@ class FORM {
 
         // Hidden Input - Renders date format as per backend
         $value_ymd = !empty( $value ) ? ( $value !== 'fake_date' ? easy_date( $value, 'Y-m-d' ) : $value ) : '';
-        $return = $this->__text([$id . '_' . $rand, $id], '', '', $value_ymd, $attrs . ' hidden data-hidden-date');
+        $return = $this->__text( ( is_array( $oid ) ? $oid : [$id . '_' . $rand, $id] ), '', '', $value_ymd, $attrs . ' hidden data-hidden-date');
         // Visible Input - Render date for easier user grasp
         $value_dmy = !empty( $value ) ? ( $value !== 'fake_date' ? easy_date( $value, 'd-m-Y' ) : $value ) : '';
         //skel( $icon_preview );
@@ -1252,7 +1253,11 @@ class FORM {
             $id = $f['id'] ?? ( $f['i'] ?? '' );
             $place = $f['place'] ?? ($f['placeholder'] ?? ( $f['p'] ?? $label));
             //$val = $f['value'] ?? ($method == 'POST' ? ($_POST[$id] ?? '') : ($_GET[$id] ?? ''));
-            $val = $f['value'] ?? ( $f['va'] ?? ( $f['v'] ?? ( $_POST[$id] ?? ( $_GET[$id] ?? '' ) ) ) );
+            if( !is_array( $id ) ) {
+                $val = $f['value'] ?? ( $f['va'] ?? ( $f['v'] ?? ( $_POST[$id] ?? ( $_GET[$id] ?? '' ) ) ) );
+            } else {
+                $val = $f['value'] ?? ( $f['va'] ?? ( $f['v'] ?? '' ) );
+            }
             $data = !empty( $data_attr ) ? ' data-'.$data_attr.' ' : '';
             $attrs = $data . ( $f['attr'] ?? ($f['a'] ?? '') );
             $required = $f['required'] ?? ( $f['r'] ?? '' );
@@ -1263,19 +1268,26 @@ class FORM {
             $post = !empty( $pre ) && empty( $post ) ? __post() : $post;
             $form = $f['fields'] ?? ( $f['form'] ?? ( $f['f'] ?? [] ) );
             if( in_array( $type, [ 'dynamic', 'dyn', 'd' ] ) ) {
-                //skel( $val );
+                //skel( $form );
                 //skel( $sub_type );
                 $add = __ico( 'add_row', 'm' );
                 $remove = __ico( 'remove_row', 'm' );
                 $drag = __ico( 'drag_row', 'm cm' );
                 $data_attr = $f['data'] ?? ( $f['d'] ?? $data_attr );
                 $group_by = $f['group_by'] ?? ( $f['g'] ?? $group_by );
-                $empty_form = $this->__form( $form, $sub_type, $data_attr . ' data-dynamic', '', 'dynamic_id_{{x}}' );
-                $template = __d( 'each_row' ) . __div( 'row aic mb10', __c( 6, 'df aic' ) . $drag . '{{x}}' . c__() . __c( 6, 'tar' ) . __div( 'icon', $remove, '', 'onclick="remove_dynamic_row(this)"' ) . c__() );
+                $empty_form = $form;
+                foreach( $form as $i => $sf ) {
+                    $empty_form[ $i ]['i'] = [ $sf['i'].'_{{rand}}', $sf['i'].'_{{rand}}' ];
+                    //skel( $sf );
+                }
+                //skel( $form );
+                //skel( $empty_form );
+                $empty_form_html = $this->__form( $empty_form, $sub_type, $data_attr . ' data-dynamic data-ignore', '', 'dynamic_id_{{x}}' );
+                $template = __d( 'each_row' ) . __div( 'row aic mb10', __c( 6, 'df aic' ) . $drag . '{{x}}' . c__() . __c( 6, 'tar' ) . __div( 'ico', $remove, '', 'onclick="remove_dynamic_row(this)"' ) . c__() );
                 $template .= '{{form}}' . d__();
                 $return = __d( 'dynamic_form_wrap' );
                     $return .= __d( 'dynamic_form_template dn', '', 'data-ignore-fields' );
-                        $return .= str_replace( '{{form}}', $empty_form, $template );
+                        $return .= str_replace( '{{form}}', $empty_form_html, $template );
                     $return .= d__();
                     $return .= __d( 'dynamic_form', '', 'data-dynamic-id="'.$group_by.'"' );
                         $count = is_array( $val ) ? count( $val ) : 0;
@@ -1325,7 +1337,7 @@ class FORM {
                 }
             } else if( in_array( $type, [ 'select', 'select2', 'dropdown', 's', 's2', 'd' ] ) ) {
                 $options = $f['options'] ?? ( $f['os'] ?? ( $f['o'] ?? [] ) );
-                $value = $_POST[ $id ] ?? ( $_GET[ $id ] ?? $val );
+                $value = !is_array( $id ) ? $_POST[ $id ] ?? ( $_GET[ $id ] ?? '' ) : $val;
                 $keyed = $f['keyed'] ?? ( $f['k'] ?? 0 );
                 $trans = $f['translate'] ?? ( $f['tr'] ?? 0 );
                 $attrs = isset( $f['multiple'] ) || isset( $f['m'] ) ? $attrs . ' multiple' : $attrs;

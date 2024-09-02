@@ -63,7 +63,7 @@ class PROJECTS {
         ];
     }
 
-    function project_form( string $class = '', string $data_attr = '', string $lead_user_type = '', string $sponsor_user_type = '', string $wrap_class = '', string $callback = '', string $redirect_url = '' ): void {
+    function project_form( string $data_attr = '', string $lead_user_type = '', string $sponsor_user_type = '', string $wrap_class = '', string $callback = '', string $redirect_url = '' ): void {
         $f = new FORM();
         $form = $this->__project_form_fields( $lead_user_type, $sponsor_user_type );
         $f->pre_process( '', 'process_project_ajax', $data_attr, '', [], 'Successfully saved project!', '', $callback, $redirect_url );
@@ -83,8 +83,9 @@ class PROJECTS {
         $leads = !empty( $users ) ? array_to_assoc( $users[ $lead_user_type ], 'user_id', 'user_name' ) : [];
         $sponsors = !empty( $users ) ? array_to_assoc( $users[ $sponsor_user_type ], 'user_id', 'user_name' ) : [];
         //$ = array_to_assoc( $clients, 'client_id', 'client_name' );
-        $cats = $d->get_option( 'aio_project_categories' );
-        $cats = explode( ',', $cats );
+        $os = $d->get_options( 'aio_project_categories,aio_project_scope_statuses' );
+        $cats = explode( ',', ( $os['aio_project_categories'] ?? '' ) );
+        $statuses = explode( ',', ( $os['aio_project_scope_statuses'] ?? '' ) );
         $intro = [
             [ 'i' => 'name', 'n' => 'Project Title', 'p' => 'Ex: ABC Mobile App', 'c' => 6 ],
             [ 'i' => 'banner', 'n' => 'Banner', 'p' => 'Upload', 't' => 'file', 's' => .2, 'e' => 'svg,png,jpg,jpeg,gif', 'c' => 3 ],
@@ -112,21 +113,27 @@ class PROJECTS {
             $features[] = [ 'i' => 'features', 'n' => $k, 'p' => 'Choose...', 'o' => $os, 't' => 'select2', 'm' => 1, 'a' => 'data-array="features"', 'c' => 12 ];
         }
         $scope = [
-            [ 'i' => 'name', 'n' => 'Title', 'p' => 'Ex: Feature One', 'c' => 8 ],
-            [ 'i' => 'order', 'n' => 'Order', 'v' => 1, 'c' => 2 ],
-            [ 'i' => 'status', 'n' => 'Status', 'off' => '', 'on' => '', 't' => 'slide', 'v' => 1, 'c' => 2 ],
-            [ 'i' => 'desc', 'n' => 'Description', 'p' => 'Ex: This feature enables...', 't' => 'textarea', 'c' => 12 ],
+            [ 'i' => 'n', 'n' => 'Title', 'p' => 'Ex: Feature One', 'c' => 6 ],
+            [ 'i' => 't', 'n' => 'Est. Hours', 'p' => 'Ex: 4', 'c' => 2 ],
+            [ 'i' => 'sd', 'n' => 'Start Date', 't' => 'date', 'c' => 2 ],
+            [ 'i' => 'ed', 'n' => 'End Date', 't' => 'date', 'c' => 2 ],
+            [ 'i' => 'ds', 'n' => 'Description', 'p' => 'Ex: This feature enables...', 't' => 'textarea', 'c' => 6 ],
+            [ 'i' => 'o', 'n' => 'Order', 'v' => 1, 'c' => 2 ],
+            [ 'i' => 'p', 'n' => 'Priority', 'p' => 'Choose...', 't' => 'select2', 'o' => $statuses, 'c' => 2 ],
+            [ 'i' => 's', 'n' => 'Status', 'off' => '', 'on' => '', 't' => 'slide', 'v' => 1, 'c' => 2 ],
         ];
         $finances = [
-            [ 'i' => 'name', 'n' => 'Stage Name', 'p' => 'Ex: Project Code Handover...', 'c' => 6 ],
-            [ 'i' => 'amount', 'n' => 'Amount', 'p' => 'Ex: 21000...', 'c' => 6 ],
+            [ 'i' => 'd', 'n' => 'Description', 'p' => 'Ex: Project Code Handover...', 'c' => 3 ],
+            [ 'i' => 't', 'n' => 'Amount', 'p' => 'Ex: 21000...', 'c' => 3 ],
+            [ 'i' => 'dt', 'n' => 'Date', 't' => 'date', 'c' => 3 ],
+            [ 'i' => 's', 'n' => 'Status', 't' => 'slide', 'off' => 'Unpaid', 'on' => 'Paid', 'c' => 3 ],
         ];
         return [
             [ 't' => 'step', 'n' => 'Intro', 'fields' => $intro ],
             [ 't' => 'step', 'n' => 'Specifics', 'fields' => $specifics ],
             [ 't' => 'step', 'n' => 'Features', 'fields' => $features ],
             [ 't' => 'step', 'n' => 'Scope', 'fields' => [ [ 'f' => $scope, 't' => 'dynamic', 'data' => 'scope' ] ], 'group' => 'scope' ],
-            [ 't' => 'step', 'n' => 'Financial', 'fields' => $finances, 'style' => 'dynamic', 'group' => 'financial'  ],
+            [ 't' => 'step', 'n' => 'Financial', 'fields' => [ [ 'f' => $finances, 't' => 'dynamic', 'data' => 'finances' ] ], 'group' => 'finances'  ],
         ];
     }
 
@@ -476,9 +483,10 @@ class PROJECTS {
     function options(): void {
         $o = new OPTIONS();
         $db = new DB();
-        $os = $db->get_options('aio_project_feature_types,aio_project_categories');
+        $os = $db->get_options('aio_project_feature_types,aio_project_scope_statuses,aio_project_categories');
         $form = [
             //[ 'i' => 'aio_project_feature_types', 'n' => 'Project Feature Types (,)', 'p' => 'Ex: User Types, 3rd Party Modules...', 't' => 'textarea', 'max' => 1024, 'c' => 12, 'r' => 1, 'v' => $os['aio_project_feature_types'] ?? '' ],
+            [ 'i' => 'aio_project_scope_statuses', 'n' => 'Project Scope Statuses (,)', 'p' => 'Ex: Critical, High, Normal...', 't' => 'textarea', 'max' => 1024, 'c' => 12, 'r' => 1, 'v' => $os['aio_project_scope_statuses'] ?? '' ],
             [ 'i' => 'aio_project_categories', 'n' => 'Project Categories (,)', 'p' => 'Ex: Information Technology, Construction...', 't' => 'textarea', 'max' => 1024, 'c' => 12, 'r' => 1, 'v' => $os['aio_project_categories'] ?? '' ],
         ];
         $o->form( $form, 'row' );

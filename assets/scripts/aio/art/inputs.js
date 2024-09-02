@@ -161,8 +161,13 @@ let dateLocaleEn = {
 };
 
 function date_picker( element ) {
-    let e = element !== undefined ? element : $('.dater');
+    let e = element !== undefined ? element : $('.dater').not('[data-ignore]');
     $(e).each(function(i,date_field){
+        if( $(date_field).parents('[data-ignore-fields]').length > 0 ) {
+            return;
+        }
+        //let dp = new AirDatepicker( '#'+$(date_field).attr('id') );
+        //dp.destroy();
         let config = {
             locale: dateLocaleEn,
             autoClose: true,
