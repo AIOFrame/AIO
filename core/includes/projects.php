@@ -113,14 +113,14 @@ class PROJECTS {
             $features[] = [ 'i' => 'features', 'n' => $k, 'p' => 'Choose...', 'o' => $os, 't' => 'select2', 'm' => 1, 'a' => 'data-array="features"', 'c' => 12 ];
         }
         $scope = [
-            [ 'i' => 'n', 'n' => 'Title', 'p' => 'Ex: Feature One', 'c' => 6 ],
-            [ 'i' => 't', 'n' => 'Est. Hours', 'p' => 'Ex: 4', 'c' => 2 ],
-            [ 'i' => 'sd', 'n' => 'Start Date', 't' => 'date', 'c' => 2 ],
-            [ 'i' => 'ed', 'n' => 'End Date', 't' => 'date', 'c' => 2 ],
-            [ 'i' => 'ds', 'n' => 'Description', 'p' => 'Ex: This feature enables...', 't' => 'textarea', 'c' => 6 ],
-            [ 'i' => 'o', 'n' => 'Order', 'v' => 1, 'c' => 2 ],
-            [ 'i' => 'p', 'n' => 'Priority', 'p' => 'Choose...', 't' => 'select2', 'o' => $statuses, 'c' => 2 ],
-            [ 'i' => 's', 'n' => 'Status', 'off' => '', 'on' => '', 't' => 'slide', 'v' => 1, 'c' => 2 ],
+            [ 'i' => 'o', 'n' => 'Order', 'v' => 1, 'c' => 1 ],
+            [ 'i' => 'n', 'n' => 'Title', 'p' => 'Ex: Feature One', 'c' => 5 ],
+            //[ 'i' => 't', 'n' => 'Est. Hours', 'p' => 'Ex: 4', 'c' => 2 ],
+            //[ 'i' => 'sd', 'n' => 'Start Date', 't' => 'date', 'c' => 2 ],
+            //[ 'i' => 'ed', 'n' => 'End Date', 't' => 'date', 'c' => 2 ],
+            [ 'i' => 'ds', 'n' => 'Description', 'p' => 'Ex: This feature enables...', 'c' => 6 ],
+            //[ 'i' => 'p', 'n' => 'Priority', 'p' => 'Choose...', 't' => 'select2', 'o' => $statuses, 'c' => 2 ],
+            //[ 'i' => 's', 'n' => 'Status', 'off' => '', 'on' => '', 't' => 'slide', 'v' => 1, 'c' => 2 ],
         ];
         $finances = [
             [ 'i' => 'd', 'n' => 'Description', 'p' => 'Ex: Project Code Handover...', 'c' => 3 ],

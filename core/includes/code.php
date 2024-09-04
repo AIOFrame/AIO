@@ -1319,8 +1319,8 @@ function _c( string|int $col_md = 12, string $class = '', string $id = '', strin
 }
 
 function __c( string|int $col_md = 12, string $class = '', string $id = '', string $attr = '' ): string {
-    if( $col_md == 'col' ) {
-        $class = 'col';
+    if( in_array( $col_md, [ 'col', 'c', 0 ] ) ) {
+        $class = 'col' . ' ' . $class;
     } else {
         $class = 'col-md-'.$col_md . ( str_contains( $class, 'col-' ) ? $class : ' col-12 '. $class );
     }

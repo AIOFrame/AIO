@@ -1270,9 +1270,9 @@ class FORM {
             if( in_array( $type, [ 'dynamic', 'dyn', 'd' ] ) ) {
                 //skel( $form );
                 //skel( $sub_type );
-                $add = __ico( 'add_row', 'm' );
-                $remove = __ico( 'remove_row', 'm' );
-                $drag = __ico( 'drag_row', 'm cm' );
+                $add = __ico( 'add_row', 'ico m', 'div', '', 'title="'.T('Add new data row').'"' );
+                $remove = __ico( 'remove_row', 'ico m', 'div', '', 'title="'.T('Remove row!').'"' );
+                $drag = __ico( 'drag_row', 'ico m cm', 'div', '', 'title="'.T('Drag row').'"' );
                 $data_attr = $f['data'] ?? ( $f['d'] ?? $data_attr );
                 $group_by = $f['group_by'] ?? ( $f['g'] ?? $group_by );
                 $empty_form = $form;
@@ -1283,8 +1283,8 @@ class FORM {
                 //skel( $form );
                 //skel( $empty_form );
                 $empty_form_html = $this->__form( $empty_form, $sub_type, $data_attr . ' data-dynamic data-ignore', '', 'dynamic_id_{{x}}' );
-                $template = __d( 'each_row' ) . __div( 'row aic mb10', __c( 6, 'df aic' ) . $drag . '{{x}}' . c__() . __c( 6, 'tar' ) . __div( 'ico', $remove, '', 'onclick="remove_dynamic_row(this)"' ) . c__() );
-                $template .= '{{form}}' . d__();
+                $template = __r( 'each_row g-0' ) . __c( 0, 'tac' ) . __div( 'df aic', $drag ) . c__() . __c( 10, 'fg' );
+                $template .= '{{form}}' . c__() . __c( 0, 'pt20 tac' ) . __div( '', $remove, '', 'onclick="remove_dynamic_row(this)" title="'.T('Remove row').'"' ) . __div( '', $add, '', 'onclick="add_dynamic_row(this,\'next\')"' ) . c__() . r__();
                 $return = __d( 'dynamic_form_wrap' );
                     $return .= __d( 'dynamic_form_template dn', '', 'data-ignore-fields' );
                         $return .= str_replace( '{{form}}', $empty_form_html, $template );
@@ -1302,6 +1302,9 @@ class FORM {
                                     $return .= str_replace( '{{form}}', $this->__form( $new_form, $sub_type, $data_attr . ' data-dynamic', '', 'dynamic_id_'.$i ), str_replace( '{{x}}', ($i + 1), $template ) );
                                 //}
                             }
+                        } else {
+                            $return .= str_replace( '{{form}}', $this->__form( $form, $sub_type, $data_attr . ' data-dynamic', '', 'dynamic_id_1' ), str_replace( '{{x}}', '1', $template ) );
+                            //$return .= str_replace( '{{form}}', $empty_form_html, $template );
                         }
                     $return .= d__();
                     $return .= __div( 'dynamic_form_footer df jcc', __b( 'plain m0', $add . T('Add Row'), '', 'onclick="add_dynamic_row(this)"' ) );
