@@ -1283,13 +1283,13 @@ class FORM {
                 //skel( $form );
                 //skel( $empty_form );
                 $empty_form_html = $this->__form( $empty_form, $sub_type, $data_attr . ' data-dynamic data-ignore', '', 'dynamic_id_{{x}}' );
-                $template = __r( 'each_row g-0' ) . __c( 0, 'tac' ) . __div( 'df aic', $drag ) . c__() . __c( 10, 'fg' );
+                $template = __r( 'each_row g-0', 'draggable="true"' ) . __c( 0, 'tac' ) . __div( 'df aic', $drag ) . c__() . __c( 10, 'fg' );
                 $template .= '{{form}}' . c__() . __c( 0, 'pt20 tac' ) . __div( '', $remove, '', 'onclick="remove_dynamic_row(this)" title="'.T('Remove row').'"' ) . __div( '', $add, '', 'onclick="add_dynamic_row(this,\'next\')"' ) . c__() . r__();
                 $return = __d( 'dynamic_form_wrap' );
                     $return .= __d( 'dynamic_form_template dn', '', 'data-ignore-fields' );
                         $return .= str_replace( '{{form}}', $empty_form_html, $template );
                     $return .= d__();
-                    $return .= __d( 'dynamic_form', '', 'data-dynamic-id="'.$group_by.'"' );
+                    $return .= __d( 'dynamic_form', '', 'data-dynamic-id="'.$group_by.'" data-sortable' );
                         $count = is_array( $val ) ? count( $val ) : 0;
                         if( $count > 0 ) {
                             for( $i = 0; $i < $count; $i++ ) {

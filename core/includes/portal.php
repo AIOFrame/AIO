@@ -67,7 +67,7 @@ class PORTAL {
      */
     function post_html( string|array $scripts = [], string $alert_position = 't r' ): void {
         //skel( 'language' );
-        $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'iro', 'select2', 'air-datepicker', 'scrollto', 'language', 'data', 'portal/portal' ] ) : $scripts.',air-datepicker,iro,select2,language,data,portal/portal';
+        $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'basics', 'iro', 'select2', 'air-datepicker', 'scrollto', 'language', 'data', 'portal/portal' ] ) : $scripts.',basics,air-datepicker,iro,select2,language,data,portal/portal';
         //$c = new CODE();
         post_html( $scripts, $alert_position );
     }

@@ -1,5 +1,6 @@
 let domain;
 let b = $('body');
+let _el;
 $(document).ready(function(){
     // MANIPULATOR
     $(document).on('click', '[data-toggle-on],[data-on],[data-off],[data-show],[data-hide],[data-toggle],[data-slide],[data-remove],[data-action],[data-click],[data-href]', function (e) {
@@ -38,6 +39,25 @@ $(document).ready(function(){
                     location.href = $(this).data('href');
                 }
             }
+        }
+    })
+
+    .on('dragstart','[data-sortable] [draggable="true"]',function (e) {
+        //console.log('started drag start');
+        _el = e.target;
+        e.dataTransfer.effectAllowed = 'move';
+    })
+
+    .on('dragenter','[data-sortable] [draggable="true"]',function (e) {
+        let targetelem = e.target;
+        if ( !$(targetelem).attr('draggable') ) {
+            targetelem = targetelem.parentNode;
+        }
+
+        if ( isBefore(_el, targetelem)) {
+            targetelem.parentNode.insertBefore(_el, targetelem);
+        } else {
+            targetelem.parentNode.insertBefore(_el, targetelem.nextSibling);
         }
     })
 
@@ -89,6 +109,8 @@ $(document).ready(function(){
 
     store_scroll();
 
+    $('[data-draggable] > div').attr('draggable',true);
+
     // Dynamic Data
 
     // Fetch States
@@ -128,7 +150,16 @@ $(document).ready(function(){
     // });
 });
 
-
+function isBefore(a, b) {
+    if (a.parentNode === b.parentNode) {
+        for (let cur = a; cur; cur = cur.previousSibling) {
+            if (cur === b) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
 
 function scroll_to( element, parent, speed ) {
     speed = speed !== undefined && speed !== '' ? speed : 1000;

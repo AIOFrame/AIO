@@ -779,9 +779,9 @@ function add_dynamic_row(e,place) {
     let row = template.replaceAll( '{{x}}', $(parent).find('.dynamic_form .each_row').length + 1 ).replaceAll( '{{rand}}', rand ).replaceAll('data-ignore','');
     let where = place !== undefined ? $(e).parents('.each_row').index() : $(parent).find('.dynamic_form > div').length - 1;
     where++;
-    console.log( where );
+    //console.log( where );
     $(parent).find('.dynamic_form > div:nth-child('+where+')').after( row );
-    console.log( '.dynamic_form > div:nth-child(' + where + ')' );
+    //console.log( '.dynamic_form > div:nth-child(' + where + ')' );
     date_picker();
     //console.log( $(parent).find('.dater') );
 }
