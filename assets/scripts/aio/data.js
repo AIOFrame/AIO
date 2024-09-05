@@ -69,7 +69,11 @@ function get_values( parent, attribute, prepend ) {
                 pre_key = pre + $(this).attr('class');
             //console.log("pre Key");
             //console.log(pre_key);
-
+            //console.log( $(this).parents('[data-ignore-fields]').length );
+            if( $(this).parents('[data-ignore-fields]').length === 1 ) {
+                return;
+            }
+            //console.log( $(this) );
             let m = $(parent).find( '[name=' + name + ']' );
 
             // Set default value for text, number, email, textarea, select
@@ -77,8 +81,7 @@ function get_values( parent, attribute, prepend ) {
             value = $(this).hasClass('fn') ? ufn( $(this).val() ) : $(this).val(); // Un Format Number
 
             if( $(this).parents('[data-dynamic-id]').length > 0 ) {
-                //console.log( $(this).parents('[data-ignore-fields]') );
-                if( $(this).parents('[data-ignore-fields]').length === 0 && $(this).parents('[data-recorded]').length === 0 ) {
+                if( $(this).parents('[data-recorded]').length === 0 ) {
                     $(this).parent().parent('.form').attr('data-recorded',true).data('recorded',true);
                     let dynamic_key = $(this).parents('[data-dynamic-id]').data('dynamic-id');
                     //console.log( $(this).parents('.form').attr('class').replaceAll('form row ','.') );
