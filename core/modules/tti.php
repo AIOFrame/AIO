@@ -17,7 +17,8 @@ $padding = $ps['p'] ?? 4;
 $color = isset( $ps['c'] ) ? json_decode( $ps['c'], 1 ) : ['r'=>255,'g'=>255,'b'=>255];
 $bg_color = isset( $ps['bg'] ) ? json_decode( $ps['bg'], 1 ) : ['r'=>0,'g'=>0,'b'=>0];
 $transparent = $ps['tr'] ?? 0;
-$captcha = $ps['ca'] ?? 0;
+//$captcha = $ps['ca'] ?? 0;
+//print_r( $ps );
 /*echo '<pre>';
 print_r( $text );
 echo '</pre>';*/

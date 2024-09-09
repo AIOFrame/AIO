@@ -599,6 +599,43 @@ select.tar {
   text-decoration: none;
 }
 
+/* Image Appearance */
+.btl {
+  background-position: top left;
+}
+
+.btc {
+  background-position: top center;
+}
+
+.btr {
+  background-position: top right;
+}
+
+.bcl {
+  background-position: center left;
+}
+
+.bc {
+  background-position: center;
+}
+
+.bcr {
+  background-position: center right;
+}
+
+.bbl {
+  background-position: bottom left;
+}
+
+.bbc {
+  background-position: bottom center;
+}
+
+.bbr {
+  background-position: bottom right;
+}
+
 /* Margins */
 .ma {
   margin: auto;

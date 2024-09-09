@@ -1014,12 +1014,11 @@ function text_to_image( string $text, int $size = 32, string $type = 'img', int 
  * @param int $rotate
  * @param int $padding
  * @param bool $transparent
- * @param bool $captcha
  * @param array $color
  * @param array $bg_color
  * @return string
  */
-function __text_to_image( string $text, string $type = 'img', int $break = 40, int $size = 24, int $rotate = 0, int $padding = 2, bool $transparent = false, bool $captcha = false, array $color = ['r'=>255,'g'=>255,'b'=>255], array $bg_color = ['r'=>0,'g'=>0,'b'=>0] ): string {
+function __text_to_image( string $text, string $type = 'img', int $break = 40, int $size = 24, int $rotate = 0, int $padding = 2, bool $transparent = false, array $color = ['r'=>255,'g'=>255,'b'=>255], array $bg_color = ['r'=>0,'g'=>0,'b'=>0] ): string {
     $e = Encrypt::initiate();
     $params = $e->encrypt_array([
         't' => $text,
@@ -1028,15 +1027,14 @@ function __text_to_image( string $text, string $type = 'img', int $break = 40, i
         'r' => $rotate,
         'p' => $padding,
         'tr' => $transparent,
-        'ca' => $captcha,
         'c' => json_encode($color),
         'bg' => json_encode($bg_color)
     ]);
     $url = APPURL . 'core/modules/tti.php?r='.$params;
     if( $type == 'img' ) {
-        return '<img class=\'text_to_image\' src=\''.$url.'\' title=\'Encrypted Text\' />';
+        return '<img class=\'text_to_image\' src=\''.$url.'\' title=\'Encrypted text as image\' />';
     } else {
-        return '<div class=\'text_to_image\' style=\'background-image: url(\''.$url.'\')\' title=\'Encrypted Text\'></div>';
+        return '<div class=\'text_to_image\' style=\'background-image: url(\''.$url.'\')\' title=\'Encrypted text as image\'></div>';
     }
 }
 
