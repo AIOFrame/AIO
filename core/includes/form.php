@@ -674,7 +674,7 @@ class FORM {
         $return = $this->__pre( $pre )
             . __r()
                 . __c( 4, 'captcha_wrap' )
-                    . __text_to_image( T('Choose') . ' ' . $captcha, 'img', 40, rand(10, 35), 0, 10, 0, 1, ( $text_color_rgb ?? [ 'r' => 220, 'g' => 220, 'b' => 220 ] ), ( $bg_rgb ?? [ 'r' => 195, 'g' => 255, 'b' => 243 ] ) )
+                    . __text_to_image( T('Choose') . ' ' . $captcha, 'img', 40, rand(10, 35), 0, 10, 0, ( $text_color_rgb ?? [ 'r' => 220, 'g' => 220, 'b' => 220 ] ), ( $bg_rgb ?? [ 'r' => 195, 'g' => 255, 'b' => 243 ] ) )
                 . c__()
                 . __c( 8, 'captcha_choices' )
                     . __r( 'gx-0' );
