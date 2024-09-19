@@ -183,9 +183,9 @@ function __get_style( string $f, array $params = [], string $page_of = '' ): str
         //skel( ROOTPATH . 'assets/ext/' . $f .'css/' . $f );
         $url = asset_exists( $style_paths, $f, 'css' );
         if ( $page_of !== '' ) {
-            $r = page_of($page_of) && $url !== '' ? '<link rel="stylesheet" href="' . $url . $v . '">' : '';
+            $r = page_of($page_of) && $url !== '' ? '<link rel="stylesheet" href="' . $url . $v . '">'.( APPDEBUG ? PHP_EOL : '' ) : '';
         } else {
-            $r = $url !== '' ? '<link rel="stylesheet" href="' . $url . $v . '">' : '';
+            $r = $url !== '' ? '<link rel="stylesheet" href="' . $url . $v . '">'.( APPDEBUG ? PHP_EOL : '' ) : '';
         }
     }
     return $r;

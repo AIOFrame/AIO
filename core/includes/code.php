@@ -324,7 +324,7 @@ function __pre( string $id = '', string $class = '', string $element = 'div', st
     $id = !empty( $id ) ? ' id="'.$id.'"' : '';
     $class = !empty( $class ) ? ' class="'.$class.'"' : '';
     $attr = !empty( $attr ) ? ' '.$attr : '';
-    return '<'.$element.$id.$class.$attr.'>';
+    return ( APPDEBUG ? PHP_EOL : '' ).'<'.$element.$id.$class.$attr.'>';
 }
 
 function post( string $element = 'div' ): void {
@@ -332,7 +332,7 @@ function post( string $element = 'div' ): void {
 }
 
 function __post( string $element = 'div' ): string {
-    return '</'.$element.'>';
+    return '</'.$element.'>'.( APPDEBUG ? PHP_EOL : '' );
 }
 
 function h1( string $title = '', bool $translate = true, string $class = '', string $attrs = '' ): void {
