@@ -32,7 +32,7 @@ button, .btn {
   cursor: pointer;
   line-height: normal;
   position: relative;
-  display: flex;
+  display: inline-flex;
   align-items: center;
 }
 button.plain, .btn.plain {

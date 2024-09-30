@@ -1851,7 +1851,11 @@ class FORM {
      */
     function fake( string $key = '' ) {
         if( defined( 'CONFIG' ) && isset( CONFIG['autofill'] ) && CONFIG['autofill'] ) {
-            $key = str_replace( 'fake_', '', $key );
+            $start = strpos( $key, '{{' );
+            $end = strpos( $key, '}}' );
+            $retain = $start && $end ? substr( $key, $start, $end ) : '';
+            $replace = str_replace( $retain, '', $key );
+            $key = str_replace( 'fake_', '', $replace );
 
             // PLACEHOLDER IMAGES
             $images = [
@@ -1925,27 +1929,28 @@ class FORM {
             $ka = explode( '_', $key );
             $x = !empty( $ka ) && count( $ka ) > 1 ? end( $ka ) : 2;
             if( $key == 'e164PhoneNumber' ) {
-                return str_replace( '+1', '', $fk->{ $key } );
+                $r = str_replace( '+1', '', $fk->{ $key } );
             } else if( str_contains( $key, 'words' ) ) {
-                return $fk->words( $x );
+                $r = $fk->words( $x );
             } else if( str_contains( $key, 'actions' ) ) {
-                return str_replace( ' ', ',', $fk->words( $x ) );
+                $r = str_replace( ' ', ',', $fk->words( $x ) );
             } else if( str_contains( $key, 'content' ) ) {
-                return $fk->sentence( $x );
+                $r = $fk->sentence( $x );
             } else if( str_contains( $key, 'para' ) ) {
-                return $fk->paragraphs( $x );
+                $r = $fk->paragraphs( $x );
             } else if( str_contains( $key, 'email' ) ) {
-                return $fk->safeEmail();
+                $r = $fk->safeEmail();
             } else if( str_contains( $key, 'slug' ) ) {
-                return $fk->slug();
+                $r = $fk->slug();
             } else if( str_contains( $key, 'company_name' ) || str_contains( $key, 'company' ) ) {
                 $ends = [ 'LTD.', 'LLC.', 'Inc.', 'Co.', 'Corp.', 'PBC.', 'LLP.' ];
-                return ucwords( $fk->bs() . ' ' . $ends[array_rand( $ends )] );
+                $r = ucwords( $fk->bs() . ' ' . $ends[array_rand( $ends )] );
             } else if( str_contains( $key, 'company_email' ) || str_contains( $key, 'org_email' ) ) {
-                return $fk->companyEmail();
+                $r = $fk->companyEmail();
             } else {
-                return $fk->{ $key };
+                $r = $fk->{ $key };
             }
+            return $r . str_replace( '{{', '', str_replace( '}}', '', $retain ) );
         } else {
             return '';
         }

@@ -87,7 +87,7 @@ class PROJECTS {
         $cats = explode( ',', ( $os['aio_project_categories'] ?? '' ) );
         $statuses = explode( ',', ( $os['aio_project_scope_statuses'] ?? '' ) );
         $intro = [
-            [ 'i' => 'name', 'n' => 'Project Title', 'p' => 'Ex: ABC Mobile App', 'c' => 6 ],
+            [ 'i' => 'name', 'n' => 'Project Title', 'p' => 'Ex: ABC Mobile App', 'c' => 6, 'v' => 'fake_name{{ Project}}' ],
             [ 'i' => 'banner', 'n' => 'Banner', 'p' => 'Upload', 't' => 'file', 's' => .2, 'e' => 'svg,png,jpg,jpeg,gif', 'c' => 3 ],
             [ 'i' => 'category', 'n' => 'Choose Category', 'p' => 'Choose...', 't' => 'select2', 'o' => $cats, 'c' => 3, 'k' => 1 ],
             [ 'i' => 'intro', 'n' => 'Introduction', 'p' => 'Ex: Mobile App for so and so...', 't' => 'textarea', 'c' => 12 ],
