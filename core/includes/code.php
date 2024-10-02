@@ -1108,7 +1108,7 @@ function __tabs( array $tabs = [], string $style = '', bool $translate_titles = 
 }
 
 function tab_heads( array $tab_titles = [], string $style = '', string $wrap_class = '', bool $translate_titles = false, string $type = 'tab' ): void {
-    echo _tab_heads( $tab_titles, $style, $wrap_class, $translate_titles, $type );
+    echo __tab_heads( $tab_titles, $style, $wrap_class, $translate_titles, $type );
 }
 
 /**
@@ -1116,9 +1116,10 @@ function tab_heads( array $tab_titles = [], string $style = '', string $wrap_cla
  * @param string $style
  * @param string $wrap_class
  * @param bool $translate_titles
+ * @param string $type
  * @return string
  */
-function _tab_heads( array $tab_titles = [], string $style = '', string $wrap_class = '', bool $translate_titles = false, string $type = 'tab' ): string {
+function __tab_heads( array $tab_titles = [], string $style = '', string $wrap_class = '', bool $translate_titles = false, string $type = 'tab' ): string {
     $data = __pre( '', 'tabs separate '.$style );
         $data .= __pre( '', 'tab_heads fluid '.$wrap_class, 'div', 'data-store' );
             $x = 0;

@@ -28,8 +28,8 @@ class PORTAL {
 
     /**
      * Renders Admin Portal
-     * @param string $class Class for <body> tag
-     * @param string $attrs Attributes for <body> tag
+     * @param string $body_class Class for <body> tag
+     * @param string $body_attrs Attributes for <body> tag
      * @param string $primary_color Primary color for theme (without #)
      * @param string $secondary_color Secondary color for theme (without #)
      * @param string|array $styles Styles to be linked
@@ -37,7 +37,7 @@ class PORTAL {
      * @param array $fonts Array of font and weights Ex: [ 'Lato' => '300,400', 'MaterialIcons' ]
      * @return void
      */
-    function pre_html( string $class = '', string $attrs = '', string $primary_color = '00A99D', string $secondary_color = '00A99D', string|array $styles = [], string|array $scripts = [], array $fonts = [ 'Lato' => '300,500', 'MaterialIcons' ] ): void {
+    function pre_html( string $body_class = '', string $body_attrs = '', string $primary_color = '00A99D', string $secondary_color = '00A99D', string|array $styles = [], string|array $scripts = [], array $fonts = [ 'Lato' => '300,500', 'MaterialIcons' ] ): void {
 
         // Appearance
         global $options;
@@ -56,7 +56,7 @@ class PORTAL {
         !empty( $scripts ) ? ( is_array( $scripts ) ? $scripts[] = 'jquery' : $scripts .= ',jquery' ) : '';
 
         //$c = new CODE();
-        pre_html($class,$attrs,$pre_styles,$primary_color,$secondary_color,'icons,cards,modal,buttons,inputs,tabs,steps,color,table,alerts,accordion',$styles,$scripts,$fonts);
+        pre_html( $body_class, $body_attrs, $pre_styles, $primary_color, $secondary_color, 'icons,cards,modal,buttons,inputs,tabs,steps,color,table,alerts,accordion,widgets', $styles, $scripts, $fonts );
 
     }
 

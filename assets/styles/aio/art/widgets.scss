@@ -1,0 +1,39 @@
+.widget.stat {
+  padding: 15px;
+  border-radius: 15px;
+  background: #fff;
+  transition: .6s;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .count {
+    display: block;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+  }
+  .count.green, .count.done {
+    background: rgba(34, 139, 34, 0.1);
+    color: forestgreen;
+  }
+  .count.orange {
+    background: rgba(255, 69, 0, 0.1);
+    color: orangered;
+  }
+  .count.pink {
+    color: hotpink;
+    background: rgba(255, 105, 180, 0.1);
+  }
+  .count.red, .count.error {
+    color: firebrick;
+    background: rgba(178, 34, 34, 0.1);
+  }
+}
+.widget {
+
+}
