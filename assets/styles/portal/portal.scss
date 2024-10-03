@@ -30,8 +30,13 @@ $border-color-active-dark: var(--input_border_color_active_dark);
 $color-dark: var(--input_color_dark);
 $color-active-dark: var(--input_color_active_dark);
 
+body {
+  article > div:not(.header,.actions), article > table, .actions.float {
+    transition: .6s;
+  }
+}
 body.modal_open {
-  article > div:not(.header,.actions), article > table {
+  article > div:not(.header,.actions), article > table, .actions.float {
     //filter: blur(8px);
     //-webkit-filter: blur(8px);
     opacity: .05;
@@ -585,6 +590,19 @@ a.brand {
     .links > a, .links > div {
       display: block;
       opacity: .4;
+    }
+    .notice {
+      background: rgba(255, 165, 0, 0.25);
+      padding: 10px;
+      border-radius: 10px;
+      font-size: .95rem;
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      align-items: center;
+      .ico {
+        color: orangered;
+      }
     }
   }
   .user_pic.m, .user_pic.l {

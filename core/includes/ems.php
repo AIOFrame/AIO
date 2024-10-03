@@ -5,6 +5,39 @@
 
 class EMS {
 
+    public $employees = [
+        [
+            'n' => 'Mohammed',
+            'd' => 'Design Director',
+            'p' => 'https://placehold.it/50',
+            'a' => 1,
+        ],
+        [
+            'n' => 'Manfredi',
+            'd' => 'Frontend Developer',
+            'p' => 'https://placehold.it/50',
+            'a' => 0,
+        ],
+        [
+            'n' => 'Louis',
+            'd' => 'Marketing Manager',
+            'p' => 'https://placehold.it/50',
+            'a' => 1,
+        ],
+        [
+            'n' => 'Jerry',
+            'd' => 'HR Manager',
+            'p' => 'https://placehold.it/50',
+            'a' => 1,
+        ],
+        [
+            'n' => 'Ronald Lee',
+            'd' => 'Accounts',
+            'p' => 'https://placehold.it/50',
+            'a' => 1,
+        ]
+    ];
+
     function __construct() {
 
     }
@@ -97,40 +130,11 @@ class EMS {
 
     function __attendance(): string {
         // Prerequisites
+        $f = new FORM();
+        $d = new DB();
         $ran = rand( 1, 99999 );
         $months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ];
-        $employees = [
-            [
-                'n' => 'Mohammed',
-                'd' => 'Design Director',
-                'p' => 'https://placehold.it/50',
-                'a' => 1,
-            ],
-            [
-                'n' => 'Manfredi',
-                'd' => 'Frontend Developer',
-                'p' => 'https://placehold.it/50',
-                'a' => 0,
-            ],
-            [
-                'n' => 'Louis',
-                'd' => 'Marketing Manager',
-                'p' => 'https://placehold.it/50',
-                'a' => 1,
-            ],
-            [
-                'n' => 'Jerry',
-                'd' => 'HR Manager',
-                'p' => 'https://placehold.it/50',
-                'a' => 1,
-            ],
-            [
-                'n' => 'Ronald Lee',
-                'd' => 'Accounts',
-                'p' => 'https://placehold.it/50',
-                'a' => 1,
-            ]
-        ];
+        $employees = $this->employees;
         global $options;
         $ico = $options['ico_class'] ?? 'mico';
         $present_ico = $options['attendance_present_ico'] ?? 'check_circle';
@@ -140,7 +144,7 @@ class EMS {
 
         // View
         $r = __d( 'aio_attendance_view', 'aio_attendance_view' )
-        . __d( 'aio_attendance_head' ) . __tab_heads( [ '.day_view_'.$ran => 'Day', '.week_view_'.$ran => 'Week', '.year_view_'.$ran => 'Year' ], 'material mb20', '', 1 ) . d__()
+        . __d( 'aio_attendance_head' ) . __r() . __c( 6 ) . __tab_heads( [ '.day_view_'.$ran => 'Day', '.week_view_'.$ran => 'Week', '.year_view_'.$ran => 'Year' ], 'material mb20', '', 1 ) . c__() . __c( 6, 'tar' ) . $f->__date( 'date', '', '', date('Y-m-d'), '', 'bottom right' ) . c__() . d__()
         . __d( 'aio_attendance_body' )
 
         // Day View
@@ -150,7 +154,7 @@ class EMS {
                 $e['a'] == 1 ? $present++ : '';
             };
             $absent = count( $employees ) - $present;
-            $r .= __c( 3 ) . __div( 'widget stat', T('Attended') . __el('span','count green',$present) ) . c__()
+            $r .= __c( 3 ) . __div( 'widget stat', T('Attending') . __el('span','count green',$present) ) . c__()
             . __c( 3 ) . __div( 'widget stat', T('Sick') . __el('span','count orange',$sick) ) . c__()
             . __c( 3 ) . __div( 'widget stat', T('On Vacation') . __el('span ','count pink',$vacation) ) . c__()
             . __c( 3 ) . __div( 'widget stat', T('Absent') . __el('span','count red',$absent) ) . c__();
@@ -192,6 +196,110 @@ class EMS {
 
         . d__() . d__();
         return $r;
+    }
+
+    function leaves(): void {
+        echo $this->__leaves();
+    }
+
+    function __leaves(): string {
+        $employees = $this->employees;
+        $data[] = [ 'head' => [ 'Employees', '%', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ] ];
+        foreach( $employees as $e ) {
+            $sub_data = [ ( $e['n'] ?? '' ), '95%' ];
+            for( $x = 0; $x < 12; $x++ ) {
+                $r = rand( 28, 100 );
+                $sub_data[] = __div( 'leaves_stat', __div( 'per', $r . '%' ) . __div( 'progress', __div( 'bar ' . ( $r < 60 ? ( $r < 30 ? 'r' : 'o' ) : 'g' ), '', '', 'style="width:'.$r.'%"' ) ) . __div( 'days', '22/22 Days' ) );
+            }
+            $data[] = [ 'body' => $sub_data ];
+        }
+        return __get_style('ems/leaves') . __d( 'aio_leaves_view' )
+            . __table( $data, 'r tac' )
+        . d__();
+    }
+
+    function __contract_form(): void {
+        $f = new FORM();
+    }
+
+    function departments( string $style = 'list', string $wrap_class = '', int $count = 12, int $page = 0 ): void {
+        echo $this->__departments( $style, $wrap_class, $count );
+    }
+
+    function _departments( int $count = 12, int $page = 0, string $where = '' ): array {
+        $d = new DB();
+        return $d->select( 'aio_departments', [], $where, $count, $page );
+    }
+
+    function __departments( string $style = 'list', string $wrap_class = '', int $count = 12, int $page = 0, string $where = '' ): string {
+        return $style == 'list' ? $this->__departments_list( $wrap_class, $count, $page ) : $this->__departments_cards( $wrap_class, $count, $page );
+    }
+
+    function __departments_list( string $class, int $count = 12, int $page = 0, string $where = '' ): string {
+        $data = [
+            [ 'head' => [ 'Name & Details', 'Color', 'Icon', 'Status', 'Actions' ] ],
+        ];
+        $ds = $this->_departments( $count, $page, $where );
+        foreach( $ds as $d ) {
+            $data[] = [ 'body' => [ $d['title'] . __div( 'fs op5', $d['desc'] ), $d['color'], $d['icon'], $d['status'], '' ] ];
+        }
+        return __table( $data, $class );
+    }
+
+    function __departments_cards( string $class, int $count = 12, int $page = 0, string $where = '' ): string {
+        return '';
+    }
+
+    function department_form(): void {
+        echo $this->__department_form();
+    }
+
+    function __department_form(): string {
+        $f = new FORM();
+        $form = [
+            [ 'i' => 'name', 'n' => 'Department Name', 'p' => 'Ex: Accounting', 'c' => 8 ],
+            [ 'i' => 'status', 'n' => 'Status', 't' => 'slide', 'off' => 'Inactive', 'on' => 'Active', 'v' => 1, 'c' => 4 ],
+            [ 'i' => 'desc', 'n' => 'Description', 'p' => 'Ex: Handles the financial aspect of company', 'c' => 12 ],
+            [ 'i' => 'color', 'n' => 'Color', 't' => 'color', 'v' => '#000000', 'c' => 6 ],
+            [ 'i' => 'icon', 'n' => 'Icon', 'p' => 'Ex: home', 'c' => 6 ],
+        ];
+        return $f->__form( $form, 'row', 'dept' );
+    }
+
+    function _designations( int $count = 12, int $page = 0, string $where = '' ): array {
+        $d = new DB();
+        return $d->select( 'aio_designations', [], $where, $count, $page );
+    }
+
+    function designations(): void {
+        echo $this->__designations();
+    }
+
+    function __designations(): string {
+        $data = [
+            [ 'head' => [ 'Name', 'Description', 'Seniority', 'Color', 'Department', 'Status', 'Actions' ] ],
+        ];
+        return __table( $data );
+    }
+
+    function designation_form(): void {
+        echo $this->__designation_form();
+    }
+
+    function __designation_form(): string {
+        $f = new FORM();
+        $d = new DB();
+        $ds = $d->select( 'aio_departments', 'dept_id,dept_name', 'dept_status = "1"' );
+        $ds = !empty( $ds ) ? array_to_assoc( $ds, 'dept_id', 'dept_name' ) : [];
+        $form = [
+            [ 'i' => 'name', 'n' => 'Designation Name', 'p' => 'Ex: Design Director', 'c' => 8 ],
+            [ 'i' => 'status', 'n' => 'Status', 't' => 'slide', 'off' => 'Inactive', 'on' => 'Active', 'v' => 1, 'c' => 4 ],
+            [ 'i' => 'desc', 'n' => 'Description', 'p' => 'Ex: Responsible for design aspect of projects...', 'c' => 12 ],
+            [ 'i' => 'dept', 'n' => 'Department', 't' => 'select2', 'p' => 'Select...', 'o' => $ds, 'c' => 4 ],
+            [ 'i' => 'color', 'n' => 'Color', 't' => 'color', 'v' => '#000000', 'c' => 4 ],
+            [ 'i' => 'icon', 'n' => 'Icon', 'p' => 'Ex: home', 'c' => 4 ],
+        ];
+        return $f->__form( $form, 'row', 'des' );
     }
 
 }

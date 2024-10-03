@@ -1,0 +1,26 @@
+.leaves_stat .progress {
+  padding: 1px;
+  border-radius: 4px;
+  background: #ccc;
+  margin: 4px 0;
+}
+.leaves_stat .progress .bar {
+  height: 5px;
+  border-radius: 2px;
+  background: black;
+}
+.leaves_stat .progress .bar.g {
+  background: forestgreen;
+}
+.leaves_stat .progress .bar.o {
+  background: orangered;
+}
+.leaves_stat .progress .bar.r {
+  background: firebrick;
+}
+.leaves_stat .days {
+  font-size: 0.7rem;
+  opacity: 0.3;
+}
+
+/*# sourceMappingURL=leaves.css.map */

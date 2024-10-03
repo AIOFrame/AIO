@@ -10,19 +10,23 @@ $db = new DB();
 // TODO: Employee Contracts
 // TODO: Employee contracts regional fields
 // TODO: Expenses
-$pages_struct[] = [ 'leads', [
-    [ 'user', 'INT', 13, 0 ],
-    [ 'date', 'DATETIME', '', 1 ],
-    [ 'up_date', 'DATETIME', '', 1 ],
+
+// Departments & Designations
+$pages_struct[] = [ 'aio_departments', [
     [ 'title', 'TEXT', '', 1 ],
     [ 'desc', 'VARCHAR', 512, 1 ],
-    [ 'content', 'LONGTEXT', '', 0 ],
-    [ 'url', 'TEXT', '', 0 ],
-    [ 'password', 'VARCHAR', 256, 0 ],
-    [ 'type', 'VARCHAR', 64, 0 ],
-    [ 'parent', 'INT', 13, 0 ],
-    [ 'pre', 'varchar', 128, 0 ],
-    [ 'post', 'varchar', 128, 0 ],
-], 'page', 1 ];
+    [ 'color', 'VARCHAR', 26, 0 ],
+    [ 'icon', 'VARCHAR', 64, 0 ],
+    [ 'status', 'int', 2, 1 ],
+], 'dept', 1 ];
+$pages_struct[] = [ 'aio_designations', [
+    [ 'title', 'TEXT', '', 1 ],
+    [ 'desc', 'VARCHAR', 512, 1 ],
+    [ 'seniority', 'VARCHAR', 26, 0 ],
+    [ 'dept', 'INT', 13, 0 ],
+    [ 'color', 'VARCHAR', 26, 0 ],
+    [ 'icon', 'VARCHAR', 64, 0 ],
+    [ 'status', 'int', 2, 1 ],
+], 'des', 1 ];
 
-//$db->automate_tables( $pages_struct );
+$db->automate_tables( $pages_struct );

@@ -418,6 +418,9 @@ class PORTAL {
                                     $ico_class = $ico . ( $gradient_icons ? ' l grad-bg' : ' l' );
                                     $title = $menu['title'] ?? ( $menu['name'] ?? ( $menu['t'] ?? ( $menu['n'] ?? '' ) ) );
                                     $restricted = [];
+                                    $color = $menu['color'] ?? ( $menu['cl'] ?? '' );
+                                    $color = !empty( $color ) ? 'style="color:'.$color.'"' : '';
+                                    $tip = $menu['tip'] ?? T('Go to ').T($title);
                                     $class = $url_prefix . $url == PAGEPATH ? 'on' : '';
                                     if( !empty( $perm ) ) {
                                         $user_can = explode( ',', $user_can );
@@ -435,7 +438,7 @@ class PORTAL {
                                     }
                                     if( empty( $restricted ) ) {
                                         _c( $col, $class );
-                                            div( $class, __anchor( APPURL . $url_prefix . $sub_url_prefix . $url, $class, T('Go to ').T($title), '', '', '' ) . __el( 'i', $ico_class . ' ' . $icon, $ico ) . __div( 'title', T( $title ) ) . anchor__() );
+                                            div( $class, __anchor( APPURL . $url_prefix . $sub_url_prefix . $url, $class, $tip, '', '', '' ) . __el( 'i', $ico_class . ' ' . $icon, $ico, '', $color ) . __div( 'title', T( $title ) ) . anchor__() );
                                         c_();
                                     }
                                 }

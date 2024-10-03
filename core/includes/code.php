@@ -1374,8 +1374,9 @@ function _em( string $page_link = '', string $page_title = '', string $content =
 
 function notice( string $content = '', string $type = 'info', string $class = '', string $icon_text = 'info', string $icon_class = '' ): void {
     global $options;
-    _d( 'notice card df aic nf ' . $class . ' ' . $type );
-        div( ( $options['icon_class'] ?? 'mico' ) . ' l ' . $icon_class . ' ' . ( $options['icon_class'] ?? '' ), $icon_text );
+    $icon = $options['icon_class'] ?? 'mico';
+    _d( 'notice ' . $class . ' ' . $type );
+        div( $icon . ' ico l ' . $icon_class . ' ' . $icon, $icon_text );
         div( 'message', $content );
     d_();
 }

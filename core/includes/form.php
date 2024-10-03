@@ -737,7 +737,7 @@ class FORM {
             //$code = '<div class="color_picker_wrap"><div class="color-picker"></div><div class="color_controls"></div><div class="close">close</div></div>';
             $code = '';
         } else {
-            $code = __div( 'dn', __div( 'color_picker_wrap', __div( 'color-picker' ) . __div( 'color_controls', '<input type="text" value="#ffffff" class="code" onfocus="this.select();">' ) . __div( ( $options['icon_class'] ?? '' ) . ' close ' . ( $options['ico_close'] ?? '' ), ( $options['ico_close'] ?? 'close' ) ) ), '', 'color-picker-html' );
+            $code = __div( 'dn', __div( 'color_picker_wrap', __div( 'color-picker' ) . __div( 'color_controls', '<input type="text" value="#ffffff" class="code" onfocus="this.select();">' ) . __div( ( $options['icon_class'] ?? 'mico' ) . ' close ' . ( $options['ico_close'] ?? '' ), ( $options['ico_close'] ?? 'close' ) ) ), '', 'color-picker-html' );
             $color_picker = 1;
         }
         return $this->__text( $id, $label, $placeholder, $value, $attrs, $pre, $post ) . $code;
