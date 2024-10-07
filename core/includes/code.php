@@ -717,8 +717,8 @@ function __table( array $rows = [], string $class = '', string $attr = '' ): str
             foreach( $row as $cols ) {
                 $return .= '<tr>';
                 if( is_array( $cols ) ) {
-                    foreach( $cols as $c ) {
-                        $return .= in_array( $type, [ 'thead', 'head', 'h' ] ) ? '<th>'.$c.'</th>' : '<td>'.$c.'</td>';
+                    foreach( $cols as $ck => $cv ) {
+                        $return .= __el( ( in_array( $type, [ 'thead', 'head', 'h' ] ) ? 'th' : 'td' ), ( !is_numeric( $ck ) ? $ck : '' ), $cv );
                     }
                 }
                 $return .= '</tr>';

@@ -291,7 +291,7 @@ class EMS {
         foreach( $ds as $d ) {
             $edit = $f->__edit_html( $edit_modal, $d );
             $delete = $f->__trash_html( 'aio_designations', 'des_id = '.$d['des_id'] );
-            $data[] = [ 'body' => [ $d['des_title'] . __div( 'fzs op5', $d['des_desc'] ), __cb( $d['des_color'] ), __ico( $d['des_icon'] ), __status( $d['des_status'] ), __div( 'acts', $edit . $delete ) ] ];
+            $data[] = [ 'body' => [ 'l' => $d['des_title'] . __div( 'fzs op5', $d['des_desc'] ), 'c' => __cb( $d['des_color'] ), __ico( $d['des_icon'] ), __status( $d['des_status'] ), __div( 'acts', $edit . $delete ) ] ];
         }
         return __table( $data, $class );
     }
