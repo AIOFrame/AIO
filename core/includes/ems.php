@@ -143,7 +143,7 @@ class EMS {
         $absent_ico = __div( $ico . ' ico ' . $absent_ico, $absent_ico );
 
         // View
-        $r = __d( 'aio_attendance_view', 'aio_attendance_view' )
+        $r = __get_styles( 'ems/ems' ) . __d( 'aio_attendance_view', 'aio_attendance_view' )
         . __d( 'aio_attendance_head' ) . __r() . __c( 6 ) . __tab_heads( [ '.day_view_'.$ran => 'Day', '.week_view_'.$ran => 'Week', '.year_view_'.$ran => 'Year' ], 'material mb20', '', 1 ) . c__() . __c( 6, 'tar' ) . $f->__date( 'date', '', '', date('Y-m-d'), '', 'bottom right' ) . c__() . d__()
         . __d( 'aio_attendance_body' )
 
@@ -180,8 +180,7 @@ class EMS {
                 [ 'head' => $table_heads ],
             ];
             foreach( $employees as $e ){
-                $emp_card = __div( 'user', __image( ( $e['p'] ?? '' ), '', 'pic' ) . __div( '', $e['n'] ?? '' ) );
-                $table[] = [ 'body' => [ $emp_card, '100%', $present_ico, $absent_ico, $present_ico, $present_ico, $present_ico ] ];
+                $table[] = [ 'body' => [ $this->__user_line( ( $e['n'] ?? '' ), ($e['p'] ?? ''), 'Director of Finance' ), '100%', $present_ico, $absent_ico, $present_ico, $present_ico, $present_ico ] ];
             }
             $table[] = [ 'foot' => [ count( $employees ) . ' ' . T('Employees'), '100%', '100%', '80%', '100%', '100%', '100%' ] ];
             $r .= __table( $table, 'r15 tac' )
@@ -206,14 +205,14 @@ class EMS {
         $employees = $this->employees;
         $data[] = [ 'head' => [ 'Employees', '%', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ] ];
         foreach( $employees as $e ) {
-            $sub_data = [ ( $e['n'] ?? '' ), '95%' ];
+            $sub_data = [ $this->__user_line( $e['n'] ?? '', 'https://placehold.it/50', 'Director of Finance' ), '95%' ];
             for( $x = 0; $x < 12; $x++ ) {
                 $r = rand( 28, 100 );
                 $sub_data[] = __div( 'leaves_stat', __div( 'per', $r . '%' ) . __div( 'progress', __div( 'bar ' . ( $r < 60 ? ( $r < 30 ? 'r' : 'o' ) : 'g' ), '', '', 'style="width:'.$r.'%"' ) ) . __div( 'days', '22/22 Days' ) );
             }
             $data[] = [ 'body' => $sub_data ];
         }
-        return __get_style('ems/leaves') . __d( 'aio_leaves_view' )
+        return __get_styles('ems/ems,ems/leaves') . __d( 'aio_leaves_view' )
             . __table( $data, 'r tac' )
         . d__();
     }
@@ -222,31 +221,36 @@ class EMS {
         $f = new FORM();
     }
 
-    function departments( string $style = 'list', string $wrap_class = '', int $count = 12, int $page = 0 ): void {
-        echo $this->__departments( $style, $wrap_class, $count );
+    function departments( string $style = 'list', string $wrap_class = '', string $edit_modal = '', int $count = 12, int $page = 0 ): void {
+        echo $this->__departments( $style, $wrap_class, $edit_modal, $count, $page );
     }
 
     function _departments( int $count = 12, int $page = 0, string $where = '' ): array {
         $d = new DB();
-        return $d->select( 'aio_departments', [], $where, $count, $page );
+        $r = $d->select( 'aio_departments', '', $where, $count, $page );
+        //skel( $r );
+        return $r;
     }
 
-    function __departments( string $style = 'list', string $wrap_class = '', int $count = 12, int $page = 0, string $where = '' ): string {
-        return $style == 'list' ? $this->__departments_list( $wrap_class, $count, $page ) : $this->__departments_cards( $wrap_class, $count, $page );
+    function __departments( string $style = 'list', string $wrap_class = '', string $edit_modal = '', int $count = 12, int $page = 0, string $where = '' ): string {
+        return $style == 'list' ? $this->__departments_list( $wrap_class, $edit_modal, $count, $page ) : $this->__departments_cards( $wrap_class, $edit_modal, $count, $page );
     }
 
-    function __departments_list( string $class, int $count = 12, int $page = 0, string $where = '' ): string {
+    function __departments_list( string $class, string $edit_modal = '', int $count = 12, int $page = 0, string $where = '' ): string {
         $data = [
             [ 'head' => [ 'Name & Details', 'Color', 'Icon', 'Status', 'Actions' ] ],
         ];
         $ds = $this->_departments( $count, $page, $where );
+        $f = new FORM();
         foreach( $ds as $d ) {
-            $data[] = [ 'body' => [ $d['title'] . __div( 'fs op5', $d['desc'] ), $d['color'], $d['icon'], $d['status'], '' ] ];
+            $edit = $f->__edit_html( $edit_modal, $d );
+            $delete = $f->__trash_html( 'aio_departments', 'dept_id = '.$d['dept_id'] );
+            $data[] = [ 'body' => [ $d['dept_title'] . __div( 'fzs op5', $d['dept_desc'] ), __cb( $d['dept_color'] ), __ico( $d['dept_icon'] ), __status( $d['dept_status'] ), __div( 'acts', $edit . $delete ) ] ];
         }
         return __table( $data, $class );
     }
 
-    function __departments_cards( string $class, int $count = 12, int $page = 0, string $where = '' ): string {
+    function __departments_cards( string $class, string $edit_modal = '', int $count = 12, int $page = 0, string $where = '' ): string {
         return '';
     }
 
@@ -257,13 +261,16 @@ class EMS {
     function __department_form(): string {
         $f = new FORM();
         $form = [
-            [ 'i' => 'name', 'n' => 'Department Name', 'p' => 'Ex: Accounting', 'c' => 8 ],
+            [ 'i' => 'title', 'n' => 'Department Name', 'p' => 'Ex: Accounting', 'c' => 8, 'r' => 1 ],
             [ 'i' => 'status', 'n' => 'Status', 't' => 'slide', 'off' => 'Inactive', 'on' => 'Active', 'v' => 1, 'c' => 4 ],
             [ 'i' => 'desc', 'n' => 'Description', 'p' => 'Ex: Handles the financial aspect of company', 'c' => 12 ],
             [ 'i' => 'color', 'n' => 'Color', 't' => 'color', 'v' => '#000000', 'c' => 6 ],
             [ 'i' => 'icon', 'n' => 'Icon', 'p' => 'Ex: home', 'c' => 6 ],
         ];
-        return $f->__form( $form, 'row', 'dept' );
+        return $f->__pre_process( '', 'aio_departments', 'dept', 'dept_', [], 'Successfully saved work department!' )
+        . $f->__form( $form, 'row', 'dept' )
+        . $f->__process_trigger( 'Save Department', 'mb0', '', '', '.tac' )
+        . $f->__post_process();
     }
 
     function _designations( int $count = 12, int $page = 0, string $where = '' ): array {
@@ -271,15 +278,27 @@ class EMS {
         return $d->select( 'aio_designations', [], $where, $count, $page );
     }
 
-    function designations(): void {
-        echo $this->__designations();
+    function designations( string $style = 'list', string $wrap_class = '', string $edit_modal = '', int $count = 12, int $page = 0, string $where = '' ): void {
+        echo $style == 'list' ? $this->__designations_list( $wrap_class, $edit_modal, $count, $page ) : $this->__designations_cards( $wrap_class, $edit_modal, $count, $page );
     }
 
-    function __designations(): string {
+    function __designations_list( string $class, string $edit_modal = '', int $count = 12, int $page = 0, string $where = '' ): string {
         $data = [
-            [ 'head' => [ 'Name', 'Description', 'Seniority', 'Color', 'Department', 'Status', 'Actions' ] ],
+            [ 'head' => [ 'Name & Details', 'Color', 'Icon', 'Status', 'Actions' ] ],
         ];
-        return __table( $data );
+        $ds = $this->_designations( $count, $page, $where );
+        $f = new FORM();
+        foreach( $ds as $d ) {
+            $edit = $f->__edit_html( $edit_modal, $d );
+            $delete = $f->__trash_html( 'aio_designations', 'des_id = '.$d['des_id'] );
+            $data[] = [ 'body' => [ $d['des_title'] . __div( 'fzs op5', $d['des_desc'] ), __cb( $d['des_color'] ), __ico( $d['des_icon'] ), __status( $d['des_status'] ), __div( 'acts', $edit . $delete ) ] ];
+        }
+        return __table( $data, $class );
+    }
+
+    function __designations_cards( string $class, string $edit_modal = '', int $count = 12, int $page = 0, string $where = '' ): string {
+        $ds = $this->_designations( $count, $page, $where );
+        return '';
     }
 
     function designation_form(): void {
@@ -289,17 +308,32 @@ class EMS {
     function __designation_form(): string {
         $f = new FORM();
         $d = new DB();
-        $ds = $d->select( 'aio_departments', 'dept_id,dept_name', 'dept_status = "1"' );
-        $ds = !empty( $ds ) ? array_to_assoc( $ds, 'dept_id', 'dept_name' ) : [];
+        $ds = $d->select( 'aio_departments', 'dept_id,dept_title', 'dept_status = 1' );
+        $ds = !empty( $ds ) ? array_to_assoc( $ds, 'dept_id', 'dept_title' ) : [];
         $form = [
-            [ 'i' => 'name', 'n' => 'Designation Name', 'p' => 'Ex: Design Director', 'c' => 8 ],
+            [ 'i' => 'title', 'n' => 'Designation Name', 'p' => 'Ex: Design Director', 'c' => 8, 'r' => 1 ],
             [ 'i' => 'status', 'n' => 'Status', 't' => 'slide', 'off' => 'Inactive', 'on' => 'Active', 'v' => 1, 'c' => 4 ],
             [ 'i' => 'desc', 'n' => 'Description', 'p' => 'Ex: Responsible for design aspect of projects...', 'c' => 12 ],
-            [ 'i' => 'dept', 'n' => 'Department', 't' => 'select2', 'p' => 'Select...', 'o' => $ds, 'c' => 4 ],
+            [ 'i' => 'dept', 'n' => 'Department', 't' => 'select2', 'p' => 'Select...', 'o' => $ds, 'c' => 4, 'k' => 1 ],
             [ 'i' => 'color', 'n' => 'Color', 't' => 'color', 'v' => '#000000', 'c' => 4 ],
             [ 'i' => 'icon', 'n' => 'Icon', 'p' => 'Ex: home', 'c' => 4 ],
         ];
-        return $f->__form( $form, 'row', 'des' );
+        return $f->__pre_process( '', 'aio_designations', 'design', 'des_', [], 'Successfully saved work designation!' )
+        . $f->__form( $form, 'row', 'design' )
+        . $f->__process_trigger( 'Save Designation', 'mb0', '', '', '.tac' )
+        . $f->__post_process();
+    }
+
+    function user_line( string $name = '', string $picture = '', string $designation = '', string $url = '' ): void {
+        echo $this->__user_line( $name, $picture, $designation, $url );
+    }
+
+    function __user_line( string $name = '', string $picture = '', string $designation = '', string $url = '' ): string {
+        if( !empty( $url ) ) {
+            return __a( APPURL . $url, __div( 'user_info', __image( $picture, '', 'pic' ) . __div( 'details', __div( 'name', $name ) . __div( 'design', $designation ) ) ), 'aio_user_info_line' );
+        } else {
+            return __div( 'aio_user_info_line', __div( 'user_info', __image( $picture, '', 'pic' ) . __div( 'details', __div( 'name', $name ) . __div( 'design', $designation ) ) ) );
+        }
     }
 
 }

@@ -401,7 +401,7 @@ class DB {
     function select( string|array $table, string|array $cols = '*', string $where = '', int $limit = 0, int $offset = 0 , string $group = '', bool $count = false, string $order_by = '', string $sort = '', bool $order_numeric = false ): array {
         $db = $this->connect();
         if( $db ) {
-            $cols = $cols == "" ? "*" : ( is_array( $cols ) ? implode( ',', $cols ) : $cols );
+            $cols = $cols == "" ? "*" : ( is_array( $cols ) ? ( !empty( $cols ) ? implode( ',', $cols ) : '*' ) : $cols );
             if ( !is_array( $table ) ) {
                 $query = $count ? "SELECT COUNT('" . $cols . "') FROM $table " : "SELECT " . $cols . " FROM $table ";
                 $target = $table;

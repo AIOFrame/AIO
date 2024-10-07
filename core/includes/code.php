@@ -435,6 +435,14 @@ function article__(): string {
     return __post( 'article' );
 }
 
+function cb( string $color = '', int $width = 40, int $height = 30, int $radius = 8 ): void {
+    echo __cb( $color, $width, $height, $radius );
+}
+
+function __cb( string $color = '', int $width = 40, int $height = 30, int $radius = 8 ): string {
+    return __div( 'color_block', '', '', 'style="background:'.$color.';width:'.$width.'px;height:'.$height.'px;border-radius:'.$radius.'px"' );
+}
+
 /**
  * @param string $class Design class for tabs ( 'vertical' or 'material' )
  * @param bool $remember_tab Remember the active tab on refresh (default false)
@@ -564,6 +572,15 @@ function __ico( string $icon = '', string $class = '', string $element = 'i', st
 
 function __div( string $class = '', string $content = '', string $id = '', string $attrs = '', bool $translate = false ): string {
     return __el( 'div', $class, $content, $id, $attrs, $translate );
+}
+
+function status( bool $active = false ): void {
+    echo __status( $active );
+}
+
+function __status( bool $active = false ): string {
+    $i = $active ? 'check_circle' : 'radio_button_unchecked';
+    return __ico( $i, ( $active ? 'green' : 'red' ) );
 }
 
 function __a( string $hyperlink = '#', string $content = '', string $class = '', string $hover_title = '', string $attr = '', string $id = '' ): string {
