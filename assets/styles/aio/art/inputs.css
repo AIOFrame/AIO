@@ -13,6 +13,13 @@ label span {
   margin: auto 5px;
 }
 
+label + label.desc {
+  text-transform: none;
+  font-size: 0.9rem;
+  opacity: 0.6;
+  margin-top: -5px;
+}
+
 label.grad {
   background: -webkit-linear-gradient(45deg, var(--primary_color), var(--secondary_color));
   -webkit-background-clip: text;

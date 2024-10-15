@@ -80,16 +80,83 @@ class EMS {
         // TODO: Contract Viewer
     }
 
-    function contract_modal(): void {
-        // TODO: Contract Modal
+    function contract_form(): void {
+        // TODO: Contract Form
     }
 
-    function get_contracts(): array {
+    function _contracts( int $count = 12, int $page = 0, string $where = '' ): array {
         return [];
     }
 
-    function get_contract(): array {
+    function _contract( int $id ): array {
         return [];
+    }
+
+    // Contract Types
+
+    function contract_types( string $edit_wrap = '', int $count = 12, int $page = 0, string $where = '' ): void {
+        echo $this->__contract_types( $edit_wrap, $count, $page, $where );
+    }
+
+    function _contract_types( string $edit_wrap = '', int $count = 12, int $page = 0, string $where = '' ): array {
+        $d = new DB();
+        return $d->select( 'aio_contract_types', [], $where, $count, $page );
+    }
+
+    function __contract_types( string $edit_wrap = '', int $count = 12, int $page = 0, string $where = '' ): string {
+        $cts = $this->_contract_types( $edit_wrap, $count, $page, $where );
+        $r = '';
+        $f = new FORM();
+        if( !empty( $cts ) ) {
+            foreach( $cts as $c ) {
+                skel( $c );
+            }
+        }
+        $r .= __d( 'aio_contract_type card br15 p30' )
+        . __div( 'status t r g', 'Active' )
+        . __r( 'aic' )
+            . __c( 3 )
+                . __h2( 'UAE - General Contract', 0 )
+                . __div( 'desc mb20', 'Full Time Contract' )
+            . c__()
+            . __c( 6, 'df aic jcc' )
+                . __mini_stat( 265, 'Work Days / Year', 'event', '', 'al p' )
+                . __mini_stat( 42, 'Leaves / Year', 'free_cancellation', '', 'al r' )
+                . __mini_stat( 40, 'Work Hours / Week', 'schedule', '', 'al o' )
+            . c__()
+            . __c( 3 )
+                . __d( 'acts' )
+                    . ( !empty( $edit_wrap ) ? $f->__edit_html( $edit_wrap ) : '' )
+                    . $f->__trash_html( 'aio_contract_types', 'con_type_id = 1' )
+                . d__()
+            . c__()
+        . r__() . d__();
+        return $r;
+    }
+
+    function contract_type_form(): void {
+        echo $this->__contract_type_form();
+    }
+
+    function __contract_type_form(): string {
+        $f = new FORM();
+        $days = [ T('Monday'), T('Tuesday'), T('Wednesday'), T('Thursday'), T('Friday'), T('Saturday'), T('Sunday') ];
+        $form = [
+            [ 'n' => 'Details', 't' => 'step', 'fields' => [
+                [ 'i' => 'title', 'n' => 'Contract Name', 'p' => 'Ex: Full Time Contract', 'c' => 12 ],
+                [ 'i' => 'desc', 'n' => 'Description', 'p' => 'Ex: Contract specific to GCC...', 'c' => 12 ],
+            ] ],
+            [ 'n' => 'Work Days', 't' => 'step', 'fields' => [
+                [ 'i' => 'title', 'n' => 'Working Days', 'd' => 'Check working days and uncheck holidays', 'p' => 'Select Days...', 't' => 'checkboxes', 'o' => $days, 'c' => 12, 'iw' => 'row', '_i' => 3 ],
+            ] ],
+            [ 'n' => 'Work Hours', 't' => 'step', 'fields' => [
+            ] ],
+            [ 'n' => 'Visa', 't' => 'step', 'fields' => [
+            ] ],
+            [ 'n' => 'Insurance', 't' => 'step', 'fields' => [
+            ] ],
+        ];
+        return $f->__form( $form );
     }
 
     function organization(): void {
@@ -122,6 +189,33 @@ class EMS {
         // Attendance Options
         // Working Days of Week
         // Week Starts on
+    }
+
+    function options_resources(): void {
+        $o = new OPTIONS();
+        $f = [
+            [ '' ]
+        ];
+    }
+
+    function options_contracts(): void {
+        $o = new OPTIONS();
+    }
+
+    function options_ems(): void {
+        $o = new OPTIONS();
+    }
+
+    function options_emails(): void {
+        $o = new OPTIONS();
+        // Emails to HR
+            // Email on document expiry
+            // Email on visa expiry
+            // Email on eid expiry
+            // Email on medical insurance expiry
+        // Emails to Management
+        // Emails to Team Leader
+        // Emails to Employees
     }
 
     function attendance(): void {
@@ -221,8 +315,8 @@ class EMS {
         $f = new FORM();
     }
 
-    function departments( string $style = 'list', string $wrap_class = '', string $edit_modal = '', int $count = 12, int $page = 0 ): void {
-        echo $this->__departments( $style, $wrap_class, $edit_modal, $count, $page );
+    function departments( string $style = 'list', string $wrap_class = '', string $edit_wrap = '', int $count = 12, int $page = 0 ): void {
+        echo $this->__departments( $style, $wrap_class, $edit_wrap, $count, $page );
     }
 
     function _departments( int $count = 12, int $page = 0, string $where = '' ): array {
@@ -232,25 +326,25 @@ class EMS {
         return $r;
     }
 
-    function __departments( string $style = 'list', string $wrap_class = '', string $edit_modal = '', int $count = 12, int $page = 0, string $where = '' ): string {
-        return $style == 'list' ? $this->__departments_list( $wrap_class, $edit_modal, $count, $page ) : $this->__departments_cards( $wrap_class, $edit_modal, $count, $page );
+    function __departments( string $style = 'list', string $wrap_class = '', string $edit_wrap = '', int $count = 12, int $page = 0, string $where = '' ): string {
+        return $style == 'list' ? $this->__departments_list( $wrap_class, $edit_wrap, $count, $page ) : $this->__departments_cards( $wrap_class, $edit_wrap, $count, $page );
     }
 
-    function __departments_list( string $class, string $edit_modal = '', int $count = 12, int $page = 0, string $where = '' ): string {
+    function __departments_list( string $class, string $edit_wrap = '', int $count = 12, int $page = 0, string $where = '' ): string {
         $data = [
             [ 'head' => [ 'Name & Details', 'Color', 'Icon', 'Status', 'Actions' ] ],
         ];
         $ds = $this->_departments( $count, $page, $where );
         $f = new FORM();
         foreach( $ds as $d ) {
-            $edit = $f->__edit_html( $edit_modal, $d );
+            $edit = $f->__edit_html( $edit_wrap, $d );
             $delete = $f->__trash_html( 'aio_departments', 'dept_id = '.$d['dept_id'] );
             $data[] = [ 'body' => [ $d['dept_title'] . __div( 'fzs op5', $d['dept_desc'] ), __cb( $d['dept_color'] ), __ico( $d['dept_icon'] ), __status( $d['dept_status'] ), __div( 'acts', $edit . $delete ) ] ];
         }
         return __table( $data, $class );
     }
 
-    function __departments_cards( string $class, string $edit_modal = '', int $count = 12, int $page = 0, string $where = '' ): string {
+    function __departments_cards( string $class, string $edit_wrap = '', int $count = 12, int $page = 0, string $where = '' ): string {
         return '';
     }
 
@@ -278,25 +372,25 @@ class EMS {
         return $d->select( 'aio_designations', [], $where, $count, $page );
     }
 
-    function designations( string $style = 'list', string $wrap_class = '', string $edit_modal = '', int $count = 12, int $page = 0, string $where = '' ): void {
-        echo $style == 'list' ? $this->__designations_list( $wrap_class, $edit_modal, $count, $page ) : $this->__designations_cards( $wrap_class, $edit_modal, $count, $page );
+    function designations( string $style = 'list', string $wrap_class = '', string $edit_wrap = '', int $count = 12, int $page = 0, string $where = '' ): void {
+        echo $style == 'list' ? $this->__designations_list( $wrap_class, $edit_wrap, $count, $page ) : $this->__designations_cards( $wrap_class, $edit_wrap, $count, $page );
     }
 
-    function __designations_list( string $class, string $edit_modal = '', int $count = 12, int $page = 0, string $where = '' ): string {
+    function __designations_list( string $class, string $edit_wrap = '', int $count = 12, int $page = 0, string $where = '' ): string {
         $data = [
             [ 'head' => [ 'Name & Details', 'Color', 'Icon', 'Status', 'Actions' ] ],
         ];
         $ds = $this->_designations( $count, $page, $where );
         $f = new FORM();
         foreach( $ds as $d ) {
-            $edit = $f->__edit_html( $edit_modal, $d );
+            $edit = $f->__edit_html( $edit_wrap, $d );
             $delete = $f->__trash_html( 'aio_designations', 'des_id = '.$d['des_id'] );
             $data[] = [ 'body' => [ 'l' => $d['des_title'] . __div( 'fzs op5', $d['des_desc'] ), 'c' => __cb( $d['des_color'] ), __ico( $d['des_icon'] ), __status( $d['des_status'] ), __div( 'acts', $edit . $delete ) ] ];
         }
         return __table( $data, $class );
     }
 
-    function __designations_cards( string $class, string $edit_modal = '', int $count = 12, int $page = 0, string $where = '' ): string {
+    function __designations_cards( string $class, string $edit_wrap = '', int $count = 12, int $page = 0, string $where = '' ): string {
         $ds = $this->_designations( $count, $page, $where );
         return '';
     }

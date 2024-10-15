@@ -322,6 +322,14 @@
   line-height: 2.8rem;
 }
 
+.acts.r {
+  justify-content: flex-end;
+}
+
+.acts.l {
+  justify-content: flex-start;
+}
+
 .card.off, .card.disabled, .plate.off, .plate.disabled {
   opacity: 0.5;
 }

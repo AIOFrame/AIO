@@ -13,27 +13,106 @@
     height: 60px;
     line-height: 60px;
     border-radius: 15px;
-    text-align: center;
+    //text-align: center;
     font-size: 1.8rem;
     font-weight: bold;
   }
-  .count.green, .count.done {
-    background: rgba(34, 139, 34, 0.1);
-    color: forestgreen;
-  }
-  .count.orange {
-    background: rgba(255, 69, 0, 0.1);
-    color: orangered;
-  }
-  .count.pink {
-    color: hotpink;
-    background: rgba(255, 105, 180, 0.1);
-  }
-  .count.red, .count.error {
-    color: firebrick;
-    background: rgba(178, 34, 34, 0.1);
+  .text {
+    display: block;
+    opacity: .35;
+    font-size: .9rem;
   }
 }
-.widget {
-
+.widget.green, .widget.g, .widget .count.green, .widget .count.done, .widget .count.g {
+  background: rgba(34, 139, 34, 0.1);
+  color: forestgreen;
+}
+.widget.orange, .widget.o, .widget .count.orange, .widget .count.o {
+  background: rgba(255, 69, 0, 0.1);
+  color: orangered;
+}
+.widget.pink, .widget.p, .widget .count.pink, .widget .count.p {
+  color: hotpink;
+  background: rgba(255, 105, 180, 0.1);
+}
+.widget.red, .widget.r, .widget .count.red, .widget .count.error, .widget .count.r {
+  color: crimson;
+  background: rgba(220, 20, 60, 0.1);
+}
+.widget.stat.mini {
+  display: block;
+  min-width: 150px;
+  .ico {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    background: rgba(255,255,255,.7);
+    border-radius: 10px;
+    margin-bottom: 8px;
+  }
+  .text {
+    margin: 6px 0;
+    font-size: .8rem;
+    color: #000;
+    opacity: .7;
+  }
+  .count {
+    width: auto;
+    height: auto;
+    line-height: normal;
+  }
+}
+.widget.al {
+  text-align: left;
+}
+.widget.ar {
+  text-align: right;
+}
+.card {
+  .widget {
+    margin: 0 10px;
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+  .widget.green, .widget.g, .widget .count.green, .widget .count.done, .widget .count.g {
+    border-color: rgba(34, 139, 34, 0.6);
+  }
+  .widget.orange, .widget.o, .widget .count.orange, .widget .count.o {
+    border-color: rgba(255, 69, 0, 0.6);
+  }
+  .widget.pink, .widget.p, .widget .count.pink, .widget .count.p {
+    border-color: rgba(255, 105, 180, 0.6);
+  }
+  .widget.red, .widget.r, .widget .count.red, .widget .count.error, .widget .count.r {
+    border-color: rgba(220, 20, 60, 0.6);
+  }
+  .widget.green, .widget.g {
+    .ico {
+      background: forestgreen;
+    }
+  }
+  .widget.orange, .widget.o {
+    .ico {
+      background: orangered;
+    }
+  }
+  .widget.pink, .widget.p {
+    .ico {
+      background: hotpink;
+    }
+  }
+  .widget.red, .widget.r {
+    .ico {
+      background: crimson;
+    }
+  }
+  .widget.green, .widget.g, .widget.orange, .widget.o, .widget.pink, .widget.p, .widget.red, .widget.r {
+    .ico {
+      //background: inherit;
+      color: #fff;
+    }
+    .count {
+      font-weight: normal;
+    }
+  }
 }

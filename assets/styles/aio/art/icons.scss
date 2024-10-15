@@ -1,8 +1,9 @@
 .ico {
   display: inline-block;
   vertical-align: top;
-  width:22px;
-  height:22px;
+  width: 32px;
+  height: 32px;
+  font-size: .8rem;
   background-repeat:no-repeat !important;
   background-position:center !important;
   background-size:contain !important;
@@ -13,7 +14,7 @@
   font-family: 'MaterialIcons',sans-serif;
   font-weight: normal;
   font-style: normal;
-  font-size: 24px;  /* Preferred icon size */
+  //font-size: 24px;  /* Preferred icon size */
   display: inline-block;
   line-height: 1;
   text-transform: none;

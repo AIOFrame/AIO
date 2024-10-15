@@ -646,7 +646,7 @@ a.brand {
 }
 .header > div, .header > .title {
   flex: 0 0 33.3333%;
-  max-width: 33.3333%;
+  max-width: 40%;
 }
 .header [type=search] {
   margin: 0;
@@ -663,8 +663,9 @@ a.brand {
 .header .tabs, .header .views {
   display: flex;
   justify-content: center;
+  width: 100%;
 }
-.header .tabs > a, .header .tabs > div, .header .views > a, .header .views > div {
+.header .tabs .tab_heads > a, .header .tabs .tab_heads > div, .header .views .tab_heads > a, .header .views .tab_heads > div {
   display: block;
   position: relative;
   opacity: 0.3;
@@ -673,20 +674,20 @@ a.brand {
   text-align: center;
   padding: 10px;
 }
-.header .tabs > a > div, .header .tabs > a > i, .header .tabs > div > div, .header .tabs > div > i, .header .views > a > div, .header .views > a > i, .header .views > div > div, .header .views > div > i {
+.header .tabs .tab_heads > a > div, .header .tabs .tab_heads > a > i, .header .tabs .tab_heads > div > div, .header .tabs .tab_heads > div > i, .header .views .tab_heads > a > div, .header .views .tab_heads > a > i, .header .views .tab_heads > div > div, .header .views .tab_heads > div > i {
   line-height: 50px;
 }
-.header .tabs > a .bi:before, .header .tabs > div .bi:before, .header .views > a .bi:before, .header .views > div .bi:before {
+.header .tabs .tab_heads > a .bi:before, .header .tabs .tab_heads > div .bi:before, .header .views .tab_heads > a .bi:before, .header .views .tab_heads > div .bi:before {
   width: 50px;
   font-size: 1.6rem;
   line-height: 50px;
 }
-.header .tabs > a.on, .header .tabs > div.on, .header .views > a.on, .header .views > div.on {
+.header .tabs .tab_heads > a.on, .header .tabs .tab_heads > div.on, .header .views .tab_heads > a.on, .header .views .tab_heads > div.on {
   opacity: 1;
   background: none;
   color: var(--primary_color);
 }
-.header .tabs a.on:after, .header .tabs div.on:after, .header .views a.on:after, .header .views div.on:after {
+.header .tabs .tab_heads a.on:after, .header .tabs .tab_heads div.on:after, .header .views .tab_heads a.on:after, .header .views .tab_heads div.on:after {
   content: "";
   display: block;
   left: 10px;
@@ -1248,7 +1249,8 @@ fieldset {
 
 .vertical_blocks {
   max-height: calc(100vh - 180px);
-  padding: 0 20px 20px 0;
+  padding: 20px;
+  margin: -20px -20px 0;
   overflow-y: auto;
 }
 

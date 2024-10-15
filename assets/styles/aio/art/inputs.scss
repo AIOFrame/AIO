@@ -57,6 +57,12 @@ label {
   }
   //display: block;
 }
+label + label.desc {
+  text-transform: none;
+  font-size: .9rem;
+  opacity: .6;
+  margin-top: -5px;
+}
 label.grad {
   background: -webkit-linear-gradient( 45deg, $primary, $secondary );
   -webkit-background-clip: text;

@@ -680,7 +680,7 @@ a.brand {
   }
   > div, > .title {
     flex: 0 0 33.3333%;
-    max-width: 33.3333%;
+    max-width: 40%;
     //display: flex;
   }
   > div:nth-child(2) {
@@ -710,40 +710,47 @@ a.brand {
     top: 0;
     display: flex;
   } */
+  .tab_heads {
+    //display: flex;
+    //flex-wrap: nowrap;
+  }
   .tabs, .views {
     display: flex;
     justify-content: center;
-    > a, > div {
-      display: block;
-      position: relative;
-      opacity: .3;
-      cursor: pointer;
-      box-shadow: none;
-      text-align: center;
-      padding: 10px;
-      > div, > i {
+    width: 100%;
+    .tab_heads {
+      > a, > div {
+        display: block;
+        position: relative;
+        opacity: .3;
+        cursor: pointer;
+        box-shadow: none;
+        text-align: center;
+        padding: 10px;
+        > div, > i {
+          line-height: 50px;
+        }
+      }
+      > a .bi:before, > div .bi:before {
+        width: 50px;
+        font-size: 1.6rem;
         line-height: 50px;
       }
-    }
-    > a .bi:before, > div .bi:before {
-      width: 50px;
-      font-size: 1.6rem;
-      line-height: 50px;
-    }
-    > a.on, > div.on {
-      opacity: 1;
-      background: none;
-      color: var(--primary_color);
-    }
-    a.on:after, div.on:after {
-      content: "";
-      display: block;
-      left: 10px;
-      bottom: -4px;
-      height: 4px;
-      background: var(--primary_color);
-      position: absolute;
-      width: calc(100% - 20px);
+      > a.on, > div.on {
+        opacity: 1;
+        background: none;
+        color: var(--primary_color);
+      }
+      a.on:after, div.on:after {
+        content: "";
+        display: block;
+        left: 10px;
+        bottom: -4px;
+        height: 4px;
+        background: var(--primary_color);
+        position: absolute;
+        width: calc(100% - 20px);
+      }
     }
   }
   .views {
@@ -1313,7 +1320,8 @@ fieldset {
 }
 .vertical_blocks {
   max-height: calc(100vh - 180px);
-  padding: 0 20px 20px 0;
+  padding: 20px;
+  margin: -20px -20px 0;
   overflow-y: auto;
 }
 

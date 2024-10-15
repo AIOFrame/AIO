@@ -464,13 +464,18 @@ function tab( string $title = '', bool $active = false, string $target = '', str
 }
 
 function vertical_sliding_tabs( array $tabs = [], string $class = '' ): void {
-    pre( '', 'vertical_tabs ' . $class );
+    echo __vertical_sliding_tabs( $tabs, $class );
+}
+
+function __vertical_sliding_tabs( array $tabs = [], string $class = '' ): string {
+    $r = __pre( '', 'vertical_tabs ' . $class );
     $x = 1;
     foreach( $tabs as $tk => $tv ) {
-        div( $x == 1 ? 'on' : '', $tv, '', 'data-e="#'.$tk.'"', 1 );
+        $r .= __div( $x == 1 ? 'on' : '', $tv, '', 'data-e="#'.$tk.'"', 1 );
         $x++;
     }
-    post();
+    $r .= __post();
+    return $r;
 }
 
 function post_tabs(): void {
@@ -1422,4 +1427,15 @@ function no_content( string $message = "No data available!", string $suggestion 
             a( $link_url, $translate ? T( $link_text ) : $link_text, 'btn link' );
         }
     d_();
+}
+
+// Statistic Widgets
+
+function mini_stat( int|float $count = 0, string $text = '', string $ico = '', string $url = '', string $class = '', string $attr = '' ): void {
+    echo __mini_stat( $count, $text, $ico, $url, $attr );
+}
+
+function __mini_stat( int|float $count = 0, string $text = '', string $ico = '', string $url = '', string $class = '', string $attr = '' ): string {
+    $c = ( !empty( $ico ) ? __ico( $ico ) : '' ) . __div( 'text', $text ) . __div( 'count', $count );
+    return !empty( $url ) ? __a( $url, $c, 'widget stat mini '.$class, '', $attr ) : __div( 'widget stat mini '.$class, $c, '', $attr );
 }

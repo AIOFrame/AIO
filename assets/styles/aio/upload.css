@@ -617,7 +617,8 @@ td .aio_fsp {
 }
 
 .aio_files > .f {
-  display: block;
+  display: flex;
+  align-items: center;
   padding: var(--input_padding_top) 35px var(--input_padding_bottom) var(--input_padding_left);
   background-color: var(--input_bg);
   border-top: var(--input_border_top) solid #888;
@@ -629,6 +630,7 @@ td .aio_fsp {
   margin-right: 15px;
   line-height: 1.4rem;
   font-size: 1rem;
+  gap: 3px;
 }
 .aio_files .f > .f {
   font-size: 0.8rem;
@@ -646,18 +648,17 @@ td .aio_fsp {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  right: 5px;
-  width: 30px;
-  height: 30px;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
   font-size: 1.2rem;
-  line-height: 30px;
+  color: var(--error_color);
 }
-.aio_files .i.file {
+.aio_files .ico.file {
   height: 20px;
   width: 20px;
-  display: inline-block;
-  vertical-align: middle;
-  background: url("../../images/icons/file.svg") no-repeat center/contain;
+  font-size: 1.2rem;
 }
 
 .file_modal.max {
