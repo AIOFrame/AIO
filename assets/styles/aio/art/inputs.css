@@ -471,12 +471,12 @@ select.mb0 + .select2-container {
 
 .icon_picker.MaterialIcons .select2-results__option:not(.select2-results__message), .icon_picker.MaterialIcons .select2-selection__rendered {
   font-family: "Material Icons Round";
-  font-size: 2rem;
+  font-size: 1.6rem;
 }
 
 .icon_picker.BootstrapIcons .select2-results__option:not(.select2-results__message), .icon_picker.BootstrapIcons .select2-selection__rendered {
   font-family: "BootstrapIcons";
-  font-size: 2rem;
+  font-size: 1.6rem;
 }
 
 /* Trumbowyg Fixes */
