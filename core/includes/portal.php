@@ -4,7 +4,7 @@ class PORTAL {
 
     public array $icon_options = [
         'menu' => 'menu',
-        'menu_close' => 'close',
+        'menu_x' => 'close',
         'alerts' => 'notifications',
         'regions' => 'public',
         'languages' => 'language',

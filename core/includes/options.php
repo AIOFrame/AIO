@@ -92,15 +92,15 @@ class OPTIONS {
     ];
     public array $events = [ 'normal', 'hover', 'click' ];
     public array $icon_options = [
-        'accordion_view' => 'view_day',
+        'accordion' => 'view_day',
         'calendar' => 'calendar_month',
         'search' => 'search',
-        'file_upload' => 'file_upload',
+        'upload' => 'file_upload',
         'file_size' => 'straighten',
         'file_type' => 'description',
         'file_limit' => 'content_copy',
-        'modal_expand' => 'open_in_full',
-        'modal_contract' => 'close_fullscreen',
+        'modal_max' => 'open_in_full',
+        'modal_min' => 'close_fullscreen',
         'close' => 'close',
         'dropdown' => 'expand_more',
         'previous' => 'arrow_back',
@@ -109,9 +109,9 @@ class OPTIONS {
         'reload' => 'replay',
         'success' => 'check_circle',
         'fail' => 'warning',
-        'add_row' => 'playlist_add',
-        'remove_row' => 'remove_circle',
-        'drag_row' => 'drag_handle',
+        'row_add' => 'playlist_add',
+        'row_rem' => 'remove_circle',
+        'row_drag' => 'drag_handle',
     ];
     public array $option_elements = [
         'input' => 'Input Fields',
@@ -226,8 +226,8 @@ class OPTIONS {
         }
         $form = [
             [ 'i' => 'icon_font', 'n' => 'Icon Fonts', 'v' => ( $options['icon_font'] ?? 'MaterialIcons' ), 'o' => [ 'MaterialIcons' => 'Material Icons', 'BootstrapIcons' => 'Bootstrap Icons' ], 'c' => 12, 't' => 'select2', 'k' => 1, 'm' => 0, 'a' => $a ],
-            [ 'i' => 'icon_class', 'n' => 'Icon Class', 'v' => $options['icon_class'] ?? 'mico', 'c' => 6, 'a' => $a ],
-            [ 'i' => 'icon_after_class', 'n' => 'Icon After Class', 'v' => $options['icon_after_class'] ?? 'mica', 'c' => 6, 'a' => $a ],
+            //[ 'i' => 'icon_class', 'n' => 'Icon Class', 'v' => $options['icon_class'] ?? 'mico', 'c' => 6, 'a' => $a ],
+            //[ 'i' => 'icon_after_class', 'n' => 'Icon After Class', 'v' => $options['icon_after_class'] ?? 'mica', 'c' => 6, 'a' => $a ],
         ];
         $autoload = [ 'icon_font', 'icon_class', 'icon_after_class' ];
         $icons = array_merge( $icons, $more_options );
@@ -236,7 +236,7 @@ class OPTIONS {
             $v = $options[ $ico ] ?? $v;
             $autoload[] = $ico;
             $icon_preview = __div( ( $options['icon_class'] ?? 'mico' ) . ' icon_preview ' . $v, $v );
-            $form[] = [ 'i' => $ico, 'n' => ucwords( str_replace( '_', ' ', str_replace( 'ico', '', $o ) ) ), 'v' => $v, 'c' => 2, 'a' => $a, 't' => 'icon', 'dsd_' => $icon_preview . d__() ];
+            $form[] = [ 'i' => $ico, 'n' => ucwords( str_replace( '_', ' ', str_replace( 'ico', '', $o ) ) ), 'v' => $v, 'c' => 1, 'a' => $a, 't' => 'icon', 'dsd_' => $icon_preview . d__() ];
         }
         //$o = new OPTIONS();
         _d( 'icon_options' );

@@ -6,7 +6,7 @@ class FUP {
         global $options;
         $ico_class = $options['icon_class'] ?? 'mico';
         $select_ico = $options['ico_success'] ?? 'check_circle';
-        $browse_ico = $options['ico_file_upload'] ?? 'file_upload';
+        $browse_ico = $options['ico_upload'] ?? 'file_upload';
         $delete_ico = $options['delete_ico'] ?? 'delete';
         $size_ico = $options['ico_file_size'] ??  'sd_card';
         $type_ico = $options['ico_file_type'] ?? 'description';

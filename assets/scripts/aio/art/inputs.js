@@ -36,7 +36,10 @@ window.addEventListener('DOMContentLoaded',function () {
     // Icon Picker
     .on('select2:open','.icon_picker select',function (e) {
         let font = $(e.target).data('font');
-        $('.select2-container').addClass('icon_picker ' + font);
+        $('.select2-container--open:not(.select2-container--below)').addClass('icon_picker ' + font);
+    })
+    .on('select2:closing','select',function (e) {
+        $('.select2-container').removeClass('icon_picker');
     })
 
     // Rich Text Editor

@@ -1306,9 +1306,9 @@ class FORM {
             if( in_array( $type, [ 'dynamic', 'dyn', 'dy' ] ) ) {
                 //skel( $form );
                 //skel( $sub_type );
-                $add = __ico( 'add_row', 'ico m', 'div', '', 'title="'.T('Add new data row').'"' );
-                $remove = __ico( 'remove_row', 'ico m', 'div', '', 'title="'.T('Remove row!').'"' );
-                $drag = __ico( 'drag_row', 'ico m cm', 'div', '', 'title="'.T('Drag row').'"' );
+                $add = __ico( 'row_add', 'ico m', 'div', '', 'title="'.T('Add new data row').'"' );
+                $remove = __ico( 'row_rem', 'ico m', 'div', '', 'title="'.T('Remove row!').'"' );
+                $drag = __ico( 'row_drag', 'ico m cm', 'div', '', 'title="'.T('Drag row').'"' );
                 $data_attr = $f['data'] ?? ( $f['da'] ?? $data_attr );
                 $group_by = $f['group_by'] ?? ( $f['g'] ?? $group_by );
                 $empty_form = $form;

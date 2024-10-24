@@ -448,6 +448,9 @@ select.mb0 + .select2-container {
 }
 
 /* Icon Picker */
+.icon_picker .select2-dropdown {
+  min-width: 240px;
+}
 .icon_picker .select2-results__options {
   display: flex;
   flex-wrap: wrap;
@@ -460,13 +463,18 @@ select.mb0 + .select2-container {
   line-height: 2rem;
   outline: 1px solid rgba(0, 0, 0, 0.05);
 }
+.icon_picker .select2-results__option.select2-results__message {
+  flex: 0 0 100%;
+  max-width: 100%;
+  font-size: 0.8rem;
+}
 
-.icon_picker.MaterialIcons .select2-results__option, .icon_picker.MaterialIcons .select2-selection__rendered {
+.icon_picker.MaterialIcons .select2-results__option:not(.select2-results__message), .icon_picker.MaterialIcons .select2-selection__rendered {
   font-family: "Material Icons Round";
   font-size: 2rem;
 }
 
-.icon_picker.BootstrapIcons .select2-results__option, .icon_picker.BootstrapIcons .select2-selection__rendered {
+.icon_picker.BootstrapIcons .select2-results__option:not(.select2-results__message), .icon_picker.BootstrapIcons .select2-selection__rendered {
   font-family: "BootstrapIcons";
   font-size: 2rem;
 }
