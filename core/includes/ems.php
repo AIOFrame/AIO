@@ -134,26 +134,77 @@ class EMS {
         return $r;
     }
 
-    function contract_type_form(): void {
-        echo $this->__contract_type_form();
+    function contract_type_form( bool $show_med_ins = true, bool $show_life_ins = false, bool $show_emp_ins = false ): void {
+        echo $this->__contract_type_form( $show_med_ins, $show_life_ins, $show_emp_ins );
     }
 
-    function __contract_type_form(): string {
+    /**
+     * @param bool $show_med_ins Show Medical Insurance Fields ?
+     * @param bool $show_life_ins Show Life Insurance Fields ?
+     * @param bool $show_emp_ins Show Employment Insurance Fields ?
+     * @return string
+     */
+    function __contract_type_form( bool $show_med_ins = true, bool $show_life_ins = false, bool $show_emp_ins = false ): string {
         $f = new FORM();
+        $i = [];
+        if( $show_med_ins ) {
+            $i[] = [ 't' => 'h4', 'n' => 'Medical Insurance' ];
+            $i[] = [ 'i' => 'mi', 'n' => 'Provided ?', 't' => 'slide', 'off' => 'No', 'on' => 'Yes', 'c' => 3 ];
+            $i[] = [ 'i' => 'mi_term', 'n' => 'Duration (m)', 't' => 'range', 'min' => 3, 'v' => 12, 'max' => 24, 'c' => 3 ];
+            $i[] = [ 'i' => 'mi_cost', 'n' => 'Total Cost', 'p' => 'Ex: 2000', 'c' => 3 ];
+            $i[] = [ 'i' => 'mi_alert', 'n' => 'Expiry Alerts', 't' => 'slide', 'c' => 3 ];
+        }
+        if( $show_life_ins ) {
+            $i[] = [ 't' => 'h4', 'n' => 'Life Insurance' ];
+            $i[] = [ 'i' => 'li', 'n' => 'Provided ?', 't' => 'slide', 'off' => 'No', 'on' => 'Yes', 'c' => 3 ];
+            $i[] = [ 'i' => 'li_term', 'n' => 'Duration (m)', 't' => 'range', 'min' => 3, 'v' => 12, 'max' => 24, 'c' => 3 ];
+            $i[] = [ 'i' => 'li_cost', 'n' => 'Total Cost', 'p' => 'Ex: 2000', 'c' => 3 ];
+            $i[] = [ 'i' => 'li_alert', 'n' => 'Expiry Alerts', 't' => 'slide', 'c' => 3 ];
+        }
+        if( $show_emp_ins ) {
+            $i[] = [ 't' => 'h4', 'n' => 'Loss of Employment Insurance' ];
+            $i[] = [ 'i' => 'ei', 'n' => 'Provided ?', 't' => 'slide', 'off' => 'No', 'on' => 'Yes', 'c' => 3 ];
+            $i[] = [ 'i' => 'ei_term', 'n' => 'Duration (m)', 't' => 'range', 'min' => 3, 'v' => 12, 'max' => 24, 'c' => 3 ];
+            $i[] = [ 'i' => 'ei_cost', 'n' => 'Total Cost', 'p' => 'Ex: 2000', 'c' => 3 ];
+            $i[] = [ 'i' => 'ei_alert', 'n' => 'Expiry Alerts', 't' => 'slide', 'c' => 3 ];
+        }
         $days = [ T('Monday'), T('Tuesday'), T('Wednesday'), T('Thursday'), T('Friday'), T('Saturday'), T('Sunday') ];
         $form = [
             [ 'n' => 'Details', 't' => 'step', 'fields' => [
-                [ 'i' => 'title', 'n' => 'Contract Name', 'p' => 'Ex: Full Time Contract', 'c' => 12 ],
+                [ 'i' => 'title', 'n' => 'Contract Name', 'p' => 'Ex: Full Time Contract', 'c' => 10 ],
+                [ 'i' => 'renew_alert', 'n' => 'Expiry Alert', 't' => 'slide', 'c' => 2 ],
                 [ 'i' => 'desc', 'n' => 'Description', 'p' => 'Ex: Contract specific to GCC...', 'c' => 12 ],
             ] ],
-            [ 'n' => 'Work Days', 't' => 'step', 'fields' => [
+            [ 'n' => 'Days and Hours', 't' => 'step', 'fields' => [
                 [ 'i' => 'title', 'n' => 'Working Days', 'd' => 'Check working days and uncheck holidays', 'p' => 'Select Days...', 't' => 'checkboxes', 'o' => $days, 'c' => 12, 'iw' => 'row', '_i' => 3 ],
             ] ],
-            [ 'n' => 'Work Hours', 't' => 'step', 'fields' => [
-            ] ],
+            //[ 'n' => 'Work Hours', 't' => 'step', 'fields' => [
+
+            //] ],
             [ 'n' => 'Visa', 't' => 'step', 'fields' => [
+                [ 't' => 'h4', 'n' => 'Employment Visa' ],
+                [ 'i' => 'visa_name', 'n' => 'Visa Name', 'p' => 'Ex: Employment Visa...', 'c' => 12 ],
+                [ 'i' => 'visa', 'n' => 'Provided ?', 't' => 'slide', 'off' => 'No', 'on' => 'Yes', 'c' => 3 ],
+                [ 'i' => 'visa_term', 'n' => 'Duration (m)', 't' => 'range', 'min' => 3, 'v' => 12, 'max' => 24, 'c' => 3 ],
+                [ 'i' => 'visa_cost', 'n' => 'Total Cost', 'p' => 'Ex: 2000', 'c' => 3 ],
+                [ 'i' => 'visa_alert', 'n' => 'Expiry Alert', 't' => 'slide', 'c' => 3 ]
             ] ],
-            [ 'n' => 'Insurance', 't' => 'step', 'fields' => [
+            [ 'n' => 'Insurance', 't' => 'step', 'fields' => $i ],
+            [ 'n' => 'Facilities', 't' => 'step', 'fields' => [
+                [ 'f' => [
+                    [ 'i' => 'name', 'n' => 'Title', 'p' => 'Ex: Transportation...', 'c' => 6 ],
+                    [ 'i' => 'icon', 'n' => 'Icon', 'p' => 'Ex: car', 'c' => 3 ],
+                    [ 'i' => 'color', 'n' => 'Color', 'p' => 'Ex: #000000', 'c' => 3, 't' => 'color' ],
+                    [ 'i' => 'desc', 'n' => 'Facility Description', 'p' => 'Ex: A rental car will be provided...', 'c' => 12 ],
+                ], 't' => 'dynamic', 'data' => 'terms' ]
+            ] ],
+            [ 'n' => 'Terms', 't' => 'step', 'fields' => [
+                [ 'f' => [
+                    [ 'i' => 'name', 'n' => 'Title', 'p' => 'Ex: Commitment...', 'c' => 6 ],
+                    [ 'i' => 'icon', 'n' => 'Icon', 'p' => 'Ex: home', 'c' => 3 ],
+                    [ 'i' => 'color', 'n' => 'Color', 'p' => 'Ex: #000000', 'c' => 3, 't' => 'color' ],
+                    [ 'i' => 'desc', 'n' => 'Term Description', 'p' => 'Ex: Write terms in detail...', 'c' => 12 ],
+                ], 't' => 'dynamic', 'data' => 'terms' ]
             ] ],
         ];
         return $f->__form( $form );

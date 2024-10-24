@@ -33,6 +33,12 @@ window.addEventListener('DOMContentLoaded',function () {
         }
     })
 
+    // Icon Picker
+    .on('select2:open','.icon_picker select',function (e) {
+        let font = $(e.target).data('font');
+        $('.select2-container').addClass('icon_picker ' + font);
+    })
+
     // Rich Text Editor
     //document.addEventListener('DOMContentLoaded',function(){  });
     .on('change','[data-rich-text]',function(e){

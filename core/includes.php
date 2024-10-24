@@ -57,6 +57,7 @@ if( defined( 'CONFIG' ) ) {
     $app_functions_dirs = $c['function_dirs'] ?? ['functions'];
     $features = $c['features'] ?? [];
     $path = ROOTPATH . 'core/includes/';
+    $m_path = ROOTPATH . 'core/modules/';
 
     // Common used data - Will be deprecated or improved
     //if( in_array( 'data', $features ) || in_array( 'portal', $features ) ) {
@@ -109,7 +110,8 @@ if( defined( 'CONFIG' ) ) {
         }
 
         // Portal functions
-        if( in_array( 'portal', $features ) ) {
+        if( in_array_any( [ 'portal', 'admin', 'backend' ], $features ) ) {
+            include_once( $m_path . 'icons.php' );
             include_once( $path . 'portal.php' );
         }
 

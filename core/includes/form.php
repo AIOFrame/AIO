@@ -177,7 +177,7 @@ class FORM {
         $req = str_contains( $attr, 'required' ) ? '<i>*</i>' : '';
         $desc = is_array( $label ) ? $label[1] : '';
         $label = is_array( $label ) ? $label[0] : $label;
-        $return .= !empty( $label ) ? __el( 'label', 'title', $label . $req, '', 'for="'.$id.'"' ) : '';
+        $return .= !empty( $label ) ? __el( 'label', 'lbl', $label . $req, '', 'for="'.$id.'"' ) : '';
         $return .= !empty( $desc ) ? __el( 'label', 'desc', $desc, '', 'for="'.$id.'"' ) : '';
         $ph = !empty( $placeholder ) ? ' placeholder="'.$placeholder.'" data-placeholder="'.$placeholder.'"' : '';
         $return .= '<select name="'.$name.'" title="'.$label.'" data-key="'.$name.'" data-auto-close id="'.$id.'"'.$at.$ph.'>';
@@ -200,6 +200,24 @@ class FORM {
 
     function __select2( string|array $id = '', string|array $label = '', string $placeholder = '', string|array $options = [], string|null $selected = '', string $attr = '', string|float|int $pre = '', bool $keyed = false, bool $translate = false, string $post = '' ): string {
         return $this->__select( $id, $label, $placeholder, $options, $selected, $attr.' class="select2"', $pre, $keyed, $translate, $post );
+    }
+
+    function icon_picker(): void {
+        echo $this->__icon_picker();
+    }
+
+    function __icon_picker( string $font = '', string|array $id = '', string|array $label = '', string $placeholder = '', string|array $options = [], string|null $selected = '', string $attr = '', string|float|int $pre = '', string $post = '' ): string {
+        global $options;
+        $font = !empty( $font ) ? $font : ( $options['icon_font'] ?? 'MaterialIcons' );
+        $i = new ICONS();
+        $icons = [];
+        if( $font == 'MaterialIcons' ) {
+            $icons = $i->material_icons;
+        } else if( $font == 'BootstrapIcons' ) {
+            $icons = $i->bootstrap_icons;
+        }
+        $f = new FORM();
+        return $f->__select2( $id, $label, $placeholder, $icons, $selected, $attr . ' data-font="'.$font.'"', $this->__col( $pre ) . '.icon_picker ' . $font, 0, 0, '</div>' );
     }
 
     /**
@@ -270,7 +288,7 @@ class FORM {
                 break;
         }
         $req = str_contains( $attrs, 'required' ) ? '<i>*</i>' : '';
-        $title = !empty( $label ) ? __el( 'label', 'db', $label . $req . ( $type == 'range' ? __el( 'span', '', $value ) : '' ) ) : '';
+        $title = !empty( $label ) ? __el( 'label', 'db lbl', $label . $req . ( $type == 'range' ? __el( 'span', '', $value ) : '' ) ) : '';
         $title .= !empty( $desc ) ? __el( 'label', 'desc', $desc ) : '';
         return $_p . $title . $input . $p_;
     }
@@ -477,7 +495,7 @@ class FORM {
         $tip = $label !== '' ? 'title="'.$label.'"' : '';
         $label_attr = 'for="' . $id . '" '.$tip;
         $return = $_p;
-        $return .= !empty($label) ? __el( 'label', 'db', $label ) : '';
+        $return .= !empty($label) ? __el( 'label', 'db lbl', $label ) : '';
         $return .= __d( 'slide_set' );
         $return .= !empty( $off_text ) ? __el( 'label', 'slide_label off', $off_text, '', $label_attr ) : '';
         $return .= '<input ' . $attr . ' class="slide ' . $size . '" type="checkbox" name="' . $name . '" '.$key.' id="' . $id . '" '. $checked .' >';
@@ -910,7 +928,7 @@ class FORM {
             $label = is_array( $label ) ? $label[0] : $label;
             $return .= $_p;
             $req = str_contains( $attr, 'required' ) ? '<i>*</i>' : '';
-            $return .= !empty($label) ? __el( 'label', 'db', $label . $req ) : '';
+            $return .= !empty($label) ? __el( 'label', 'db lbl', $label . $req ) : '';
             $return .= !empty( $desc ) ? __el( 'label', 'desc', $desc ) : '';
             $return .= $wrap_inputs_pre;
             if( is_assoc( $values ) ) {
@@ -1017,7 +1035,7 @@ class FORM {
         $req = str_contains( $attrs, 'required' ) ? '<i>*</i>' : '';
         $desc = is_array( $label ) ? $label[1] : '';
         $label = is_array( $label ) ? $label[0] : $label;
-        $label = !empty( $label ) ? __el( 'label', 'title', $label . $req, '', 'for="'.$id.'"' ) : '';
+        $label = !empty( $label ) ? __el( 'label', 'lbl', $label . $req, '', 'for="'.$id.'"' ) : '';
         $label .= !empty( $desc ) ? __el( 'label', 'desc', $desc, '', 'for="'.$id.'"' ) : '';
         $value = str_contains( $value, 'fake_' ) ? $this->fake( $value ) : ( str_contains( $value, 'fake_' ) ? '' : $value );
         $ico = __div( ( $options['icon_class'] ?? 'mico' ) . ' ico ' . ( $options['ico_file_upload'] ?? '' ), $options['ico_file_upload'] ?? '' );
@@ -1332,7 +1350,7 @@ class FORM {
             } if( in_array( $type, [ 'accordion', 'acc', 'a' ] ) ) {
                 $return .= __accordion( $label, $this->__form( $form, $type, $data_attr ) );
             } else if( in_array( $type, [ 'el', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div', 'span', 'i', 'button' ] ) ) {
-                $content = $f['content'] ?? ( $f['value'] ?? ( $f['v'] ?? '' ) );
+                $content = $f['content'] ?? ( $f['value'] ?? ( $f['v'] ?? ( $label ?? '' ) ) );
                 //$wrap = $f['wrap'] ?? ( $f['wc'] ?? '' );
                 $return .= __el( $type, $class, $content );
             } else if( in_array( $type, [ 'column', 'col' ] ) ) {
@@ -1356,13 +1374,16 @@ class FORM {
                 if( is_array( $step_fields ) && !empty( $step_fields ) ) {
                     $steps[] = [ 'title' => $label, 'icon' => $ico, 'icon_class' => $ic, 'color' => $color, 'content' => $this->__form( $step_fields, $sub_type, $data_attr, $group_by ) ]; //$this->_form( $step_fields )
                 }
+            } else if( in_array( $type, [ 'icons', 'icon', 'ico', 'ic' ] ) ) {
+                $return .= $this->__icon_picker( '', $id, $label, $place, [], $val, $attrs, $pre, $post );
             } else if( in_array( $type, [ 'select', 'select2', 'dropdown', 's', 's2', 'dd' ] ) ) {
                 $options = $f['options'] ?? ( $f['os'] ?? ( $f['o'] ?? [] ) );
-                $value = !is_array( $id ) ? $_POST[ $id ] ?? ( $_GET[ $id ] ?? '' ) : $val;
+                //$value = !is_array( $id ) ? $_POST[ $id ] ?? ( $_GET[ $id ] ?? '' ) : $val;
+                //skel( $value );
                 $keyed = $f['keyed'] ?? ( $f['k'] ?? 0 );
                 $trans = $f['translate'] ?? ( $f['tr'] ?? 0 );
                 $attrs = isset( $f['multiple'] ) || isset( $f['m'] ) ? $attrs . ' multiple' : $attrs;
-                $return .= $this->__select2( $id, $label, $place, $options, $value, $attrs, $pre, $keyed, $trans, $post );
+                $return .= $this->__select2( $id, $label, $place, $options, $val, $attrs, $pre, $keyed, $trans, $post );
             } else if( in_array( $type, [ 'rich', 'richtext', 'r' ] ) ) {
                 $return .= $this->__richtext( $id, $label, $val, $attrs, $pre, $post );
             //} else if( in_array( $type, [ 'content_builder', 'content_build', 'content', 'cb' ] ) ) {
@@ -1978,14 +1999,14 @@ class FORM {
         echo $this->__pre( $pre );
     }
 
-    function __col( string|int|float $pre ): string {
+    function __col( string|int|float $pre, string $class = '' ): string {
         if( is_float( $pre ) ) {
             $pre = explode( '.', $pre );
-            return $pre[1] == 1 ? 'col-12 col-md-'.$pre[0].' end' : $pre[0];
+            return ( $pre[1] == 1 ? 'col-12 col-md-'.$pre[0].' end' : $pre[0] ) . ' ' . $class;
         } else if( is_numeric( $pre ) ) {
-            return $pre == 0 ? 'col' : 'col-12 col-md-'.$pre;
+            return ( $pre == 0 ? 'col' : 'col-12 col-md-'.$pre ) . ' ' . $class;
         } else {
-            return '';
+            return $class;
         }
     }
 

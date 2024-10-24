@@ -595,6 +595,7 @@ td .aio_fsp {
       transform: translateY(-50%);
       display: block;
       color: $primary;
+      overflow: hidden;
     }
     .ico.bi:before {
       font-size: 1.2rem;

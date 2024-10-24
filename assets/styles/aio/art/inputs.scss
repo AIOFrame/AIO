@@ -58,10 +58,12 @@ label {
   //display: block;
 }
 label + label.desc {
+  display: block;
   text-transform: none;
-  font-size: .9rem;
-  opacity: .6;
-  margin-top: -5px;
+  font-size: .8rem;
+  opacity: .4;
+  margin: -5px 0 5px;
+  //transform: translateY(-5px)
 }
 label.grad {
   background: -webkit-linear-gradient( 45deg, $primary, $secondary );
@@ -487,6 +489,35 @@ select.mb0 + .select2-container {
 .select2-hidden-accessible {
   font-size: 0;
   display: none;
+}
+
+/* Icon Picker */
+
+.icon_picker {
+  .select2-results__options {
+    display: flex;
+    flex-wrap: wrap;
+    .select2-results__option {
+      flex: 0 0 20%;
+      max-width: 20%;
+      text-align: center;
+      font-size: 2rem;
+      line-height: 2rem;
+      outline: 1px solid rgba(0,0,0,.05);
+    }
+  }
+}
+.icon_picker.MaterialIcons {
+  .select2-results__option, .select2-selection__rendered {
+    font-family: 'Material Icons Round';
+    font-size: 2rem;
+  }
+}
+.icon_picker.BootstrapIcons {
+  .select2-results__option, .select2-selection__rendered {
+    font-family: 'BootstrapIcons';
+    font-size: 2rem;
+  }
 }
 
 /* Trumbowyg Fixes */
