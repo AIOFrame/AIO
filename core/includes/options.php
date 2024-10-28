@@ -355,36 +355,37 @@ class OPTIONS {
         $options_array = [ 'font_1', 'font_1_weights', 'font_weight', 'font_2', 'font_2_weights' ];
         $options_array = defined( 'REGION' ) ? prepare_values( $options_array, $r ) : $options_array;
         $ops = $db->get_options( $options_array );
-        $f->option_params_wrap( 'fonts', 'class="row"', $options_array );
-        $font_1 = $ops['font_1'] ?? 'Lato';
-        $font_1_weights = $ops['font_1_weights'] ?? '400';
-        $font_weight = $ops['font_weight'] ?? '400';
-        $font_2 = $ops['font_2'] ?? '';
-        $font_2_weights = $ops['font_2_weights'] ?? '';
+        $f->option_params_wrap( 'fonts', 'class="row"' );
         $attr = 'data-fonts';
         $core_fonts_list = new DirectoryIterator( ROOTPATH . 'assets/fonts' );
         $app_fonts_list = file_exists( ROOTPATH . 'apps/'. APPDIR . '/assets/fonts' ) ? new DirectoryIterator( ROOTPATH . 'apps/'. APPDIR . '/assets/fonts' ) : [];
+        $all_fonts_list = array_merge( iterator_to_array( $core_fonts_list ), iterator_to_array( $app_fonts_list ) );
         $fonts = [];
         $weights = [ 100, 200, 300, 400, 500, 600, 700, 800, 900 ];
-        foreach( $core_fonts_list as $font ) {
-            if ( !$font->isDot() && $font->getFilename() !== '.DS_Store' ) {
-                $fonts[] = $font->getFilename();
+        foreach( [ $app_fonts_list, $core_fonts_list ] as $fonts_set ) {
+            foreach( $fonts_set as $font ) {
+                if ( !$font->isDot() && !in_array( $font->getFilename(), [ '.DS_Store', 'MaterialIcons', 'BootstrapIcons', 'SocialIcons' ] ) ) {
+                    $fonts[] = $font->getFilename();
+                }
             }
         }
-        foreach( $app_fonts_list as $font ) {
-            if ( !$font->isDot() && !in_array( $font->getFilename(), [ '.DS_Store', 'MaterialIcons' ] ) ) {
-                $fonts[] = $font->getFilename();
-            }
-        }
-        $f->select2($r.'font_1','Primary Font','Select Font...',$fonts,$font_1,$attr,6);
-        $f->select2($r.'font_1_weights','Font Weights','Select Weights...',$weights,$font_1_weights,$attr.' multiple',4);
-        $f->select2($r.'font_weight','Default Weight','Select...',$weights,$font_weight,$attr,2);
-        $f->select2($r.'font_2','Secondary Font','Select Font...',$fonts,$font_2,$attr,6);
-        $f->select2($r.'font_2_weights','Secondary Font Weights','Select Weights...',$weights,$font_2_weights,$attr.' multiple',4);
+        $form = [
+            [ 'i' => 'app_fonts', 't' => 'dynamic', 'a' => 'fonts', 'f' => [
+                [ 'i' => 'font', 'n' => 'Font', 'p' => 'Select Font...', 't' => 's2', 'o' => $fonts, 'c' => 6 ],
+                [ 'i' => 'weight', 'n' => 'Weights', 'p' => 'Select Weights...', 't' => 's2', 'o' => $weights, 'c' => 6, 'm' => 1 ],
+            ] ]
+        ];
+        $f->form( $form, 'row' );
+//        $f->select2($r.'font_1','Primary Font','Select Font...',$fonts,$font_1,$attr,6);
+//        $f->select2($r.'font_1_weights','Font Weights','Select Weights...',$weights,$font_1_weights,$attr.' multiple',4);
+//        $f->select2($r.'font_weight','Default Weight','Select...',$weights,$font_weight,$attr,2);
+//        $f->select2($r.'font_2','Secondary Font','Select Font...',$fonts,$font_2,$attr,6);
+//        $f->select2($r.'font_2_weights','Secondary Font Weights','Select Weights...',$weights,$font_2_weights,$attr.' multiple',4);
         //$f->select2('font_2_weight','Default Weight','Select...',$weights,$font_2_weight,$attr,2);
         $f->process_options($this->region_flag().'Save Map Options','store grad','','.col-12 tac');
         $this->region_notice();
         echo '</div>';
+
     }
 
     /**

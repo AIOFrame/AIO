@@ -780,11 +780,16 @@ function add_dynamic_row(e,place) {
     let parent = $(e).parents('.dynamic_form_wrap');
     let template = $(parent).children('.dynamic_form_template').html();
     let row = template.replaceAll( '{{x}}', $(parent).find('.dynamic_form .each_row').length + 1 ).replaceAll( '{{rand}}', rand ).replaceAll('data-ignore','');
-    let where = place !== undefined ? $(e).parents('.each_row').index() : $(parent).find('.dynamic_form > div').length - 1;
-    where++;
-    //console.log( where );
-    $(parent).find('.dynamic_form > div:nth-child('+where+')').after( row );
+    let where = place !== undefined ? $(e).parents('.each_row').index() : ( $(parent).find('.dynamic_form > div').length > 0 ? $(parent).find('.dynamic_form > div').length - 1 : 0 );
+    console.log( where );
+    if( where === 0 ) {
+        $(parent).find('.dynamic_form').append( row );
+    } else {
+        where++;
+        $(parent).find('.dynamic_form > div:nth-child('+where+')').after( row );
+    }
     //console.log( '.dynamic_form > div:nth-child(' + where + ')' );
     date_picker();
+    select_init( $(parent).find('.dynamic_form select.easy, .dynamic_form select.select2') );
     //console.log( $(parent).find('.dater') );
 }

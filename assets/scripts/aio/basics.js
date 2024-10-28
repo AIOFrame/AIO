@@ -44,12 +44,12 @@ $(document).ready(function(){
 
     .on('dragstart','[data-sortable] [draggable="true"]',function (e) {
         //console.log('started drag start');
-        _el = e.target;
-        e.dataTransfer.effectAllowed = 'move';
+        //_el = e.target;
+        //e.dataTransfer.effectAllowed = 'move';
     })
 
     .on('dragenter','[data-sortable] [draggable="true"]',function (e) {
-        let targetelem = e.target;
+        /*let targetelem = e.target;
         if ( !$(targetelem).attr('draggable') ) {
             targetelem = targetelem.parentNode;
         }
@@ -58,7 +58,7 @@ $(document).ready(function(){
             targetelem.parentNode.insertBefore(_el, targetelem);
         } else {
             targetelem.parentNode.insertBefore(_el, targetelem.nextSibling);
-        }
+        }*/
     })
 
     .on('click','[data-dark]',function(){

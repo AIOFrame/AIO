@@ -75,7 +75,9 @@ window.addEventListener('DOMContentLoaded',function () {
 
     // Select2
     $('select.easy, select.select2').each(function (a,b) {
-        select_init( b );
+        if( !$(b).parents('[data-ignore-select2]').length ) {
+            select_init( b );
+        }
     });
     if( $.fn.select2 !== undefined ){
 
