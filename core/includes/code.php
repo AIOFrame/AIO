@@ -492,6 +492,14 @@ function __el( string $element = 'div', string $class = '', string $content = ''
     }
 }
 
+/** Renders a div element
+ * @param string $class
+ * @param string $content
+ * @param string $id
+ * @param string $attrs
+ * @param bool $translate
+ * @return void
+ */
 function div( string $class = '', string $content = '', string $id = '', string $attrs = '', bool $translate = false ): void {
     echo __div( $class, $content, $id, $attrs, $translate );
 }
@@ -575,6 +583,14 @@ function __ico( string $icon = '', string $class = '', string $element = 'i', st
     return __el( $element, $class . ' ico ' . $ico . ' ' . $icon, $icon, $id, $attr );
 }
 
+/** Returns a div element
+ * @param string $class
+ * @param string $content
+ * @param string $id
+ * @param string $attrs
+ * @param bool $translate
+ * @return string
+ */
 function __div( string $class = '', string $content = '', string $id = '', string $attrs = '', bool $translate = false ): string {
     return __el( 'div', $class, $content, $id, $attrs, $translate );
 }

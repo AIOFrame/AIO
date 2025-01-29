@@ -355,7 +355,7 @@ class CMS {
     function static_widget_form( string $title = 'Widget Builder', string $modal_class = '' ): void {
         $f = new FORM();
         !empty( $modal_class ) ? pre_modal( $title, $modal_class ) : '';
-        $r = $f->_random();
+        $r = $f->__random();
         $f->pre_process( 'data-wrap id="static_widget_form"', 'widgets', 'widget', 'widget_' );
         _r();
         $f->text('name','Widget Name','Ex: Social Widget','','data-widget required',4);

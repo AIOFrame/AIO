@@ -384,6 +384,7 @@ class OPTIONS {
         //$f->select2('font_2_weight','Default Weight','Select...',$weights,$font_2_weight,$attr,2);
         $f->process_options($this->region_flag().'Save Map Options','store grad','','.col-12 tac');
         $this->region_notice();
+
         echo '</div>';
 
     }

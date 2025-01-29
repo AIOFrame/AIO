@@ -11,7 +11,7 @@ if( $file = fopen( $url, 'r' ) ) {
         _d( 'options' );
             div( 'ico', __div( 'mat-ico', 'arrow_back' ) . __el( 'i', 'tip', T('Return to Previous Page') ), 'back', 'onclick="window.history.back()"' );
             div( 'ico', __div( 'mat-ico', 'refresh' ) . __el( 'i', 'tip', T('Reload') ), '', 'onclick="location.reload()"' );
-            $f->process_trigger( __div( 'mat-ico', 'delete_sweep' ) . __el( 'i', 'tip', T('Clear Log') ), 'ico clear', '', 'clear_log_ajax', '', '', 'div', '', 2, 2 );
+            $f->process_trigger( __div( 'mat-ico', 'delete_sweep' ) . __el( 'i', 'tip', T('Clear Log') ), 'ico clear', '', 'clear_log_ajax', '', '', 'div', 'Are you sure to clear log?' );
             div( 'ico dark', __div( 'mat-ico', 'dark_mode' ) . __el( 'i', 'tip', T('Toggle Dark Mode') ), '', 'data-dark' );
         d_();
     post( 'header' );
