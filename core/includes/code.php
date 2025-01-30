@@ -716,10 +716,11 @@ function table_view( string $wrapper = '', array $rows = [], string $table_class
 /**
  * @param array $rows Array of table data [ 'head' => [ 'Name', 'Age' ], 'body' => [ 'Ahmed', 25 ] ]
  * @param string $class Class for the table
+ * @param string $attr HTML Attributes for the table
  * @return void
  */
-function table( array $rows = [], string $class = '' ): void {
-    echo __table( $rows, $class );
+function table( array $rows = [], string $class = '', string $attr = '' ): void {
+    echo __table( $rows, $class, $attr );
 }
 
 /**
@@ -736,10 +737,16 @@ function __table( array $rows = [], string $class = '', string $attr = '' ): str
         $return .= in_array( $type, [ 'thead', 'head', 'h' ] ) ? '<thead>' : ( in_array( $type, [ 'tfoot', 'foot', 'f' ] ) ? '<tfoot>' : '<tbody>' );
         if( is_array( $row ) ) {
             foreach( $row as $cols ) {
+                //skel( $cols );
                 $return .= '<tr>';
                 if( is_array( $cols ) ) {
                     foreach( $cols as $ck => $cv ) {
-                        $return .= __el( ( in_array( $type, [ 'thead', 'head', 'h' ] ) ? 'th' : 'td' ), ( !is_numeric( $ck ) ? $ck : '' ), $cv );
+                        //skel( $type );
+                        //skel( 'key' );
+                        //skel( $ck );
+                        //skel( 'value' );
+                        //skel( $cv );
+                        $return .= __el( ( !empty( $type ) && in_array( $type, [ 'thead', 'head', 'h' ] ) ? 'th' : 'td' ), ( !is_numeric( $ck ) ? $ck : '' ), $cv );
                     }
                 }
                 $return .= '</tr>';
@@ -781,8 +788,8 @@ function __card( string $class = '', string $title = '', string $link = '', stri
     $return = ( !empty ( $link ) ? __pre('','card '.($class??''),'a','href="'.$link.'"') : __pre('','card '.($class ?? '')) )
     . ( !empty( $image ) ? ( str_contains( $image, '<' ) ? $image : ( str_contains( $image_class, 'ico' ) ? __i( $image_class . ' ' . $image, $image ) : ( __image( str_contains( $image, 'http' ) ? $image : storage_url( $image ), '', $image_class ) ) ) ) : '' )
     . __pre('','head tac')
-    . ( !empty( $title ) ? __el('h2','title grad',$title) : '' )
-    . ( !empty( $desc ) ? __el('h5','desc',$desc) : '' )
+    . ( !empty( $title ) ? __el( 'h2', 'title grad', $title ) : '' )
+    . ( !empty( $desc ) ? __el( 'h5', 'desc', $desc ) : '' )
     . __post()
     . ( !empty( $status ) ? __div('status '.$status_class,$status) : '' );
     if( !empty( $data ) ) {
