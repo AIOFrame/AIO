@@ -483,7 +483,7 @@ function post_tabs(): void {
     post();
 }
 
-function __el( string $element = 'div', string $class = '', string $content = '', string $id = '', string $attrs = '', bool $translate = false ): string {
+function __el( string $element = 'div', string $class = '', string|null $content = '', string $id = '', string $attrs = '', bool $translate = false ): string {
     if( $element == 'hr' ) {
         return __pre( $id, $class, $element, $attrs );
     } else {
