@@ -743,6 +743,16 @@ class OPTIONS {
         ];
         $this->form( $form, 'row', 1, 'seo', $this->region_flag() . ' Save SEO Options', '', 'Successfully stored SEO options!', [ $r.'app_desc', $r.'app_keys', $r.'app_track_head', $r.'app_track_body' ] );
         $this->region_notice();
+        $form = [
+            [ 'i' => 'robots_txt', 'l' => 'Robots.txt Content', 'p' => 'Ex:...', 'c' => 12, 't' => 'code', 'a' => 'data-seo' ],
+            [ 'i' => 'sitemap_xml', 'l' => 'Sitemap.xml Content', 'p' => 'Ex:...', 'c' => 12, 't' => 'code', 'a' => 'data-seo' ],
+        ];
+        $f = new FORM();
+        $f->pre_process( '', 'build_seo_files_ajax', 'seo' );
+            $f->form( $form, 'row', 'seo' );
+            $f->process_trigger( 'Generate Files', '', '', '', '.tac' );
+        $f->post_process();
+        //$this->form( $form, 'row', 0, 'seo', 'Generate Files', '', 'Successfully generated SEO files!' );
     }
 
     /**
@@ -805,4 +815,13 @@ function import_options_ajax(): void {
         ef('Received no data to import! Please try again or consult support!!');
     }
 
+}
+
+function build_seo_files_ajax(): void {
+    $file = fopen( APPPATH . 'robots.txt', 'w' );
+    fwrite( $file, $_POST['robots_txt'] );
+    fclose( $file );
+    $file = fopen( APPPATH . 'sitemap.xml', 'w' );
+    fwrite( $file, html_entity_decode( $_POST['sitemap_xml'] ) );
+    fclose( $file );
 }
