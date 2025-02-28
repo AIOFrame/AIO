@@ -818,10 +818,10 @@ function import_options_ajax(): void {
 }
 
 function build_seo_files_ajax(): void {
-    $file = fopen( APPPATH . 'robots.txt', 'w' );
+    $file = fopen( ROOTPATH . 'robots.txt', 'w' );
     fwrite( $file, $_POST['robots_txt'] );
     fclose( $file );
-    $file = fopen( APPPATH . 'sitemap.xml', 'w' );
+    $file = fopen( ROOTPATH . 'sitemap.xml', 'w' );
     fwrite( $file, html_entity_decode( $_POST['sitemap_xml'] ) );
     fclose( $file );
 }
