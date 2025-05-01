@@ -232,6 +232,7 @@ function get_script( string $f, array $params = [], string $page_of = '', string
  */
 function __get_script( string $f, array $params = [], string $page_of = '', string $load_mode = 'defer', int|float|string|bool $cache = '' ): string {
     $r = '';
+    $f = strtolower( $f );
     // Gets cache config
     if( is_numeric( $cache ) || is_float( $cache ) ) {
         $v = '?v=' . round( time() / ( $cache * 60 ) );
@@ -258,6 +259,7 @@ function __get_script( string $f, array $params = [], string $page_of = '', stri
     $v = !empty( $v ) ? $v . $p : '?' . ltrim( $p, '&' );
 
     global $universal_assets;
+    //skel( $universal_assets );
     if( !empty($f) && !in_array( $f, $universal_assets['scripts'] )) {
         $universal_assets['scripts'][] = $f;
         $script_paths = [

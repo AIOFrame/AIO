@@ -280,6 +280,7 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
 
     // Appearance
     $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'jquery' ] ) : $scripts . ',jquery';
+    //skel( $scripts );
     get_styles( $pre_styles );
     get_scripts( $scripts );
 
