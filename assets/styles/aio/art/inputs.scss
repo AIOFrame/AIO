@@ -278,6 +278,7 @@ input.load, input.loading {
   height: 20px;
   width: 50px;
   background:#ddd;
+  //border: 1px solid #aaa;
   border-radius: 10px;
   border:0;
   display: inline-block;
@@ -285,6 +286,7 @@ input.load, input.loading {
   padding: 0;
   position: relative;
   appearance:none;
+  box-shadow: 0 0 10px rgba(0,0,0,.4) inset;
 }
 [type=checkbox].switch.s, [type=radio].switch.s,
 [type=checkbox].slide.s, [type=radio].slide.s {

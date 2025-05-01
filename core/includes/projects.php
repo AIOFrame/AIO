@@ -28,39 +28,18 @@ class PROJECTS {
     }
 
     function client_form( string $class = '', string $data_attr = '', string $wrap_class = '', string $callback = '', string $redirect_url = '' ): void {
-        $f = new FORM();
-        $form = $this->__client_form_fields();
-        $f->pre_process( '', 'clients', $data_attr, 'client_', [], 'Successfully saved client!', '', $callback, $redirect_url );
-            $f->form( $form, $class, $data_attr, '', $wrap_class );
-            $f->process_trigger( 'Save Project', '', '', '', '.tac' );
-        $f->post_process();
+        $c = new CLIENTS();
+        $c->client_form( $class, $data_attr, $wrap_class, $callback, $redirect_url );
     }
 
-    function __client_form_fields(): array {
-        $cs = get_countries('iso2');
-        return [
-            [ 't' => 'step', 'n' => 'Details', 'fields' => [
-                [ 'i' => 'name', 'n' => 'Name', 'p' => 'Ex: Mercedes, Government of Dubai etc.', 'c' => 8 ],
-                [ 'i' => 'status', 'n' => 'Status', 'off' => 'Inactive', 'on' => 'Active', 't' => 'slide', 'v' => 1, 'c' => 4 ],
-                [ 'i' => 'logo', 'n' => 'Logo', 'p' => 'Upload', 't' => 'file', 's' => .2, 'e' => 'svg,png,jpg,jpeg,gif', 'c' => 4 ],
-                [ 'i' => 'rid', 'n' => 'Registration No.', 'p' => 'Ex: 2541-2435-4455', 'c' => 4 ],
-                [ 'i' => 'tno', 'n' => 'Tax Reg. No.', 'p' => 'Ex: 2541-2435-4455', 'c' => 4 ],
-            ] ],
-            [ 't' => 'step', 'n' => 'Address', 'fields' => [
-                [ 'i' => 'address', 'n' => 'Address', 'p' => 'Ex: #1501, Rolls Royce Tower', 'c' => 8 ],
-                [ 'i' => 'city', 'n' => 'City / Region', 'p' => 'Ex: Downtown', 'c' => 4 ],
-                [ 'i' => 'state', 'n' => 'State', 'p' => 'Ex: Dubai', 'c' => 4 ],
-                [ 'i' => 'country', 'n' => 'Country', 'p' => 'Choose...', 't' => 'select2', 'o' => $cs, 'k' => 1, 'c' => 4 ],
-                [ 'i' => 'zip', 'n' => 'Zip Code', 'p' => 'Ex: 12021', 'c' => 4 ],
-                //[ 'i' => 'zone', 'n' => '', 'p' => '', 'c' => 1 ],
-            ] ],
-            [ 't' => 'step', 'n' => 'Communication', 'fields' => [
-                [ 'i' => 'phone_code', 'i2' => 'phone', 'n' => 'Code', 'n2' => 'Phone', 'p2' => 'Ex: 1235 456 8574', 't' => 'phone', 'c' => 6 ],
-                [ 'i' => 'fax', 'n' => 'Fax', 'p' => 'Ex: 1220 145 6585', 'c' => 6 ],
-                [ 'i' => 'email', 'n' => 'Email', 'p' => 'Ex: www.website.com', 'c' => 6 ],
-                [ 'i' => 'website', 'n' => 'Website', 'p' => 'Ex: support@website.com', 'c' => 6 ],
-            ] ],
-        ];
+    function __client_fields(): array {
+        $c = new CLIENTS();
+        return $c->__client_fields();
+    }
+
+    function __client_form(): string {
+        $c = new CLIENTS();
+        return $c->__client_form();
     }
 
     function project_form( string $data_attr = '', string $lead_user_type = '', string $sponsor_user_type = '', string $wrap_class = '', string $callback = '', string $redirect_url = '' ): void {
@@ -138,21 +117,55 @@ class PROJECTS {
     }
 
     function __projects(): array {
+        // Loop project cards or table list
         return [];
     }
 
     // Project HTML
-
     function project( int $id ): void {
         echo $this->__project( $id );
     }
 
-    function __project(): string {
+    function __project( $id ): string {
 
         // Project
         //  Stages
         //      Tasks
         return '';
+    }
+
+    function project_card( string $url = '' ): void {
+        echo $this->__project_card( $url );
+    }
+
+    function __project_card( string $url = '' ): string {
+        return __h( $url, 'project_card', T('View Project') ).
+            __d( 'logo' ).
+                __d( 'img' ).
+                    __img( __asset_url( '/images/adidas.png' ) ).
+                d__().
+                __d( 'time' ).
+                    __el( 'span', 'mat-ico', 'notifications' ).
+                    __div( 'day', __el( 'span', '', '15 Days' ) ).
+                d__().
+            d__().
+            __h3( 'Adidas Website Design' ).
+            // Progress
+            __d( 'status_info' ).
+                __div( 'work-progress', __p( 'Work Progress' ) . __p( '75%' ) ).
+                __div( 'contain', __div( 'work', '', '', 'style="width: 75%"' ) ).
+                __div( 'work-progress mt15', __p( 'Financial' ) . __p( '20%' ) ).
+                __div( 'contain', __div( 'f-work', '', '', 'style="width: 20%"' ) ).
+            d__().
+            // Assigned Users
+            __d( 'assigned mt15' ).
+                __p('Assigned').
+                __d( 'members' ).
+                    __div( 'member' ).
+                    __div( 'member' ).
+                d__().
+            d__().
+        h__();
     }
 
     function project_overview( int $id ): void {
@@ -164,7 +177,7 @@ class PROJECTS {
         $ico_class = $options['icon_class'] ?? '';
         $r = __r();
             $r .= __c(8);
-                $r .= __d( 'card p0 bsn nf', 'project_overview' );
+                $r .= __d( 'project_overview', 'project_overview' );
                     // Progress Header
                     $r .= __d( 'overview_head', '', 'style="background:url(\'https://placehold.it/1000\')"' );
                         $r .= __div( 'status right green bg', 'Active' );
@@ -405,6 +418,14 @@ class PROJECTS {
         return $r;
     }
 
+    function project_updates( int $id ): void {
+        echo $this->__project_updates( $id );
+    }
+
+    function __project_updates( int $id ): string {
+        return '';
+    }
+
     function project_board( int $id ): void {
         echo $this->__project_board( $id );
     }
@@ -493,12 +514,92 @@ class PROJECTS {
         $struct = [
             [ 'i' => 'n', 'n' => 'Feature Name', 'p' => 'Ex: Payment Gateway', 'c' => 6 ],
             [ 'i' => 'd', 'n' => 'Description', 'p' => 'Ex: Lets visitors make financial transactions', 'c' => 6 ],
-            [ 'i' => 'i', 'n' => 'Icon', 'p' => 'Ex: home', 'c' => 3 ],
+            [ 'i' => 'i', 'n' => 'Icon', 'p' => 'Ex: home', 'c' => 3, 't' => 'upload' ],
             [ 'i' => 'c', 'n' => 'Color', 'p' => 'Ex: #000000', 't' => 'color', 'c' => 3 ],
             [ 'i' => 't', 'n' => 'Category', 'p' => 'Select...', 'o' => $os['aio_project_feature_types'] ?? [], 'c' => 3 ],
             [ 'i' => 's', 'n' => 'Status', 'off' => 'Inactive', 'on' => 'Active', 't' => 'slide', 'c' => 3 ],
         ];
-        $o->form( $struct, 'dynamic', 0, 'aio_project_features' );
+        $o->form( $struct, 'dynamic' );
+    }
+
+    /*
+     * Returns quotes html as string
+     */
+    function __quotes(): string {
+        return '';
+    }
+
+    /*
+     * Renders quotes HTML
+     */
+    function quotes(): void {
+
+    }
+
+    function quote_card( string $url = '', string $logo = '', string $client = 'Adidas', string $project_name = 'E Store Mobile App', string $status = '1', string $date = '15 Days', int $techs = 1, int $tasks = 10, int $phases = 1, int $resources = 1, int $deliver = 1, string $quoted = '$15,000' ): void {
+        echo $this->__quote_card( $url, $logo, $client, $project_name, $status, $date, $techs, $tasks, $phases, $resources, $deliver, $quoted );
+    }
+
+    function __quote_card( string $url = '', string $logo = '', string $client = 'Adidas', string $project_name = 'E Store Mobile App', string $status = '1', string $date = '15 Days', int $techs = 1, int $tasks = 10, int $phases = 1, int $resources = 1, int $deliver = 1, string $quoted = '$15,000' ): string {
+        return __anchor( $url, 'project_card quote_card', T('View Quote') ).
+            __d( 'logo' ).
+                __d( 'img' ).
+                    __img( str_contains( $logo, 'http' ) ? $logo : __asset_url( $logo ), '', 'logo', $client ).
+                d__().
+                __d( 'time' ).
+                    __el( 'span', 'mat-ico', ( $status == 1 ? 'hourglass_empty' : 'check_circle_outline' ) ).
+                    __div( 'day', __el( 'span', '', '15 Days' ) ).
+                d__().
+            d__().
+            __h3( $project_name ).
+            // Progress
+            __r( 'stats gx-2' ).
+                __c(4) . __div( 'stat', __p( 'Techs' ) . __h4( $techs ), '', 'title="'.T('Technologies involved').'"' ) . c__() .
+                __c(4) . __div( 'stat', __p( 'Tasks' ) . __h4( $tasks ), '', 'title="'.T('Total Tasks').'"' ) . c__() .
+                __c(4) . __div( 'stat', __p( 'Phases' ) . __h4( $phases ), '', 'title="'.T('Phases / Stages planned').'"' ) . c__() .
+                __c(4) . __div( 'stat', __p( 'Resources' ) . __h4( $resources ), '', 'title="'.T('Allotted Resourced').'"' ) . c__() .
+                __c(4) . __div( 'stat', __p( 'Deliver' ) . __h4( $deliver ), '', 'title="'.T('Deliverables').'"' ) . c__() .
+                __c(4) . __div( 'stat', __p( 'Quoted' ) . __h4( $quoted ), '', 'title="'.T('Amount Quoted').'"' ) . c__() .
+            d__().
+            // Assigned Users
+            __d( 'assigned' ).
+                __p('Lead').
+                __d( 'members' ).
+                    __div( 'member' ).
+                    __div( 'member' ).
+                d__().
+            d__().
+        anchor__();
+    }
+
+    function quote_cards(): void {
+
+    }
+
+    function __quote_row(): string {
+        return '';
+    }
+
+    function quote_row(): void {
+
+    }
+
+    /*
+     * Renders Quote View
+     */
+    function quote(): void {
+
+    }
+
+    /*
+     * Returns Quote view html
+     */
+    function __quote(): string {
+        return '';
+    }
+
+    function __quote_form(): array {
+        return [];
     }
 
 }

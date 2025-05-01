@@ -59,6 +59,10 @@ if( is_array( $feats ) ) {
         include_once( $path . 'ecommerce.php' );
     }
 
+    if( in_array_any( [ 'ecom', 'commerce', 'ecommerce', 'store', 'pms', 'pm', 'projects', 'project', 'accounts', 'accounting', 'ems', 'crm' ], $feats ) ) {
+        include_once( $path . 'clients.php' );
+    }
+
     // Create File uploader tables if featured
     /* if( in_array( 'log', $feats ) || in_array( 'uploads', $feats ) ) {
         include_once( $path . 'storage.php' );

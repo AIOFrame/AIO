@@ -410,7 +410,7 @@ class PORTAL {
                             if( !empty( $menu_list ) ) {
                                 foreach( $menu_list as $menu ) {
 
-                                    $col = $menu['col'] ?? ( $menu['c'] ?? 4 );
+                                    $col = $menu['col'] ?? ( $menu['c'] ?? ( $menu_set['col'] ?? ( $menu_set['c'] ?? 4 ) ) );
                                     $user_can = $menu['user_can'] ?? ( $menu['uc'] ?? ( $menu['can'] ?? '' ) );
                                     $user_type = $menu['user_type'] ?? ( $menu['ut'] ?? ( $menu['for'] ?? ( $menu['f'] ?? '' ) ) );
                                     $url = $menu['url'] ?? ( $menu['u'] ?? '' );

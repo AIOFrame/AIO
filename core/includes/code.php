@@ -463,10 +463,22 @@ function tab( string $title = '', bool $active = false, string $target = '', str
     div($class,$title,'','data-tab="'.$target.'"',1);
 }
 
+/**
+ * Renders Vertical Tabs
+ * @param array $tabs Tabs as array [ 'div_id' => 'Information' ]
+ * @param string $class Class for the wrapper
+ * @return void
+ */
 function vertical_sliding_tabs( array $tabs = [], string $class = '' ): void {
     echo __vertical_sliding_tabs( $tabs, $class );
 }
 
+/**
+ * Returns Vertical Tabs HTML
+ * @param array $tabs Tabs as array [ 'div_id' => 'Information' ]
+ * @param string $class Class for the wrapper
+ * @return string
+ */
 function __vertical_sliding_tabs( array $tabs = [], string $class = '' ): string {
     $r = __pre( '', 'vertical_tabs ' . $class );
     $x = 1;
@@ -620,8 +632,16 @@ function __anchor( string $hyperlink = '#', string $class = '', string $hover_ti
     //'<a  '.$id.$class.$alt.$target.' '.$attr.'>';
 }
 
+function __h( string $hyperlink = '#', string $class = '', string $hover_title = '' ): string {
+    return __anchor( $hyperlink, $class, $hover_title );
+}
+
 function anchor__(): string {
     return __post('a');
+}
+
+function h__(): string {
+    return anchor__();
 }
 
 function _a( string $hyperlink = '#', string $class = '', string $hover_title = '', string $attr = '', string $id = '', string $target = '' ): void {
@@ -1111,44 +1131,47 @@ function accordion_(): void {
 /**
  * Renders Tabs
  * @param array $tabs [ [ 'User' => 'User Content' ], [ 'Account Details' => 'Acc Details Content' ] ]
- * @param string $style CSS Style
+ * @param string $wrap_style CSS Style
+ * @param string $head_wrap Wrapper class for tab heads
  * @param bool $translate_titles True, to translate titles (Default False)
+ * @param bool $remember_tab Remembers active tab on page reload and sets last active tab to active
  * @return void
  */
-function tabs( array $tabs = [], string $style = '', bool $translate_titles = false ): void {
-    echo __tabs( $tabs, $style, $translate_titles );
+function tabs( array $tabs = [], string $wrap_style = '', string $head_wrap = '', bool $translate_titles = false, bool $remember_tab = true ): void {
+    echo __tabs( $tabs, $wrap_style, $head_wrap, $translate_titles, $remember_tab );
 }
 
 /**
  * Renders Tabs
  * @param array $tabs [ 'User' => 'User Content', 'Account Details' => 'Acc Details Content' ]
- * @param string $style CSS Style
+ * @param string $wrap_style CSS Style
+ * @param string $head_wrap Wrapper class for tab heads
  * @param bool $translate_titles True, to translate titles (Default False)
- * @param bool $remember_tab Remembers active tab on reload and sets to active
+ * @param bool $remember_tab Remembers active tab on page reload and sets last active tab to active
  * @return string
  */
-function __tabs( array $tabs = [], string $style = '', bool $translate_titles = false, bool $remember_tab = true ): string {
+function __tabs( array $tabs = [], string $wrap_style = '', string $head_wrap = '', bool $translate_titles = false, bool $remember_tab = true ): string {
     global $tab_storage;
     $tab_storage[] = $tabs;
     $r = count( $tab_storage ) + 1;
-    $data = __pre( '', 'tabs '.$style );
-        $data .= __pre( '', 'tab_heads', 'div', ( $remember_tab ? 'data-store' : '' ) );
+    $data = __d( 'tabs '.$wrap_style );
+        $data .= __d( 'tab_heads ' . $head_wrap, 'div', ( $remember_tab ? 'data-store' : '' ) );
             $x = 0;
             foreach( $tabs as $i => $content ) {
                 $id = '#tab_'.$r.'_'.$x; //str_replace(' ','_',strtolower( $i ));
                 $data .= __div( $x == 0 ? 'tab on' : 'tab', $i, '', 'data-tab="'.$id.'"', $translate_titles );
                 $x++;
             }
-        $data .= __post();
-        $data .= __pre( '', 'tab_content' );
+        $data .= d__();
+        $data .= __d( 'tab_content' );
             $x = 0;
             foreach( $tabs as $i => $content ) {
                 $id = 'tab_'.$r.'_'.$x; //str_replace(' ','_',strtolower( $i ));
                 $data .= __div( ( $x !== 0 ? 'dn' : '' ), $content, $id );
                 $x++;
             }
-        $data .= __post();
-    $data .= __post();
+        $data .= d__();
+    $data .= d__();
     return $data;
 }
 
@@ -1437,19 +1460,34 @@ function notice( string $content = '', string $type = 'info', string $class = ''
  * @return void
  */
 function no_content( string $message = "No data available!", string $suggestion = '', string $link_text = '', string $link_url = '', string $class = '', bool $translate = false ): void {
+    echo __no_content( $message, $suggestion, $link_text, $link_url, $class, $translate );
+}
+
+/**
+ * Displays a NO ACCESS content and end further code execution
+ * @param string $message Message to be displayed
+ * @param string $suggestion Suggestions like Try clearing filters or reload page!
+ * @param string $link_text URL text to redirect user to somewhere else
+ * @param string $link_url URL link to redirect user to somewhere else
+ * @param string $class Wrapping class
+ * @param bool $translate
+ * @return string
+ */
+function __no_content( string $message = "No data available!", string $suggestion = '', string $link_text = '', string $link_url = '', string $class = '', bool $translate = false ): string {
     $db = new DB();
     $image = $db->get_option('no_content_image') ?? '';
     $message = T( $message );
-    _d( 'no_content '.$class );
-        h1( $message, $translate, 'tac' );
-        h4( $suggestion, $translate, 'tac' );
+    $r = __d( 'no_content '.$class ) .
+        __h1( $message, $translate, 'tac' ) .
+        __h4( $suggestion, $translate, 'tac' );
         if( !empty( $image ) )
-            img( storage_url( $image ), '', 'no_content_image', $message, $message );
+            $r .= __img( storage_url( $image ), '', 'no_content_image', $message, $message );
         if( !empty( $link_text ) || $link_url ) {
             $link_url = str_contains( $link_url, 'http' ) ? $link_url : APPURL . $link_url;
-            a( $link_url, $translate ? T( $link_text ) : $link_text, 'btn link' );
+            $r .= __a( $link_url, $translate ? T( $link_text ) : $link_text, 'btn link' );
         }
-    d_();
+    d__();
+    return $r;
 }
 
 // Statistic Widgets

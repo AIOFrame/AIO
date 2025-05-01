@@ -248,6 +248,7 @@ input.load, input.loading {
   padding: 0;
   position: relative;
   appearance: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4) inset;
 }
 
 [type=checkbox].switch.s, [type=radio].switch.s,

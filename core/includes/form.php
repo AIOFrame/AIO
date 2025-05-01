@@ -1020,8 +1020,8 @@ class FORM {
     function __upload( string|array $identity, string|array $label, string $button_label = 'Upload', string $value = '', int $multiple = 1, bool $show_history = false, string $button_class = '', string $attrs = '', string $extensions = '', string $size = '', bool $deletable = false, string $path = '', string|float|int $pre = '', string $post = '' ): string {
         global $options;
         $rand = rand( 0, 99999 );
-        $id = $identity.'_'.$rand; // is_array($identity) ? $identity[0] : $identity;
-        $name = $identity; // is_array($identity) ? $identity[1] : $identity;
+        $id = is_array($identity) ? $identity[0].'_'.$rand : $identity.'_'.$rand;
+        $name = is_array($identity) ? $identity[1] : $identity;
         $_p = $this->__pre( $pre );
         $p_ = $this->__post( $pre, $post );
         $sh = $show_history ? ' data-history' : '';
@@ -1303,7 +1303,8 @@ class FORM {
             $post = $f['post'] ?? ( $f['p_'] ?? $this->__post( $class ) );
             $post = !empty( $pre ) && empty( $post ) ? __post() : $post;
             $form = $f['fields'] ?? ( $f['form'] ?? ( $f['f'] ?? [] ) );
-            if( in_array( $type, [ 'dynamic', 'dyn', 'dy' ] ) ) {
+            //skel( $type );
+            if( in_array( $type, [ 'dynamic_form', 'dynamic', 'dyn', 'dy' ] ) ) {
                 //skel( $form );
                 //skel( $sub_type );
                 $add = __ico( 'row_add', 'ico m', 'div', '', 'title="'.T('Add new data row').'"' );

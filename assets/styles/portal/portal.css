@@ -1360,6 +1360,9 @@ p.break {
 /* Fixes */
 /* RESPONSIVE */
 @media (min-width: 320px) and (max-width: 1024px) {
+  aside {
+    width: 100vw;
+  }
   .user_drop .user_pic {
     left: auto;
     top: calc(50% - 15px);

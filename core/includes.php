@@ -159,6 +159,10 @@ if( defined( 'CONFIG' ) ) {
             include_once( $path . 'backup.php' );
         //}
 
+        if( in_array_any( [ 'ecom', 'commerce', 'ecommerce', 'store', 'pms', 'pm', 'projects', 'project', 'accounts', 'accounting', 'ems', 'crm' ], $features ) ) {
+            include_once( $path . 'clients.php' );
+        }
+
     }
 
     // Load functions for signed-in user
