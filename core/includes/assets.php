@@ -152,6 +152,7 @@ function get_style( string $f, array $params = [], string $page_of = '' ): void 
  */
 function __get_style( string $f, array $params = [], string $page_of = '' ): string {
     $r = '';
+    $f = strtolower( $f );
     // Gets cache config
     $cache = get_config( 'cache' );
     $v = !empty( $cache ) ? '?v=' . round( time() / ( $cache * 60 ) ) : '';
@@ -168,9 +169,11 @@ function __get_style( string $f, array $params = [], string $page_of = '' ): str
     $v = !empty( $v ) ? $v . $p : $p;
 
     global $universal_assets;
+    //skel( $universal_assets );
     if( !empty($f) && !in_array( $f, $universal_assets['styles'] )) {
         $universal_assets['styles'][] = $f;
         $style_paths = [
+            APPPATH . 'assets/' . $f => APPURL . 'apps/' . APPDIR . '/assets/' . $f,
             APPPATH . 'assets/styles/' . $f => APPURL . 'apps/' . APPDIR . '/assets/styles/' . $f,
             ROOTPATH . 'assets/styles/'. $f => APPURL . 'assets/styles/' . $f,
             ROOTPATH . 'assets/styles/ext/'. $f => APPURL . 'assets/styles/ext/' . $f,
@@ -263,6 +266,7 @@ function __get_script( string $f, array $params = [], string $page_of = '', stri
     if( !empty($f) && !in_array( $f, $universal_assets['scripts'] )) {
         $universal_assets['scripts'][] = $f;
         $script_paths = [
+            APPPATH . 'assets/' . $f => APPURL . 'apps/' . APPDIR . '/assets/' . $f,
             APPPATH . 'assets/scripts/' . $f => APPURL . 'apps/' . APPDIR . '/assets/scripts/' . $f,
             ROOTPATH . 'assets/scripts/' . $f => APPURL . 'assets/scripts/' . $f,
             ROOTPATH . 'assets/scripts/ext/' . $f => APPURL . 'assets/scripts/ext/' . $f,
