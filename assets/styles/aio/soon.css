@@ -7,6 +7,8 @@
 .aio_soon .brand {
   height: 60px;
   width: 100%;
+  position: relative;
+  z-index: 10;
 }
 .aio_soon .vc {
   position: absolute;
@@ -20,11 +22,14 @@
   display: inline-block;
   border-radius: 20px;
   box-shadow: 0 5px 35px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.85);
 }
 .aio_soon .box .text {
   font-size: 1.4rem;
-  text-transform: uppercase;
   margin-bottom: 20px;
+}
+.aio_soon .box .text a {
+  margin: 0 5px;
 }
 .aio_soon .box .date {
   font-size: 40px;
