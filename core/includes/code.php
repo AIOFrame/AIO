@@ -779,6 +779,39 @@ function __table( array $rows = [], string $class = '', string $attr = '' ): str
     return $return;
 }
 
+function __table_pre( array $heads = [], string $class = '', string $attr = '', bool $translate = true ): string {
+    $return = __pre('',$class,'table',$attr);
+    if( !empty( $heads ) ) {
+        $return .= __pre( '', '', 'thead' );
+        foreach( $heads as $head ) {
+            echo __el( 'th', '', ( $translate ? T($head) : $head ) );
+        }
+        $return .= __post( 'thead' );
+    }
+    return $return;
+}
+
+function table_pre( array $heads = [], string $class = '', string $attr = '' ): void {
+    echo __table_pre( $heads, $class, $attr );
+}
+
+function __table_post( array $foots = [] ): string {
+    $return = $foot = '';
+    if( !empty( $heads ) ) {
+        $foot .= __pre( '', '', 'tfoot' );
+        foreach( $heads as $head ) {
+
+        }
+        $foot .= __post( 'tfoot' );
+    }
+    $return .= $foot . __post( 'table' );
+    return $return;
+}
+
+function table_post( array $foots ): void {
+    echo __table_post( $foots );
+}
+
 /**
  * Returns Card
  * @param string $class

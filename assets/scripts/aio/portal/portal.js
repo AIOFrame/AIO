@@ -11,9 +11,10 @@ $(document).ready(function() {
     .on('keyup search','aside [type=search]',function(){
         let s = $(this).val().toLowerCase();
         $('aside .set a').each(function(i,e){
-            let n = $(e).addClass('dn').find('.title').text().toLowerCase();
+            $(e).parent().parent().addClass('dn');
+            let n = $(e).find('.title').text().toLowerCase();
             if( n.indexOf(s) >= 0 ) {
-                $(e).removeClass('dn');
+                $(e).parent().parent().removeClass('dn');
             }
         })
     })

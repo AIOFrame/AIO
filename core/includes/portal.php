@@ -370,13 +370,17 @@ class PORTAL {
         $icon = $options['icon_class'] ?? 'mico';
         //$menus = !empty( $menus ) ? array_group_by( $menus, 'group' ) : [];
         pre( '', 'menu '.$class, 'aside' );
-            _r();
-                $home = __el( 'i', $icon .' ico m ' . ( $options['ico_home'] ?? 'home' ), ( $options['ico_home'] ?? 'home' ) );
-                div( 'col-3', __anchor( APPURL . $root_url, '', T('Go to ').$root_url, '', '', '' ) . $home . anchor__(), '', 'data-intro' );
-                pre( '', 'col-9' );
-                    echo '<input type="search" placeholder="'.T('Search in Menu...').'">';
-                post();
-            r_();
+            _d('nav_head');
+                _r();
+                    $home = __el( 'i', $icon .' ico m ' . ( $options['ico_home'] ?? 'home' ), ( $options['ico_home'] ?? 'home' ) );
+                    div( 'col-3', __anchor( APPURL . $root_url, '', T('Go to ').$root_url, '', '', '' ) . $home . anchor__(), '', 'data-intro' );
+                    pre( '', 'col-9' );
+                        _d( 'menu_search_wrap' );
+                            echo '<input type="search" placeholder="'.T('Search in Menu...').'">';
+                        d_();
+                    post();
+                r_();
+            d_();
             echo $content;
             if( !empty( $menus ) ) {
                 $user_type = $_SESSION['user']['type'] ?? '';
@@ -615,6 +619,7 @@ function file_card( string $name = '', string $file_url = '', string $button_cla
 }
 
 function data_table( string $table = '', array $form = [], string $query = '', array $table_titles = [], array $data_keys = [], array $replace_data_values = [], string $table_class = '', string $form_class = '', bool $show_edit = false, bool $show_delete = false ): void {
+    // Filters
     $d = new DB();
     $f = new FORM();
     $button_class = 'col mico m0 cp';
@@ -646,4 +651,57 @@ function data_table( string $table = '', array $form = [], string $query = '', a
         $f->process_trigger( 'Save '.str_replace('_',' ',$table), 'grad', '', '', '.tac' );
         $f->post_process();
     }
+    // Pagination
+}
+
+/**
+* @param array $card_params [ 'title_key' => 'user_name', 'image_key' => 'user_pic', 'image_class' => 'pic xl', 'desc_key' => 'user_group', 'link_url' => '/admin/#', 'link_key' => 'user_id', 'status_key' => 'user_status' ]
+ * @param array $card_data [ 'customer_dob' => 'Date of Birth', 'customer_street' => 'Street' ]
+*/
+function __data_cards_params( array $card_params = [], array $card_data = [] ): string {
+    $r = '';
+
+    return $r;
+}
+
+/**
+ * @param string $table Database Table name
+ * @param array $filters Filters Inputs JSON
+ * @param array $card_params [ 'title_key' => 'user_name', 'image_key' => 'user_pic', 'image_class' => 'pic xl', 'desc_key' => 'user_group', 'link_url' => '/admin/#', 'link_key' => 'user_id', 'status_key' => 'user_status' ]
+ * @param array $card_data [ 'customer_dob' => 'Date of Birth', 'customer_street' => 'Street' ]
+ * @param int $count Quantity of cards to display per page
+ * @param bool $show_edit
+ * @param bool $show_trash
+ * @param bool $show_pagination
+ * @param string $method
+ * @param string $query
+ * @return void
+ */
+function __data_cards( string $table = '', array $filters = [], array $card_params = [], array $card_data = [], int $count = 20, bool $show_edit = true, bool $show_trash = true, bool $show_pagination = true, string $query = '', string $method = 'GET' ): void {
+    $f = new FORM();
+    $d = new DB();
+    $r = '';
+
+    // Render Filters
+    if( !empty( $filters ) ) {
+        $f->filters( $filters );
+        $query = $f->filters_to_query( $filters, $query, $method );
+    }
+
+    // Query Data
+    $data = $d->select( $table, '', $query, $count, ( $method == 'GET' ? $_GET['p'] : $_POST['p'] ) );
+
+    // Loop Cards
+    if( !empty( $data ) ) {
+        $r .= __d( $table . '_cards_view' );
+        foreach( $data as $c ) {
+            //$r .= __card(  )
+        }
+        $r .= d__();
+    } else {
+        no_content();
+    }
+
+    // Pagination
+
 }

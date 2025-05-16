@@ -831,19 +831,55 @@ aside {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   transition: 0.6s;
-  overflow-y: auto;
-  padding: 20px;
   opacity: 0;
   pointer-events: none;
 }
+aside .nav_head {
+  padding: 20px 20px 10px;
+}
+aside .nav_head .menu_search_wrap {
+  background: #eee;
+  position: relative;
+  border-radius: 30px;
+}
+aside .nav_head .menu_search_wrap:before {
+  pointer-events: none;
+  content: "\e8b6";
+  font-family: "MaterialIcons";
+  font-size: 1.2rem;
+  width: 45px;
+  height: 45px;
+  line-height: 45px;
+  text-align: center;
+  left: 0;
+  top: 0;
+  position: absolute;
+}
+aside .nav_head [type=search] {
+  margin: 0;
+  padding: 12px 15px 12px 40px;
+  font-size: 1rem;
+  border-radius: 20px;
+  background: none;
+  border: 0;
+}
+aside .nav_head a {
+  margin: 0;
+}
+aside .menu_sets {
+  padding: 0 20px 20px;
+  height: calc(100vh - 155px);
+  overflow-y: auto;
+}
 aside .set {
-  padding: 12px 0 0;
+  padding: 0 0 12px;
 }
 aside .set > .title {
   text-transform: uppercase;
   letter-spacing: 0;
   opacity: 0.3;
-  margin-bottom: 12px;
+  padding: 10px 0;
+  position: relative;
 }
 aside .set:not(:last-child) {
   border-bottom: 2px solid #efefef;
@@ -897,12 +933,6 @@ aside .home_link {
   padding: 0;
   height: 100%;
   margin: 0;
-}
-aside [type=search] {
-  margin: 0;
-  padding: 12px 15px 12px 40px;
-  font-size: 1rem;
-  border-radius: var(--input_radius);
 }
 
 aside.colored .item .bg {
