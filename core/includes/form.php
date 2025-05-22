@@ -1415,11 +1415,11 @@ class FORM {
                 //skel( $f );
                 $checked = $f['checked'] ?? ( $f['check'] ?? ( $f['selected'] ?? ( $f['s'] ?? ( $f['v'] ?? '' ) ) ) );
                 $label_first = $f['label_first'] ?? ( $f['lf'] ?? 0 );
-                $inputs_pre = $f['inputs_pre'] ?? ( $f['i_p'] ?? ( $f['_ip'] ?? ( $f['_i'] ?? '' ) ) );
-                $inputs_pre = is_numeric( $inputs_pre ) ? '.col-12 col-md-'.$inputs_pre : $inputs_pre;
+                $i_pre = $f['inputs_pre'] ?? ( $f['i_p'] ?? ( $f['_ip'] ?? ( $f['_i'] ?? ( $f['cc'] ?? '' ) ) ) );
+                $inputs_pre = is_numeric( $i_pre ) ? '.col-12 col-md-'.$i_pre : $i_pre;
                 $inputs_pre .= empty( $inputs_pre ) ? '.check_set' : ' check_set';
                 $inputs_post = $f['inputs_post'] ?? ( $f['ip_'] ?? ( $f['i_'] ?? '' ) );
-                $inputs_wrap = $f['inputs_wrap'] ?? ( $f['iw'] ?? ( is_numeric( $inputs_pre ) || is_float( $inputs_pre ) ? 'row' : '' ) );
+                $inputs_wrap = $f['inputs_wrap'] ?? ( $f['iw'] ?? ( is_numeric( $i_pre ) || is_float( $i_pre ) ? 'row' : '' ) );
                 $return .= $type == 'checkboxes' ? $this->__checkboxes( $id, $label, $values, $checked, $attrs, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post ) : $this->__radios( $id, $label, $values, $checked, $attrs, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post );
             } else if( in_array( $type, [ 'phone', 'ph', 'p' ] ) ) {
                 $id_2 = $f['id2'] ?? ( $f['i2'] ?? '' );
@@ -1701,6 +1701,21 @@ class FORM {
         $title = str_contains( $attr, 'title=' ) ? '' : 'title="'.T('Edit').'"';
         $data = $title . ' data-edit-action class="'.$class.' edit" onclick="edit_data(this,\''.$element.'\')" ' . $this->__editable_data($array) . $attr;
         return $_p . __el( $html, '', $i. $text , '', $data ) . $p_;
+    }
+
+    function __permissions( array $all_permissions = [], array $selected_permissions = [], bool $translate = false ): string {
+        $r = '';
+        if( !empty( $all_permissions ) ) {
+            $r .= __d( 'perms' );
+            foreach( $all_permissions as $p => $n ) {
+                //$p = $all_permissions[ $p ] ?? $p;
+                if( !empty( $p ) ) {
+                    $r .= __p( $n, $translate, in_array( $p, $selected_permissions ) ? '' : 'n' );
+                }
+            }
+            $r .= d__();
+        }
+        return $r;
     }
 
     /**

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* Tables */
 table {
   width: 100%;
@@ -69,6 +70,33 @@ table .acts i {
   height: 45px;
   display: block;
   transition: 0.6s;
+}
+table .perms {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+table .perms p {
+  padding: 5px 10px;
+  background: #ddefdd;
+  font-size: 0.75rem;
+  display: block;
+  margin: 0;
+  position: relative;
+  border-radius: 20px;
+}
+table .perms p:before {
+  content: "✓";
+  margin-left: -5px;
+  width: 15px;
+  display: inline-block;
+  text-align: center;
+}
+table .perms p.n {
+  background: #f6dfdf;
+}
+table .perms p.n:before {
+  content: "x";
 }
 
 table.xs th, table.xs td {

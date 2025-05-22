@@ -81,6 +81,33 @@ table {
       transition: .6s;
     }
   }
+  .perms {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    p {
+      padding: 5px 10px;
+      background: #ddefdd;
+      font-size: .75rem;
+      display: block;
+      margin: 0;
+      position: relative;
+      border-radius: 20px;
+    }
+    p:before {
+      content: '✓';
+      margin-left: -5px;
+      width: 15px;
+      display: inline-block;
+      text-align: center;
+    }
+    p.n {
+      background: #f6dfdf;
+    }
+    p.n:before {
+      content: 'x';
+    }
+  }
 }
 
 table.xs {

@@ -1005,7 +1005,7 @@ function modal( string $title = '', string $size = 'm', string $target = '', arr
     post_modal();
 }
 
-function access_modal( string $title = '', string $size = '', string $target = '', array $permissions = [], string $form_style = 'row', array $hidden = [], string $prepend_to_keys = '', string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '', string $submit_text = '', string $submit_class = '', string $submit_wrap = '' ): void {
+function access_modal( string $title = '', string $size = '', string $target = '', array $permissions = [], int $perms_col = 3, string $form_style = 'row', array $hidden = [], string $prepend_to_keys = '', string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '', string $submit_text = '', string $submit_class = '', string $submit_wrap = '' ): void {
     $f = new FORM();
     $r = substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 8);
     if( !empty( $target ) ) {
@@ -1031,7 +1031,7 @@ function access_modal( string $title = '', string $size = '', string $target = '
         }
         $fields[] = [ 'i' => 'status', 'n' => 'Status', 't' => 'slide', 'r' => 1, 'on' => 'Active', 'c' => 2, 'v' => 1 ];
         if( !empty( $permissions ) ) {
-            $fields[] = [ 'i' => 'permissions', 'n' => 'Permissions', 't' => 'checkbox', 'options' => $permissions, 'c' => 12 ];
+            $fields[] = [ 'i' => 'permissions', 'n' => 'Permissions', 't' => 'checkboxes', 'options' => $permissions, 'c' => 12, 'cc' => $perms_col, 'a' => 'data-array="permissions"' ];
         }
         if( !empty( $fields ) ) {
             pre_modal( $title, $size );
