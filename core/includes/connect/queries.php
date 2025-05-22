@@ -248,7 +248,16 @@ class DB {
                                     $type = 'TEXT';
                                     $length = '';
                                 }
+                                if( str_contains( $name, '_access') ) {
+                                    $type = 'number';
+                                    $length = 13;
+                                    $required = 1;
+                                }
                                 $table_structure[1][] = [ $id, $type, $length, $required ];
+                            }
+                            if( str_contains( $name, '_access') ) {
+                                $table_structure[1][] = [ 'permissions', 'VARCHAR', 2048, 0 ];
+                                $table_structure[1][] = [ 'status', 'INT', 3, 1 ];
                             }
                             $table_structure[] =  $structure['pre'] ?? str_replace( ' ', '', $name );
                             $table_structure[] = 1;

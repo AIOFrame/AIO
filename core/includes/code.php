@@ -29,13 +29,13 @@ class CODE {
         // Defines
         global $light_mode;
         global $options;
-        $region = $options['region'] ?? '';
-        $region = !empty( $region ) ? strtolower( $region ) . '_' : '';
+//        $region = $options['region'] ?? '';
+//        $region = !empty( $region ) ? strtolower( $region ) . '_' : '';
         $a = new ACCESS();
         $aos = $a->get_options();
         //skel( $aos );
         $show_logo = $aos['ac_show_logo'] ?? 1;
-        $logo = $light_mode == 'd' ? ( $aos['ac_logo_d'] ?? ( $options['logo_dark'] ?? '' ) ) : ( $aos['ac_logo_l'] ?? ( $options['logo_light'] ?? '' ) );
+        $logo = $light_mode == 'd' ? ( $aos['ac_logo_d'] ?? ( $options['logo_d'] ?? '' ) ) : ( $aos['ac_logo_l'] ?? ( $options['logo_l'] ?? '' ) );
         $logo = !empty( $logo ) ? 'style="background:url(\''.storage_url( $logo ).'\') no-repeat center / contain"' : '';
         $bg = $light_mode == 'd' ? ( $aos['ac_bg_d'] ?? '' ) : ( $aos['ac_bg_l'] ?? '' );
         $bg_style = $aos['ac_bg_style'] ?? 'no-repeat center / cover';
@@ -233,7 +233,7 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
     $color = !empty( $options['color_'.$light_mode] ) ? $options['color_'.$light_mode] : ( $c['colors']['color_'.$light_mode] ?? '#fff' );
     $filled_color = !empty( $options['filled_color_'.$light_mode] ) ? $options['filled_color_'.$light_mode] : ( $c['colors']['filled_color_'.$light_mode] ?? '#fff' );
     $color1 = !empty( $primary_color ) ? $primary_color : ( !empty( $options['primary_color_'.$light_mode] ) ? $options['primary_color_'.$light_mode] : ( $c['colors']['primary_color_'.$light_mode] ?? '00A99D' ) );
-    $color2 = !empty( $secondary_color ) ? $secondary_color : ( !empty( $options['secondary_color_'.$light_mode] ) ? $options['secondary_color_'.$light_mode] : ( $c['colors']['secondary_color_'.$light_mode] ?? '00A99D' ) );
+    $color2 = !empty( $secondary_color ) ? $secondary_color : ( !empty( $options['secondary_color_'.$light_mode] ) ? $options['secondary_color_'.$light_mode] : ( $c['colors']['secondary_color_'.$light_mode] ?? '01756d' ) );
     $angle = !empty( $options['angle_'.$light_mode] ) ? $options['angle_'.$light_mode] : 45;
     $color1 = strlen( $color1 ) == 6 ? '#' . $color1 : $color1;
     $color2 = strlen( $color2 ) == 6 ? '#' . $color2 : $color2;
@@ -280,7 +280,7 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
 
     // Appearance
     $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'jquery' ] ) : $scripts . ',jquery';
-    //skel( $scripts );
+    //skel( $styles );
     get_styles( $pre_styles );
     get_scripts( $scripts );
 
@@ -303,18 +303,21 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
 
 }
 
-function post_html( string|array $scripts = [], string $alert_position = 'top right' ): void {
+function post_html( string|array $scripts = [], string $alert_position = 'top right', string $html = '' ): void {
+    echo __post_html( $scripts, $alert_position, $html );
+}
+
+function __post_html( string|array $scripts = [], string $alert_position = 'top right', string $html = '' ): string {
     global $options;
     $icon_class = ( $options['icon_class'] ?? 'mico' );
-    div($alert_position,'','','data-alerts');
-    get_scripts( $scripts );
-    if( defined( 'PAGEPATH' ) )
-        get_script( PAGEPATH );
+    $r = __div( $alert_position, '', '', 'data-alerts' );
+    $r .= __get_scripts( $scripts );
+    $r .= defined( 'PAGEPATH' ) ? __get_script( PAGEPATH ) : '';
     $close_button = __div( $icon_class .' close ' . ( $options['ico_close'] ?? '' ), $options['ico_close'] ?? 'close' );
     $icon = __div( 'ico', __div( $icon_class .' ico {{icon}} ' . ( $options['ico_alerts'] ?? '' ), $options['ico_alerts'] ?? 'notifications' ) );
     // '<div class="alert in '+type+' n_'+r+'"><div class="data"><div class="mat-ico bi bi-x-lg close">close</div>'+ico+'<div class="message">'+text+'</div></div><div class="time"></div></div>'
-    div( 'dn', __div( 'alert in {{type}} n_{{random}}', __div( 'data', $close_button . $icon . __div( 'message', '{{text}}' ) ) . __div( 'time' ) ), '', 'alert-html-template' );
-    echo '</body></html>';
+    $r .= __div( 'dn', __div( 'alert in {{type}} n_{{random}}', __div( 'data', $close_button . $icon . __div( 'message', '{{text}}' ) ) . __div( 'time' ) ), '', 'alert-html-template' );
+    return $r . $html . '</body></html>';
 }
 
 function pre( string $id = '', string $class = '', string $element = 'div', string $attr = '' ): void {
@@ -894,25 +897,21 @@ function card( string $class = '', string $title = '', string $link = '', string
     echo __card( $class, $title, $link, $desc, $image, $image_class, $status, $status_class, $data, $table_class, $actions, $actions_class, $edit_modal, $edit_data, $delete_table, $delete_logic );
 }
 
-function __pre_modal( string $title = '', string $size = '', bool $editable = true ): string {
+function __pre_modal( string $title = '', string $size = '' ): string {
     global $options;
     $s = strtolower( str_replace( ' ', '_', $title ) );
     $r = __pre($s.'_modal','modal '.$size.' '.$s.'_modal')
         . __pre('','modal_head');
-            if( $editable ) {
-                $r .= __h2('New '.$title,1,'title','data-add')
-                . __h2('Update '.$title,1,'title','data-edit');
-            } else {
-                $r .= __h2($title,1,'title');
-            }
+            $r .= __h2('New '.$title,1,'title','data-add')
+            . __h2('Update '.$title,1,'title','data-edit');
         $r .= __post()
     . __el( 'div', ( $options['icon_class'] ?? 'mico' ) . ' ico close ' . ( $options['ico_close'] ?? '' ), ( $options['ico_close'] ?? 'close' ) )
     . __pre('','modal_body');
     return $r;
 }
 
-function pre_modal( string $title = '', string $size = '', bool $editable = true ): void {
-    echo __pre_modal( $title, $size, $editable );
+function pre_modal( string $title = '', string $size = '' ): void {
+    echo __pre_modal( $title, $size );
 }
 
 function post_modal(): void {
@@ -990,19 +989,59 @@ function soon( string $date, string $text = 'Coming Soon...', string $bg = '', s
  * @param string $submit_wrap Wrapper class for submit trigger
  * @return void
  */
-function modal( string $title = '', bool $editable = true, string $size = 'm', string $target = '', array|string $fields = [], string $form_style = 'row', array $hidden = [], string $prepend_to_keys = '', string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '', string $submit_text = '', string $submit_class = '', string $submit_wrap = '' ): void {
+function modal( string $title = '', string $size = 'm', string $target = '', array|string $fields = [], string $form_style = 'row', array $hidden = [], string $prepend_to_keys = '', string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '', string $submit_text = '', string $submit_class = '', string $submit_wrap = '' ): void {
     $f = new FORM();
     $r = substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 8);
-    pre_modal( $title, $size, $editable );
-    if( is_array( $fields ) ) {
+    pre_modal( $title, $size );
+    if( is_array( $fields ) || empty( $fields ) ) {
+        global $structure;
         $f->pre_process( 'data-wrap', $target, $r, $prepend_to_keys, $hidden, $success_alert, $callback, $confirm, $redirect, $validator, $reset_fields );
-            $f->form( $fields, $form_style, $r );
+            $f->form( empty( $fields ) ? ( $structure[ $target ] ?? [] ) : $fields, $form_style, $r );
             $f->process_trigger( !empty( $submit_text ) ? $submit_text : 'Save '.$title, $submit_class.' mb0', '', '', $submit_wrap.' .tac' );
         $f->post_process();
     } else {
         echo $fields;
     }
     post_modal();
+}
+
+function access_modal( string $title = '', string $size = '', string $target = '', array $permissions = [], string $form_style = 'row', array $hidden = [], string $prepend_to_keys = '', string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '', string $submit_text = '', string $submit_class = '', string $submit_wrap = '' ): void {
+    $f = new FORM();
+    $r = substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 8);
+    if( !empty( $target ) ) {
+        global $structure;
+        // Prepare Fields
+        $fields = $structure[ $target ] ?? [];
+        foreach( $fields as $i => $field ) {
+            $d = new DB();
+            //skel( $field );
+            //skel( $fields[ $i ] );
+            $key = $field['dk'] ?? $field['dt'] . '_id';
+            $data = $d->select( $field['dt'], [ $key, $field['dv'] ?? '' ], $field['w'] ?? '', $field['l'] ?? 0, $field['off'] ?? 0 );
+            $array = [];
+            if( !empty( $data ) ) {
+                $array = array_to_assoc( $data, $key, $field['dv'] ?? '' );
+            }
+            //skel( $array );
+            $fields[ $i ]['t'] = 'select2';
+            $fields[ $i ]['k'] = 1;
+            $fields[ $i ]['c'] = $fields[ $i ]['c'] ?? 5;
+            $fields[ $i ]['options'] = $array;
+            //$fields[ $i ]['t'] = 'select2';
+        }
+        $fields[] = [ 'i' => 'status', 'n' => 'Status', 't' => 'slide', 'r' => 1, 'on' => 'Active', 'c' => 2, 'v' => 1 ];
+        if( !empty( $permissions ) ) {
+            $fields[] = [ 'i' => 'permissions', 'n' => 'Permissions', 't' => 'checkbox', 'options' => $permissions, 'c' => 12 ];
+        }
+        if( !empty( $fields ) ) {
+            pre_modal( $title, $size );
+                $f->pre_process( 'data-wrap', $target, $r, $prepend_to_keys, $hidden, $success_alert, $callback, $confirm, $redirect, $validator, $reset_fields );
+                    $f->form( $fields, $form_style, $r );
+                    $f->process_trigger( !empty( $submit_text ) ? $submit_text : 'Save '.$title, $submit_class.' mb0', '', '', $submit_wrap.' .tac' );
+                $f->post_process();
+            post_modal();
+        }
+    }
 }
 
 /**
@@ -1209,27 +1248,27 @@ function __tabs( array $tabs = [], string $wrap_style = '', string $head_wrap = 
 }
 
 function tab_heads( array $tab_titles = [], string $style = '', string $wrap_class = '', bool $translate_titles = false, string $type = 'tab' ): void {
-    echo __tab_heads( $tab_titles, $style, $wrap_class, $translate_titles, $type );
+    echo __tab_heads( $tab_titles, $style, $wrap_class, $type );
 }
 
 /**
  * @param array $tab_titles [ 'User Accounts' ] or [ 'user' => 'User Account' ]
  * @param string $style
  * @param string $wrap_class
- * @param bool $translate_titles
  * @param string $type
  * @return string
  */
-function __tab_heads( array $tab_titles = [], string $style = '', string $wrap_class = '', bool $translate_titles = false, string $type = 'tab' ): string {
+function __tab_heads( array $tab_titles = [], string $style = '', string $wrap_class = '', string $type = 'tab' ): string {
     $data = __pre( '', 'tabs separate '.$style );
         $data .= __pre( '', 'tab_heads fluid '.$wrap_class, 'div', 'data-store' );
             $x = 0;
             foreach( $tab_titles as $i => $title ) {
                 $id = ( is_numeric( $i ) ? '.' : '' ) . str_replace(' ','_',strtolower( is_assoc( $tab_titles ) ? $i : $title )) . ( is_numeric( $i ) ? '_data' : '' );
-                if( $type == 'tab' ) {
-                    $data .= __div( $x == 0 ? 'tab on' : 'tab', $title, '', 'data-tab="'.$id.'"', $translate_titles );
-                } else if( $type == 'url' ) {
-                    $data .= _a( $id, ( $x == 0 ? 'tab on' : 'tab' ) ).( $translate_titles ? T($title) : $title ).a_();
+                if( in_array( $type, [ 'url', 'a', 'link', 'page' ] ) ) {
+                    $data .= __a( ( str_contains( $i, 'http' ) ? $i : APPURL . $i ), $title, ( PAGEPATH == $i ? 'tab on' : 'tab' ), $title );
+                    //$data .= _a( $id, ( $x == 0 ? 'tab on' : 'tab' ) ).( $translate_titles ? T($title) : $title ).a_();
+                } else {
+                    $data .= __div( $x == 0 ? 'tab on' : 'tab', $title, '', 'data-tab="'.$id.'"' );
                 }
                 $x++;
             }

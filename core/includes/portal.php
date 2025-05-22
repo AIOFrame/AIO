@@ -66,10 +66,14 @@ class PORTAL {
      * @return void
      */
     function post_html( string|array $scripts = [], string $alert_position = 't r' ): void {
-        //skel( 'language' );
+        echo $this->__post_html( $scripts, $alert_position );
+    }
+
+    function __post_html( string|array $scripts = [], string $alert_position = 't r' ): string {
         $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'basics', 'iro', 'select2', 'air-datepicker', 'scrollto', 'language', 'data', 'portal/portal' ] ) : $scripts.',basics,air-datepicker,iro,select2,language,data,portal/portal';
-        //$c = new CODE();
-        post_html( $scripts, $alert_position );
+        global $logo;
+        $r = __div( 'aio_loader', __div( 'span_wrap', __div( 'loader_logo', '', '', $logo ) . __div( 'loader', __el( 'i' ) . __el( 'i' ) . __el( 'i' ) . __el( 'i' ) ) ), '', 'data-loader' );
+        return $r . __post_html( $scripts, $alert_position );
     }
 
     /**
@@ -194,10 +198,7 @@ class PORTAL {
     function render_header( bool $show_navigation = false, string $logo_url = 'admin', bool $show_alerts = false, bool $show_languages = false, bool $link_to_front = false, bool $show_user = false, string $profile_url = '', string $logout_to = '' ): void {
         $db = new DB();
         $e = Encrypt::initiate();
-        global $light_mode;
         global $options;
-        $region = $options['region'] ?? '';
-        $region = !empty( $region ) ? strtolower( $region ) . '_' : '';
         //skel( $options );
         //skel( $region.'logo_light' );
         //$c = json_decode( CONFIG, 1 );
@@ -207,19 +208,14 @@ class PORTAL {
         $down_ico = $options['ico_dropdown'] ?? 'expand_more';
         // TODO: Implement most params to be from user options
 
-        $logo = $light_mode == 'l' ? ( $options[$region.'logo_l'] ?? '' ) : ( $options[$region.'logo_d'] ?? '' );
-        $logo = empty( $logo ) ? ( $light_mode == 'l' ? ( $options['logo_l'] ?? '' ) : ( $options['logo_d'] ?? '' ) ) : $logo;
-        $logo = !empty( $logo ) ? 'style="background:url(\''.storage_url( $logo ).'\') no-repeat center / contain"' : '';
-        //skel( $logo );
-        //skel( $options['logo_light'] );
-        //skel( $options['logo_dark'] );
-
-        /* if( $is_light ) {
-            $logo = isset( $options['logo_light'] ) ? 'style="background:url(\''.storage_url( $options['logo_light'] ).'\') no-repeat center / contain"' : '';
-        } else {
-            $logo = isset( $options['logo_dark'] ) ? 'style="background:url(\''.storage_url( $options['logo_dark'] ).'\') no-repeat center / contain"' : '';
-        } */
-        //skel( $options );
+        global $logo;
+        global $light_mode;
+        global $options;
+        $region = $options['region'] ?? '';
+        $region = !empty( $region ) ? strtolower( $region ) . '_' : '';
+        $logo = $light_mode == 'l' ? ( $options[$region.'logo_l'] ?? ( $options['logo_l'] ?? '' ) ) : ( $options[$region.'logo_d'] ?? ( $options['logo_d'] ?? '' ) );
+        //$logo = empty( $logo ) ? ( $light_mode == 'l' ?  :  ) : $logo;
+        $logo = !empty( $logo ) ? 'style="background-image:url(\''.storage_url( $logo ).'\')"' : '';
 
         pre( '', '', 'header' );
 
@@ -506,7 +502,7 @@ class PORTAL {
  * @param string|array $comp_or_actions
  * @return void
  */
-function title_bar( string $title = PAGENAME, string $back_url = '', array $tabs = [], bool $show_search = false, string|array $comp_or_actions = [] ): void {
+function title_bar( string $title = PAGENAME, string $back_url = '', array $tabs = [], string $tab_type = '', bool $show_search = false, string|array $comp_or_actions = [] ): void {
     global $options;
     //$icon_class = ( $options['icon_class'] ?? 'mico' ) . ' ico';
     pre( '', 'header df aic jsb', 'header' );
@@ -519,7 +515,7 @@ function title_bar( string $title = PAGENAME, string $back_url = '', array $tabs
         pre( '', 'center df fc' );
             $show_search ? div( 'search_wrap ' . ( $options['icon_after_class'] ?? 'mica' ), '<input type="search" class="header_search" placeholder="Search..." >' ) : '';
             if( !empty( $tabs ) ) {
-                tab_heads( $tabs, 'material' );
+                tab_heads( $tabs, 'material', '', 0, $tab_type );
             }
         post();
 

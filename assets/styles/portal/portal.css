@@ -1387,6 +1387,91 @@ p.break {
   margin-bottom: 20px;
 }
 
+/* Loader */
+.aio_loader {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.6s;
+}
+
+.aio_loader.on {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.span_wrap {
+  position: fixed;
+  left: calc(50vw - 60px);
+  top: calc(50vh - 60px);
+}
+.span_wrap .loader_logo {
+  width: 120px;
+  height: 120px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 2;
+}
+.span_wrap .loader {
+  height: 140px;
+  width: 140px;
+  border-radius: 50%;
+  position: relative;
+  background-color: var(--primary_color);
+  background-image: linear-gradient(var(--primary_color), var(--secondary_color));
+  animation: loader_rotate 1.2s linear infinite;
+}
+.span_wrap i {
+  position: absolute;
+  border-radius: 50%;
+  height: 100%;
+  width: 100%;
+  background-color: var(--primary_color);
+  background-image: linear-gradient(var(--primary_color), var(--secondary_color));
+}
+.span_wrap i:nth-of-type(1) {
+  filter: blur(5px);
+}
+.span_wrap i:nth-of-type(2) {
+  filter: blur(10px);
+}
+.span_wrap i:nth-of-type(3) {
+  filter: blur(25px);
+}
+.span_wrap i:nth-of-type(4) {
+  filter: blur(50px);
+}
+.span_wrap .loader::after {
+  content: "";
+  background: #fff;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  bottom: 10px;
+  right: 10px;
+  border-radius: 50%;
+}
+
+@keyframes loader_rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 /* Fixes */
 /* RESPONSIVE */
 @media (min-width: 320px) and (max-width: 1024px) {
