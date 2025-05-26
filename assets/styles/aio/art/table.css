@@ -71,6 +71,22 @@ table .acts i {
   display: block;
   transition: 0.6s;
 }
+table .data_lay {
+  padding: 20px;
+  background: #f5f5f5;
+  border-radius: 10px;
+}
+table .data_lay .title {
+  margin-top: 0;
+}
+table .data_lay i {
+  font-style: normal;
+  font-weight: 600;
+  margin-right: 15px;
+}
+table .data_lay > div:not(:last-child), table .data_lay > p:not(:last-child) {
+  margin-bottom: 8px;
+}
 table .perms {
   display: flex;
   gap: 5px;
@@ -97,6 +113,9 @@ table .perms p.n {
 }
 table .perms p.n:before {
   content: "x";
+}
+table .logo {
+  max-width: 100px;
 }
 
 table.xs th, table.xs td {

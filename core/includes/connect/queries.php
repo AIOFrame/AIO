@@ -241,6 +241,12 @@ class DB {
                                 } else if( in_array( $type, [ 'uploads', 'upload', 'files', 'file', 'u', 'f' ] ) ) {
                                     $type = 'VARCHAR';
                                     empty( $length ) ? $length = 512 : '';
+                                } else if( in_array( $type, [ 'phone', 'call' ] ) ) {
+                                    $id2 = $row['identity2'] ?? ( $row['id2'] ?? ( $row['i2'] ?? '' ) );
+                                    $r2 = $row['required2'] ?? ( $row['req2'] ?? ( $row['r2'] ?? 0 ) );
+                                    if( !empty( $id2 ) ) {
+                                        $table_structure[1][] = [ $id2, 'VARCHAR', 24, $r2 ];
+                                    }
                                 } else {
                                     $type = 'VARCHAR';
                                 }

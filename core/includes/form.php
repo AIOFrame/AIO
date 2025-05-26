@@ -1038,7 +1038,7 @@ class FORM {
         $label = !empty( $label ) ? __el( 'label', 'lbl', $label . $req, '', 'for="'.$id.'"' ) : '';
         $label .= !empty( $desc ) ? __el( 'label', 'desc', $desc, '', 'for="'.$id.'"' ) : '';
         $value = str_contains( $value, 'fake_' ) ? $this->fake( $value ) : ( str_contains( $value, 'fake_' ) ? '' : $value );
-        $ico = __div( ( $options['icon_class'] ?? 'mico' ) . ' ico ' . ( $options['ico_file_upload'] ?? '' ), $options['ico_file_upload'] ?? '' );
+        $ico = __div( ( $options['icon_class'] ?? 'mico' ) . ' ico ' . ( $options['ico_file_upload'] ?? 'upload_file' ), $options['ico_file_upload'] ?? 'upload_file' );
         return $_p.$label.'<button type="button" class="aio_upload '.$button_class.'" data-url="#'.$id.'" onclick="file_upload(this)" '.$sh.$ext.$sz.$mul.$del.$pat.'>'.$button_label.$ico.'</button><input id="'.$id.'" name="'.$name.'" data-key="'.$name.'" type="text" data-'.$type.' value="'.$value.'" '.$attrs.'>'.$p_;
     }
 
@@ -1296,8 +1296,8 @@ class FORM {
             }
             $data = !empty( $data_attr ) ? ' data-'.$data_attr.' ' : '';
             $attrs = $data . ( $f['attr'] ?? ($f['a'] ?? '') );
-            $required = $f['required'] ?? ( $f['r'] ?? '' );
-            $required ? ( $attrs .= ' required' ) : '';
+            $required = $f['required'] ?? ( $f['req'] ?? ( $f['r'] ?? false ) );
+            $attrs .= $required ? ' required' : '';
             $pre = $form_type == 'settings' ? '<div class="setting_set">' : ( $f['pre'] ?? ($f['col'] ?? ( $f['c'] ?? ( $f['_p'] ?? ( $form_type == 'row' || $form_type == 'r' ? 12 : '<div>' ) ) )) );
             $class = $f['class'] ?? ( $f['c'] ?? '' );
             $post = $f['post'] ?? ( $f['p_'] ?? $this->__post( $class ) );
@@ -1390,10 +1390,10 @@ class FORM {
             //} else if( in_array( $type, [ 'content_builder', 'content_build', 'content', 'cb' ] ) ) {
                 //$return .= $this->_content( $id, $label, $place, $val, $attrs, $pre, $post );
             } else if( $type == 'date' || $type == 'dt' ) {
-                $range = $f['range'] ?? ( $f['r'] ?? 0 );
+                $range = $f['range'] ?? ( $f['rn'] ?? 0 );
                 $min = $f['min'] ?? '';
                 $max = $f['max'] ?? '';
-                $multiple = $f['multiple'] ?? ( $f['m'] ?? 0 );
+                $multiple = $f['multiple'] ?? ( $f['multi'] ?? ( $f['m'] ?? 0 ) );
                 $pos = $f['position'] ?? ( $f['dp'] ?? ( $f['pos'] ?? ( $f['d_p'] ?? 'top center' ) ) );
                 $return .= $this->__date( $id, $label, $place, $val, $attrs, $pos, $pre, $range, $multiple, '', $min, $max, $post );
             } else if( in_array( $type, [ 'range', 'r', 'slider' ] ) ) {

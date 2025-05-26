@@ -158,7 +158,6 @@ function get_values( parent, attribute, prepend ) {
             if( $(this).data('array') !== undefined ) {
                 //elog(key);
                 //elog(pre_key);
-                let arr = $(this).data('array');
                 key = $(this).val() !== '' ? $(this).attr('name') : '';
                 key = key === '' ? $(this).attr('id') : key;
                 let key2 = $(this).data('key') !== undefined ? $(this).data('key') : key;
@@ -168,6 +167,9 @@ function get_values( parent, attribute, prepend ) {
             } else if( $(this).data('html-characters') !== undefined ) {
                 data[ pre_key ] = html_to_text( value );
             } else {
+                if( $(this).data('hidden-date') !== undefined && value === '' ) {
+                    return true;
+                }
                 // Finally push the value
                 data[ pre_key ] = value;
             }
