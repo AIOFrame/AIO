@@ -347,7 +347,7 @@ function valid_field( field ) {
     // TODO: Validate Password
     //console.log( field );
     //console.log( $(field).attr('type') );
-    if( $(field).attr('type') === 'email' ) {
+    if( $(field).attr('type') === 'email' && $(field).val().length > 0 ) {
         // Validate Email
         if( _email_valid( field ) ) {
             let notice = $(field).data('invalid_notice');
