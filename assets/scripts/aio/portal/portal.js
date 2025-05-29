@@ -6,6 +6,7 @@ $(document).ready(function() {
     $(b).on('click','#menu',function(){
         $(this).toggleClass('on');
         $('aside').toggleClass('on');
+        $('.modal').removeClass('on');
     })
 
     .on('keyup search','aside [type=search]',function(){

@@ -498,6 +498,7 @@ class PORTAL {
  * @param string $title Page title
  * @param string $back_url URL for back arrow if exist
  * @param array $tabs Array of tabs
+ * @param string $tab_type
  * @param bool $show_search To show a search input
  * @param string|array $comp_or_actions
  * @return void
@@ -700,4 +701,52 @@ function __data_cards( string $table = '', array $filters = [], array $card_para
 
     // Pagination
 
+}
+
+function widget( string $widget_name, string $title = '', int $col = 6 ): void {
+    global $options;
+    $ic = ( $options['icon_class'] ?? 'mico' ) . ' ico';
+    $ri = $options['ico_remove'] ?? 'close';
+    $l = $options['ico_move_left'] ?? 'keyboard_double_arrow_left';
+    $r = $options['ico_move_right'] ?? 'keyboard_double_arrow_right';
+    echo __div( 'widget_wrap', __div( 'widget_head', __h4( $title ) . __div( $ic. ' left '.$l, $l ) . __div( $ic. ' right '.$r, $r ) . __div( $ic . ' remove '.$ri, $ri ) ) . __div( 'widget_body', '__widget_' . $widget_name() ) );
+}
+
+function widget_shortcuts( array $shortcuts = [] ): void {
+    echo __widget_shortcuts( $shortcuts );
+}
+
+function __widget_shortcuts( array $shortcuts = [] ): string {
+    global $options;
+    $ic = ( $options['icon_class'] ?? 'mico' ) . ' ico';
+    $r = __r();
+    foreach( $shortcuts as $l ) {
+        $r .= __pre( '', 'col-6 col-md-3', 'div', 'data-'.$l[3] )
+        . __anchor( APPURL . 'admin/' . $l[2], 'card br8', T( 'Go to ' . $l[1] ) )
+            . __r()
+                . __c(3)
+                    . __el( 'i', $ic . ' ico xl grad-bg '.$l[0], $l[4] ?? '' )
+                . c__()
+                . __c( 9, 'tac' )
+                    . __h2( $l[3], 0 ) . __h5( $l[1], 0 )
+                . c__()
+            . r__()
+        . anchor__()
+        . __post();
+    }
+    $r .= r__();
+    return $r;
+}
+
+function __widgets(): string {
+    return __d( 'aio_widgets', 'aio_widgets' );
+}
+function widgets__(): string {
+    return d__();
+}
+function _widgets(): void {
+    echo __widgets();
+}
+function widgets_(): void {
+    echo widgets__();
 }

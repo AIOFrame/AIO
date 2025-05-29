@@ -112,6 +112,8 @@ class OPTIONS {
         'row_add' => 'playlist_add',
         'row_rem' => 'remove_circle',
         'row_drag' => 'drag_handle',
+        'move_left' => 'keyboard_double_arrow_left',
+        'move_right' => 'keyboard_double_arrow_right',
     ];
     public array $option_elements = [
         'input' => 'Input Fields',

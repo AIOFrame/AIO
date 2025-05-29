@@ -995,6 +995,7 @@ function modal( string $title = '', string $size = 'm', string $target = '', arr
     pre_modal( $title, $size );
     if( is_array( $fields ) || empty( $fields ) ) {
         global $structure;
+        //skel( $structure[ $target ] );
         $f->pre_process( 'data-wrap', $target, $r, $prepend_to_keys, $hidden, $success_alert, $callback, $confirm, $redirect, $validator, $reset_fields );
             $f->form( empty( $fields ) ? ( $structure[ $target ] ?? [] ) : $fields, $form_style, $r );
             $f->process_trigger( !empty( $submit_text ) ? $submit_text : 'Save '.$title, $submit_class.' mb0', '', '', $submit_wrap.' .tac' );
