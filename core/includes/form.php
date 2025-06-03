@@ -1836,6 +1836,14 @@ class FORM {
         }
     }
 
+    function simple_status( int $status, string $size = 'm' ): void {
+        echo $this->__simple_status( $status, $size );
+    }
+
+    function __simple_status( int $s, string $sz = 'm' ): string {
+        return __div( 'status_dot ' . $sz . ' ' . ( $s == 1 ? 'on' : 'off' ) );
+    }
+
     /**
      * Renders Filters HTML
      * @param array $filter_params [ 'type', 'id', 'label / title', 'place', 'value', 'attr', 'pre', 'options', 'keyed' ]
@@ -1843,6 +1851,8 @@ class FORM {
      * @param string $method
      * @param string $filter_text
      * @param string $class
+     * @param string|int $inputs_class_col
+     * @param string|int $actions_class_col
      */
     function filters( array $filter_params = [], string $clear_url = '', string $method = 'GET', string $filter_text = 'Filter', string $class = '', string|int $inputs_class_col = 10, string|int $actions_class_col = 2 ): void {
         $clear_url = !empty( $clear_url ) ? APPURL . $clear_url : APPURL . PAGEPATH;

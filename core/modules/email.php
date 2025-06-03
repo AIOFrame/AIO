@@ -562,7 +562,9 @@ class MAIL {
         }
         $foot = $m->get_template('foot');
         $f = new FORM();
+        el( 'label', '', T('Template Preview') );
         $this->template_viewer( $template_url );
+        el( 'small', 'db mb20', T('Preview will auto update when you focus on template! Make sure to have setup email header and footer!!') );
         $f->pre_process('class="row"','','email');
         $os = $db->get_options(['from_email','smtp','smtp_server','smtp_port','smtp_username','smtp_password']);
         $attr = 'data-email';
@@ -601,8 +603,8 @@ class MAIL {
                 b( 'store', T('Build Template') );
             d_();
         post( 'form' );
-        get_style('https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.21.0/ui/trumbowyg.min.css');
-        get_scripts(['ace','https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.21.0/trumbowyg.min.js']);
+        get_style('https://cdn.jsdelivr.net/npm/trumbowyg@2.31.0/dist/ui/trumbowyg.min.css');
+        get_scripts(['ace','https://cdn.jsdelivr.net/npm/trumbowyg@2.31.0/dist/trumbowyg.min.js']);
         ?>
         <script>
             window.onload = function () {
@@ -624,7 +626,7 @@ class MAIL {
 
                     $('.editor').trumbowyg({autogrow: true}).on('tbwchange tbwfocus', function (e) {
                         let f = $('iframe.template_preview');
-                        let url = location.origin + '/' + $(f).data('url') + '?all&text=' + encodeURIComponent($(this).val());
+                        let url = location.origin + '/' + $(f).data('url') + '/' + '?all&text=' + encodeURIComponent($(this).val());
                         $('[data-key=test_content]').val($(e.currentTarget).val());
                         $(f).attr('src', url);
                         setTimeout(frame_height, 1000);

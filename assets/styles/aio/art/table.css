@@ -117,6 +117,39 @@ table .perms p.n:before {
 table .logo {
   max-width: 100px;
 }
+table .status_dot.xs {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+}
+table .status_dot.s {
+  width: 15px;
+  height: 15px;
+  border-radius: 8px;
+}
+table .status_dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background: var(--disabled_color);
+  margin: 0 auto;
+}
+table .status_dot.l {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+}
+table .status_dot.xl {
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+}
+table .status_dot.on {
+  background: var(--success_color);
+}
+table .status_dot.off {
+  background: var(--error_color);
+}
 
 table.xs th, table.xs td {
   padding: 6px;

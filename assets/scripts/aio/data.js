@@ -252,7 +252,7 @@ function is_empty( e, d ) {
                 if( $(b).attr('type') === 'checkbox' || $(b).attr('type') === 'radio' ) {
                     if( $(b).is(':checked') ) {
                         $(b).removeClass('empty');
-                    } else {
+                    } else if( !$(b).hasClass('slide') ) {
                         $(b).addClass('empty');
                         required.push( $(b).attr('title') );
                     }
@@ -455,6 +455,7 @@ function process_data( e, ne ){
 
     let data_attr = data !== undefined && data !== '' ? '[data-'+data+']' : '';
     let required = is_empty( p, data_attr + '[required]' );
+    //console.log(required);
     if( required.length > 0 ) {
         $(p).removeClass('load');
         //console.log(required);

@@ -439,12 +439,20 @@ function article__(): string {
     return __post( 'article' );
 }
 
+function color_block( string $color = '', int $width = 40, int $height = 30, int $radius = 8 ): void {
+    echo __cb( $color, $width, $height, $radius );
+}
+
 function cb( string $color = '', int $width = 40, int $height = 30, int $radius = 8 ): void {
     echo __cb( $color, $width, $height, $radius );
 }
 
+function __color_block( string $color = '', int $width = 40, int $height = 30, int $radius = 8 ): string {
+    return __cb( $color, $width, $height, $radius );
+}
+
 function __cb( string $color = '', int $width = 40, int $height = 30, int $radius = 8 ): string {
-    return __div( 'color_block', '', '', 'style="background:'.$color.';width:'.$width.'px;height:'.$height.'px;border-radius:'.$radius.'px"' );
+    return __div( 'color_block', '', '', 'style="background:'.$color.';width:'.$width.'px;height:'.$height.'px;border-radius:'.$radius.'px;margin:0 auto"' );
 }
 
 /**

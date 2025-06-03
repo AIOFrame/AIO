@@ -722,7 +722,7 @@ class OPTIONS {
         return $r;
     }
 
-    function data_options(): void {
+    function form_options(): void {
         $url = str_replace( '/', '', str_replace( '://', '', str_replace( 'http', '', str_replace( 'https', '', APPURL ) ) ) );
         $form = [
             [ 'i' => 'success_message', 'p' => 'Ex: Stored successfully!', 'n' => 'Data saved success Message', 'c' => 6 ],
