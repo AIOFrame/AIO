@@ -276,4 +276,18 @@ body.d {
   .tab {
     white-space: nowrap;
   }
+  .tabs.vertical {
+    margin-bottom: 20px;
+    > div:nth-child(1) {
+      flex-wrap: nowrap;
+      display: flex;
+      > div, > a {
+        flex: 0 0 auto;
+      }
+    }
+    .tab.on {
+      border: 1px solid #ccc;
+      border-bottom: 1px solid transparent;
+    }
+  }
 }

@@ -250,6 +250,20 @@ body.d .tab:not(.on) {
   .tab {
     white-space: nowrap;
   }
+  .tabs.vertical {
+    margin-bottom: 20px;
+  }
+  .tabs.vertical > div:nth-child(1) {
+    flex-wrap: nowrap;
+    display: flex;
+  }
+  .tabs.vertical > div:nth-child(1) > div, .tabs.vertical > div:nth-child(1) > a {
+    flex: 0 0 auto;
+  }
+  .tabs.vertical .tab.on {
+    border: 1px solid #ccc;
+    border-bottom: 1px solid transparent;
+  }
 }
 
 /*# sourceMappingURL=tabs.css.map */
