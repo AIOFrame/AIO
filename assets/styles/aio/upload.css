@@ -8,6 +8,7 @@
   transform: translate(-50%, -50%);
   overflow: hidden;
   width: 32vw;
+  min-width: 400px;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px) saturate(2);
   -webkit-backdrop-filter: blur(10px) saturate(2);
@@ -149,6 +150,8 @@ body.d .file_modal, body.d .file_notify {
   position: relative;
   font-size: 2rem;
   line-height: 40px;
+  margin: 0;
+  box-shadow: none;
 }
 .file_modal .files_head .acts > div.bi {
   font-size: 0;
@@ -178,6 +181,7 @@ body.d .file_modal, body.d .file_notify {
 }
 .file_modal .files_head .info div {
   color: var(--filled_color);
+  margin-bottom: 2px;
 }
 .file_modal .files_head .info .size, .file_modal .files_head .info .measure {
   display: inline-block;
@@ -195,16 +199,16 @@ body.d .file_modal, body.d .file_notify {
 }
 .file_modal .files_head .info > div .types {
   display: flex;
-  margin: 0 -2px;
   flex-wrap: wrap;
+  gap: 3px;
 }
 .file_modal .files_head .info > div .types .type {
   font-size: 0.6rem;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
   color: var(--filled_color);
+  border: 1px solid var(--filled_color);
   padding: 2px 4px;
   border-radius: 4px;
-  margin: 0 2px;
   text-transform: uppercase;
 }
 .file_modal .files_head .info .ico {
@@ -221,7 +225,6 @@ body.d .file_modal, body.d .file_notify {
 .file_modal .files_head .info .title {
   flex: 0 0 100%;
   font-size: 0.6rem;
-  font-weight: 600;
   text-align: left;
   text-transform: uppercase;
   margin: 0 0 5px;

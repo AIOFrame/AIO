@@ -664,7 +664,9 @@ class FORM {
         if( empty( $code_default ) ) {
             $o = new OPTIONS();
             global $options;
+            //skel( $options );
             $r = $o->current_region_prefix();
+            //skel( $r );
             $code_default = ( $options[ $r . 'default_phone_code' ] ?? '' );
         }
         return $this->__pre( $pre )

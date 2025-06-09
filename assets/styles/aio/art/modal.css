@@ -214,9 +214,10 @@
 @media only screen and (max-width: 1024px) {
   .modal {
     left: 0;
+    right: 0;
     top: 50%;
-    width: 100%;
-    max-width: 100%;
+    min-width: 100vw;
+    max-height: 100vh;
     transform: translateY(-50%);
   }
 }

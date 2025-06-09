@@ -1481,7 +1481,6 @@ p.break {
   .user_drop .user_pic {
     left: auto;
     top: calc(50% - 15px);
-    position: inherit;
     margin: 0 10px;
   }
 }

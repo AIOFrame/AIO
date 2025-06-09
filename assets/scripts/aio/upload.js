@@ -339,7 +339,6 @@ function file_upload(e){
         // If file size is defined
         let size = parseFloat( $(e).data('size') );
         size = !isNaN(size) ? size * 1024 : 0;
-        //elog(size);
         let measure = ' Mb';
         if( size > 0 ) {
             if( size > 1024 ) {

@@ -19,9 +19,9 @@ class FUP {
             pre( '', 'files_head' );
                 h3( 'File Uploader' );
                 pre( '', 'info' );
-                    div( 'sizes', __div( $ico_class . ' ico ' . $size_ico, $size_ico ) . __div( 'title', __div( '', T('Max File Size') ) . __div( '', __el( 'span', 'size' ) . __el( 'span', 'measure', 'Mb' ) ) ) );
-                    div( 'types', __div( $ico_class . ' ico ' . $type_ico, $type_ico ) . __div( 'title', T('File Types') . __div( 'types' ) ) );
-                    div( 'max', __div( $ico_class . ' ico ' . $count_ico, $count_ico ) . __div( 'title', T('Files Limit') . __div( 'qty', 2 ) ) );
+                    div( 'sizes', __div( $ico_class . ' ico ' . $size_ico, $size_ico ) . __div( 'info_wrap', __div( 'title', T('Max File Size') ) . __div( 'max_size', __el( 'span', 'size' ) . __el( 'span', 'measure', 'Mb' ) ) ) );
+                    div( 'types', __div( $ico_class . ' ico ' . $type_ico, $type_ico ) . __div( 'info_wrap', __div( 'title', T('File Types') ) . __div( 'types' ) ) );
+                    div( 'max', __div( $ico_class . ' ico ' . $count_ico, $count_ico ) . __div( 'info_wrap', __div( 'title', T('Files Limit') ) . __div( 'qty', 2 ) ) );
                 post();
                 pre( '', 'acts' );
                     div( $ico_class . ' expand ' . ( $options['ico_modal_expand'] ?? '' ), $options['ico_modal_expand'] ?? 'open_in_full' );
