@@ -597,24 +597,26 @@ td .aio_fsp {
   border-right: var(--input_border_right) solid var(--input_border_color);
   border-bottom: var(--input_border_bottom) solid var(--input_border_color);
   border-left: var(--input_border_left) solid var(--input_border_color);
-  padding-right: 36px;
+  padding-left: 40px;
   position: relative;
   text-transform: none;
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.2);
   color: #000;
-  box-shadow: none;
-  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  justify-content: center;
 }
 .aio_fp button.aio_upload .ico {
   position: absolute;
-  right: 5px;
+  left: 5px;
   top: 50%;
   width: 35px;
   height: 35px;
+  line-height: 35px;
   transform: translateY(-50%);
   display: block;
   color: var(--primary_color);
   overflow: hidden;
+  font-size: 1.4rem;
 }
 .aio_fp button.aio_upload .ico.bi:before {
   font-size: 1.2rem;

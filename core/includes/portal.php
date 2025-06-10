@@ -437,7 +437,7 @@ class PORTAL {
                                         }
                                     }
                                     if( empty( $restricted ) ) {
-                                        _c( $col, $class );
+                                        _c( '', $class . ' col-' . $col );
                                             div( $class, __anchor( APPURL . $url_prefix . $sub_url_prefix . $url, $class, $tip, '', '', '' ) . __el( 'i', $ico_class . ' ' . $icon, $ico, '', $color ) . __div( 'title', T( $title ) ) . anchor__() );
                                         c_();
                                     }

@@ -583,23 +583,25 @@ td .aio_fsp {
     border-right: $border-right solid $border-color;
     border-bottom: $border-bottom solid $border-color;
     border-left: $border-left solid $border-color;
-    padding-right: 36px;
+    padding-left: 40px;
     position: relative;
     text-transform: none;
-    background: rgba(0,0,0,.05);
+    background: rgba(255,255,255,.2);
     color: #000;
-    box-shadow: none;
-    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,.1);
+    justify-content: center;
     .ico {
       position: absolute;
-      right: 5px;
+      left: 5px;
       top: 50%;
       width: 35px;
       height: 35px;
+      line-height: 35px;
       transform: translateY(-50%);
       display: block;
       color: $primary;
       overflow: hidden;
+      font-size: 1.4rem;
     }
     .ico.bi:before {
       font-size: 1.2rem;

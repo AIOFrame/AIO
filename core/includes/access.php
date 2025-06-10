@@ -930,7 +930,7 @@ function access_html( string $user_title = 'Username or Email', string $pass_tit
                 $f->pre_process('class="forgot_wrap"  style="display:none;"','forg','forgot_','',[],'','','',$redirect_to,'',1);
                 pre( '', 'inputs row' );
                     $reset_form = [
-                        [ 'i' => 'username', 'n' => ( $show_labels ? $user_title : '' ), 'p' => $user_title, 'd' => 'onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"', 'c' => '.col-12 rel reset_user_wrap', 'p_' => __el( 'div', $icon_class, $user_icon ) . __post() ],
+                        [ 'i' => 'username', 'n' => ( $show_labels ? $user_title : '' ), 'p' => $user_title, 'a' => 'onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"', 'c' => '.col-12 rel reset_user_wrap', 'p_' => __el( 'div', $icon_class, $user_icon ) . __post() ],
                     ];
                     $f->form( $reset_form, 'row' );
                     //$f->text('username',($show_labels?$user_title:''),$user_title,'','onkeyup="aio_login_init(event)" data-key="username" data-forg required="true"','.forgot_user_wrap', );
