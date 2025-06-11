@@ -256,7 +256,7 @@ class DB {
                                     $length = '';
                                 }
                                 if( str_contains( $name, '_access') ) {
-                                    $type = 'number';
+                                    $type = 'INT';
                                     $length = 13;
                                     $required = 1;
                                 }
