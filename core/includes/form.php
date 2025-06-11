@@ -1160,7 +1160,7 @@ class FORM {
         foreach( $data as $k => $v ){
             if( is_numeric( $k ) )
                 continue;
-            $k = strpos( $k, '_') !== false ? ltrim( strstr($k,'_'), '_' ) : $k;
+            $k = str_contains($k, '_') ? ltrim( strrchr($k,'_'), '_' ) : $k;
             if( $k == 'id' ) {
                 $cry = Encrypt::initiate();
                 $final[ $k ] = defined( 'APPDEBUG' ) && APPDEBUG ? $v : $cry->encrypt( $v );
@@ -1686,8 +1686,8 @@ class FORM {
      * @param string $attr Additional attributes
      * @param string $i_class Class for i element positioned before text
      * @param string $i_text Text for i element
-     * @param string|int $pre Pre Wrap HTML or Bootstrap Column
-     * @param string|int $post Post Wrap HTML
+     * @param string|int $pre Pre-wrap HTML or Bootstrap Column
+     * @param string|int $post Post-wrap HTML
      */
     function __edit_html( string $element = '.modal', array $array = [], string $html = 'div', string $text = '', string $class = '', string $attr = '', string $i_class = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): string {
         //$c = Encrypt::initiate();
