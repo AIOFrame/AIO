@@ -400,7 +400,7 @@ a.brand {
   max-height: 70px;
   height: 100%;
   width: 180px;
-  background: url("../../images/aio.svg") no-repeat left center/contain;
+  background: url("../../images/aio_logo.svg") no-repeat left center/contain;
 }
 
 #controls > div {
@@ -838,7 +838,7 @@ aside .nav_head {
   padding: 20px 20px 10px;
 }
 aside .nav_head .menu_search_wrap {
-  background: #eee;
+  background: rgba(255, 255, 255, 0.2);
   position: relative;
   border-radius: 30px;
 }
@@ -1489,6 +1489,9 @@ body.d {
   color: #fff;
   /* INPUTS */
   /* Elements */
+}
+body.d a.brand {
+  background: url("../../images/aio_logo_w.svg") no-repeat left center/contain;
 }
 body.d label {
   color: rgba(255, 255, 255, 0.6);

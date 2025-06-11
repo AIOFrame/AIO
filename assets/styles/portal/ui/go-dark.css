@@ -1,3 +1,11 @@
+:root {
+  --input_radius: 20px;
+  --input_bg: rgba(255,255,255,.1);
+  --input_color: #d3d9ff;
+  --input_border_color: transparent;
+  --input_border_color_active: rgba(255,255,255,.3);
+}
+
 /* ELEMENTS */
 body {
   background: #2c335c;
@@ -16,14 +24,14 @@ aside {
   background: #374072;
 }
 aside a {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.2);
   color: #fff;
 }
 aside .set {
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 aside .set > .title {
-  color: white;
+  color: rgb(255, 255, 255);
 }
 
 .card {
@@ -94,6 +102,19 @@ body.d .tab_data_box {
 
 .pagination .page_link {
   background: rgba(255, 255, 255, 0.06);
+}
+
+.tabs.vertical .tab:not(.on), .tabs.side .tab:not(.on) {
+  background: none;
+  border-right: 1px solid #5461a9;
+}
+.tabs.vertical .tab.on, .tabs.side .tab.on {
+  border: 1px solid #5461a9;
+  border-right: 1px solid transparent;
+}
+
+body.d .color_picker_wrap, body.d .file_modal, body.d .file_notify, body.d .file_modal .files_head {
+  background: #40487a;
 }
 
 /*# sourceMappingURL=go-dark.css.map */

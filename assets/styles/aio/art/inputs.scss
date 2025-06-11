@@ -720,15 +720,22 @@ body {
     align-items: flex-start;
     margin: 0 -10px;
     border-bottom: 1px solid rgba(0,0,0,.1);
-    padding: 10px 0;
+    gap: 20px;
+    padding: 20px 0;
     > label {
-      margin: 15px 10px;
-      flex: 0 0 calc(30% - 20px);
+      display: block;
+      margin: 15px 0 0;
+      flex: 0 0 40%;
       text-transform: none;
       font-size: 1.1rem;
+      .desc {
+        display: block;
+        font-size: .8rem;
+        opacity: .6;
+      }
     }
     > div {
-      flex: 0 0 calc(70% - 20px);
+      flex-grow: 1;
       [type=radio], [type=checkbox] {
         margin: 15px 0;
       }

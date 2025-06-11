@@ -664,16 +664,23 @@ body .trumbowyg-button-pane button.trumbowyg-active, body .trumbowyg-button-pane
   align-items: flex-start;
   margin: 0 -10px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 10px 0;
+  gap: 20px;
+  padding: 20px 0;
 }
 .settings.form .setting_set > label {
-  margin: 15px 10px;
-  flex: 0 0 calc(30% - 20px);
+  display: block;
+  margin: 15px 0 0;
+  flex: 0 0 40%;
   text-transform: none;
   font-size: 1.1rem;
 }
+.settings.form .setting_set > label .desc {
+  display: block;
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
 .settings.form .setting_set > div {
-  flex: 0 0 calc(70% - 20px);
+  flex-grow: 1;
 }
 .settings.form .setting_set > div [type=radio], .settings.form .setting_set > div [type=checkbox] {
   margin: 15px 0;

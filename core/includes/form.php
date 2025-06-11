@@ -288,8 +288,8 @@ class FORM {
                 break;
         }
         $req = str_contains( $attrs, 'required' ) ? '<i>*</i>' : '';
-        $title = !empty( $label ) ? __el( 'label', 'db lbl', $label . $req . ( $type == 'range' ? __el( 'span', '', $value ) : '' ) ) : '';
-        $title .= !empty( $desc ) ? __el( 'label', 'desc', $desc ) : '';
+        $desc = !empty( $desc ) ? __div( 'desc', $desc ) : '';
+        $title = !empty( $label ) ? __el( 'label', 'db lbl', $label . $req . $desc . ( $type == 'range' ? __el( 'span', '', $value ) : '' ), '', 'for="'.$id.'"' ) : '';
         return $_p . $title . $input . $p_;
     }
 

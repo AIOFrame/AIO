@@ -4,6 +4,13 @@ $w2: rgba(255,255,255,.06);
 $w3: rgba(255,255,255,.2);
 $w5: rgba(255,255,255,.5);
 $wf: rgba(255,255,255,1);
+:root {
+  --input_radius: 20px;
+  --input_bg: rgba(255,255,255,.1);
+  --input_color: #d3d9ff;
+  --input_border_color: transparent;
+  --input_border_color_active: rgba(255,255,255,.3);
+}
 
 /* ELEMENTS */
 
@@ -20,7 +27,7 @@ header {
 aside {
   background: #374072;
   a {
-    background: $w2;
+    background: $w3;
     color: #fff;
   }
   .set {
@@ -101,4 +108,17 @@ body.d {
   .page_link {
     background: $w2;
   }
+}
+.tabs.vertical, .tabs.side {
+  .tab:not(.on) {
+    background: none;
+    border-right: 1px solid #5461a9;
+  }
+  .tab.on {
+    border: 1px solid #5461a9;
+    border-right: 1px solid transparent;
+  }
+}
+body.d .color_picker_wrap, body.d .file_modal, body.d .file_notify, body.d .file_modal .files_head {
+  background: #40487a
 }

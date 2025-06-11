@@ -156,7 +156,7 @@ class OPTIONS {
             $brand_form = [
                 [ 'i' => $r.'app_name', 'l' => 'Web App / Site Name', 'p' => 'Ex: AIO University...', 'v' => ( $ops[$r.'app_name'] ?? 'fake_name' ), 'c' => 6 ],
                 [ 'i' => $r.'fav', 'l' => 'Fav Icon', 'p' => 'Upload', 'v' => ( $ops[$r.'fav'] ?? '' ), 'c' => 3, 't' => 'upload', 'x' => 'png' ],
-                [ 'i' => $r.'enable_dark_mode', 'l' => 'Has Dark Mode', 'off' => T('No'), 'on' => T('Yes'), 'v' => ( $ops[$r.'enable_dark_mode'] ?? 2 ), 'c' => 3, 't' => 'slide' ],
+                [ 'i' => $r.'enable_dark_mode', 'l' => 'Enable Dark Mode', 'off' => T('No'), 'on' => T('Yes'), 'v' => ( $ops[$r.'enable_dark_mode'] ?? 2 ), 'c' => 3, 't' => 'slide' ],
                 [ 'i' => $r.'app_desc', 'l' => 'Web App / Site Description', 'p' => 'Ex: We provide...', 'v' => ( $ops[$r.'app_desc'] ?? 'fake_text' ), 'c' => 12, 't' => 'textarea' ],
                 [ 't' => 'h3', 'v' => $mode_name . ' Mode Options', 'c' => 'col-12' ],
                 [ 'i' => $r.'logo'.$mode, 'l' => 'Logo', 'p' => 'Upload', 'v' => ( $ops[$r.'logo'.$mode] ?? '' ), 'c' => 2, 't' => 'upload', 'x' => $ext, 's' => .1 ],
@@ -722,17 +722,17 @@ class OPTIONS {
         return $r;
     }
 
-    function form_options(): void {
+    function form_options( string $style = 'settings' ): void {
         $url = str_replace( '/', '', str_replace( '://', '', str_replace( 'http', '', str_replace( 'https', '', APPURL ) ) ) );
         $form = [
-            [ 'i' => 'success_message', 'p' => 'Ex: Stored successfully!', 'n' => 'Data saved success Message', 'c' => 6 ],
-            [ 'i' => 'failure_message', 'p' => 'Ex: Failed to store data, please mail at support@'.$url, 'n' => 'Data save failure Message', 'c' => 6 ],
-            [ 'i' => 'notify_time', 't' => 'number', 'p' => 'Ex: 2', 'n' => 'Notification Display Time (seconds)', 'c' => 3 ],
-            [ 'i' => 'reload_time', 't' => 'number', 'p' => 'Ex: 2', 'n' => 'Page Reload Time (seconds)', 'c' => 3 ],
-            [ 'i' => 'save_class', 'p' => 'Ex: save_button', 'n' => 'Save button class', 'c' => 6 ],
+            [ 'i' => 'success_message', 'p' => 'Ex: Stored successfully!', 'n' => 'Default form success message', 'c' => 12 ],
+            [ 'i' => 'failure_message', 'p' => 'Ex: Failed to store data, please mail at support@'.$url, 'n' => 'Default form failure Message', 'c' => 12 ],
+            [ 'i' => 'notify_time', 't' => 'number', 'p' => 'Ex: 2', 'n' => 'Notification Display Time (sec)', 'c' => 6 ],
+            [ 'i' => 'reload_time', 't' => 'number', 'p' => 'Ex: 2', 'n' => 'Page Reload Time (sec)', 'c' => 6 ],
+            //[ 'i' => 'save_class', 'p' => 'Ex: save_button', 'n' => 'Save button class', 'c' => 6 ],
             //[ 't' => 'hidden', 'i' => 'autoload', 'v' => 'notify_time,reload_time,success_message,failure_message' ],
         ];
-        $this->form( $form );
+        $this->form( $form, $style, 1 );
     }
 
     function search_engine_options(): void {

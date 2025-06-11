@@ -108,7 +108,9 @@ class PORTAL {
         // TODO: Based on if ecom in features, implement my addresses tab
         // TODO: Based on if crm or ems in features, implement my expenses tab
         // TODO: Based on if ems in features, implement my employee details tab
-        $f = new FORM();
+        // TODO: Responsive overhaul
+        //$f = new FORM();
+        global $options;
         $a = new ACCESS();
         $c = Encrypt::initiate();
         $db = new DB();
@@ -128,11 +130,18 @@ class PORTAL {
                         pre('','tab_data tab_data_box '.(is_mobile() ? 'p20' : 'p40'));
                             // UI / Appearance Tab Content
                             $uis = [ 'default' => 'Default' ];
+                            //skel( $options['enable_dark_mode'] );
                             $ui_list = scandir( ROOTPATH . 'assets/styles/portal/ui' );
                             foreach( $ui_list as $ui ) {
                                 if( str_contains( $ui, '.scss' ) ) {
                                     $s = str_replace( '.scss', '', $ui );
-                                    $uis[ $s ] = ucwords( str_replace( '-', ' ', $s ) );
+                                    if( str_contains( $s, 'dark' ) ){
+                                        if( isset( $options['enable_dark_mode'] ) && $options['enable_dark_mode'] === '1' ) {
+                                            $uis[ $s ] = ucwords( str_replace( '-', ' ', $s ) );
+                                        }
+                                    } else {
+                                        $uis[ $s ] = ucwords( str_replace( '-', ' ', $s ) );
+                                    }
                                 }
                             }
                             /* $f->option_params('id="looks"','data',2,2,'','theme,input_theme');
