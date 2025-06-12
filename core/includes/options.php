@@ -727,8 +727,9 @@ class OPTIONS {
         $form = [
             [ 'i' => 'success_message', 'p' => 'Ex: Stored successfully!', 'n' => 'Default form success message', 'c' => 12 ],
             [ 'i' => 'failure_message', 'p' => 'Ex: Failed to store data, please mail at support@'.$url, 'n' => 'Default form failure Message', 'c' => 12 ],
-            [ 'i' => 'notify_time', 't' => 'number', 'p' => 'Ex: 2', 'n' => 'Notification Display Time (sec)', 'c' => 6 ],
-            [ 'i' => 'reload_time', 't' => 'number', 'p' => 'Ex: 2', 'n' => 'Page Reload Time (sec)', 'c' => 6 ],
+            [ 'i' => 'notify_time', 't' => 'number', 'p' => 'Ex: 2', 'n' => 'Notification Display Time (sec)', 'c' => 4 ],
+            [ 'i' => 'reload_time', 't' => 'number', 'p' => 'Ex: 2', 'n' => 'Page Reload Time (sec)', 'c' => 4 ],
+            [ 'i' => 'autofill', 't' => 'slide', 'p' => 'Ex: 2', 'n' => 'Page Reload Time (sec)', 'c' => 4 ],
             //[ 'i' => 'save_class', 'p' => 'Ex: save_button', 'n' => 'Save button class', 'c' => 6 ],
             //[ 't' => 'hidden', 'i' => 'autoload', 'v' => 'notify_time,reload_time,success_message,failure_message' ],
         ];
