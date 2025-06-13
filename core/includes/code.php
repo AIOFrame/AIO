@@ -320,6 +320,14 @@ function __post_html( string|array $scripts = [], string $alert_position = 'top 
     return $r . $html . '</body></html>';
 }
 
+function _dyn() {
+    echo __pre( '', '', 'main', 'data-barba="container" data-barba-namespace="'.APP_NAME.'"' );
+}
+
+function dyn_() {
+    echo __post( 'main' );
+}
+
 function pre( string $id = '', string $class = '', string $element = 'div', string $attr = '' ): void {
     echo __pre( $id, $class, $element, $attr );
 }

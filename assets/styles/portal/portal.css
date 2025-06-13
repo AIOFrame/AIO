@@ -289,6 +289,38 @@ header > div {
   max-width: 50vw;
   display: flex;
 }
+header .page_load_progress {
+  background-color: #e5e9eb;
+  block-size: 0.2rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-width: none;
+  width: 100%;
+  pointer-events: none;
+  opacity: 0;
+}
+header .page_load_progress .page_progress_bar {
+  animation-duration: 3s;
+  background-image: linear-gradient(to right, #4cd964, #5ac8fa, #007aff, #34aadc, #5856d6, #ff2d55);
+  background-size: 100% 0.25em;
+  block-size: 100%;
+  position: relative;
+  transition: 0.6s;
+}
+header .page_load_progress .page_progress_bar_shadow {
+  background-image: linear-gradient(to bottom, #eaecee, transparent);
+  block-size: 4em;
+  inline-size: 100%;
+  position: absolute;
+  top: 100%;
+  transform: skew(45deg);
+  transform-origin: 0 0;
+}
+header .page_load_progress.on {
+  opacity: 0.5;
+}
 
 /* BODY */
 article {

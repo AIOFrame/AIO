@@ -64,6 +64,30 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    // Barba Dynamic Loading
+    barba.init({
+        transitions: [{
+            name: 'default-transition',
+            before: function() {
+
+            },
+            after: function() {
+                alert('done');
+
+                // create your amazing enter animation here
+            }
+        }]
+    });
+    barba.hooks.before(function() {
+        $('.page_load_progress').addClass('on').find('.page_progress_bar').css({'width': '0'});
+    });
+    barba.hooks.after(function() {
+        $('.page_load_progress').find('.page_progress_bar').css({'width': '100%'});
+        setTimeout(function() {
+            $('.page_load_progress').removeClass('on').find('.page_progress_bar').css({'width': '0'});
+        },500);
+    });
+
 });
 
 function logout( action, path ) {

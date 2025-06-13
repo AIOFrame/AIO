@@ -56,6 +56,7 @@ class PORTAL {
         !empty( $scripts ) ? ( is_array( $scripts ) ? $scripts[] = 'jquery' : $scripts .= ',jquery' ) : '';
 
         //$c = new CODE();
+        $body_attrs .= ' data-barba="wrapper"';
         pre_html( $body_class, $body_attrs, $pre_styles, $primary_color, $secondary_color, 'icons,cards,modal,buttons,inputs,tabs,steps,color,table,alerts,accordion,widgets', $styles, $scripts, $fonts );
 
     }
@@ -70,7 +71,7 @@ class PORTAL {
     }
 
     function __post_html( string|array $scripts = [], string $alert_position = 't r' ): string {
-        $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'basics', 'iro', 'select2', 'air-datepicker', 'scrollto', 'language', 'data', 'portal/portal' ] ) : $scripts.',basics,air-datepicker,iro,select2,language,data,portal/portal';
+        $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'basics', 'iro', 'select2', 'air-datepicker', 'barba', 'scrollto', 'language', 'data', 'portal/portal' ] ) : $scripts.',basics,iro,select2,air-datepicker,barba,scrollto,language,data,portal/portal';
         global $options;
         if( !empty( CONFIG['gemini_key'] ) || !empty( $options['gemini_key'] ) ) {
             $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'gemini' ] ) : $scripts.',gemini';
@@ -360,6 +361,8 @@ class PORTAL {
                 }
 
             post();
+
+            div( 'page_load_progress', __div( 'page_progress_bar', __div( 'page_progress_bar_shadow' ) ) );
 
         post( 'header' );
     }
