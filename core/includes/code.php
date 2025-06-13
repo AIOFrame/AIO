@@ -925,7 +925,7 @@ function __pre_modal( string $title = '', string $size = '' ): string {
             . __h2('Update '.$title,1,'title','data-edit');
         $r .= __post()
     . __d( 'modal_controls' );
-    if( !empty( CONFIG['gen_ai_key'] ) || !empty( $options['gen_ai_key'] ) ) {
+    if( !empty( CONFIG['gemini_key'] ) || !empty( $options['gemini_key'] ) ) {
         $r .= __el( 'div', $i . ' act ico ai_fill ' . $ai, $ai . __div( 'loader' ), '', 'title="'.T('Auto Fill with AI').'"' );
     }
     $r .= __el( 'div', $i . ' ico close ' . $x, $x, '', 'title="'.T('Close').'"' )
