@@ -32,11 +32,6 @@ $url = !empty( $origin ) && $origin . '/' == APPURL; */
 
 // Action is set
 if( isset( $_POST['action'] ) ) {
-    //elog( $_POST );
-    //$action = $_POST['action'];
-    //unset( $_POST['action'] );
-    //
-
     if( !empty( $_POST['action'] ) ) {
         if( APPDEBUG ) {
             $action = $_POST['action'];

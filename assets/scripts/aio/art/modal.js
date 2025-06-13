@@ -17,7 +17,7 @@ $(document).ready(function(){
 
     // Modal Close Logics
     .on('click','.modal .close,[data-close_modal]',function(){
-        let modal = $(this).hasClass('close') ? $(this).parent('.modal') : $(this).data('close_modal');
+        let modal = $(this).hasClass('close') ? $(this).parent().parent('.modal') : $(this).data('close_modal');
         $( modal ).removeClass('on');
 
         // Remove background fade if all modals are closed

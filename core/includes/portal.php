@@ -71,6 +71,10 @@ class PORTAL {
 
     function __post_html( string|array $scripts = [], string $alert_position = 't r' ): string {
         $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'basics', 'iro', 'select2', 'air-datepicker', 'scrollto', 'language', 'data', 'portal/portal' ] ) : $scripts.',basics,air-datepicker,iro,select2,language,data,portal/portal';
+        global $options;
+        if( !empty( CONFIG['gemini_key'] ) || !empty( $options['gemini_key'] ) ) {
+            $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'gemini' ] ) : $scripts.',gemini';
+        }
         global $logo;
         $r = __div( 'aio_loader', __div( 'span_wrap', __div( 'loader_logo', '', '', $logo ) . __div( 'loader', __el( 'i' ) . __el( 'i' ) . __el( 'i' ) . __el( 'i' ) ) ), '', 'data-loader' );
         return $r . __post_html( $scripts, $alert_position );

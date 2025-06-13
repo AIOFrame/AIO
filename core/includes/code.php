@@ -907,13 +907,21 @@ function card( string $class = '', string $title = '', string $link = '', string
 
 function __pre_modal( string $title = '', string $size = '' ): string {
     global $options;
+    $i = $options['icon_class'] ?? 'mico';
+    $ai = $options['icon_ai'] ?? 'auto_awesome';
+    $x = $options['ico_close'] ?? 'close';
     $s = strtolower( str_replace( ' ', '_', $title ) );
     $r = __pre($s.'_modal','modal '.$size.' '.$s.'_modal')
         . __pre('','modal_head');
             $r .= __h2('New '.$title,1,'title','data-add')
             . __h2('Update '.$title,1,'title','data-edit');
         $r .= __post()
-    . __el( 'div', ( $options['icon_class'] ?? 'mico' ) . ' ico close ' . ( $options['ico_close'] ?? '' ), ( $options['ico_close'] ?? 'close' ) )
+    . __d( 'modal_controls' );
+    if( !empty( CONFIG['gen_ai_key'] ) || !empty( $options['gen_ai_key'] ) ) {
+        $r .= __el( 'div', $i . ' ico ai_fill ' . $ai, $ai, '', 'title="'.T('Auto Fill with AI').'"' );
+    }
+    $r .= __el( 'div', $i . ' ico close ' . $x, $x, '', 'title="'.T('Close').'"' )
+    . d__()
     . __pre('','modal_body');
     return $r;
 }

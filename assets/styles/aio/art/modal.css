@@ -1,3 +1,30 @@
+:root {
+  --ai_shadow: linear-gradient(
+      45deg,
+      #fb0094,
+      #0000ff,
+      #00ff00,
+      #ffff00,
+      #ff0000,
+      #fb0094,
+      #0000ff,
+      #00ff00,
+      #ffff00,
+      #ff0000
+  );
+}
+
+@keyframes animate {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 300% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
 /* Modal */
 .modal {
   position: fixed;
@@ -32,14 +59,45 @@
 .modal .modal {
   z-index: 15;
 }
-.modal .close {
+.modal .modal_controls {
   position: absolute;
   right: 20px;
   top: 10px;
+  cursor: pointer;
+}
+.modal .modal_controls .ico {
   width: 40px;
   height: 40px;
   line-height: 40px;
-  cursor: pointer;
+}
+.modal .modal_controls .ai_fill {
+  position: relative;
+  border-radius: 5px;
+  background: #fff;
+}
+.modal .modal_controls .ai_fill:before,
+.modal .modal_controls .ai_fill:after {
+  border-radius: 5px;
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  background: var(--ai_shadow);
+  background-size: 400%;
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  z-index: -1;
+  animation: animate 20s linear infinite;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.6s;
+}
+.modal .modal_controls .ai_fill:hover:before,
+.modal .modal_controls .ai_fill:hover:after {
+  opacity: 1;
+}
+.modal .modal_controls .ai_fill:after {
+  filter: blur(20px);
 }
 .modal .close.bi:before {
   line-height: 40px;

@@ -29,7 +29,7 @@ class CURL {
         return $server_output;
     }
 
-    function post( string $url = '', array $headers = [], array $post_params = [], string $username = '', string $password = '' ): bool|string {
+    function post( string $url = '', array $headers = [], array|string $post_params = [], string $username = '', string $password = '' ): bool|string {
 
         $ch = curl_init();
 
@@ -50,7 +50,7 @@ class CURL {
         if( !empty( $username ) && !empty( $password ) ) {
             curl_setopt( $ch, CURLOPT_USERPWD, $username . ':' . $password );
         }
-        curl_setopt( $ch, CURLOPT_POSTFIELDS, http_build_query( $post_params ) );
+        curl_setopt( $ch, CURLOPT_POSTFIELDS, ( is_array( $post_params ) ? http_build_query( $post_params ) : $post_params ) );
 
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
 

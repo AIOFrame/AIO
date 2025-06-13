@@ -88,7 +88,6 @@ function define_page( $page ): void {
 }
 
 // This the CORE ROUTING logic
-
 if( !isset( $_POST['action'] ) && !isset( $_POST['t'] ) ) { // Checks if AJAX Action Request is sent so content will not be rendered
 
     // Sets page by url to page.php if file exists
@@ -110,6 +109,12 @@ if( !isset( $_POST['action'] ) && !isset( $_POST['t'] ) ) { // Checks if AJAX Ac
         define_path( $page, 1 );
         define_page( $parent_page );
         return;
+    }
+
+    // Endpoints for completely independent exploring
+    if( file_exists( ROOTPATH . 'core/endpoints/' . $page . '.php' ) ) {
+        define_path( $page );
+        define_page( ROOTPATH . 'core/endpoints/' . $page . '.php' );
     }
 
     // Sets page to parent group if page.php is missing

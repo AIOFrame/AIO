@@ -1,6 +1,33 @@
 $primary: var(--primary_color);
 $secondary: var(--secondary_color);
 $radius: var(--input_radius);
+:root {
+  --ai_shadow: linear-gradient(
+      45deg,
+      #fb0094,
+      #0000ff,
+      #00ff00,
+      #ffff00,
+      #ff0000,
+      #fb0094,
+      #0000ff,
+      #00ff00,
+      #ffff00,
+      #ff0000
+  );
+}
+@keyframes animate {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 300% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
 
 /* Modal */
 
@@ -37,14 +64,45 @@ $radius: var(--input_radius);
   .modal {
     z-index:15;
   }
-  .close {
+  .modal_controls {
     position: absolute;
     right:20px;
     top:10px;
-    width:40px;
-    height:40px;
-    line-height:40px;
     cursor: pointer;
+    .ico {
+      width:40px;
+      height:40px;
+      line-height:40px;
+    }
+    .ai_fill {
+      position: relative;
+      border-radius: 5px;
+      background: #fff;
+    }
+    .ai_fill:before,
+    .ai_fill:after {
+      border-radius: 5px;
+      content: "";
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      background: var(--ai_shadow);
+      background-size: 400%;
+      width: calc(100% + 2px);
+      height: calc(100% + 2px);
+      z-index: -1;
+      animation: animate 20s linear infinite;
+      opacity: 0;
+      pointer-events: none;
+      transition: .6s;
+    }
+    .ai_fill:hover:before,
+    .ai_fill:hover:after {
+      opacity: 1;
+    }
+    .ai_fill:after {
+      filter: blur(20px);
+    }
   }
   .close.bi:before {
     line-height: 40px;

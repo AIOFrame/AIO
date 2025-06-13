@@ -553,6 +553,14 @@ class OPTIONS {
         $s->options();
     }
 
+    function ai_options(): void {
+        h4('Google - Gemini Gen AI 2.5');
+        $form = [
+            [ 'i' => 'gemini_key', 'n' => 'Auth Key', 'c' => 12, 'max' => 50, 'p' => '40 digit Google Gemini API Key' ],
+        ];
+        $this->form( $form, 'row', 1, '', 'Save AI Key', '', '', 'gemini_key' );
+    }
+
     function world_options(): void {
         $d = new DB();
         $r = $this->current_region_prefix();
