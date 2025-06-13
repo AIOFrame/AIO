@@ -84,6 +84,8 @@ document.addEventListener('DOMContentLoaded', function () {
     barba.hooks.after(function() {
         $('.page_load_progress').find('.page_progress_bar').css({'width': '100%'});
         setTimeout(function() {
+            $('body').removeClass('modal_open');
+            $('article').removeClass('fade');
             $('.page_load_progress').removeClass('on').find('.page_progress_bar').css({'width': '0'});
             file_ui();
             files_ui();
