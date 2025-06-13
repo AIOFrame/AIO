@@ -120,6 +120,30 @@
   overflow-x: hidden;
 }
 
+.modal.shine .modal_body:after {
+  content: "";
+  width: 100px;
+  background: #fff;
+  opacity: 0.8;
+  position: absolute;
+  height: 200%;
+  transform: rotate(45deg);
+  transition: 0.6s;
+  animation: shine 1s linear forwards;
+  top: 80%;
+  left: 120%;
+}
+
+@keyframes shine {
+  0% {
+    top: -80%;
+    left: -20%;
+  }
+  100% {
+    top: 80%;
+    left: 120%;
+  }
+}
 .modal.r5 {
   border-radius: 5px;
 }

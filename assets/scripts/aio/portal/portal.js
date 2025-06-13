@@ -85,6 +85,8 @@ document.addEventListener('DOMContentLoaded', function () {
         $('.page_load_progress').find('.page_progress_bar').css({'width': '100%'});
         setTimeout(function() {
             $('.page_load_progress').removeClass('on').find('.page_progress_bar').css({'width': '0'});
+            file_ui();
+            files_ui();
         },500);
     });
 
