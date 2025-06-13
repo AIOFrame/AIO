@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Auto Fill Forms
-    $('body').on('click','.modal .ai_fill',function () {
+    $('body').on('click','.modal .ai_fill',function (e) {
+        $(e.target).addClass('load');
         let fields = []; let titles = [];
         $('.modal .form > div').each(function(i,f){
             if( $(f).children('.slide_set').length === 0 && $(f).children('.aio_upload').length === 0 ) {
@@ -10,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 fields.push({'label':label,'id':id});
             }
         });
-        let form_title = $(this).parent().parent('.modal').find('h2.title:nth-child(1)').text().replaceAll('Add ','');
+        let form_title = $(e.target).parent().parent('.modal').find('h2.title:nth-child(1)').text().replaceAll('Add ','');
         let prompt = 'Filling form to add ' + form_title + ', suggest me realistic text to fill each of ' + titles.join(',') + '. Respond as single array without commentary.';
         console.log(prompt);
         $.ajax({
@@ -24,11 +25,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log(r);
                 if( Array.isArray(r) ){
                     $.each( fields, function (i, f) {
-                        $('#'+f.id).val( r[i] );
+                        if (typeof r[i] === 'string' || r[i] instanceof String) {
+                            $('#'+f.id).val( r[i] );
+                        }
                     })
                 }
+                $(e.target).removeClass('load');
+            },
+            error: function (r) {
+                console.log(r);
+                $(e.target).removeClass('load');
             }
         });
+        setTimeout(function () {
+
+        },1000);
     })
 })
 

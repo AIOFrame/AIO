@@ -918,7 +918,7 @@ function __pre_modal( string $title = '', string $size = '' ): string {
         $r .= __post()
     . __d( 'modal_controls' );
     if( !empty( CONFIG['gen_ai_key'] ) || !empty( $options['gen_ai_key'] ) ) {
-        $r .= __el( 'div', $i . ' ico ai_fill ' . $ai, $ai, '', 'title="'.T('Auto Fill with AI').'"' );
+        $r .= __el( 'div', $i . ' act ico ai_fill ' . $ai, $ai . __div( 'loader' ), '', 'title="'.T('Auto Fill with AI').'"' );
     }
     $r .= __el( 'div', $i . ' ico close ' . $x, $x, '', 'title="'.T('Close').'"' )
     . d__()

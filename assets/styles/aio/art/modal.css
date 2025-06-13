@@ -75,6 +75,12 @@
   border-radius: 5px;
   background: #fff;
 }
+.modal .modal_controls .ai_fill.load {
+  opacity: 1;
+}
+.modal .modal_controls .ai_fill .loader:before {
+  background: url("../../../assets/icons/tadpole_d.svg") no-repeat center/50%;
+}
 .modal .modal_controls .ai_fill:before,
 .modal .modal_controls .ai_fill:after {
   border-radius: 5px;
@@ -92,6 +98,7 @@
   pointer-events: none;
   transition: 0.6s;
 }
+.modal .modal_controls .ai_fill.load:before,
 .modal .modal_controls .ai_fill:hover:before,
 .modal .modal_controls .ai_fill:hover:after {
   opacity: 1;

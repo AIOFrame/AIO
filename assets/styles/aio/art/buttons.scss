@@ -343,13 +343,13 @@ button.store, button.save, button.grad, .btn.grad {
     //display: none;
   }
 }
-button.load, .btn.load {
+button.load, .btn.load, .act.load {
   position: relative;
   opacity: .6;
   cursor: not-allowed;
   pointer-events: none;
 }
-button .loader, .btn .loader {
+button .loader, .btn .loader, .act .loader {
   position: absolute;
   z-index: 2;
   display: block;
@@ -362,8 +362,9 @@ button .loader, .btn .loader {
   height: calc(100% - 10px);
   border-radius: 5px;
   transform: translate(-50%,-50%);
+  pointer-events: none;
 }
-button.load .loader:before, .btn.load .loader:before {
+button.load .loader:before, .btn.load .loader:before, .act.load .loader:before {
   content: '';
   height: 100%;
   width: 100%;
