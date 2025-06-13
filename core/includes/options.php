@@ -154,16 +154,16 @@ class OPTIONS {
             $mode_name = $light_mode ? ' Light' : ' Dark';
             //skel( $ops );
             $brand_form = [
-                [ 'i' => $r.'app_name', 'l' => 'Web App / Site Name', 'p' => 'Ex: AIO University...', 'v' => ( $ops[$r.'app_name'] ?? 'fake_name' ), 'c' => 6 ],
+                [ 'i' => $r.'app_name', 'l' => 'Web App / Site Name', 'p' => 'Ex: AIO University...', 'v' => ( $ops[$r.'app_name'] ?? '' ), 'c' => 6 ],
                 [ 'i' => $r.'fav', 'l' => 'Fav Icon', 'p' => 'Upload', 'v' => ( $ops[$r.'fav'] ?? '' ), 'c' => 3, 't' => 'upload', 'x' => 'png' ],
                 [ 'i' => $r.'enable_dark_mode', 'l' => 'Enable Dark Mode', 'off' => T('No'), 'on' => T('Yes'), 'v' => ( $ops[$r.'enable_dark_mode'] ?? 2 ), 'c' => 3, 't' => 'slide' ],
-                [ 'i' => $r.'app_desc', 'l' => 'Web App / Site Description', 'p' => 'Ex: We provide...', 'v' => ( $ops[$r.'app_desc'] ?? 'fake_text' ), 'c' => 12, 't' => 'textarea' ],
+                [ 'i' => $r.'app_desc', 'l' => 'Web App / Site Description', 'p' => 'Ex: We provide...', 'v' => ( $ops[$r.'app_desc'] ?? '' ), 'c' => 12, 't' => 'textarea' ],
                 [ 't' => 'h3', 'v' => $mode_name . ' Mode Options', 'c' => 'col-12' ],
                 [ 'i' => $r.'logo'.$mode, 'l' => 'Logo', 'p' => 'Upload', 'v' => ( $ops[$r.'logo'.$mode] ?? '' ), 'c' => 2, 't' => 'upload', 'x' => $ext, 's' => .1 ],
-                [ 'i' => $r.'color'.$mode, 'l' => 'Text Color', 'p' => 'Ex: 000000', 'v' => ( $ops[$r.'color'.$mode] ?? 'fake_hex' ), 'c' => 2, 't' => 'color' ],
-                [ 'i' => $r.'primary_color'.$mode, 'l' => 'Gradient Start', 'p' => 'Ex: F1F1F1', 'v' => ( $ops[$r.'primary_color'.$mode] ?? 'fake_hex' ), 'c' => 2, 't' => 'color' ],
-                [ 'i' => $r.'secondary_color'.$mode, 'l' => 'Gradient End', 'p' => 'Ex: A2A2A2', 'v' => ( $ops[$r.'secondary_color'.$mode] ?? 'fake_hex' ), 'c' => 2, 't' => 'color' ],
-                [ 'i' => $r.'filled_color'.$mode, 'l' => 'Text on Gradient', 'p' => 'Ex: A2A2A2', 'v' => ( $ops[$r.'filled_color'.$mode] ?? 'fake_hex' ), 'c' => 2, 't' => 'color' ],
+                [ 'i' => $r.'color'.$mode, 'l' => 'Text Color', 'p' => 'Ex: 000000', 'v' => ( $ops[$r.'color'.$mode] ?? '' ), 'c' => 2, 't' => 'color' ],
+                [ 'i' => $r.'primary_color'.$mode, 'l' => 'Gradient Start', 'p' => 'Ex: F1F1F1', 'v' => ( $ops[$r.'primary_color'.$mode] ?? '' ), 'c' => 2, 't' => 'color' ],
+                [ 'i' => $r.'secondary_color'.$mode, 'l' => 'Gradient End', 'p' => 'Ex: A2A2A2', 'v' => ( $ops[$r.'secondary_color'.$mode] ?? '' ), 'c' => 2, 't' => 'color' ],
+                [ 'i' => $r.'filled_color'.$mode, 'l' => 'Text on Gradient', 'p' => 'Ex: A2A2A2', 'v' => ( $ops[$r.'filled_color'.$mode] ?? '' ), 'c' => 2, 't' => 'color' ],
                 [ 'i' => $r.'grad_angle'.$mode, 'l' => 'Gradient Angle', 'p' => 'Ex: 45', 'v' => ( $ops[$r.'grad_angle'.$mode] ?? '45' ), 'c' => 2, 't' => 'slider', 'min' => 1, 'max' => 270 ],
             ];
             $brand_form[] = [ 'i' => $r.'default_theme', 'l' => 'Default Admin Theme', 'p' => 'Select Theme...', 'o' => $uis, 'v' => ( $ops[$r.'default_theme'] ?? 'default' ), 'c' => 12, 't' => 'select2', 'k' => 1 ];
@@ -410,10 +410,10 @@ class OPTIONS {
         //skel( $r );
         //skel( $os );
         $f->option_params_wrap('com','class="row"');
-            $phone = !empty( $os[$r.'phone'] ) ? $os[$r.'phone'] : 'fake_phone';
-            $mobile = !empty( $os[$r.'mobile'] ) ? $os[$r.'mobile'] : 'fake_phone';
-            $email = !empty( $os[$r.'email'] ) ? $os[$r.'email'] : 'fake_email';
-            $website = !empty( $os[$r.'website'] ) ? $os[$r.'website'] : 'fake_site';
+            $phone = !empty( $os[$r.'phone'] ) ? $os[$r.'phone'] : '';
+            $mobile = !empty( $os[$r.'mobile'] ) ? $os[$r.'mobile'] : '';
+            $email = !empty( $os[$r.'email'] ) ? $os[$r.'email'] : '';
+            $website = !empty( $os[$r.'website'] ) ? $os[$r.'website'] : '';
             $f->text($r.'phone','Official Phone No.','Ex: 403334444',$phone,'data-com',3);
             $f->text($r.'mobile','Mobile No. for Social Media','Ex: 503334444',$mobile,'data-com',3);
             $f->text($r.'email','Official Email','Ex: hello@company.com',$email,'data-com',3);
@@ -433,10 +433,10 @@ class OPTIONS {
         $add_ops = defined( 'REGION' ) ? prepare_values( $add_ops, $r ) : $add_ops;
         $os = $db->get_options($add_ops);
         $f->option_params_wrap('add','class="row"');
-        $address = !empty( $os[$r.'address'] ) ? $os[$r.'address'] : 'fake_address';
-        $city = !empty( $os[$r.'city'] ) ? $os[$r.'city'] : 'fake_city';
-        $state = !empty( $os[$r.'state'] ) ? $os[$r.'state'] : 'fake_state';
-        $post = !empty( $os[$r.'post'] ) ? $os[$r.'post'] : 'fake_po';
+        $address = !empty( $os[$r.'address'] ) ? $os[$r.'address'] : '';
+        $city = !empty( $os[$r.'city'] ) ? $os[$r.'city'] : '';
+        $state = !empty( $os[$r.'state'] ) ? $os[$r.'state'] : '';
+        $post = !empty( $os[$r.'post'] ) ? $os[$r.'post'] : '';
         $country = $os[$r.'country'] ?? 'AE';
         $countries = get_countries( 'iso2', 'flag name' );
         $f->text($r.'address','Address','Ex: Office 1100, Building Name, Street Name...',$address,'data-add',9);
