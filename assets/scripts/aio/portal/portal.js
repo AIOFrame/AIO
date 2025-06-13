@@ -68,14 +68,6 @@ document.addEventListener('DOMContentLoaded', function () {
     barba.init({
         transitions: [{
             name: 'default-transition',
-            before: function() {
-
-            },
-            after: function() {
-                alert('done');
-
-                // create your amazing enter animation here
-            }
         }]
     });
     barba.hooks.before(function() {
@@ -89,6 +81,8 @@ document.addEventListener('DOMContentLoaded', function () {
             $('.page_load_progress').removeClass('on').find('.page_progress_bar').css({'width': '0'});
             file_ui();
             files_ui();
+            selects();
+            date_picker();
         },500);
     });
 

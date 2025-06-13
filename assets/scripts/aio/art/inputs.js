@@ -74,11 +74,7 @@ window.addEventListener('DOMContentLoaded',function () {
     }
 
     // Select2
-    $('select.easy, select.select2').each(function (a,b) {
-        if( !$(b).parents('[data-ignore-select2]').length ) {
-            select_init( b );
-        }
-    });
+
     if( $.fn.select2 !== undefined ){
 
     }
@@ -105,6 +101,8 @@ window.addEventListener('DOMContentLoaded',function () {
         date_picker();
         // $('body').on('change','.dater',date_picker(this));
     }
+
+    selects();
     // Date Picker
     /* if( $.fn.datepicker !== undefined ){
         $.fn.datepicker.language['en'] = dateLocaleEn;
@@ -142,6 +140,14 @@ window.addEventListener('DOMContentLoaded',function () {
     } */
 
 });
+
+function selects() {
+    $('select.easy, select.select2').each(function (a,b) {
+        if( !$(b).parents('[data-ignore-select2]').length ) {
+            select_init( b );
+        }
+    });
+}
 
 function select_init( el ) {
     let select_config = { width:'100%' };
