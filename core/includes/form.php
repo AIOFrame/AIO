@@ -568,7 +568,7 @@ class FORM {
         $view_attr = $view_attr ? ' view="'.$view_attr.'"' : '';
         $position = !empty( $position ) ? $position : 'bottom center';
         $attrs .= is_array( $alt_id ) ? ' data-alt="[data-key='.$alt_id[0].']"' : ' data-alt="[data-key='.$alt_id.']"';
-        $post = $icon_preview . $this->__post( $pre, $post );
+        $r = $this->__pre( $pre );
         //$post = !empty( $pre ) && !empty( $post ) ? $post : ( $icon_preview );
 
         $visible_attr = is_array( $id ) ? 'class="dater" alt="#'.$id[0].'_'.$rand.'" position="'.$position.'"' : 'class="dater" alt="#'.$id.'_'.$rand.'" position="'.$position.'"';
@@ -578,12 +578,13 @@ class FORM {
 
         // Hidden Input - Renders date format as per backend
         $value_ymd = !empty( $value ) ? ( $value !== 'fake_date' ? easy_date( $value, 'Y-m-d' ) : $value ) : '';
-        $return = $this->__text( ( is_array( $oid ) ? $oid : [$id . '_' . $rand, $id] ), '', '', $value_ymd, $attrs . ' hidden data-hidden-date');
+        $r .= $this->__text( ( is_array( $oid ) ? $oid : [$id . '_' . $rand, $id] ), '', '', $value_ymd, $attrs . ' hidden data-hidden-date');
         // Visible Input - Render date for easier user grasp
         $value_dmy = !empty( $value ) ? ( $value !== 'fake_date' ? easy_date( $value, 'd-m-Y' ) : $value ) : '';
         //skel( $icon_preview );
-        $return .= $this->__text( $alt_id, $label, $placeholder, $value_dmy, $visible_attr.$range_attr.$multiple_attr.$view_attr.' data-visible-date no_post', $pre, $post );
-        return $return;
+        $r .= $this->__text( $alt_id, $label, $placeholder, $value_dmy, $visible_attr.$range_attr.$multiple_attr.$view_attr.' data-visible-date no_post' );
+        $r .= $icon_preview . $this->__post( $pre, $post );
+        return $r;
     }
 
     /**
@@ -670,7 +671,7 @@ class FORM {
             $code_default = ( $options[ $r . 'default_phone_code' ] ?? '' );
         }
         return $this->__pre( $pre )
-        . __r()
+        . __r( 'phone_set' )
         . $this->__select2( $code_id, $code_label, $code_placeholder, $codes, $code_default, $attr, 5, 1 )
         . $this->__input( 'number', $phone_id, $phone_label, $phone_placeholder, $phone_default, $attr, 7 )
         . r__()

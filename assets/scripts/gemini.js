@@ -7,13 +7,24 @@ document.addEventListener('DOMContentLoaded', function () {
             if( $(f).children('.slide_set').length === 0 && $(f).children('.aio_upload').length === 0 ) {
                 let id = $(f).find('.lbl').attr('for');
                 let label = $(f).find('.lbl').text().replaceAll('*','').replaceAll('Code','');
+                let key = $(f).find('.lbl').next().data('key');
                 titles.push(label);
-                fields.push({'label':label,'id':id});
+                if( $(f).children('.phone_set').length !== 0 ) {
+                    id = $(f).find('.phone_set > div:nth-child(2) .lbl').attr('for');
+                    key = 'phone';
+                }
+                if( $(f).find('.dater').length !== 0 ) {
+                    id = $(f).find('> input').attr('id');
+                    key = 'date';
+                }
+                fields.push({'label':label,'id':id,'key':key});
             }
         });
+        //console.log(fields);
         let form_title = $(e.target).parent().parent('.modal').find('h2.title:nth-child(1)').text().replaceAll('Add ','');
-        let prompt = 'Filling form to add ' + form_title + ', suggest me realistic text to fill each of ' + titles.join(',') + '. Respond as single array without commentary.';
+        let prompt = 'Filling form to add ' + form_title + ', suggest me random, not previously suggested and realistic text to fill each of ' + titles.join(',') + '. Strictly respond as single array without any commentary.';
         console.log(prompt);
+        //return;
         $.ajax({
             type: "POST",
             url: location.origin + '/google_gemini',
@@ -22,11 +33,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log(r);
                 r = r.replaceAll('```','').replaceAll('json','');
                 r = JSON.parse(r);
-                console.log(r);
                 if( Array.isArray(r) ){
                     $.each( fields, function (i, f) {
                         if (typeof r[i] === 'string' || r[i] instanceof String) {
-                            $('#'+f.id).val( r[i] );
+                            if( fields[i]['key'] === 'phone' ) {
+                                $('#' + f.id).val(parseInt(r[i]));
+                            } else {
+                                $('#'+f.id).val( r[i] ).change();
+                            }
+                            //if( fields[i]['key'] === 'date' ) {
+                                //$('#' + f.id).next().next().val(r[i].split("-").reverse().join("-")).change();
+                            //}
                         }
                     })
                 }
