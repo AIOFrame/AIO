@@ -174,7 +174,7 @@ aside {
     border: 1px solid $w6;
     border-bottom: 0;
     height: 80px;
-    width: 80px;
+    //width: 80px;
     margin: 0 auto 40px;
     .mico.l {
       font-size: 2.5rem;
@@ -229,6 +229,13 @@ button.store, button.save, button.grad, .btn.grad {
 .aio_upload {
   padding: 10px;
   width: 100%;
+}
+.pagination {
+  .page_link {
+    background: $w2;
+    border: 1px solid $w4;
+    border-bottom: 0;
+  }
 }
 
 // Modals

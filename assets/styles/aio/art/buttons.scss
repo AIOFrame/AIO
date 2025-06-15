@@ -414,6 +414,12 @@ button.load .loader:before, .btn.load .loader:before, .act.load .loader:before {
     border-radius: 0 5px 5px 0;
   }
 }
+.pagination.g1 {
+  gap: 5px
+}
+.pagination.g2 {
+  gap: 10px
+}
 .pagination.r {
   .page_link:first-child {
     border-radius: 20px 0 0 20px;

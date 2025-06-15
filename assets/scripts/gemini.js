@@ -22,7 +22,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         //console.log(fields);
         let form_title = $(e.target).parent().parent('.modal').find('h2.title:nth-child(1)').text().replaceAll('Add ','');
-        let prompt = 'Filling form to add ' + form_title + ', suggest me random, not previously suggested and realistic text to fill each of ' + titles.join(',') + '. Strictly respond as single array without any commentary.';
+        form_title = form_title.endsWith('s') ? form_title.slice(0, -1) : form_title;
+        let prompt = 'Filling form to add ' + form_title + ', suggest me random, not previously suggested and realistic text to fill each of ' + titles.join(',') + '. Very strictly return a single array without any commentary, explanation, formatting, or extra output.';
         console.log(prompt);
         //return;
         $.ajax({

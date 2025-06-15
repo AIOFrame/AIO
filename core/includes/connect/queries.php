@@ -437,6 +437,7 @@ class DB {
             //$o .= !empty($order_by) && $order_by !== '' ?  $order_by : '';
             $query .= !empty( $sort ) && $sort !== '' && !empty( $order_by ) && $order_by !== '' ? ' ORDER BY ' . $sort . ( $order_numeric ? '+ 0' : '' ) . ' ' . $order_by : '';
             $query .= $limit >= 1 ? ( DB_TYPE == 'mssql' ? '' : ' LIMIT ' . $limit ) : '';
+            $offset = !empty( $limit ) ? ( $offset - 1 ) * $limit : $offset;
             $query .= $offset > 1 ? ( DB_TYPE == 'mssql' ? ' OFFSET ' . $offset . ' ROWS' : ' OFFSET ' . $offset ) : '';
 
             $df = debug_backtrace();

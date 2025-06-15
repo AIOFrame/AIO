@@ -166,7 +166,6 @@ aside a {
   border: 1px solid rgba(255, 255, 255, 0.6);
   border-bottom: 0;
   height: 80px;
-  width: 80px;
   margin: 0 auto 40px;
 }
 aside a .mico.l {
@@ -217,6 +216,12 @@ button.store, button.save, button.grad, .btn.grad {
 .aio_upload {
   padding: 10px;
   width: 100%;
+}
+
+.pagination .page_link {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-bottom: 0;
 }
 
 .modal {
