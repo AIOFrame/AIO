@@ -227,7 +227,8 @@ input.load, input.loading {
 }
 
 [type=text].dater {
-  padding-left: 30px;
+  padding: var(--input_padding_top) var(--input_padding_right) var(--input_padding_bottom) 40px;
+  text-align: center;
 }
 
 /* Input Checkbox Slider */

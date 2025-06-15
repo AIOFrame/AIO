@@ -292,7 +292,7 @@
 }
 
 .icon_preview.l {
-  left: 15px;
+  left: 20px;
   right: auto;
 }
 
@@ -306,7 +306,7 @@
 }
 [dir=rtl] .icon_preview.l {
   left: auto;
-  right: 15px;
+  right: 20px;
 }
 [dir=rtl] .ico.l {
   left: auto;

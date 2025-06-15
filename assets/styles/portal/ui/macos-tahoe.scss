@@ -1,7 +1,7 @@
 :root {
   --input_bg: rgba(255,255,255,.2);
   --input_border_color: rgba(255,255,255,.2);
-  --input_border_color_active: rgba(255,255,255,.5);
+  --input_border_color_active: rgba(255,255,255,.6);
   --input_border_bottom: 1px;
   --progress_color: var(--primary_color)
 }
@@ -220,10 +220,15 @@ button {
   border-radius: 30px !important;
 }
 button.store, button.save, button.grad, .btn.grad {
-  background: none;
+  background: $w1;
   border: 1px solid $w4;
   border-bottom: 0;
   backdrop-filter: blur(5px);
+  padding: 8px 15px;
+}
+.aio_upload {
+  padding: 10px;
+  width: 100%;
 }
 
 // Modals
