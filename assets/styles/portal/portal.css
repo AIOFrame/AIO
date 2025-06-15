@@ -1203,9 +1203,10 @@ aside::-webkit-scrollbar {
 
 .no_content, .no_access {
   text-align: center;
+  padding: 40px 0;
 }
 .no_content .no_content_image, .no_content .no_access_image, .no_access .no_content_image, .no_access .no_access_image {
-  height: 300px;
+  height: 200px;
   display: block;
   margin: 20px auto;
 }
