@@ -64,6 +64,8 @@
   right: 20px;
   top: 10px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 .modal .modal_controls .ico {
   width: 40px;

@@ -69,6 +69,8 @@ $radius: var(--input_radius);
     right:20px;
     top:10px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
     .ico {
       width:40px;
       height:40px;

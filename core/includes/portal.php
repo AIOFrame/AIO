@@ -56,7 +56,8 @@ class PORTAL {
         !empty( $scripts ) ? ( is_array( $scripts ) ? $scripts[] = 'jquery' : $scripts .= ',jquery' ) : '';
 
         //$c = new CODE();
-        $body_attrs .= ' data-barba="wrapper"';
+        $theme = $options['theme'] ?? 'default';
+        $body_attrs .= ' data-barba="wrapper" data-theme="'.$theme.'"';
         pre_html( $body_class, $body_attrs, $pre_styles, $primary_color, $secondary_color, 'icons,cards,modal,buttons,inputs,tabs,steps,color,table,alerts,accordion,widgets', $styles, $scripts, $fonts );
 
     }
@@ -140,13 +141,13 @@ class PORTAL {
                             foreach( $ui_list as $ui ) {
                                 if( str_contains( $ui, '.scss' ) ) {
                                     $s = str_replace( '.scss', '', $ui );
-                                    if( str_contains( $s, 'dark' ) ){
-                                        if( isset( $options['enable_dark_mode'] ) && $options['enable_dark_mode'] === '1' ) {
-                                            $uis[ $s ] = ucwords( str_replace( '-', ' ', $s ) );
-                                        }
-                                    } else {
-                                        $uis[ $s ] = ucwords( str_replace( '-', ' ', $s ) );
-                                    }
+                                    $uis[ $s ] = ucwords( str_replace( '-', ' ', $s ) );
+//                                    if( str_contains( $s, 'dark' ) ){
+//                                        if( isset( $options['enable_dark_mode'] ) && $options['enable_dark_mode'] === '1' ) {
+//                                            $uis[ $s ] = ucwords( str_replace( '-', ' ', $s ) );
+//                                        }
+//                                    } else {
+//                                    }
                                 }
                             }
                             /* $f->option_params('id="looks"','data',2,2,'','theme,input_theme');
