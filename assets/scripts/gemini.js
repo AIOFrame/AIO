@@ -8,8 +8,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 let id = $(f).find('.lbl').attr('for');
                 let label = $(f).find('.lbl').text().replaceAll('*','').replaceAll('Code','');
                 let key = $(f).find('.lbl').next().data('key');
-                titles.push(label);
+                // if( $(f).children('.aio_upload').length !== 0 ) {
+                // }
                 if( $(f).children('.phone_set').length !== 0 ) {
+                    titles.push('Calling Code');
+                    fields.push({'label':'Calling Code','id':$(f).find('.phone_set > div:nth-child(1) .lbl').attr('for'),'key':'calling_code'});
                     id = $(f).find('.phone_set > div:nth-child(2) .lbl').attr('for');
                     key = 'phone';
                 }
@@ -17,9 +20,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     id = $(f).find('> input').attr('id');
                     key = 'date';
                 }
+                titles.push(label);
                 fields.push({'label':label,'id':id,'key':key});
             }
         });
+        //console.log(titles);
         //console.log(fields);
         let form_title = $(e.target).parent().parent('.modal').find('h2.title:nth-child(1)').text().replaceAll('Add ','');
         form_title = form_title.endsWith('s') ? form_title.slice(0, -1) : form_title;
@@ -38,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     $.each( fields, function (i, f) {
                         if (typeof r[i] === 'string' || r[i] instanceof String) {
                             if( fields[i]['key'] === 'phone' ) {
-                                $('#' + f.id).val(parseInt(r[i]));
+                                $('#' + f.id).val(parseInt(r[i].replaceAll('-','')));
                             } else {
                                 $('#'+f.id).val( r[i] ).change();
                             }
