@@ -4,12 +4,13 @@ document.addEventListener('DOMContentLoaded', function () {
         $(e.target).addClass('load');
         let fields = []; let titles = [];
         $('.modal .form > div').each(function(i,f){
-            if( $(f).children('.slide_set').length === 0 && $(f).children('.aio_upload').length === 0 ) {
+            if( $(f).children('.slide_set').length === 0 ) { // && $(f).children('.aio_upload').length === 0
                 let id = $(f).find('.lbl').attr('for');
                 let label = $(f).find('.lbl').text().replaceAll('*','').replaceAll('Code','');
                 let key = $(f).find('.lbl').next().data('key');
-                // if( $(f).children('.aio_upload').length !== 0 ) {
-                // }
+                if( $(f).children('.aio_upload').length !== 0 ) {
+                    label = 'Search pexels.com and find working url of ' + label;
+                }
                 if( $(f).children('.phone_set').length !== 0 ) {
                     titles.push('Calling Code');
                     fields.push({'label':'Calling Code','id':$(f).find('.phone_set > div:nth-child(1) .lbl').attr('for'),'key':'calling_code'});
@@ -54,6 +55,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     })
                 }
                 $(e.target).removeClass('load');
+                file_ui();
+                files_ui();
             },
             error: function (r) {
                 console.log(r);
