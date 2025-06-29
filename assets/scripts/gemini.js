@@ -5,11 +5,18 @@ document.addEventListener('DOMContentLoaded', function () {
         let fields = []; let titles = [];
         $('.modal .form > div').each(function(i,f){
             if( $(f).children('.slide_set').length === 0 ) { // && $(f).children('.aio_upload').length === 0
+
+                // Ignore Logic
+                if( $(f).find('[data-ai]').length > 0 && $(f).find('[data-ai]').data('ai') === 'ignore' ) {
+                    return true;
+                }
+
                 let id = $(f).find('.lbl').attr('for');
-                let label = $(f).find('.lbl').text().replaceAll('*','').replaceAll('Code','');
+                //console.log( $(f).find('[data-ai]') );
+                let label = $(f).find('[data-ai]').length > 0 ? $(f).find('[data-ai]').data('ai') : $(f).find('.lbl').text().replaceAll('*','').replaceAll('Code','');
                 let key = $(f).find('.lbl').next().data('key');
                 if( $(f).children('.aio_upload').length !== 0 ) {
-                    label = 'Search pexels.com and find working url of ' + label;
+                    label = 'Find royalty-free ' + label + ' from pexels.com, should be functional direct image url' ;
                 }
                 if( $(f).children('.phone_set').length !== 0 ) {
                     titles.push('Calling Code');
@@ -26,10 +33,16 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
         //console.log(titles);
-        //console.log(fields);
+        console.log(fields);
         let form_title = $(e.target).parent().parent('.modal').find('h2.title:nth-child(1)').text().replaceAll('Add ','');
         form_title = form_title.endsWith('s') ? form_title.slice(0, -1) : form_title;
-        let prompt = 'Filling form to add ' + form_title + ', suggest me random, not previously suggested and realistic text to fill each of ' + titles.join(',') + '. Very strictly return a single array without any commentary, explanation, formatting, or extra output.';
+        let titles_list = '';
+        $(titles).each(function (i,t) {
+            if( t !== undefined ) {
+                titles_list += '"' + t + '",';
+            }
+        })
+        let prompt = 'Filling form to add ' + form_title + ', suggest me random, not previously suggested and realistic text to fill each of ' + titles_list.replace(/,\s*$/, "") + '. Very strictly return suggestions as single array without any commentary, explanation, formatting, or extra output.';
         console.log(prompt);
         //return;
         $.ajax({
@@ -53,6 +66,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             //}
                         }
                     })
+                } else {
+                    alert('Unable to parse response from AI, please try again!')
                 }
                 $(e.target).removeClass('load');
                 file_ui();
@@ -64,8 +79,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
         setTimeout(function () {
-
-        },1000);
+            $(e.target).removeClass('load');
+        },5000);
     })
 })
 

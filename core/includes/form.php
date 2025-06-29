@@ -1301,6 +1301,7 @@ class FORM {
             $attrs = $data . ( $f['attr'] ?? ($f['a'] ?? '') );
             $required = $f['required'] ?? ( $f['req'] ?? ( $f['r'] ?? false ) );
             $attrs .= $required ? ' required' : '';
+            $attrs .= !empty( $f['ai'] ) ? ' data-ai="'.$f['ai'].'"' : '';
             $pre = $form_type == 'settings' ? '<div class="setting_set">' : ( $f['pre'] ?? ($f['col'] ?? ( $f['c'] ?? ( $f['_p'] ?? ( $form_type == 'row' || $form_type == 'r' ? 12 : '<div>' ) ) )) );
             $class = $f['class'] ?? ( $f['c'] ?? '' );
             $post = $f['post'] ?? ( $f['p_'] ?? $this->__post( $class ) );
