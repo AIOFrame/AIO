@@ -5,11 +5,23 @@
 function skel( $s ){
     if( !empty( $s ) ){
         echo '<pre style="font-size:15px">';
-        print_r( $s );
+        if( is_array( $s ) ){
+            $out = print_r($s, true);
+            $out = preg_replace_callback('/([ \t]*)(\[[^\]]+\][ \t]*\=\>[ \t]*[a-z0-9 \t_]+)\n[ \t]*\(/iU', 'skel_callback', $out);
+            $out = preg_replace('/^\s*\)\s*$/m', '</div>', $out);
+            echo '<script language="Javascript">function toggleDisplay(id) { document.getElementById(id).style.display = (document.getElementById(id).style.display == "block") ? "none" : "block"; }</script>'."\n$out";
+        } else {
+            print_r( $s );
+        }
         echo '</pre>';
     } else {
         echo 'Its Empty';
     }
+}
+
+function skel_callback($matches) {
+    $id = substr(md5(rand().$matches[0]), 0, 7);
+    return "$matches[1]<a href=\"javascript:toggleDisplay('$id');\">$matches[2]</a><div id='$id' style=\"display: block;\">";
 }
 
 // Skeleton for Arrays and Objects In Error Log

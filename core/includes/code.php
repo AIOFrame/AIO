@@ -1333,7 +1333,7 @@ function __steps( array $steps = [], string $style = '', bool $translate_titles 
             $x = 0;
             foreach( $steps as $s ) {
                 $title = $s['title'] ?? ( $s['name'] ?? ( $s['t'] ?? ( $s['n'] ?? '' ) ) );
-                $id = str_replace(' ','_',strtolower( $title )) . '_' . $r;
+                $id = str_replace('&','and',str_replace(' ','_',strtolower( $title ))) . '_' . $r;
                 $icon = $s['icon'] ?? ( $s['ico'] ?? ( $s['i'] ?? '' ) );
                 $ic = $s['icon_class'] ?? ( $s['ic'] ?? 'mat-ico' );
                 $big_title = ( empty( $icon ) ? __div( 'step_no', $x + 1 ) : '' ) . ( !empty( $icon ) ? __div( $ic.' step_no ico', $icon ) : '' ) . __div( 'step_title', $title );
@@ -1348,7 +1348,7 @@ function __steps( array $steps = [], string $style = '', bool $translate_titles 
                 $x = 0;
                 foreach( $steps as $s ) {
                     $title = $s['title'] ?? ( $s['name'] ?? ( $s['t'] ?? ( $s['n'] ?? '' ) ) );
-                    $id = str_replace(' ','_',strtolower( $title )) . '_' . $r;
+                    $id = str_replace('&','and',str_replace(' ','_',strtolower( $title ))) . '_' . $r;
                     $content = $s['content'] ?? ( $s['con'] ?? '' );
                     $data .= __div( ( $x !== 0 ? 'dn' : '' ), $content, $id );
                     $x++;

@@ -214,6 +214,19 @@ class DB {
                         $table_structure = [];
                         if( is_array( $structure ) && !empty( $structure ) ) {
                             $table_structure[] = $structure['name'] ?? str_replace( ' ', '', $name );
+                            $new_structure = [];
+                            foreach( $structure as $key => $row ) {
+                                $type = $row['type'] ?? ( $row['t'] ?? 'text' );
+                                if( in_array( $type, [ 'step', 's' ] ) && !empty( $row['fields'] ) ) {
+                                    foreach( $row['fields'] as $field ) {
+                                        $new_structure[ $name ][] = $field;
+                                    }
+                                    unset( $structure[ $key ] );
+                                }
+                            }
+                            foreach( $new_structure as $key => $fields ) {
+                                $structure = $fields;
+                            }
                             foreach( $structure as $key => $row ) {
                                 //skel( $data )
                                 if( in_array( $key, [ 'name', 'pre' ] ) ) {
@@ -405,7 +418,7 @@ class DB {
      * @param string|array $table Table name or names with join [ 'customers', [ 'addresses', 'address_customer', 'customer_id' ] ]
      * @param string|array $cols Columns to get data, Ex: 'user_name,user_dob'
      * @param string $where Where logic, Ex: 'user_id = 12'
-     * @param int $limit Limit quantity of rows
+     * @param int|string $limit Limit quantity of rows
      * @param int $offset Offset rows
      * @param string $group Group data rows by column key
      * @param bool $count Only get count of data rows

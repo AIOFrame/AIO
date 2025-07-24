@@ -631,8 +631,7 @@ class FORM {
      * Renders calling code dropdown and phone number input
      * @param string $code_id
      * @param string $phone_id
-     * @param string $code_label
-     * @param string $phone_label
+     * @param string $label
      * @param string $code_placeholder
      * @param string $phone_placeholder
      * @param string $code_default
@@ -641,16 +640,15 @@ class FORM {
      * @param string|float|int $pre Prepend wrap html or element with class before date Ex: '<div class="wrap">' or '.wrap' or '6'
      * @return void
      */
-    function phone( string $code_id, string $phone_id, string $code_label = 'Code', string $phone_label = 'Phone', string $code_placeholder = '', string $phone_placeholder = '', string $code_default = '', string $phone_default = '', string $attr = '', string|float|int $pre = '' ): void {
-        echo $this->__phone( $code_id, $phone_id, $code_label, $phone_label, $code_placeholder, $phone_placeholder, $code_default, $phone_default, $attr, $pre );
+    function phone( string $code_id, string $phone_id, string $label = 'Code', string $code_placeholder = '', string $phone_placeholder = '', string $code_default = '', string $phone_default = '', string $attr = '', string|float|int $pre = '' ): void {
+        echo $this->__phone( $code_id, $phone_id, $label, $code_placeholder, $phone_placeholder, $code_default, $phone_default, $attr, $pre );
     }
 
     /**
      * Renders calling code dropdown and phone number input
      * @param string $code_id
      * @param string $phone_id
-     * @param string $code_label
-     * @param string $phone_label
+     * @param string $label
      * @param string $code_placeholder
      * @param string $phone_placeholder
      * @param string $code_default
@@ -660,7 +658,7 @@ class FORM {
      * @param string $post
      * @return string
      */
-    function __phone( string $code_id, string $phone_id, string $code_label = 'Code', string $phone_label = 'Phone', string $code_placeholder = '', string $phone_placeholder = '', string $code_default = '', string $phone_default = '', string $attr = '', string|float|int $pre = '', string $post = '' ): string {
+    function __phone( string $code_id, string $phone_id, string $label = 'Code', string $code_placeholder = '', string $phone_placeholder = '', string $code_default = '', string $phone_default = '', string $attr = '', string|float|int $pre = '', string $post = '' ): string {
         $codes = get_calling_codes();
         if( empty( $code_default ) ) {
             $o = new OPTIONS();
@@ -670,10 +668,10 @@ class FORM {
             //skel( $r );
             $code_default = ( $options[ $r . 'default_phone_code' ] ?? '' );
         }
-        return $this->__pre( $pre )
-        . __r( 'phone_set' )
-        . $this->__select2( $code_id, $code_label, $code_placeholder, $codes, $code_default, $attr, 5, 1 )
-        . $this->__input( 'number', $phone_id, $phone_label, $phone_placeholder, $phone_default, $attr, 7 )
+        return $this->__pre( $pre ) . __el( 'label', 'db lbl', $label )
+        . __r( 'phone_set', 'style="gap: 0"' )
+            . __c( 5 ) . $this->__select2( $code_id, '', $code_placeholder, $codes, $code_default, $attr, '', 1 ) . c__()
+            . __c( 7 ) . $this->__input( 'number', $phone_id, '', $phone_placeholder, $phone_default, $attr, '' ) . c__()
         . r__()
         . $this->__post( $pre, $post );
     }
@@ -1302,11 +1300,16 @@ class FORM {
             $required = $f['required'] ?? ( $f['req'] ?? ( $f['r'] ?? false ) );
             $attrs .= $required ? ' required' : '';
             $attrs .= !empty( $f['ai'] ) ? ' data-ai="'.$f['ai'].'"' : '';
+            $attrs .= !empty( $f['max'] ) ? ' maxlength="'.$f['max'].'"' : '';
             $pre = $form_type == 'settings' ? '<div class="setting_set">' : ( $f['pre'] ?? ($f['col'] ?? ( $f['c'] ?? ( $f['_p'] ?? ( $form_type == 'row' || $form_type == 'r' ? 12 : '<div>' ) ) )) );
             $class = $f['class'] ?? ( $f['c'] ?? '' );
             $post = $f['post'] ?? ( $f['p_'] ?? $this->__post( $class ) );
             $post = !empty( $pre ) && empty( $post ) ? __post() : $post;
             $form = $f['fields'] ?? ( $f['form'] ?? ( $f['f'] ?? [] ) );
+//            if( in_array( $type, [ 'number', 'num', 'n' ] ) ) {
+//                $type = 'text';
+//                $attrs .= ' pattern="[\d]{9}"';
+//            }
             //skel( $type );
             if( in_array( $type, [ 'dynamic_form', 'dynamic', 'dyn', 'dy' ] ) ) {
                 //skel( $form );
@@ -1427,10 +1430,10 @@ class FORM {
                 $return .= $type == 'checkboxes' ? $this->__checkboxes( $id, $label, $values, $checked, $attrs, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post ) : $this->__radios( $id, $label, $values, $checked, $attrs, $label_first, $pre, $post, $inputs_wrap, $inputs_pre, $inputs_post );
             } else if( in_array( $type, [ 'phone', 'ph', 'p' ] ) ) {
                 $id_2 = $f['id2'] ?? ( $f['i2'] ?? '' );
-                $label_2 = $f['label2'] ?? ( $f['l2'] ?? ( $f['title2'] ?? ( $f['name2'] ?? ( $f['n2'] ?? '' ) ) ) );
+                //$label_2 = $f['label2'] ?? ( $f['l2'] ?? ( $f['title2'] ?? ( $f['name2'] ?? ( $f['n2'] ?? '' ) ) ) );
                 $place_2 = $f['place2'] ?? ($f['placeholder2'] ?? ( $f['p2'] ??= ''));
                 $val_2 = $f['value2'] ?? ( $f['va2'] ?? ( $f['v2'] ?? ( $_POST[$id_2] ?? ( $_GET[$id_2] ?? '' ) ) ) );
-                $return .= $this->__phone( $id, $id_2, $label, $label_2, $place, $place_2, $val, $val_2, $attrs, $pre, $post );
+                $return .= $this->__phone( $id, $id_2, $label, $place, $place_2, $val, $val_2, $attrs, $pre, $post );
             } else if( $type == 'captcha' || $type == 'cap' ) {
                 $bg_rgb = $f['bg_color'] ?? ( $f['bg_rgb'] ?? ( $f['bg'] ?? [] ) );
                 $text_color = $f['text_color'] ?? ( $f['text_color_rgb'] ?? ( $f['text_rgb'] ?? ( $f['tc'] ?? [] ) ) );
