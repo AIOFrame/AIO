@@ -229,6 +229,9 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
     $warning = $options['warning_color'] ?? ( $c['colors']['warning_color'] ?? 'orange' );
     $error = $options['error_color'] ?? ( $c['colors']['error_color'] ?? 'firebrick' );
     $success = $options['success_color'] ?? ( $c['colors']['success_color'] ?? 'forestgreen' );
+    $update = $options['update_color'] ?? ( $c['colors']['update_color'] ?? '#00e0c5' );
+    $edit = $options['edit_color'] ?? ( $c['colors']['edit_color'] ?? '#e05e00' );
+    $delete = $options['delete_color'] ?? ( $c['colors']['delete_color'] ?? '#e00000' );
     //skel( $primary_color );
     $color = !empty( $options['color_'.$light_mode] ) ? $options['color_'.$light_mode] : ( $c['colors']['color_'.$light_mode] ?? '#fff' );
     $filled_color = !empty( $options['filled_color_'.$light_mode] ) ? $options['filled_color_'.$light_mode] : ( $c['colors']['filled_color_'.$light_mode] ?? '#fff' );
@@ -243,7 +246,7 @@ function pre_html( string $class = '', string $attrs = '', string|array $pre_sty
     echo '<style>:root {';
     echo '--dark_mode:'.$light_mode.';';
     //echo "--logo:url($logo);--light_logo:url($light_logo);--dark_logo:url($dark_logo);";
-    echo '--primary_color:'.$color1.';--secondary_color:'.$color2.';--color:'.$color.';--filled_color:'.$filled_color.';--gradient-angle:'.$angle.';--disabled_color:'.$disabled.';--info_color:'.$info.';--progress_color:'.$progress.';--warning_color:'.$warning.';--error_color:'.$error.';--success_color:'.$success;
+    echo '--primary_color:'.$color1.';--secondary_color:'.$color2.';--color:'.$color.';--filled_color:'.$filled_color.';--gradient-angle:'.$angle.';--disabled_color:'.$disabled.';--info_color:'.$info.';--progress_color:'.$progress.';--warning_color:'.$warning.';--error_color:'.$error.';--success_color:'.$success.';--update_color:'.$update.';--edit_color:'.$edit.';--delete_color:'.$delete;
     echo '}.c1{color:'.$color1.'}.c2{color:'.$color2.'}.bg1{background:'.$color1.'}.bg2{background:'.$color2.'}.bs{border:1px solid '.$color1.'}.bf:focus{border:1px solid var(--primary_color)}.grad{color:var(--filled_color);background-color:var(--primary_color);background:-moz-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background:-webkit-linear-gradient(326deg,var(--primary_color) 0%,var(--secondary_color) 100%);background-image:linear-gradient(45deg,var(--primary_color) 0%,var(--secondary_color) 100%);}.grad-text{background: -webkit-linear-gradient(var(--primary_color), var(--secondary_color));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}</style>';
 
     // Fav Icon
@@ -693,7 +696,7 @@ function sc_(): void {
 }
 
 function _f( string $class = '', string $method = '', string $action = '', string $attr = '', string $enctype = '' ): void {
-    $a = in_array( $method, [ 'post', 'p' ] ) ? 'method="POST"' : ( in_array( $method, [ 'get', 'g' ] ) ? 'method="GET"' : '' );
+    $a = in_array( $method, [ 'POST', 'post', 'p' ] ) ? 'method="POST"' : ( in_array( $method, [ 'GET', 'get', 'g' ] ) ? 'method="GET"' : '' );
     $a .= !empty( $action ) ? ' action="'.$action.'"' : '';
     $a .= !empty( $enctype ) ? ' enctype="'.$enctype.'"' : '';
     echo __pre( '', $class, 'form', $a . ' ' . $attr );

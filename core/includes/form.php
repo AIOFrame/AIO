@@ -1754,8 +1754,8 @@ class FORM {
      * @param string $i_class Class for i element positioned before text
      * @param string $confirmation Text for confirmation
      * @param string $i_text Text for i element
-     * @param string|int $pre Pre Wrap HTML or Bootstrap Column
-     * @param string|int $post Post Wrap HTML
+     * @param string|int $pre Pre-wrap HTML or Bootstrap Column
+     * @param string|int $post Post-wrap HTML
      */
     function __trash_html( string $table, string $logic, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $confirmation = 'Are you sure to Delete ?', string $i_class = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): string {
         global $options;
@@ -1777,9 +1777,55 @@ class FORM {
         $i = !empty( $i_class ) ? __i( $i_class . ' ' . $i_text, $i_text ) : '';
         $attr .= !empty( $confirmation ) ? ' data-confirm="'.$confirmation.'"' : '';
         $title = str_contains( $attr, 'title' ) ? '' : 'title="'.T('Delete').'"';
-        $notify_time = 2;
-        $reload_time = 2;
+        $notify_time = $options['notify_time'] ?? 4;
+        $reload_time = $options['reload_time'] ?? 4;
         return $_p . __el( $html, $class.' delete', $i . $text , '', $title.' '.$attr.' data-delete-action onclick="trash_data(this,\''.$action.'\',\''.$table.'\',\''.$logic.'\','.$notify_time.','.$reload_time.')"' ) . $p_;
+        //return $_p.'<'.$html.'  class="'.$class.'" '.$title.' '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$p_;
+    }
+
+    /**
+     * Returns HTML to delete record from database
+     * @param string $table Table name
+     * @param string $update column values to update
+     * @param string $where Where column value equals to
+     * @param string $html HTML either button or div or i
+     * @param string $text Text to display
+     * @param string $class Class
+     * @param string $attr Additional attributes
+     * @param string $i_class Class for i element positioned before text
+     * @param string $confirmation Text for confirmation
+     * @param string $i_text Text for i element
+     * @param string|int $pre Pre-wrap HTML or Bootstrap Column
+     * @param string|int $post Post-wrap HTML
+     */
+    function __update_value_html( string $table, string $update, string $where, string $html = 'div', string $text = '', string $class = '', string $attr = '', string $confirmation = 'Are you sure to Delete ?', string $i_class = '', string $i_text = '', string|int $pre = '', string|int $post = '' ): string {
+        global $options;
+        $icon_class = $options['icon_class'] ?? 'mico';
+        $i_class = ( !empty( $i_class ) ? $i_class : $icon_class ) . ' ico';
+        $icon_text = $options['ico_update_content'] ?? 'change_circle';
+        $i_text = !empty( $i_text ) ? $i_text : $icon_text;
+        $_p = $this->__pre( $pre );
+        $p_ = $this->__post( $pre, $post );
+        //$post = !empty( $post ) ? $post : ( !empty( $pre ) ? '</div>' : '' );
+        $c = Encrypt::initiate();
+        $target = APPDEBUG ? $table : $c->decrypt( $table );
+        $action = str_contains( $target, '_ajax' ) ? $target : 'update_data_ajax';
+        $action = APPDEBUG ? $action : $c->encrypt( $action );
+        $update = APPDEBUG ? $update : $c->decrypt( $update );
+        $where = APPDEBUG ? $where : $c->encrypt( $where );
+        //$logic = str_replace( '\'', '\"', $logic );
+        //skel( $logic );
+        $table = str_contains( $target, '_ajax' ) ? '' : ( APPDEBUG ? $table : $c->encrypt($table) );
+        $i = !empty( $i_class ) ? __i( $i_class . ' ' . $i_text, $i_text ) : '';
+        $attr .= !empty( $confirmation ) ? ' data-confirm="'.$confirmation.'"' : '';
+        $title = str_contains( $attr, 'title' ) ? '' : 'title="'.T('Update').'"';
+        $notify_time = $options['notify_time'] ?? 4;
+        $reload_time = $options['reload_time'] ?? 4;
+        if( !empty( $table ) && !empty( $update ) && !empty( $where ) ) {
+            return $_p . __el( $html, $class.' update', $i . $text , '', $title.' '.$attr.' data-update-action onclick="update_data(this,\''.$action.'\',\''.$table.'\',\''.$update.'\',\''.$where.'\','.$notify_time.','.$reload_time.')"' ) . $p_;
+        } else {
+            return '';
+        }
         //return $_p.'<'.$html.'  class="'.$class.'" '.$title.' '.$attr.'>'.$i.T( $text ).'</'.$html.'>'.$p_;
     }
 
@@ -1849,6 +1895,17 @@ class FORM {
 
     function __simple_status( int $s, string $sz = 'm' ): string {
         return __div( 'status_dot ' . $sz . ' ' . ( $s == 1 ? 'on' : 'off' ) );
+    }
+
+
+    /**
+     * Renders all data modification trigger buttons like edit, update value, delete
+     * @param string $key
+     * @param array $data
+     * @return string
+     */
+    function __actions( string $key, array $data, string $modal = '' ): string {
+        return __div( 'acts', $this->__edit_html( ( $modal ?? ".{$key}_modal" ), $data ) . ( $this->__update_value_html( "{$key}s", "{$key}s_status = ".( $data["{$key}s_status"] == 3 ? 1 : 3), "{$key}s_id = ".$data["{$key}s_id"], 'div', '', '', '', '', 'mico', 'visibility'.( $data["{$key}s_status"] == 3 ? '' : '_off' ) ) ) . $this->__trash_html( "{$key}s", "{$key}s_id = ".$data["{$key}s_id"] ) );
     }
 
     /**

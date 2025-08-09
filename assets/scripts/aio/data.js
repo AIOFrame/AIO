@@ -647,33 +647,29 @@ function edit_data( e, modal ) {
     typeof file_ui === 'function' ? file_ui() : '';
 }
 
-function update_data( e, action, target, keys, values, logic, notify_time, reload_time ) {
-    let data = { 'action': action, target: target, keys: keys, values: values, logic: logic };
+function update_data( e, action, target, update, where ) {
+    let data = { 'action': action, target: target, update: update, where: where };
     let con = $(e).data('confirm');
-    let n = notify_time !== undefined && notify_time !== '' ? notify_time : 2;
-    let r = reload_time !== undefined && reload_time !== '' ? reload_time : 2;
     if( con !== undefined && con !== '' ){
         if( !confirm( con ) ) {
             return;
         }
     }
-    post( action, data, n, r );
+    post( action, data );
 }
 
-function trash_data( e, action, target, logic, notify_time, reload_time ) {
+function trash_data( e, action, target, logic ) {
     let data = { 'action': action, target: target, logic: logic };
     let con = $(e).data('confirm');
-    let n = notify_time !== undefined && notify_time !== '' ? notify_time : 2;
-    let r = reload_time !== undefined && reload_time !== '' ? reload_time : 2;
     if( con !== undefined && con !== '' ){
         if( !confirm( con ) ) {
             return;
         }
     }
-    post( action, data, n, r );
+    post( action, data );
 }
 
-function post( action, data, notify_time, reload_time, redirect, redirect_time, callback, reset, p, validation ) {
+function post( action, data, redirect, redirect_time, callback, reset, p, validation ) {
     //elog(callback);
 
     // Custom Validation
@@ -700,6 +696,8 @@ function post( action, data, notify_time, reload_time, redirect, redirect_time, 
             elog(r);
             r = JSON.parse( r );
             elog(r);
+            let notify_time = $('body').data('notify_time');
+            let reload_time = $('body').data('reload_time');
             elog( notify_time );
             if( notify_time !== undefined && notify_time !== '' ) {
                 elog(r);

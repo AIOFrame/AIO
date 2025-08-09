@@ -87,7 +87,7 @@ class SPREADSHEET {
     }
 
     /**
-     * Import spreadsheet file as data array
+     * Import a spreadsheet file as a data array
      * @param string $file_path
      * @param string $type
      * @return array
@@ -96,13 +96,20 @@ class SPREADSHEET {
         $data = [];
         if( file_exists( $file_path ) ){
             try {
+                elog( $type );
+                elog( $file_path );
                 $reader = PhpOffice\PhpSpreadsheet\IOFactory::createReader($type);
                 $spreadsheet = $reader->load( $file_path );
-                $sheet_names = $spreadsheet->getSheetNames();
-                if( is_array( $sheet_names ) ){
-                    foreach( $sheet_names as $sn ) {
-                        $data[$sn] = $spreadsheet->getSheetByName($sn)->toArray();
+                if( $type == 'xlsx' ) {
+                    $sheet_names = $spreadsheet->getSheetNames();
+                    if( is_array( $sheet_names ) ){
+                        foreach( $sheet_names as $sn ) {
+                            $data[$sn] = $spreadsheet->getSheetByName($sn)->toArray();
+                        }
                     }
+                } else if( $type == 'Csv' ) {
+                    $worksheet = $spreadsheet->getActiveSheet();
+                    $data = $worksheet->toArray();
                 }
             } catch( Exception $e ) {
                 elog( $e, 'error', 103, ROOTPATH . 'core/modules/spreadsheet.php' );

@@ -280,19 +280,26 @@
 .acts .view, .acts .go {
   background: var(--success_color);
 }
+.acts .update {
+  background: var(--update_color);
+}
+.acts .update:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 45px var(--update_color);
+}
 .acts .edit {
-  background: var(--progress_color);
+  background: var(--edit_color);
 }
 .acts .edit:hover {
   transform: translateY(-1px);
   box-shadow: 0 10px 45px var(--progress_color);
 }
 .acts .delete, .acts .trash {
-  background: var(--error_color);
+  background: var(--delete_color);
 }
 .acts .delete:hover, .acts .trash:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 45px var(--error_color);
+  box-shadow: 0 10px 45px var(--delete_color);
 }
 .acts > div:before {
   position: absolute;

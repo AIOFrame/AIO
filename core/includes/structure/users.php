@@ -16,6 +16,7 @@ $user_struct[] = [ 'users', [
     [ 'gender', 'VARCHAR', 24, 0 ],
     [ 'dob', 'date', '', 0 ],
     [ 'last_name', 'VARCHAR', 128, 0 ],
+    [ 'email_verify', 'VARCHAR', 6, 0 ],
 ], 'user', 1 ];
 
 $user_struct[] = [ 'access', [

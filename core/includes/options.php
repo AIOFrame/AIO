@@ -482,13 +482,19 @@ class OPTIONS {
     }
 
     function content_options(): void {
-        $db = new DB();
-        $os = $db->get_options('no_access_image,no_content_image');
+        //global $options;
+        //skel( $options );
         $form = [
             [ 'i' => 'no_access_image', 't' => 'upload', 'n' => 'Image to show when user has no access!', 'p' => 'Upload', 'v' => ( $os['no_access_image'] ?? '' ), 'e' => 'jpg,png,svg', 'a' => 'data-cn', 'c' => 6 ],
             [ 'i' => 'no_content_image', 't' => 'upload', 'n' => 'Image to show upon empty content!', 'p' => 'Upload', 'v' => ( $os['no_content_image'] ?? '' ), 'e' => 'jpg,png,svg', 'a' => 'data-cn', 'c' => 6 ],
+            [ 'i' => 'ico_update', 't' => 'icon', 'n' => 'Update Icon', 'v' => 'change_circle', 'c' => 2 ],
+            [ 'i' => 'update_color', 't' => 'color', 'n' => 'Update Color', 'v' => '#00e0c5', 'c' => 2 ],
+            [ 'i' => 'ico_edit', 't' => 'icon', 'n' => 'Edit Icon', 'v' => 'border_color', 'c' => 2 ],
+            [ 'i' => 'edit_color', 't' => 'color', 'n' => 'Edit Color', 'v' => '#e05e00', 'c' => 2 ],
+            [ 'i' => 'ico_delete', 't' => 'icon', 'n' => 'Delete Icon', 'v' => 'delete', 'c' => 2 ],
+            [ 'i' => 'delete_color', 't' => 'color', 'n' => 'Delete Color', 'v' => '#e00000', 'c' => 2 ],
         ];
-        $this->form( $form, 'row' );
+        $this->form( $form, 'row', 1, '', 'Save Content Options', 'store grad', '', ['ico_update','update_color','ico_edit','edit_color','ico_delete','delete_color'] );
     }
 
     /**
@@ -554,11 +560,8 @@ class OPTIONS {
     }
 
     function ai_options(): void {
-        h4('Google - Gemini Gen AI 2.5');
-        $form = [
-            [ 'i' => 'gemini_key', 'n' => 'Auth Key', 'c' => 12, 'max' => 50, 'p' => '40 digit Google Gemini API Key' ],
-        ];
-        $this->form( $form, 'row', 1, '', 'Save AI Key', '', '', 'gemini_key' );
+        $a = new AI();
+        $a->options();
     }
 
     function world_options(): void {
@@ -644,29 +647,44 @@ class OPTIONS {
         return 'option_name = \'' . implode( '\' ' . $relation . ' option_name = \'', $options_array ) . '\'';
     }
 
-    function form( array $form = [], string $type = '', bool $get_options = false, string $data = '', string $button_text = 'Save Options', string $button_class = 'store grad', string $success = '', array|string $auto_load = [], array|string $unique = [], array|string $encrypt = '', string $confirm = '', string $callback = '' ): void {
-        echo $this->__form( $form, $type, $get_options, $data, $button_text, $button_class, $success, $auto_load, $unique, $encrypt, $confirm, $callback );
+    function form( array $form_fields = [], string $type = '', bool $get_options = false, string $data = '', string $button_text = 'Save Options', string $button_class = 'store grad', string $success = '', array|string $auto_load = [], array|string $unique = [], array|string $encrypt = '', string $confirm = '', string $callback = '' ): void {
+        echo $this->__form( $form_fields, $type, $get_options, $data, $button_text, $button_class, $success, $auto_load, $unique, $encrypt, $confirm, $callback );
     }
 
-    function __form( array $form = [], string $type = '', bool $get_options = false, string $data = '', string $button_text = 'Save Options', string $button_class = 'store grad', string $success = '', array|string $auto_load = [], array|string $unique = [], array|string $encrypt = '', string $confirm = '', string $callback = '' ): string {
+    /**
+     * @param array $form_fields Form fields
+     * @param string $type Type of wrap around the form 'get' or 'post' or 'row'
+     * @param bool $get_options Fetch and pre-fill values of fields
+     * @param string $data Data attribute of inputs to gather data
+     * @param string $button_text
+     * @param string $button_class
+     * @param string $success
+     * @param array|string $auto_load
+     * @param array|string $unique
+     * @param array|string $encrypt
+     * @param string $confirm
+     * @param string $callback
+     * @return string
+     */
+    function __form( array $form_fields = [], string $type = '', bool $get_options = false, string $data = '', string $button_text = 'Save Options', string $button_class = 'store grad', string $success = '', array|string $auto_load = [], array|string $unique = [], array|string $encrypt = '', string $confirm = '', string $callback = '' ): string {
         $r = '';
         if( $get_options ) {
             $db = new DB();
             // Fetch Options
             $os = [];
-            if( !empty( $form ) ) {
-                foreach( $form as $f ) {
+            if( !empty( $form_fields ) ) {
+                foreach( $form_fields as $f ) {
                     $id = $f['identity'] ?? ( $f['id'] ?? ( $f['i'] ?? '' ) );
                     if( !empty( $id ) ) {
                         $os[] = $id;
                     }
                 }
             }
-            $os = $db->get_options( $os );
             //skel( $os );
+            $os = $db->get_options( $os );
             // Add values to fields
-            if( !empty( $form ) && !empty( $os ) ) {
-                foreach( $form as $fk => $f ) {
+            if( !empty( $form_fields ) && !empty( $os ) ) {
+                foreach( $form_fields as $fk => $f ) {
                     //skel( $fk );
                     //skel( $f );
                     $id = $f['identity'] ?? ( $f['id'] ?? ( $f['i'] ?? '' ) );
@@ -674,7 +692,7 @@ class OPTIONS {
                     unset( $f['value'] );
                     unset( $f['val'] );
                     if( !empty( $id ) ) {
-                        $form[ $fk ]['v'] = $value;
+                        $form_fields[ $fk ]['v'] = $value;
                         //$f['v'] = $value;
                     }
                 }
@@ -720,10 +738,10 @@ class OPTIONS {
             //skel( $form );
             //skel( $new_form );
             $r .= $f->__option_params_wrap( $data, 'data-dynamic="'.$data.'" data-delete-confirm="'.T('Are you sure to remove this options row?').'"', $auto_load, $unique, $encrypt, $success, $callback, $confirm );
-                $r .= $f->__form( [ [ 'fields' => $form, 't' => 'dynamic', 'v' => $dyn_data ] ], '', $data );
+                $r .= $f->__form( [ [ 'fields' => $form_fields, 't' => 'dynamic', 'v' => $dyn_data ] ], '', $data );
         } else {
             $r .= $f->__option_params_wrap( $data, '', $auto_load, $unique, $encrypt, $success, $callback, $confirm );
-                $r .= $f->__form( $form, $type );
+                $r .= $f->__form( $form_fields, $type );
         }
         $r .= $f->__process_trigger( $button_text, $button_class, '', '', '.col-12 tac footer' );
         $r .= __post();
@@ -735,13 +753,13 @@ class OPTIONS {
         $form = [
             [ 'i' => 'success_message', 'p' => 'Ex: Stored successfully!', 'n' => 'Default form success message', 'c' => 12 ],
             [ 'i' => 'failure_message', 'p' => 'Ex: Failed to store data, please mail at support@'.$url, 'n' => 'Default form failure Message', 'c' => 12 ],
-            [ 'i' => 'notify_time', 't' => 'number', 'p' => 'Ex: 2', 'n' => 'Notification Display Time (sec)', 'c' => 4 ],
-            [ 'i' => 'reload_time', 't' => 'number', 'p' => 'Ex: 2', 'n' => 'Page Reload Time (sec)', 'c' => 4 ],
-            [ 'i' => 'autofill', 't' => 'slide', 'p' => 'Ex: 2', 'n' => 'Page Reload Time (sec)', 'c' => 4 ],
+            [ 'i' => 'notify_time', 't' => 'slider', 'p' => 'Ex: 2', 'v' => 5, 'n' => 'Notification Display Time (sec)', 'c' => 4, 'min' => 0, 'max' => 15 ],
+            [ 'i' => 'reload_time', 't' => 'slider', 'p' => 'Ex: 2', 'v' => 5, 'n' => 'Page Reload Time (sec)', 'c' => 4, 'min' => 0, 'max' => 15 ],
+            //[ 'i' => 'autofill', 't' => 'slide', 'p' => 'Ex: 2', 'n' => 'Page Reload Time (sec)', 'c' => 4 ],
             //[ 'i' => 'save_class', 'p' => 'Ex: save_button', 'n' => 'Save button class', 'c' => 6 ],
             //[ 't' => 'hidden', 'i' => 'autoload', 'v' => 'notify_time,reload_time,success_message,failure_message' ],
         ];
-        $this->form( $form, $style, 1 );
+        $this->form( $form, $style, 1, '', 'Save Form Options', 'store grad', 'Successfully saved form options!', 'success_message,failure_message,notify_time,reload_time' );
     }
 
     function search_engine_options(): void {

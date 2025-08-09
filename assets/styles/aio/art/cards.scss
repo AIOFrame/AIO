@@ -7,6 +7,9 @@ $progress: var(--progress_color);
 $warning: var(--warning_color);
 $error: var(--error_color);
 $success: var(--success_color);
+$update: var(--update_color);
+$edit: var(--edit_color);
+$delete: var(--delete_color);
 
 /* Cards */
 
@@ -286,19 +289,26 @@ $success: var(--success_color);
   .view, .go {
     background: $success
   }
+  .update {
+    background: $update;
+  }
+  .update:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 45px $update;
+  }
   .edit {
-    background: $progress;
+    background: $edit;
   }
   .edit:hover {
     transform: translateY(-1px);
     box-shadow: 0 10px 45px $progress;
   }
   .delete, .trash {
-    background: $error;
+    background: $delete;
   }
   .delete:hover, .trash:hover {
     transform: translateY(-1px);
-    box-shadow: 0 10px 45px $error;
+    box-shadow: 0 10px 45px $delete;
   }
   > div:before {
     position: absolute;

@@ -535,7 +535,34 @@ class DB {
         $dq = $db->prepare( $q );
         try {
             $did = $dq->execute() && $dq->rowCount() > 0;
-            return [ 1, $did ];
+            return [ $dq->rowCount(), $did ];
+        } catch ( PDOException $e ) {
+            elog( $q, 'error', $df[0]['line'], $df[0]['file'], $table );
+            elog( $db->errorInfo(), 'error', $df[0]['line'], $df[0]['file'], $table );
+            return [ 0, $db->errorInfo() ];
+        }
+    }
+
+    /***
+     * This function converts arrays of columns and their values into string that gets updated on MYSQL.
+     * @param string $table
+     * @param string $update
+     * @param string $where
+     * @return array
+     */
+    function update_query( string $table, string $update, string $where ): array {
+        $df = debug_backtrace();
+        //$df = !empty($df) && is_array($df) && isset($df[0]['file']) && isset($df[0]['line']) ? '<<'.$df[0]['line'].'>> {'.str_replace(ROOTPATH,'',$df[0]['file']).'}' : '';
+
+        $db = $this->connect();
+        $q = "UPDATE $table SET {$update} where {$where}";
+
+        elog( $q, 'update', $df[0]['line'], $df[0]['file'], $table );
+
+        $dq = $db->prepare( $q );
+        try {
+            $did = $dq->execute() && $dq->rowCount() > 0;
+            return [ $dq->rowCount(), $did ];
         } catch ( PDOException $e ) {
             elog( $q, 'error', $df[0]['line'], $df[0]['file'], $table );
             elog( $db->errorInfo(), 'error', $df[0]['line'], $df[0]['file'], $table );
@@ -756,7 +783,7 @@ class DB {
      */
     function get_options( array|string $options, int $user_id = 0, string $key = 'name', int|null $region = null ): array {
         $q = '';
-        if( !empty( $options ) ){
+        if( !empty( $options ) && is_array( $options ) ) {
             if( is_assoc($options) ) {
                 foreach( $options as $opk => $opv ){
                     if( $key == 'id' ){
@@ -775,7 +802,7 @@ class DB {
                     }
                 }
             }
-        } else {
+        } else if( !empty( $options ) && is_string( $options ) ) {
             if( $key == 'id' ){
                 $q .= 'option_id = \''.$options.'\' OR ';
             } else {
@@ -1113,15 +1140,16 @@ function update_data_ajax(): void {
     $c = Encrypt::initiate();
     $p = $_POST;
     elog( $p );
-    $target = isset( $p['target'] ) && !empty( $p['target'] ) ? $c->decrypt( $p['target'] ) : '';
-    $keys = isset( $p['keys'] ) && !empty( $p['keys'] ) ? $c->decrypt_array( $p['keys'] ) : '';
-    $values = isset( $p['values'] ) && !empty( $p['values'] ) ? $c->decrypt_array( $p['values'] ) : '';
-    $logic = isset( $p['logic'] ) && !empty( $p['logic'] ) ? $c->decrypt( $p['logic'] ) : '';
-    if( !empty( $target ) && is_array( $keys ) && is_array( $values ) && !empty( $logic ) ) {
+    $target = !empty( $p['target'] ) ? ( APPDEBUG ? $p['target'] : $c->decrypt( $p['target'] ) ) : '';
+    $update = !empty( $p['update'] ) ? ( APPDEBUG ? $p['update'] : $c->decrypt( $p['update'] ) ) : '';
+    $where = !empty( $p['where'] ) ? ( APPDEBUG ? $p['where'] : $c->decrypt( $p['where'] ) ) : '';
+    if( !empty( $target ) && !empty( $update ) && !empty( $where ) ) {
         $db = new DB();
-        $r = $db->update( $target, $keys, $values, $logic );
+        $r = $db->update_query( $target, $update, $where );
+        elog( $r );
         $r ? es('Successfully Updated!') : ef('Update failed due to query misinterpret, please contact support');
     } else {
+        elog('hit off!');
         ef('Update failed due to query misinterpret, please contact developer');
     }
 }

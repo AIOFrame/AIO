@@ -7,7 +7,7 @@ if( session_status() === PHP_SESSION_NONE ) {
     session_start();
 }
 global $options;
-if( isset( $_SESSION['user'] ) && isset( $_SESSION['db_session'] ) ) {
+if( isset( $_SESSION['user'] ) && isset( $_SESSION['session'] ) ) {
     $db = new DB();
     $user_options = $db->select( 'options', '', 'option_scope = \''.get_user_id().'\'' );
     if( !empty( $user_options ) ) {
@@ -80,6 +80,11 @@ class ACCESS {
             }
         }
 
+        // Add user data
+
+        // Add session data
+        //$_SESSION['session'] = 'test';
+
         // Destroy sessions if exceeded time
         $db = new DB();
         $db->delete( 'sessions', 'session_expiry < \''.date('Y-m-d H:i:s').'\'' );
@@ -95,10 +100,10 @@ class ACCESS {
 
     function clear_live_sessions(): void {
         $db = new DB();
-        $cry = Encrypt::initiate();
-        $session_id = isset( $_SESSION['db_session'] ) ? $cry->decrypt( $_SESSION['db_session'] ) : '';
-        if( !empty( $session_id ) && is_numeric( $session_id ) ) {
-            $db->delete( 'sessions', 'session_id = \''.$session_id.'\'' );
+        //$cry = Encrypt::initiate();
+        $session = $_SESSION['session'] ?? '';
+        if( !empty( $session ) && is_numeric( $session ) ) {
+            $db->delete( 'sessions', 'session_code = \''.$session.'\'' );
         }
     }
 
@@ -146,12 +151,14 @@ class ACCESS {
      * @param string|array $data User meta to be stored in user_data column
      * @param array $access User Permissions, Custom array with permission name key and boolean value
      * @param string $status User status, 1 for active and 0 for inactive, default 1
+     * @param bool $requires_email_verify
      * @param string $email_subject Subject for automated email
      * @param string $email_content Content placeholder for automated email, also adds header and footer templates
      * @return array
      */
-    function register( string $login, string $pass, string $email = '', string $name = '', string $picture = '', array $columns = [], string|array $data = [], array $access = [], string $status = '1', string $email_subject = '', string $email_content = '' ) : array {
+    function register( string $login, string $pass, string $email = '', string $name = '', string $picture = '', array $columns = [], string|array $data = [], array $access = [], string $status = '1', bool $requires_email_verify = false, string $email_subject = '', string $email_content = '' ) : array {
         $data = !is_array( $data ) ? json_decode( $data, 1 ) : $data;
+        $verify_code = $requires_email_verify ? str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT) : '';
         // User login restrictions
         $login = strtolower( $login );
         $valid_name = $this->valid_name( $login );
@@ -178,8 +185,8 @@ class ACCESS {
         if( $exist ){ return [ 0, T('The User with same username or email address already exist in database') ]; }
 
         // Prepares data to insert into users table
-        $keys = [ 'user_login', 'user_email', 'user_name', 'user_picture', 'user_data', 'user_access', 'user_since', 'user_status' ];
-        $values = [ $login, $email, $name, $picture, json_encode( $data ), json_encode( $access ), date('Y-m-d H-i-s'), $status ];
+        $keys = [ 'user_login', 'user_email', 'user_name', 'user_picture', 'user_data', 'user_access', 'user_since', 'user_status', 'user_email_verify' ];
+        $values = [ $login, $email, $name, $picture, json_encode( $data ), json_encode( $access ), date('Y-m-d H-i-s'), ( $requires_email_verify ? 0 : $status ), $verify_code ];
 
         // Parsing columns
         if( !empty( $columns ) && is_assoc( $columns ) ) {
@@ -197,7 +204,7 @@ class ACCESS {
         // Add user to users table
         $add_user = $db->insert( 'users', $keys, $values );
         if( $add_user ) {
-            elog( $add_user );
+            //elog( $add_user );
             // Sets the user's access data
             $access = $db->insert( 'access',
                 ['access_uid', 'access_pass' ],
@@ -208,7 +215,7 @@ class ACCESS {
                 if( !empty( $email_subject ) || !empty( $email_content ) ) {
                     // $subject = $db->get_option('email_subject_new_user');
                     $subject = $email_subject == 1 ? 'Welcome to ' . APPNAME : str_replace('{{username}}', $login, $email_subject);
-                    $content = $email_content == 1 ? 'You are successfully registered with ' . APPNAME . '. Your login username is ' . $login . ' and your recovery email is ' . $email . '!' : str_replace('{{username}}', $login, str_replace('{{email}}', $email, str_replace( '{{password}}', $pass, $email_content )));
+                    $content = $email_content == 1 ? 'You are successfully registered with ' . APPNAME . '. Your login username is ' . $login . ' and your registered email is ' . $email . '!' . ( $requires_email_verify ? ' Your one time email verification code is '.$verify_code.', please enter it upon your next login!' : '' ) : str_replace('{{username}}', $login, str_replace('{{email}}', $email, str_replace( '{{password}}', $pass, $email_content )));
                     $this->mail( $email, $subject, $content );
                 }
                 return [ $add_user, T('Successfully registered user!') ];
@@ -235,7 +242,7 @@ class ACCESS {
         // Checks if user with same login name or email exists
         $user = $db->select( 'users', '', '(user_login = \'' . $login . '\' OR user_email = \'' . $login . '\') AND user_status = \'1\'', 1 );
         if( empty( $user ) || empty( $user['user_id'] ) ){
-            return [ 0, T('The login or email address does not exist or disabled!') ];
+            return [ 0, T('The login or email address either does not exist or not activated yet!') ];
         }
 
         // Fetch stored and encrypted password
@@ -248,7 +255,6 @@ class ACCESS {
         if( password_verify( $pass, $hash['access_pass'] ) ) {
             $db->update( 'access', [ 'access_recent' ], [ date('Y-m-d H-i-s') ], 'access_uid = \''.$user['user_id'].'\'' );
             // Set database sessions
-            $cry = Encrypt::initiate();
             $expiry = date('Y-m-d H:i:s', strtotime( date('Y-m-d H:i:s') ) + ( $time * 60 * 60 ) );
             $session_data = [
                 'uid' => $user['user_id'],
@@ -262,13 +268,15 @@ class ACCESS {
             ];
             $session = $db->insert( 'sessions', prepare_keys( $session_data, 'session_' ), prepare_values( $session_data ) );
             if( $session ) {
-                // Set browser sessions
+                // Update $_SESSION with user details
                 foreach( $user as $k => $v ) {
                     if( !is_numeric( $k ) ) {
                         $_SESSION['user'][ str_replace( 'user_', '', $k ) ] = $v;
                     }
                 }
-                $_SESSION['db_session'] = $cry->encrypt( $session );
+                $_SESSION['session'] = $session_data['code']; // $cry->encrypt( $session );
+                elog( $_SESSION );
+                elog( 'Above SESSION recorded' );
                 return [ $user['user_id'], T('Logged in successfully!') ];
 
             } else {

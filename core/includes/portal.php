@@ -57,7 +57,9 @@ class PORTAL {
 
         //$c = new CODE();
         $theme = $options['theme'] ?? 'default';
-        $body_attrs .= ' data-barba="wrapper" data-theme="'.$theme.'"';
+        $notify = $options['notify_time'] ?? 5;
+        $reload = $options['reload_time'] ?? 5;
+        $body_attrs .= " data-barba='wrapper' data-theme='{$theme}' data-notify_time='{$notify}' data-reload_time='{$reload}'";
         pre_html( $body_class, $body_attrs, $pre_styles, $primary_color, $secondary_color, 'icons,cards,modal,buttons,inputs,tabs,steps,color,table,alerts,accordion,widgets', $styles, $scripts, $fonts );
 
     }
@@ -150,16 +152,11 @@ class PORTAL {
 //                                    }
                                 }
                             }
-                            /* $f->option_params('id="looks"','data',2,2,'','theme,input_theme');
-                            _r();
-                                $f->radios( 'theme', 'Dashboard Style', $uis, 'default', 'data-data', 0, 12, '', 'row mb20', 3 );
-                                //$f->select( 'input_theme', 'Input Style', 'Select Theme...', [], '', 'data-data class="select2"', 6, 1 );
-                            r_();
-                            $f->process_options('Update Preferences','r5 xl mb0');
-                            $f->post_process(); */
+                            $iuis = [ 'default' => 'Default', 'material_underline' => 'Material Underline', 'material_bordered' => 'Material Bordered', 'rounded' => 'Rounded' ];
                             _d( '', 'looks' );
                                 $o->form([
-                                    [ 't' => 'radios', 'i' => 'theme', 'o' => $uis, 'v' => 'default', 'iw' => 'row', '_ip' => 3, 'a' => 'data-theme' ]
+                                    [ 't' => 'radios', 'n' => 'Dashboard Style', 'i' => 'theme', 'o' => $uis, 'v' => 'default', 'iw' => 'row', '_ip' => 3, 'a' => 'data-theme' ],
+                                    [ 't' => 'radios', 'n' => 'Inputs Theme', 'i' => 'theme', 'o' => $iuis, 'v' => 'default', 'iw' => 'row', '_ip' => 3, 'a' => 'data-theme' ],
                                 ], '', 1, 'theme', 'Update Preferences', 'r5 xl mb0', '', 'theme' );
                             d_();
 
