@@ -87,7 +87,7 @@ class PORTAL {
     /**
      * Renders Admin Portal Login HTML
      * @param string $login_redirect_url URL to redirect after login
-     * @param string $attrs Attributes to add to the login wrapper
+     * @param string $body_attrs Attributes to add to the login wrapper
      * @param string $primary_color
      * @param string $secondary_color
      * @param string|array $pre_styles Pre styles to add
@@ -96,11 +96,16 @@ class PORTAL {
      * @param array $fonts Array of fonts and weights Ex: [ 'Lato' => '300, 400', 'MaterialIcons' ]
      * @return void
      */
-    function auth_page( string $login_redirect_url = '', string $attrs = '', string $primary_color = '', string $secondary_color = '', string|array $pre_styles = [], string|array $styles = [], string|array $scripts = [], array $fonts = [ 'Lato' => '400,600', 'MaterialIcons' ] ): void {
+    function auth_page( string $login_redirect_url = '', string $body_attrs = '', string $primary_color = '', string $secondary_color = '', string|array $pre_styles = [], string|array $styles = [], string|array $scripts = [], array $fonts = [ 'Lato' => '400,600', 'MaterialIcons' ] ): void {
+        global $options;
         $styles = is_array( $styles ) ? array_merge( $styles, [ 'portal/login', 'login' ] ) : $styles . ',portal/login,login';
         $scripts = is_array( $scripts ) ? array_merge( $scripts, [ 'aio', 'portal/login', 'login' ] ) : $scripts . ',aio,portal/login,login';
         $c = new CODE();
-        $c->auth_page( $login_redirect_url, $attrs, $pre_styles, $primary_color, $secondary_color, $styles, $scripts, $fonts );
+        $theme = $options['theme'] ?? 'default';
+        $notify = $options['notify_time'] ?? 5;
+        $reload = $options['reload_time'] ?? 5;
+        $body_attrs .= " data-barba='wrapper' data-theme='{$theme}' data-notify_time='{$notify}' data-reload_time='{$reload}'";
+        $c->auth_page( $login_redirect_url, $body_attrs, $pre_styles, $primary_color, $secondary_color, $styles, $scripts, $fonts );
     }
 
     /**
