@@ -346,10 +346,10 @@ class ACCESS {
     function change( string $wrap_id = '', string $wrap_class = '' ): void {
         $f = new FORM();
         pre( $wrap_id, $wrap_class );
-            $f->pre_process(' ','change_password_ajax','ps','',[],'Successfully updated user password!');
+            $f->pre_process(' ','access_change_ajax','ps','',[],'Successfully updated user password!');
                 _r();
                     $min_string = T('Minimum Characters');
-                    $f->inputs('password',[['pass_old','Old Password'],['pass','New Password','','','data-length-notify="Password minimum length is 8 Characters"']],'data-ps minlength="8" data-minlength="'.$min_string.'" data-help required',6);
+                    $f->inputs('password',[['old','Old Password'],['new','New Password','','','data-length-notify="Password minimum length is 8 Characters"']],'data-ps minlength="8" data-minlength="'.$min_string.'" data-help required',6);
                 r_();
                 $f->process_trigger('Change Password','r5 xl mb0');
             $f->post_process();
