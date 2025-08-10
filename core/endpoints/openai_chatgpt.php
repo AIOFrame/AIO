@@ -1,14 +1,12 @@
 <?php
 global $options;
-$kid = 'gemini_key';
-$m = 'gemini_model';
+$kid = 'openai_key';
 $key = !empty( $options[$kid] ) ? $options[$kid] : ( !empty( CONFIG[$kid] ) ? CONFIG[$kid] : '' );
-$model = !empty( $options[$m] ) ? $options[$m] : ( !empty( CONFIG[$m] ) ? CONFIG[$m] : 'gemini-2.0-flash' );
 if( !empty( $key ) && !empty( $_POST['prompt'] ) ) {
     $c = new CURL();
     $data = [ "contents" => [ [ "parts" => [ [ "text" => $_POST['prompt'] ] ] ] ] ];
     $r = $c->post(
-        'https://generativelanguage.googleapis.com/v1beta/models/'.$model.':generateContent?key='.$key,
+        'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='.$key,
         [ 'Content-Type: application/json' ],
         json_encode($data)
     );

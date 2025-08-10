@@ -113,6 +113,7 @@ if( defined( 'CONFIG' ) ) {
         if( in_array_any( [ 'portal', 'admin', 'backend' ], $features ) ) {
             include_once( $m_path . 'icons.php' );
             include_once( $path . 'portal.php' );
+            include_once( $path . 'ai.php' );
         }
 
         // Create File uploader tables if featured
