@@ -9,7 +9,7 @@ $(document).ready(function(){
     $(document).on('change', '[data-process-change],[data-change-action]', function (e) {
         let action = $(this).data('process-change') !== undefined ? $(this).data('change-action') : '';
         if( action !== '' ) {
-            post($(this).data('process-change'),{'data':$(this).val()},'','','','',$(this).data('callback'));
+            post($(this).data('process-change'),{'data':$(this).val()},'',$(this).data('callback'));
         }
     });
 
@@ -549,7 +549,7 @@ function process_data( e, ne ){
     } else {
         cb = 'process_end';
     }
-    post( d.action, d, p.data('notify'), p.data('reload'), p.data('redirect'), 0, cb, p.data('reset'), p, validation );
+    post( d.action, d, p.data('redirect'), cb, p.data('reset'), p, validation );
 
 }
 
@@ -669,7 +669,7 @@ function trash_data( e, action, target, logic ) {
     post( action, data );
 }
 
-function post( action, data, redirect, redirect_time, callback, reset, p, validation ) {
+function post( action, data, redirect, callback, reset, p, validation ) {
     //elog(callback);
 
     // Custom Validation
