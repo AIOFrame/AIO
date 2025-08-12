@@ -1276,6 +1276,7 @@ class FORM {
         }
         $return = in_array( $form_type, [ 'get', '$_GET' ] ) ? '<form method="get" class="'.$wrap_class.'">' : ( in_array( $form_type, [ 'post', '$_POST' ] ) ? '<form method="post" class="'.$wrap_class.'">' : ( in_array( $form_type, [ 'row', 'r' ] ) ? __d( 'form row ' . $wrap_class ) : ( $form_type == 'settings' ? __d( 'settings form ' . $wrap_class ) : ( in_array( $form_type, [ 'steps', 's' ] ) ? __d( 'steps form ' . $wrap_class ) : __d( 'form ' . $wrap_class ) ) ) ) );
         $steps = [];
+        $sections = [];
         $class = '';
         foreach( $fields as $f ) {
             $type = $f['type'] ?? ( $f['ty'] ?? ( $f['t'] ?? 'text' ) );
@@ -1373,7 +1374,13 @@ class FORM {
                 $return .= __pre( '', 'row' );
             } else if( in_array( $type, [ 'row_end', 're', 'r_' ] ) ) {
                 $return .= '</div>';
-            } else if( in_array( $type, [ 'steps', 'step', 'st' ] ) ) {
+            } else if( in_array( $type, [ 'col', 'c' ] ) ) {
+                $sec = $s['section'] ?? ( $s['col'] ?? ( $s['c'] ?? '' ) );
+                $step_fields = $f['fields'] ?? ( $f['form'] ?? ( $f['f'] ?? [] ) );
+                if( is_array( $step_fields ) && !empty( $step_fields ) ) {
+                    $sections[] = [ 'c' => $sec, 'content' => $this->__form( $step_fields, $sub_type, $data_attr, $group_by ) ]; //$this->_form( $step_fields )
+                }
+            }else if( in_array( $type, [ 'steps', 'step', 'st' ] ) ) {
                 $ico = $f['icon'] ?? ( $f['ico'] ?? ( $f['i'] ?? '' ) );
                 $ic = $f['icon_class'] ?? ( $f['ic'] ?? 'mat-ico' );
                 $color = $s['color'] ?? ( $s['c'] ?? '' );
@@ -1479,6 +1486,13 @@ class FORM {
                 //skel( !empty( $pre ) && empty( $f['post'] ) );
                 $return .= $this->__input( $type, $id, $label, $place, $val, $attrs, $pre, $post );
             }
+        }
+        if( !empty( $sections ) ) {
+            $return .= __r( 'form_sections' );
+            foreach( $sections as $sec ) {
+                $return .= __div( 'col-'.$sec['c'], $sec['content'] );
+            }
+            $return .= r__();
         }
         if( !empty( $steps ) ) {
             $return .= __steps( $steps, $form_type . ' ' . $class );
@@ -1902,10 +1916,12 @@ class FORM {
      * Renders all data modification trigger buttons like edit, update value, delete
      * @param string $key
      * @param array $data
+     * @param string $modal
+     * @param string $addon_buttons
      * @return string
      */
-    function __actions( string $key, array $data, string $modal = '' ): string {
-        return __div( 'acts', $this->__edit_html( ( $modal ?? ".{$key}_modal" ), $data ) . ( $this->__update_value_html( "{$key}s", "{$key}s_status = ".( $data["{$key}s_status"] == 3 ? 1 : 3), "{$key}s_id = ".$data["{$key}s_id"], 'div', '', '', '', '', 'mico', 'visibility'.( $data["{$key}s_status"] == 3 ? '' : '_off' ) ) ) . $this->__trash_html( "{$key}s", "{$key}s_id = ".$data["{$key}s_id"] ) );
+    function __actions( string $key, array $data, string $modal = '', string $addon_buttons = '' ): string {
+        return __div( 'acts', $addon_buttons . $this->__edit_html( ( $modal ?? ".{$key}_modal" ), $data ) . ( $this->__update_value_html( "{$key}s", "{$key}s_status = ".( $data["{$key}s_status"] == 3 ? 1 : 3), "{$key}s_id = ".$data["{$key}s_id"], 'div', '', '', '', '', 'mico', 'visibility'.( $data["{$key}s_status"] == 3 ? '' : '_off' ) ) ) . $this->__trash_html( "{$key}s", "{$key}s_id = ".$data["{$key}s_id"] ) );
     }
 
     /**

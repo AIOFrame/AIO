@@ -217,7 +217,7 @@ class DB {
                             $new_structure = [];
                             foreach( $structure as $key => $row ) {
                                 $type = $row['type'] ?? ( $row['t'] ?? 'text' );
-                                if( in_array( $type, [ 'step', 's' ] ) && !empty( $row['fields'] ) ) {
+                                if( in_array( $type, [ 'section', 'sec', 'col', 'c', 'step', 's' ] ) && !empty( $row['fields'] ) ) {
                                     foreach( $row['fields'] as $field ) {
                                         $new_structure[ $name ][] = $field;
                                     }

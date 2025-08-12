@@ -916,7 +916,7 @@ function card( string $class = '', string $title = '', string $link = '', string
     echo __card( $class, $title, $link, $desc, $image, $image_class, $status, $status_class, $data, $table_class, $actions, $actions_class, $edit_modal, $edit_data, $delete_table, $delete_logic );
 }
 
-function __pre_modal( string $title = '', string $size = '' ): string {
+function __pre_modal( string $title = '', string $size = '', bool $show_ai = true ): string {
     global $options;
     $i = $options['icon_class'] ?? 'mico';
     $ai = $options['icon_ai'] ?? 'auto_awesome';
@@ -928,7 +928,7 @@ function __pre_modal( string $title = '', string $size = '' ): string {
             . __h2('Update '.$title,1,'title','data-edit');
         $r .= __post()
     . __d( 'modal_controls' );
-    if( !empty( CONFIG['gemini_key'] ) || !empty( $options['gemini_key'] ) ) {
+    if( $show_ai && ( !empty( CONFIG['gemini_key'] ) || !empty( $options['gemini_key'] ) ) ) {
         $r .= __el( 'div', $i . ' act ico ai_fill ' . $ai, $ai . __div( 'loader' ), '', 'title="'.T('Auto Fill with AI').'"' );
     }
     $r .= __el( 'div', $i . ' ico close ' . $x, $x, '', 'title="'.T('Close').'"' )
@@ -937,8 +937,8 @@ function __pre_modal( string $title = '', string $size = '' ): string {
     return $r;
 }
 
-function pre_modal( string $title = '', string $size = '' ): void {
-    echo __pre_modal( $title, $size );
+function pre_modal( string $title = '', string $size = '', bool $show_ai = true ): void {
+    echo __pre_modal( $title, $size, $show_ai );
 }
 
 function post_modal(): void {
@@ -1005,6 +1005,7 @@ function soon( string $date, string $text = 'Coming Soon...', string $bg = '', s
  * @param string $form_style Style of the form
  * @param array $hidden Hidden data for Database
  * @param string $prepend_to_keys String to prepend to keys for database table columns
+ * @param bool $show_ai Show or hide AI
  * @param string $success_alert Text to notify upon successfully storing data
  * @param string $callback A JS Function to callback on results
  * @param string $confirm A confirmation popup will execute further code
@@ -1016,10 +1017,10 @@ function soon( string $date, string $text = 'Coming Soon...', string $bg = '', s
  * @param string $submit_wrap Wrapper class for submit trigger
  * @return void
  */
-function modal( string $title = '', string $size = 'm', string $target = '', array|string $fields = [], string $form_style = 'row', array $hidden = [], string $prepend_to_keys = '', string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '', string $submit_text = '', string $submit_class = '', string $submit_wrap = '' ): void {
+function modal( string $title = '', string $size = 'm', string $target = '', array|string $fields = [], string $form_style = 'row', array $hidden = [], string $prepend_to_keys = '', bool $show_ai = true, string $success_alert = '', string $callback = '', string $confirm = '', string $redirect = '', string $validator = '', string $reset_fields = '', string $submit_text = '', string $submit_class = '', string $submit_wrap = '' ): void {
     $f = new FORM();
     $r = substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 8);
-    pre_modal( $title, $size );
+    pre_modal( $title, $size, $show_ai );
     if( is_array( $fields ) || empty( $fields ) ) {
         global $structure;
         //skel( $structure[ $target ] );

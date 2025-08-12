@@ -1076,3 +1076,10 @@ body.d {
     -webkit-backdrop-filter: blur(20px);
   }
 }
+
+@media (min-width: 768px) {
+  .col-md-24 {
+    flex: 0 0 auto;
+    width: 20%;
+  }
+}

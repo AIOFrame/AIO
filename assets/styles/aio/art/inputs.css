@@ -958,4 +958,11 @@ body.d .select2-dropdown {
   -webkit-backdrop-filter: blur(20px);
 }
 
+@media (min-width: 768px) {
+  .col-md-24 {
+    flex: 0 0 auto;
+    width: 20%;
+  }
+}
+
 /*# sourceMappingURL=inputs.css.map */
