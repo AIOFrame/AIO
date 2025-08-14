@@ -79,10 +79,21 @@ document.addEventListener('DOMContentLoaded', function () {
             $('body').removeClass('modal_open');
             $('article').removeClass('fade');
             $('.page_load_progress').removeClass('on').find('.page_progress_bar').css({'width': '0'});
-            file_ui();
-            files_ui();
-            selects();
-            date_picker();
+            if (typeof file_ui === 'function') {
+                file_ui();
+            }
+            if (typeof files_ui === 'function') {
+                files_ui();
+            }
+            if (typeof selects === 'function') {
+                selects();
+            }
+            if (typeof date_picker === 'function') {
+                date_picker();
+            }
+            if (typeof render_google_maps === 'function') {
+                render_google_maps().then(function(r){ console.log(r) });
+            }
         },500);
     });
 

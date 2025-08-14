@@ -38,49 +38,6 @@ async function render_google_maps() {
             // Sets the design of the map (default null)
             config.styles = el.getAttribute('design') !== null ? el.getAttribute('design') : '';
             config.scrollwheel = el.getAttribute('scroll') !== null ? el.getAttribute('scroll') : false;
-            //console.log( config );
-
-            // Marker
-
-            /* let marker;
-            if($(e).data('marks')){
-                let marks = $(e).data('marks');
-                if( marks.length > 0 ) {
-                    $.each( marks, function( a, b ){
-                        let loc = {lat: b['lat'], lng: b['long']};
-                        let ico = {
-                            url: b['ico'],
-                            scaledSize: new google.maps.Size(50, 50),
-                            origin: new google.maps.Point(0,0),
-                            anchor: new google.maps.Point(0, 0)
-                        };
-                        marker = new google.maps.Marker({
-                            position: loc,
-                            icon: ico,
-                            map: map,
-                            title: b['title'],
-                            size: new google.maps.Size(25, 25)
-                        });
-                        if(b['center']){
-                            let center = new google.maps.LatLng(b['lat'], b['long']);
-                            map.panTo(center);
-                        }
-                    })
-                }
-            } else {
-                marker = new google.maps.Marker({
-                    position: loc,
-                    icon: window.google_map_icon,
-                    map: map,
-                    draggable: true
-                });
-                marker.addListener('dragend', function () {
-                    //console.log(map);
-                    z = map.getZoom();
-                    let pos = {lat: this.position.lat(), lng: this.position.lng()};
-                    GMapValues(e,marker,pos);
-                });
-            } */
 
             map = new Map( el, config );
 

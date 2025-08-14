@@ -1355,16 +1355,29 @@ fieldset {
 }
 
 /* GOOGLE MAP */
+.map_wrap {
+  position: relative;
+}
 .map_wrap input[type=search] {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 15px;
   margin: 0;
-  border-radius: var(--input_radius) var(--input_radius) 0 0;
+  z-index: 10;
+  min-width: 300px;
+  max-width: calc(100vw - 40px);
+  width: 400px;
 }
 .map_wrap [type=search] + .google_map {
-  border-radius: 0 0 var(--input_radius) var(--input_radius);
+  border-radius: var(--input_radius);
 }
 
 .google_map {
-  min-height: 200px;
+  min-height: 250px;
   border-radius: var(--input_radius);
   margin-bottom: 15px;
 }

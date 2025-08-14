@@ -14,7 +14,7 @@ class MAPS {
         $marker = $os['default_map_marker'] ?? APPURL.'assets/images/marker.png';
         $return = '<script>window.google_map_icon = \''.$marker.'\';window.google_maps_key = \''.$k.'\';</script>';
         if( !empty( $k ) ) {
-            $return .= __get_script( 'https://maps.googleapis.com/maps/api/js', [ 'key' => $k, 'libraries' => 'places', 'callback' => 'render_google_maps' ], '', 'async', false );
+            $return .= __get_script( 'https://maps.googleapis.com/maps/api/js', [ 'key' => $k, 'libraries' => 'places', 'callback' => 'render_google_maps', 'loading' => 'async' ], '', 'async', false );
             $return .= __get_script('google_maps',[],'','async');
         }
         return $return;
