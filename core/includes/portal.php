@@ -59,7 +59,7 @@ class PORTAL {
         $theme = $options['theme'] ?? 'default';
         $notify = $options['notify_time'] ?? 5;
         $reload = $options['reload_time'] ?? 5;
-        $body_attrs .= " data-barba='wrapper' data-theme='{$theme}' data-notify_time='{$notify}' data-reload_time='{$reload}'";
+        $body_attrs .= " data-app='".APPDIR."' data-barba='wrapper' data-theme='{$theme}' data-notify_time='{$notify}' data-reload_time='{$reload}'";
         pre_html( $body_class, $body_attrs, $pre_styles, $primary_color, $secondary_color, 'icons,cards,modal,buttons,inputs,tabs,steps,color,table,alerts,accordion,widgets', $styles, $scripts, $fonts );
 
     }

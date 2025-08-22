@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
     barba.hooks.after(function() {
         $('.page_load_progress').find('.page_progress_bar').css({'width': '100%'});
         setTimeout(function() {
-            $('body').removeClass('modal_open');
+            $(b).removeClass('modal_open');
             $('article').removeClass('fade');
             $('.page_load_progress').removeClass('on').find('.page_progress_bar').css({'width': '0'});
             if (typeof file_ui === 'function') {
@@ -94,6 +94,10 @@ document.addEventListener('DOMContentLoaded', function () {
             if (typeof render_google_maps === 'function') {
                 render_google_maps().then(function(r){ console.log(r) });
             }
+            $('script#dynamic').remove();
+            let custom_script = $("<script>");
+            custom_script.attr('src', location.origin + '/apps/' + $(b).data('app') + '/assets/scripts' + location.pathname + '.min.js' ).attr('id','dynamic');
+            $(b).append(custom_script);
         },500);
     });
 
