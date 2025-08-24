@@ -118,6 +118,7 @@ button.b.xxs, .btn.b.xxs, .btn-xxs.b button, .btn-xxs.b .btn {
 
 button.w, .btn.w, .btn-w button, .btn-w .btn {
   width: 100%;
+  text-align: center;
 }
 
 .bm0 button, .bm0 .btn {
