@@ -240,7 +240,10 @@ class DB {
                                 $length = $row['maxlength'] ?? ( $row['length'] ?? ( $row['max'] ?? ( $row['m'] ?? 64 ) ) );
                                 $required = $row['required'] ?? ( $row['req'] ?? ( $row['r'] ?? 0 ) );
                                 $default = $row['default'] ?? ( $row['def'] ?? '' );
-                                if( in_array( $type, [ 'date', 'dt', 'd' ] ) ) {
+                                if( in_array( $type, [ 'date', 'd' ] ) ) {
+                                    $type = 'DATE';
+                                    $length = '';
+                                } else if( in_array( $type, [ 'datetime', 'dt' ] ) ) {
                                     $type = 'DATETIME';
                                     $length = '';
                                 } else if( in_array( $type, [ 'rich', 'richtext', 'r', 'code', 'c', 'textarea' ] ) ) {
