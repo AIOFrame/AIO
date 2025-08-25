@@ -121,15 +121,15 @@ class DB {
             // Create Columns
             foreach( $columns as $col ) {
                 if ( is_array( $col ) && count( $col ) > 2 && !empty( $col[0] ) ) {
-                    $col[2] = !empty( $col[2] ) ? $col[2] : '';
-                    $col[4] = isset( $col[4] ) && !empty( $col[4] ) ? ' DEFAULT \'' . $col[4] . '\'' : '';
+                    //$col[2] = !empty( $col[2] ) ? $col[2] : '';
+                    //$col[4] = !empty( $col[4] ) ? ' \'' . $col[4] . '\'' : '';
                     // Changes for MS SQL
                     if( DB_TYPE == 'mssql' ) {
                         $col[1] == 'INT' ? $col[2] = '' : '';
                         $col[1] = $col[1] == 'BOOLEAN' ? 'BIT' : $col[1];
                         //$col[1] = $col[1] == 'VARCHAR' ? 'NVARCHAR' : $col[1];
                     }
-                    $this->create_column( $name, $pre.$col[0], $col[1], $col[2], $col[3], $col[4] );
+                    $this->create_column( $name, $pre.$col[0], $col[1], $col[2] ?? '', $col[3], $col[4] ?? '' );
                 }
             }
         } else {
@@ -332,7 +332,7 @@ class DB {
             } else {
                 $query = "ALTER TABLE $table MODIFY COLUMN $column $type$length $null";
             }
-            $query .= !empty($default) ? ' default "' . $default . '"' : '';
+            $query .= !empty($default) ? ' DEFAULT "' . $default . '"' : '';
         }
 
         $df = debug_backtrace();
