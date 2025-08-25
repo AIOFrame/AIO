@@ -239,6 +239,7 @@ class DB {
                                 $type = $row['type'] ?? ( $row['t'] ?? 'text' );
                                 $length = $row['maxlength'] ?? ( $row['length'] ?? ( $row['max'] ?? ( $row['m'] ?? 64 ) ) );
                                 $required = $row['required'] ?? ( $row['req'] ?? ( $row['r'] ?? 0 ) );
+                                $default = $row['default'] ?? ( $row['def'] ?? '' );
                                 if( in_array( $type, [ 'date', 'dt', 'd' ] ) ) {
                                     $type = 'DATETIME';
                                     $length = '';
@@ -273,7 +274,7 @@ class DB {
                                     $length = 13;
                                     $required = 1;
                                 }
-                                $table_structure[1][] = [ $id, $type, $length, $required ];
+                                $table_structure[1][] = [ $id, $type, $length, $required, $default ];
                             }
                             if( str_contains( $name, '_access') ) {
                                 $table_structure[1][] = [ 'permissions', 'VARCHAR', 2048, 0 ];
