@@ -1154,7 +1154,7 @@ class FORM {
      */
     function __editable_data( array $data = [], string $remove = '' ): string {
         $final = [];
-        $remove = explode( ',', $remove );
+        $remove = !empty( $remove ) ? explode( ',', $remove ) : [];
         //skel( htmlspecialchars_decode( $data['_content'] ) );
         foreach( $data as $k => $v ){
             if( is_numeric( $k ) )
@@ -1164,9 +1164,17 @@ class FORM {
                 $cry = Encrypt::initiate();
                 $final[ $k ] = defined( 'APPDEBUG' ) && APPDEBUG ? $v : $cry->encrypt( $v );
             } else if( !in_array( $k, $remove ) ){
-                $final[ $k ] = !empty( $v ) ? ( !is_array( $v ) ? ( $v != strip_tags( htmlspecialchars_decode( $v ) ) ? htmlspecialchars( $v ) : $v ) : $v ) : ''; //!empty( $v ) && ( $v != strip_tags( htmlspecialchars_decode( $v ) ) ) ? htmlentities( $v ) : $v;
+                //skel( $v );
+                //skel( empty($v) );
+                if( !empty( $v ) ) {
+                    $final[ $k ] = ( !is_array( $v ) ? ( $v != strip_tags( htmlspecialchars_decode( $v ) ) ? htmlspecialchars( $v ) : $v ) : $v );
+                }
+                //!empty( $v ) && $v !== '' ?  : 'test'; //!empty( $v ) && ( $v != strip_tags( htmlspecialchars_decode( $v ) ) ) ? htmlentities( $v ) : $v;
             }
         }
+        //skel( $data );
+        //skel( $remove );
+        //skel( $final );
         $final = json_encode( $final );
         //skel( $final );
         return "data-data='{$final}'";
@@ -1721,6 +1729,7 @@ class FORM {
         $i = !empty( $i_class ) || !empty( $i_text ) ? __i( $i_class . ' ' . $i_text, $i_text ) : '';
         $title = str_contains( $attr, 'title=' ) ? '' : 'title="'.T('Edit').'"';
         $data = $title . ' data-edit-action class="'.$class.' edit" onclick="edit_data(this,\''.$element.'\')" ' . $this->__editable_data($array) . $attr;
+        //skel( $array );
         return $_p . __el( $html, '', $i. $text , '', $data ) . $p_;
     }
 

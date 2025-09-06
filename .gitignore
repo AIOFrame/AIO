@@ -1,3 +1,4 @@
 .gitignore
 .idea
 apps
+core/external/vendor
