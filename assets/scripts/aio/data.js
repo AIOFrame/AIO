@@ -49,7 +49,7 @@ function get_values( parent, attribute, prepend ) {
         return data;
     } else {
         // Loop through the input elements
-        $(parent).find(":input"+a+":not(:button)","select"+a,"textarea"+a).each(function () {
+        $(parent).find(":input"+a+":not(:button):not([no_post])","select"+a,"textarea"+a).each(function () {
 
             // Define Pre and Key
             let pre_key;
