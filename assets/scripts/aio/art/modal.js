@@ -34,8 +34,10 @@ $(document).ready(function(){
 
 function reset_modal(e) {
     let m = $(e).hasClass('modal') ? $(e) : $(e).parent('.modal');
-    $(m).find('[data-add]').show();
-    $(m).find('[data-update],[data-edit]').hide();
+    setTimeout(function () {
+        $(m).find('[data-add]').show();
+        $(m).find('[data-update],[data-edit]').hide();
+    },600);
     $(m).data('id','');
     clear( m, '[data-empty]' );
 }
