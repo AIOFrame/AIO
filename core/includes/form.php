@@ -1159,7 +1159,7 @@ class FORM {
         foreach( $data as $k => $v ){
             if( is_numeric( $k ) )
                 continue;
-            $k = str_contains($k, '_') ? ltrim( strrchr($k,'_'), '_' ) : $k;
+            $k = str_contains( $k, '_' ) ? substr( $k, strpos( $k, "_" ) + 1 ) : $k;
             if( $k == 'id' ) {
                 $cry = Encrypt::initiate();
                 $final[ $k ] = defined( 'APPDEBUG' ) && APPDEBUG ? $v : $cry->encrypt( $v );
