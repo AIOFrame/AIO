@@ -1930,6 +1930,7 @@ class FORM {
      * @return string
      */
     function __actions( string $key, array $data, string $modal = '', string $addon_buttons = '' ): string {
+        $modal = '#'.$key.'_modal';
         return __div( 'acts', $addon_buttons . $this->__edit_html( ( $modal ?? ".{$key}_modal" ), $data ) . ( $this->__update_value_html( "{$key}s", "{$key}s_status = ".( $data["{$key}s_status"] == 3 ? 1 : 3), "{$key}s_id = ".$data["{$key}s_id"], 'div', '', '', '', '', 'mico', 'visibility'.( $data["{$key}s_status"] == 3 ? '' : '_off' ) ) ) . $this->__trash_html( "{$key}s", "{$key}s_id = ".$data["{$key}s_id"] ) );
     }
 
