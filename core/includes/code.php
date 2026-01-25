@@ -324,7 +324,7 @@ function __post_html( string|array $scripts = [], string $alert_position = 'top 
 }
 
 function _dyn() {
-    echo __pre( '', '', 'main', 'data-barba="container" data-barba-namespace="'.APP_NAME.'"' );
+    echo __pre( '', '', 'main', 'data-barba="container" data-barba-namespace="'.(APPNAME ?? ( APP_NAME??'') ).'"' );
 }
 
 function dyn_() {
