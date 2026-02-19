@@ -4,13 +4,13 @@
  * Reads App Mapping
  * Will check map.php and set domain to app link
  */
-$app = !empty( sub_domain() ) ? sub_domain() : get_domain();
+$aio_app = !empty( sub_domain() ) ? sub_domain() : get_domain();
 if( file_exists( ROOTPATH . 'map.php' ) ){
     include ROOTPATH . 'map.php';
-    if( !empty( $map ) && !empty( $map[ $app ] ) ){ $app = $map[ $app ]; }
-    if( !file_exists( ROOTPATH . 'apps/' . $app ) ) {
+    if( !empty( $map ) && !empty( $map[ $aio_app ] ) ){ $aio_app = $map[ $aio_app ]; }
+    if( !file_exists( ROOTPATH . 'apps/' . $aio_app ) ) {
         if (isset($default) && file_exists(ROOTPATH . 'apps/' . $default)) {
-            $app = $default;
+            $aio_app = $default;
         }
     }
 }
@@ -19,14 +19,14 @@ if( file_exists( ROOTPATH . 'map.php' ) ){
  * Defines the Application Directory
  * Ex: ecommerce
  */
-!defined( 'APPDIR' ) ? define( 'APPDIR', $app ) : '';
+!defined( 'APPDIR' ) ? define( 'APPDIR', $aio_app ) : '';
 //print_r( APPDIR );
 
 /**
  * Defines Application Path
  * Ex: /users/root/www/application/apps/ecommerce/
  */
-!defined( 'APPPATH' ) ? define( 'APPPATH', ROOTPATH . 'apps/' . $app . '/' ) : '';
+!defined( 'APPPATH' ) ? define( 'APPPATH', ROOTPATH . 'apps/' . $aio_app . '/' ) : '';
 //print_r( APPPATH );
 
 /**

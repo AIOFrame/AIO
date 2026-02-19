@@ -6,19 +6,12 @@
 /**
  * Define Vendor Path
  */
-!defined( 'EXTPATH' ) ? define( 'EXTPATH', ROOTPATH . 'core/external/' ) : '';
-!defined( 'VENDORPATH' ) ? define( 'VENDORPATH', ROOTPATH . 'core/external/vendor' ) : '';
-!defined( 'VENDORLOAD' ) ? define( 'VENDORLOAD', ROOTPATH . 'core/external/vendor/autoload.php' ) : '';
-
-/**
- * Load Error page if web app not found
- */
-if( empty( $app ) || !file_exists( ROOTPATH . 'apps/' . $app ) ) {
-    $error = '00';
-    define('APPDEBUG',1);
-    include ROOTPATH . 'core/pages/error.php';
-    return;
-}
+if( !defined( 'EXTPATH' ) )
+    define( 'EXTPATH', ROOTPATH . 'core/external/' );
+if( !defined( 'VENDORPATH' ) )
+    define( 'VENDORPATH', ROOTPATH . 'core/external/vendor' );
+if( !defined( 'VENDORLOAD' ) )
+    define( 'VENDORLOAD', ROOTPATH . 'core/external/vendor/autoload.php' );
 
 /**
  * Loads Basic Necessary Functions
@@ -27,7 +20,6 @@ if( empty( $app ) || !file_exists( ROOTPATH . 'apps/' . $app ) ) {
 require_once ROOTPATH . 'core/includes/features.php';
 //}
 //$c = CONFIG;
-//skel( $c );
 
 /**
  * Defines Timezone if set in config
@@ -74,18 +66,29 @@ if( APPDEBUG ) {
 require ROOTPATH . 'core/includes/connect/connect.php';
 
 /**
- * Sets AIO page routing
- */
-require ROOTPATH . 'core/routes.php';
-
-/**
  * Loads includes, which in-turn loads dependencies
  */
 require ROOTPATH . 'core/includes.php';
-//error_log( json_encode( $_POST ) );
+
 /**
  * Load Page
  */
+if( !defined('APPDIR') || !file_exists( ROOTPATH . 'apps/' . APPDIR ) ) {
+    /**
+     * Load Error page if web app not found
+     */
+    $error = '00';
+    !defined('APPDEBUG') ? define('APPDEBUG',1) : '';
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+    include ROOTPATH . 'core/pages/error.php';
+    return;
+} else {
+    /**
+     * Sets AIO page routing
+     */
+    require ROOTPATH . 'core/routes.php';
+}
 defined( 'PAGELOAD' ) ? require PAGELOAD : '';
 
 /**

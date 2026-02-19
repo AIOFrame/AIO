@@ -38,29 +38,21 @@ if( $id == '00' && ( isset( $_POST['setup'] ) ) ) {
     <?php
 
     if( ( !isset( $_POST['setup'] ) || $_POST['setup'] !== 'Yes' ) ) {
-        echo '<h1 id="id">'.$id.'</h1><h2 id="title">'.$title.'</h2>';
+        el( 'h1', '', $id, 'id' );
+        el( 'h2', '', $title, 'title' );
     }
 
-    if( $id == '00' && !isset( $p['setup'] ) ) { ?>
-
-            <div class="setup zero">
-
-                <div class="q">
-                    <p>Would you like to create "<?php echo $appdir; ?>" web app ?</p>
-                    <div>
-                        <form method="post">
-                            <button name="setup" value="Yes">Run Setup</button>
-                        </form>
-                    </div>
-                </div>
-
-            </div>
-
-        <?php
+    if( $id == '00' && !isset( $p['setup'] ) ) {
+        _d( 'setup zero' );
+            _d('aio_ai_suggestion');
+                p( 'Would you like to build '.$appdir.' web app?' );
+                _f('','post');
+                    b('','Run Setup','','name="setup" value="Yes"');
+                f_();
+            d_();
+        d_();
     } else {
-
-        echo '<button id="back" onclick="window.history.back()">GO BACK</button>';
-
+        b( '', 'Go Back', 'back', 'onclick="history.back(-1);"' );
     } ?>
 </body>
 </html>
